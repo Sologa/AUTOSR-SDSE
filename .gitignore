@@ -1,2 +1,25 @@
 # Local references (keep example templates only)
-resources/LatteReview
+resources/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+.env/
+sdse-uv/.venv/
+
+# Tooling metadata
+.codex/
+.specify/
+
+# Test and coverage artefacts
+.pytest_cache/
+.coverage
+coverage.xml
+
+# Logs and OS junk
+*.log
+.DS_Store
