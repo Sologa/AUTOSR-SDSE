@@ -8,6 +8,8 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "codex>=1.8.14",
+    "dotenv>=0.9.9",
     "openai>=1.108.1",
     "requests>=2.32.5",
     "specify-cli",
@@ -22,3 +24,9 @@ build-backend = "uv_build"
 
 [tool.uv.sources]
 specify-cli = { git = "https://github.com/github/spec-kit.git" }
+
+[dependency-groups]
+dev = [
+    "codex>=1.8.14",
+    "pytest>=8.4.2",
+]
