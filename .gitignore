@@ -27,6 +27,9 @@ test/.tmp/
 .coverage
 coverage.xml
 
+
+config/
+
 # Logs and OS junk
 *.log
 .DS_Store
