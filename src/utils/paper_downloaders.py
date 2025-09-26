@@ -3,9 +3,9 @@ from __future__ import annotations
 import html
 import re
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Tuple
 from urllib.parse import quote_plus
 
 import requests
@@ -25,6 +25,7 @@ class DownloadResult:
     metadata: Dict[str, object]
     pdf_path: Optional[Path]
     bibtex_path: Optional[Path]
+    issues: List[Dict[str, object]] = field(default_factory=list)
 
 
 def _ensure_session(session: Optional[requests.Session]) -> requests.Session:
@@ -58,15 +59,20 @@ def _download_file(
     destination: Path,
     *,
     timeout: int = _DEFAULT_TIMEOUT,
-) -> Optional[Path]:
+) -> Tuple[Optional[Path], Optional[Dict[str, object]]]:
     if not url:
-        return None
+        return None, None
 
     response = session.get(url, timeout=timeout)
-    if response.status_code == 404:
-        return None
+    if response.status_code in {401, 403, 404, 410, 418, 451}:
+        # Access-restricted artefacts are treated as unavailable rather than fatal.
+        return None, {
+            "status_code": response.status_code,
+            "url": url,
+            "reason": "access_blocked",
+        }
     response.raise_for_status()
-    return _write_binary(destination, response.content)
+    return _write_binary(destination, response.content), None
 
 
 def download_arxiv_paper(
@@ -84,17 +90,30 @@ def download_arxiv_paper(
 
     metadata = _fetch_arxiv_metadata(session, arxiv_id, timeout)
 
-    pdf_path = _download_file(
+    issues: List[Dict[str, object]] = []
+
+    pdf_path, pdf_issue = _download_file(
         session,
         metadata.get("pdf_url"),
         output_dir / f"{safe_stem}.pdf",
         timeout=timeout,
     )
+    if pdf_issue:
+        pdf_issue.setdefault("asset", "pdf")
+        issues.append(pdf_issue)
 
     bibtex_text = _fetch_arxiv_bibtex(session, arxiv_id, timeout)
     bibtex_path = None
     if bibtex_text:
         bibtex_path = _write_text(output_dir / f"{safe_stem}.bib", bibtex_text)
+    else:
+        issues.append(
+            {
+                "asset": "bibtex",
+                "reason": "missing",
+                "url": f"https://arxiv.org/bibtex/{arxiv_id}",
+            }
+        )
 
     return DownloadResult(
         source="arxiv",
@@ -102,6 +121,7 @@ def download_arxiv_paper(
         metadata=metadata,
         pdf_path=pdf_path,
         bibtex_path=bibtex_path,
+        issues=issues,
     )
 
 
@@ -234,12 +254,17 @@ def download_semantic_scholar_paper(
     if isinstance(open_access, dict):
         pdf_url = open_access.get("url")
 
-    pdf_path = _download_file(
+    issues: List[Dict[str, object]] = []
+
+    pdf_path, pdf_issue = _download_file(
         session,
         pdf_url,
         output_dir / f"{safe_stem}.pdf",
         timeout=timeout,
     )
+    if pdf_issue:
+        pdf_issue.setdefault("asset", "pdf")
+        issues.append(pdf_issue)
 
     bibtex_text = None
     citation_styles = metadata.get("citationStyles")
@@ -249,6 +274,14 @@ def download_semantic_scholar_paper(
     bibtex_path = None
     if bibtex_text:
         bibtex_path = _write_text(output_dir / f"{safe_stem}.bib", bibtex_text.strip())
+    else:
+        issues.append(
+            {
+                "asset": "bibtex",
+                "reason": "missing",
+                "url": f"https://api.semanticscholar.org/graph/v1/paper/{quote_plus(paper_id)}",
+            }
+        )
 
     return DownloadResult(
         source="semantic_scholar",
@@ -256,6 +289,7 @@ def download_semantic_scholar_paper(
         metadata=metadata,
         pdf_path=pdf_path,
         bibtex_path=bibtex_path,
+        issues=issues,
     )
 
 
@@ -296,10 +330,13 @@ def download_dblp_entry(
 
     metadata = _fetch_dblp_metadata(session, dblp_key, timeout)
 
+    issues: List[Dict[str, object]] = []
+
     pdf_path = None
+    pdf_issue: Optional[Dict[str, object]] = None
     for candidate in metadata.get("document_urls", []):
         if candidate and candidate.lower().endswith(".pdf"):
-            pdf_path = _download_file(
+            pdf_path, pdf_issue = _download_file(
                 session,
                 candidate,
                 output_dir / f"{safe_stem}.pdf",
@@ -307,11 +344,30 @@ def download_dblp_entry(
             )
             if pdf_path:
                 break
+    if pdf_issue:
+        pdf_issue.setdefault("asset", "pdf")
+        issues.append(pdf_issue)
+    elif not pdf_path:
+        issues.append(
+            {
+                "asset": "pdf",
+                "reason": "missing",
+                "url": metadata.get("document_urls"),
+            }
+        )
 
     bibtex_text = _fetch_dblp_bibtex(session, dblp_key, timeout)
     bibtex_path = None
     if bibtex_text:
         bibtex_path = _write_text(output_dir / f"{safe_stem}.bib", bibtex_text)
+    else:
+        issues.append(
+            {
+                "asset": "bibtex",
+                "reason": "missing",
+                "url": f"https://dblp.org/rec/{dblp_key}.bib?download=1",
+            }
+        )
 
     return DownloadResult(
         source="dblp",
@@ -319,6 +375,7 @@ def download_dblp_entry(
         metadata=metadata,
         pdf_path=pdf_path,
         bibtex_path=bibtex_path,
+        issues=issues,
     )
 
 
