@@ -289,6 +289,28 @@ class BaseLLMProvider:
             metadata=metadata,
         )
 
+    def read_pdfs(
+        self,
+        model: str,
+        pdf_paths: Sequence[Path | str],
+        *,
+        instructions: str,
+        metadata: Optional[Dict[str, Any]] = None,
+        **kwargs: Any,
+    ) -> LLMResult:
+        path_objs: List[Path] = []
+        for p in pdf_paths:
+            po = Path(p)
+            if not po.exists():
+                raise FileNotFoundError(f"PDF file not found: {po}")
+            path_objs.append(po)
+        return self._execute_with_retry(
+            lambda: self._pdfs_request(model=model, pdf_paths=tuple(path_objs), instructions=instructions, **kwargs),
+            model=model,
+            mode="pdf",
+            metadata=metadata,
+        )
+
     def read_pdf_batch(
         self,
         model: str,
@@ -475,6 +497,22 @@ class BaseLLMProvider:
     ) -> Any:
         raise NotImplementedError
 
+    def _pdfs_request(
+        self,
+        *,
+        model: str,
+        pdf_paths: Sequence[Path],
+        instructions: str,
+        **kwargs: Any,
+    ) -> Any:
+        """Optional: Single request with multiple PDF attachments.
+
+        Subclasses can implement this for providers that support multiple file
+        attachments in one call. If not implemented, callers should fall back
+        to batching via ``read_pdf_batch``.
+        """
+        raise NotImplementedError
+
     def _extract_usage(self, response: Any) -> Tuple[int, int]:
         raise NotImplementedError
 
@@ -573,6 +611,85 @@ class OpenAIProvider(BaseLLMProvider):
             except Exception:  # pragma: no cover - best effort cleanup
                 logger.debug("Failed to delete temporary uploaded file %s", uploaded_file.id)
 
+    def _pdfs_request(
+        self,
+        *,
+        model: str,
+        pdf_paths: Sequence[Path],
+        instructions: str,
+        **kwargs: Any,
+    ) -> Any:
+        request_kwargs = self._build_chat_kwargs(model, kwargs)
+        uploaded_ids: List[str] = []
+        try:
+            for pdf_path in pdf_paths:
+                with pdf_path.open("rb") as f:
+                    uploaded = self._client.files.create(file=f, purpose="assistants")
+                    uploaded_ids.append(uploaded.id)
+
+            content_blocks: List[Dict[str, Any]] = [{"type": "input_text", "text": instructions}]
+            for fid in uploaded_ids:
+                content_blocks.append({"type": "input_file", "file_id": fid})
+
+            return self._client.responses.create(
+                model=model,
+                input=[{"role": "user", "content": content_blocks}],
+                **request_kwargs,
+            )
+        finally:
+            for fid in uploaded_ids:
+                try:
+                    self._client.files.delete(fid)
+                except Exception:  # pragma: no cover - best effort
+                    logger.debug("Failed to delete temporary uploaded file %s", fid)
+
+    def fallback_read_pdf(
+        self,
+        *,
+        model: str,
+        pdf_path: Path | str,
+        instructions: str,
+        temperature: Optional[float] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> LLMResult:
+        pdf_path = Path(pdf_path)
+        request_kwargs = self._build_chat_kwargs(
+            model,
+            {
+                "temperature": temperature,
+                "max_output_tokens": max_output_tokens,
+            },
+        )
+        with pdf_path.open("rb") as pdf_file:
+            uploaded_file = self._client.files.create(file=pdf_file, purpose="assistants")
+        try:
+            response = self._client.responses.create(
+                model=model,
+                input=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "input_text", "text": instructions},
+                            {"type": "input_file", "file_id": uploaded_file.id},
+                        ],
+                    }
+                ],
+                **request_kwargs,
+            )
+            return self._build_result(
+                response,
+                model=model,
+                mode="pdf",
+                metadata=metadata,
+                discount=1.0,
+            )
+        finally:
+            try:
+                self._client.files.delete(uploaded_file.id)
+            except Exception:  # pragma: no cover - best effort cleanup
+                logger.debug("Failed to delete temporary uploaded file %s", uploaded_file.id)
+
     def _build_chat_kwargs(self, model: str, kwargs: Dict[str, Any]) -> Dict[str, Any]:
         # Allowlist known keyword arguments; ignore unknown ones to reduce risk of API errors.
         allowed_keys = {
@@ -640,10 +757,44 @@ class OpenAIProvider(BaseLLMProvider):
             raise ProviderCallError("OpenAI response missing output content")
         collected: List[str] = []
         for item in outputs:
-            for part in getattr(item, "content", []) or []:
+            parts = getattr(item, "content", []) or []
+            for part in parts:
+                # Text may be a plain string or an object with `.value`.
                 text_value = getattr(part, "text", None)
-                if text_value:
+                if isinstance(text_value, str) and text_value:
                     collected.append(text_value)
+                    continue
+                if text_value is not None:
+                    maybe_val = getattr(text_value, "value", None)
+                    if isinstance(maybe_val, str) and maybe_val:
+                        collected.append(maybe_val)
+                        continue
+                # Some SDK variants expose `.type == 'output_text'` and `.content` as str
+                part_type = getattr(part, "type", None)
+                if part_type in {"output_text", "text"}:
+                    maybe_content = getattr(part, "content", None)
+                    if isinstance(maybe_content, str) and maybe_content:
+                        collected.append(maybe_content)
+                if part_type in {"output_file", "file"}:
+                    # Attempt to retrieve file content when the model outputs to a file.
+                    file_id = getattr(part, "file_id", None)
+                    if file_id:
+                        try:
+                            file_stream = self._client.files.content(file_id)
+                            file_bytes = None
+                            if hasattr(file_stream, "read"):
+                                file_bytes = file_stream.read()
+                            elif hasattr(file_stream, "content"):
+                                file_bytes = getattr(file_stream, "content")
+                            if isinstance(file_bytes, (bytes, bytearray)):
+                                try:
+                                    collected.append(file_bytes.decode("utf-8", errors="ignore"))
+                                except Exception:
+                                    # Best effort; ignore undecodable outputs.
+                                    pass
+                        except Exception:
+                            # Some file purposes cannot be downloaded; ignore silently.
+                            pass
         if not collected:
             raise ProviderCallError("Unable to extract text from OpenAI response")
         return "\n".join(collected)
@@ -774,6 +925,18 @@ class LLMService:
     ) -> List[LLMResult]:
         provider = self.get_provider(provider_key)
         return provider.read_pdf_batch(model, pdf_paths, instructions=instructions, **kwargs)
+
+    def read_pdfs(
+        self,
+        provider_key: str,
+        model: str,
+        pdf_paths: Sequence[Path | str],
+        *,
+        instructions: str,
+        **kwargs: Any,
+    ) -> LLMResult:
+        provider = self.get_provider(provider_key)
+        return provider.read_pdfs(model, pdf_paths, instructions=instructions, **kwargs)
 
     @property
     def usage_tracker(self) -> LLMUsageTracker:

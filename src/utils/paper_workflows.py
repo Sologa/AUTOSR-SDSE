@@ -221,7 +221,10 @@ def download_records_to_pdfs(
             result = download_arxiv_paper(arxiv_id, output_dir / "arxiv", session=session)
             collected["arxiv"].append(result)
 
-        for semantic_record in records_by_source.get("semantic_scholar", []):
+        semantic_records = list(records_by_source.get("semantic_scholar", []))
+        if not api_key:
+            semantic_records = semantic_records[:2]
+        for semantic_record in semantic_records:
             paper_id = semantic_record.get("paperId") or semantic_record.get("paper_id")
             if not paper_id:
                 continue

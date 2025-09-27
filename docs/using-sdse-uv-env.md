@@ -110,4 +110,35 @@ uv run --project sdse-uv pytest
 2. 互動式開發：`source sdse-uv/.venv/bin/activate`，完成後再 `deactivate`。
 3. 自動化腳本或 CI：以 `uv run --project sdse-uv ...` 包住指令。
 
-透過上述步驟，就能確保 AUTOSR-SDSE 主專案與 `sdse-uv` 目錄共用同一組 Python 套件與解釋器設定。MD
+透過上述步驟，就能確保 AUTOSR-SDSE 主專案與 `sdse-uv` 目錄共用同一組 Python 套件與解釋器設定。
+
+## 使用 Homebrew 版 Codex CLI
+
+啟用 `sdse-uv` 後，`codex` 會指向虛擬環境中的執行檔。若要改用 Homebrew 安裝的 CLI（通常位於 `/opt/homebrew/bin/codex`），可以採用以下方式：
+
+- **直接指定絕對路徑**：
+
+  ```bash
+  /opt/homebrew/bin/codex <子指令或參數>
+  ```
+
+- **設定暫時 alias**：
+
+  ```bash
+  alias codex=/opt/homebrew/bin/codex
+  ```
+
+- **先退出虛擬環境再執行**：
+
+  ```bash
+  deactivate
+  codex <子指令或參數>
+  ```
+
+此外，因為這台機器的 `~/.config` 由 root 擁有，Homebrew 版 codex 讀取 comicbox 設定時會遇到權限錯誤。執行前可改寫 `COMICBOXDIR` 指向專案內可寫的目錄：
+
+```bash
+COMICBOXDIR="$(pwd)/config/comicbox" /opt/homebrew/bin/codex <子指令或參數>
+```
+
+上述做法不會改動 `sdse-uv` 的設定，便利於需要在相同終端混用虛擬環境與 Homebrew CLI 的情境。

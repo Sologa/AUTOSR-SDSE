@@ -57,6 +57,10 @@ class _StubProvider(BaseLLMProvider):
     def _pdf_request(self, *, model: str, pdf_path: Path, instructions: str, **kwargs: Any) -> Any:
         return self._response
 
+    def _pdfs_request(self, *, model: str, pdf_paths: Sequence[Path], instructions: str, **kwargs: Any) -> Any:
+        # Simulate a single-call multi-PDF request returning the same response.
+        return self._response
+
     def _extract_usage(self, response: _FakeResponse) -> tuple[int, int]:
         return response.usage.input_tokens, response.usage.output_tokens
 
@@ -130,6 +134,17 @@ def test_read_pdf_batch_applies_discount(tmp_path: Path, sample_response: _FakeR
     for result in results:
         assert pytest.approx(result.usage.cost, rel=1e-6) == expected_cost
     assert provider.usage_tracker.records[-1].metadata["batch_index"] == 1
+
+
+def test_read_pdfs_single_request(tmp_path: Path, sample_response: _FakeResponse) -> None:
+    pdf1 = tmp_path / "a.pdf"
+    pdf2 = tmp_path / "b.pdf"
+    pdf1.write_bytes(b"%PDF-1.4\n")
+    pdf2.write_bytes(b"%PDF-1.4\n")
+    provider = _StubProvider(response=sample_response)
+    result = provider.read_pdfs("stub-model", [pdf1, pdf2], instructions="Extract terms")
+    assert isinstance(result, LLMResult)
+    assert result.content == "ok"
 
 
 def test_usage_tracker_summary(sample_response: _FakeResponse) -> None:
