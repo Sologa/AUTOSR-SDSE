@@ -29,4 +29,5 @@ specify-cli = { git = "https://github.com/github/spec-kit.git" }
 dev = [
     "codex>=1.8.14",
     "pytest>=8.4.2",
+    "ruff>=0.13.2",
 ]

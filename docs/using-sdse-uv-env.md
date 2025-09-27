@@ -36,6 +36,26 @@ uv pip install --project sdse-uv <套件名稱>
 
 此指令只會變更虛擬環境，不會修改設定檔。使用完畢若不需要保留，請執行 `uv sync --project sdse-uv` 將環境還原到鎖定檔狀態。
 
+
+## Ruff 靜態檢查工具
+
+本專案使用 [ruff](https://docs.astral.sh/ruff/) 作為 linter / formatter。請依下列步驟安裝與驗證：
+
+```bash
+uv add --project sdse-uv --dev ruff
+source sdse-uv/.venv/bin/activate
+ruff --version
+```
+
+安裝完成後，常見指令如下：
+
+```bash
+ruff check .        # 執行靜態檢查
+ruff format .       # 依 ruff 規則自動格式化
+```
+
+若 ruff 報告問題，可搭配 `ruff check --fix` 嘗試自動修正，或依輸出提示手動調整程式碼。完成修正後請重新執行檢查以確保清晰。
+
 ## 更新既有套件
 
 若要升級已經列在 `pyproject.toml` 中的依賴，有兩種常見情境：

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-import os
 import re
 import time
 import xml.etree.ElementTree as ET
@@ -11,11 +10,7 @@ from typing import Dict, List, MutableMapping, Optional, Sequence
 
 import requests
 
-try:  # pragma: no cover - optional dependency
-    from dotenv import load_dotenv as _dotenv_load
-except ImportError:  # pragma: no cover - optional dependency
-    _dotenv_load = None
-
+from .env import load_env_file
 from .paper_downloaders import (
     DownloadResult,
     PaperDownloadError,
@@ -25,6 +20,10 @@ from .paper_downloaders import (
 )
 
 
+load_env_file()
+
+
+# Precompile patterns / helpers used across search utilities.
 _ARXIV_ID_PATTERN = re.compile(r"(\d{4}\.\d{5,})(?:v\d+)?")
 # Official guideline caps anonymous traffic at roughly 100 requests / 5 minutes.
 _SEMANTIC_RATE_LIMIT_SECONDS_WITH_KEY = 1.0
@@ -32,27 +31,6 @@ _SEMANTIC_RATE_LIMIT_SECONDS_ANON = 3.0
 
 _semantic_last_call: float = 0.0
 
-
-def load_env_file(dotenv_path: Optional[Path] = None, *, override: bool = False) -> None:
-    """Load environment variables from ``.env`` using python-dotenv when available."""
-
-    path = dotenv_path or Path.cwd() / ".env"
-    if _dotenv_load is not None:
-        _dotenv_load(dotenv_path=path, override=override)
-        return
-
-    if not path.exists():
-        return
-
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        key = key.strip()
-        value = value.strip().strip('"').strip("'")
-        if override or key not in os.environ:
-            os.environ[key] = value
 
 
 def collect_arxiv_ids(pdf_root: Path) -> List[str]:
@@ -79,11 +57,18 @@ def dblp_key_for_arxiv_id(arxiv_id: str) -> str:
     return f"journals/corr/abs-{arxiv_id.replace('.', '-')}"
 
 
+def _quote_term(term: str) -> str:
+    """Return a double-quoted term with embedded quotes escaped."""
+
+    escaped = term.replace("\\", r"\\").replace('"', r"\"")
+    return f'"{escaped}"'
+
+
 def build_semantic_scholar_query(anchor_terms: Sequence[str], search_terms: Sequence[str]) -> str:
     """Construct a Semantic Scholar boolean query from anchor and search terms."""
 
-    anchor_fragment = " OR ".join(f'"{term}"' for term in anchor_terms)
-    search_fragment = " OR ".join(search_terms)
+    anchor_fragment = " OR ".join(_quote_term(term) for term in anchor_terms)
+    search_fragment = " OR ".join(_quote_term(term) for term in search_terms)
     return f"({anchor_fragment}) AND ({search_fragment})"
 
 
@@ -113,8 +98,8 @@ def search_arxiv_for_topic(
 ) -> List[Dict[str, object]]:
     """Search arXiv for a topic and return Atom entries as dictionaries."""
 
-    anchor_clause = " OR ".join(f'ti:"{term}"' for term in anchor_terms)
-    search_clause = " OR ".join(f'ti:{term}' for term in search_terms)
+    anchor_clause = " OR ".join(f"ti:{_quote_term(term)}" for term in anchor_terms)
+    search_clause = " OR ".join(f"ti:{_quote_term(term)}" for term in search_terms)
     params = {"search_query": f"({anchor_clause}) AND ({search_clause})", "start": 0, "max_results": max_results}
     response = session.get("https://export.arxiv.org/api/query", params=params, timeout=30)
     response.raise_for_status()

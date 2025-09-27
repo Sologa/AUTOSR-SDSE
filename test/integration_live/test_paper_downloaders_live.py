@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import tempfile
 import time
 import unittest
@@ -9,12 +8,8 @@ from typing import Dict, List
 
 import requests
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-SRC_DIR = PROJECT_ROOT / "src"
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
-
-from utils.paper_downloaders import (
+from src.utils.env import load_env_file
+from src.utils.paper_downloaders import (
     DownloadResult,
     PaperDownloadError,
     download_arxiv_paper,
@@ -22,11 +17,10 @@ from utils.paper_downloaders import (
     download_semantic_scholar_paper,
 )
 
-from utils.paper_workflows import (
+from src.utils.paper_workflows import (
     collect_arxiv_ids,
     dblp_key_for_arxiv_id,
     download_records_to_pdfs,
-    load_env_file,
     load_records_from_directory,
     respect_semantic_scholar_rate_limit,
     search_arxiv_for_topic,
@@ -34,6 +28,7 @@ from utils.paper_workflows import (
     search_semantic_scholar_for_topic,
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 load_env_file(PROJECT_ROOT / ".env", override=False)
 
 
