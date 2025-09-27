@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from src.utils.llm import OpenAIProvider
 
 
@@ -107,3 +109,56 @@ def test_reasoning_prefixes_disable_temperature() -> None:
     kwargs = provider._build_chat_kwargs("o1-preview-2024-12-17", {"temperature": 0.3})
 
     assert "temperature" not in kwargs
+
+
+@pytest.mark.parametrize("effort", ["low", "medium", "high"])
+def test_reasoning_effort_promoted_for_gpt5_nano(effort: str) -> None:
+    provider = _make_provider()
+
+    kwargs = provider._build_chat_kwargs("gpt-5-nano", {"reasoning_effort": effort})
+
+    assert kwargs["reasoning"]["effort"] == effort
+
+
+def test_reasoning_effort_accepts_mixed_case() -> None:
+    provider = _make_provider()
+
+    kwargs = provider._build_chat_kwargs("gpt-5-nano", {"reasoning_effort": "High"})
+
+    assert kwargs["reasoning"]["effort"] == "high"
+
+
+def test_explicit_reasoning_payload_preserved() -> None:
+    provider = _make_provider()
+
+    kwargs = provider._build_chat_kwargs(
+        "gpt-5-nano",
+        {"reasoning": {"effort": "medium", "budget_tokens": 2000}},
+    )
+
+    assert kwargs["reasoning"]["effort"] == "medium"
+    assert kwargs["reasoning"]["budget_tokens"] == 2000
+
+
+def test_reasoning_requires_dictionary_payload() -> None:
+    provider = _make_provider()
+
+    with pytest.raises(TypeError):
+        provider._build_chat_kwargs("gpt-5-nano", {"reasoning": "invalid"})
+
+
+def test_reasoning_effort_conflict_raises() -> None:
+    provider = _make_provider()
+
+    with pytest.raises(ValueError):
+        provider._build_chat_kwargs(
+            "gpt-5-nano",
+            {"reasoning_effort": "low", "reasoning": {"effort": "medium"}},
+        )
+
+
+def test_reasoning_effort_validates_allowed_values() -> None:
+    provider = _make_provider()
+
+    with pytest.raises(ValueError):
+        provider._build_chat_kwargs("gpt-5-nano", {"reasoning_effort": "extreme"})

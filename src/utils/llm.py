@@ -547,6 +547,7 @@ class OpenAIProvider(BaseLLMProvider):
         "o4",
     )
     _MODELS_WITHOUT_TEMPERATURE = frozenset(model.lower() for model in _REASONING_MODELS)
+    _VALID_REASONING_EFFORTS = frozenset({"low", "medium", "high"})
 
     def __init__(
         self,
@@ -698,8 +699,32 @@ class OpenAIProvider(BaseLLMProvider):
             "max_output_tokens",
             "max_tokens",
             "response_format",
+            "reasoning",
         }
         request_kwargs = {key: value for key, value in kwargs.items() if key in allowed_keys and value is not None}
+
+        reasoning_effort = kwargs.get("reasoning_effort")
+        if reasoning_effort is not None:
+            if "reasoning" in request_kwargs:
+                raise ValueError("Use either 'reasoning' or 'reasoning_effort', not both")
+            normalized_effort = str(reasoning_effort).strip().lower()
+            if normalized_effort not in self._VALID_REASONING_EFFORTS:
+                raise ValueError("reasoning_effort must be one of {'low', 'medium', 'high'}")
+            request_kwargs["reasoning"] = {"effort": normalized_effort}
+
+        if "reasoning" in request_kwargs:
+            reasoning_payload = request_kwargs["reasoning"]
+            if not isinstance(reasoning_payload, dict):
+                raise TypeError("OpenAI 'reasoning' payload must be a dictionary")
+            normalized_payload = dict(reasoning_payload)
+            effort_value = normalized_payload.get("effort")
+            if effort_value is not None:
+                normalized_effort = str(effort_value).strip().lower()
+                if normalized_effort not in self._VALID_REASONING_EFFORTS:
+                    raise ValueError("reasoning['effort'] must be one of {'low', 'medium', 'high'}")
+                normalized_payload["effort"] = normalized_effort
+            request_kwargs["reasoning"] = normalized_payload
+
         if "temperature" in request_kwargs and self._is_reasoning_model(model):
             logger.debug("Skipping unsupported temperature parameter for reasoning model %s", model)
             request_kwargs.pop("temperature")

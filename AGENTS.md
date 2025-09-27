@@ -50,6 +50,7 @@
 - `.env` 已列入 `.gitignore`；嚴禁將任何密鑰、token、憑證寫入版本庫（含範例程式碼與文件）。
 - 建議使用 `set -a; source .env; set +a` 將變數匯入當前 session，或以 `direnv` / 其他私密方案自動載入；勿在 shell 歷程中直接曝光密鑰。
 - **程式碼要求**：任何需要 API key 或其他機敏環境變數的程式/測試入口檔案，必須在初始化階段載入 `.env`（可自行解析或使用既有工具如 `python-dotenv` 的 `load_dotenv()`）；不得假設操作者已手動匯入環境變數。
+- `OPENAI_API_KEY` 已預先配置於 `.env`，所有會打到 OpenAI 的測試或流程都必須直接使用實際金鑰執行；若金鑰遺失或無效，應讓流程直接報錯而非以 skip/fallback 迴避。
 - 團隊共享密鑰時請透過可信任的秘密管理工具（Vault、1Password、Secrets Manager 等）或安全管道傳遞，並於共享文件中更新命名/使用約定。
 
 ---
