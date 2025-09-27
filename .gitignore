@@ -8,18 +8,31 @@ __pycache__/
 
 # Virtual environments
 .venv/
-.env/
 sdse-uv/.venv/
+
+# Secret environment files
+.env
+.env.local
+.env.*
+!.env.example
 
 # Tooling metadata
 .codex/
 .specify/
 
 # Test and coverage artefacts
+test_artifacts/
+test/.tmp/
 .pytest_cache/
 .coverage
 coverage.xml
 
+
+config/
+
 # Logs and OS junk
 *.log
 .DS_Store
+
+# Local issue notes
+docs/local_issue_notes.md

@@ -16,9 +16,8 @@ import xml.etree.ElementTree as ET
 import json
 import time
 from datetime import datetime
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional
 from dataclasses import dataclass
-from urllib.parse import quote
 import argparse
 
 @dataclass
