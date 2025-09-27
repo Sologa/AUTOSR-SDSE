@@ -27,6 +27,9 @@ test/.tmp/
 .coverage
 coverage.xml
 
+# Keep version-controlled test sources
+!test/**/*.py
+
 
 config/
 
