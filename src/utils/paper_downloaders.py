@@ -75,6 +75,25 @@ def _download_file(
     return _write_binary(destination, response.content), None
 
 
+def fetch_arxiv_metadata(
+    arxiv_id: str,
+    *,
+    session: Optional[requests.Session] = None,
+    timeout: int = _DEFAULT_TIMEOUT,
+) -> Dict[str, object]:
+    """Fetch arXiv metadata for ``arxiv_id`` without downloading files."""
+
+    close_session = False
+    if session is None:
+        session = requests.Session()
+        close_session = True
+    try:
+        return _fetch_arxiv_metadata(session, arxiv_id, timeout)
+    finally:
+        if close_session:
+            session.close()
+
+
 def download_arxiv_paper(
     arxiv_id: str,
     output_dir: Path,
@@ -242,12 +261,32 @@ def download_semantic_scholar_paper(
     output_dir = Path(output_dir)
     safe_stem = _safe_stem(paper_id)
 
-    metadata = _fetch_semantic_scholar_metadata(
-        session,
-        paper_id,
-        api_key=api_key,
-        timeout=timeout,
-    )
+    try:
+        metadata = _fetch_semantic_scholar_metadata(
+            session,
+            paper_id,
+            api_key=api_key,
+            timeout=timeout,
+        )
+    except requests.HTTPError as exc:
+        status = getattr(exc.response, "status_code", None)
+        if status == 429:
+            return DownloadResult(
+                source="semantic_scholar",
+                identifier=paper_id,
+                metadata={},
+                pdf_path=None,
+                bibtex_path=None,
+                issues=[
+                    {
+                        "asset": "metadata",
+                        "reason": "rate_limited",
+                        "status_code": status,
+                        "url": getattr(exc.response, "url", None),
+                    }
+                ],
+            )
+        raise
 
     pdf_url = None
     open_access = metadata.get("openAccessPdf")

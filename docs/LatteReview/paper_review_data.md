@@ -33,6 +33,12 @@ LatteReview accepts multiple entry points: a `pandas.DataFrame`, a dict coercibl
 
 When a round finishes, LatteReview will extend the table with structured output columns such as `round-A_Alice_output`, `round-A_Alice_evaluation`, and `round-A_Alice_reasoning` (`resources/LatteReview/lattereview/workflows/review_workflow.py:189`). Make sure downstream processes tolerate these additions.
 
+## Integration with Keyword Extractor
+- `extract_search_terms_from_surveys` hydrates paper metadata from arXiv before prompting and returns a consolidated JSON payload containing `papers` plus a reviewer configuration block (`reviewer_profile`).
+- The helper validates that titles/abstracts match the canonical metadata and ensures reviewer fields are populated, so you can pair `result["papers"]` with the shared `reviewer_profile` when constructing LatteReview ingestion tables.
+- Previous `latte_inputs` rows have been removed; downstream code should populate reviewer columns directly from the shared profile when building DataFrames.
+- Output remains ordered; keep the `papers` list aligned with any derived table if ordering is significant for multi-round workflows.
+
 ## Example Payload
 ```python
 from lattereview.providers import LiteLLMProvider
@@ -69,3 +75,4 @@ This follows the quickstart pattern and ensures every placeholder is satisfied (
 - The default response schema only returns reasoning and evaluation. Extend `response_format` if you need certainty scores or other metrics before a run starts (`resources/LatteReview/lattereview/agents/title_abstract_reviewer.py:51`).
 - Cost tracking depends on the `tokencost` package; missing model definitions can skew totals and may require manual overrides (`resources/LatteReview/lattereview/providers/base_provider.py:32`).
 - RIS ingestion funnels through `ris_to_dataframe`; malformed RIS files surface as workflow errors rather than partial results (`resources/LatteReview/lattereview/workflows/review_workflow.py:79`).
+- Keyword extractor workflow requires PDFs named with arXiv identifiers so metadata enrichment can succeed; otherwise ingestion will raise before any LLM calls.

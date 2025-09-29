@@ -61,12 +61,28 @@ def test_prepare_messages_promotes_string_to_message() -> None:
     assert prepared == [{"role": "user", "content": "hello there"}]
 
 
-def test_build_chat_kwargs_preserves_max_output_tokens() -> None:
+def test_build_chat_kwargs_rejects_max_output_tokens_for_reasoning_models() -> None:
     provider = _make_provider()
 
     kwargs = provider._build_chat_kwargs("gpt-5-nano", {"max_output_tokens": 256})
 
-    assert kwargs["max_output_tokens"] == 256
+    assert "max_output_tokens" not in kwargs
+
+
+def test_build_chat_kwargs_rejects_max_tokens_for_reasoning_models() -> None:
+    provider = _make_provider()
+
+    kwargs = provider._build_chat_kwargs("gpt-5-nano", {"max_tokens": 256})
+
+    assert "max_tokens" not in kwargs
+
+
+def test_build_chat_kwargs_preserves_max_output_tokens_for_standard_models() -> None:
+    provider = _make_provider()
+
+    kwargs = provider._build_chat_kwargs("gpt-4.1-mini", {"max_output_tokens": 512})
+
+    assert kwargs["max_output_tokens"] == 512
     assert "max_tokens" not in kwargs
 
 

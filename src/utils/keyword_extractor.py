@@ -1,10 +1,9 @@
 """Keyword/search-term extraction from survey PDFs using the LLM provider layer.
 
-This module supports two modes:
-- combined: attach multiple PDFs in a single LLM request and ask for a consolidated JSON.
-- two_step: per-PDF extraction followed by a consolidation chat over the partial JSONs.
-
-It uses the OpenAI Responses API via the local provider abstraction in src/utils/llm.py.
+The pipeline reads each PDF individually, then aggregates the partial JSON responses
+into a consolidated payload aligned with arXiv metadata and reviewer configuration.
+It uses the OpenAI Responses API via the local provider abstraction in
+``src/utils/llm.py``.
 """
 
 from __future__ import annotations
@@ -16,106 +15,576 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
+import requests
+
+from .paper_downloaders import fetch_arxiv_metadata
+from .paper_workflows import trim_arxiv_id
+
 from .llm import LLMResult, LLMService, ProviderCallError
+from .latte_review_configs import (
+    TitleAbstractReviewerProfile,
+    get_title_abstract_profile,
+)
 
 
 DEFAULT_PROMPT_PATH = Path("resources/LLM/prompts/keyword_extractor/generate_search_terms.md")
 DEFAULT_AGGREGATE_PATH = Path("resources/LLM/prompts/keyword_extractor/aggregate_terms.md")
+_DEFAULT_DYNAMIC_CATEGORY_COUNT = 6
 
 
-_FALLBACK_GENERATE = (
-    "- Role: Academic Search Strategy Designer and Systematic Review Analyst\n"
-    "- Background: The user uploads one or more survey papers (PDFs). Your goal is to extract high-quality search terms from the surveys’ main text, suitable for building academic search queries. These terms are typically derived from surveys, covering anchor terms and category-specific search terms used in literature retrieval.\n"
-    "- Profile: You design evidence-grounded, reproducible search strategies for literature reviews. You prioritize deduplication, clarity, and coverage.\n"
-    "- Skills: Systematic review methodology, taxonomy-driven term extraction, boolean query synthesis, deduplication and synonym consolidation, concise rationale writing.\n"
-    "- Goals: Produce a JSON-only output containing anchors, categorized search terms, synonyms, excluded terms, and finalized boolean queries with brief rationales. Ground all terms in the uploaded PDFs.\n"
-    "- Constraints:\n"
-    "  - Use only information present in the uploaded PDFs. Avoid hallucinations and generic terms that aren’t central.\n"
-    "  - Prefer multi-paper-supported terms; mark single-paper terms with lower confidence.\n"
-    "  - Keep each rationale under 20 words; cite page numbers if available; otherwise use \"page\": \"n/a\".\n"
-    "  - Keep total queries ≤ <<max_queries>> (default 50).\n"
-    "  - Output strictly valid JSON, no extra text.\n"
-    "- Workflow:\n"
-    "  1) Read all PDFs and identify the central task/topic; propose 2–4 anchor_terms.\n"
-    "  2) For each paper, extract candidate terms for categories: <<category_list>>.\n"
-    "  3) Normalize and merge across papers: lemmatize, deduplicate, consolidate synonyms.\n"
-    "  4) Generate boolean queries by combining each anchor with terms and their synonyms; include phrase quotes where appropriate.\n"
-    "  5) Identify excluded_terms to reduce noise (e.g., unrelated domains; generic words).\n"
-    "  6) Score terms (0–1), count supporting papers, and add short rationales with citations.\n"
-    "- Runtime overrides (current request):\n"
-    "  - topic_hint: <<topic_hint>>\n"
-    "  - language: <<language>>\n"
-    "  - include_ethics: <<include_ethics>>\n"
-    "  - max_queries: <<max_queries>>\n"
-    "  - seed_anchors: <<seed_anchors_info>>\n"
-    "  - custom_categories: <<custom_categories_info>>\n"
-    "  - exclude_terms: <<exclude_terms_info>>\n"
-    "  - anchor_terms: <<anchor_guidance>>\n"
-    "- OutputFormat (strict JSON):\n"
-    "{\n"
-    "  \"topic\": \"<<topic_or_inferred>>\",\n"
-    "  \"papers\": [\n"
-    "    {\n"
-    "      \"id\": \"<attachment name or short id>\",\n"
-    "      \"title\": \"<if detectable>\",\n"
-    "      \"year\": \"<if detectable>\",\n"
-    "      \"detected_keywords\": [\n"
-    "        {\n"
-    "          \"term\": \"…\",\n"
-    "          \"category\": \"<category label>\",\n"
-    "          \"evidence\": {\"quote\": \"…\", \"page\": \"n/a|<number>\"},\n"
-    "          \"confidence\": 0.0\n"
-    "        }\n"
-    "      ]\n"
-    "    }\n"
-    "  ],\n"
-    "  \"anchor_terms\": [\"…\", \"…\"],\n"
-    "  \"search_terms\": {\n"
-    "    \"<category>\": [\"…\"],\n"
-    "    \"<category>\": [\"…\"]\n"
-    "  },\n"
-    "  \"synonyms\": {\n"
-    "    \"term_a\": [\"…\", \"…\"]\n"
-    "  },\n"
-    "  \"excluded_terms\": [\"…\"],\n"
-    "  \"queries\": [\n"
-    "    {\n"
-    "      \"query\": \"\\\"<anchor>\\\" AND (\\\"<term>\\\" OR \\\"<synonym>\\\" …)\",\n"
-    "      \"category\": \"<category label>\",\n"
-    "      \"rationale\": \"…\",\n"
-    "      \"confidence\": 0.0\n"
-    "    }\n"
-    "  ],\n"
-    "  \"top_terms\": [\n"
-    "    {\"term\": \"…\", \"weight\": 0.0, \"support_count\": 2}\n"
-    "  ]\n"
-    "}\n"
-    "- Notes:\n"
-    "  - Align \"search_terms\" keys with the category list above (or provided custom categories).\n"
-    "  - Keep “queries” concise and diverse; avoid redundant variants.\n"
-)
+
+@dataclass(frozen=True)
+class PaperMetadataRecord:
+    arxiv_id: str
+    title: str
+    abstract: str
+    year: Optional[str]
+    url: str
+    pdf_path: Path
+
+    @property
+    def source_id(self) -> str:
+        return f"arXiv:{self.arxiv_id}"
 
 
-_FALLBACK_AGGREGATE = (
-    "- Role: Search Term Aggregator\n"
-    "- Background: You are given JSON outputs produced independently for multiple survey PDFs. Each JSON contains candidate terms with evidence. Your task is to merge them into a single consolidated JSON following the same schema used by the generator, performing deduplication, synonym consolidation, and weighting.\n"
-    "- Topic focus: <<topic_hint>>\n"
-    "- Anchor policy: <<anchor_policy>>\n"
-    "- Constraints:\n"
-    "  - Preserve evidence by keeping the strongest quote per term and counting support across papers.\n"
-    "  - Merge spelling variants and morphological variants; list them under synonyms.\n"
-    "  - Prefer precise, domain-specific terms; downweight overly generic words.\n"
-    "  - Output strictly valid JSON only.\n"
-    "- Workflow:\n"
-    "  1) Load all input JSONs.\n"
-    "  2) Normalize: lowercase, lemmatize, strip punctuation; map variants to a canonical form.\n"
-    "  3) Merge: aggregate support_count and keep highest confidence; gather distinct evidences (limit to 2 quotes per term).\n"
-    "  4) Rebuild anchor_terms (top 2–4 by global weight) and ensure search_terms cover the category set provided by the inputs.\n"
-    "  5) Produce queries up to <<max_queries>> combining anchors with representative terms and synonyms.\n"
-    "- Output: Same schema as generate_search_terms.md.\n\n"
-    "Input placeholder:\n<<partial_json_list>>\n"
-)
+_METADATA_CACHE: Dict[str, tuple[str, str, Optional[str], str]] = {}
+_CATEGORY_ALIAS_PATTERN = re.compile(r"[^a-z0-9]+")
+_TERM_INVALID_CHARS = re.compile(r"[^0-9A-Za-z\- /]+")
+_TERM_MULTI_SPACES = re.compile(r"\s{2,}")
 
+
+def _infer_arxiv_id(pdf_path: Path) -> str:
+    candidate = trim_arxiv_id(pdf_path.stem)
+    if not candidate:
+        raise ValueError(f"Unable to infer arXiv identifier from PDF name: {pdf_path}")
+    return candidate
+
+
+def _collect_paper_metadata(pdf_list: Sequence[Path]) -> List[PaperMetadataRecord]:
+    if not pdf_list:
+        return []
+
+    session = requests.Session()
+    records: List[PaperMetadataRecord] = []
+    try:
+        for pdf_path in pdf_list:
+            arxiv_id = _infer_arxiv_id(pdf_path)
+            cached = _METADATA_CACHE.get(arxiv_id)
+            if cached is None:
+                metadata = fetch_arxiv_metadata(arxiv_id, session=session)
+                title = (metadata.get("title") or "").strip()
+                abstract = (metadata.get("summary") or metadata.get("abstract") or "").strip()
+                if not title or not abstract:
+                    raise ValueError(f"Metadata for arXiv:{arxiv_id} is missing title or abstract")
+                published = (metadata.get("published") or "").strip()
+                year = published.split("-", 1)[0] if published else None
+                url = (metadata.get("landing_url") or f"https://arxiv.org/abs/{arxiv_id}").strip()
+                cached = (title, abstract, year, url)
+                _METADATA_CACHE[arxiv_id] = cached
+
+            title, abstract, year, url = cached
+            records.append(
+                PaperMetadataRecord(
+                    arxiv_id=arxiv_id,
+                    title=title,
+                    abstract=abstract,
+                    year=year,
+                    url=url,
+                    pdf_path=pdf_path,
+                )
+            )
+    finally:
+        session.close()
+
+    return records
+
+
+def _format_metadata_block(metadata_list: Sequence[PaperMetadataRecord]) -> str:
+    if not metadata_list:
+        return "(no metadata provided)"
+
+    lines: List[str] = []
+    for idx, meta in enumerate(metadata_list, start=1):
+        lines.extend(
+            [
+                f"--- Paper {idx} ---",
+                f"source_id: {meta.source_id}",
+                f"title: {meta.title}",
+                f"abstract: {meta.abstract}",
+                f"year: {meta.year or 'unknown'}",
+                f"url: {meta.url}",
+                f"pdf_path: {meta.pdf_path}",
+            ]
+        )
+    return "\n".join(lines)
+
+
+def _format_reviewer_profile_block(profile: TitleAbstractReviewerProfile) -> str:
+    payload = profile.to_payload()
+    return json.dumps(payload, ensure_ascii=False, indent=2)
+
+
+def _normalize_string(value: Optional[str]) -> str:
+    return " ".join((value or "").split())
+
+
+def _extend_unique_strings(target: List[str], values: Iterable[str]) -> None:
+    """Extend ``target`` with ``values`` while preserving order and deduplicating."""
+
+    seen = {item.casefold() for item in target if isinstance(item, str)}
+    for value in values:
+        if not isinstance(value, str):
+            continue
+        normalized = _normalize_phrase(value)
+        if not normalized:
+            continue
+        key = normalized.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        target.append(normalized)
+
+
+def _resolved_categories(params: "ExtractParams") -> List[str]:
+    if params.custom_categories:
+        return [category for category in params.custom_categories if category]
+
+    return []
+
+
+def _default_category_terms_target(params: "ExtractParams", *, category_count: Optional[int] = None) -> int:
+    if category_count is None:
+        category_count = len(_resolved_categories(params))
+
+    max_total = params.max_queries or 50
+    if max_total <= 0:
+        return 0
+
+    if category_count is None or category_count <= 0:
+        category_count = _DEFAULT_DYNAMIC_CATEGORY_COUNT
+
+    baseline = max_total // category_count
+    if max_total >= category_count * 3:
+        return min(10, max(3, baseline))
+
+    if max_total >= category_count * 2:
+        return max(2, baseline)
+
+    if baseline >= 1:
+        return baseline
+
+    return 1 if max_total else 0
+
+
+def _collect_detected_keyword_candidates(
+    papers: Sequence[Dict[str, Any]],
+) -> Dict[str, List[str]]:
+    by_category: Dict[str, List[str]] = {}
+    for paper in papers:
+        if not isinstance(paper, dict):
+            continue
+        for keyword in paper.get("detected_keywords", []) or []:
+            if not isinstance(keyword, dict):
+                continue
+            category = keyword.get("category")
+            term = keyword.get("term")
+            if not isinstance(category, str) or not isinstance(term, str):
+                continue
+            category = category.strip()
+            if not category:
+                continue
+            bucket = by_category.setdefault(category, [])
+            bucket.append(term)
+    return by_category
+
+
+def _canonical_category_label(label: str) -> str:
+    slug = _CATEGORY_ALIAS_PATTERN.sub("", label.casefold())
+    return slug or label.casefold()
+
+
+def _merge_duplicate_categories(search_terms: Dict[str, List[str]]) -> Dict[str, List[str]]:
+    if not isinstance(search_terms, dict):
+        return {}
+
+    normalized_map: Dict[str, str] = {}
+    merged: Dict[str, List[str]] = {}
+
+    for original_label, values in search_terms.items():
+        if not isinstance(original_label, str):
+            continue
+        canonical = _canonical_category_label(original_label)
+        existing_label = normalized_map.get(canonical)
+        if existing_label is None:
+            normalized_map[canonical] = original_label
+            bucket = merged.setdefault(original_label, [])
+        else:
+            bucket = merged.setdefault(existing_label, [])
+        if isinstance(values, list):
+            _extend_unique_strings(bucket, values)
+
+    return merged
+
+
+def _sanitize_search_term(value: str, *, max_words: int = 4, max_length: int = 60) -> Optional[str]:
+    if not isinstance(value, str):
+        return None
+
+    text = value.strip()
+    if not text:
+        return None
+
+    text = text.replace("_", " ")
+    text = _TERM_INVALID_CHARS.sub(" ", text)
+    text = _TERM_MULTI_SPACES.sub(" ", text)
+    text = text.strip(" ,.;:|/")
+    if not text:
+        return None
+
+    words = text.split()
+    if len(words) > max_words:
+        text = " ".join(words[:max_words])
+        words = text.split()
+
+    if len(words) == 1:
+        text = words[0].lower()
+    else:
+        text = " ".join(word.lower() for word in words)
+
+    if len(text) > max_length or not text:
+        return None
+
+    if len(words) == 0:
+        return None
+
+    return text
+
+
+def _sanitize_search_term_buckets(
+    search_terms: Dict[str, List[str]],
+    *,
+    max_words_per_term: int = 4,
+    min_terms_per_category: int = 1,
+) -> Dict[str, List[str]]:
+    cleaned: Dict[str, List[str]] = {}
+    for category, values in search_terms.items():
+        if not isinstance(category, str):
+            continue
+        bucket: List[str] = []
+        seen: set[str] = set()
+        for value in values or []:
+            sanitized = _sanitize_search_term(value, max_words=max_words_per_term)
+            if not sanitized:
+                continue
+            key = sanitized.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            bucket.append(sanitized)
+        if len(bucket) >= min_terms_per_category:
+            cleaned[category] = bucket
+    return cleaned
+
+
+def _enrich_search_terms_from_papers(
+    payload: Dict[str, Any],
+    params: "ExtractParams",
+    per_payloads: Optional[Sequence[Dict[str, Any]]] = None,
+) -> None:
+    if not isinstance(payload, dict):
+        return
+
+    papers = payload.get("papers")
+    if not isinstance(papers, list):
+        return
+
+    search_terms = payload.get("search_terms")
+    if not isinstance(search_terms, dict):
+        search_terms = {}
+        payload["search_terms"] = search_terms
+
+    categories = list(_resolved_categories(params))
+    if params.allow_additional_categories:
+        for category in search_terms:
+            if category not in categories:
+                categories.append(category)
+
+    keyword_candidates = _collect_detected_keyword_candidates(papers)
+
+    if per_payloads:
+        for per_payload in per_payloads:
+            if not isinstance(per_payload, dict):
+                continue
+            per_terms = per_payload.get("search_terms")
+            if not isinstance(per_terms, dict):
+                continue
+            for category, values in per_terms.items():
+                if not isinstance(category, str) or not isinstance(values, list):
+                    continue
+                bucket = keyword_candidates.setdefault(category, [])
+                for value in values:
+                    if isinstance(value, str):
+                        bucket.append(value)
+
+    for category, terms in keyword_candidates.items():
+        if not params.allow_additional_categories and category not in categories:
+            continue
+        bucket = search_terms.setdefault(category, [])
+        _extend_unique_strings(bucket, terms)
+        if params.allow_additional_categories and category not in categories:
+            categories.append(category)
+
+    target_count = (
+        params.min_terms_per_category
+        if params.min_terms_per_category is not None
+        else _default_category_terms_target(params, category_count=len(categories))
+    )
+
+    if target_count > 0:
+        all_candidates: Dict[str, List[str]] = {}
+        for category, terms in keyword_candidates.items():
+            all_candidates[category] = _dedupe_preserve_order(terms)
+
+        for category in categories:
+            bucket = search_terms.setdefault(category, [])
+            if len(bucket) >= target_count:
+                continue
+            supplemental = all_candidates.get(category, [])
+            if not supplemental:
+                continue
+            _extend_unique_strings(bucket, supplemental)
+
+    merged_terms = _merge_duplicate_categories(search_terms)
+    sanitized_terms = _sanitize_search_term_buckets(
+        merged_terms,
+        max_words_per_term=3,
+        min_terms_per_category=1,
+    )
+    payload["search_terms"] = sanitized_terms
+
+def _validate_output_against_metadata(
+    payload: Dict[str, Any],
+    metadata_list: Sequence[PaperMetadataRecord],
+) -> None:
+    if not isinstance(payload, dict):
+        raise ValueError("Keyword extractor must return a JSON object.")
+
+    papers = payload.get("papers")
+    if not isinstance(papers, list):
+        raise ValueError("Keyword extractor output missing 'papers' list.")
+    if len(papers) != len(metadata_list):
+        raise ValueError("Number of papers in output does not match metadata block.")
+
+    for index, meta in enumerate(metadata_list):
+        paper_entry = papers[index] if index < len(papers) else None
+        if not isinstance(paper_entry, dict):
+            raise ValueError("Each paper entry must be an object.")
+
+        source_id = (paper_entry.get("source_id") or paper_entry.get("id") or "").strip()
+        if not source_id:
+            raise ValueError("Paper entry missing 'source_id'.")
+        normalized_source = source_id.replace("arXiv:", "").strip()
+        if normalized_source != meta.arxiv_id:
+            raise ValueError(
+                f"Paper entry source_id '{source_id}' does not match metadata arXiv:{meta.arxiv_id}."
+            )
+
+        paper_title = _normalize_string(paper_entry.get("title"))
+        if paper_title != _normalize_string(meta.title):
+            raise ValueError(
+                f"Paper title mismatch for arXiv:{meta.arxiv_id}. Expected '{meta.title}'."
+            )
+
+        paper_abstract = _normalize_string(paper_entry.get("abstract"))
+        if paper_abstract != _normalize_string(meta.abstract):
+            raise ValueError(
+                f"Paper abstract mismatch for arXiv:{meta.arxiv_id}. Title: {meta.title}"
+            )
+
+    reviewer_profile = payload.get("reviewer_profile")
+    if not isinstance(reviewer_profile, dict):
+        raise ValueError("Keyword extractor output missing 'reviewer_profile' object.")
+
+    required_profile_fields = [
+        "review_topic",
+        "inclusion_criteria",
+        "exclusion_criteria",
+        "backstory",
+        "reasoning",
+        "additional_context",
+    ]
+    for field in required_profile_fields:
+        value = reviewer_profile.get(field)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"reviewer_profile missing required field '{field}'.")
+
+    if "examples" in reviewer_profile and not isinstance(reviewer_profile.get("examples"), list):
+        raise ValueError("reviewer_profile.examples must be a list when provided.")
+
+    provider_info = reviewer_profile.get("provider")
+    if provider_info is not None:
+        if not isinstance(provider_info, dict):
+            raise ValueError("reviewer_profile.provider must be an object when provided.")
+        if "model_args" in provider_info and not isinstance(
+            provider_info.get("model_args"), dict
+        ):
+            raise ValueError("reviewer_profile.provider.model_args must be an object when provided.")
+
+
+def _build_metadata_aligned_paper_entry(
+    meta: PaperMetadataRecord,
+    template: Dict[str, Any],
+) -> Dict[str, Any]:
+    entry = dict(template) if isinstance(template, dict) else {}
+    entry.setdefault("id", meta.source_id.replace(":", "_"))
+    entry["source_id"] = meta.source_id
+    entry["title"] = meta.title
+    entry["abstract"] = meta.abstract
+    entry["year"] = str(entry.get("year") or meta.year or "unknown")
+    entry["source_url"] = entry.get("source_url") or meta.url
+    detected = entry.get("detected_keywords")
+    if not isinstance(detected, list):
+        entry["detected_keywords"] = []
+    return entry
+
+
+def _merge_reviewer_search_terms(
+    payload: Dict[str, Any],
+    reviewer_profile: TitleAbstractReviewerProfile,
+) -> None:
+    recommended = reviewer_profile.search_terms
+    if not recommended:
+        return
+
+    search_terms = payload.get("search_terms")
+    if not isinstance(search_terms, dict):
+        search_terms = {}
+        payload["search_terms"] = search_terms
+
+    for category, terms in recommended.items():
+        bucket = search_terms.setdefault(category, [])
+        _extend_unique_strings(bucket, terms)
+
+
+def _build_profile_only_payload(
+    meta: PaperMetadataRecord,
+    reviewer_profile: TitleAbstractReviewerProfile,
+    params: "ExtractParams",
+    anchor_variants: Sequence[str],
+) -> Dict[str, Any]:
+    anchors = _dedupe_preserve_order(anchor_variants)
+    if not anchors:
+        anchors = reviewer_profile.keywords or [reviewer_profile.review_topic]
+
+    paper_entry = _build_metadata_aligned_paper_entry(meta, {})
+
+    payload = {
+        "topic": params.topic or reviewer_profile.review_topic,
+        "anchor_terms": anchors,
+        "search_terms": {
+            category: list(terms)
+            for category, terms in reviewer_profile.search_terms.items()
+            if terms
+        },
+        "papers": [paper_entry],
+        "reviewer_profile": reviewer_profile.to_payload(),
+    }
+
+    return payload
+
+
+def _enforce_metadata_alignment(
+    payload: Dict[str, Any],
+    metadata_list: Sequence[PaperMetadataRecord],
+    *,
+    reviewer_profile: TitleAbstractReviewerProfile,
+) -> None:
+    if not isinstance(payload, dict):
+        raise ValueError("Keyword extractor must return a JSON object.")
+
+    original_papers = payload.get("papers")
+    remaining_papers = [item for item in original_papers or [] if isinstance(item, dict)]
+
+    aligned_papers: List[Dict[str, Any]] = []
+
+    for meta in metadata_list:
+        matched_paper: Dict[str, Any] = {}
+        for idx, candidate in enumerate(remaining_papers):
+            source = (candidate.get("source_id") or candidate.get("id") or "").replace(
+                "arXiv:", ""
+            ).strip()
+            if source == meta.arxiv_id:
+                matched_paper = candidate
+                remaining_papers.pop(idx)
+                break
+        if not matched_paper and remaining_papers:
+            matched_paper = remaining_papers.pop(0)
+
+        aligned_papers.append(_build_metadata_aligned_paper_entry(meta, matched_paper))
+
+    payload["papers"] = aligned_papers
+    payload["reviewer_profile"] = reviewer_profile.to_payload()
+
+
+def _fallback_aggregate_per_paper_outputs(
+    per_payloads: Sequence[Dict[str, Any]],
+    metadata_list: Sequence[PaperMetadataRecord],
+    params: "ExtractParams",
+    reviewer_profile: TitleAbstractReviewerProfile,
+) -> Dict[str, Any]:
+    if len(per_payloads) != len(metadata_list):
+        raise ValueError("Per-paper payloads do not align with metadata for fallback aggregation.")
+
+    anchor_candidates: List[str] = []
+    search_terms: Dict[str, List[str]] = {}
+    papers: List[Dict[str, Any]] = []
+
+    for payload, meta in zip(per_payloads, metadata_list):
+        if not isinstance(payload, dict):
+            raise ValueError("Per-paper payload must be a JSON object.")
+
+        anchor_list = [item for item in payload.get("anchor_terms", []) if isinstance(item, str)]
+        anchor_candidates.extend(anchor_list)
+
+        source_terms = payload.get("search_terms", {})
+        if isinstance(source_terms, dict):
+            for category, values in source_terms.items():
+                if not isinstance(category, str):
+                    continue
+                bucket = search_terms.setdefault(category, [])
+                if isinstance(values, list):
+                    _extend_unique_strings(bucket, values)
+
+        paper_entry: Dict[str, Any] = {}
+        per_papers = payload.get("papers")
+        if isinstance(per_papers, list):
+            for candidate in per_papers:
+                if not isinstance(candidate, dict):
+                    continue
+                source_id = (candidate.get("source_id") or candidate.get("id") or "").replace(
+                    "arXiv:", ""
+                ).strip()
+                if source_id == meta.arxiv_id:
+                    paper_entry = candidate
+                    break
+            if not paper_entry and per_papers and isinstance(per_papers[0], dict):
+                paper_entry = per_papers[0]
+
+        papers.append(_build_metadata_aligned_paper_entry(meta, paper_entry))
+
+    topic_value = None
+    if per_payloads:
+        topic_value = per_payloads[0].get("topic")
+    if not isinstance(topic_value, str) or not topic_value.strip():
+        topic_value = params.topic or ""
+
+    return {
+        "topic": topic_value,
+        "anchor_terms": _dedupe_preserve_order(anchor_candidates),
+        "search_terms": {key: value for key, value in search_terms.items() if value},
+        "papers": papers,
+        "reviewer_profile": reviewer_profile.to_payload(),
+    }
 
 @dataclass
 class ExtractParams:
@@ -127,8 +596,12 @@ class ExtractParams:
     seed_anchors: Optional[List[str]] = None
     anchor_variants: Optional[List[str]] = None
     exclude_terms: Optional[List[str]] = None
-    mode: str = "combined"  # or "two_step"
     prompt_path: Optional[Path | str] = None
+    aggregate_prompt_path: Optional[Path | str] = None
+    max_output_tokens: Optional[int] = None
+    reasoning_effort: Optional[str] = None
+    allow_additional_categories: bool = True
+    min_terms_per_category: Optional[int] = None
 
 
 def _normalize_phrase(value: str) -> str:
@@ -263,38 +736,29 @@ def _apply_anchor_postprocessing(
     else:
         payload["anchor_terms"] = _dedupe_preserve_order(anchors)
 
-def _load_template(path: Path, fallback: str) -> str:
-    if path.exists():
-        return path.read_text(encoding="utf-8")
-    return fallback
+def _load_template(path: Path) -> str:
+    if not path.exists():
+        raise FileNotFoundError(f"Prompt template not found: {path}")
+    return path.read_text(encoding="utf-8")
 
 
 def build_generate_instructions(
     params: ExtractParams,
     *,
     resolved_anchor_variants: Optional[Sequence[str]] = None,
+    metadata_block: Optional[str] = None,
+    reviewer_profile_block: Optional[str] = None,
 ) -> str:
     template_path = Path(params.prompt_path) if params.prompt_path else DEFAULT_PROMPT_PATH
-    template = _load_template(template_path, _FALLBACK_GENERATE)
+    template = _load_template(template_path)
 
     def _format_list(values: Optional[Sequence[str]], *, default: str) -> str:
         if not values:
             return default
         return ", ".join(str(item) for item in values if item)
 
-    categories: List[str]
-    if params.custom_categories:
-        categories = [category for category in params.custom_categories if category]
-    else:
-        categories = [
-            "core_concepts",
-            "technical_terms",
-            "advanced_concepts",
-            "implementation",
-            "subdomains",
-        ]
-        if params.include_ethics:
-            categories.append("ethics")
+    categories = _resolved_categories(params)
+    estimated_category_count = len(categories) if categories else _DEFAULT_DYNAMIC_CATEGORY_COUNT
 
     anchor_variants = (
         _dedupe_preserve_order(resolved_anchor_variants)
@@ -302,6 +766,46 @@ def build_generate_instructions(
         else _resolved_anchor_variants(params)
     )
     anchor_guidance = _anchor_guidance_text(params, anchor_variants)
+    additional_category_note = ""
+    if params.allow_additional_categories:
+        additional_category_note = (
+            "  - 如果既有分類不足以描述重要議題，可以新增最多兩個新的 snake_case 分類，並提供代表性術語。\n"
+        )
+
+    if categories:
+        category_display = ", ".join(categories)
+    else:
+        category_display = (
+            "自行歸納 4–6 個具描述性的 snake_case 分類（例如 benchmarks, training_methods, datasets, evaluation_metrics）"
+        )
+
+    target_count = (
+        params.min_terms_per_category
+        if params.min_terms_per_category is not None
+        else _default_category_terms_target(
+            params, category_count=estimated_category_count
+        )
+    )
+
+    if categories:
+        if target_count:
+            coverage_note = (
+                f"每個分類至少收集 {target_count} 個術語，若低於 3 個請合併到最接近的既有分類"
+            )
+        else:
+            coverage_note = "維持各分類皆有代表性與去重的術語"
+    else:
+        coverage_note = (
+            f"推導多個主題分類，並讓每個分類至少包含 {target_count} 個術語（不足 3 個術語時不要獨立成分類）"
+            if target_count
+            else "推導多個主題分類並讓每個分類保持具體多樣"
+        )
+
+    total_goal = target_count * (len(categories) if categories else estimated_category_count)
+    if not total_goal:
+        total_goal = params.max_queries or 50
+    if total_goal:
+        coverage_note += f"，目標總數大約 {total_goal} 個或依據證據調整"
 
     replacements = {
         "<<max_queries>>": str(params.max_queries),
@@ -309,7 +813,7 @@ def build_generate_instructions(
         "<<language>>": params.language,
         "<<topic_hint>>": params.topic or "not provided",
         "<<topic_or_inferred>>": params.topic or "inferred from provided PDFs",
-        "<<category_list>>": ", ".join(categories) if categories else "none",
+        "<<category_list>>": category_display,
         "<<seed_anchors_info>>": _format_list(params.seed_anchors, default="not provided"),
         "<<exclude_terms_info>>": _format_list(params.exclude_terms, default="not provided"),
         "<<custom_categories_info>>": _format_list(
@@ -317,11 +821,18 @@ def build_generate_instructions(
             default="not provided (use defaults)",
         ),
         "<<anchor_guidance>>": anchor_guidance,
+        "<<category_coverage_note>>": coverage_note,
     }
 
     text = template
     for marker, value in replacements.items():
         text = text.replace(marker, value)
+    text = text.replace("<<paper_metadata_block>>", metadata_block or "(metadata unavailable)")
+    text = text.replace(
+        "<<reviewer_profile_block>>",
+        reviewer_profile_block or "(reviewer profile unavailable)",
+    )
+    text = text.replace("<<additional_category_note>>", additional_category_note)
     return text
 
 
@@ -331,14 +842,41 @@ def build_aggregate_instructions(
     max_queries: int = 50,
     topic: Optional[str] = None,
     anchor_variants: Optional[Sequence[str]] = None,
+    metadata_block: Optional[str] = None,
+    reviewer_profile_block: Optional[str] = None,
+    aggregate_prompt_path: Optional[Path | str] = None,
+    allow_additional_categories: bool = False,
+    category_target: Optional[int] = None,
 ) -> str:
-    template = _load_template(DEFAULT_AGGREGATE_PATH, _FALLBACK_AGGREGATE)
+    template_path = Path(aggregate_prompt_path) if aggregate_prompt_path else DEFAULT_AGGREGATE_PATH
+    template = _load_template(template_path)
     joined = "\n\n".join(partials)
     text = template.replace("<<partial_json_list>>", joined)
     text = text.replace("<<max_queries>>", str(max_queries))
     anchor_list = _dedupe_preserve_order(anchor_variants) if anchor_variants else []
     text = text.replace("<<topic_hint>>", _normalize_phrase(topic or "not provided"))
     text = text.replace("<<anchor_policy>>", _anchor_policy_text(topic, anchor_list))
+    text = text.replace("<<paper_metadata_block>>", metadata_block or "(metadata unavailable)")
+    text = text.replace(
+        "<<reviewer_profile_block>>",
+        reviewer_profile_block or "(reviewer profile unavailable)",
+    )
+    additional_note = ""
+    if allow_additional_categories:
+        additional_note = (
+            "  - 保留並整併模型新增的分類，確保相關術語與證據被收錄。\n"
+        )
+    text = text.replace("<<additional_category_note>>", additional_note)
+    coverage_target = category_target if category_target is not None else 0
+    if coverage_target:
+        coverage_note = (
+            f"每個分類至少維持 {coverage_target} 個術語，保留模型推導出的分類並避免超過 {max_queries} 個總量；若某分類不足 3 個術語請併入相關分類"
+        )
+    else:
+        coverage_note = (
+            f"保留並擴展輸入中的分類結構，同時讓總術語不超過 {max_queries} 個"
+        )
+    text = text.replace("<<category_coverage_note>>", coverage_note)
     return text
 
 
@@ -351,13 +889,10 @@ def extract_search_terms_from_surveys(
     service: Optional[LLMService] = None,
     temperature: Optional[float] = 0.2,
     max_output_tokens: Optional[int] = 2000,
+    reasoning_effort: Optional[str] = None,
     usage_log_path: Optional[Path | str] = None,
 ) -> Dict[str, Any]:
-    """Run the extraction pipeline and return the parsed JSON dictionary.
-
-    When params.mode == "combined", attempts a single request with multiple files.
-    When params.mode == "two_step", runs per-PDF extraction then aggregates.
-    """
+    """Run the extraction pipeline and return the parsed JSON dictionary."""
 
     p = params or ExtractParams()
     svc = service or LLMService()
@@ -365,6 +900,16 @@ def extract_search_terms_from_surveys(
     pdf_list = [Path(pth) for pth in pdf_paths]
     if not pdf_list:
         raise ValueError("pdf_paths must contain at least one item")
+
+    effective_max_output = p.max_output_tokens if p.max_output_tokens is not None else max_output_tokens
+    effective_reasoning = p.reasoning_effort if p.reasoning_effort is not None else reasoning_effort
+
+    paper_metadata = _collect_paper_metadata(pdf_list)
+    combined_metadata_block = _format_metadata_block(paper_metadata)
+    per_metadata_blocks = [_format_metadata_block([meta]) for meta in paper_metadata]
+
+    reviewer_profile = get_title_abstract_profile(p.topic)
+    reviewer_profile_block = _format_reviewer_profile_block(reviewer_profile)
 
     resolved_anchor_variants = _resolved_anchor_variants(p)
     usage_log_file = (
@@ -374,90 +919,94 @@ def extract_search_terms_from_surveys(
         / f"keyword_extractor_usage_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     )
 
-    if p.mode not in ("combined", "two_step"):
-        raise ValueError("params.mode must be 'combined' or 'two_step'")
-
     usage_results: List[LLMResult | None] = []
 
-    if p.mode == "combined":
-        instructions = build_generate_instructions(
-            p, resolved_anchor_variants=resolved_anchor_variants
-        )
-        metadata_payload = {
-            "mode": p.mode,
-            "topic": (p.topic or "")[:500],
-        }
-        if resolved_anchor_variants:
-            metadata_payload["anchor_variants"] = " | ".join(resolved_anchor_variants)[:900]
-
-        result = svc.read_pdfs(
-            provider,
-            model,
-            pdf_list,
-            instructions=instructions,
-            temperature=temperature,
-            max_output_tokens=max_output_tokens,
-            metadata=metadata_payload,
-        )
-        usage_results.append(result)
-        try:
-            parsed = _parse_json_content(result)
-        except json.JSONDecodeError as exc:
-            raise ValueError("LLM output was not valid JSON") from exc
-        finally:
-            _write_usage_log(usage_log_file, usage_results)
-        _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
-        return parsed
-
-    # two_step mode
     per_paper_jsons: List[str] = []
     per_results: List[LLMResult | None] = []
-    per_instructions = build_generate_instructions(
-        p, resolved_anchor_variants=resolved_anchor_variants
-    )
-    for pdf_path in pdf_list:
+    per_parsed_payloads: List[Dict[str, Any]] = []
+
+    for idx, pdf_path in enumerate(pdf_list):
+        per_instructions = build_generate_instructions(
+            p,
+            resolved_anchor_variants=resolved_anchor_variants,
+            metadata_block=per_metadata_blocks[idx],
+            reviewer_profile_block=reviewer_profile_block,
+        )
         try:
             metadata_payload = {
-                "mode": "two_step",
+                "mode": "per_pdf",
                 "topic": (p.topic or "")[:500],
                 "pdf_path": str(pdf_path),
             }
             if resolved_anchor_variants:
                 metadata_payload["anchor_variants"] = " | ".join(resolved_anchor_variants)[:900]
 
-            r = svc.read_pdf(
+            result = svc.read_pdf(
                 provider,
                 model,
                 pdf_path,
                 instructions=per_instructions,
                 temperature=temperature,
-                max_output_tokens=max_output_tokens,
+                max_output_tokens=effective_max_output,
+                reasoning_effort=effective_reasoning,
                 metadata=metadata_payload,
             )
-            per_paper_jsons.append(r.content)
-            per_results.append(r)
+            per_result = result
         except ProviderCallError:
             prov = svc.get_provider(provider)
             fallback_reader = getattr(prov, "fallback_read_pdf", None)
             if fallback_reader is None:
                 raise
-            fallback_result = fallback_reader(
+            per_result = fallback_reader(
                 model=model,
                 pdf_path=pdf_path,
                 instructions=per_instructions,
                 temperature=temperature,
-                max_output_tokens=max_output_tokens,
+                max_output_tokens=effective_max_output,
+                reasoning_effort=effective_reasoning,
             )
-            if not isinstance(fallback_result, LLMResult):  # pragma: no cover - defensive
+            if not isinstance(per_result, LLMResult):  # pragma: no cover - defensive
                 raise ProviderCallError("Fallback provider did not return an LLMResult")
-            per_paper_jsons.append(fallback_result.content)
-            per_results.append(fallback_result)
+        if not isinstance(per_result, LLMResult):  # pragma: no cover - defensive
+            raise ProviderCallError("Provider did not return an LLMResult")
+
+        per_paper_jsons.append(per_result.content)
+        per_results.append(per_result)
+        try:
+            parsed_partial = _parse_json_content(per_result)
+        except json.JSONDecodeError:
+            parsed_partial = _build_profile_only_payload(
+                paper_metadata[idx],
+                reviewer_profile,
+                p,
+                resolved_anchor_variants,
+            )
+        _apply_anchor_postprocessing(parsed_partial, resolved_anchor_variants, p)
+        _merge_reviewer_search_terms(parsed_partial, reviewer_profile)
+        _enforce_metadata_alignment(
+            parsed_partial,
+            [paper_metadata[idx]],
+            reviewer_profile=reviewer_profile,
+        )
+        _validate_output_against_metadata(parsed_partial, [paper_metadata[idx]])
+        per_parsed_payloads.append(parsed_partial)
+
+    target_terms = (
+        p.min_terms_per_category
+        if p.min_terms_per_category is not None
+        else _default_category_terms_target(p)
+    )
 
     aggregate_prompt = build_aggregate_instructions(
         per_paper_jsons,
         max_queries=p.max_queries,
         topic=p.topic,
         anchor_variants=resolved_anchor_variants,
+        metadata_block=combined_metadata_block,
+        reviewer_profile_block=reviewer_profile_block,
+        aggregate_prompt_path=p.aggregate_prompt_path,
+        allow_additional_categories=p.allow_additional_categories,
+        category_target=target_terms,
     )
     metadata_payload = {
         "mode": "aggregation",
@@ -470,20 +1019,55 @@ def extract_search_terms_from_surveys(
         provider,
         model,
         messages=[{"role": "user", "content": aggregate_prompt}],
-        max_output_tokens=max_output_tokens,
+        max_output_tokens=effective_max_output,
         temperature=temperature,
+        reasoning_effort=effective_reasoning,
         metadata=metadata_payload,
     )
     assert isinstance(chat_result, LLMResult)
     usage_results.extend(per_results)
     usage_results.append(chat_result)
+
+    parsed: Dict[str, Any] = {}
+    use_fallback = False
     try:
-        parsed = _parse_json_content(chat_result)
-    except json.JSONDecodeError as exc:
-        raise ValueError("LLM output was not valid JSON") from exc
+        try:
+            parsed = _parse_json_content(chat_result)
+        except json.JSONDecodeError:
+            use_fallback = True
+        else:
+            try:
+                _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+                _enforce_metadata_alignment(
+                    parsed,
+                    paper_metadata,
+                    reviewer_profile=reviewer_profile,
+                )
+                _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
+                _merge_reviewer_search_terms(parsed, reviewer_profile)
+                _validate_output_against_metadata(parsed, paper_metadata)
+            except ValueError:
+                use_fallback = True
+
+        if use_fallback:
+            parsed = _fallback_aggregate_per_paper_outputs(
+                per_parsed_payloads,
+                paper_metadata,
+                p,
+                reviewer_profile,
+            )
+            _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+            _enforce_metadata_alignment(
+                parsed,
+                paper_metadata,
+                reviewer_profile=reviewer_profile,
+            )
+            _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
+            _merge_reviewer_search_terms(parsed, reviewer_profile)
+            _validate_output_against_metadata(parsed, paper_metadata)
     finally:
         _write_usage_log(usage_log_file, usage_results)
-    _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+
     return parsed
 
 
@@ -493,9 +1077,23 @@ def _parse_json_content(result: LLMResult) -> Dict[str, Any]:
     if text.startswith("```"):
         text = text[3:]
         text = text.lstrip()
-        if text[:4].lower() == "json":
-            text = text[4:]
+        language_match = re.match(r"(?i)json[\w+-]*", text)
+        if language_match:
+            text = text[language_match.end():]
+            if text.startswith("\r\n"):
+                text = text[2:]
+            elif text[:1] in {"\n", "\r"}:
+                text = text[1:]
+            else:
+                newline_index = text.find("\n")
+                if newline_index != -1:
+                    text = text[newline_index + 1 :]
         text = text.lstrip()
+        if text and text[0] not in "{[\"-0123456789tfn'":
+            json_start = re.search(r"[{\[\"\-0-9tfn]", text)
+            if json_start:
+                text = text[json_start.start() :]
+    text = text.rstrip()
     if text.endswith("```"):
         text = text[:-3]
     text = text.strip()
@@ -548,6 +1146,7 @@ def _write_usage_log(path: Optional[Path | str], results: Sequence[LLMResult | N
 
 
 __all__ = [
+    "PaperMetadataRecord",
     "ExtractParams",
     "build_generate_instructions",
     "build_aggregate_instructions",

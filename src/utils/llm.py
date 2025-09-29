@@ -653,6 +653,7 @@ class OpenAIProvider(BaseLLMProvider):
         temperature: Optional[float] = None,
         max_output_tokens: Optional[int] = None,
         metadata: Optional[Dict[str, Any]] = None,
+        reasoning_effort: Optional[str] = None,
     ) -> LLMResult:
         pdf_path = Path(pdf_path)
         request_kwargs = self._build_chat_kwargs(
@@ -660,6 +661,7 @@ class OpenAIProvider(BaseLLMProvider):
             {
                 "temperature": temperature,
                 "max_output_tokens": max_output_tokens,
+                "reasoning_effort": reasoning_effort,
             },
         )
         with pdf_path.open("rb") as pdf_file:
@@ -725,10 +727,27 @@ class OpenAIProvider(BaseLLMProvider):
                 normalized_payload["effort"] = normalized_effort
             request_kwargs["reasoning"] = normalized_payload
 
-        if "temperature" in request_kwargs and self._is_reasoning_model(model):
-            logger.debug("Skipping unsupported temperature parameter for reasoning model %s", model)
-            request_kwargs.pop("temperature")
-        if "max_tokens" in request_kwargs and "max_output_tokens" not in request_kwargs:
+        is_reasoning = self._is_reasoning_model(model)
+        if is_reasoning:
+            if "temperature" in request_kwargs:
+                logger.debug(
+                    "Skipping unsupported temperature parameter for reasoning model %s",
+                    model,
+                )
+                request_kwargs.pop("temperature")
+            if "max_output_tokens" in request_kwargs:
+                logger.debug(
+                    "Skipping unsupported max_output_tokens parameter for reasoning model %s",
+                    model,
+                )
+                request_kwargs.pop("max_output_tokens")
+            if "max_tokens" in request_kwargs:
+                logger.debug(
+                    "Skipping unsupported max_tokens parameter for reasoning model %s",
+                    model,
+                )
+                request_kwargs.pop("max_tokens")
+        if not is_reasoning and "max_tokens" in request_kwargs and "max_output_tokens" not in request_kwargs:
             # The Responses API expects max_output_tokens; map legacy arguments so
             # callers migrating from the Completions API keep the same behaviour.
             request_kwargs["max_output_tokens"] = request_kwargs.pop("max_tokens")

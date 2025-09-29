@@ -1,0 +1,23 @@
+{
+  "default": {
+    "aliases": [],
+    "review_topic": "General systematic review screening",
+    "inclusion_criteria": "Include peer-reviewed studies relevant to the active systematic review focus area.",
+    "exclusion_criteria": "Exclude non-peer-reviewed material, editorial content, or records without an abstract.",
+    "backstory": "a senior systematic reviewer coordinating evidence synthesis across interdisciplinary teams",
+    "reasoning": "brief",
+    "additional_context": "Score each record from 1 (exclude) to 5 (include). Highlight missing abstracts or unclear population details.",
+    "examples": [
+      "Include: Clinical trials directly investigating the target intervention.",
+      "Exclude: Opinion pieces, editorials, or records without methodological detail."
+    ],
+    "provider": {
+      "model": "gpt-5-nano",
+      "model_args": {
+        "temperature": 0.1
+      }
+    },
+    "keywords": [],
+    "search_terms": {}
+  }
+}
