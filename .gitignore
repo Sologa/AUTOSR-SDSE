@@ -1,5 +1,7 @@
 # Local references (keep example templates only)
-resources/
+resources/*
+!resources/LLM/
+!resources/LLM/**
 
 # Python caches
 __pycache__/
