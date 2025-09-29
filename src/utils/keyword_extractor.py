@@ -1,9 +1,8 @@
 """Keyword/search-term extraction from survey PDFs using the LLM provider layer.
 
 The pipeline reads each PDF individually, then aggregates the partial JSON responses
-into a consolidated payload aligned with arXiv metadata and reviewer configuration.
-It uses the OpenAI Responses API via the local provider abstraction in
-``src/utils/llm.py``.
+into a consolidated payload aligned with arXiv metadata. It uses the OpenAI
+Responses API via the local provider abstraction in ``src/utils/llm.py``.
 """
 
 from __future__ import annotations
@@ -21,11 +20,6 @@ from .paper_downloaders import fetch_arxiv_metadata
 from .paper_workflows import trim_arxiv_id
 
 from .llm import LLMResult, LLMService, ProviderCallError
-from .latte_review_configs import (
-    TitleAbstractReviewerProfile,
-    get_title_abstract_profile,
-)
-
 
 DEFAULT_PROMPT_PATH = Path("resources/LLM/prompts/keyword_extractor/generate_search_terms.md")
 DEFAULT_AGGREGATE_PATH = Path("resources/LLM/prompts/keyword_extractor/aggregate_terms.md")
@@ -117,11 +111,6 @@ def _format_metadata_block(metadata_list: Sequence[PaperMetadataRecord]) -> str:
             ]
         )
     return "\n".join(lines)
-
-
-def _format_reviewer_profile_block(profile: TitleAbstractReviewerProfile) -> str:
-    payload = profile.to_payload()
-    return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
 def _normalize_string(value: Optional[str]) -> str:
@@ -401,35 +390,6 @@ def _validate_output_against_metadata(
                 f"Paper abstract mismatch for arXiv:{meta.arxiv_id}. Title: {meta.title}"
             )
 
-    reviewer_profile = payload.get("reviewer_profile")
-    if not isinstance(reviewer_profile, dict):
-        raise ValueError("Keyword extractor output missing 'reviewer_profile' object.")
-
-    required_profile_fields = [
-        "review_topic",
-        "inclusion_criteria",
-        "exclusion_criteria",
-        "backstory",
-        "reasoning",
-        "additional_context",
-    ]
-    for field in required_profile_fields:
-        value = reviewer_profile.get(field)
-        if not isinstance(value, str) or not value.strip():
-            raise ValueError(f"reviewer_profile missing required field '{field}'.")
-
-    if "examples" in reviewer_profile and not isinstance(reviewer_profile.get("examples"), list):
-        raise ValueError("reviewer_profile.examples must be a list when provided.")
-
-    provider_info = reviewer_profile.get("provider")
-    if provider_info is not None:
-        if not isinstance(provider_info, dict):
-            raise ValueError("reviewer_profile.provider must be an object when provided.")
-        if "model_args" in provider_info and not isinstance(
-            provider_info.get("model_args"), dict
-        ):
-            raise ValueError("reviewer_profile.provider.model_args must be an object when provided.")
-
 
 def _build_metadata_aligned_paper_entry(
     meta: PaperMetadataRecord,
@@ -448,46 +408,29 @@ def _build_metadata_aligned_paper_entry(
     return entry
 
 
-def _merge_reviewer_search_terms(
-    payload: Dict[str, Any],
-    reviewer_profile: TitleAbstractReviewerProfile,
-) -> None:
-    recommended = reviewer_profile.search_terms
-    if not recommended:
-        return
-
-    search_terms = payload.get("search_terms")
-    if not isinstance(search_terms, dict):
-        search_terms = {}
-        payload["search_terms"] = search_terms
-
-    for category, terms in recommended.items():
-        bucket = search_terms.setdefault(category, [])
-        _extend_unique_strings(bucket, terms)
-
-
-def _build_profile_only_payload(
+def _build_stub_payload(
     meta: PaperMetadataRecord,
-    reviewer_profile: TitleAbstractReviewerProfile,
     params: "ExtractParams",
     anchor_variants: Sequence[str],
 ) -> Dict[str, Any]:
     anchors = _dedupe_preserve_order(anchor_variants)
+    if not anchors and params.seed_anchors:
+        anchors = _dedupe_preserve_order(params.seed_anchors)
+    if not anchors and params.topic:
+        normalized_topic = _normalize_phrase(params.topic)
+        if normalized_topic:
+            anchors = [normalized_topic]
     if not anchors:
-        anchors = reviewer_profile.keywords or [reviewer_profile.review_topic]
+        fallback = _normalize_phrase(meta.title) or meta.source_id
+        anchors = [fallback]
 
     paper_entry = _build_metadata_aligned_paper_entry(meta, {})
 
     payload = {
-        "topic": params.topic or reviewer_profile.review_topic,
+        "topic": params.topic or "",
         "anchor_terms": anchors,
-        "search_terms": {
-            category: list(terms)
-            for category, terms in reviewer_profile.search_terms.items()
-            if terms
-        },
+        "search_terms": {},
         "papers": [paper_entry],
-        "reviewer_profile": reviewer_profile.to_payload(),
     }
 
     return payload
@@ -496,8 +439,6 @@ def _build_profile_only_payload(
 def _enforce_metadata_alignment(
     payload: Dict[str, Any],
     metadata_list: Sequence[PaperMetadataRecord],
-    *,
-    reviewer_profile: TitleAbstractReviewerProfile,
 ) -> None:
     if not isinstance(payload, dict):
         raise ValueError("Keyword extractor must return a JSON object.")
@@ -523,14 +464,12 @@ def _enforce_metadata_alignment(
         aligned_papers.append(_build_metadata_aligned_paper_entry(meta, matched_paper))
 
     payload["papers"] = aligned_papers
-    payload["reviewer_profile"] = reviewer_profile.to_payload()
 
 
 def _fallback_aggregate_per_paper_outputs(
     per_payloads: Sequence[Dict[str, Any]],
     metadata_list: Sequence[PaperMetadataRecord],
     params: "ExtractParams",
-    reviewer_profile: TitleAbstractReviewerProfile,
 ) -> Dict[str, Any]:
     if len(per_payloads) != len(metadata_list):
         raise ValueError("Per-paper payloads do not align with metadata for fallback aggregation.")
@@ -583,7 +522,6 @@ def _fallback_aggregate_per_paper_outputs(
         "anchor_terms": _dedupe_preserve_order(anchor_candidates),
         "search_terms": {key: value for key, value in search_terms.items() if value},
         "papers": papers,
-        "reviewer_profile": reviewer_profile.to_payload(),
     }
 
 @dataclass
@@ -747,7 +685,6 @@ def build_generate_instructions(
     *,
     resolved_anchor_variants: Optional[Sequence[str]] = None,
     metadata_block: Optional[str] = None,
-    reviewer_profile_block: Optional[str] = None,
 ) -> str:
     template_path = Path(params.prompt_path) if params.prompt_path else DEFAULT_PROMPT_PATH
     template = _load_template(template_path)
@@ -828,10 +765,6 @@ def build_generate_instructions(
     for marker, value in replacements.items():
         text = text.replace(marker, value)
     text = text.replace("<<paper_metadata_block>>", metadata_block or "(metadata unavailable)")
-    text = text.replace(
-        "<<reviewer_profile_block>>",
-        reviewer_profile_block or "(reviewer profile unavailable)",
-    )
     text = text.replace("<<additional_category_note>>", additional_category_note)
     return text
 
@@ -843,7 +776,6 @@ def build_aggregate_instructions(
     topic: Optional[str] = None,
     anchor_variants: Optional[Sequence[str]] = None,
     metadata_block: Optional[str] = None,
-    reviewer_profile_block: Optional[str] = None,
     aggregate_prompt_path: Optional[Path | str] = None,
     allow_additional_categories: bool = False,
     category_target: Optional[int] = None,
@@ -857,10 +789,6 @@ def build_aggregate_instructions(
     text = text.replace("<<topic_hint>>", _normalize_phrase(topic or "not provided"))
     text = text.replace("<<anchor_policy>>", _anchor_policy_text(topic, anchor_list))
     text = text.replace("<<paper_metadata_block>>", metadata_block or "(metadata unavailable)")
-    text = text.replace(
-        "<<reviewer_profile_block>>",
-        reviewer_profile_block or "(reviewer profile unavailable)",
-    )
     additional_note = ""
     if allow_additional_categories:
         additional_note = (
@@ -908,14 +836,11 @@ def extract_search_terms_from_surveys(
     combined_metadata_block = _format_metadata_block(paper_metadata)
     per_metadata_blocks = [_format_metadata_block([meta]) for meta in paper_metadata]
 
-    reviewer_profile = get_title_abstract_profile(p.topic)
-    reviewer_profile_block = _format_reviewer_profile_block(reviewer_profile)
-
     resolved_anchor_variants = _resolved_anchor_variants(p)
     usage_log_file = (
         Path(usage_log_path)
         if usage_log_path
-        else Path("test_artifacts/llm")
+        else Path("test_artifacts/keyword_extractor_live")
         / f"keyword_extractor_usage_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     )
 
@@ -930,7 +855,6 @@ def extract_search_terms_from_surveys(
             p,
             resolved_anchor_variants=resolved_anchor_variants,
             metadata_block=per_metadata_blocks[idx],
-            reviewer_profile_block=reviewer_profile_block,
         )
         try:
             metadata_payload = {
@@ -975,19 +899,13 @@ def extract_search_terms_from_surveys(
         try:
             parsed_partial = _parse_json_content(per_result)
         except json.JSONDecodeError:
-            parsed_partial = _build_profile_only_payload(
+            parsed_partial = _build_stub_payload(
                 paper_metadata[idx],
-                reviewer_profile,
                 p,
                 resolved_anchor_variants,
             )
         _apply_anchor_postprocessing(parsed_partial, resolved_anchor_variants, p)
-        _merge_reviewer_search_terms(parsed_partial, reviewer_profile)
-        _enforce_metadata_alignment(
-            parsed_partial,
-            [paper_metadata[idx]],
-            reviewer_profile=reviewer_profile,
-        )
+        _enforce_metadata_alignment(parsed_partial, [paper_metadata[idx]])
         _validate_output_against_metadata(parsed_partial, [paper_metadata[idx]])
         per_parsed_payloads.append(parsed_partial)
 
@@ -1003,7 +921,6 @@ def extract_search_terms_from_surveys(
         topic=p.topic,
         anchor_variants=resolved_anchor_variants,
         metadata_block=combined_metadata_block,
-        reviewer_profile_block=reviewer_profile_block,
         aggregate_prompt_path=p.aggregate_prompt_path,
         allow_additional_categories=p.allow_additional_categories,
         category_target=target_terms,
@@ -1038,13 +955,8 @@ def extract_search_terms_from_surveys(
         else:
             try:
                 _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
-                _enforce_metadata_alignment(
-                    parsed,
-                    paper_metadata,
-                    reviewer_profile=reviewer_profile,
-                )
+                _enforce_metadata_alignment(parsed, paper_metadata)
                 _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
-                _merge_reviewer_search_terms(parsed, reviewer_profile)
                 _validate_output_against_metadata(parsed, paper_metadata)
             except ValueError:
                 use_fallback = True
@@ -1054,16 +966,10 @@ def extract_search_terms_from_surveys(
                 per_parsed_payloads,
                 paper_metadata,
                 p,
-                reviewer_profile,
             )
             _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
-            _enforce_metadata_alignment(
-                parsed,
-                paper_metadata,
-                reviewer_profile=reviewer_profile,
-            )
+            _enforce_metadata_alignment(parsed, paper_metadata)
             _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
-            _merge_reviewer_search_terms(parsed, reviewer_profile)
             _validate_output_against_metadata(parsed, paper_metadata)
     finally:
         _write_usage_log(usage_log_file, usage_results)

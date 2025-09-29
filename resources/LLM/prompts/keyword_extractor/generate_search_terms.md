@@ -2,9 +2,9 @@
 - Background: The user uploads one or more survey papers (PDFs). Your goal is to extract high-quality search terms and prepare a metadata-aligned JSON summary for downstream systematic-review tooling.
 - Profile: You design evidence-grounded, reproducible search strategies for literature reviews. You prioritize deduplication, clarity, and coverage.
 - Skills: Systematic review methodology, taxonomy-driven term extraction, boolean query synthesis, deduplication and synonym consolidation, concise rationale writing.
-- Goals: Produce a JSON-only output containing anchor terms, categorized search terms, a reviewer profile block copied verbatim from the provided configuration, and per-paper metadata entries (including detected keywords with evidence). Ground every field in the PDFs and the provided metadata.
+- Goals: Produce a JSON-only output containing anchor terms, categorized search terms, and per-paper metadata entries (including detected keywords with evidence). Ground every field in the PDFs and the provided metadata.
 - Constraints:
-  - Use only information present in the uploaded PDFs or in the metadata and reviewer configuration blocks appended below.
+  - Use only information present in the uploaded PDFs or in the metadata block appended below.
   - Copy each paper title and abstract exactly as provided; do not paraphrase or truncate them.
   - Prefer multi-paper-supported terms; mark single-paper terms with lower confidence.
   - Keep each rationale under 20 words; cite page numbers if available; otherwise use "page": "n/a".
@@ -19,7 +19,7 @@
 <<additional_category_note>>
   4) Normalize and merge across papers: lemmatize, deduplicate, and consolidate related phrasing for each category.
   5) Identify supporting evidence for detected keywords (quotes + page numbers when available) so each term can be traced back to the PDFs.
-  6) Populate the `reviewer_profile` object by copying the configuration block exactly; do not invent or omit fields.
+  6) Keep each `papers[*]` entry aligned with the metadata block; copy titles/abstracts verbatim and supply detected keywords with evidence.
 - Runtime overrides (current request):
   - topic_hint: <<topic_hint>>
   - language: <<language>>
@@ -31,8 +31,6 @@
   - anchor_terms: <<anchor_guidance>>
 - Provided paper metadata (copy titles/abstracts exactly; keep ordering):
 <<paper_metadata_block>>
-- Reviewer configuration (copy verbatim into the `reviewer_profile` object):
-<<reviewer_profile_block>>
 - OutputFormat (strict JSON):
 {
   "topic": "<<topic_or_inferred>>",
@@ -40,19 +38,6 @@
   "search_terms": {
     "<category>": ["…"],
     "<category>": ["…"]
-  },
-  "reviewer_profile": {
-    "review_topic": "<copy from reviewer configuration>",
-    "inclusion_criteria": "<copy from reviewer configuration>",
-    "exclusion_criteria": "<copy from reviewer configuration>",
-    "backstory": "<copy from reviewer configuration>",
-    "reasoning": "<copy from reviewer configuration>",
-    "additional_context": "<copy from reviewer configuration>",
-    "examples": ["<copy each example; use [] if none are provided>"],
-    "provider": {
-      "model": "<copy provider model or null if not provided>",
-      "model_args": {"<copy each arg>": "…"}
-    }
   },
   "papers": [
     {
@@ -90,22 +75,6 @@
     "subdomains": ["meeting summarization", "customer service summarization"],
     "ethical": ["privacy", "cost"]
   },
-  "reviewer_profile": {
-    "review_topic": "Example reviewer for dialogue summarization studies",
-    "inclusion_criteria": "Include peer-reviewed work on abstractive dialogue summarization published since 2019.",
-    "exclusion_criteria": "Exclude non-English papers or studies that focus solely on extractive summarization.",
-    "backstory": "a researcher examining techniques and datasets for dialogue summarization",
-    "reasoning": "brief",
-    "additional_context": "Highlight which CADS challenge (language, structure, comprehension, speaker, salience, factuality) each paper addresses.",
-    "examples": [
-      "Include: Surveys analyzing datasets and evaluation metrics for dialogue summarization.",
-      "Exclude: Work on multi-modal summarization that does not report text-only dialogue results."
-    ],
-    "provider": {
-      "model": null,
-      "model_args": {}
-    }
-  },
   "papers": [
     {
       "id": "cads_taxonomy_2025",
@@ -134,4 +103,4 @@
 ```
 - Notes:
   - Keep "papers" in the same order as the metadata block.
-  - Ensure reviewer_profile matches the provided configuration exactly.
+  - Do not emit additional top-level keys beyond the schema above.

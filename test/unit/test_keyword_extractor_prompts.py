@@ -18,7 +18,6 @@ from src.utils.keyword_extractor import (
 )
 from src.utils.keyword_extractor import _parse_json_content  # type: ignore[attr-defined]
 from src.utils.llm import LLMResult, LLMService, LLMUsage
-from src.utils.latte_review_configs import TitleAbstractReviewerProfile
 
 
 def test_build_generate_instructions_defaults_encourage_category_inference() -> None:
@@ -169,22 +168,6 @@ def _dummy_chat_result(content: str) -> LLMResult:
     return LLMResult(content=content, usage=usage, raw_response=None)
 
 
-def _stub_profile() -> TitleAbstractReviewerProfile:
-    return TitleAbstractReviewerProfile(
-        key="stub",
-        review_topic="Stub topic",
-        inclusion_criteria="Stub include",
-        exclusion_criteria="Stub exclude",
-        backstory="Stub backstory",
-        reasoning="brief",
-        additional_context="Stub context",
-        examples=["Example A"],
-        provider_model="stub-model",
-        provider_model_args={},
-        keywords=["stub"],
-        search_terms={"core_concepts": ["stub"]},
-    )
-
 def test_extract_search_terms_empty_pdf_paths_raises() -> None:
     with pytest.raises(ValueError):
         extract_search_terms_from_surveys([])
@@ -216,10 +199,6 @@ def test_usage_log_written_even_when_llm_output_invalid(tmp_path) -> None:
 
     with pytest.MonkeyPatch.context() as mp:
         mp.setattr("src.utils.keyword_extractor._collect_paper_metadata", _collect)
-        mp.setattr(
-            "src.utils.keyword_extractor.get_title_abstract_profile",
-            lambda topic: _stub_profile(),
-        )
 
         result = extract_search_terms_from_surveys(
             ["2504.08528.pdf"],
@@ -229,6 +208,7 @@ def test_usage_log_written_even_when_llm_output_invalid(tmp_path) -> None:
 
     assert log_path.exists(), "usage log should still be recorded"
     assert isinstance(result, dict)
+    assert "reviewer_profile" not in result
     payload = json.loads(log_path.read_text(encoding="utf-8"))
     assert payload["total"]["input_tokens"] >= 1
     assert payload["total"]["output_tokens"] >= 1
@@ -252,10 +232,6 @@ def test_default_usage_log_created(monkeypatch) -> None:
         ]
 
     monkeypatch.setattr("src.utils.keyword_extractor._collect_paper_metadata", _collect)
-    monkeypatch.setattr(
-        "src.utils.keyword_extractor.get_title_abstract_profile",
-        lambda topic: _stub_profile(),
-    )
 
     good_payload = {
         "topic": "stub",
@@ -272,22 +248,12 @@ def test_default_usage_log_created(monkeypatch) -> None:
                 "detected_keywords": [],
             }
         ],
-        "reviewer_profile": {
-            "review_topic": "Stub topic",
-            "inclusion_criteria": "Stub include",
-            "exclusion_criteria": "Stub exclude",
-            "backstory": "Stub backstory",
-            "reasoning": "brief",
-            "additional_context": "Stub context",
-            "examples": ["Example A"],
-            "provider": {"model": "stub-model", "model_args": {}},
-        },
     }
 
     good = _dummy_result(json.dumps(good_payload))
     service = _mock_service(return_value=good)
 
-    log_dir = Path("test_artifacts/llm")
+    log_dir = Path("test_artifacts/keyword_extractor_live")
     existing = set(log_dir.glob("keyword_extractor_usage_*.json"))
 
     result = extract_search_terms_from_surveys(
@@ -348,16 +314,6 @@ def test_two_step_fallback_merges_per_paper_payloads(monkeypatch, tmp_path: Path
                     ],
                 }
             ],
-            "reviewer_profile": {
-                "review_topic": "Stub topic",
-                "inclusion_criteria": "Stub include",
-                "exclusion_criteria": "Stub exclude",
-                "backstory": "Stub backstory",
-                "reasoning": "brief",
-                "additional_context": "Context one",
-                "examples": ["Example"],
-                "provider": {"model": "stub-model", "model_args": {}},
-            },
         },
         {
             "topic": "sample topic",
@@ -374,25 +330,11 @@ def test_two_step_fallback_merges_per_paper_payloads(monkeypatch, tmp_path: Path
                     "detected_keywords": [],
                 }
             ],
-            "reviewer_profile": {
-                "review_topic": "Stub topic",
-                "inclusion_criteria": "Stub include",
-                "exclusion_criteria": "Stub exclude",
-                "backstory": "Stub backstory",
-                "reasoning": "brief",
-                "additional_context": "Context two",
-                "examples": ["Example"],
-                "provider": {"model": "stub-model", "model_args": {}},
-            },
         },
     ]
 
     monkeypatch.setattr(
         "src.utils.keyword_extractor._collect_paper_metadata", lambda _paths: metadata
-    )
-    monkeypatch.setattr(
-        "src.utils.keyword_extractor.get_title_abstract_profile",
-        lambda topic: _stub_profile(),
     )
 
     per_results = [_dummy_result(json.dumps(payload)) for payload in per_payloads]
@@ -415,9 +357,7 @@ def test_two_step_fallback_merges_per_paper_payloads(monkeypatch, tmp_path: Path
     assert "term c" in output["search_terms"]["core_concepts"]
     assert "queries" not in output
     assert "synonyms" not in output
-    reviewer_profile = output.get("reviewer_profile")
-    assert isinstance(reviewer_profile, dict)
-    assert reviewer_profile.get("review_topic")
+    assert "reviewer_profile" not in output
 
 
 def _mock_service(*, return_value: LLMResult) -> LLMService:

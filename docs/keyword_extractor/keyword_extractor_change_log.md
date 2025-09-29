@@ -11,9 +11,6 @@ re-reading the entire git history.
 - The pipeline powers survey-paper keyword extraction via two LLM calls:
   1. Per-PDF extraction (`LLMService.read_pdf`).
   2. Aggregation over the partial JSONs (`LLMService.chat`).
-- Reviewer configuration comes from
-  `data/latte_review/title_abstract_reviewer_profiles.json` and is enforced in
-  both prompt and post-processing layers.
 - Artifacts (LLM usage + final JSON) live under `test_artifacts/` so we can
   inspect responses after live runs.
 
@@ -58,6 +55,13 @@ re-reading the entire git history.
   no longer throttles the model to three terms per category.
 - Adjusted unit tests (`test/unit/test_keyword_extractor_prompts.py`) to assert
   for the new category instructions, including the “< 3 terms ⇒ merge” rule.
+- Removed the LatteReview dependency from keyword extraction: prompts no longer
+  request `reviewer_profile`, the pipeline drops Latte-specific post-processing,
+  and `latte_review_configs.py` plus the reviewer JSON have been deleted in
+  favour of caller-supplied reviewer metadata.
+- Usage logs now default to `test_artifacts/keyword_extractor_live/` instead of
+  the shared `test_artifacts/llm/` directory so live artifacts stay grouped with
+  the extractor outputs.
 
 ## 3. Outstanding / Follow-Up Tasks
 
@@ -80,7 +84,7 @@ re-reading the entire git history.
   infer categories—it now has ample prompt guidance to do so.
 - Increase `max_queries` (or `ExtractParams.max_queries`) for topics that require
   broader vocabularies; the per-category minimum scales with this budget.
-- Inspect `test_artifacts/llm/keyword_extractor_usage_*.json` to understand token
+- Inspect `test_artifacts/keyword_extractor_live/keyword_extractor_usage_*.json` to understand token
   consumption after each run.
 
 ## 5. Quick Reference (Updated Files)

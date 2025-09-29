@@ -6,7 +6,7 @@
   - Preserve evidence by keeping the strongest quote per term and counting support across papers.
   - Merge spelling variants and morphological variants so each category list remains deduplicated.
   - Ensure resulting search terms stay concise (1–3 word noun phrases; no underscores or sentence-length entries).
-  - Copy titles, abstracts, years, URLs, and reviewer configuration exactly as provided in the blocks below; do not paraphrase.
+  - Copy titles, abstracts, years, and URLs exactly as provided in the block below; do not paraphrase.
   - Ensure "papers" remain aligned with the provided ordering.
   - Output strictly valid JSON only.
 - Workflow:
@@ -15,11 +15,9 @@
   3) Merge: aggregate support evidence (limit to 2 quotes per term) and keep the highest confidence noted in the inputs.
   4) Rebuild anchor_terms (top 2–4 by global weight) and ensure search_terms cover the category set provided by the inputs; <<category_coverage_note>>.
   <<additional_category_note>>
-  5) Copy the reviewer configuration block verbatim into `reviewer_profile`; do not add or remove fields.
+  5) Keep `papers` synchronized with the metadata block; retain detected keyword evidence and avoid introducing new top-level fields.
 - Provided metadata (copy verbatim; preserve ordering):
 <<paper_metadata_block>>
-- Reviewer configuration (copy verbatim into `reviewer_profile`):
-<<reviewer_profile_block>>
 - Output: Same schema as generate_search_terms.md.
 
 Input placeholder:

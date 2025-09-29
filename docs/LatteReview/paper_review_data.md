@@ -34,9 +34,9 @@ LatteReview accepts multiple entry points: a `pandas.DataFrame`, a dict coercibl
 When a round finishes, LatteReview will extend the table with structured output columns such as `round-A_Alice_output`, `round-A_Alice_evaluation`, and `round-A_Alice_reasoning` (`resources/LatteReview/lattereview/workflows/review_workflow.py:189`). Make sure downstream processes tolerate these additions.
 
 ## Integration with Keyword Extractor
-- `extract_search_terms_from_surveys` hydrates paper metadata from arXiv before prompting and returns a consolidated JSON payload containing `papers` plus a reviewer configuration block (`reviewer_profile`).
-- The helper validates that titles/abstracts match the canonical metadata and ensures reviewer fields are populated, so you can pair `result["papers"]` with the shared `reviewer_profile` when constructing LatteReview ingestion tables.
-- Previous `latte_inputs` rows have been removed; downstream code should populate reviewer columns directly from the shared profile when building DataFrames.
+- `extract_search_terms_from_surveys` hydrates paper metadata from arXiv before prompting and returns a consolidated JSON payload containing `topic`, `anchor_terms`, `search_terms`, and `papers`.
+- The helper validates that titles/abstracts match the canonical metadata, so `result["papers"]` can be joined directly with LatteReview submission tables without additional cleanup.
+- Previous `latte_inputs` rows have been removed; populate reviewer columns from your stored configuration when building DataFrames.
 - Output remains ordered; keep the `papers` list aligned with any derived table if ordering is significant for multi-round workflows.
 
 ## Example Payload

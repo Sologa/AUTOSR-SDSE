@@ -13,6 +13,7 @@ MODEL = os.environ.get("AUTOSR_OPENAI_MODEL", "gpt-5-nano")
 PDF_SOURCE_ROOT = Path("test_artifacts/live_downloads/spoken_language_model_assets/arxiv")
 ARTIFACT_DIR = Path("test_artifacts/keyword_extractor_live")
 
+REASONING_EFFORT = "high"
 
 def _require_api_key() -> str:
     load_env_file()
@@ -43,7 +44,7 @@ def _write_artifact(prefix: str, payload: dict) -> Path:
     return path
 
 
-def test_extract_search_terms_single_pdf(tmp_path: Path) -> None:
+def test_extract_search_terms_single_pdf() -> None:
     _require_api_key()
     pdfs = _pick_small_pdfs(1)
     params = ExtractParams(
@@ -52,7 +53,7 @@ def test_extract_search_terms_single_pdf(tmp_path: Path) -> None:
         include_ethics=False,
         seed_anchors=["speech language model"],
         max_output_tokens=128000,
-        reasoning_effort="medium",
+        reasoning_effort=REASONING_EFFORT,
     )
 
     result = extract_search_terms_from_surveys(
@@ -61,9 +62,8 @@ def test_extract_search_terms_single_pdf(tmp_path: Path) -> None:
         model=MODEL,
         params=params,
         temperature=1.0,
-        reasoning_effort="medium",
+        reasoning_effort=REASONING_EFFORT,
         max_output_tokens=128000,
-        usage_log_path=tmp_path / "single_usage.json",
     )
 
     assert isinstance(result, dict)
@@ -73,14 +73,12 @@ def test_extract_search_terms_single_pdf(tmp_path: Path) -> None:
     assert first_paper.get("title")
     assert first_paper.get("abstract")
     assert str(first_paper.get("source_id", "")).startswith("arXiv:")
-    reviewer_profile = result.get("reviewer_profile")
-    assert isinstance(reviewer_profile, dict)
-    assert reviewer_profile.get("review_topic")
+    assert "reviewer_profile" not in result
     assert "queries" not in result
     _write_artifact("single", result)
 
 
-def test_extract_search_terms_multi_pdf(tmp_path: Path) -> None:
+def test_extract_search_terms_multi_pdf() -> None:
     _require_api_key()
     pdfs = _pick_small_pdfs(2)
     params = ExtractParams(
@@ -89,7 +87,7 @@ def test_extract_search_terms_multi_pdf(tmp_path: Path) -> None:
         include_ethics=False,
         seed_anchors=["speech language model"],
         max_output_tokens=128000,
-        reasoning_effort="medium",
+        reasoning_effort=REASONING_EFFORT,
     )
 
     result = extract_search_terms_from_surveys(
@@ -98,16 +96,13 @@ def test_extract_search_terms_multi_pdf(tmp_path: Path) -> None:
         model=MODEL,
         params=params,
         temperature=1.0,
-        reasoning_effort="medium",
+        reasoning_effort=REASONING_EFFORT,
         max_output_tokens=128000,
-        usage_log_path=tmp_path / "multi_usage.json",
     )
 
     assert isinstance(result, dict)
     assert "anchor_terms" in result and result["anchor_terms"]
     assert isinstance(result.get("papers"), list)
-    reviewer_profile = result.get("reviewer_profile")
-    assert isinstance(reviewer_profile, dict)
-    assert reviewer_profile.get("review_topic")
+    assert "reviewer_profile" not in result
     assert "queries" not in result
     _write_artifact("multi", result)
