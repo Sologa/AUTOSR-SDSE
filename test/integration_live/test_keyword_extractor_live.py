@@ -9,7 +9,7 @@ from src.utils.env import load_env_file
 from src.utils.keyword_extractor import ExtractParams, extract_search_terms_from_surveys
 
 
-MODEL = os.environ.get("AUTOSR_OPENAI_MODEL", "gpt-5-nano")
+MODEL = os.environ.get("AUTOSR_OPENAI_MODEL", "gpt-5")
 PDF_SOURCE_ROOT = Path("test_artifacts/live_downloads/spoken_language_model_assets/arxiv")
 ARTIFACT_DIR = Path("test_artifacts/keyword_extractor_live")
 

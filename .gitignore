@@ -18,6 +18,8 @@ sdse-uv/.venv/
 .env.*
 !.env.example
 
+.cursor/
+
 # Tooling metadata
 .codex/
 .specify/
