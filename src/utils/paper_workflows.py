@@ -89,21 +89,35 @@ def respect_semantic_scholar_rate_limit(api_key_present: bool) -> None:
     _semantic_last_call = time.monotonic()
 
 
+def _build_arxiv_clause(terms: Sequence[str], field: str) -> str:
+    prefix = field.strip() or "all"
+    return " OR ".join(f"{prefix}:{_quote_term(term)}" for term in terms)
+
+
 def search_arxiv_for_topic(
     session: requests.Session,
     anchor_terms: Sequence[str],
     search_terms: Sequence[str],
     *,
     max_results: int = 50,
+    scope: str = "all",
+    boolean_operator: str = "AND",
 ) -> List[Dict[str, object]]:
     """Search arXiv for a topic and return Atom entries as dictionaries."""
 
-    anchor_clause = " OR ".join(f"ti:{_quote_term(term)}" for term in anchor_terms)
-    search_clause = " OR ".join(f"ti:{_quote_term(term)}" for term in search_terms)
-    params = {"search_query": f"({anchor_clause}) AND ({search_clause})", "start": 0, "max_results": max_results}
+    field = scope.lower().strip() or "all"
+    anchor_clause = _build_arxiv_clause(anchor_terms, field)
+    search_clause = _build_arxiv_clause(search_terms, field)
+    params = {
+        "search_query": f"({anchor_clause}) {boolean_operator} ({search_clause})",
+        "start": 0,
+        "max_results": max_results,
+    }
     response = session.get("https://export.arxiv.org/api/query", params=params, timeout=30)
     response.raise_for_status()
 
+    # breakpoint()
+    
     root = ET.fromstring(response.content)
     ns = {"atom": "http://www.w3.org/2005/Atom"}
     records: List[Dict[str, object]] = []
@@ -126,14 +140,16 @@ def search_semantic_scholar_for_topic(
     *,
     api_key: Optional[str] = None,
     limit: int = 25,
+    custom_query: Optional[str] = None,
 ) -> List[Dict[str, object]]:
     """Search Semantic Scholar and return the JSON payload's ``data`` list."""
 
     respect_semantic_scholar_rate_limit(api_key_present=bool(api_key))
+    query = custom_query or build_semantic_scholar_query(anchor_terms, search_terms)
     response = session.get(
         "https://api.semanticscholar.org/graph/v1/paper/search",
         params={
-            "query": build_semantic_scholar_query(anchor_terms, search_terms),
+            "query": query,
             "limit": limit,
             "fields": "paperId,title,year,url,authors,openAccessPdf,publicationVenue",
         },
@@ -142,6 +158,7 @@ def search_semantic_scholar_for_topic(
     )
     response.raise_for_status()
     payload = response.json()
+    # breakpoint()
     return payload.get("data", [])
 
 
@@ -221,7 +238,10 @@ def download_records_to_pdfs(
             result = download_arxiv_paper(arxiv_id, output_dir / "arxiv", session=session)
             collected["arxiv"].append(result)
 
-        for semantic_record in records_by_source.get("semantic_scholar", []):
+        semantic_records = list(records_by_source.get("semantic_scholar", []))
+        if not api_key:
+            semantic_records = semantic_records[:2]
+        for semantic_record in semantic_records:
             paper_id = semantic_record.get("paperId") or semantic_record.get("paper_id")
             if not paper_id:
                 continue

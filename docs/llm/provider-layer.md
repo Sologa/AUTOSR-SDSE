@@ -10,6 +10,7 @@
 - `OpenAIProvider`：實作 Responses API、PDF 上傳流程，支援最新 GPT-5 系列。
   - 針對 OpenAI 官方標記的推理模型（`gpt-5*`、`o1*`、`o3*`、`o4*`）會自動忽略 `temperature` 參數，以避免呼叫 API 時收到 400。
   - 若沿用舊有 `max_tokens` 參數，會自動轉成 Responses API 的 `max_output_tokens`。
+  - 新增 `reasoning_effort` 便利參數，可在不改動 payload 的情況下設定 `{"reasoning": {"effort": "low|medium|high"}}`，也接受直接傳入 `reasoning` 字典。
 - `AnthropicProvider` / `GeminiProvider`：原型骨架，未配置客戶端時會拋出 `ProviderNotConfiguredError`。
 - `LLMService`：入口 façade，負責路由至指定 provider，並提供統一的 usage summary。
 - `LLMUsageTracker` / `ModelPriceRegistry`：分別負責使用量累積與價目表管理。
@@ -30,6 +31,14 @@ prompt = "請濃縮段落成三點 bullet"
 sync_result = service.chat("openai", "gpt-5-nano", prompt)
 print(sync_result.content)
 print(sync_result.usage.cost)  # 已四捨五入到 6 位小數
+
+# 指定 reasoning effort（等同於 Responses API 的 reasoning.effort）
+deep_reasoning = service.chat(
+    "openai",
+    "gpt-5-nano",
+    [{"role": "user", "content": "請逐步推理這段證明是否正確"}],
+    reasoning_effort="high",
+)
 
 # 批次訊息（自動套用 0.5 discount）
 batch_prompts = [[{"role": "user", "content": f"說明研究領域 {i} 的三項挑戰"}] for i in range(10)]

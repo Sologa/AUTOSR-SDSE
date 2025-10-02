@@ -5,6 +5,7 @@
 
 > 本檔同時供人類與開發代理（Codex、Cursor、Zed、Aider…）閱讀。請嚴格遵守。  
 > **重要：`sdse-uv/` 是專案的 Python 虛擬環境容器，不是專案名稱。**
+> 請用中文回答，專有名詞請用原文。
 
 ---
 
@@ -50,6 +51,7 @@
 - `.env` 已列入 `.gitignore`；嚴禁將任何密鑰、token、憑證寫入版本庫（含範例程式碼與文件）。
 - 建議使用 `set -a; source .env; set +a` 將變數匯入當前 session，或以 `direnv` / 其他私密方案自動載入；勿在 shell 歷程中直接曝光密鑰。
 - **程式碼要求**：任何需要 API key 或其他機敏環境變數的程式/測試入口檔案，必須在初始化階段載入 `.env`（可自行解析或使用既有工具如 `python-dotenv` 的 `load_dotenv()`）；不得假設操作者已手動匯入環境變數。
+- `OPENAI_API_KEY` 已預先配置於 `.env`，所有會打到 OpenAI 的測試或流程都必須直接使用實際金鑰執行；若金鑰遺失或無效，應讓流程直接報錯而非以 skip/fallback 迴避，不需要確認這件事，直接跑就好了，有 error 再向我反應。
 - 團隊共享密鑰時請透過可信任的秘密管理工具（Vault、1Password、Secrets Manager 等）或安全管道傳遞，並於共享文件中更新命名/使用約定。
 
 ---
@@ -100,6 +102,10 @@
 - ❌ 在未啟用 `sdse-uv` 環境下直接呼叫 `python/pytest/ruff`。
 - ❌ 自動安裝依賴或變更環境設定（請改開 PR）。
 - ❌ 未更新 `docs/` 或 `logs/` 就提交修改 `src/` 的 PR。
+- ❌ 以 `pytest.skip`、`skipif`、`xfail`、mock/stub/recording、離線快照等手法繞過實際遠端服務；所有測試必須直接呼叫真實 API 並完整驗證行為。
+- ❌ 在程式或測試中加入自動 fallback 或離線替代流程；若遠端服務失敗，必須直接回報錯誤，勿靜默容錯或改走模擬流程。
+- ❌ 以 stub/Fake 方式自建假物件或假服務繞過真實流程；除非有充分理由且事前向使用者報備取得書面同意，否則一律禁止。
+- ❌ 禁止將需因情境調整的輸入資料（例如使用者提示詞、查詢條件、憑證）硬編在程式中；這類內容必須透過環境變數、設定檔或資料來源注入。允許將公開、穩定的常數（如定價表、型號白名單）維護於原始碼，但需加註來源與更新時間。
 ---
 
 ## 9) 測試產出與暫存（SOP）
@@ -117,3 +123,13 @@
 - **避免噪音**：對於簡單且語意明確的小型 helper，可以仰賴清楚的命名與型別註解，毋須為了「每個函式都有 docstring」而強行重複內容。
 - **維持一致風格**：撰寫時遵循既定 docstring 樣式（PEP 257/Google/NumPy 依專案既有慣例擇一），保持格式一致，讓 AI agent 更容易解析。
 - **持續更新**：每次修改函式行為或參數簽名時，同步更新 docstring；若使用自動化工具（如 ChatGPT/Cursor）生成程式碼，請檢查並補強 docstring 的正確性與完整性。
+
+---
+
+## 11) 受保護檔案（請勿修改）
+- 最新清單請參考 `docs/agent-protected-files.md`。
+- 目前指定為 Codex 代理不得修改的檔案：
+  - `src/utils/llm.py`
+  - `src/utils/paper_downloaders.py`
+  - `src/utils/paper_workflows.py`
+- 若需調整清單內容，務必先取得使用者同意，再同步更新本節與 `docs/agent-protected-files.md`。

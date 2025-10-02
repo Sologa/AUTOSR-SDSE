@@ -1,5 +1,7 @@
 # Local references (keep example templates only)
-resources/
+resources/*
+!resources/LLM/
+!resources/LLM/**
 
 # Python caches
 __pycache__/
@@ -16,6 +18,8 @@ sdse-uv/.venv/
 .env.*
 !.env.example
 
+.cursor/
+
 # Tooling metadata
 .codex/
 .specify/
@@ -26,6 +30,9 @@ test/.tmp/
 .pytest_cache/
 .coverage
 coverage.xml
+
+# Keep version-controlled test sources
+!test/**/*.py
 
 
 config/
