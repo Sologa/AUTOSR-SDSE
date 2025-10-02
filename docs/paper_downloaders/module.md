@@ -39,6 +39,15 @@
   - `PaperDownloadError`：ID 不存在或回傳不可解析的 XML。
   - `requests.HTTPError`：網路錯誤或超時。
 
+### `fetch_arxiv_metadata`
+
+- **用途**：取得單篇 arXiv 的標題、摘要、作者、類別、PDF 連結等基本欄位。
+- **流程**：
+  1. 呼叫 `https://export.arxiv.org/api/query` 解析 Atom feed。
+  2. 若 feed 未提供 DOI 連結，會額外抓取 `https://export.arxiv.org/abs/{arxiv_id}`，從 `id="arxiv-doi-link"` 的 `<a>` 標籤解析 DataCite DOI（形式 `https://doi.org/10.48550/arXiv.xxx`）。
+  3. 回傳包含 DOI（若成功解析）、PDF URL、landing URL 的字典。
+- **注意**：若鏡像頁面也缺少 DOI 或被暫時封鎖，函式會繼續回傳 `doi: None`，交由呼叫端決定是否重試或改用其他來源。
+
 ### `download_semantic_scholar_paper`
 
 - **輸入**：
@@ -46,10 +55,11 @@
   - `output_dir`：下載位置。
   - 參數 `session`、`api_key`、`timeout`。
 - **流程**：
-  1. `_fetch_semantic_scholar_metadata` 呼叫 `/graph/v1/paper/{paper_id}`；會要求內建欄位 `_SEMANTIC_SCHOLAR_FIELDS`（標題、摘要、作者、開放近用 PDF 連結、引用統計等）。
+  1. `_fetch_semantic_scholar_metadata` 呼叫 `/graph/v1/paper/{paper_id}`，並依官方教學組合 `_SEMANTIC_SCHOLAR_FIELDS`，一次取得標題、摘要、刊物資訊、開放取用資訊、作者細節（含 `authors.name/affiliations/hIndex/...`）、DOI/外部 ID、引用統計、`tldr`、`embedding` 等欄位。
   2. 若 API 回覆 429（速率限制），函式會回傳 `DownloadResult` 並在 `issues` 註記 `rate_limited`，不丟例外，以利呼叫端重試或排程。
-  3. 嘗試下載 `openAccessPdf.url` 指向的檔案；若存在則寫入 `output_dir / f"{safe_stem}.pdf"`。
-  4. 檢查 `citationStyles` 是否提供 `bibtex`；若缺失會在 `issues` 中紀錄。
+  3. 解析 metadata 產生 `author_names`、`external_id_entries` / `external_id_map`、`doi_candidates`、`tldr_text`、`pdf_candidates`、`best_pdf_url` 等輔助欄位，以利後續流程快速取用完整資訊。
+  4. 按序檢查 `pdf_candidates`（整合 `openAccessPdf.url` 與由 `externalIds` 推導的 arXiv PDF；若 API 回傳 `pdfUrls` 也會併入），任一路徑成功即寫入 `output_dir / f"{safe_stem}.pdf"`，所有失敗原因會記錄在 `issues`。
+  5. 檢查 `citationStyles` 是否提供 `bibtex`；存在時寫入 `metadata['bibtex_entry']` 並存成 `.bib`，否則在 `issues` 中標記缺失。
 - **常見錯誤**：
   - `requests.HTTPError`：API 回傳 4xx/5xx（非速率限制）；呼叫端應捕捉處理。
   - PDF 連結無效：會在 `issues` 中看到 `reason: access_blocked` 或 `missing`。
@@ -64,12 +74,18 @@
   - `output_dir`：儲存路徑。
   - `session`、`timeout`。
 - **流程**：
-  1. `_fetch_dblp_metadata` 呼叫 `https://dblp.org/rec/{dblp_key}.rdf`，解析 RDF 取得標題、年份、作者、候選 PDF 連結、BibTeX URL。
-  2. 迭代 `document_urls` 尋找第一個 `.pdf`，下載到本地；若失敗會在 `issues` 中紀錄。
+  1. `_fetch_dblp_metadata` 呼叫 `https://dblp.org/rec/{dblp_key}.rdf`，完整剖析 RDF：除了標題、年份、作者外，還會整理 `datacite:hasIdentifier`（拆解 scheme 與 value）、`dblp:ee` 電子版連結、`dblp:bibtexType`、`dblp:publishedIn*`、`dblp:numberOfCreators` 等欄位，並將整棵 RDF 子樹寫入 `metadata['raw_fields']` 供人工檢視。
+  2. `metadata['pdf_candidates']` 會綜合 `document_urls` 與所有 `dblp:ee` 連結，挑選第一個 `.pdf` 下載；若未找到符合條件的 URL，會在 `issues` 中紀錄並保留所有嘗試過的連結。
   3. 呼叫 `_fetch_dblp_bibtex` 下載 BibTeX；若 404 則視為缺失並紀錄。
 - **常見錯誤**：
   - `PaperDownloadError`：RDF 無對應記錄。
   - `requests.HTTPError`：網路失敗。
+
+- **輸出重點欄位**：
+  - `metadata['identifiers']`：列出每個 identifier scheme（含 `scheme_short`）與對應值，可直接取得 DOI、arXiv ID 等資訊。
+  - `metadata['identifier_map']`：以 scheme 為鍵的快取，例如 `identifier_map['doi']`。
+  - `metadata['electronic_editions']` / `metadata['electronic_edition_urls']`：完整蒐集 `dblp:ee` 連結及其屬性。
+  - `metadata['raw_fields']`：保留 RDF 子節點的遞迴結構（包含屬性與子節點），方便比對官方說明或追蹤缺漏欄位。
 
 ## DownloadResult 結構
 
@@ -139,6 +155,10 @@ finally:
 - 整合測試：`pytest -q test/integration_live/test_paper_downloaders_live.py`
   - 需要實際網路連線與 arXiv/Semantic Scholar/DBLP 服務。
   - 測試會於 `test_artifacts/live_downloads/` 產生摘要檔案，並處理速率限制。
+- 整合測試：`pytest -q test/integration_live/test_dblp_full_metadata.py`
+  - 實際呼叫 DBLP RDF 介面並下載 metadata，全量內容會寫入 `test_artifacts/metadata_harvest/dblp_full/` 供人工檢視。
+- 整合測試：`pytest -q test/integration_live/test_semantic_scholar_full_metadata.py`
+  - 依官方教學取得 Semantic Scholar 全欄位 metadata，結果寫入 `test_artifacts/metadata_harvest/semantic_scholar_full/`，可直接檢視 API 回應與派生欄位。
 
 ## 已知限制與注意事項
 
@@ -146,5 +166,3 @@ finally:
 - arXiv PDF 若遇到版權保護（401/403/451 等），函式不會重試；呼叫端需自行處理（例如改用鏡像或人工下載）。
 - DBLP 的 PDF 連結並非保證存在；通常至少可取得 BibTeX。
 - 下載流程未執行檔案校驗（checksum）；如需核對完整性，請於呼叫端加上額外檢查。
-
-

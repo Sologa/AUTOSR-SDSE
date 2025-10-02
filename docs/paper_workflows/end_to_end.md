@@ -129,7 +129,22 @@ uv run --project sdse-uv pytest -q test/test_paper_downloaders.py
 # 若允許 live 測試：
 uv run --project sdse-uv pytest -q test/integration_live/test_paper_downloaders_live.py
 uv run --project sdse-uv pytest -q test/integration_live/test_keyword_extractor_live.py
+uv run --project sdse-uv pytest -q test/integration_live/test_speech_lm_metadata_live.py
+uv run --project sdse-uv pytest -q test/integration_live/test_speech_lm_per_query_metadata_live.py
+
+# 僅驗證 arXiv 流程（需先 `source sdse-uv/.venv/bin/activate`）：
+pytest -q test/integration_live/test_speech_lm_metadata_live.py::TestSpeechLMMetadataHarvest::test_arxiv_metadata_for_pdf_accessible_records
+pytest -q test/integration_live/test_speech_lm_per_query_metadata_live.py::TestSpeechLMPerQueryMetadata::test_single_query_arxiv_metadata
 ```
+
+### Speech LM Metadata 測試模式
+
+- `test/integration_live/test_speech_lm_metadata_live.py` 會依據 `test_artifacts/keyword_extractor_live/*.json` 中的 anchor/search term 組合，串接 arXiv 與 Semantic Scholar API：
+  - **預設（多組查詢）**：遍歷所有 anchor × search term，逐一抓取各 100 筆結果；arXiv 部分仍會透過 HTTP `HEAD` 驗證 PDF 是否可下載，而 Semantic Scholar 僅保留現有 metadata（不再檢查 PDF 存取），並輸出至 `test_artifacts/metadata_harvest/speech_language_models/` 下的 `arxiv_metadata.json`、`semantic_scholar_metadata.json` 與 `merged_metadata.json`。
+  - **單一查詢模式**：將環境變數 `SPEECH_LM_SINGLE_QUERY_MODE=1`，只取第一組 anchor/search term，輸出改寫至 `test_artifacts/metadata_harvest/speech_language_models_single_query/`，檔名附上 `single_query` 以便人工開啟檢視。
+- 由於後續流程主要依賴 arXiv 的結果做驗證，Semantic Scholar 回傳為空時不視為失敗；測試會以 `pytest.skip` 註記，日後如需重新評估再行啟用。
+- 合併步驟會根據 arXiv ID（或 Semantic Scholar 的 `paperId`）去重，確保最終清單中的 `identifier` 唯一；可直接將 `merged_metadata.json` 當成後續審查或手動下載的清單使用。
+- 如需逐條檢視單一查詢的原始結果，可執行 `test/integration_live/test_speech_lm_per_query_metadata_live.py`；該測試同樣只強制 arXiv 需具備可下載的 PDF，而 Semantic Scholar 只要成功取回 metadata 即會寫入 `test_artifacts/metadata_harvest/speech_language_models_per_query/`，方便後續人工檢閱。
 
 ## 常見問題
 
@@ -142,6 +157,5 @@ uv run --project sdse-uv pytest -q test/integration_live/test_keyword_extractor_
 - `docs/paper_workflows/module.md`
 - `docs/paper_downloaders/module.md`
 - `docs/keyword_extractor/module.md`
+- `docs/paper_workflows/speech_lm_asreview_pipeline.md`
 - 測試檔：`test/integration_live/test_paper_downloaders_live.py`、`test/integration_live/test_keyword_extractor_live.py`
-
-
