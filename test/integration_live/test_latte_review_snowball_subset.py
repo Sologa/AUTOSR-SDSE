@@ -6,13 +6,13 @@ import os
 import sys
 import types
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Iterable
 
 import pandas as pd
 
-try:  # pragma: no cover - 測試環境若缺 litellm 則建立最小 stub
+try:  # pragma: no cover
     import litellm  # type: ignore
-except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
+except ModuleNotFoundError:  # pragma: no cover
     stub = types.ModuleType("litellm")
     stub.drop_params = True
     stub.enable_json_schema_validation = False
@@ -24,9 +24,9 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     stub.completion_cost = _raise_stub  # type: ignore[attr-defined]
     sys.modules["litellm"] = stub
 
-try:  # pragma: no cover - 測試環境若缺 tokencost 則建立最小 stub
+try:  # pragma: no cover
     from tokencost import calculate_prompt_cost, calculate_completion_cost
-except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
+except ModuleNotFoundError:  # pragma: no cover
     tokencost_stub = types.ModuleType("tokencost")
 
     def _zero_cost(*_: object, **__: object) -> float:
@@ -36,9 +36,9 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     tokencost_stub.calculate_completion_cost = _zero_cost  # type: ignore[attr-defined]
     sys.modules["tokencost"] = tokencost_stub
 
-try:  # pragma: no cover - 測試環境若缺 ollama 套件則建立防呆 stub
+try:  # pragma: no cover
     import ollama  # type: ignore
-except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
+except ModuleNotFoundError:  # pragma: no cover
     ollama_stub = types.ModuleType("ollama")
 
     class _AsyncClient:  # type: ignore[misc]
@@ -48,9 +48,9 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     ollama_stub.AsyncClient = _AsyncClient  # type: ignore[attr-defined]
     sys.modules["ollama"] = ollama_stub
 
-try:  # pragma: no cover - 測試環境若缺 google genai 套件則建立防呆 stub
+try:  # pragma: no cover
     import google  # type: ignore
-except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
+except ModuleNotFoundError:  # pragma: no cover
     google_stub = types.ModuleType("google")
     google_stub.__path__ = []  # type: ignore[attr-defined]
 
@@ -77,61 +77,26 @@ from resources.LatteReview.lattereview.workflows import ReviewWorkflow
 from src.utils.env import load_env_file
 
 
-METADATA_PATH = Path(
-    # "test_artifacts/metadata_harvest/speech_language_models_per_query/arxiv_per_query_metadata.json"
-    "test_artifacts/metadata_harvest/speech_language_models/arxiv_metadata_peer_reviewed.json"
+SNOWBALL_CSV = Path(
+    "test_artifacts/metadata_harvest/speech_language_models/snowball_for_review.csv"
 )
-OUTPUT_DIR = METADATA_PATH.parent
+OUTPUT_DIR = SNOWBALL_CSV.parent
+
+# 在此維護欲測試的 DOI 清單，可自由增刪
+TARGET_DOIS: list[str] = ["https://doi.org/10.1109/tcyb.2022.3162495",
+                            "https://doi.org/10.1109/access.2022.3193097",
+                            "https://doi.org/10.1109/slt54892.2023.10022592",
+                            "https://doi.org/10.1038/s41586-023-06337-5",
+                            "https://doi.org/10.1109/slt54892.2023.10022770",
+                            "https://doi.org/10.48550/arxiv.2308.16692",
+
+]
 
 REASONING_EFFORT = "medium"
 
-
-def _require_openai_key() -> None:
-    load_env_file()
-    assert os.environ.get("OPENAI_API_KEY"), "OPENAI_API_KEY 未設定，無法執行 LatteReview 三人協作測試。"
-
-
-def _resolve_top_k() -> Optional[int]:
-    load_env_file()
-    raw_value = os.environ.get("LATTE_REVIEW_TOP_K", "").strip()
-    if not raw_value:
-        return None
-    try:
-        top_k = int(raw_value)
-    except ValueError as exc:  # pragma: no cover - 防呆驗證
-        raise AssertionError("LATTE_REVIEW_TOP_K 必須為正整數") from exc
-    assert top_k > 0, "LATTE_REVIEW_TOP_K 必須大於 0"
-    return top_k
-
-
-def _select_primary_rows(limit: Optional[int]) -> pd.DataFrame:
-    payload = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
-    rows: list[dict[str, str]] = []
-    for record in payload:
-        metadata = record.get("metadata") or {}
-        title = metadata.get("title") or ""
-        summary = metadata.get("summary") or ""
-        if "survey" in title.lower():
-            continue
-        rows.append(
-            {
-                "title": " ".join(title.split()),
-                "abstract": " ".join(summary.split()),
-                "metadata": metadata,
-            }
-        )
-        if limit is not None and len(rows) >= limit:
-            break
-    if limit is not None and len(rows) < limit:
-        raise AssertionError(f"找不到足夠的非 survey Speech LM 條目，僅取得 {len(rows)} 筆。")
-    if not rows:
-        raise AssertionError("找不到任何非 survey Speech LM 條目可供審查。")
-    return pd.DataFrame(rows)
-
-
 INCLUSION_CRITERIA = (
     "主題定義：口語語言模型（Speech Language Models, SLMs）指能直接以語音作為主要模態進行理解與生成的模型，逐步從傳統 ASR→LM→TTS 的串接式流程走向端到端或弱中介設計，以降低延遲、錯誤傳播並保留韻律/說話人等超語段資訊。\n\n近三年研究特別朝向全雙工口語語言模型（Full‑Duplex SLM, FD‑SLM）演進：模型在同一時刻同步聆聽與發聲，支援重疊語音、即時打斷與回饋，透過多流或單流的認知並行來協調時序與行為，並以時延、行為仲裁、語義連貫與聲學品質等多維度進行評估。 — 研究需明確以此範疇為核心，提出或分析 SLM/FD‑SLM 的架構、訓練或評估方法，並以語音作為主要互動模態。"
-    " 研究焦點滿足下列任一者即可：（a）端到端 SpeechLM 或面向低延遲的串流/同步語音對話（包含全雙工同時聽說、重疊語音、即時打斷與回饋）；（b）語音表示自監督學習與離散語音 toke／神經編解碼器 token 在 SpeechLM 中的建模與使用；（c）語音與大型語言模型的整合方法（文字中介、潛在表示、音訊 token）與跨模態推理/多任務設計；（d）多維度評估與資源（例如時延、行為仲裁、語義連貫、聲學品質；或提供開源模型/數據/基準）。"
+    " 研究焦點滿足下列任一者即可：（a）端到端 SpeechLM 或面向低延遲的串流/同步語音對話（包含全雙工同時聽說、重疊語音、即時打斷與回饋）；（b）語音表示自監督學習與離散語音 token／神經編解碼器 token 在 SpeechLM 中的建模與使用；（c）語音與大型語言模型的整合方法（文字中介、潛在表示、音訊 token）與跨模態推理/多任務設計；（d）多維度評估與資源（例如時延、行為仲裁、語義連貫、聲學品質；或提供開源模型/數據/基準）。"
     "提供英文可評估性：需可取得英文全文或至少英文摘要與方法描述。"
 )
 
@@ -143,7 +108,23 @@ EXCLUSION_CRITERIA = (
 )
 
 # INCLUSION_CRITERIA = (
-#     "論文需直接探討 speech language model 或 speech foundation model 的建構、訓練、應用或評估（包含 benchmarks）。"
+#     # "主題定義：語音語言模型（speech language model）指能直接處理與生成語音的模型，融合語音與文字模態，在過去三年中快速發展—文章需聚焦於端對端融合語音與文字模態的模型架構演進。文章需探討多模態學習與跨模態指令理解能力，如融合語音與文字輸入進行語音理解或生成。或者是文章需包含少樣本學習、即時處理或語音表示優化技術，例如語音 tokenizer、少樣本指令學習等"
+#     "主題定義：「speech language model」指針對語音訊號與自然語言處理而設計的模型，涵蓋將語音轉文字（ASR）、由文字合成語音（TTS）、以及語音到語音翻譯與生成（S2ST）的能力；其核心在於把聲學表徵與語言表徵建立可學習的對齊，使系統能理解與生成具語意的一段語音，並可與大型語言模型或多模態模型結合以提升理解、推理與跨語言能力。— 研究需以該定義之模型能力為核心，呈現方法、資料或評測。"
+#     "時間範圍：發表於最近三年（自 2022-01-01 起至今），含預印本、會議與期刊論文，且可辨識發表或預印日期。"
+#     "提供英文可評估性：需提供英文題名與摘要，或提供英文全文與/或英文評測語料與結果，以利品質評估與資料擷取。"
+#     "滿足 S2T 類型（speech→text）的端到端或多模態模型，屬於 SpeechLM 的一種輸入輸出模式;滿足 ST2T 類型（speech+text→text）的模型，能以語音與文本作為條件進行文字生成;採用文本預訓練模型的 warm‑start 或知識蒸餾以強化 SpeechLM（如 TWIST）;展現 in‑context learning 與/或多任務訓練以提升泛化與語音語言協同能力（如 SALM）;"
+# )
+
+# EXCLUSION_CRITERIA = (
+#     "僅傳統 ASR 或 TTS 分段式管線模型，未建構為統一的語音‑語言模型（例如僅做語音辨識而不進行語言建模或多模態推理）。"
+#     "僅為統計語言模型（如 N‑gram、cache LM），未處理語音輸入或語音‑語言對齊。"
+#     "僅說話人辨識、分離或分段等音訊結構化任務，未涉及語言生成或理解。"
+#     "僅音訊編碼、聲碼器或壓縮（如神經聲碼器），不含語言建模或跨模態條件生成。"
+#     "僅資料集介紹或標註工具，未提出或評估 SpeechLM 方法（例如純語音語料集論文）。"
+# )
+
+# INCLUSION_CRITERIA = (
+#     "論文需直接探討 speech language model 的建構、訓練、應用或評估（包含 benchmarks）。"
 #     " 若為多模態模型，必須包含語音作為主要模態之一。"
 # )
 
@@ -154,7 +135,60 @@ EXCLUSION_CRITERIA = (
 # )
 
 
-def _build_title_abstract_reviewer(
+def _require_openai_key() -> None:
+    load_env_file()
+    assert os.environ.get("OPENAI_API_KEY"), "OPENAI_API_KEY 未設定，無法執行 LatteReview 雪球審查。"
+
+
+def _sanitize_text(value: object) -> str:
+    if value is None:
+        return ""
+    text = str(value).strip()
+    return " ".join(text.split())
+
+
+def _select_rows_by_doi(dois: Iterable[str]) -> pd.DataFrame:
+    if not dois:
+        raise AssertionError("TARGET_DOIS 未指定，請至少提供一個 DOI。")
+    assert SNOWBALL_CSV.exists(), f"找不到雪球輸入檔：{SNOWBALL_CSV}"
+    df = pd.read_csv(SNOWBALL_CSV)
+    if df.empty:
+        raise AssertionError("snowball_results.csv 無任何資料，請先執行雪球流程。")
+
+    normalized = {str(doi).strip().lower() for doi in dois if str(doi).strip()}
+    if not normalized:
+        raise AssertionError("TARGET_DOIS 需包含有效的 DOI 字串。")
+
+    df["doi_normalized"] = df["doi"].apply(lambda x: str(x).strip().lower())
+    df = df[df["doi_normalized"].isin(normalized)]
+    if df.empty:
+        raise AssertionError("指定 DOI 未在 snowball_results.csv 中找到對應資料。")
+
+    records: list[dict[str, Any]] = []
+    for _, row in df.iterrows():
+        title = _sanitize_text(row.get("title"))
+        abstract = _sanitize_text(row.get("abstract"))
+        if not abstract:
+            abstract = "No abstract provided by OpenAlex. Summarize based on title."
+        metadata = {
+            "openalex_id": row.get("openalex_id"),
+            "doi": row.get("doi"),
+            "publication_date": row.get("publication_date"),
+            "referenced_works": row.get("referenced_works"),
+            "source": "openalex_snowball",
+        }
+        records.append(
+            {
+                "title": title,
+                "abstract": abstract,
+                "metadata": metadata,
+            }
+        )
+
+    return pd.DataFrame(records)
+
+
+def _build_reviewer(
     name: str,
     model: str,
     *,
@@ -168,6 +202,7 @@ def _build_title_abstract_reviewer(
         provider=OpenAIProvider(model=model),
         inclusion_criteria=INCLUSION_CRITERIA,
         exclusion_criteria=EXCLUSION_CRITERIA,
+        inclusion_match_mode="any",
         model_args=model_args,
         reasoning=reasoning,
         backstory=backstory,
@@ -207,7 +242,7 @@ def _derive_verdict(row: pd.Series) -> str:
         try:
             score = int(senior_eval)
             source = "senior"
-        except (TypeError, ValueError):  # pragma: no cover - 防呆
+        except (TypeError, ValueError):
             score = None
 
     if score is None:
@@ -220,13 +255,13 @@ def _derive_verdict(row: pd.Series) -> str:
                 continue
             try:
                 candidates.append(int(value))
-            except (TypeError, ValueError):  # pragma: no cover - 防呆
+            except (TypeError, ValueError):
                 continue
         if candidates:
             score = round(sum(candidates) / len(candidates))
 
     if score is None:
-        return "未知"  # 資料缺失
+        return "未知"
 
     if score >= 4:
         decision = "納入"
@@ -247,28 +282,27 @@ def _sanitize_value(value: object) -> object:
     return value
 
 
-def test_three_reviewer_workflow_for_speech_language_models() -> None:
+def test_three_reviewer_workflow_for_selected_doilist() -> None:
     _require_openai_key()
-    top_k = _resolve_top_k()
-    df = _select_primary_rows(top_k)
+    df = _select_rows_by_doi(TARGET_DOIS)
 
-    junior_nano = _build_title_abstract_reviewer(
+    junior_nano = _build_reviewer(
         "JuniorNano",
         "gpt-5-nano",
-        model_args={'reasoning_effort': REASONING_EFFORT},
+        model_args={"reasoning_effort": REASONING_EFFORT},
         reasoning="brief",
         backstory="一位專注於 speech foundation model 文獻整理的資深博士生",
     )
-    junior_mini = _build_title_abstract_reviewer(
+    junior_mini = _build_reviewer(
         "JuniorMini",
         "gpt-4.1-mini",
         reasoning="brief",
         backstory="一位熟悉語音與大型語言模型交叉領域的研究助理",
     )
-    senior = _build_title_abstract_reviewer(
+    senior = _build_reviewer(
         "SeniorLead",
         "gpt-5-mini",
-        model_args={'reasoning_effort': REASONING_EFFORT},
+        model_args={"reasoning_effort": REASONING_EFFORT},
         reasoning="brief",
         backstory="負責統整 speech language model 新知的首席研究員",
         additional_context="""
@@ -304,10 +338,9 @@ def test_three_reviewer_workflow_for_speech_language_models() -> None:
 
     result_df = asyncio.run(workflow.run(df))
     needs_senior = result_df.apply(_senior_filter, axis=1).astype(bool)
-
     result_df["final_verdict"] = result_df.apply(_derive_verdict, axis=1)
 
-    output_records: list[dict[str, object]] = []
+    output_records: list[dict[str, Any]] = []
     for index, row in result_df.iterrows():
         record = {column: _sanitize_value(row[column]) for column in result_df.columns}
         metadata_value = row.get("metadata") if "metadata" in row else None
@@ -316,12 +349,11 @@ def test_three_reviewer_workflow_for_speech_language_models() -> None:
         record["metadata"] = metadata_value
         output_records.append(record)
 
-    if top_k is None:
-        output_filename = "latte_review_results_step5_full.json"
-    else:
-        output_filename = f"latte_review_results_step5_top{len(output_records)}.json"
-    output_path = OUTPUT_DIR / output_filename
-    output_path.write_text(json.dumps(output_records, ensure_ascii=False, indent=2), encoding="utf-8")
+    output_path = OUTPUT_DIR / f"latte_review_snowball_subset_{len(output_records)}.json"
+    output_path.write_text(
+        json.dumps(output_records, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
     assert output_path.exists(), "結果輸出檔案未成功建立"
     assert len(output_records) == len(df), "輸出筆數需與輸入筆數一致"

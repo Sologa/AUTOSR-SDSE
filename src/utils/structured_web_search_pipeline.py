@@ -1,0 +1,250 @@
+"""Two-stage pipeline that mirrors the original structured web search test flow."""
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass, field
+from typing import Any, Dict, Optional, Sequence
+
+from .env import load_env_file
+from .llm import LLMResult, LLMService
+from .openai_web_search import WebSearchOptions, ask_with_web_search, create_web_search_service
+
+DEFAULT_SEARCH_MODEL = "gpt-4o"
+DEFAULT_FORMATTER_MODEL = "gpt-5"
+DEFAULT_RECENCY_HINT = "過去3年"
+DEFAULT_SEARCH_TEMPERATURE = 0.7
+DEFAULT_FORMATTER_TEMPERATURE = 0.2
+DEFAULT_SEARCH_MAX_OUTPUT_TOKENS = 1_200
+DEFAULT_FORMATTER_MAX_OUTPUT_TOKENS = 1_200
+
+
+@dataclass
+class SearchStageConfig:
+    """OpenAI web search stage configuration (stage 1)."""
+
+    model: str = DEFAULT_SEARCH_MODEL
+    temperature: float = DEFAULT_SEARCH_TEMPERATURE
+    max_output_tokens: int = DEFAULT_SEARCH_MAX_OUTPUT_TOKENS
+    enforce_tool_choice: bool = True
+    options: WebSearchOptions = field(default_factory=WebSearchOptions)
+
+
+@dataclass
+class FormatterStageConfig:
+    """Formatter stage configuration (stage 2)."""
+
+    model: str = DEFAULT_FORMATTER_MODEL
+    temperature: float = DEFAULT_FORMATTER_TEMPERATURE
+    max_output_tokens: int = DEFAULT_FORMATTER_MAX_OUTPUT_TOKENS
+
+
+@dataclass
+class CriteriaPipelineConfig:
+    """Aggregate config container for the structured criteria pipeline."""
+
+    recency_hint: str = DEFAULT_RECENCY_HINT
+    search: SearchStageConfig = field(default_factory=SearchStageConfig)
+    formatter: FormatterStageConfig = field(default_factory=FormatterStageConfig)
+
+
+@dataclass
+class CriteriaPipelineResult:
+    """Result bundle returned by ``run_structured_criteria_pipeline``."""
+
+    topic: str
+    recency_hint: str
+    search_prompt: str
+    formatter_messages: Sequence[Dict[str, str]]
+    structured_prompt_template: str
+    search_result: LLMResult
+    formatter_result: LLMResult
+    structured_payload: Dict[str, Any]
+
+    @property
+    def raw_notes(self) -> str:
+        return self.search_result.content
+
+    @property
+    def structured_text(self) -> str:
+        return self.formatter_result.content
+
+
+PROMPT_HEADER = (
+    "你是系統性回顧助理。\n"
+    "我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n"
+    "請使用內建 web search，且至少引用 3 個 https 來源。\n"
+    "輸出語言：全部以中文撰寫。\n"
+)
+
+def _build_structured_json_prompt(topic: str, recency: str) -> str:
+    """Exact copy of the original structured web search prompt."""
+
+    return (
+        "你是系統性回顧助理。\n"
+        f"主題：{topic}；時間範圍：{recency}。\n"
+        "我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n"
+        "請使用內建 web search，且至少引用 3 個 https 來源。\n"
+        "輸出語言：全部以中文撰寫。\n"
+        "僅輸出單一 JSON 物件，鍵為：topic_definition、summary、summary_topics、inclusion_criteria、exclusion_criteria；JSON 外勿輸出其他文字。\n"
+        "topic_definition：以中文撰寫，1–2 段清楚定義主題，可補充背景脈絡與核心能力描述。\n"
+        "summary：中文、簡潔扼要。\n"
+        "summary_topics：列出 3–4 項主題，每項含 id（如 S1、S2）與 description；用詞與 summary 一致。\n"
+        "inclusion_criteria：每條含 criterion、source（https）、topic_ids（至少 1 個）；僅能使用正向條件（不得寫否定句）。\n"
+        "inclusion_criteria 的第一條必須以『主題定義：』+ topic_definition 原文開頭，之後接上『—』或『:』與具體條件（需逐字包含 topic_definition）。\n"
+        "inclusion_criteria 中至少一條需明確要求英文（例如提供英文全文或英文評估語料）。\n"
+        "入選的 paper 需要達成 inclusion_criteria 中的所有條件，因此如果某些條件之間的關係是或，則需要講他們都整合在同一條 inclusion_criterion中。\n"
+        "inclusion_criteria 的範圍僅量廣泛，不可限縮在特定的小範圍內。\n"
+        "exclusion_criteria：列『具體剔除情境』，不可是 inclusion 的鏡像否定（例如僅單一語言或單一應用、與主題無關、超出時間範圍等）；每條同樣含 source、topic_ids。\n"
+        "一致性：每條 criterion 必須對應至少一個 summary topic（以 topic_ids 連結）；source 一律使用 https。"
+    )
+
+
+def _build_web_search_prompt(topic: str, recency_hint: str) -> str:
+    """Stage 1 prompt that keeps the same semantics as the historical test."""
+
+    return (
+        PROMPT_HEADER
+        + f"主題：{topic}；時間範圍：{recency_hint}。\n"
+        + "請先以純文字整理資訊，不要輸出 JSON、Markdown 表格或程式碼區塊。\n"
+        + "依序撰寫下列段落：\n"
+        + "### Topic Definition\n"
+        + "- 以 1–2 段中文精準定義主題，可包含背景脈絡與核心能力描述。\n"
+        + "### Summary\n"
+        + "- 以 2–3 句中文概述趨勢與亮點。\n"
+        + "### Summary Topics\n"
+        + "- 列 3–4 個主題節點，格式為 `S1: 描述`。\n"
+        + "### Inclusion Criteria (Required)\n"
+        + "- 僅保留必須同時滿足的條件：① 主題定義條款（以『主題定義：』+定義原文開頭）、② 滿足時間範圍/新近性要求、③ 提供英文可評估性的條件。\n"
+        + "- 每條附上來源 (source: https) 與對應 topic id。\n"
+        + "### Inclusion Criteria (Any-of Groups)\n"
+        + "- 針對技術覆蓋或差異化條件建立至少一個群組，格式為 `- Group 名稱` 搭配 `* Option:`，各自附上 source 與 topic ids。\n"
+        + "- 若筆記中原本在 Required 段落出現多個技術細節條件，請搬移到任選群組，不要重複留在 Required。\n"
+        + "- 若確實沒有任選條件，再寫 `(none)`。\n"
+        + "### Exclusion Criteria\n"
+        + "- 條列需要排除的情境，同樣附來源與 topic ids。\n"
+        + "### Sources\n"
+        + "- 逐行呈現所有引用來源 (https)。"
+    )
+
+
+def _build_formatter_messages(raw_text: str, *, topic: str, recency_hint: str) -> Sequence[Dict[str, str]]:
+    """Stage 2 messages, requesting the same JSON schema as原測試."""
+
+    system_prompt = (
+        "你是系統性回顧的資料整理助理，需將研究助理的純文字筆記轉為結構化 JSON。\n"
+        "僅能輸出單一 JSON 物件，勿加入額外敘述或 Markdown。"
+    )
+
+    structured_prompt = _build_structured_json_prompt(topic, recency_hint)
+
+    user_prompt = (
+        "以下筆記需整理成 JSON。結構與欄位說明請依照原始 structured 提示：\n"
+        f"{structured_prompt}\n"
+        "上述 structured 提示僅用於說明輸出欄位與內容要求，無需再次執行 web search。\n"
+        "請在實際輸出時依照下列結構：\n"
+        "{\n"
+        "  \"topic_definition\": str,\n"
+        "  \"summary\": str,\n"
+        "  \"summary_topics\": [ {\"id\": str, \"description\": str} ],\n"
+        "  \"inclusion_criteria\": {\n"
+        "    \"required\": [ {\"criterion\": str, \"topic_ids\": [str], \"source\": str} ],\n"
+        "    \"any_of\": [ {\"label\": str, \"options\": [ {\"criterion\": str, \"topic_ids\": [str], \"source\": str} ]} ]\n"
+        "  },\n"
+        "  \"exclusion_criteria\": [ {\"criterion\": str, \"topic_ids\": [str], \"source\": str} ],\n"
+        "  \"sources\": [str]\n"
+        "}\n"
+        "其中 inclusion_criteria.required 僅能包含：\n"
+        "- 以『主題定義：』開頭且逐字引用 topic_definition 的條款。\n"
+        "- 與 recency_hint 對齊的時間範圍條款。\n"
+        "- 英文可評估性/英文資料要求條款。\n"
+        "所有其他符合納入但屬於技術覆蓋或能力差異的條件，一律放入單一或多個 any_of 群組；每個群組需有說明性的 label（例如『技術覆蓋需求』），其 options 為各別條件。\n"
+        "sources 需去重且只保留 https 連結；若段落為 '(none)' 則輸出空陣列。\n"
+        "請整合下列筆記：\n"
+        "--- 原始筆記開始 ---\n"
+        f"{raw_text.strip()}\n"
+        "--- 原始筆記結束 ---"
+    )
+
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def _extract_json_payload(raw_text: str) -> Dict[str, Any]:
+    """Replicate the JSON extraction helper used in the live test."""
+
+    start = raw_text.find("{")
+    end = raw_text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        raise ValueError("formatter response does not contain a JSON object")
+    payload = raw_text[start : end + 1]
+    return json.loads(payload)
+
+
+def run_structured_criteria_pipeline(
+    topic: str,
+    *,
+    config: Optional[CriteriaPipelineConfig] = None,
+    recency_hint: Optional[str] = None,
+    web_search_service: Optional[LLMService] = None,
+    formatter_service: Optional[LLMService] = None,
+) -> CriteriaPipelineResult:
+    """Execute the staged pipeline; mirrors ``test_openai_web_search_structured.py`` semantics."""
+
+    load_env_file()
+
+    cfg = config or CriteriaPipelineConfig()
+    search_cfg = cfg.search
+    formatter_cfg = cfg.formatter
+    hint = recency_hint or cfg.recency_hint
+
+    search_prompt = _build_web_search_prompt(topic, hint)
+    search_service = web_search_service or create_web_search_service()
+    search_result = ask_with_web_search(
+        search_prompt,
+        model=search_cfg.model,
+        service=search_service,
+        options=search_cfg.options,
+        force_tool=search_cfg.enforce_tool_choice,
+        temperature=search_cfg.temperature,
+        max_output_tokens=search_cfg.max_output_tokens,
+    )
+
+    structured_prompt_template = _build_structured_json_prompt(topic, hint)
+
+    formatter_messages = _build_formatter_messages(
+        search_result.content,
+        topic=topic,
+        recency_hint=hint,
+    )
+    formatter = formatter_service or LLMService()
+    formatter_result = formatter.chat(
+        "openai",
+        formatter_cfg.model,
+        formatter_messages,
+        temperature=formatter_cfg.temperature,
+        max_output_tokens=formatter_cfg.max_output_tokens,
+    )
+
+    structured_payload = _extract_json_payload(formatter_result.content)
+
+    return CriteriaPipelineResult(
+        topic=topic,
+        recency_hint=hint,
+        search_prompt=search_prompt,
+        formatter_messages=formatter_messages,
+        structured_prompt_template=structured_prompt_template,
+        search_result=search_result,
+        formatter_result=formatter_result,
+        structured_payload=structured_payload,
+    )
+
+
+__all__ = [
+    "CriteriaPipelineConfig",
+    "CriteriaPipelineResult",
+    "FormatterStageConfig",
+    "SearchStageConfig",
+    "run_structured_criteria_pipeline",
+]

@@ -1,5 +1,7 @@
 import json
 import os
+import sys
+from datetime import date, datetime
 from pathlib import Path
 from typing import Dict, Optional, Set
 
@@ -14,6 +16,10 @@ ARXIV_METADATA_PATH = Path(
     "test_artifacts/metadata_harvest/speech_language_models/arxiv_metadata.json"
 )
 FILTERED_OUTPUT_PATH = ARXIV_METADATA_PATH.with_name("arxiv_metadata_peer_reviewed.json")
+
+# 可於此調整欲保留的發表日期範圍；留空字串代表不套用該端的限制。
+INCLUDE_START_DATE = "2022-01-01"
+INCLUDE_END_DATE = "2025-12-31"
 
 
 def _normalise_doi(value: Optional[str]) -> Optional[str]:
@@ -62,6 +68,106 @@ def _is_publisher_link(url: Optional[str]) -> bool:
         return False
     lowered = url.lower()
     return any(hint in lowered for hint in _PUBLISHER_HOST_HINTS)
+
+
+def _print_progress(current: int, total: int) -> None:
+    if total <= 0:
+        return
+    ratio = min(max(current / total, 0.0), 1.0)
+    bar_length = 30
+    filled = int(bar_length * ratio)
+    bar = "#" * filled + "-" * (bar_length - filled)
+    sys.stdout.write(f"\r[Peer Review Filter] [{bar}] {current}/{total}")
+    sys.stdout.flush()
+    if current >= total:
+        sys.stdout.write("\n")
+        sys.stdout.flush()
+
+
+def _parse_date(value: object) -> Optional[date]:
+    if value is None:
+        return None
+    if isinstance(value, date):
+        return value
+    if isinstance(value, (int, float)):
+        try:
+            year = int(value)
+        except (TypeError, ValueError):
+            return None
+        if 1000 <= year <= 9999:
+            return date(year, 1, 1)
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    if text.isdigit() and len(text) == 4:
+        return date(int(text), 1, 1)
+    # 移除常見的時區與時間片段
+    normalized = text.replace("Z", "+00:00")
+    for candidate in (normalized, normalized.split("T")[0]):
+        try:
+            return datetime.fromisoformat(candidate).date()
+        except ValueError:
+            continue
+    for fmt in ("%Y/%m/%d", "%d/%m/%Y", "%Y%m%d", "%m/%d/%Y"):
+        try:
+            return datetime.strptime(text, fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
+def _resolve_range_bound(value: str | None) -> Optional[date]:
+    if not value:
+        return None
+    parsed = _parse_date(value)
+    if parsed is None:
+        raise ValueError(f"無法解析日期：{value}")
+    return parsed
+
+
+_START_DATE_BOUND = _resolve_range_bound(INCLUDE_START_DATE)
+_END_DATE_BOUND = _resolve_range_bound(INCLUDE_END_DATE)
+
+
+def _extract_publication_date(entry: Dict[str, object]) -> Optional[date]:
+    metadata = entry.get("metadata")
+    candidates = []
+    if isinstance(metadata, dict):
+        candidates.extend(
+            metadata.get(key)
+            for key in (
+                "published",
+                "published_date",
+                "publication_date",
+                "date",
+                "year",
+            )
+        )
+    candidates.extend(
+        entry.get(key)
+        for key in (
+            "published",
+            "publication_date",
+            "date",
+            "year",
+        )
+    )
+    for candidate in candidates:
+        parsed = _parse_date(candidate)
+        if parsed:
+            return parsed
+    return None
+
+
+def _within_date_window(value: Optional[date]) -> bool:
+    if value is None:
+        return False
+    if _START_DATE_BOUND and value < _START_DATE_BOUND:
+        return False
+    if _END_DATE_BOUND and value > _END_DATE_BOUND:
+        return False
+    return True
 
 
 def _collect_semantic_signals(
@@ -271,26 +377,39 @@ def test_filter_peer_reviewed_arxiv_metadata():
     try:
         peer_reviewed_entries = []
         classification_cache: Dict[str, bool] = {}
+        total_entries = len(entries)
+        processed_entries = 0
 
         for entry in entries:
+            processed_entries += 1
             arxiv_id = entry.get("arxiv_id")
             if not isinstance(arxiv_id, str):
+                _print_progress(processed_entries, total_entries)
                 continue
 
             arxiv_id = arxiv_id.strip()
             if not arxiv_id:
+                _print_progress(processed_entries, total_entries)
                 continue
 
-            result = _is_peer_reviewed(
-                arxiv_id,
-                semantic_session=semantic_session,
-                dblp_session=dblp_session,
-                api_key=api_key,
-                local_metadata=entry.get("metadata"),
-            )
-            classification_cache[arxiv_id] = result
-            if result:
-                peer_reviewed_entries.append(entry)
+            published_date = _extract_publication_date(entry)
+            if not _within_date_window(published_date):
+                _print_progress(processed_entries, total_entries)
+                continue
+
+            try:
+                result = _is_peer_reviewed(
+                    arxiv_id,
+                    semantic_session=semantic_session,
+                    dblp_session=dblp_session,
+                    api_key=api_key,
+                    local_metadata=entry.get("metadata"),
+                )
+                classification_cache[arxiv_id] = result
+                if result:
+                    peer_reviewed_entries.append(entry)
+            finally:
+                _print_progress(processed_entries, total_entries)
 
     finally:
         semantic_session.close()
@@ -309,5 +428,6 @@ def test_filter_peer_reviewed_arxiv_metadata():
     for item in filtered_entries:
         arxiv_id = item.get("arxiv_id")
         assert classification_cache.get(arxiv_id) is True
+        assert _within_date_window(_extract_publication_date(item)), "發表日期不在指定範圍內"
 
     assert len(filtered_entries) <= len(entries)
