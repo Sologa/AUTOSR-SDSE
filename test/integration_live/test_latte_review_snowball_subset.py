@@ -11,7 +11,7 @@ from typing import Any, Iterable
 import pandas as pd
 
 try:  # pragma: no cover
-    import litellm  # type: ignore
+    import litellm  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover
     stub = types.ModuleType("litellm")
     stub.drop_params = True
@@ -25,7 +25,7 @@ except ModuleNotFoundError:  # pragma: no cover
     sys.modules["litellm"] = stub
 
 try:  # pragma: no cover
-    from tokencost import calculate_prompt_cost, calculate_completion_cost
+    from tokencost import calculate_prompt_cost, calculate_completion_cost  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover
     tokencost_stub = types.ModuleType("tokencost")
 
@@ -37,7 +37,7 @@ except ModuleNotFoundError:  # pragma: no cover
     sys.modules["tokencost"] = tokencost_stub
 
 try:  # pragma: no cover
-    import ollama  # type: ignore
+    import ollama  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover
     ollama_stub = types.ModuleType("ollama")
 
@@ -49,7 +49,7 @@ except ModuleNotFoundError:  # pragma: no cover
     sys.modules["ollama"] = ollama_stub
 
 try:  # pragma: no cover
-    import google  # type: ignore
+    import google  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover
     google_stub = types.ModuleType("google")
     google_stub.__path__ = []  # type: ignore[attr-defined]

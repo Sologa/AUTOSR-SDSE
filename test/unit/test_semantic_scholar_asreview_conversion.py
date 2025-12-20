@@ -5,14 +5,10 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Iterable
 
-OUTPUT_CSV = Path(
-    "test_artifacts/metadata_harvest/speech_language_models_single_query/"
-    "semantic_scholar_single_query_asreview.csv"
-)
-
-SOURCE_JSON = Path(
-    "test_artifacts/metadata_harvest/speech_language_models_single_query/"
-    "semantic_scholar_single_query_metadata.json"
+FIXTURE_JSON = (
+    Path(__file__).resolve().parents[1]
+    / "fixtures"
+    / "semantic_scholar_single_query_metadata.json"
 )
 
 
@@ -64,24 +60,24 @@ def _iter_rows(payload: Iterable[Dict[str, Any]]) -> list[Dict[str, str]]:
     return rows
 
 
-def test_convert_semantic_scholar_metadata_to_asreview_csv() -> None:
-    assert SOURCE_JSON.exists(), f"Missing input file: {SOURCE_JSON}"
+def test_convert_semantic_scholar_metadata_to_asreview_csv(tmp_path: Path) -> None:
+    assert FIXTURE_JSON.exists(), f"Missing fixture file: {FIXTURE_JSON}"
 
-    payload = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
+    payload = json.loads(FIXTURE_JSON.read_text(encoding="utf-8"))
     rows = _iter_rows(payload)
 
     assert rows, "No Semantic Scholar records with DOI were found"
 
-    OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
+    output_csv = tmp_path / "semantic_scholar_single_query_asreview.csv"
 
     fieldnames = list(rows[0].keys())
 
-    with OUTPUT_CSV.open("w", encoding="utf-8", newline="") as handle:
+    with output_csv.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
-    with OUTPUT_CSV.open("r", encoding="utf-8", newline="") as handle:
+    with output_csv.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
         result_rows = list(reader)
 
@@ -95,4 +91,3 @@ def test_convert_semantic_scholar_metadata_to_asreview_csv() -> None:
 
     doi_set = {record["doi"].strip() for record in result_rows}
     assert len(doi_set) == len(result_rows), "Duplicate DOI detected in ASReview dataset"
-

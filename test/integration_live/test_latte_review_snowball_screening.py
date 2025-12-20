@@ -11,7 +11,7 @@ from typing import Any
 import pandas as pd
 
 try:  # pragma: no cover - 測試環境若缺 litellm 則建立最小 stub
-    import litellm  # type: ignore
+    import litellm  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     stub = types.ModuleType("litellm")
     stub.drop_params = True
@@ -25,7 +25,7 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     sys.modules["litellm"] = stub
 
 try:  # pragma: no cover - 測試環境若缺 tokencost 則建立最小 stub
-    from tokencost import calculate_prompt_cost, calculate_completion_cost
+    from tokencost import calculate_prompt_cost, calculate_completion_cost  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     tokencost_stub = types.ModuleType("tokencost")
 
@@ -37,7 +37,7 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     sys.modules["tokencost"] = tokencost_stub
 
 try:  # pragma: no cover - 測試環境若缺 ollama 套件則建立防呆 stub
-    import ollama  # type: ignore
+    import ollama  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     ollama_stub = types.ModuleType("ollama")
 
@@ -49,7 +49,7 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     sys.modules["ollama"] = ollama_stub
 
 try:  # pragma: no cover - 測試環境若缺 google genai 套件則建立防呆 stub
-    import google  # type: ignore
+    import google  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     google_stub = types.ModuleType("google")
     google_stub.__path__ = []  # type: ignore[attr-defined]

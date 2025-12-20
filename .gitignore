@@ -31,6 +31,9 @@ test/.tmp/
 .coverage
 coverage.xml
 
+# Topic pipeline workspaces (large PDFs / run artefacts)
+workspaces/
+
 # Keep version-controlled test sources
 !test/**/*.py
 

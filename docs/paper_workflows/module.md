@@ -47,6 +47,7 @@
 #### `search_arxiv_for_topic`
 
 - 使用 arXiv Atom API，產生 `(ti:"anchor") AND (ti:"term")` 格式的查詢。
+- `scope` 參數控制查詢欄位：預設 `all`；若要只查標題可傳 `scope="ti"`，只查摘要則用 `scope="abs"`。
 - 回傳 `id`、`title`、`summary`、`published` 等欄位。
 - 失敗時會拋出 `requests.HTTPError`。
 
@@ -132,7 +133,6 @@ finally:
 - `docs/paper_downloaders/module.md`：下載函式與 `DownloadResult` 結構詳解。
 - `docs/keyword_extractor/module.md`：了解下載後的 PDF 如何進一步用於關鍵字抽取。
 - `test/integration_live/test_paper_downloaders_live.py`：端到端範例流程。
-
 
 
 

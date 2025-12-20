@@ -43,6 +43,7 @@ def test_search_arxiv_for_topic_quotes_search_terms() -> None:
         session,
         anchor_terms=["graph neural networks"],
         search_terms=["contrastive learning"],
+        scope="ti",
     )
     assert len(session.calls) == 1
     params = session.calls[0]["params"]

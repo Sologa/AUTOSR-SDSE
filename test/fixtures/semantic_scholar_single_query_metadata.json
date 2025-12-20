@@ -1,0 +1,38 @@
+[
+  {
+    "anchor": "spoken language model",
+    "search_term": "survey",
+    "metadata": {
+      "paperId": "abc123",
+      "title": "A Semantic Scholar Paper",
+      "abstract": "This is a short abstract used for unit testing.",
+      "year": 2024,
+      "url": "https://example.com/paper/abc123",
+      "externalIds": {
+        "DOI": "10.1234/xyz"
+      },
+      "openAccessPdf": {
+        "url": "https://example.com/paper/abc123.pdf"
+      }
+    },
+    "search_record": {}
+  },
+  {
+    "anchor": "spoken language model",
+    "search_term": "review",
+    "metadata": {
+      "paperId": "def456",
+      "title": "Another Semantic Scholar Paper",
+      "abstract": "Another abstract used for unit testing.",
+      "year": 2023,
+      "url": "https://example.com/paper/def456",
+      "externalIds": {
+        "DOI": "10.1234/abc"
+      },
+      "openAccessPdf": {
+        "url": "https://example.com/paper/def456.pdf"
+      }
+    },
+    "search_record": {}
+  }
+]

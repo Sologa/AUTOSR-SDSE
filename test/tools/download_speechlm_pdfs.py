@@ -38,7 +38,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import requests
 
@@ -550,7 +550,6 @@ def download_entry(
     title = entry.get("title", "(無標題)")
     if not isinstance(title, str):
         title = str(title)
-    identifier = identify_entry(entry)
     metadata_raw = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
     metadata = dict(metadata_raw) if isinstance(metadata_raw, dict) else {}
     bib_key, bibtex = resolve_bibtex_and_key(session, entry, metadata, fallback_prefix=source)
