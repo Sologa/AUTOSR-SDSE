@@ -41,15 +41,26 @@ Seed → Filter-Seed (新增) → Keywords → Harvest → ...
 - **獨立 stage**（可單獨執行與重跑）
 - 同時提供 **keywords 前置觸發**（避免使用者多一步）
 
-範例（擬定 CLI）：
+範例（CLI）：
 ```
 python scripts/topic_pipeline.py filter-seed --topic "<topic>"
-python scripts/topic_pipeline.py keywords --topic "<topic>" --screen-seed-papers
 ```
 
 ---
 
-## 4) 輸入資料
+## 4) CLI 參數（建議）
+
+- `--provider`（預設 openai）
+- `--model`（預設 gpt-5-mini）
+- `--temperature`（預設 0.2）
+- `--max-output-tokens`（預設 400）
+- `--reasoning-effort`（預設 low）
+- `--include-keyword`（可重複，提供判斷線索）
+- `--force`（覆寫既有篩選輸出）
+
+---
+
+## 5) 輸入資料
 
 ### 必要輸入
 - `topic`（使用者指定的主題字串）
@@ -63,7 +74,7 @@ python scripts/topic_pipeline.py keywords --topic "<topic>" --screen-seed-papers
 
 ---
 
-## 5) LLM 判斷規格
+## 6) LLM 判斷規格
 
 ### 輸出格式（每篇）
 必須是 JSON，且僅以下欄位：
@@ -85,11 +96,12 @@ LLM 必須做 **二分決策**：
 ### 判斷依據
 - **只用** title + abstract
 - topic 作為「關聯度基準」
-- 若 paper 為 survey/review，僅能視作「加分訊號」，不得作為唯一判定依據
+- **必須**明確屬於 survey/review/overview 範疇（需在 title 或 abstract 中明確表述）
+- 若僅為側邊提及或與 topic 關聯不明確，必須判定為 `no`
 
 ---
 
-## 6) Prompt 規格（摘要）
+## 7) Prompt 規格（摘要）
 
 Prompt 要求：
 - 固定輸出 JSON（含 `decision`, `reason`, `confidence`）
@@ -109,7 +121,7 @@ abstract: ...
 
 ---
 
-## 7) 輸出與落盤
+## 8) 輸出與落盤
 
 ### 主要輸出
 ```
@@ -156,7 +168,7 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 
 ---
 
-## 8) 行為與錯誤處理
+## 9) 行為與錯誤處理
 
 - 若 seed metadata 為空 → 直接輸出空結果（不報錯）
 - 若 LLM 呼叫失敗 → 回報錯誤（遵守 repo 規則，不做 fallback）
@@ -164,7 +176,7 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 
 ---
 
-## 9) 可重跑與快取
+## 10) 可重跑與快取
 
 預設 **可重跑**：  
 - 允許 `--force` 覆寫 `seed/filters/*`  
@@ -172,7 +184,7 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 
 ---
 
-## 10) 測試與驗證要點
+## 11) 測試與驗證要點
 
 由於 repo 規則禁止 mock：
 - 只能用真實 API 驗證（integration test）
@@ -180,7 +192,7 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 
 ---
 
-## 11) 風險與緩解
+## 12) 風險與緩解
 
 ### 風險
 - LLM 誤判（false negative / false positive）
@@ -192,23 +204,14 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 
 ---
 
-## 12) 與 Keywords 的整合策略
+## 13) 與 Keywords 的整合策略
 
-建議提供一個旗標：
-```
-python scripts/topic_pipeline.py keywords --topic "<topic>" --screen-seed-papers
-```
-
-行為：
-1. 若 `seed/filters/llm_screening.json` 已存在且未 `--force`，直接使用
-2. 取 `selected_ids` 對應到 PDF 路徑
-3. 只把 **yes** 的 PDFs 交給 keyword extraction
-
-補充：若採用「方案 A」，上述步驟 2/3 可由 Filter-Seed 將 `seed/downloads/arxiv/` 整理完成，keywords 無需改介面或參數。
+採用「方案 A」：Filter-Seed 會整理 `seed/downloads/arxiv/`，因此 **keywords 介面不需修改**。  
+若未執行 Filter-Seed，keywords 仍會使用原本的 seed PDFs。
 
 ---
 
-## 13) 待確認事項（本 spec 預設）
+## 14) 待確認事項（本 spec 預設）
 
 - 只用 title + abstract
 - 保留 reason + confidence
