@@ -943,6 +943,10 @@ def extract_keywords_from_seed_pdfs(
 
     load_env_file()
 
+    # Hard lock for reasoning LLM usage.
+    model = "gpt-5.2"
+    temperature = 1.0
+
     output_path = workspace.keywords_path
     if output_path.exists() and not force:
         return {"keywords_path": str(output_path), "skipped": True}

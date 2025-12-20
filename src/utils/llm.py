@@ -141,7 +141,10 @@ DEFAULT_PRICING = ModelPriceRegistry(
     price_table={
         "openai": {
             # OpenAI API pricing (USD per 1M tokens) cross-checked against https://openai.com/api/pricing
-            # and individual model pages on https://platform.openai.com/docs/models (retrieved 2025-09-27).
+            # and individual model pages on https://platform.openai.com/docs/models (retrieved 2025-12-20).
+            "gpt-5.2": ModelPricing(input_cost_per_1m=1.75, output_cost_per_1m=14.0),
+            "gpt-5.2-pro": ModelPricing(input_cost_per_1m=21.0, output_cost_per_1m=168.0),
+            "gpt-5.2-chat-latest": ModelPricing(input_cost_per_1m=1.75, output_cost_per_1m=14.0),
             "gpt-5": ModelPricing(input_cost_per_1m=1.25, output_cost_per_1m=10.0),
             "gpt-5-mini": ModelPricing(input_cost_per_1m=0.25, output_cost_per_1m=2.0),
             "gpt-5-nano": ModelPricing(input_cost_per_1m=0.05, output_cost_per_1m=0.4),
