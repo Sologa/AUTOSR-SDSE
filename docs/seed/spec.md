@@ -12,7 +12,24 @@
 
 ---
 
-## 2) 介面 / 參數
+## 2) 目前已知問題（需改善）
+
+> 以下為目前流程中可明確觀察到的問題，將作為後續修正依據。
+
+1) **Seed 無模型 prompt**  
+   現行 Seed 不使用 LLM；因此沒有 prompt 可檢視或調參。
+
+2) **Anchor 需要使用者介入或會產生雜訊**  
+   - 若使用者不提供 `--anchor`，會使用 `default_topic_variants` 的字串變形，  
+     對於「複雜 topic / 真實存在的論文標題」容易產生不乾淨的 anchor。  
+   - 這與「最小人類介入」的目標不一致。
+
+3) **複雜 topic 的語意壓縮不足**  
+   topic 若是長標題或含副標題，直接用作 anchor 會導致查詢過窄或不穩定。
+
+---
+
+## 3) 介面 / 參數
 
 ### CLI
 ```
@@ -38,7 +55,7 @@ python scripts/topic_pipeline.py seed --topic "<topic>"
 
 ---
 
-## 3) 查詢行為（摘要）
+## 4) 查詢行為（摘要）
 
 ### 一般模式
 組合規則如下（示意）：
@@ -47,8 +64,8 @@ python scripts/topic_pipeline.py seed --topic "<topic>"
 ```
 
 - `anchor_clause`：
-  - `phrase`：`ti:"discrete audio tokens"`（完整片語）
-  - `token_and`：`ti:("discrete" AND "audio" AND "tokens")`
+  - `phrase`：`ti:"<anchor phrase>"`（完整片語）
+  - `token_and`：`ti:("token1" AND "token2" AND "token3")`
 - `survey_clause`：`ti:"survey" OR ti:"review" OR ti:"overview" ...`
 - 多個 anchor 之間為 **OR**
 
@@ -57,7 +74,7 @@ python scripts/topic_pipeline.py seed --topic "<topic>"
 
 ---
 
-## 4) 輸出
+## 5) 輸出
 
 ### 主要產物
 ```
@@ -75,7 +92,7 @@ workspaces/<topic_slug>/seed/downloads/arxiv/*.pdf
 
 ---
 
-## 5) 使用範例
+## 6) 使用範例
 
 ### 基本用法
 ```
@@ -95,13 +112,13 @@ python scripts/topic_pipeline.py seed \
 ```
 python scripts/topic_pipeline.py seed \
   --topic "..." \
-  --arxiv-raw-query 'ti:("discrete" AND "audio" AND "token") AND (survey OR review)' \
+  --arxiv-raw-query 'ti:("term1" AND "term2" AND "term3") AND (survey OR review)' \
   --no-cache
 ```
 
 ---
 
-## 6) 測試要點
+## 7) 測試要點
 
 - `seed/queries/arxiv.json` 是否更新（使用 `--no-cache` 可強制更新）
 - `seed/queries/seed_selection.json` 是否記錄 cutoff 與候選清單
@@ -110,7 +127,7 @@ python scripts/topic_pipeline.py seed \
 
 ---
 
-## 7) 已知限制
+## 8) 已知限制
 
 - arXiv API 回傳結果受限於查詢字串與 `max_results`
 - survey 條件可能過嚴，導致沒有 seed
@@ -118,3 +135,60 @@ python scripts/topic_pipeline.py seed \
 - PDF 可能因權限或 404 下載失敗（會記錄在 download_results.json）
 - 本階段只查 arXiv，不涵蓋 Semantic Scholar 或 DBLP
 
+---
+
+## 9) LLM 產生 Anchor（擬議變更）
+
+為了降低人為介入，建議在 Seed 階段加入 **LLM 自動產生 anchor terms** 的能力：
+
+### 行為目標
+- 使用者 **不必** 提供 `--anchor`
+- 由模型根據 `topic` 產生 **2–6 個**穩定、可查詢的短片語
+- 產生結果須落盤，便於追溯與重用
+
+### 產出建議
+```
+workspaces/<topic_slug>/seed/queries/anchor_terms.json
+```
+
+### 需要新增的 CLI（擬議）
+- `--anchor-source auto|manual`（預設 auto）
+- `--anchor-model <model>`（預設 gpt-5-mini）
+- `--anchor-temperature <float>`（預設 0.2）
+- `--anchor-max-output-tokens <int>`（預設 300）
+
+---
+
+## 10) LLM Anchor Prompt（完整草案，無特定領域）
+
+> 注意：此 prompt **不得**包含任何特定領域的關鍵字或規則，必須對任意 topic 通用。
+
+```
+Role: Academic Search Strategy Assistant
+Task: Generate high-quality anchor terms for literature search based on the given topic.
+Constraints:
+  - Use ONLY the given topic text.
+  - Output STRICT JSON only, no extra text.
+  - Provide 2–6 anchor terms, each 1–4 words, noun-phrase style.
+  - Avoid adding "survey", "review", or "overview" to anchor terms.
+  - Avoid overly broad or generic terms.
+  - If the topic is a long title, compress it into stable, searchable phrases.
+
+Topic: <<topic>>
+
+Output JSON (no extra keys):
+{
+  "anchor_terms": ["...", "..."],
+  "notes": "一句話中文說明生成策略"
+}
+```
+
+---
+
+## 11) 變更影響評估（摘要）
+
+- 增加 LLM anchor 生成會涉及：
+  - 新 prompt 檔案
+  - Seed 流程多一次 LLM 呼叫
+  - 新的落盤檔案與參數
+- 不影響下游介面（仍產出 `seed/queries/arxiv.json` 與 PDF）
