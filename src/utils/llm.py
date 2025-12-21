@@ -550,7 +550,7 @@ class OpenAIProvider(BaseLLMProvider):
         "o4",
     )
     _MODELS_WITHOUT_TEMPERATURE = frozenset(model.lower() for model in _REASONING_MODELS)
-    _VALID_REASONING_EFFORTS = frozenset({"low", "medium", "high"})
+    _VALID_REASONING_EFFORTS = frozenset({"low", "medium", "high", "xhigh"})
 
     def __init__(
         self,
@@ -714,7 +714,7 @@ class OpenAIProvider(BaseLLMProvider):
                 raise ValueError("Use either 'reasoning' or 'reasoning_effort', not both")
             normalized_effort = str(reasoning_effort).strip().lower()
             if normalized_effort not in self._VALID_REASONING_EFFORTS:
-                raise ValueError("reasoning_effort must be one of {'low', 'medium', 'high'}")
+                raise ValueError("reasoning_effort must be one of {'low', 'medium', 'high', 'xhigh'}")
             request_kwargs["reasoning"] = {"effort": normalized_effort}
 
         if "reasoning" in request_kwargs:
@@ -726,7 +726,7 @@ class OpenAIProvider(BaseLLMProvider):
             if effort_value is not None:
                 normalized_effort = str(effort_value).strip().lower()
                 if normalized_effort not in self._VALID_REASONING_EFFORTS:
-                    raise ValueError("reasoning['effort'] must be one of {'low', 'medium', 'high'}")
+                    raise ValueError("reasoning['effort'] must be one of {'low', 'medium', 'high', 'xhigh'}")
                 normalized_payload["effort"] = normalized_effort
             request_kwargs["reasoning"] = normalized_payload
 

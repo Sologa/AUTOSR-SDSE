@@ -28,7 +28,7 @@ python scripts/topic_pipeline.py keywords --topic "<topic>"
 - `--max-queries`：search terms 總量上限（預設 50）
 - `--include-ethics`：允許 ethics 類術語
 - `--seed-anchor`：可重複指定（補充或覆寫錨點指引）
-- `--reasoning-effort` / `--max-output-tokens`：LLM 輸出控制
+- `--reasoning-effort` / `--max-output-tokens`：LLM 輸出控制（預設 **medium**；支援 low/medium/high/xhigh）
 - `--force`：覆寫既有 `keywords.json`
 
 ---
@@ -49,6 +49,7 @@ python scripts/topic_pipeline.py keywords --topic "<topic>"
 ### 3.3 Anchor 與 Search Terms
 - **本階段會同時產生 `anchor_terms` 與 `search_terms`**（同一份輸出）
 - 不需要使用者額外提供 anchor（除非想提供 `--seed-anchor` 作為提示）
+> 補充：anchor/search terms 將被用來組合布林查詢（例如 `(anchor OR ...) AND (term OR ...)`），因此必須是可搜尋、可泛化的短片語。
 
 ---
 
@@ -97,7 +98,7 @@ workspaces/<topic_slug>/keywords/keyword_extractor_usage_<timestamp>.json
 - Profile: You design evidence-grounded, reproducible search strategies for literature reviews. You prioritize deduplication, clarity, and coverage.
 - Skills: Systematic review methodology, taxonomy-driven term extraction, boolean query synthesis, deduplication and synonym consolidation, concise rationale writing.
 - Goals: Produce a JSON-only output containing anchor terms, categorized search terms, and per-paper metadata entries (including detected keywords with evidence). Ground every field in the PDFs and the provided metadata.
-- Constraints:
+ - Constraints:
   - Use only information present in the uploaded PDFs or in the metadata block appended below.
   - Copy each paper title and abstract exactly as provided; do not paraphrase or truncate them.
   - Prefer multi-paper-supported terms; mark single-paper terms with lower confidence.
@@ -105,6 +106,23 @@ workspaces/<topic_slug>/keywords/keyword_extractor_usage_<timestamp>.json
   - Keep total recommended search terms <= <<max_queries>> (default 50).
   - Keep each search term as a concise noun phrase (ideally 1–2 words, maximum 3); never output full sentences or tokens with underscores.
   - Output strictly valid JSON, no extra text.
+- Downstream usage (important):
+  - The output anchor_terms and search_terms will be used to construct boolean search queries for arXiv-style engines.
+  - anchor_terms are treated as stable topic anchors; search_terms are category-specific query terms.
+  - Queries are built by combining anchor_terms with search_terms (e.g., (anchor OR anchor OR ...) AND (term OR term OR ...)).
+  - Matching is mostly literal, so anchor_terms and search_terms must be searchable, generalizable phrases (not full titles, not overly specific wording).
+  - Avoid punctuation-heavy strings, quotes, dataset IDs, or long phrases; prefer 1–3 word noun phrases likely to appear in titles/abstracts.
+  - Do not add meta terms like "survey/review" unless the topic itself explicitly centers on surveys/reviews.
+- Topic interpretation (important):
+  - The provided topic_hint may be either (1) a broad research area or (2) a specific paper title (possibly exact).
+  - Silently decide which type topic_hint is; do not output the decision.
+  - Never output topic_hint itself as anchor_terms.
+  - If topic_hint is type (2), you must NOT copy the title, subtitle, punctuation, or create abbreviations from it. Derive anchors only from the PDFs/metadata.
+  - If topic_hint is type (1), you may use common field abbreviations only when they appear in the PDFs/metadata and are widely used in the field.
+  - Anchor_terms must appear verbatim (case-insensitive) in the titles/abstracts; use 1–3 word noun phrases without punctuation.
+  - Abbreviations are allowed only if they appear in the PDFs/metadata and are widely used in the field; never invent acronyms.
+  - When an abbreviation is used, include its long-form anchor term alongside it (do not output acronym-only anchors).
+  - Do not inject external domain assumptions; derive anchor_terms from the PDFs/metadata only.
 - Workflow:
   1) Review the provided paper metadata (see block below) to capture canonical identifiers, titles, abstracts, publication years, and URLs.
   2) Read the PDFs and identify the central task/topic; propose 2–4 anchor_terms aligned with the metadata guidance.
