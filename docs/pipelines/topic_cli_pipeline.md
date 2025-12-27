@@ -241,10 +241,15 @@ flowchart TD
   - `criteria/web_search_notes.txt`
   - `criteria/pdf_background.txt`、`criteria/combined_notes.txt`、`criteria/formatter_prompt.json`、`criteria/formatter_raw.txt`（僅 `pdf+web`）
 - 分歧/特殊情況：
+  - 預設模型：search=`gpt-5.2-chat-latest`、formatter=`gpt-5.2`、pdf=`gpt-4.1`（可用 CLI 參數覆寫）。
+  - 若 search 使用 `gpt-5-search-api`，會切換 web search 工具版本為 `web_search_2025_08_26`。
   - 若 `criteria.json` 已存在且未 `--force` → 直接跳過（回傳 `skipped`）。
   - `mode=web`：只產出 web notes + structured JSON。
   - `mode=pdf+web`：會讀取 PDFs（預設 `seed/downloads/arxiv/`，可用 `--pdf-dir` 指定），最多 `max_pdfs`。
   - 即使沒有任何 PDF，仍會組合 web notes 並進行 formatter（`pdf_background.txt` 會是空字串）。
+  - 若 seed 選擇結果偵測到與 topic 同標題的 cutoff candidate，criteria 會自動加入「排除同標題論文」並將時間限制為該 paper 發表日期之前。
+  - 若設定了 cutoff 日期，會自動驗證來源頁面的日期；無法抽取日期或晚於 cutoff 會觸發重跑，超過重試次數直接報錯。
+  - 系統規則（如排除指定標題/時間 cutoff）允許 source 為 internal 或空白，不要求附網頁來源。
 
 ### Stage F（可選）：LatteReview Title/Abstract 初篩
 
@@ -262,7 +267,9 @@ flowchart TD
   - 若 `OPENAI_API_KEY` 未設定 → 直接報錯。
   - 若 metadata 檔不存在 → 直接報錯。
   - 會略過 title/abstract 缺失者，或 title 含 `skip_titles_containing`（預設 "survey"）。
-  - 若過濾後無可審核條目 → 直接報錯。
+  - 若 criteria 內含 `exclude_title` 或 `cutoff_before_date`，會在審查前直接標記為 `discard`，不送 LLM；仍會出現在結果中，並標註 `review_skipped=true`、`discard_reason`。
+  - 若過濾後無可審核條目但有 discard → 仍輸出結果（僅包含 discard）。
+  - 若過濾後無可審核且無 discard → 直接報錯。
   - 若無 criteria（或無 `structured_payload`）→ 使用內建的預設 inclusion/exclusion 文字。
 
 ### Stage G（可選）：ASReview + Snowballing

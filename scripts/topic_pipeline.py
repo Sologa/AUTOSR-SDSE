@@ -142,8 +142,8 @@ def build_parser() -> argparse.ArgumentParser:
     criteria.add_argument("--mode", default="web", choices=["web", "pdf+web"])
     criteria.add_argument("--pdf-dir", type=Path, default=None)
     criteria.add_argument("--max-pdfs", type=_positive_int, default=5)
-    criteria.add_argument("--search-model", default="gpt-4.1")
-    criteria.add_argument("--formatter-model", default="gpt-5")
+    criteria.add_argument("--search-model", default="gpt-5.2-chat-latest")
+    criteria.add_argument("--formatter-model", default="gpt-5.2")
     criteria.add_argument("--pdf-model", default="gpt-4.1")
     criteria.add_argument("--force", action="store_true")
 

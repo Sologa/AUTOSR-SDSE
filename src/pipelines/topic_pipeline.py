@@ -26,7 +26,8 @@ from datetime import date, datetime, timezone
 from difflib import SequenceMatcher
 from importlib import util as importlib_util
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Set, Tuple
+from urllib.parse import urlparse
 
 import requests
 
@@ -112,6 +113,214 @@ def _extract_publication_date(metadata: Dict[str, object]) -> Optional[date]:
         except ValueError:
             continue
     return None
+
+
+def _infer_criteria_cutoff_constraints(workspace: TopicWorkspace) -> Tuple[Optional[str], Optional[str]]:
+    selection_path = workspace.seed_queries_dir / "seed_selection.json"
+    if not selection_path.exists():
+        return None, None
+
+    data = _read_json(selection_path)
+    if data.get("cutoff_reason") != "similar_title_threshold_met":
+        return None, None
+
+    candidate = data.get("cutoff_candidate") or {}
+    title = candidate.get("title")
+    if not isinstance(title, str) or not title.strip():
+        return None, None
+
+    if workspace.topic.strip().casefold() != title.strip().casefold():
+        return None, None
+
+    published_raw = candidate.get("published_date") or candidate.get("published")
+    cutoff_date: Optional[date] = None
+    if published_raw:
+        try:
+            cutoff_date = _parse_date_bound(str(published_raw), label="cutoff_candidate.published_date")
+        except ValueError:
+            cutoff_date = None
+
+    return title.strip(), cutoff_date.isoformat() if cutoff_date else None
+
+
+_DATE_TOKEN_RE = re.compile(r"\b(?P<year>\d{4})[/-](?P<month>\d{2})[/-](?P<day>\d{2})\b")
+_JSONLD_DATE_KEYS = ("datePublished", "dateCreated", "dateModified", "date")
+_META_DATE_KEYS = (
+    "citation_publication_date",
+    "citation_date",
+    "dc.date",
+    "dc.date.issued",
+    "date",
+    "pubdate",
+    "publish-date",
+    "article:published_time",
+    "article:modified_time",
+)
+
+
+def _parse_explicit_date(value: str) -> Optional[date]:
+    match = _DATE_TOKEN_RE.search(value)
+    if not match:
+        return None
+    try:
+        return date(
+            int(match.group("year")),
+            int(match.group("month")),
+            int(match.group("day")),
+        )
+    except ValueError:
+        return None
+
+
+def _extract_arxiv_id_from_url(url: str) -> Optional[str]:
+    parsed = urlparse(url)
+    if "arxiv.org" not in parsed.netloc:
+        return None
+    parts = [part for part in parsed.path.split("/") if part]
+    if not parts:
+        return None
+    if parts[0] in {"abs", "pdf"} and len(parts) >= 2:
+        arxiv_id = parts[1]
+    else:
+        arxiv_id = parts[-1]
+    arxiv_id = arxiv_id.replace(".pdf", "")
+    return trim_arxiv_id(arxiv_id) or arxiv_id
+
+
+def _extract_date_from_html(html: str) -> Optional[date]:
+    for key in _JSONLD_DATE_KEYS:
+        match = re.search(rf'"{key}"\s*:\s*"([^"]+)"', html)
+        if match:
+            candidate = _parse_explicit_date(match.group(1))
+            if candidate:
+                return candidate
+
+    for key in _META_DATE_KEYS:
+        pattern_a = rf'(?:name|property)\s*=\s*["\']?{re.escape(key)}["\']?\s+content\s*=\s*["\']([^"\']+)["\']'
+        pattern_b = rf'content\s*=\s*["\']([^"\']+)["\']\s+(?:name|property)\s*=\s*["\']?{re.escape(key)}["\']?'
+        for pattern in (pattern_a, pattern_b):
+            match = re.search(pattern, html, flags=re.IGNORECASE)
+            if match:
+                candidate = _parse_explicit_date(match.group(1))
+                if candidate:
+                    return candidate
+
+    for key in ("cdate", "pdate", "mdate"):
+        match = re.search(rf'"{key}"\s*:\s*(\d{{13}})', html)
+        if match:
+            try:
+                ts = int(match.group(1)) / 1000
+            except ValueError:
+                continue
+            return datetime.fromtimestamp(ts, tz=timezone.utc).date()
+
+    match = _DATE_TOKEN_RE.search(html)
+    if match:
+        return _parse_explicit_date(match.group(0))
+    return None
+
+
+def _fetch_source_date(source: str, session: requests.Session) -> Optional[date]:
+    arxiv_id = _extract_arxiv_id_from_url(source)
+    if arxiv_id:
+        try:
+            metadata = fetch_arxiv_metadata(arxiv_id, session=session)
+        except requests.RequestException:
+            return None
+        published = metadata.get("published")
+        if published:
+            return _parse_explicit_date(str(published)) or _parse_date_bound(
+                str(published), label="published"
+            )
+        return None
+
+    try:
+        response = session.get(
+            source,
+            timeout=20,
+            headers={"User-Agent": "Mozilla/5.0"},
+        )
+    except requests.RequestException:
+        return None
+    if response.status_code >= 400:
+        return None
+    return _extract_date_from_html(response.text)
+
+
+def _collect_criteria_sources(structured_payload: Dict[str, object]) -> Set[str]:
+    sources: Set[str] = set()
+
+    def _add(value: Optional[str]) -> None:
+        if not isinstance(value, str):
+            return
+        cleaned = value.strip()
+        if not cleaned:
+            return
+        sources.add(cleaned)
+
+    for value in structured_payload.get("sources", []) or []:
+        _add(value)
+
+    inclusion = structured_payload.get("inclusion_criteria", {}) or {}
+    for item in inclusion.get("required", []) or []:
+        if isinstance(item, dict):
+            _add(item.get("source"))
+    for group in inclusion.get("any_of", []) or []:
+        if isinstance(group, dict):
+            for option in group.get("options", []) or []:
+                if isinstance(option, dict):
+                    _add(option.get("source"))
+
+    for item in structured_payload.get("exclusion_criteria", []) or []:
+        if isinstance(item, dict):
+            _add(item.get("source"))
+
+    return sources
+
+
+def _validate_criteria_sources(
+    structured_payload: Dict[str, object],
+    *,
+    cutoff_before_date: Optional[str],
+    session: requests.Session,
+    min_https_sources: int = 3,
+) -> Dict[str, object]:
+    cutoff_date = _parse_date_bound(cutoff_before_date, label="cutoff_before_date") if cutoff_before_date else None
+    sources = sorted(_collect_criteria_sources(structured_payload))
+    invalid: List[Dict[str, str]] = []
+    checked: List[Dict[str, Optional[str]]] = []
+    valid_https_sources: List[str] = []
+
+    for source in sources:
+        if source.lower() == "internal":
+            continue
+        if not source.startswith("https://"):
+            invalid.append({"source": source, "reason": "non_https"})
+            continue
+        source_date = _fetch_source_date(source, session)
+        checked.append({"source": source, "date": source_date.isoformat() if source_date else None})
+        if not source_date:
+            invalid.append({"source": source, "reason": "missing_date"})
+            continue
+        if cutoff_date and source_date >= cutoff_date:
+            invalid.append(
+                {"source": source, "reason": f"after_cutoff:{source_date.isoformat()}"}
+            )
+            continue
+        valid_https_sources.append(source)
+
+    if min_https_sources and len(valid_https_sources) < min_https_sources:
+        invalid.append(
+            {"source": "__sources__", "reason": f"insufficient_https_sources:{len(valid_https_sources)}"}
+        )
+
+    return {
+        "ok": not invalid,
+        "checked_sources": checked,
+        "invalid_sources": invalid,
+        "valid_https_sources": valid_https_sources,
+        "cutoff_before_date": cutoff_before_date,
+    }
 
 
 def _head_ok(session: requests.Session, url: str, *, timeout: int = 15) -> bool:
@@ -1236,8 +1445,8 @@ def generate_structured_criteria(
     mode: str = "web",
     pdf_dir: Optional[Path] = None,
     max_pdfs: int = 5,
-    search_model: str = "gpt-4.1",
-    formatter_model: str = "gpt-5",
+    search_model: str = "gpt-5.2-chat-latest",
+    formatter_model: str = "gpt-5.2",
     pdf_model: str = "gpt-4.1",
     search_temperature: float = 0.7,
     formatter_temperature: float = 0.2,
@@ -1255,14 +1464,20 @@ def generate_structured_criteria(
     if output_path.exists() and not force:
         return {"criteria_path": str(output_path), "skipped": True}
 
+    exclude_title, cutoff_before_date = _infer_criteria_cutoff_constraints(workspace)
+    effective_recency_hint = recency_hint
+    if cutoff_before_date:
+        effective_recency_hint = f"發表日期早於 {cutoff_before_date}"
+
+    tool_type = "web_search_2025_08_26" if search_model == "gpt-5-search-api" else "web_search"
     cfg = CriteriaPipelineConfig(
-        recency_hint=recency_hint,
+        recency_hint=effective_recency_hint,
         search=SearchStageConfig(
             model=search_model,
             temperature=search_temperature,
             max_output_tokens=search_max_output_tokens,
             enforce_tool_choice=True,
-            options=WebSearchOptions(search_context_size="medium"),
+            options=WebSearchOptions(search_context_size="medium", tool_type=tool_type),
         ),
         formatter=FormatterStageConfig(
             model=formatter_model,
@@ -1271,19 +1486,47 @@ def generate_structured_criteria(
         ),
     )
 
-    pipeline_result = run_structured_criteria_pipeline(
-        workspace.topic,
-        config=cfg,
-        recency_hint=recency_hint,
-        web_search_service=create_web_search_service(),
-        formatter_service=LLMService(),
-    )
+    pipeline_result = None
+    validation_report: Optional[Dict[str, object]] = None
+    max_attempts = 3
+    for attempt in range(1, max_attempts + 1):
+        pipeline_result = run_structured_criteria_pipeline(
+            workspace.topic,
+            config=cfg,
+            recency_hint=effective_recency_hint,
+            exclude_title=exclude_title,
+            cutoff_before_date=cutoff_before_date,
+            web_search_service=create_web_search_service(),
+            formatter_service=LLMService(),
+        )
+        if cutoff_before_date:
+            with requests.Session() as session:
+                validation_report = _validate_criteria_sources(
+                    pipeline_result.structured_payload,
+                    cutoff_before_date=cutoff_before_date,
+                    session=session,
+                )
+            if validation_report.get("ok"):
+                break
+            if attempt < max_attempts:
+                continue
+            raise ValueError(
+                "criteria source validation failed: "
+                + json.dumps(validation_report, ensure_ascii=False)
+            )
+        else:
+            break
+    if pipeline_result is None:
+        raise RuntimeError("criteria pipeline did not produce a result")
 
     artifacts: Dict[str, object] = {
         "topic": workspace.topic,
-        "recency_hint": recency_hint,
+        "recency_hint": effective_recency_hint,
         "mode": mode,
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "cutoff_before_date": cutoff_before_date,
+        "exclude_title": exclude_title,
+        "source_validation": validation_report,
         "search_prompt": pipeline_result.search_prompt,
         "structured_prompt_template": pipeline_result.structured_prompt_template,
         "web_search_notes": pipeline_result.raw_notes,
@@ -1550,6 +1793,8 @@ def run_latte_review(
     output_path: Optional[Path] = None,
     top_k: Optional[int] = None,
     skip_titles_containing: str = "survey",
+    discard_title: Optional[str] = None,
+    discard_after_date: Optional[str] = None,
     junior_nano_model: str = "gpt-5-nano",
     junior_mini_model: str = "gpt-4.1-mini",
     senior_model: str = "gpt-5-mini",
@@ -1576,20 +1821,32 @@ def run_latte_review(
         raise FileNotFoundError(f"找不到 arXiv metadata 檔案：{metadata_path}")
 
     criteria_payload: Dict[str, object] = {}
+    criteria_obj: Optional[Dict[str, object]] = None
     if criteria_path:
-        criteria_obj = _read_json(Path(criteria_path))
-        if isinstance(criteria_obj, dict):
-            structured = criteria_obj.get("structured_payload")
+        loaded = _read_json(Path(criteria_path))
+        if isinstance(loaded, dict):
+            criteria_obj = loaded
+            structured = loaded.get("structured_payload")
             if isinstance(structured, dict):
                 criteria_payload = structured
-            elif isinstance(criteria_obj.get("topic_definition"), (str, dict, list)):
-                criteria_payload = criteria_obj  # allow direct criteria JSON
+            elif isinstance(loaded.get("topic_definition"), (str, dict, list)):
+                criteria_payload = loaded  # allow direct criteria JSON
     elif workspace.criteria_path.exists():
-        criteria_obj = _read_json(workspace.criteria_path)
-        if isinstance(criteria_obj, dict):
-            structured = criteria_obj.get("structured_payload")
+        loaded = _read_json(workspace.criteria_path)
+        if isinstance(loaded, dict):
+            criteria_obj = loaded
+            structured = loaded.get("structured_payload")
             if isinstance(structured, dict):
                 criteria_payload = structured
+
+    if criteria_obj and discard_title is None:
+        candidate = criteria_obj.get("exclude_title")
+        if isinstance(candidate, str) and candidate.strip():
+            discard_title = candidate.strip()
+    if criteria_obj and discard_after_date is None:
+        cutoff_value = criteria_obj.get("cutoff_before_date")
+        if isinstance(cutoff_value, str) and cutoff_value.strip():
+            discard_after_date = cutoff_value.strip()
 
     inclusion_criteria, exclusion_criteria = _criteria_payload_to_strings(criteria_payload)
     if not inclusion_criteria:
@@ -1602,154 +1859,205 @@ def run_latte_review(
         raise ValueError("arXiv metadata payload must be a list")
 
     rows: List[Dict[str, object]] = []
+    discarded: List[Dict[str, object]] = []
     skip_token = skip_titles_containing.strip().lower()
+    normalized_discard_title = " ".join(discard_title.split()).lower() if discard_title else None
+    cutoff_date = _parse_date_bound(discard_after_date, label="discard_after_date") if discard_after_date else None
     for entry in payload:
         if not isinstance(entry, dict):
             continue
         metadata = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
         title = str(metadata.get("title") or "").strip()
         abstract = str(metadata.get("summary") or metadata.get("abstract") or "").strip()
-        if not title or not abstract:
+        if not title:
             continue
-        if skip_token and skip_token in title.lower():
+        cleaned_title = " ".join(title.split())
+        cleaned_abstract = " ".join(abstract.split()) if abstract else ""
+        published_date = _extract_publication_date(metadata)
+        discard_reason: Optional[str] = None
+        if normalized_discard_title and cleaned_title.lower() == normalized_discard_title:
+            discard_reason = "title_matches_exclude_title"
+        elif cutoff_date and published_date and published_date >= cutoff_date:
+            discard_reason = f"published_on_or_after_cutoff:{published_date.isoformat()}"
+        if discard_reason:
+            discarded.append(
+                {
+                    "title": cleaned_title,
+                    "abstract": cleaned_abstract,
+                    "metadata": metadata,
+                    "discard_reason": discard_reason,
+                }
+            )
             continue
-        rows.append({"title": " ".join(title.split()), "abstract": " ".join(abstract.split()), "metadata": metadata})
-        if top_k is not None and len(rows) >= top_k:
-            break
-    if not rows:
-        raise RuntimeError("找不到任何可供 LatteReview 審查的條目（請確認 metadata/skip 條件）。")
+        if not cleaned_abstract:
+            continue
+        if skip_token and skip_token in cleaned_title.lower():
+            continue
+        if top_k is None or len(rows) < top_k:
+            rows.append({"title": cleaned_title, "abstract": cleaned_abstract, "metadata": metadata})
 
-    df = pd.DataFrame(rows)
+    if not rows and not discarded:
+        raise RuntimeError("找不到任何可供 LatteReview 審查或標記的條目（請確認 metadata/skip 條件）。")
 
-    def _build_reviewer(
-        name: str,
-        model: str,
-        *,
-        model_args: Dict[str, Any],
-        reasoning: str,
-        backstory: str,
-        additional_context: Optional[str] = None,
-    ) -> TitleAbstractReviewer:
-        return TitleAbstractReviewer(
-            name=name,
-            provider=OpenAIProvider(model=model),
-            inclusion_criteria=inclusion_criteria,
-            exclusion_criteria=exclusion_criteria,
-            model_args=model_args,
-            reasoning=reasoning,
-            backstory=backstory,
-            additional_context=additional_context,
-            max_concurrent_requests=50,
-            verbose=False,
+    review_records: List[Dict[str, object]] = []
+    result_columns: List[str] = ["title", "abstract", "metadata", "final_verdict"]
+
+    if rows:
+        df = pd.DataFrame(rows)
+
+        def _build_reviewer(
+            name: str,
+            model: str,
+            *,
+            model_args: Dict[str, Any],
+            reasoning: str,
+            backstory: str,
+            additional_context: Optional[str] = None,
+        ) -> TitleAbstractReviewer:
+            return TitleAbstractReviewer(
+                name=name,
+                provider=OpenAIProvider(model=model),
+                inclusion_criteria=inclusion_criteria,
+                exclusion_criteria=exclusion_criteria,
+                model_args=model_args,
+                reasoning=reasoning,
+                backstory=backstory,
+                additional_context=additional_context,
+                max_concurrent_requests=50,
+                verbose=False,
+            )
+
+        junior_nano = _build_reviewer(
+            "JuniorNano",
+            junior_nano_model,
+            model_args={},
+            reasoning="brief",
+            backstory="一位負責初步篩選文獻的研究助理",
+        )
+        junior_mini = _build_reviewer(
+            "JuniorMini",
+            junior_mini_model,
+            model_args={},
+            reasoning="brief",
+            backstory="一位熟悉相關領域的研究助理",
+        )
+        senior = _build_reviewer(
+            "SeniorLead",
+            senior_model,
+            model_args={"reasoning_effort": senior_reasoning_effort} if senior_reasoning_effort else {},
+            reasoning="brief",
+            backstory="負責統整並做最終判定的資深 reviewer",
+            additional_context="兩位 junior reviewer 已提供初步評估，請在整合意見前檢視他們的回饋。",
         )
 
-    junior_nano = _build_reviewer(
-        "JuniorNano",
-        junior_nano_model,
-        model_args={},
-        reasoning="brief",
-        backstory="一位負責初步篩選文獻的研究助理",
-    )
-    junior_mini = _build_reviewer(
-        "JuniorMini",
-        junior_mini_model,
-        model_args={},
-        reasoning="brief",
-        backstory="一位熟悉相關領域的研究助理",
-    )
-    senior = _build_reviewer(
-        "SeniorLead",
-        senior_model,
-        model_args={"reasoning_effort": senior_reasoning_effort} if senior_reasoning_effort else {},
-        reasoning="brief",
-        backstory="負責統整並做最終判定的資深 reviewer",
-        additional_context="兩位 junior reviewer 已提供初步評估，請在整合意見前檢視他們的回饋。",
-    )
-
-    def _senior_filter(row: "pd.Series") -> bool:  # type: ignore[name-defined]
-        eval_1 = row.get("round-A_JuniorNano_evaluation")
-        eval_2 = row.get("round-A_JuniorMini_evaluation")
-        if pd.isna(eval_1) or pd.isna(eval_2):
-            return False
-        try:
-            score1 = int(eval_1)
-            score2 = int(eval_2)
-        except (TypeError, ValueError):
-            return False
-        if score1 != score2:
-            if score1 >= 4 and score2 >= 4:
+        def _senior_filter(row: "pd.Series") -> bool:  # type: ignore[name-defined]
+            eval_1 = row.get("round-A_JuniorNano_evaluation")
+            eval_2 = row.get("round-A_JuniorMini_evaluation")
+            if pd.isna(eval_1) or pd.isna(eval_2):
                 return False
-            if score1 >= 3 or score2 >= 3:
-                return True
-        elif score1 == score2 == 3:
-            return True
-        return False
-
-    def _derive_verdict(row: "pd.Series") -> str:  # type: ignore[name-defined]
-        senior_eval = row.get("round-B_SeniorLead_evaluation")
-        source = "junior"
-        score: Optional[int] = None
-        if senior_eval is not None and not pd.isna(senior_eval):
             try:
-                score = int(senior_eval)
-                source = "senior"
+                score1 = int(eval_1)
+                score2 = int(eval_2)
             except (TypeError, ValueError):
-                score = None
-        if score is None:
-            candidates: List[int] = []
-            for value in (
-                row.get("round-A_JuniorNano_evaluation"),
-                row.get("round-A_JuniorMini_evaluation"),
-            ):
-                if value is None or pd.isna(value):
-                    continue
+                return False
+            if score1 != score2:
+                if score1 >= 4 and score2 >= 4:
+                    return False
+                if score1 >= 3 or score2 >= 3:
+                    return True
+            elif score1 == score2 == 3:
+                return True
+            return False
+
+        def _derive_verdict(row: "pd.Series") -> str:  # type: ignore[name-defined]
+            senior_eval = row.get("round-B_SeniorLead_evaluation")
+            source = "junior"
+            score: Optional[int] = None
+            if senior_eval is not None and not pd.isna(senior_eval):
                 try:
-                    candidates.append(int(value))
+                    score = int(senior_eval)
+                    source = "senior"
                 except (TypeError, ValueError):
-                    continue
-            if not candidates:
-                return "需再評估 (no_score)"
-            score = int(round(sum(candidates) / len(candidates)))
-        if score >= 4:
-            return f"include ({source}:{score})"
-        if score <= 2:
-            return f"exclude ({source}:{score})"
-        return f"maybe ({source}:{score})"
+                    score = None
+            if score is None:
+                candidates: List[int] = []
+                for value in (
+                    row.get("round-A_JuniorNano_evaluation"),
+                    row.get("round-A_JuniorMini_evaluation"),
+                ):
+                    if value is None or pd.isna(value):
+                        continue
+                    try:
+                        candidates.append(int(value))
+                    except (TypeError, ValueError):
+                        continue
+                if not candidates:
+                    return "需再評估 (no_score)"
+                score = int(round(sum(candidates) / len(candidates)))
+            if score >= 4:
+                return f"include ({source}:{score})"
+            if score <= 2:
+                return f"exclude ({source}:{score})"
+            return f"maybe ({source}:{score})"
 
-    workflow_schema = [
-        {"round": "A", "reviewers": [junior_nano, junior_mini], "text_inputs": ["title", "abstract"]},
-        {
-            "round": "B",
-            "reviewers": [senior],
-            "text_inputs": [
-                "title",
-                "abstract",
-                "round-A_JuniorNano_output",
-                "round-A_JuniorNano_evaluation",
-                "round-A_JuniorMini_output",
-                "round-A_JuniorMini_evaluation",
-            ],
-            "filter": _senior_filter,
-        },
-    ]
+        workflow_schema = [
+            {"round": "A", "reviewers": [junior_nano, junior_mini], "text_inputs": ["title", "abstract"]},
+            {
+                "round": "B",
+                "reviewers": [senior],
+                "text_inputs": [
+                    "title",
+                    "abstract",
+                    "round-A_JuniorNano_output",
+                    "round-A_JuniorNano_evaluation",
+                    "round-A_JuniorMini_output",
+                    "round-A_JuniorMini_evaluation",
+                ],
+                "filter": _senior_filter,
+            },
+        ]
 
-    workflow = ReviewWorkflow.model_validate({"workflow_schema": workflow_schema, "verbose": False}, context={"data": df})
-    result_df = asyncio.run(workflow.run(df))
-    result_df["final_verdict"] = result_df.apply(_derive_verdict, axis=1)
+        workflow = ReviewWorkflow.model_validate(
+            {"workflow_schema": workflow_schema, "verbose": False}, context={"data": df}
+        )
+        result_df = asyncio.run(workflow.run(df))
+        result_df["final_verdict"] = result_df.apply(_derive_verdict, axis=1)
+
+        result_columns = list(result_df.columns)
+        for index, row in result_df.iterrows():
+            record = {column: row[column] for column in result_df.columns}
+            metadata_value = row.get("metadata") if "metadata" in row else None
+            if metadata_value is None:
+                metadata_value = df.loc[index, "metadata"]
+            record["metadata"] = metadata_value
+            record["review_skipped"] = False
+            record["discard_reason"] = None
+            review_records.append(record)
 
     output_records: List[Dict[str, object]] = []
-    for index, row in result_df.iterrows():
-        record = {column: row[column] for column in result_df.columns}
-        metadata_value = row.get("metadata") if "metadata" in row else None
-        if metadata_value is None:
-            metadata_value = df.loc[index, "metadata"]
-        record["metadata"] = metadata_value
-        output_records.append(record)
+    output_records.extend(review_records)
+    if discarded:
+        base_record = {column: None for column in result_columns}
+        for item in discarded:
+            record = dict(base_record)
+            record["title"] = item.get("title")
+            record["abstract"] = item.get("abstract")
+            record["metadata"] = item.get("metadata")
+            discard_reason = str(item.get("discard_reason") or "discard_rule")
+            record["final_verdict"] = f"discard ({discard_reason})"
+            record["review_skipped"] = True
+            record["discard_reason"] = discard_reason
+            output_records.append(record)
 
     out = Path(output_path) if output_path else workspace.review_results_path
     _ensure_dir(out.parent)
     out.write_text(json.dumps(output_records, ensure_ascii=False, indent=2), encoding="utf-8")
-    return {"review_results_path": str(out), "reviewed": len(output_records)}
+    return {
+        "review_results_path": str(out),
+        "reviewed": len(review_records),
+        "discarded": len(discarded),
+        "total": len(output_records),
+    }
 
 
 def run_snowball_asreview(
