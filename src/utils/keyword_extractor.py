@@ -527,6 +527,7 @@ def _fallback_aggregate_per_paper_outputs(
 @dataclass
 class ExtractParams:
     topic: Optional[str] = None
+    use_topic_variants: bool = True
     max_queries: int = 50
     include_ethics: bool = True
     language: str = "en"
@@ -610,7 +611,9 @@ def _resolved_anchor_variants(params: ExtractParams) -> List[str]:
     if params.anchor_variants:
         return _dedupe_preserve_order(params.anchor_variants)
 
-    variants = _generate_topic_variants(params.topic)
+    variants: List[str] = []
+    if params.use_topic_variants:
+        variants = _generate_topic_variants(params.topic)
     if params.seed_anchors:
         variants.extend(params.seed_anchors)
     return _dedupe_preserve_order(variants)
@@ -623,20 +626,25 @@ def _anchor_guidance_text(params: ExtractParams, variants: Sequence[str]) -> str
             + " | ".join(variants)
             + "; do not introduce unrelated anchor terms"
         )
-    if params.topic:
+    if params.topic and params.use_topic_variants:
         return (
             "limit anchors to well-formed variants of the provided topic; reject unrelated concepts"
         )
     return "infer 2–4 anchors grounded in the PDFs"
 
 
-def _anchor_policy_text(topic: Optional[str], variants: Sequence[str]) -> str:
+def _anchor_policy_text(
+    topic: Optional[str],
+    variants: Sequence[str],
+    *,
+    use_topic_variants: bool = True,
+) -> str:
     if variants:
         return (
             "Restrict anchor_terms to the exact topic variants: "
             + " | ".join(variants)
         )
-    if topic:
+    if topic and use_topic_variants:
         return (
             f"Anchor terms must stay aligned with the topic '{_normalize_phrase(topic)}' and only include close synonyms or abbreviations."
         )
@@ -661,7 +669,7 @@ def _apply_anchor_postprocessing(
         for item in payload.get("anchor_terms", [])
         if isinstance(item, str) and item.strip()
     ]
-    if params.topic:
+    if params.topic and params.use_topic_variants:
         topic_lower = params.topic.lower()
         filtered = [anchor for anchor in anchors if topic_lower in anchor.lower()]
         if not filtered and params.seed_anchors:
@@ -673,6 +681,115 @@ def _apply_anchor_postprocessing(
         payload["anchor_terms"] = filtered
     else:
         payload["anchor_terms"] = _dedupe_preserve_order(anchors)
+
+
+def _sanitize_anchor_terms(
+    payload: Dict[str, Any],
+    metadata_list: Sequence[PaperMetadataRecord],
+    params: ExtractParams,
+    *,
+    max_anchors: int = 4,
+) -> None:
+    if not isinstance(payload, dict):
+        return
+
+    raw_anchors = [
+        item
+        for item in payload.get("anchor_terms", [])
+        if isinstance(item, str) and item.strip()
+    ]
+    search_terms = payload.get("search_terms", {})
+    candidates: List[str] = list(raw_anchors)
+    if isinstance(search_terms, dict):
+        for values in search_terms.values():
+            if isinstance(values, list):
+                for term in values:
+                    if isinstance(term, str) and term.strip():
+                        candidates.append(term)
+
+    text_parts: List[str] = []
+    for meta in metadata_list:
+        title = meta.title or ""
+        abstract = meta.abstract or ""
+        combined = f"{title} {abstract}".strip()
+        if combined:
+            text_parts.append(combined)
+    corpus = " ".join(text_parts).lower()
+
+    forbidden: set[str] = set()
+    if params.topic:
+        for variant in _generate_topic_variants(params.topic):
+            forbidden.add(_normalize_phrase(variant).casefold())
+
+    def _has_blocked_punct(value: str) -> bool:
+        return any(ch in value for ch in [":", "!", "?", "\"", "'"])
+
+    def _accept(term: str, *, require_corpus: bool) -> bool:
+        normalized = _normalize_phrase(term)
+        if not normalized:
+            return False
+        if _has_blocked_punct(normalized):
+            return False
+        if len(normalized.split()) > 3:
+            return False
+        key = normalized.casefold()
+        if key in forbidden:
+            return False
+        if require_corpus and corpus and key not in corpus:
+            return False
+        return True
+
+    selected: List[str] = []
+    seen: set[str] = set()
+
+    for term in candidates:
+        if not isinstance(term, str):
+            continue
+        normalized = _normalize_phrase(term)
+        if not _accept(normalized, require_corpus=True):
+            continue
+        key = normalized.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        selected.append(normalized)
+        if len(selected) >= max_anchors:
+            break
+
+    if not selected:
+        for term in candidates:
+            if not isinstance(term, str):
+                continue
+            normalized = _normalize_phrase(term)
+            if not _accept(normalized, require_corpus=False):
+                continue
+            key = normalized.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            selected.append(normalized)
+            if len(selected) >= max_anchors:
+                break
+
+    if not selected and candidates:
+        for term in candidates:
+            if not isinstance(term, str):
+                continue
+            normalized = _normalize_phrase(term)
+            if not normalized:
+                continue
+            key = normalized.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            selected.append(normalized)
+            if len(selected) >= max_anchors:
+                break
+
+    if not selected and params.topic:
+        selected = [_normalize_phrase(params.topic)]
+
+    payload["anchor_terms"] = selected
 
 def _load_template(path: Path) -> str:
     if not path.exists():
@@ -775,6 +892,7 @@ def build_aggregate_instructions(
     max_queries: int = 50,
     topic: Optional[str] = None,
     anchor_variants: Optional[Sequence[str]] = None,
+    use_topic_variants: bool = True,
     metadata_block: Optional[str] = None,
     aggregate_prompt_path: Optional[Path | str] = None,
     allow_additional_categories: bool = False,
@@ -787,7 +905,10 @@ def build_aggregate_instructions(
     text = text.replace("<<max_queries>>", str(max_queries))
     anchor_list = _dedupe_preserve_order(anchor_variants) if anchor_variants else []
     text = text.replace("<<topic_hint>>", _normalize_phrase(topic or "not provided"))
-    text = text.replace("<<anchor_policy>>", _anchor_policy_text(topic, anchor_list))
+    text = text.replace(
+        "<<anchor_policy>>",
+        _anchor_policy_text(topic, anchor_list, use_topic_variants=use_topic_variants),
+    )
     text = text.replace("<<paper_metadata_block>>", metadata_block or "(metadata unavailable)")
     additional_note = ""
     if allow_additional_categories:
@@ -905,6 +1026,7 @@ def extract_search_terms_from_surveys(
                 resolved_anchor_variants,
             )
         _apply_anchor_postprocessing(parsed_partial, resolved_anchor_variants, p)
+        _sanitize_anchor_terms(parsed_partial, [paper_metadata[idx]], p)
         _enforce_metadata_alignment(parsed_partial, [paper_metadata[idx]])
         _validate_output_against_metadata(parsed_partial, [paper_metadata[idx]])
         per_parsed_payloads.append(parsed_partial)
@@ -920,6 +1042,7 @@ def extract_search_terms_from_surveys(
         max_queries=p.max_queries,
         topic=p.topic,
         anchor_variants=resolved_anchor_variants,
+        use_topic_variants=p.use_topic_variants,
         metadata_block=combined_metadata_block,
         aggregate_prompt_path=p.aggregate_prompt_path,
         allow_additional_categories=p.allow_additional_categories,
@@ -955,6 +1078,7 @@ def extract_search_terms_from_surveys(
         else:
             try:
                 _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+                _sanitize_anchor_terms(parsed, paper_metadata, p)
                 _enforce_metadata_alignment(parsed, paper_metadata)
                 _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
                 _validate_output_against_metadata(parsed, paper_metadata)
@@ -968,6 +1092,7 @@ def extract_search_terms_from_surveys(
                 p,
             )
             _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+            _sanitize_anchor_terms(parsed, paper_metadata, p)
             _enforce_metadata_alignment(parsed, paper_metadata)
             _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
             _validate_output_against_metadata(parsed, paper_metadata)

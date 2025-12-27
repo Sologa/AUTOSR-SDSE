@@ -50,6 +50,7 @@ python scripts/topic_pipeline.py keywords --topic "<topic>"
 - **本階段會同時產生 `anchor_terms` 與 `search_terms`**（同一份輸出）
 - 不需要使用者額外提供 anchor（除非想提供 `--seed-anchor` 作為提示）
 > 補充：anchor/search terms 將被用來組合布林查詢（例如 `(anchor OR ...) AND (term OR ...)`），因此必須是可搜尋、可泛化的短片語。
+> 本階段 **不使用 topic 變體作為 anchor**；anchor 會從 PDF/metadata 與 search_terms 中抽取並清理（去除與 topic 相同或不合規的錨點）。
 
 ---
 

@@ -964,6 +964,7 @@ def extract_keywords_from_seed_pdfs(
         max_queries=max_queries,
         include_ethics=include_ethics,
         seed_anchors=list(seed_anchors) if seed_anchors else None,
+        use_topic_variants=False,
         reasoning_effort=reasoning_effort,
     )
 
