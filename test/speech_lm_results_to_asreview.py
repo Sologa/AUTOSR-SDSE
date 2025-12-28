@@ -35,6 +35,8 @@ CONVERTED_FILENAME = "screening_included.csv"
 SNOWBALL_FILENAME = "snowball_results.csv"
 SNOWBALL_RAW_FILENAME = "snowball_results_raw.csv"
 SNOWBALL_REVIEW_FILENAME = "snowball_for_review.csv"
+CANDIDATES_JSON_FILENAME = "candidates_for_review.json"
+DEDUP_REPORT_FILENAME = "dedup_report.json"
 USER_AGENT = "AUTOSR-SDSE/1.0"
 
 
@@ -210,6 +212,15 @@ def normalize_title_slug(value: Any) -> str:
     if not isinstance(value, str):
         return ""
     return "".join(value.lower().split())
+
+
+def normalize_arxiv_slug(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+    text = value.strip().lower()
+    if text.startswith("arxiv:"):
+        text = text[len("arxiv:"):]
+    return "".join(text.split())
 
 
 def parse_year(raw: str | None) -> str:
@@ -560,6 +571,7 @@ def run_snowball(
     *,
     min_date: Optional[date] = None,
     max_date: Optional[date] = None,
+    exclude_title: Optional[str] = None,
 ) -> None:
     if not run_forward and not run_backward:
         print("已略過雪球檢索")
@@ -647,6 +659,47 @@ def run_snowball(
         print(f"已移除缺少標題/摘要的雪球候選 {removed_empty} 筆")
     if removed_non_en:
         print(f"已移除非英文標題/摘要的雪球候選 {removed_non_en} 筆")
+    if exclude_title:
+        removed_same_title = _filter_snowball_by_title(output_csv, exclude_title)
+        if removed_same_title:
+            print(f"已排除與主題同標題的雪球候選 {removed_same_title} 筆")
+
+
+FINAL_REGISTRY_STATUSES = {"include", "exclude", "hard_exclude"}
+
+
+def _load_registry_payload(registry_path: Path) -> tuple[List[Dict[str, Any]], str]:
+    if not registry_path.exists():
+        return [], ""
+    try:
+        payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return [], ""
+    entries = payload.get("entries")
+    if not isinstance(entries, list):
+        entries = []
+    criteria_hash = str(payload.get("criteria_hash") or "").strip()
+    return entries, criteria_hash
+
+
+def _build_registry_seen(
+    entries: List[Dict[str, Any]],
+    active_criteria_hash: str,
+) -> Dict[str, Set[str]]:
+    seen = _empty_seen_index()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        status = str(entry.get("status") or "").strip()
+        if status not in FINAL_REGISTRY_STATUSES:
+            continue
+        if status == "hard_exclude" and active_criteria_hash:
+            entry_hash = str(entry.get("criteria_hash") or "").strip()
+            if not entry_hash or entry_hash != active_criteria_hash:
+                continue
+        candidates = _entry_key_candidates(entry)
+        _register_seen(candidates, seen)
+    return seen
 
 
 def generate_snowball_review_candidates(
@@ -654,7 +707,9 @@ def generate_snowball_review_candidates(
     screened_csv: Path,
     snowball_csv: Path,
     output_csv: Path,
-    exclude_title: Optional[str] = None,
+    registry_path: Optional[Path] = None,
+    criteria_hash: Optional[str] = None,
+    dedup_report_path: Optional[Path] = None,
 ) -> None:
     if not snowball_csv.exists():
         print("[WARN] 雪球輸出不存在，略過合併去重階段")
@@ -665,40 +720,53 @@ def generate_snowball_review_candidates(
 
     base_df = pd.read_csv(screened_csv)
     snow_df = pd.read_csv(snowball_csv)
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
     if snow_df.empty:
         print("[INFO] 雪球結果為空，無須產生額外審查清單")
-        output_csv.parent.mkdir(parents=True, exist_ok=True)
         snow_df.to_csv(output_csv, index=False)
+        if dedup_report_path:
+            dedup_report_path.parent.mkdir(parents=True, exist_ok=True)
+            report = {
+                "removed_total": 0,
+                "removed_by": {},
+                "registry_used": False,
+                "active_criteria_hash": (criteria_hash or "").strip() or None,
+            }
+            dedup_report_path.write_text(
+                json.dumps(report, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
         return
 
-    if exclude_title:
-        title_mask = snow_df["title"].apply(lambda value: not is_same_title(str(value), exclude_title))
-        removed = len(snow_df) - int(title_mask.sum())
-        snow_df = snow_df[title_mask]
-        if removed:
-            print(f"已排除與主題同標題的雪球候選 {removed} 筆")
-
-    seen_keys: set[str] = set()
-
+    seen = _empty_seen_index()
     for _, row in base_df.iterrows():
-        for key in _row_keys(row):
-            seen_keys.add(key)
+        _register_seen(_row_key_candidates(row), seen)
+
+    registry_used = False
+    active_hash = (criteria_hash or "").strip()
+    if registry_path is not None:
+        entries, registry_hash = _load_registry_payload(registry_path)
+        if not active_hash:
+            active_hash = registry_hash
+        if entries:
+            registry_used = True
+            registry_seen = _build_registry_seen(entries, active_hash)
+            for key_type, key_values in registry_seen.items():
+                seen.setdefault(key_type, set()).update(key_values)
 
     kept_rows: list[pd.Series] = []
     skipped = 0
+    removed_by = {key: 0 for key in DEDUP_KEY_ORDER}
     for _, row in snow_df.iterrows():
-        keys = _row_keys(row)
-
-        is_duplicate = any(key in seen_keys for key in keys)
-        if is_duplicate:
+        candidates = _row_key_candidates(row)
+        matched_by = _match_seen(candidates, seen)
+        if matched_by:
             skipped += 1
+            removed_by[matched_by] += 1
             continue
         kept_rows.append(row)
-        for key in keys:
-            if key:
-                seen_keys.add(key)
+        _register_seen(candidates, seen)
 
-    output_csv.parent.mkdir(parents=True, exist_ok=True)
     if kept_rows:
         merged_df = pd.DataFrame(kept_rows)
     else:
@@ -707,6 +775,69 @@ def generate_snowball_review_candidates(
     print(
         f"雪崩新審查清單：{output_csv} (保留 {len(merged_df)} 筆，排除與初審重覆 {skipped} 筆)"
     )
+    if dedup_report_path:
+        dedup_report_path.parent.mkdir(parents=True, exist_ok=True)
+        removed_by_clean = {key: value for key, value in removed_by.items() if value}
+        report = {
+            "removed_total": skipped,
+            "removed_by": removed_by_clean,
+            "registry_used": registry_used,
+            "active_criteria_hash": active_hash or None,
+        }
+        dedup_report_path.write_text(
+            json.dumps(report, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+
+
+def write_candidates_for_review_json(
+    *,
+    input_csv: Path,
+    output_json: Path,
+) -> int:
+    if not input_csv.exists():
+        print("[WARN] 找不到 snowball_for_review.csv，無法產生 candidates_for_review.json")
+        output_json.parent.mkdir(parents=True, exist_ok=True)
+        output_json.write_text("[]", encoding="utf-8")
+        return 0
+    df = pd.read_csv(input_csv)
+    records: List[Dict[str, Any]] = []
+    def _cell_text(value: Any) -> str:
+        if value is None:
+            return ""
+        try:
+            if pd.isna(value):
+                return ""
+        except Exception:
+            pass
+        return str(value).strip()
+
+    for _, row in df.iterrows():
+        title = _cell_text(row.get("title"))
+        abstract = _cell_text(row.get("abstract"))
+        doi = _cell_text(row.get("doi"))
+        openalex_id = _cell_text(row.get("openalex_id"))
+        arxiv_id = _cell_text(row.get("arxiv_id"))
+        publication_date = _cell_text(row.get("publication_date"))
+        metadata = {
+            "title": title,
+            "summary": abstract,
+            "abstract": abstract,
+            "doi": doi,
+            "openalex_id": openalex_id,
+            "arxiv_id": arxiv_id,
+            "publication_date": publication_date,
+            "published": publication_date,
+            "source": "openalex_snowball",
+        }
+        records.append({"metadata": metadata})
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_json.write_text(
+        json.dumps(records, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"雪球候選 JSON：{output_json} ({len(records)} 筆)")
+    return len(records)
 
 
 def _filter_csv_by_date(
@@ -737,35 +868,78 @@ def _filter_csv_by_date(
 def _deduplicate_dataframe_by_keys(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         return df
-    seen: set[str] = set()
+    seen = _empty_seen_index()
     keep_indices: list[int] = []
 
     for idx, row in df.iterrows():
-        keys = _row_keys(row)
-        if keys and any(key in seen for key in keys):
+        candidates = _row_key_candidates(row)
+        matched_by = _match_seen(candidates, seen)
+        if matched_by:
             continue
         keep_indices.append(idx)
-        for key in keys:
-            seen.add(key)
+        _register_seen(candidates, seen)
 
     return df.iloc[keep_indices].reset_index(drop=True)
 
 
-def _row_keys(row: pd.Series) -> List[str]:
-    keys: List[str] = []
-    doi = normalize_doi_slug(row.get("doi"))
-    if doi:
-        keys.append(f"doi:{doi}")
+DEDUP_KEY_ORDER = ("openalex_id", "doi", "arxiv_id", "title")
+
+
+def _empty_seen_index() -> Dict[str, Set[str]]:
+    return {key: set() for key in DEDUP_KEY_ORDER}
+
+
+def _row_key_candidates(row: pd.Series) -> List[tuple[str, str]]:
+    candidates: List[tuple[str, str]] = []
     openalex = normalize_openalex_slug(row.get("openalex_id"))
     if openalex:
-        keys.append(f"openalex:{openalex}")
-    arxiv_id = normalize_title_slug(row.get("arxiv_id"))
+        candidates.append(("openalex_id", f"openalex:{openalex}"))
+    doi = normalize_doi_slug(row.get("doi"))
+    if doi:
+        candidates.append(("doi", f"doi:{doi}"))
+    arxiv_id = normalize_arxiv_slug(row.get("arxiv_id"))
     if arxiv_id:
-        keys.append(f"arxiv:{arxiv_id}")
+        candidates.append(("arxiv_id", f"arxiv:{arxiv_id}"))
     title = normalize_title_slug(row.get("title"))
     if title:
-        keys.append(f"title:{title}")
-    return keys
+        candidates.append(("title", f"title:{title}"))
+    return candidates
+
+
+def _entry_key_candidates(entry: Dict[str, Any]) -> List[tuple[str, str]]:
+    candidates: List[tuple[str, str]] = []
+    openalex = normalize_openalex_slug(entry.get("openalex_id"))
+    if openalex:
+        candidates.append(("openalex_id", f"openalex:{openalex}"))
+    doi = normalize_doi_slug(entry.get("doi"))
+    if doi:
+        candidates.append(("doi", f"doi:{doi}"))
+    arxiv_id = normalize_arxiv_slug(entry.get("arxiv_id"))
+    if arxiv_id:
+        candidates.append(("arxiv_id", f"arxiv:{arxiv_id}"))
+    title_value = entry.get("normalized_title") or entry.get("title")
+    title = normalize_title_slug(title_value)
+    if title:
+        candidates.append(("title", f"title:{title}"))
+    return candidates
+
+
+def _match_seen(
+    candidates: List[tuple[str, str]],
+    seen: Dict[str, Set[str]],
+) -> Optional[str]:
+    for key_type, key_value in candidates:
+        if key_value in seen.get(key_type, set()):
+            return key_type
+    return None
+
+
+def _register_seen(
+    candidates: List[tuple[str, str]],
+    seen: Dict[str, Set[str]],
+) -> None:
+    for key_type, key_value in candidates:
+        seen.setdefault(key_type, set()).add(key_value)
 
 
 def _normalize_text(value: Any) -> str:
@@ -866,6 +1040,22 @@ def _filter_invalid_snowball_rows(csv_path: Path) -> tuple[int, int]:
     return removed_empty, removed_non_en
 
 
+def _filter_snowball_by_title(csv_path: Path, exclude_title: str) -> int:
+    if not csv_path.exists() or csv_path.stat().st_size == 0:
+        return 0
+    df = pd.read_csv(csv_path)
+    if df.empty or "title" not in df.columns:
+        return 0
+    mask = df["title"].apply(
+        lambda value: not is_same_title(str(value), exclude_title)
+    )
+    filtered_df = df[mask]
+    removed = len(df) - len(filtered_df)
+    if removed:
+        filtered_df.to_csv(csv_path, index=False)
+    return removed
+
+
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=DEFAULT_RESULTS, help="LatteReview 結果 JSON 路徑")
@@ -895,6 +1085,8 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
         default=None,
         help="排除標題完全等於指定字串的論文（大小寫不敏感）",
     )
+    parser.add_argument("--registry", type=Path, default=None, help="全歷史 review registry JSON")
+    parser.add_argument("--criteria-hash", default=None, help="當前 criteria hash（供 hard_exclude 去重判斷）")
     return parser.parse_args(argv)
 
 
@@ -951,6 +1143,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         run_backward=not args.skip_backward,
         min_date=min_date,
         max_date=max_date,
+        exclude_title=args.exclude_title,
     )
 
     combined_candidates_csv = output_dir / SNOWBALL_REVIEW_FILENAME
@@ -958,7 +1151,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         screened_csv=asreview_csv,
         snowball_csv=snowball_csv,
         output_csv=combined_candidates_csv,
-        exclude_title=args.exclude_title,
+        registry_path=args.registry,
+        criteria_hash=args.criteria_hash,
+        dedup_report_path=output_dir / DEDUP_REPORT_FILENAME,
+    )
+    write_candidates_for_review_json(
+        input_csv=combined_candidates_csv,
+        output_json=output_dir / CANDIDATES_JSON_FILENAME,
     )
 
     return 0

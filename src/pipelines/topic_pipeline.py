@@ -15,6 +15,7 @@ Design goals
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import re
 import shutil
@@ -22,7 +23,7 @@ import sys
 import types
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
 from importlib import util as importlib_util
 from pathlib import Path
@@ -77,6 +78,25 @@ def _write_json(path: Path, payload: Any) -> None:
 
 def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _sha256_file(path: Path) -> str:
+    if not path.exists():
+        return ""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _update_registry_criteria_hash(registry_path: Path, criteria_hash: str) -> None:
+    if not criteria_hash or not registry_path.exists():
+        return
+    payload = _read_json(registry_path)
+    if not isinstance(payload, dict):
+        return
+    if payload.get("criteria_hash") == criteria_hash:
+        return
+    payload["criteria_hash"] = criteria_hash
+    payload["updated_at"] = datetime.now(timezone.utc).isoformat()
+    _write_json(registry_path, payload)
 
 
 def _now_utc_stamp() -> str:
@@ -509,6 +529,17 @@ class TopicWorkspace:
     def asreview_dir(self) -> Path:
         return self.root / "asreview"
 
+    @property
+    def snowball_rounds_dir(self) -> Path:
+        return self.root / "snowball_rounds"
+
+    def snowball_round_dir(self, round_index: int) -> Path:
+        return self.snowball_rounds_dir / f"round_{round_index:02d}"
+
+    @property
+    def snowball_registry_path(self) -> Path:
+        return self.snowball_rounds_dir / "review_registry.json"
+
     def ensure_layout(self) -> None:
         for path in (
             self.root,
@@ -522,6 +553,7 @@ class TopicWorkspace:
             self.criteria_dir,
             self.review_dir,
             self.asreview_dir,
+            self.snowball_rounds_dir,
         ):
             _ensure_dir(path)
 
@@ -2167,6 +2199,8 @@ def run_snowball_asreview(
     review_results_path: Optional[Path] = None,
     metadata_path: Optional[Path] = None,
     output_dir: Optional[Path] = None,
+    round_index: Optional[int] = None,
+    registry_path: Optional[Path] = None,
     email: Optional[str] = None,
     keep_label: Optional[Sequence[str]] = ("include",),
     min_date: Optional[str] = None,
@@ -2194,16 +2228,40 @@ def run_snowball_asreview(
 
     results_path = Path(review_results_path) if review_results_path else workspace.review_results_path
     meta_path = Path(metadata_path) if metadata_path else workspace.arxiv_metadata_path
-    out_dir = Path(output_dir) if output_dir else workspace.asreview_dir
+    if output_dir is not None:
+        out_dir = Path(output_dir)
+    elif round_index is not None:
+        out_dir = workspace.snowball_round_dir(round_index)
+    else:
+        out_dir = workspace.snowball_round_dir(1)
     _ensure_dir(out_dir)
+    registry = Path(registry_path) if registry_path else workspace.snowball_registry_path
+
+    criteria_hash = ""
+    if workspace.criteria_path.exists():
+        criteria_hash = _sha256_file(workspace.criteria_path)
+        _update_registry_criteria_hash(registry, criteria_hash)
 
     exclude_title: Optional[str] = None
+    cutoff_before_date: Optional[str] = None
     if workspace.criteria_path.exists():
         criteria_obj = _read_json(workspace.criteria_path)
         if isinstance(criteria_obj, dict):
             candidate = criteria_obj.get("exclude_title")
             if isinstance(candidate, str) and candidate.strip():
                 exclude_title = candidate.strip()
+            cutoff_value = criteria_obj.get("cutoff_before_date")
+            if isinstance(cutoff_value, str) and cutoff_value.strip():
+                cutoff_before_date = cutoff_value.strip()
+
+    effective_min_date = min_date
+    effective_max_date = max_date
+    if not effective_max_date and cutoff_before_date:
+        try:
+            cutoff_date = _parse_date_bound(cutoff_before_date, label="cutoff_before_date")
+            effective_max_date = (cutoff_date - timedelta(days=1)).isoformat()
+        except ValueError:
+            effective_max_date = cutoff_before_date
 
     argv: List[str] = [
         "--input",
@@ -2218,12 +2276,16 @@ def run_snowball_asreview(
     if keep_label:
         for label in keep_label:
             argv.extend(["--keep-label", str(label)])
-    if min_date:
-        argv.extend(["--min-date", min_date])
-    if max_date:
-        argv.extend(["--max-date", max_date])
+    if effective_min_date:
+        argv.extend(["--min-date", effective_min_date])
+    if effective_max_date:
+        argv.extend(["--max-date", effective_max_date])
     if exclude_title:
         argv.extend(["--exclude-title", exclude_title])
+    if registry:
+        argv.extend(["--registry", str(registry)])
+    if criteria_hash:
+        argv.extend(["--criteria-hash", criteria_hash])
     if skip_forward:
         argv.append("--skip-forward")
     if skip_backward:
@@ -2233,3 +2295,96 @@ def run_snowball_asreview(
     if rc != 0:
         raise RuntimeError(f"ASReview snowball stage failed with code {rc}")
     return {"asreview_dir": str(out_dir)}
+
+
+def run_snowball_iterative(
+    workspace: TopicWorkspace,
+    *,
+    mode: str = "loop",
+    max_rounds: int = 1,
+    start_round: int = 1,
+    stop_raw_threshold: Optional[int] = None,
+    stop_included_threshold: Optional[int] = None,
+    min_date: Optional[str] = None,
+    max_date: Optional[str] = None,
+    email: Optional[str] = None,
+    keep_label: Optional[Sequence[str]] = ("include",),
+    skip_forward: bool = False,
+    skip_backward: bool = False,
+    review_top_k: Optional[int] = None,
+    skip_titles_containing: Optional[str] = "survey",
+    registry_path: Optional[Path] = None,
+    retain_registry: bool = False,
+    bootstrap_review: Optional[Path] = None,
+    force: bool = False,
+) -> Dict[str, object]:
+    """Run iterative snowballing (each round includes LatteReview)."""
+
+    repo_root = Path(__file__).resolve().parents[2]
+    script_path = repo_root / "scripts" / "snowball_iterate.py"
+    if not script_path.exists():
+        raise FileNotFoundError(f"找不到 snowball 迭代腳本：{script_path}")
+
+    spec = importlib_util.spec_from_file_location("autosr_snowball_iterate", script_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"無法載入 snowball 迭代腳本：{script_path}")
+
+    module = importlib_util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)  # type: ignore[union-attr]
+    snowball_main = getattr(module, "main", None)
+    if not callable(snowball_main):
+        raise RuntimeError(f"{script_path} 未提供可呼叫的 main(argv) 函式")
+
+    workspace_root = workspace.root.parent
+    argv: List[str] = [
+        "--topic",
+        workspace.topic,
+        "--workspace-root",
+        str(workspace_root),
+        "--mode",
+        mode,
+        "--max-rounds",
+        str(max_rounds),
+        "--start-round",
+        str(start_round),
+    ]
+    if stop_raw_threshold is not None:
+        argv.extend(["--stop-raw-threshold", str(stop_raw_threshold)])
+    if stop_included_threshold is not None:
+        argv.extend(["--stop-included-threshold", str(stop_included_threshold)])
+    if min_date:
+        argv.extend(["--min-date", min_date])
+    if max_date:
+        argv.extend(["--max-date", max_date])
+    if email:
+        argv.extend(["--email", email])
+    if keep_label:
+        for label in keep_label:
+            argv.extend(["--keep-label", str(label)])
+    if skip_forward:
+        argv.append("--skip-forward")
+    if skip_backward:
+        argv.append("--skip-backward")
+    if review_top_k is not None:
+        argv.extend(["--review-top-k", str(review_top_k)])
+    if skip_titles_containing is not None:
+        argv.extend(["--skip-titles-containing", skip_titles_containing])
+    if registry_path:
+        argv.extend(["--registry", str(registry_path)])
+    if retain_registry:
+        argv.append("--retain-registry")
+    if bootstrap_review:
+        argv.extend(["--bootstrap-review", str(bootstrap_review)])
+    if force:
+        argv.append("--force")
+
+    rc = snowball_main(argv)
+    if rc != 0:
+        raise RuntimeError(f"Snowball iterate failed with code {rc}")
+
+    registry = Path(registry_path) if registry_path else workspace.snowball_registry_path
+    return {
+        "snowball_rounds_dir": str(workspace.snowball_rounds_dir),
+        "registry_path": str(registry),
+    }

@@ -64,11 +64,15 @@ workspaces/speech_language_model/
     formatter_raw.txt                  # pdf+web 才會有
   review/
     latte_review_results.json          # 可選
-  asreview/
-    screening_included.csv             # snowball 產物
-    snowball_results.csv
-    snowball_results_raw.csv           # snowball 原始輸出（未做日期/去重/語言過濾）
-    snowball_for_review.csv
+  snowball_rounds/
+    review_registry.json
+    round_01/
+      screening_included.csv           # snowball 產物
+      snowball_results.csv
+      snowball_results_raw.csv         # snowball 原始輸出（未做日期/去重/語言過濾）
+      snowball_for_review.csv
+      candidates_for_review.json
+      dedup_report.json
 ```
 
 > `.gitignore` 已新增 `workspaces/`，避免 PDF 與大量 artefacts 被誤提交。
@@ -265,6 +269,7 @@ flowchart TD
   - `criteria/criteria.json`（若存在，會自動轉成 reviewer 的 inclusion/exclusion 字串）
 - 產物：
   - `review/latte_review_results.json`
+  - 此檔案會作為 snowball 迭代的 base review（round 0）
 - 分歧/特殊情況：
   - 若 `OPENAI_API_KEY` 未設定 → 直接報錯。
   - 若 metadata 檔不存在 → 直接報錯。
@@ -274,25 +279,40 @@ flowchart TD
   - 若過濾後無可審核且無 discard → 直接報錯。
   - 若無 criteria（或無 `structured_payload`）→ 使用內建的預設 inclusion/exclusion 文字。
 
-### Stage G（可選）：ASReview + Snowballing
+### Stage G（可選）：迭代式 Snowball（每輪含 LatteReview）
 
-目的：把 LatteReview 結果轉成 ASReview CSV，並進行 forward/backward snowball。
+目的：以 base review 為種子執行 forward/backward snowball，**每輪**先產生候選清單，再跑 LatteReview，並更新全歷史 registry。
 
-- 工具：`test/speech_lm_results_to_asreview.py`
-- CLI：
-  - `python scripts/topic_pipeline.py snowball --topic "<topic>" --email "<you@example.com>"`
-- 產物：
-  - `asreview/screening_included.csv`
-  - `asreview/snowball_results_raw.csv`
-  - `asreview/snowball_results.csv`
-  - `asreview/snowball_for_review.csv`
+- 工具：
+  - 迭代：`scripts/snowball_iterate.py`
+  - 單輪：`test/speech_lm_results_to_asreview.py`（由 `python scripts/topic_pipeline.py snowball` 呼叫）
+- CLI（迭代）：
+  - `python scripts/snowball_iterate.py --topic "<topic>" --mode loop --max-rounds 3 --force`
+- CLI（單輪）：
+  - `python scripts/topic_pipeline.py snowball --topic "<topic>" --round 1 --email "<you@example.com>"`
+- 產物（每輪）：
+  - `snowball_rounds/round_XX/screening_included.csv`
+  - `snowball_rounds/round_XX/snowball_results_raw.csv`
+  - `snowball_rounds/round_XX/snowball_results.csv`
+  - `snowball_rounds/round_XX/snowball_for_review.csv`
+  - `snowball_rounds/round_XX/candidates_for_review.json`
+  - `snowball_rounds/round_XX/latte_review_results.json`
+  - `snowball_rounds/round_XX/dedup_report.json`
+  - `snowball_rounds/round_XX/round_meta.json`
+- 產物（全歷史）：
+  - `snowball_rounds/review_registry.json`（所有回合的 include/exclude/hard_exclude 累積；`status == "include"` 即全歷史納入清單）
+  - `snowball_rounds/final_included.json`
+  - `snowball_rounds/final_included.csv`
 - 分歧/特殊情況：
+  - 迭代版需要 base review（`review/latte_review_results.json`），否則直接報錯。
   - 若 snowball 腳本不存在或無 `main(argv)` → 直接報錯。
   - snowball 腳本回傳非 0 → 直接報錯。
-  - 若 criteria 含 `exclude_title`，snowball 會排除同標題條目，避免重複納入。
-  - `snowball_results_raw.csv` 為 forward/backward 原始輸出，寫入後才會進行日期、去重與語言過濾。
+  - 若 criteria 含 `exclude_title`，snowball 會在硬性過濾階段排除同標題條目，避免重複納入。
+  - `snowball_results_raw.csv` 為 forward/backward 原始輸出，寫入後才會進行日期、去重、語言與同標題過濾。
   - snowball 來源若無 `arxiv_id`，轉換階段會以 `openalex_id` / DOI / 標題進行 metadata 對應。
   - snowball 來源的日期欄位為 `publication_date`，日期過濾會自動讀取此欄位進行判斷。
+  - 若 `criteria.json` 含 `cutoff_before_date` 且未指定 `--max-date`，snowball 會自動套用 `max_date = cutoff_before_date - 1 day`。
+  - `review_registry.json` 用於跨回合去重，通常由 `scripts/snowball_iterate.py` 或 `scripts/update_snowball_registry.py` 維護。
 
 ---
 
@@ -318,11 +338,24 @@ python scripts/topic_pipeline.py run --topic "speech language model" \
 python scripts/topic_pipeline.py run --topic "<topic>" --with-criteria --with-review --with-snowball
 ```
 
+若要走 **多輪迭代 snowball**（run 會呼叫 `scripts/snowball_iterate.py`），可加上：
+
+```bash
+python scripts/topic_pipeline.py run --topic "<topic>" \
+  --with-criteria --with-review --with-snowball \
+  --snowball-mode loop \
+  --snowball-max-rounds 3 \
+  --snowball-force
+```
+
+> `--snowball-mode while` 需同時提供 `--snowball-stop-raw-threshold` 與 `--snowball-stop-included-threshold`。
+
 補充行為（run 子命令）：
 - 不會自動執行 filter-seed；如需先篩 seed，請額外跑 `filter-seed` 後再進入 keywords/harvest。
 - seed 在 run 內固定使用 cache（`reuse_cached_queries=True`）；要重查請先單跑 `seed --no-cache`。
 - `--extract-model` 仍會被 keywords 階段的硬鎖覆寫（實際模型固定 gpt-5.2）。
 - `--force` 只影響 keywords/harvest/criteria 的主要輸出，不會清空 seed 的 query cache。
+- `--with-snowball` 會啟用迭代式 snowball；需有 base review 結果（通常搭配 `--with-review`）。
 
 ---
 

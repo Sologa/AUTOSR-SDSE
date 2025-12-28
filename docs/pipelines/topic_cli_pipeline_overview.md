@@ -68,7 +68,7 @@
 
 ### G. Snowball（可選）
 - **輸入**：LatteReview 結果 + metadata
-- **輸出**：ASReview 相關 CSV 與 snowball 結果
+- **輸出**：迭代式 snowball（每輪含 LatteReview），round_XX 產物 + 全歷史 `review_registry.json` + `final_included.json/csv`
 - **分歧**：若前一步無有效結果或必要腳本不可用，流程會停止。
 
 ---

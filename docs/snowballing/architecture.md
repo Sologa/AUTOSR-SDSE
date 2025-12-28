@@ -2,7 +2,7 @@
 
 > 本文件描述目前 repo 內的 snowballing 與 review 實作流程，並提出調整方案。所有路徑皆以 workspace 目錄為基準。
 
-## 1) 現行架構（實作現況，依程式碼）
+## 1) 現行架構（依程式碼）
 
 ### 1.1 Review（LatteReview）
 
@@ -13,7 +13,7 @@
 - 主要輸出：
   - `review/latte_review_results.json`
 - 重要行為：
-  - 若 `criteria.json` 內含 `exclude_title` 或 `cutoff_before_date`，會在 review 前直接標記為 discard（不送 LLM），並寫入 `final_verdict = "discard (...)"`。
+  - 若 `criteria.json` 內含 `exclude_title` 或 `cutoff_before_date`，會在 review 前直接標記為 discard（不送 LLM）。
   - `skip_titles_containing` 預設為 `survey`，標題包含該字串者會被跳過（不進 LLM review）。
   - Review 僅處理 **有摘要** 的條目（無摘要會被略過）。
 
@@ -36,6 +36,7 @@
   - 每次跑 snowball 會覆寫 `asreview/` 下同名檔案，**不同 round 的結果會混寫/被覆蓋**。
   - snowball 來源日期欄位為 `publication_date`；`--max-date/--min-date` 會用此欄位判斷。
   - 非英文與缺題/摘要的過濾使用啟發式（非絕對語言偵測）。
+  - **不含任何自動迭代**；每輪 snowball 需要人工手動重跑。
 
 ## 2) 現行架構的問題
 
@@ -53,7 +54,10 @@
      未涵蓋「所有硬性規則過濾後的剩餘 paper」。
    - 目前沒有「全歷史 registry」記錄，無法避免排除過的 paper 反覆出現。
 
-## 3) 建議的調整架構（符合你要求）
+4. **缺乏自動迭代與停止條件**：
+   - 目前只能人工重跑下一輪，無法 reproducible 地控制迭代邏輯。
+
+## 3) 建議的調整架構（符合需求）
 
 ### 3.1 每輪結果獨立存放（不可混）
 
@@ -66,29 +70,32 @@ workspaces/<topic>/snowball_rounds/
     snowball_results_raw.csv
     snowball_results.csv
     snowball_for_review.csv
+    candidates_for_review.json
     latte_review_results.json
+    round_meta.json
   round_02/
     ...
 ```
 
 ### 3.2 每輪 review 前先做「全歷史去重」
 
-**目標**：每次 snowballing 後，在 review 前先排除「所有已被硬性規則處理過的 paper」。
+**目標**：每次 snowballing 後，在 review 前先排除「前面回合累計已處理過的 paper（含硬性 discard 與 exclude）」。
 
 建議新增「全歷史 registry」：
 
 - `workspaces/<topic>/snowball_rounds/review_registry.json`
-- 內容包含所有已處理過的 paper（include/exclude/hard_exclude 等），
+- 內容包含**所有回合累計**已處理過的 paper（include/exclude/hard_exclude 等），
   並保留去重用的 keys（openalex_id / doi / arxiv_id / normalized_title）。
 
 **流程建議（順序固定）：**
 
 1) snowball raw → `snowball_results_raw.csv`
 2) 依日期與硬性規則過濾 → `snowball_results.csv`
-3) **去重（跨所有歷史 registry）**
+3) **去重（跨所有歷史 registry；排除已 include / exclude / hard_exclude）**
 4) 產出 `snowball_for_review.csv`
-5) review
-6) 將 review 結果寫回 registry（include/exclude/hard_exclude/needs_enrichment 等）
+5) 轉成 `candidates_for_review.json`
+6) review
+7) 將 review 結果寫回 registry（include/exclude/hard_exclude/needs_enrichment 等）
 
 ### 3.3 Seed 使用規則（符合「每輪 review 後再 snowball」）
 
@@ -104,6 +111,28 @@ workspaces/<topic>/snowball_rounds/
 - `has_title_and_abstract`（缺題/摘要排除）
 
 **這些條件必須在 review 前就先過濾。**
+
+### 3.5 迭代方式（必須支援兩種）
+
+為了可重現且可控，snowballing 必須改為「迭代式執行」，提供兩種模式：
+
+1) **loop 模式（固定輪數）**
+   - 使用 `for` 迴圈，直接指定 `--max-rounds N`。
+   - 每輪：snowball → hard filters → registry dedup → candidates_for_review → review → 更新 registry → 進下一輪。
+
+2) **while 模式（停止條件為 OR）**
+   - 使用 `while` 迴圈，停止條件為：  
+     `raw_count >= raw_threshold` **或** `included_total >= included_threshold`  
+     （任何一個條件達成就停止；`included_total` 指 **累計至最新回合** 的 included 總數，包含第一回合的 review 結果）。
+   - 兩個閾值必須由參數注入：  
+     `--stop-raw-threshold`、`--stop-included-threshold`
+   - 若兩者皆未達成，繼續下一輪。
+
+> 注意：為避免無限迭代，建議 while 模式仍保留 `--max-rounds` 作為安全上限。
+
+### 3.6 可重現腳本（必須）
+
+到 snowball 為止的行為必須由腳本驅動（不要手動拼接），確保可重跑與可追溯。
 
 ## 4) 建議的實作修改點（最小可行）
 
@@ -125,22 +154,42 @@ workspaces/<topic>/snowball_rounds/
    - `candidates_for_review.json`：由 `snowball_for_review.csv` 轉成 review 用 JSON
    - 欄位至少包含 title/abstract/published/doi/openalex_id（對齊目前 review 輸入）
 
----
+5) 新增可重現的「迭代腳本」
+   - 新增 `scripts/snowball_iterate.py`（或同等腳本）
+   - 參數包含：
+     - `--mode loop|while`
+     - `--max-rounds N`（loop/while 都可用）
+     - `--stop-raw-threshold X`
+     - `--stop-included-threshold Y`
+     - `--round-dir snowball_rounds/round_XX`
+     - `--registry review_registry.json`
+   - 腳本需負責：
+     - 從上一輪 include 產生 seeds
+     - 產出 round_XX 目錄的完整輸出
+     - 記錄 `round_meta.json`
 
 ## 5) 下一步建議
 
 如果你同意這個結構，我可以：
 
-1) 先把 round1/round2 的結果整理進 `snowball_rounds/round_01` / `round_02`
-2) 加上 registry 去重
-3) 加上 candidates_for_review.json
-4) 按新的流程重跑 round2 → 再 review
+1) 先把既有 round1/round2 的結果整理進 `snowball_rounds/round_01` / `round_02`
+2) 加上 registry 去重與 candidates_for_review.json
+3) 以新腳本重跑 snowball（loop/while 皆可）
 
----
+## 5.1 實作步驟清單（順序）
 
-## 6) 綜合外部建議但以現有程式為準的補強點
+1) 取得上一輪 include 作為 seeds  
+2) 執行 snowball，產生 `snowball_results_raw.csv`  
+3) 依硬性規則過濾（日期 / 語言 / 缺題摘要 / 同名）→ `snowball_results.csv`  
+4) 讀取 `review_registry.json`，排除已 include / exclude / hard_exclude  
+5) 產出 `snowball_for_review.csv`  
+6) 轉成 `candidates_for_review.json`（統一 review 輸入格式）  
+7) LatteReview → `latte_review_results.json`  
+8) 更新 `review_registry.json`（累計 include/exclude/hard_exclude）  
+9) 更新 `round_meta.json`（含 raw_count / for_review / included_total 等）  
+10) 依 loop / while 規則決定是否進入下一輪  
 
-以下建議是基於現有程式碼可落地的調整，避免「round 多了後不可追溯」。
+## 6) 補強點（基於現有程式可落地）
 
 1) **registry 狀態拆分**（避免把缺資料永久封死）
    - final：`include` / `exclude` / `hard_exclude`
@@ -160,4 +209,3 @@ workspaces/<topic>/snowball_rounds/
 
 5) **每輪 meta 記錄**
    - 每輪產出 `round_meta.json`，含：seed_count、raw_count、filtered_count、dedup_removed、for_review_count、review_outcome
-

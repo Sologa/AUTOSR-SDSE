@@ -15,6 +15,7 @@
 
 - Topic CLI pipeline 會把所有產物寫入 `workspaces/<topic_slug>/`（避免把正式資料塞進 `test_artifacts/`）。
 - 主要階段順序：**seed →（可選）filter-seed → keywords → harvest →（可選）harvest-other →（可選）criteria →（可選）review →（可選）snowball**。
+- snowball 已改為 **迭代式**，每輪會執行 LatteReview，並輸出 `snowball_rounds/round_XX`、全歷史 `review_registry.json`，以及彙整輸出 `final_included.json/csv`。
 - keywords 階段會產生 `anchor_terms` 與 `search_terms`，後續 harvest 使用「anchor × search_term」組合查詢。
 
 ---
@@ -72,9 +73,9 @@
   - `pdf+web`：PDF 摘要 + web search
 
 ### G) review / snowball（可選）
-- review：LatteReview title/abstract 初篩
-- snowball：ASReview + snowballing
-- 皆為可選階段
+- review：LatteReview title/abstract 初篩（base review）
+- snowball：迭代式 snowball（每輪含 LatteReview），輸出 round_XX 與 `review_registry.json`
+- 皆為可選階段；snowball 需要先有 base review 結果
 
 ---
 
@@ -109,6 +110,10 @@
    - 新增來源日期驗證：若來源無法抽取日期或晚於 cutoff，會觸發重跑；超過重試次數將報錯。
    - 系統規則（如排除指定標題/時間 cutoff）允許 source 為 internal 或空白，不要求附網頁來源。
 
+7) **snowball 改為迭代式（每輪含 review）**：
+   - 由 `scripts/snowball_iterate.py` 驅動，可多輪迭代。
+   - 每輪輸出 `snowball_rounds/round_XX/*`，並更新全歷史 `review_registry.json`。
+
 ---
 
 ## 4) 已知問題 / 風險
@@ -128,7 +133,7 @@
 你是維護這個 repo 的 AI agent，請先閱讀以下 repo 現況與變更摘要，並依此處理後續任務。
 
 【Repo 現況摘要】
-- Topic CLI pipeline：seed →（可選）filter-seed → keywords → harvest →（可選）harvest-other →（可選）criteria →（可選）review →（可選）snowball
+- Topic CLI pipeline：seed →（可選）filter-seed → keywords → harvest →（可選）harvest-other →（可選）criteria →（可選）review →（可選）snowball（迭代式，每輪含 LatteReview）
 - 所有產物寫入 workspaces/<topic_slug>/
 - filter-seed：LLM 以 title+abstract 篩選；只保留 survey/review/overview 且主題直接相關；保留 PDF 於 seed/downloads/arxiv/，原始下載保留於 arxiv_raw/。
 - keywords：模型固定 gpt-5.2，temperature 固定 1.0；不再用 topic 變體強制覆寫 anchor；新增 anchor 清理（去掉 topic/標點/亂縮寫），anchor 從 PDF/metadata 與 search_terms 中產出。
@@ -136,6 +141,7 @@
 - harvest：用 (anchor) AND (term) 查 arXiv；search_terms 太泛仍會造成噪音。
 - criteria：mode=web 或 pdf+web，輸出 criteria.json。
 - xhigh reasoning_effort 已加入支援，但可能超時。
+- snowball：使用 `scripts/snowball_iterate.py` 多輪迭代；每輪輸出 round_XX，累積結果在 `review_registry.json`。
 
 【請求】
 1) 請用 kit mcp 讀 repo 相關檔案後再回答。

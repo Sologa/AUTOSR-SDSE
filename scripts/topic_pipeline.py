@@ -40,6 +40,7 @@ from src.pipelines.topic_pipeline import (
     resolve_workspace,
     run_latte_review,
     run_snowball_asreview,
+    run_snowball_iterative,
     seed_surveys_from_arxiv,
 )
 
@@ -162,6 +163,8 @@ def build_parser() -> argparse.ArgumentParser:
     snowball.add_argument("--review-results", type=Path, default=None)
     snowball.add_argument("--metadata", type=Path, default=None)
     snowball.add_argument("--output-dir", type=Path, default=None)
+    snowball.add_argument("--round", type=int, default=1, help="snowball round index（從 1 開始）")
+    snowball.add_argument("--registry", type=Path, default=None, help="review registry JSON 路徑")
     snowball.add_argument("--email", default=None, help="OpenAlex 查詢用 email")
     snowball.add_argument("--keep-label", action="append", default=["include"])
     snowball.add_argument("--min-date", default=None)
@@ -174,6 +177,23 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--criteria-mode", default="web", choices=["web", "pdf+web"])
     run.add_argument("--with-review", action="store_true")
     run.add_argument("--with-snowball", action="store_true")
+    run.add_argument("--snowball-mode", default="loop", choices=["loop", "while"])
+    run.add_argument("--snowball-max-rounds", type=_positive_int, default=1)
+    run.add_argument("--snowball-start-round", type=_positive_int, default=1)
+    run.add_argument("--snowball-stop-raw-threshold", type=int, default=None)
+    run.add_argument("--snowball-stop-included-threshold", type=int, default=None)
+    run.add_argument("--snowball-min-date", default=None)
+    run.add_argument("--snowball-max-date", default=None)
+    run.add_argument("--snowball-email", default=None)
+    run.add_argument("--snowball-keep-label", action="append", default=["include"])
+    run.add_argument("--snowball-skip-forward", action="store_true")
+    run.add_argument("--snowball-skip-backward", action="store_true")
+    run.add_argument("--snowball-review-top-k", type=int, default=None)
+    run.add_argument("--snowball-skip-titles-containing", default="survey")
+    run.add_argument("--snowball-registry", type=Path, default=None)
+    run.add_argument("--snowball-retain-registry", action="store_true")
+    run.add_argument("--snowball-bootstrap-review", type=Path, default=None)
+    run.add_argument("--snowball-force", action="store_true")
 
     run.add_argument("--seed-max-results", type=_positive_int, default=25)
     run.add_argument("--seed-download-top-k", type=int, default=5)
@@ -347,6 +367,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             review_results_path=args.review_results,
             metadata_path=args.metadata,
             output_dir=args.output_dir,
+            round_index=args.round,
+            registry_path=args.registry,
             email=args.email,
             keep_label=args.keep_label,
             min_date=args.min_date,
@@ -397,7 +419,34 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.with_review:
             run_latte_review(ws)
         if args.with_snowball:
-            run_snowball_asreview(ws)
+            if (
+                not args.with_review
+                and not ws.review_results_path.exists()
+                and args.snowball_bootstrap_review is None
+            ):
+                raise FileNotFoundError(
+                    "找不到 base review 結果，請先執行 --with-review 或提供 --snowball-bootstrap-review"
+                )
+            run_snowball_iterative(
+                ws,
+                mode=args.snowball_mode,
+                max_rounds=args.snowball_max_rounds,
+                start_round=args.snowball_start_round,
+                stop_raw_threshold=args.snowball_stop_raw_threshold,
+                stop_included_threshold=args.snowball_stop_included_threshold,
+                min_date=args.snowball_min_date,
+                max_date=args.snowball_max_date,
+                email=args.snowball_email,
+                keep_label=args.snowball_keep_label,
+                skip_forward=args.snowball_skip_forward,
+                skip_backward=args.snowball_skip_backward,
+                review_top_k=args.snowball_review_top_k,
+                skip_titles_containing=args.snowball_skip_titles_containing,
+                registry_path=args.snowball_registry,
+                retain_registry=args.snowball_retain_registry,
+                bootstrap_review=args.snowball_bootstrap_review,
+                force=args.snowball_force,
+            )
         print({"workspace": str(ws.root)})
         return 0
 
