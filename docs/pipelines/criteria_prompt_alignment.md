@@ -9,7 +9,7 @@
 - 主要參數：
   - `--search-model`：web search 模型（預設 `gpt-5.2-chat-latest`）
   - `--formatter-model`：格式化模型（預設 `gpt-5.2`）
-  - `--recency-hint`：時間範圍提示（預設 `過去3年`，但若 seed cutoff 偵測到同標題候選，會自動改為「發表日期早於 <cutoff>」）
+- `--recency-hint`：時間範圍提示（預設 `過去3年`，僅供背景參考，不會轉成 criteria 條款）
   - `web_search` 工具：當 `--search-model=gpt-5-search-api` 時，會使用 `web_search_2025_08_26` 版本工具。
 
 ## 使用範例
@@ -22,7 +22,8 @@ python scripts/topic_pipeline.py criteria --topic "Discrete Audio Tokens: More T
 - 產生 `workspaces/<topic_slug>/criteria/criteria.json` 與 `web_search_notes.txt`。
 - 檢查 `structured_payload.inclusion_criteria` 是否維持 `required + any_of` 結構。
 - 確認 any_of 群組語意為 OR（任一群組任一選項即可）。
-- 若規則屬於系統設定（例如 exclude_title/時間 cutoff），允許 source 為 `internal` 或空白，且不應出現在 sources 清單。
+- 若規則屬於系統設定（例如 exclude_title），允許 source 為 `internal` 或空白，且不應出現在 sources 清單。
+- criteria 內不應包含時間/日期條款；時間範圍由程式以 metadata `published` 進行 discard。
 - 確認 sources 是否為 https 且數量符合需求（若不符合需人工檢查與重跑）。
 - 確認來源頁面具備明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。
 - 檢查每條 criteria 的 source 是否與該條件一致；若無法找到一致來源，應使用 internal。
@@ -31,3 +32,4 @@ python scripts/topic_pipeline.py criteria --topic "Discrete Audio Tokens: More T
 ## 已知限制
 - 仍仰賴 web search 回傳來源的穩定性與可存取性，可能出現來源不足或日期不符的情況。
 - prompt 可降低錯誤，但不做硬性驗證；如需強制規則，需額外加入後處理檢查。
+- criteria 的時間條款會在後處理中自動移除，以避免 LLM 以時間作為判斷依據。

@@ -6,6 +6,7 @@ import argparse
 import csv
 import json
 import re
+import shutil
 import sys
 import time
 from dataclasses import dataclass
@@ -32,6 +33,7 @@ DEFAULT_METADATA = Path(
 )
 CONVERTED_FILENAME = "screening_included.csv"
 SNOWBALL_FILENAME = "snowball_results.csv"
+SNOWBALL_RAW_FILENAME = "snowball_results_raw.csv"
 SNOWBALL_REVIEW_FILENAME = "snowball_for_review.csv"
 USER_AGENT = "AUTOSR-SDSE/1.0"
 
@@ -65,7 +67,13 @@ class MetadataRecord:
 
     @property
     def published(self) -> str:
-        raw = str(self.metadata.get("published", "")).strip()
+        raw = str(
+            self.metadata.get("published")
+            or self.metadata.get("publication_date")
+            or self.metadata.get("published_date")
+            or self.metadata.get("date")
+            or ""
+        ).strip()
         if not raw:
             return ""
         return raw
@@ -166,6 +174,12 @@ def normalize_title(title: str) -> str:
     return re.sub(r"\s+", " ", title.strip().lower())
 
 
+def is_same_title(left: str, right: str) -> bool:
+    if not left or not right:
+        return False
+    return normalize_title(left) == normalize_title(right)
+
+
 def normalize_doi(value: str | None) -> str:
     if not value:
         return ""
@@ -261,12 +275,13 @@ def _within_date_range(target: Optional[date], *, start: Optional[date], end: Op
 
 def parse_verdict(verdict: str) -> tuple[int | str, str]:
     verdict = verdict.strip()
+    verdict_lower = verdict.lower()
     label: int | str
-    if "納入" in verdict:
+    if "納入" in verdict or "include" in verdict_lower:
         label = 1
-    elif "排除" in verdict:
+    elif "排除" in verdict or "exclude" in verdict_lower:
         label = 0
-    elif "需再評估" in verdict:
+    elif "需再評估" in verdict or "maybe" in verdict_lower or "needs-review" in verdict_lower:
         label = ""
     else:
         label = ""
@@ -290,7 +305,10 @@ def load_metadata(metadata_path: Path) -> Dict[str, MetadataRecord]:
     for item in raw_list:
         meta = item.get("metadata") or {}
         arxiv_id = str(meta.get("arxiv_id") or item.get("arxiv_id") or "").strip()
-        if not arxiv_id:
+        title = str(meta.get("title") or "").strip()
+        openalex_id = str(meta.get("openalex_id") or "").strip()
+        doi = str(meta.get("doi") or "").strip()
+        if not (arxiv_id or title or openalex_id or doi):
             continue
         record = MetadataRecord(
             arxiv_id=arxiv_id,
@@ -298,10 +316,14 @@ def load_metadata(metadata_path: Path) -> Dict[str, MetadataRecord]:
             search_term=item.get("search_term"),
             metadata=meta,
         )
-        mapping[arxiv_id] = record
-        title = record.title
+        if arxiv_id:
+            mapping[arxiv_id] = record
         if title:
             mapping[normalize_title(title)] = record
+        if openalex_id:
+            mapping[f"openalex:{normalize_openalex_slug(openalex_id)}"] = record
+        if doi:
+            mapping[f"doi:{normalize_doi_slug(doi)}"] = record
     return mapping
 
 
@@ -312,9 +334,15 @@ def resolve_metadata(
     meta = item.get("metadata") or {}
     arxiv_id = str(meta.get("arxiv_id", "")).strip()
     title = normalize_title(str(item.get("title") or meta.get("title") or ""))
+    openalex_id = normalize_openalex_slug(meta.get("openalex_id"))
+    doi = normalize_doi_slug(meta.get("doi"))
 
     if arxiv_id and arxiv_id in metadata_map:
         base = metadata_map[arxiv_id]
+    elif openalex_id and f"openalex:{openalex_id}" in metadata_map:
+        base = metadata_map[f"openalex:{openalex_id}"]
+    elif doi and f"doi:{doi}" in metadata_map:
+        base = metadata_map[f"doi:{doi}"]
     elif title and title in metadata_map:
         base = metadata_map[title]
     else:
@@ -382,6 +410,7 @@ def convert(
     *,
     min_date: Optional[date] = None,
     max_date: Optional[date] = None,
+    exclude_title: Optional[str] = None,
 ) -> ConversionResult:
     metadata_map = load_metadata(metadata_path)
     payload = json.loads(results_path.read_text(encoding="utf-8"))
@@ -396,6 +425,9 @@ def convert(
         total_records += 1
         title = str(item.get("title", "")).strip()
         abstract = str(item.get("abstract", "")).strip()
+        if exclude_title and is_same_title(title, exclude_title):
+            skipped_records += 1
+            continue
         verdict = str(item.get("final_verdict", "")).strip()
         label, source = parse_verdict(verdict)
 
@@ -585,6 +617,14 @@ def run_snowball(
             )
             time.sleep(wait_seconds)
 
+    raw_count = 0
+    if output_csv.exists() and output_csv.stat().st_size > 0:
+        df_raw = pd.read_csv(output_csv)
+        raw_count = len(df_raw)
+        raw_path = output_csv.with_name(SNOWBALL_RAW_FILENAME)
+        shutil.copyfile(output_csv, raw_path)
+        print(f"雪球原始輸出：{raw_path} ({raw_count} 筆)")
+
     if min_date or max_date:
         removed = _filter_csv_by_date(
             output_csv,
@@ -614,6 +654,7 @@ def generate_snowball_review_candidates(
     screened_csv: Path,
     snowball_csv: Path,
     output_csv: Path,
+    exclude_title: Optional[str] = None,
 ) -> None:
     if not snowball_csv.exists():
         print("[WARN] 雪球輸出不存在，略過合併去重階段")
@@ -629,6 +670,13 @@ def generate_snowball_review_candidates(
         output_csv.parent.mkdir(parents=True, exist_ok=True)
         snow_df.to_csv(output_csv, index=False)
         return
+
+    if exclude_title:
+        title_mask = snow_df["title"].apply(lambda value: not is_same_title(str(value), exclude_title))
+        removed = len(snow_df) - int(title_mask.sum())
+        snow_df = snow_df[title_mask]
+        if removed:
+            print(f"已排除與主題同標題的雪球候選 {removed} 筆")
 
     seen_keys: set[str] = set()
 
@@ -842,6 +890,11 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
         default=None,
         help="僅保留發表日期不晚於此日期的紀錄（格式 YYYY 或 YYYY-MM-DD）",
     )
+    parser.add_argument(
+        "--exclude-title",
+        default=None,
+        help="排除標題完全等於指定字串的論文（大小寫不敏感）",
+    )
     return parser.parse_args(argv)
 
 
@@ -875,6 +928,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         allowed_labels=allowed_labels,
         min_date=min_date,
         max_date=max_date,
+        exclude_title=args.exclude_title,
     )
     if conversion.skipped:
         print(
@@ -904,6 +958,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         screened_csv=asreview_csv,
         snowball_csv=snowball_csv,
         output_csv=combined_candidates_csv,
+        exclude_title=args.exclude_title,
     )
 
     return 0

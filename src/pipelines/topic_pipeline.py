@@ -129,7 +129,11 @@ def _infer_criteria_cutoff_constraints(workspace: TopicWorkspace) -> Tuple[Optio
     if not isinstance(title, str) or not title.strip():
         return None, None
 
-    if workspace.topic.strip().casefold() != title.strip().casefold():
+    topic_value = data.get("topic")
+    topic_matches = False
+    if isinstance(topic_value, str) and topic_value.strip():
+        topic_matches = topic_value.strip().casefold() == title.strip().casefold()
+    if not topic_matches and workspace.topic.strip().casefold() != title.strip().casefold():
         return None, None
 
     published_raw = candidate.get("published_date") or candidate.get("published")
@@ -276,6 +280,105 @@ def _collect_criteria_sources(structured_payload: Dict[str, object]) -> Set[str]
             _add(item.get("source"))
 
     return sources
+
+
+_TEMPORAL_KEYWORDS = (
+    "發表日期",
+    "出版日期",
+    "出版年",
+    "時間範圍",
+    "早於",
+    "晚於",
+    "之前",
+    "之後",
+    "以後",
+    "以前",
+    "截止",
+    "cutoff",
+    "publication date",
+    "published before",
+    "published after",
+)
+_DATE_PATTERN = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
+
+
+def _is_temporal_criterion(text: str) -> bool:
+    if not text:
+        return False
+    if _DATE_PATTERN.search(text):
+        return True
+    lowered = text.lower()
+    return any(keyword in lowered for keyword in _TEMPORAL_KEYWORDS)
+
+
+def _strip_temporal_criteria(structured_payload: Dict[str, object]) -> Dict[str, object]:
+    if not isinstance(structured_payload, dict):
+        return structured_payload
+
+    payload = json.loads(json.dumps(structured_payload, ensure_ascii=False))
+    inclusion = payload.get("inclusion_criteria")
+    if isinstance(inclusion, dict):
+        required = []
+        for item in inclusion.get("required", []) or []:
+            if not isinstance(item, dict):
+                continue
+            criterion = str(item.get("criterion") or "")
+            if _is_temporal_criterion(criterion):
+                continue
+            required.append(item)
+        inclusion["required"] = required
+
+        any_of_groups = []
+        for group in inclusion.get("any_of", []) or []:
+            if not isinstance(group, dict):
+                continue
+            options = []
+            for opt in group.get("options", []) or []:
+                if not isinstance(opt, dict):
+                    continue
+                criterion = str(opt.get("criterion") or "")
+                if _is_temporal_criterion(criterion):
+                    continue
+                options.append(opt)
+            if options:
+                group["options"] = options
+                any_of_groups.append(group)
+        inclusion["any_of"] = any_of_groups
+
+    exclusion = []
+    for item in payload.get("exclusion_criteria", []) or []:
+        if not isinstance(item, dict):
+            continue
+        criterion = str(item.get("criterion") or "")
+        if _is_temporal_criterion(criterion):
+            continue
+        exclusion.append(item)
+    payload["exclusion_criteria"] = exclusion
+
+    sources: Set[str] = set()
+
+    def _add_source(value: Optional[str]) -> None:
+        if not isinstance(value, str):
+            return
+        cleaned = value.strip()
+        if not cleaned or not cleaned.startswith("https"):
+            return
+        sources.add(cleaned)
+
+    inclusion = payload.get("inclusion_criteria", {}) or {}
+    for item in inclusion.get("required", []) or []:
+        if isinstance(item, dict):
+            _add_source(item.get("source"))
+    for group in inclusion.get("any_of", []) or []:
+        if isinstance(group, dict):
+            for option in group.get("options", []) or []:
+                if isinstance(option, dict):
+                    _add_source(option.get("source"))
+    for item in payload.get("exclusion_criteria", []) or []:
+        if isinstance(item, dict):
+            _add_source(item.get("source"))
+    payload["sources"] = sorted(sources)
+    return payload
 
 
 def _validate_criteria_sources(
@@ -1466,8 +1569,6 @@ def generate_structured_criteria(
 
     exclude_title, cutoff_before_date = _infer_criteria_cutoff_constraints(workspace)
     effective_recency_hint = recency_hint
-    if cutoff_before_date:
-        effective_recency_hint = f"發表日期早於 {cutoff_before_date}"
 
     tool_type = "web_search_2025_08_26" if search_model == "gpt-5-search-api" else "web_search"
     cfg = CriteriaPipelineConfig(
@@ -1530,7 +1631,7 @@ def generate_structured_criteria(
         "search_prompt": pipeline_result.search_prompt,
         "structured_prompt_template": pipeline_result.structured_prompt_template,
         "web_search_notes": pipeline_result.raw_notes,
-        "structured_payload": pipeline_result.structured_payload,
+        "structured_payload": _strip_temporal_criteria(pipeline_result.structured_payload),
     }
 
     _ensure_dir(workspace.criteria_dir)
@@ -2085,6 +2186,7 @@ def run_snowball_asreview(
         raise RuntimeError(f"無法載入 snowball 腳本：{script_path}")
 
     module = importlib_util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)  # type: ignore[union-attr]
     asreview_main = getattr(module, "main", None)
     if not callable(asreview_main):
@@ -2094,6 +2196,14 @@ def run_snowball_asreview(
     meta_path = Path(metadata_path) if metadata_path else workspace.arxiv_metadata_path
     out_dir = Path(output_dir) if output_dir else workspace.asreview_dir
     _ensure_dir(out_dir)
+
+    exclude_title: Optional[str] = None
+    if workspace.criteria_path.exists():
+        criteria_obj = _read_json(workspace.criteria_path)
+        if isinstance(criteria_obj, dict):
+            candidate = criteria_obj.get("exclude_title")
+            if isinstance(candidate, str) and candidate.strip():
+                exclude_title = candidate.strip()
 
     argv: List[str] = [
         "--input",
@@ -2112,6 +2222,8 @@ def run_snowball_asreview(
         argv.extend(["--min-date", min_date])
     if max_date:
         argv.extend(["--max-date", max_date])
+    if exclude_title:
+        argv.extend(["--exclude-title", exclude_title])
     if skip_forward:
         argv.append("--skip-forward")
     if skip_backward:

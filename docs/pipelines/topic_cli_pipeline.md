@@ -67,6 +67,7 @@ workspaces/speech_language_model/
   asreview/
     screening_included.csv             # snowball 產物
     snowball_results.csv
+    snowball_results_raw.csv           # snowball 原始輸出（未做日期/去重/語言過濾）
     snowball_for_review.csv
 ```
 
@@ -247,9 +248,10 @@ flowchart TD
   - `mode=web`：只產出 web notes + structured JSON。
   - `mode=pdf+web`：會讀取 PDFs（預設 `seed/downloads/arxiv/`，可用 `--pdf-dir` 指定），最多 `max_pdfs`。
   - 即使沒有任何 PDF，仍會組合 web notes 並進行 formatter（`pdf_background.txt` 會是空字串）。
-  - 若 seed 選擇結果偵測到與 topic 同標題的 cutoff candidate，criteria 會自動加入「排除同標題論文」並將時間限制為該 paper 發表日期之前。
-  - 若設定了 cutoff 日期，會自動驗證來源頁面的日期；無法抽取日期或晚於 cutoff 會觸發重跑，超過重試次數直接報錯。
-  - 系統規則（如排除指定標題/時間 cutoff）允許 source 為 internal 或空白，不要求附網頁來源。
+- 若 seed 選擇結果偵測到與 topic 同標題的 cutoff candidate，criteria 會自動加入「排除同標題論文」。時間限制不寫入 criteria 條款，僅由程式端做 discard。
+- 若設定了 cutoff 日期，會自動驗證來源頁面的日期；無法抽取日期或晚於 cutoff 會觸發重跑，超過重試次數直接報錯。
+- 系統規則（如排除指定標題）允許 source 為 internal 或空白，不要求附網頁來源。
+- criteria 內不應包含時間/日期條款，時間僅由程式端 `published` 判斷。
 
 ### Stage F（可選）：LatteReview Title/Abstract 初篩
 
@@ -281,11 +283,16 @@ flowchart TD
   - `python scripts/topic_pipeline.py snowball --topic "<topic>" --email "<you@example.com>"`
 - 產物：
   - `asreview/screening_included.csv`
+  - `asreview/snowball_results_raw.csv`
   - `asreview/snowball_results.csv`
   - `asreview/snowball_for_review.csv`
 - 分歧/特殊情況：
   - 若 snowball 腳本不存在或無 `main(argv)` → 直接報錯。
   - snowball 腳本回傳非 0 → 直接報錯。
+  - 若 criteria 含 `exclude_title`，snowball 會排除同標題條目，避免重複納入。
+  - `snowball_results_raw.csv` 為 forward/backward 原始輸出，寫入後才會進行日期、去重與語言過濾。
+  - snowball 來源若無 `arxiv_id`，轉換階段會以 `openalex_id` / DOI / 標題進行 metadata 對應。
+  - snowball 來源的日期欄位為 `publication_date`，日期過濾會自動讀取此欄位進行判斷。
 
 ---
 

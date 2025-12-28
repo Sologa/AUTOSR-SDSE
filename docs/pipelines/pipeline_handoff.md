@@ -102,8 +102,8 @@
    - `src/utils/llm.py` 允許 `xhigh`
    - 實測 xhigh 可能會非常久（甚至超過 30 分鐘）
 
-6) **criteria 自動加入「同標題排除」與「發表日前時間限制」**：
-   - 若 seed 選擇結果偵測到與 topic 同標題的 cutoff candidate，criteria 會自動排除該標題論文，並要求來源日期早於該 paper 的發表日。
+6) **criteria 自動加入「同標題排除」**：
+   - 若 seed 選擇結果偵測到與 topic 同標題的 cutoff candidate，criteria 會自動排除該標題論文；時間限制僅由程式端 discard，criteria 條款不包含日期。
    - formatter 預設模型更新為 **gpt-5.2**；search 預設模型更新為 **gpt-5.2-chat-latest**（若指定 `gpt-5-search-api`，需改用 `web_search_2025_08_26` 工具版本）。
    - 修正 structured prompt：移除「OR 合併成單條」的矛盾規則，改為使用 `any_of` 表達 OR。
    - 新增來源日期驗證：若來源無法抽取日期或晚於 cutoff，會觸發重跑；超過重試次數將報錯。
