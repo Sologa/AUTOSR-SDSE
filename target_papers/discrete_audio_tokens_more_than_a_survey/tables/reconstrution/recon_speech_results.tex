@@ -1,0 +1,44 @@
+
+\begin{table}[t]
+    \centering
+    \caption{Reconstruction performance of audio tokenizers (speech).}
+    \begin{adjustbox}{width=\textwidth}
+    \begin{tabular}{lccc|cS[table-format=3.2]S[table-format=2.2]ccccc|cc}
+
+\specialrule{.11em}{.2em}{.1em}
+\textbf{Tokenizer} & \textbf{\#Q} & \textbf{kbps} & \textbf{Token} & \textbf{SDR} & \textbf{SI-} & \textbf{PESQ} & \textbf{UTMOS} & \textbf{DNSMOS} & \textbf{DNSMOS} & \textbf{PLCMOS} & \textbf{STOI} & \textbf{WER} & \textbf{Spk} \\
+              &              &     & \textbf{rate}  &         $\uparrow$ & \textbf{SNR}$\uparrow$ &   $\uparrow$   &  $\uparrow$ & \textbf{P808}$\uparrow$  & \textbf{P835}$\uparrow$  &  $\uparrow$ &  $\uparrow$ & $\downarrow$ & \textbf{Sim}$\uparrow$ \\
+\midrule
+
+        Ground truth & - & - & - & \textbf{\underline{290.16}} & \textbf{\underline{55.92}} & \textbf{\underline{4.64}} & \textbf{\underline{4.09}} & \textbf{\underline{3.84}} & 3.18 & 4.16 & \textbf{\underline{1.00}} & 2.83 & \textbf{\underline{1.00}} \\
+        \midrule
+        \multirow{3}{*}{Enc-SMA-24} & 2 & 1.5 & 150 & 0.82 & -1.53 & 1.56 & 1.58 & 3.21 & 2.39 & 3.44 & 0.85 & 5.44 & 0.42 \\
+         & 8 & 6 & 600 & 6.50 & 4.83 & 2.77 & 3.09 & 3.57 & 2.96 & 4.08 & 0.94 & 2.78 & 0.72 \\
+         & 32 & 24 & 2400 & \textbf{9.75} & \textbf{7.90} & \underline{3.71} & 3.74 & 3.74 & 3.19 & 4.29 & \underline{0.97} & 2.77 & 0.78 \\
+
+        \midrule
+        \multirow{3}{*}{DAC-SMA-24} & 2 & 1.5 & 150 & -0.57 & -8.40 & 1.48 & 1.68 & 3.24 & 2.61 & 3.27 & 0.83 & 9.59 & 0.45 \\
+        & 8 & 6 & 600 & 1.79 & -9.51 & 3.40 & 3.60 & 3.69 & 3.16 & 4.15 & 0.95 & 3.53 & 0.73 \\
+        & 32 & 24 & 2400 & 2.20 & -9.47 & \textbf{4.45} & \textbf{4.05} & 3.78 & 3.20 & \underline{4.40} & \textbf{0.99} & 2.72 & 0.80 \\
+        \midrule
+        \multirow{2}{*}{ST-S-16} & 2 & 1 & 100 & -7.10 & -14.46 & 1.21 & 2.32 & 3.37 & 2.78 & 2.96 & 0.77 & 4.20 & 0.35 \\
+        & 8 & 4 & 400 & 3.01 & 0.53 & 2.62 & 3.84 & 3.77 & 3.17 & 4.00 & 0.92 & \underline{2.41} & \underline{0.86} \\
+        
+        \midrule
+        \multirow{2}{*}{Mimi-S-24} & 8 & 1.1 & 100 & 3.43 & 1.19 & 2.22 & 3.60 & 3.68 & 3.17 & 4.27 & 0.90 & 3.72 & 0.70 \\
+        & 32 & 4.4 & 400 & \underline{9.32} & \underline{7.45} & 3.38 & \underline{3.92} & 3.74 & 3.18 & \underline{4.40} & 0.96 & 2.96 & 0.85 \\
+        
+        \midrule
+        \multirow{2}{*}{DWavL-S-16}& 2 & 1 & 100 & -13.96 & -37.23 & 1.13 & 3.32 & 3.68 & 3.13 & 3.86 & 0.75 & 4.97 & 0.33 \\
+        & 6 & 3 & 300 & -12.69 & -35.43 & 1.19 & 3.32 & 3.72 & 3.13 & 4.05 & 0.75 & 4.34 & 0.35 \\
+        \midrule
+        SQ-SMA-16 & 4 & 3 & 200 & 1.91 & -8.61 & 3.31 & 3.90 & \textbf{3.83} & \textbf{3.28} & 4.13 & 0.96 & \textbf{2.37} & \textbf{0.87} \\
+        \midrule
+        \multirow{1}{*}{WT-SMA-24}    & 1 & .98 & 75 & 2.02 & -0.79 & 1.88 & 3.77 & 3.76 & 3.18 & \textbf{4.41} & 0.87 & 8.10 & 0.60 \\
+        \multirow{1}{*}{WT-S-24} & 1 & .52 & 40 & 0.17 & -3.16 & 2.05 & 3.89 & \underline{3.82} & \underline{3.27} & 4.38 & 0.89 & 8.91 & 0.61 \\
+\specialrule{.11em}{.2em}{.1em}
+    \end{tabular}
+    \end{adjustbox}
+
+    \label{tab:recon_speech_results}
+\end{table}

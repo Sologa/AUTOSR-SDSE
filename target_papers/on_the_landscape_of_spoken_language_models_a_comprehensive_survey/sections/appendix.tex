@@ -1,0 +1,43 @@
+\section{Appendix}
+
+\include{tables/SLMs}
+
+\begin{figure}[!t]
+\centering
+\resizebox{0.99\linewidth}{!}{%
+\includegraphics[width=\columnwidth]{imgs/SLM_Timeline-v3.pdf}
+}
+\caption{Development timeline of spoken language models.  ``Publicly available'' refers to models with publicly released weights (but not necessarily code, data, or other artifacts). 
+ ``Commercial SLM'' include some systems that handle additional (non-linguistic) modalities, such as images.  For more details and references, see the main article and Table~\ref{table:SLMs}.}
+
+\label{fig:timeline}
+\end{figure}
+
+
+
+\begin{table*}[t!]
+\caption{A representative set of training and evaluation strategies for speech-aware text language models, along with key tasks, 
+details on the training data, and key insights for further context.\label{tab:universal-models-2}}    
+  \centering
+    \resizebox{\linewidth}{!}{
+  \begin{tabular}{>{\raggedright\arraybackslash}p{30mm}<{}>{\raggedright\arraybackslash}p{20mm}<{}>{\raggedright\arraybackslash}p{40mm}<{}>{\raggedright\arraybackslash}p{35mm}<{}>{\raggedright\arraybackslash}p{40mm}<{}>{\raggedright\arraybackslash}p{45mm}<{}}
+    \toprule
+    Model & Training Strategy & Training Tasks & Evaluation Tasks & Training Data & Findings \\
+    \midrule
+    SLM \cite{wang2023slm} & IT & ASR, ST, Alpaca tasks & ASR, ST, contextual biasing, open-ended QA & multilingual ASR, ST datasets, Alpaca with TTS (93k hrs) & Fine-tuning only a lightweight adapter is sufficient.\\ \midrule
+    
+    SALMONN \cite{tang2023salmonn} & Pre-training $\rightarrow$ IT & ASR, AAC, 15 audio and speech tasks & 8 seen audio and speech task + 7 unseen ST and SLU tasks & ASR, ST and SLU datasets (4k hrs) & Performs complex reasoning tasks like audio-based storytelling in zero-shot setting.\\ \midrule
+    LTU-AS \cite{gong2023joint} & 3-stage training & Classification, general QA & audio and speech tasks, open-ended QA & Open-ASQA dataset (9.6M QA pairs) & Single IF model on both speech and audio tasks is feasible.\\ \midrule
+    COSMIC \cite{pan2023cosmic} & IT & ASR, QA & ASR, SQA, ST, contextual biasing, ASR (out of domain) &  TED-LIUM 3 (452 hours) & Shows few-shot in-context learning ability.\\ \midrule
+    LTU \cite{gong2023listen} & 4-stage training & Classification + cesc., close-ended QA, general QA & Classification, captioning, open-ended QA & AQA (5M QA pairs) & Performs \emph{open-ended} audio tasks.\\ \midrule
+    SALM \cite{chen2024salm}  & IT & ASR, ST & ASR, ST, keyword boosting & LibriSpeech (960h), IWSLT 2023 (4.8k hrs) & Biases the model to predict keywords in instruction.\\ \midrule
+    Qwen-Audio \cite{chu2023qwen} & Pre-training $\rightarrow$ IT & speech, audio and music tasks, audio dialogue & Speech, audio and music tasks, qualitative examples of audio analysis/editing & No details (30k hrs for ASR, >123k hrs in total) & Performs chat-based training to learn conversational ability.\\ \midrule
+    DeSTA2 \cite{desta2} & IT & Audio captioning & Dynamic-SUPERB~\cite{huang2024dynamic}, AIR-Bench~\cite{airbench} & Mixture of several datasets (155 hours)  & Training only on audio captioning can generalize to other tasks \\ \midrule
+    DiscreteSLU~\citep{shon2024discreteslu} & IT & ASR, SQA, sentiment analysis, NER & WER, S2ST & Tedlium-3~\citep{hernandez2018ted} \& SLUE~\citep{shon2022slue} &  Discrete speech token input can be competitive with continuous representations, in both seen and unseen speech domains, even in a zero-shot setting.\\
+    \bottomrule
+  \end{tabular}}
+  \vskip -0.1in
+  
+\end{table*}
+
+

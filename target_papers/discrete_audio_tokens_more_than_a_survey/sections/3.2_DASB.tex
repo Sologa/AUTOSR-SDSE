@@ -1,0 +1,190 @@
+\subsection{Downstream Evaluation}
+\label{sec:dasb}
+
+\paragraph{Background.}
+Evaluating token quality solely based on reconstruction performance raises an important question: \emph{how much task-relevant information is preserved in the tokens, independent of the decoder’s capacity?} This distinction is critical in multimodal language modeling settings, where audio tokens are used directly as input to large language models. These models must perform both discriminative tasks (e.g., ASR, emotion recognition) that map audio to text, and generative tasks (e.g., speech synthesis, speech-to-speech translation) that output audio.
+
+\paragraph{Experimental Setup.} We evaluate discrete audio tokenizers using the DASB benchmark~\citep{mousavi2024dasb}, built on the SpeechBrain toolkit~\citep{speechbrain_ravanelli}, which isolates the representational quality of the tokens for downstream modeling. For each task, the encoder is frozen, and a task-specific classification head is trained. We use lightweight classification heads to avoid hiding weaknesses in the token representations. Generative tasks additionally use the frozen decoder. All token embeddings are projected to a fixed dimensionality of 1024 to ensure consistency across models. This value corresponds to the largest embedding size among the tokenizers in our benchmark. For tokenizers with multiple codebooks, a weighted sum of codebook embeddings is computed, with weights learned jointly with the downstream head~\citep{chen2022wavlm, zaiem2023speech}. For SQ-Codec, which uses scalar quantization and group vector quantization, we apply a ternary matrix-based embedding and concatenate four 256-dimensional group vectors to match the 1024-dimensional standard. Each tokenizer is evaluated across multiple bitrate settings (low, high, and recommended). We tune the most relevant hyperparameters, such as learning rate and model capacity, using the Tree-structured Parzen Estimator (TPE)~\citep{xavier_bouthillier_2022_0_2_6} with 20 trials. To obtain a more robust performance estimate, we average the results of each tokenizer over three downstream training runs with different random seeds.
+For ASR tasks, both character-level and byte pair encoding (BPE) segmentations are considered, and the better-performing configuration is reported. Table~\ref{tab:dataset} summarizes the benchmark tasks and their corresponding downstream models. When multiple-domain tokenizer checkpoints are available, we use the multi-domain version for consistency. The impact of domain-specific vs. multi-domain training is further analyzed in our ablation study (Section~\ref{sec:ablation}). Additional implementation details are provided in the DASB paper~\citep{mousavi2024dasb}.
+
+
+\begin{table}[!t]
+ \centering
+\caption{Datasets, metrics, and downstream models for the DASB evaluation.}
+\label{tab:dataset}
+ \scalebox{.98}{
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|lccc}
+\specialrule{.11em}{.2em}{.1em}
+\textbf{Task} & \textbf{Dataset} & \textbf{Architecture} & \textbf{Metric(s)} & \textbf{Data Link} \\
+\midrule 
+\multicolumn{5}{c}{\textit{Speech (Discriminative)}} \\
+\midrule
+ASR (En) & LibriSpeech~\citep{korvas_2014} & Branchformer & WER & \href{https://openslr.org/12}{Link} \\
+ASR (Low-resource) & CommonVoice 17.0~\citep{ardila2019common} & BiLSTM & WER & \href{https://commonvoice.mozilla.org/en/datasets}{Link} \\
+Speaker ID / Verification & VoxCeleb1~\citep{nagrani2017voxceleb} & ECAPA-TDNN & Accuracy / EER & \href{https://www.robots.ox.ac.uk/~vgg/data/voxceleb/vox1.html}{Link} \\
+Emotion Recognition & IEMOCAP~\citep{busso2008iemocap} & ECAPA-TDNN & Accuracy & \href{https://sail.usc.edu/iemocap/}{Link} \\
+Keyword Spotting & Speech Commands~\citep{warden2017speech} & ECAPA-TDNN & Accuracy & \href{https://www.tensorflow.org/datasets/catalog/speech_commands}{Link} \\
+Intent Classification & SLURP~\citep{bastianelli2020slurp} & BiLSTM+Linear & Accuracy & \href{https://zenodo.org/record/4274930}{Link} \\
+\midrule
+\multicolumn{5}{c}{\textit{Speech (Generative)}} \\
+\midrule
+Speech Enhancement & VoiceBank~\citep{valentinibotinhao2016voicebank} & Conformer & DNSMOS / dWER & \href{https://datashare.ed.ac.uk/handle/10283/2791}{Link} \\
+Speech Separation & Libri2Mix~\citep{cosentino2020librimix} & Conformer & DNSMOS / dWER / SpkSim & \href{https://github.com/JorisCos/LibriMix}{Link} \\
+\midrule
+\multicolumn{5}{c}{\textit{Music}} \\
+\midrule
+Music Genre Classification & GTZAN~\citep{tzanetakis2002musical} & ECAPA-TDNN & Accuracy & \href{https://huggingface.co/datasets/marsyas/gtzan}{Link} \\
+Music Source Separation & MUSDB~\citep{musdb18} & Conformer & SDR / SIR / SAR & \href{https://sigsep.github.io/datasets/musdb.html}{Link} \\
+\midrule
+\multicolumn{5}{c}{\textit{General Audio}} \\
+\midrule
+Sound Event Classification & ESC-50~\citep{piczak2015esc} & ECAPA-TDNN & Accuracy & \href{https://github.com/karolpiczak/ESC-50}{Link} \\
+Audio Separation & FUSS~\citep{wisdom2021s} & Conformer & SDR & \href{https://zenodo.org/records/4012661}{Link} \\
+\specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}
+
+
+
+
+\paragraph{Dataset.}
+We evaluate audio tokenizers across diverse tasks and domains, including speech discriminative tasks such as ASR, low-resource ASR (L-R ASR), speaker identification and verification (SID, SV), emotion recognition (ER), intent classification (IC), and keyword spotting (KS). For generative tasks, we include speech enhancement (SE) and speech separation (SS). In the music and general audio domains, we evaluate music genre classification (MG), music source separation (MSS), general sound separation (ASS), and sound event classification (SEC). A full summary of datasets and tasks is provided in Table~\ref{tab:dataset}.
+
+\paragraph{Evaluation Setup}
+For continuous baselines, we follow~\cite{zaiem2023speech} by using a weighted sum of WavLM-large layers as input across most tasks. To ensure a fair comparison between discrete and continuous representations, we adopt identical downstream architectures for both settings. While neither WavLM nor the chosen downstream architecture may represent the state-of-the-art for every task, using a consistent setup across all experiments allows us to isolate the effect of representation quality. For instance, in speech separation, well-established baselines such as Conv-TasNet~\citep{LuoY2019conv-tasnet} and Transformer-based models~\citep{Saijo2024_TFLoco} are excluded. Libri2Mix has become a saturated benchmark, with many approaches reaching near-ceiling performance, and adding stronger backbones would not yield meaningful insights. Instead, our focus is on isolating the effects of discrete versus continuous representations under a shared architecture. There are two exceptions: for music and general audio separation, tasks that remain more challenging, we use stronger, task-specific architectures for the continuous baselines. Specifically, we adopt DEMUCS~\citep{rouard2022hybrid} for music source separation and TDCN++~\citep{Kavalerov2019UniversalSS} for general sound separation, as these models are better suited to the complexity of these domains. We evaluate each task using standard, task-specific metrics (Table \ref{tab:dataset}): ASR is evaluated using Word Error Rate (WER); SV uses Equal Error Rate (EER); classification tasks including ER, SID, IC, MG, and SEC are evaluated using classification accuracy (ACC). For SE and SS, we report DNSMOS~\citep{reddy2022dnsmos} for perceptual audio quality, differential WER (dWER) using Whisper~\citep{radford2023robust} for intelligibility, and speaker similarity (SpkSim) based on cosine similarity of WavLM-derived embeddings. Music source separation is evaluated using signal-to-distortion ratio (SDR), signal-to-artifact ratio (SAR), and signal-to-interference ratio (SIR) via the BSSEval toolkit~\citep{vincent2006bss}, while general sound separation is assessed using SDR on FUSS~\citep{wisdom2021s}. All results are averaged over three runs with different random seeds to ensure robustness.
+
+
+\paragraph{Results and Discussion}
+Tables~\ref{tab:result-dis}, \ref{tab:result-gen}, and \ref{tab:result-gen-dis-audio-music} summarize performance across discriminative and generative tasks for speech, music, and general audio. Below, we outline key findings from our experiments.
+
+\noindent\hspace*{1em}\textbf{Speech Tasks.} Discrete WavLM consistently performs best in discriminative tasks, likely due to its strong ability to preserve phonetic content. SpeechTokenizer, which uses semantic distillation, ranks second. In speaker recognition, however, DAC achieves the best results, suggesting that reconstruction-based objectives help preserve speaker identity. For speech separation and enhancement, WavLM performs well at low and medium bitrates but shows poor results in speaker similarity metrics. This aligns with previous findings~\citep{van2022comparison} that SSL-based tokenizers tend to lose speaker-related information. Another notable observation is that in many cases, the reconstructed DNSMOS score, representing the upper bound set by the codec alone without any separation, does not surpass the score obtained by using the raw mixture as the estimate (i.e., the lower bound), suggesting that limitations in reconstruction quality may constrain downstream performance, particularly for high-fidelity tasks like speech separation.
+
+\noindent\hspace*{1em}\textbf{Audio and Music Tasks.} For general audio and music tasks, EnCodec consistently outperforms other tokenizers across all bitrates and domains, while DAC lags behind. Although DAC is known for strong perceptual quality, its signal-level fidelity is generally lower, which likely impacts its separation performance. The difficulty of these tasks is evident from the SI-SDR of the unprocessed mixtures, for example, approximately -16 dB for general audio and -7.7 dB for music. Even the best-performing model (EnCodec at medium bitrate) only reaches about -7 dB SI-SDR for audio and -5.7 dB for music. \rebuttal{We report the performance in terms of SI-SDR improvement (“SI-SDRi”), not absolute SI-SDR. Thus, the reason we also provide the performance on “unprocessed” mixtures. For instance, for general audio, we report an improvement of 9.53 dB over the mixture (-16.5 dB). In absolute value, this means that the resulting predictions yield an average of -7-7 dB performance.} While high-bitrate settings have proven to be challenging for downstream tasks, they perform particularly poorly in music separation, emphasizing that increasing bitrate alone does not improve separation quality and may even degrade performance. This may be due to the inherently polyphonic and less sparse nature of music (in contrast to speech and general audio), which results in highly overlapping sources that are harder to disentangle from detailed but semantically entangled representations.
+
+\noindent\hspace*{1em}\textbf{Impact of Codebook Size.} Increasing the number of codebooks (e.g., 2, 8, 32) improves signal reconstruction but often reduces downstream task performance. This trade-off suggests that while more codebooks enhance fidelity, they often degrade performance for both discriminative and generative tasks by increasing output dimensionality and modeling complexity. In RVQ-based models, earlier codebooks capture more phonetic information, while later ones often add redundancy, which may explain this trade-off. This highlights an important design principle for tokenizers: \textit{optimizing for reconstruction alone does not guarantee better performance on downstream tasks}. Medium bitrate settings typically provide the best balance between audio reconstruction quality and task performance. 
+
+
+\noindent\hspace*{1em} \textbf{Discrete vs Continuous.} While discrete tokens show promise, they face notable limitations in complex scenarios such as polyphonic music separation or noisy environments. Continuous features consistently outperform discrete tokens due to the information loss inherent in quantization, which affects critical attributes like phonetics, emotion, and speaker identity. These limitations are further exacerbated in low-resource settings. For instance, although Discrete WavLM performs competitively at low and medium bitrates for low-resource ASR, it still lags behind the continuous baseline. RVQ-based tokenizers struggle even more, especially on smaller datasets such as Welsh, ESC-50, and GTZAN, with high bitrate amplifying these issues. Performance improves with more data: Discrete WavLM, for example, achieves 6.0\% WER on LibriSpeech (960h), 22.0\% on Basque (116h), and 58.9\% on Welsh (8h) at low bitrate using a BiLSTM head, illustrating a strong correlation between data scale and ASR accuracy. From the hyperparameter tuning experiments (not reported here for brevity), we noticed that larger downstream models help improve convergence and performance, particularly for acoustic tokenizers, which are more sensitive to both data scale and model capacity. Semantic tokenizers are generally more robust in low-resource settings but still fall short of continuous representations with extremely limited data. Overall, careful tuning and appropriate scaling of both data and model are essential for an effective use of discrete representations, especially acoustic tokens. 
+
+\paragraph{Summary.} Semantic tokenizers \rebuttal{(e.g., Discrete WavLM)} are generally more robust, especially in low-resource settings, but still fall short of continuous representations when data is limited. Training downstream models with semantic \rebuttal{(Discrete WavLM)} or semantically distilled tokenizers \rebuttal{(Mimi and SpeechTokenizer)} tends to be more stable and reliable compared to acoustic tokenizers \rebuttal{(EnCodec, DAC, WavTokenizer, and SQ-Codec)}, which often require larger datasets and more careful model scaling. Overall, discrete tokenizers are more sensitive to architectural choices and hyperparameters of the downstream head, whereas continuous features typically yield more consistent performance across configurations. Therefore, careful tuning and appropriate scaling of both data and model architecture are crucial for effectively leveraging discrete representations. While discrete tokens offer advantages in efficiency and modularity, continuous representations still lead in overall performance. Bridging this gap is essential for the successful integration of audio tokens into future multimodal language models.
+
+
+
+\begin{table}[!htbp]
+ \centering
+ \caption{DASB results for discriminative tasks (speech).}  \label{tab:result-dis}
+\scalebox{.98}{
+\resizebox{1.0\textwidth}{!}{
+\begin{tabular}{l|c|cc|cc|c|c|c|c|c}
+\specialrule{.11em}{.2em}{.1em}
+  \multirow{3}{*}{\textbf{Tokenizer}}&  \multirow{3}{*}{\textbf{\#Q}} &\multicolumn{2}{c|}{\textbf{ASR-En}}&\multicolumn{2}{c|}{\textbf{ASR-LR}}& \textbf{ER} & \textbf{IC} & \textbf{KS} & \textbf{SI} & \textbf{SV}\\
+    \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-7}\cmidrule(lr){8-8}\cmidrule(lr){9-9}\cmidrule(lr){10-10}\cmidrule(lr){11-11}
+       & &\multicolumn{2}{c|}{\textbf{WER}$\downarrow$}& \multicolumn{2}{c|}{\textbf{WER}$\downarrow$} & \multirow{2}{*}{\textbf{ACC}$\uparrow$} & \multirow{2}{*}{\textbf{ACC}$\uparrow$}& \multirow{2}{*}{\textbf{ACC}$\uparrow$}& \multirow{2}{*}{\textbf{ACC}$\uparrow$}& \multirow{2}{*}{\textbf{EER}$\downarrow$}\\
+           & &\textbf{Clean}&\textbf{Other}& \textbf{Welsh}&\textbf{Basque}&  & & & & \\
+           \midrule
+            Continuous & -- & \textbf{\underline{4.07}} & \textbf{\underline{6.81}} & \textbf{\underline{41.77}} & \textbf{\underline{14.32}} & \textbf{\underline{63.10}} & \textbf{\underline{86.10}} & \textbf{\underline{99.00}} & \textbf{\underline{99.70}} & \textbf{\underline{2.10}} \\
+           \midrule
+            \multirow{3}{*}{Enc-SMA-24}& 2& 12.70$\pm$0.37 & 29.09$\pm$0.13 & 90.90$\pm$0.32 & 51.00$\pm$0.98 & 45.50$\pm$0.02 & 42.90$\pm$0.16 & 77.73$\pm$3.12 &89.81$\pm$5.46 & 18.33$\pm$0.26\\
+                       &8& 8.43$\pm$0.13 & 21.77$\pm$ 0.36 & 84.53$\pm$1.90 & 45.36$\pm$0.57 & 44.73$\pm$0.02 &40.03$\pm$0.29 & 74.30$\pm$1.69& 94.26$\pm$3.99& 13.54$\pm$0.57\\
+             &32 & 9.95$\pm$1.17& 23.24$\pm$ 1.22 & 97.39$\pm$1.19 & 58.21$\pm$0.92 & 42.96$\pm$0.02 & 33.66$\pm$2.65 & 69.10$\pm$3.42 & 91.12$\pm$1.92 & \underline{10.12$\pm$6.66}\\
+             \midrule
+            \multirow{3}{*}{DAC-SMA-24}  & 2& 14.84$\pm$0.25 & 33.88$\pm$0.20  & 95.21$\pm$0.84 & 68.93$\pm$0.42 & 45.20$\pm$0.01  & 29.83$\pm$0.19 & 67.27$\pm$1.56 & \textbf{97.88$\pm$0.79} & 21.80$\pm$1.00  \\
+                          & 8 &10.73$\pm$ 0.10 & 25.39$\pm$ 0.20 & 97.20$\pm$0.14 & 62.45$\pm$1.40 & 44.73$\pm$0.02 & 23.97$\pm$0.41 & 65.27$\pm$2.82 & 87.33$\pm$10.98 & 15.86$\pm$5.26\\
+              & 32 & 13.13$\pm$0.16 & 28.47$\pm$0.19  & 98.96$\pm$0.18 & 73.57$\pm$1.56 & 43.20$\pm$0.02 & 44.60$\pm$39.19 & 68.67$\pm$2.91 & 87.69$\pm$4.99 &17.12 $\pm$ 0.76\\
+ \midrule
+            \multirow{2}{*}{ST-S-16} & 2 & 9.48$\pm$0.10& 22.68$\pm$0.10 & 71.36$\pm$0.32 & 42.17$\pm$0.05 & 54.86$\pm$0.01 & 56.80$\pm$0.08 & 94.11$\pm$0.63 & 73.16$\pm$0.37 & 24.23$\pm$0.29 \\
+            & 8 & 9.06$\pm$ 0.45 & 21.72$\pm$0.23 & 68.36$\pm$0.44 & 35.35$\pm$0.22 & 55.00$\pm$0.01 & 53.83$\pm$0.05  & 94.11$\pm$0.07 & 96.78$\pm$0.45 & \underline{10.45$\pm$0.43} \\
+ \midrule
+            \multirow{2}{*}{Mimi-S-24} & 8 &  9.73$\pm$0.61 & 22.65$\pm$0.41  & 91.59$\pm$0.15 & 59.18$\pm$8.52 & 51.13$\pm$0.02 & 53.83$\pm$0.19 & 92.18$\pm$0.20 & 79.50$\pm$0.43   & 18.68$\pm$0.35 \\
+              & 32 &10.84$\pm$0.56 & 24.10$\pm$0.36 & 96.89$\pm$0.07 & 58.15$\pm$6.90 & 46.76$\pm$0.01 & 50.73$\pm$0.50 & 91.31$\pm$0.19 & 63.93$\pm$13.64 & 23.91$\pm$4.60 \\
+            \midrule
+            \multirow{2}{*}{DWavL-S-16}& 2 & \textbf{4.78$\pm$0.25} & \underline{10.58$\pm$0.17} & \underline{58.98$\pm$0.15} & \underline{22.02$\pm$0.17} & \underline{61.53$\pm$0.02} & \underline{76.33$\pm$0.17} & \textbf{96.82$\pm$0.92} & 76.57$\pm$0.33 & 22.41$\pm$0.19 \\
+                        & 6 & \underline{5.07$\pm$0.17} 
+& \textbf{ 9.57$\pm$0.20} & \textbf{48.94$\pm$0.38} & \textbf{19.66$\pm$0.33} & \textbf{63.20$\pm$0.01} & \textbf{78.73$\pm$0.12} & \underline{95.89$\pm$0.50} & 92.31$\pm$0.09 & 13.47$\pm$0.22 \\
+\midrule
+            SQ-SMA-16 & 4 &91.57$\pm$0.49 & 92.90$\pm$0.41  & 94.80$\pm$0.88 & 94.24$\pm$1.24 & 41.30$\pm$0.06 & 58.13$\pm$0.26 & 92.74$\pm$0.42 & \underline{97.38$\pm$0.03} & \textbf{9.69$\pm$0.25} \\
+             SQ-SMA-16* & 4 & 11.63$\pm$0.08
+ & 30.91$\pm$0.17 & -- & -- & -- &-- &-- & -- & -- \\
+            \midrule
+            WT-SMA-24 & 1 & 16.11$\pm$0.18 & 35.48$\pm$0.35 & 97.41$\pm$0.08 & 75.82$\pm$0.20 & 43.43$\pm$0.02 & 15.25$\pm$0.15 & 59.13$\pm$2.10 & 85.90$\pm$2.48 & 19.38$\pm$0.36 \\
+\specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}
+
+
+\begin{table}[!t]
+ \centering
+ \caption{DASB results for generative tasks (speech).}  \label{tab:result-gen}
+\scalebox{1.0}{
+\resizebox{1.0\textwidth}{!}{
+\begin{tabular}{l|c|ccc|cccc}
+    \specialrule{.15em}{.2em}{.1em}
+  \multirow{2}{*}{\textbf{Models\textbackslash Tasks}} & \multirow{2}{*}{\textbf{\#Q}}& \multicolumn{3}{c|}{\textbf{SE}} & \multicolumn{4}{c}{\textbf{SS - Speech}}\\
+  \cmidrule(lr){3-5} \cmidrule(lr){6-9} 
+   & & \textbf{DNSMOS} & \textbf{dWER} & \textbf{Spk} & \textbf{DNSMOS} & \textbf{DNSMOS} & \textbf{dWER} & \textbf{Spk}  \\
+& & $\uparrow$ & $\downarrow$ & \textbf{Sim}$\uparrow$ & \textbf{Rec}$\uparrow$ & \textbf{Sep}$\uparrow$ & $\downarrow$ & \textbf{Sim}$\uparrow$ \\
+
+  \midrule
+  Continuous &--  & 3.49 & \textbf{\underline{4.92}} & \textbf{\underline{0.93}} & -- & 3.68  & \textbf{\underline{9.97}}  & \textbf{\underline{0.94}}  \\
+  \midrule
+  \multirow{3}{*}{Enc-SMA-24} & 2 & 3.15$\pm$0.01 & 34.95$\pm$0.64 & 0.86$\pm$0.00 & 3.19 & 3.13$\pm$0.00 & 80.33$\pm$1.77 & 0.88$\pm$0.00  \\
+     & 8 & 3.08$\pm$0.01 & 22.70$\pm$1.84 & 0.88$\pm$0.00 & 3.54 & 3.08$\pm$0.00 & 53.37$\pm$0.65 & 0.90$\pm$0.00 \\
+       & 32 & 2.78$\pm$0.01 & 65.70$\pm$6.09 & 0.80$\pm$0.01 & 3.72 & 2.97$\pm$0.01 & 92.42$\pm$0.97 & 0.85$\pm$0.00  \\
+      \midrule
+  \multirow{3}{*}{DAC-SMA-24} & 2 & 3.26$\pm$0.01 & 54.85$\pm$1.82 & 0.86$\pm$0.00 & 3.16 & 3.01$\pm$0.00 & 101.19$\pm$1.99 & 0.85$\pm$0.00  \\
+     & 8 & 3.51$\pm$0.01 & 29.44$\pm$3.93 & \textbf{0.90$\pm$0.01} & 3.67 & 3.30$\pm$0.00 & 52.77$\pm$2.48 &\textbf{0.93$\pm$0.00}  \\
+       & 32 & 2.93$\pm$0.01 & 30.66$\pm$0.97 & 0.88$\pm$0.00 & \underline{3.76} & 2.67$\pm$0.01 & 92.07$\pm$0.05 & 0.88$\pm$0.01 \\
+\midrule
+  \multirow{2}{*}{ST-S-16} & 2 & 3.19$\pm$0.02 & 29.98$\pm$0.58 & 0.86$\pm$0.00 & 3.20 & 3.13$\pm$0.00 & 84.94$\pm$0.63 & 0.87$\pm$0.00 \\
+    & 8 & 3.49$\pm$0.01 & \underline{21.65$\pm$0.57} & 0.87$\pm$0.00 & 3.72 & 3.43$\pm$0.01 & 60.90$\pm$0.77 & \underline{0.91$\pm$0.00} \\
+    \midrule
+  \multirow{2}{*}{Mimi-S-24} & 8 & 3.25$\pm$0.01 & 67.56$\pm$2.21 & 0.85$\pm$0.00 & 3.65 & 3.29$\pm$0.00 & 109.30$\pm$3.30 & 0.87$\pm$0.00 \\
+   & 32 & 3.18$\pm$0.01 & 102.61$\pm$2.40 & 0.82$\pm$0.00 & 3.72 & 3.00$\pm$0.00 & 137.00$\pm$2.16 & 0.82$\pm$0.00 \\
+  \midrule
+  \multirow{2}{*}{DWavL-S-16} & 2  & \underline{3.56$\pm$0.01} & 25.88$\pm$2.15 & 0.88$\pm$0.00 & 3.57 & \underline{3.56$\pm$0.00} & \underline{49.57$\pm$0.64} & 0.85$\pm$0.00 \\
+     & 6  & \textbf{3.57$\pm$0.01} & \textbf{9.43$\pm$0.33} & \underline{0.89$\pm$0.00} & 3.75 & \textbf{3.75$\pm$0.01} &\textbf{30.39$\pm$0.45} & \underline{0.91$\pm$0.00}  \\
+    \midrule
+  SQ-SMA-16 & 4 & 3.28$\pm$0.01 & 122.33$\pm$8.74 & 0.83$\pm$0.00 & \textbf{3.77} & 3.19$\pm$0.00 & 136.00$\pm$3.58 & 0.83$\pm$0.00 \\
+  \midrule
+  WT-SMA-24 & 1 & 3.33$\pm$0.01 & 67.53$\pm$10.65 & 0.85$\pm$0.00 & 3.57 & 3.42$\pm$0.00 & 118.33$\pm$4.50 & 0.86$\pm$0.00  \\
+  \midrule
+  Mixture &-- & --& --& --& -- & 3.43 & -- & --  \\
+  
+  \specialrule{.15em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}
+
+
+\begin{table}
+ \centering
+ \caption{DASB results for generative and discriminative tasks (music and general audio).}  
+ \label{tab:result-gen-dis-audio-music}
+\scalebox{.98}{
+\resizebox{1.0\textwidth}{!}{
+\begin{tabular}{l|c|cc|cccc|c|c}
+\specialrule{.11em}{.2em}{.1em}
+  \multirow{2}{*}{\textbf{Tokenizer}} & \multirow{2}{*}{\textbf{\#Q}} &  \multicolumn{2}{c|}{\textbf{SS - Audio}} & \multicolumn{4}{c}{\textbf{SS - Music}} & \textbf{SEC} & \textbf{MGC}\\
+  \cmidrule(lr){3-4} \cmidrule(lr){5-8} \cmidrule(lr){9-9} \cmidrule(lr){10-10}  
+    &  & \multicolumn{2}{c}{\textbf{SI-SDRi}$\uparrow$} & \multicolumn{2}{c}{\textbf{SI-SDRi}$\uparrow$} & \textbf{SAR}$\uparrow$ & \textbf{SIR}$\uparrow$ & \textbf{ACC}$\uparrow$ & \textbf{ACC}$\uparrow$ \\
+   & & \textbf{Rec} & \textbf{Sep} & \textbf{Rec} & \textbf{Sep} & & & &  \\
+    \midrule
+  Continuous & -- & -- & \textbf{\underline{15.07}} & -- & \textbf{\underline{13.29}} & \textbf{\underline{9.56}} & \textbf{\underline{11.99}} & \textbf{\underline{92.91}} & \textbf{\underline{87.00}}\\
+  \midrule
+  \multirow{3}{*}{Enc-SMA-24} & 2& 0.76 & \underline{7.03$\pm$0.49} & 3.36 & \underline{1.49$\pm$2.04} & \underline{-2.80$\pm$1.68} & \textbf{5.96$\pm$1.52} & 34.83$\pm$0.47 & \textbf{70.33$\pm$1.70}  \\
+    & 8 & 3.87 &  \textbf{9.53$\pm$0.33} & 7.99 &  \textbf{1.98$\pm$0.36} & \textbf{-1.95$\pm$0.33} & \underline{5.26$\pm$0.22} & \textbf{37.00$\pm$0.73} & \underline{54.67$\pm$3.86} \\
+    & 32 & \textbf{5.76} & -1.73$\pm$0.09 & \textbf{11.10} & -11.72$\pm$0.35 & -15.00$\pm$0.02 & -0.42$\pm$0.01 & 35.43$\pm$1.45 & 39.67$\pm$1.25 \\
+      \midrule
+  \multirow{3}{*}{DAC-SMA-24} & 2 & 0.12 & 3.84$\pm$0.48 & 2.37 & 1.01$\pm$0.17 & -3.59$\pm$0.09 & \textbf{5.92$\pm$0.28} & 31.03$\pm$1.84 & 50.00$\pm$0.82  \\
+    & 8 & 3.33 & 5.62$\pm$0.21 & 6.66 & -11.77$\pm$0.1 & -10.62$\pm$2.35 & -5.52$\pm$3.68 & 28.60$\pm$0.79 & 47.67$\pm$3.09 \\
+    & 32 & \underline{4.73} & -4.92$\pm$0.32 & \underline{8.54} & -11.32$\pm$0.12 & -12.70$\pm$0.17 & -2.05$\pm$0.41 & \underline{36.67$\pm$0.92} & 50.00$\pm$0.82  \\
+    \midrule
+  SQ-SMA-16 & 4  & 3.62 & 6.54$\pm$0.22 & 5.53 & -3.62$\pm$0.87 & -5.84$\pm$0.86 & 1.42$\pm$0.32 & 31.37$\pm$1.37 & 42.67$\pm$0.47  \\
+  \midrule
+  WT-SMA-24 & 1 & -24.05 & -16.72$\pm$0.08 & -2.66 & -4.52$\pm$0.04 & -8.32$\pm$0.07 & 2.65$\pm$0.11 & 34.50$\pm$0.82 & 48.00$\pm$1.41 \\
+  \midrule
+  Mixture & --& -- & -16.5 & -- & -7.71 & 50.01 & -\text{inf} & -- & -- \\
+  \specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\vspace{-.5cm}
+\end{table}

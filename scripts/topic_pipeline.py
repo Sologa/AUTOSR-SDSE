@@ -95,7 +95,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--cutoff-by-similar-title",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
+        help="固定啟用：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
     )
     seed.add_argument(
         "--similarity-threshold",
@@ -103,6 +103,10 @@ def build_parser() -> argparse.ArgumentParser:
         default=0.8,
         help="判定「標題高度相似」的相似度門檻（0~1）",
     )
+    seed.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
+    seed.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
+    seed.add_argument("--seed-rewrite-model", default="gpt-5.2")
+    seed.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
 
     keywords = add_subparser("keywords", help="從 seed PDFs 抽取 anchor/search terms")
     keywords.add_argument("--pdf-dir", type=Path, default=None, help="PDF 來源目錄（預設 seed downloads/arxiv）")
@@ -205,7 +209,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--seed-cutoff-by-similar-title",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="seed 階段：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
+        help="seed 階段固定啟用：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
     )
     run.add_argument(
         "--seed-similarity-threshold",
@@ -213,6 +217,10 @@ def build_parser() -> argparse.ArgumentParser:
         default=0.8,
         help="seed 階段：相似度門檻（0~1）",
     )
+    run.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
+    run.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
+    run.add_argument("--seed-rewrite-model", default="gpt-5.2")
+    run.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
 
     run.add_argument("--max-pdfs", type=_positive_int, default=3)
     run.add_argument("--extract-model", default="gpt-5")
@@ -259,10 +267,14 @@ def main(argv: Optional[List[str]] = None) -> int:
             scope=args.scope,
             boolean_operator=args.boolean_operator,
             reuse_cached_queries=not args.no_cache,
-            cutoff_by_similar_title=args.cutoff_by_similar_title,
+            cutoff_by_similar_title=True,
             similarity_threshold=args.similarity_threshold,
             anchor_mode=args.anchor_mode,
             arxiv_raw_query=args.arxiv_raw_query,
+            seed_rewrite=args.seed_rewrite,
+            seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
+            seed_rewrite_model=args.seed_rewrite_model,
+            seed_rewrite_preview=args.seed_rewrite_preview,
         )
         print(result)
         return 0
@@ -387,10 +399,14 @@ def main(argv: Optional[List[str]] = None) -> int:
             scope=args.seed_scope,
             boolean_operator=args.seed_boolean_operator,
             reuse_cached_queries=True,
-            cutoff_by_similar_title=args.seed_cutoff_by_similar_title,
+            cutoff_by_similar_title=True,
             similarity_threshold=args.seed_similarity_threshold,
             anchor_mode=args.seed_anchor_mode,
             arxiv_raw_query=args.seed_arxiv_raw_query,
+            seed_rewrite=args.seed_rewrite,
+            seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
+            seed_rewrite_model=args.seed_rewrite_model,
+            seed_rewrite_preview=args.seed_rewrite_preview,
         )
         extract_keywords_from_seed_pdfs(
             ws,

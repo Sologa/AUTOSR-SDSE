@@ -1,0 +1,333 @@
+\section{Literature Review and Proposed Taxonomy}\label{sec:literature}
+\subsection{Overall architecture} \label{subsec:overall_architecture}
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.90\linewidth]{figures/architecture.pdf}
+\caption{
+Overall architecture of a standard audio tokenizer. The input signal $x$ is encoded into a latent representation $z_t$, which is then discretized by a quantizer $Q(\cdot)$. The decoder reconstructs the signal $\hat{x}$ from the quantized representations $\hat{z}_t$. Training typically involves a combination of reconstruction ($\mathcal{L}_{\text{Recon}}$), adversarial ($\mathcal{L}_{\text{GAN}}$, $\mathcal{L}_{\text{Feats}}$), 
+and vector quantization losses ($\mathcal{L}_{VQ}$).
+}
+  \label{fig:architecture}
+\end{figure}
+As shown in Figure~\ref{fig:architecture}, audio tokenizers typically comprise three components:
+
+\newcommand{\boldornobold}[1]{{#1}}
+
+\begin{itemize}
+    \item  An encoder that converts the input waveform $\boldornobold{}{x}$ into a sequence of frame-wise embeddings $\boldornobold{Z} = \{ {z}_t \}_{t=1}^T$ using an encoder function $f_e$, such that, $\boldornobold{Z} = f_e(\boldornobold{x})$, where each $\boldornobold{z}_t \in \mathbb{R}^D$ is a continuous embedding at time step $t$.
+
+    \item A quantization module that maps each embedding $\boldornobold{z}_t$ to a quantized vector $\hat{\boldornobold{z}}_t$ and a set of discrete indices $\boldornobold{q}_t = [q_{1,t}, \dots, q_{M,t}]$ using a quantization function $Q$, i.e. $(\hat{\boldornobold{z}}_t, \boldornobold{q}_t) = Q(\boldornobold{z}_t)$. Here, $M$ denotes the number of codebooks used in the quantizer. The full sequence of quantized embeddings is denoted as $\hat{\boldornobold{Z}} = \{ \hat{\boldornobold{z}}_t \}_{t=1}^T$.
+
+
+    \item A decoder that reconstructs the waveform from the sequence of quantized embeddings using a decoder function $f_d$, i.e., $\hat{\boldornobold{x}} = f_d(\hat{\boldornobold{z}})$, where $\hat{\boldornobold{x}}$ is the reconstructed waveform.
+\end{itemize}
+To address the taxonomy issues outlined in the introduction, this section proposes a refined taxonomy based on three core dimensions: the quantization method, the encoder-decoder architecture, and the training paradigm (e.g., joint or end-to-end training, and the use of auxiliary components).
+We also provide more fine-grained categories, including streamability and the target domain of each tokenizer. 
+The proposed taxonomy is illustrated in Figure~\ref{fig:taxanomy} and the classification of existing audio tokenizers according to this taxonomy is shown in Table~\ref{tab:tokenizer_comparison}. The following subsection summarizes the most popular methods according to the proposed categorization.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1.00\linewidth]{figures/taxonomy.pdf}
+    \caption{Taxonomy of audio tokenizers based on: encoder-decoder architecture (Section~\ref{sec:lit-arch}), quantization method (Section~\ref{sec:lit-quant}), training paradigm (Section~\ref{sec:lit-train-paradigm}), and target domain and streamability (Section~\ref{sec:lit-str-domain}). CNN denotes Convolutional networks, T represents Transformer models, and RNN refers to any recurrent neural network including LSTM and GRU. RVQ stands for Residual Vector Quantization, GVQ for Group Vector Quantization, SVQ for Single Vector Quantization, MSRVQ stands for Multi-Scale Residual Vector Quantization, CSRVQ stands for Cross-Scale Residual Vector Quantization, PQ stands for Product Quantization, FSQ for Finite Scalar Quantization. K-Means signifies that the tokenizer is trained independently of the encoder and the decoder pipeline. Objectives include adversarial learning (GAN), diffusion-based generation (Diff), and masked prediction (MP) as a generative training strategy, feature matching loss (Feats), and reconstruction loss (Recon).
+    The interactive version of this figure can be accessed through \url{https://dates-tokens.github.io/taxonomy_interactive.html}
+    }
+\label{fig:taxanomy}
+\end{figure}
+
+
+\begin{table}[htbp]
+    \caption{Comprehensive overview of audio tokenizers, organized alphabetically by tokenizer name. The table covers core design choices across five major dimensions: application domains (Speech, Music, Audio), encoder-decoder architecture (including encoder/decoder type and feature representation), quantization (technique and bitrate strategy), training paradigms (objective, auxiliary loss, and joint optimization), and streaming capability.}
+
+    \label{tab:tokenizer_comparison}
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+     {\large
+    \begin{adjustbox}{width=1.0\textwidth,center}
+        \begin{tabular}{l|ccc|c|ccc|cc|ccc|c}
+            \specialrule{.11em}{.2em}{.1em}
+            \textbf{Tokenizer} & \multicolumn{3}{c|}{\textbf{Domain}} & \textbf{Frame} & \multicolumn{3}{c|}{\textbf{Encoder-Decoder}} &  \multicolumn{2}{c|}{\textbf{Quantization}} &  \multicolumn{3}{c|}{\textbf{Training}} & \textbf{Stream}  \\
+            \cmidrule(r){2-4}\cmidrule(r){6-8}\cmidrule(r){9-10}\cmidrule(r){11-13}
+            & S & M & A & \textbf{Rate} & \multicolumn{2}{c}{\textbf{Architecture}} & Rep. & Tech.  & Bit. & Objective(s) & Aux. & Joint &  \\
+             \cmidrule(r){6-7}
+             & & & & & Encoder & Decoder & & & & & & & \\
+             \midrule
+            APCodec~\citep{ai2024apcodec} &\checkmark  &  &  & 150 & CNN & CNN &  T-F  & RVQ &  F & GAN, Feat, Rec, VQ  & - & \checkmark &\checkmark \\
+            AudioDec~\citep{wu2023audiodec}& \checkmark &  &  & 160 & CNN &  CNN &  T & RVQ &  F & GAN, Feat, Rec, VQ& - &  \checkmark  & \checkmark  \\
+            Best-RQ~\citep{chiu2022bestrq}&  \checkmark &  & & 25 & CNN+T & - & T-F & PQ &  F & MP &- &  &\checkmark  \\
+            BigCodec~\citep{xin2024bigcodec} & \checkmark &  &  & 80 & CNN+RNN &  CNN+RNN &T  & SVQ & F & GAN, Feat, Rec, VQ & - & \checkmark & \\
+            DAC~\citep{kumar2023high} & \checkmark & \checkmark &   \checkmark & 75 & CNN & CNN & T & RVQ &  F & GAN, Feat, Rec, VQ & - & \checkmark & \\
+            Discrete SSL~\citep{mousavi2024} & \checkmark &  &  & 50 & CNN+T & T & T & K-means &  F & GAN, Feat, Rec, MP & - & & \\
+            Disen-TF-Codec~\citep{jiang2023disentangled} & \checkmark&  &  & 19 & CNN+RNN &  CNN & T-F& GRVQ &  A & GAN, Feat, Rec, (Pred) & Dis & \checkmark &  \checkmark\\
+            dMel~\citep{bai2024dmel}&  \checkmark&  &  &  40& - &  CNN &  T-F & SVQ &   F & GAN, Feat, Rec, VQ & - &\checkmark & \\
+            EnCodec~\citep{defossez2022high} & \checkmark &\checkmark  & \checkmark & 75, 150 & CNN+RNN & CNN & T & RVQ & F& GAN, Feat, Rec, VQ &- & \checkmark & \checkmark \\
+            ESC~\citep{gu2024esc} &  \checkmark &  &  & 150 & T   & T & T-F & CSRVQ &  F & Rec, VQ & -& \checkmark & \\
+            FACodec~\citep{ju2024naturalspeech}& \checkmark &  &  & 80 &  CNN+RNN&  CNN+RNN & T & GRVQ &   F & GAN, Feat, Rec, VQ  &Dis & \checkmark & \\
+            FunCodec~\citep{du2023funcodec} & \checkmark &  &  &  1.25, 25, 50 & CNN+RNN & CNN+RNN  & T-F & RVQ &   F & GAN, Feat, Rec, VQ  & SD& \checkmark &\\
+            HARP-Net~\citep{petermann2021harp}&  &  \checkmark&  & 44100 &  CNN & CNN & T & FSQ &  A&  Rec& - & \checkmark & \\
+            HiFi-Codec~\citep{yang2023hifi} &  \checkmark &  &  & 50, 75, 100 & CNN+RNN & CNN+RNN & T & GRVQ &  F & GAN, Feat, Rec, VQ & - & \checkmark &  \\
+            HILCodec~\citep{Ahn2024HILCodecHA}& \checkmark & \checkmark & \checkmark &75 & CNN & CNN & T & RVQ &   F &  GAN, Feat, Rec, VQ &  - & \checkmark& \checkmark \\
+            LaDiffCodec~\citep{yang2024generative} & \checkmark &   &  & 50 & CNN  & CNN & T & RVQ  &  F & Diff & - & \checkmark &\\
+            Language Codec~\citep{Ji2024LanguageCodecRT} & \checkmark &  & & 75& CNN+RNN & CNN &  T,T-F & RVQ &   F &GAN, Feat, Rec, VQ & - &  \checkmark& \\
+            LFSC~\citep{casanova2024lfsc} & \checkmark &  &  &21.5  & CNN &  CNN & T & FSQ &  F & GAN, Feat, Rec & SD & \checkmark & \\
+            LLMCodec~\citep{yang2024uniaudio} & \checkmark &  & \checkmark & 57 & CNN+T &  CNN+T & T& MS-RVQ &  F & GAN, Rec& SD& \checkmark & \\
+            LSCodec~\citep{Guo2024LSCodecLA} & \checkmark &  &  & 25, 50  & CNN & CNN & T & SVQ &  F & GAN, Feat, Rec & Dis, SD & & \\
+            MDCTCodec~\citep{Jiang2024MDCTCodecAL}& \checkmark &  &  & 150  & CNN & CNN & T-F &RVQ &  F & GAN, Feat, Rec, VQ & &\checkmark & \\
+            Mimi~\citep{defossez2024moshi} & \checkmark &  &  & 12.5 & CNN+T & CNN+T &  T & RVQ &  F & GAN, Feat, Rec, VQ &SD & \checkmark &\checkmark  \\
+            MMM~\citep{shi2024mmm} & \checkmark &  &  & 50 & CNN+T &  CNN& T &K-means &  F & GAN, Feat, Rec, MP & - & & \\
+            NAST~\citep{messica2024nast} & \checkmark &  &  & 50  & CNN+T  & CNN+T & T & FSQ & F & Rec, VQ, MP& SD& \checkmark&\\
+            NDVQ~\citep{niu2024ndvq} & \checkmark &  &  & 75 & CNN+RNN &  CNN+RNN & T & RVQ &  F &  GAN, Feat, Rec, VQ & - & \checkmark & \\
+            PAST~\citep{har2025past}& \checkmark &  &  & 75 & CNN+T & CNN & T  & RVQ &   F & GAN, Feat, Rec, VQ & SST & \checkmark & \checkmark\\
+            PQ-VAE~\citep{Guo2024AddressingIC}& \checkmark &  &  & 75 & CNN & CNN & T-F & PQ &  F&  Rec, VQ& - &\checkmark & \\
+            Prompt Codec~\citep{Pan2024PSCodecAS}&\checkmark  &  &  & 75 & CNN+RNN & CNN+RNN & T-F &  GRVQ &  F& GAN, Feat, Rec, VQ &-& \checkmark&  \\
+            RepCodec~\citep{huang2023repcodec}& \checkmark &  &  & 50 & CNN  & CNN & T  & SVQ &   F & Rec, VQ , MP & - & \checkmark & \\
+            S-TFNet~\citep{jiang22_interspeech} &\checkmark  &  &  & - & CNN+RNN &  CNN& T-F & CSRVQ&  F & GAN, Rec, VQ & - & \checkmark & \\
+            S3~\citep{Du2024CosyVoiceAS} &   \checkmark &  &  &  - & T & T & T& SVQ &  F & Dif &SST & &  \\
+            SD-Codec~\citep{bie2024learning} & \checkmark & \checkmark & \checkmark & 50 & CNN &  CNN & T & RVQ &   F& GAN, Rec,Feat, VQ& Dis & \checkmark &\\
+            SemantiCodec~\citep{liu2024semanticodec}&\checkmark  & \checkmark &\checkmark  & 50 & CNN+T & T  & T & RVQ &  F& Dif, VQ& SD & \checkmark& \\
+            Single Codec~\citep{li2024single} &  \checkmark &  &  & 23 & CNN+RNN & CNN+RNN & T-F & SVQ & F & GAN, Rec, VQ& -& \checkmark & \\
+            SingOMD~\citep{tang2024singomd} &  & \checkmark &  & 50 & CNN+T & CNN & T & K-Means &  F & GAN, Feat, Rec, MP & -&  & \\
+            SNAC~\citep{siuzdak2024snac} & \checkmark & \checkmark & \checkmark& Variable & CNN+RNN & CNN & T & MS-RVQ &  F & GAN, Feat, Rec, VQ & -& \checkmark&  \\
+            SOCODEC~\citep{guo2024socodec} &\checkmark  &  &  & 20 & CNN & CNN & T-F  & PQ &  F & GAN, Rec, VQ  & Dis & \checkmark &  \\
+            SoundStream~\citep{zeghidour2021soundstream} & \checkmark & \checkmark &   &75 & CNN  & CNN & T & RVQ &  F& GAN, Rec,Feat & - &\checkmark & \checkmark \\
+            Spectral Codecs~\citep{langman2024spectral} & \checkmark &  &  & 86.1 & CNN & CNN & T-F & FSQ &  F & GAN, Feat, Rec & -& \checkmark&  \\
+            SpeechTokenizer~\citep{zhang2023speechtokenizer} & \checkmark &  &  & 50 & CNN+RNN & CNN & T & RVQ &  F&GAN, Rec,Feat, VQ & SD & \checkmark &  \\
+            SQ-Codec~\citep{simplespeech} & \checkmark &  &  & 50 & CNN & CNN & T & FSQ &  F & GAN, Rec & - & \checkmark &\\
+            TAAE~\citep{parker2024scaling}& \checkmark &  &  & 25 & CNN+T & CNN+T & T & FSQ &  F & GAN, Feat, Rec& SD & \checkmark & \checkmark\\
+            TFNet~\citep{Jiang2022EndtoEndNS} & \checkmark &  &  & 120 & CNN+RNN & CNN & T-F & GRVQ &   F & Rec, VQ & - & \checkmark & \\
+            Ti-Codec~\citep{ren2024ticodec} & \checkmark &  &  & 75 & CNN+RNN & CNN+RNN & T & RVQ &  F & GAN, Feat, Rec, V&Dis &  \checkmark &\\
+            TS3-Codec~\citep{Wu2024TS3CodecTS} &\checkmark  &  &  & 40, 50 & T & T& T & SVQ &  F & GAN, Feat, Rec, V&- &\checkmark &\checkmark \\
+            USM~\citep{zhang2023googleusm} &  \checkmark &  & & 25 & CNN+T & - & T-F &  PQ &  F & MP &- & &  \\
+            Vocos~\citep{siuzdak2023vocos} &\checkmark  &  &  & 50 & CNN & CNN & T-F  & RVQ &  F& GAN, Feat, Rec& - & \checkmark & \\
+            WavTokenizer~\citep{ji2024wavtokenizer} & \checkmark & \checkmark &   \checkmark & 40, 75 & CNN+T  & CNN+T & T & SVQ &  F& GAN, Feat, Rec, V&- & \checkmark &\\
+            Wav2Vec-BERT~\citep{chung2021w2v} & \checkmark  &  &  & 25 & CNN+T & - & T & PQ &  F & MP &  - & \checkmark& \\
+            WMCodec~\citep{Zhou2024WMCodecEN}&\checkmark  &  &  & 75 &  CNN+T  & CNN & T  & RVQ &  F & GAN, Feat, Rec& -& \checkmark&\\
+             X-Codec~\citep{Ye2024CodecDM} & \checkmark & \checkmark & \checkmark & 50 & CNN & CNN & T & RVQ &  F & GAN, Rec, V& SD & \checkmark& \\
+            XEUS~\citep{chen-etal-2024-towards-robust}& \checkmark &  &  & 50 & CNN+T & - & T  & K-means &  F & MP & - & &\\
+            \specialrule{.11em}{.2em}{.1em}
+        \end{tabular}
+        \end{adjustbox}
+        }
+\end{table}
+
+\subsection{Quantization Method} \label{sec:lit-quant}
+Quantization is a key component of the tokenization pipeline, transforming continuous frame-wise features (vectors) $\boldornobold{z}_t \in \mathbb{R}^D$ into discrete tokens $\boldornobold{q}_t = [q_{1,t}, \dots, q_{M,t}]$ and corresponding quantized vectors $\hat{\boldornobold{z}}_t \in \mathbb{R}^D$. More formally, quantization maps data into a smaller representation space with lower cardinality. It is defined as a two-step procedure involving encoding and decoding, which are distinct from the encoder and decoder modules described in Figure~\ref{fig:architecture}. The encoder of the quantizer, denoted $E_q: \mathbb{R}^D \rightarrow \{1, \dots, K\}^M$, maps a continuous embedding $\boldornobold{z}_t$ to a tuple of discrete indices $\boldornobold{q}_t$, where each $q_{m,t} \in \mathcal{I}_m = \{1, 2, \dots, K\}$ corresponds to a quantization layer (codebook) $m$. These indices refer to entries in a set of $M$ codebooks $\mathcal{C} = \{ \mathcal{C}^{1}, \dots, \mathcal{C}^{M} \}$, where each codebook $\mathcal C^m$ contains $K$ learnable $D$ dimensional continuous vectors. The decoder of the quantizer, $D_q: \{1, \dots, K\}^M \rightarrow \mathbb{R}^D$, reconstructs the quantized embedding $\hat{\boldornobold{z}}_t$ by retrieving the selected codewords from the codebooks and combining them, typically via averaging or summation.
+
+Depending on the design choices, quantization methods vary along two important axes: (1) the specific quantization algorithm used to convert continuous features into discrete tokens, such as k-means, product quantization, or residual vector quantization (RVQ), (2)  whether the bitrate is fixed or adaptive. These aspects are described in the following subsections.
+
+
+
+\subsubsection{Quantization Algorithm} 
+\paragraph{K-means.}
+K-means clustering is frequently used for post-training quantization. While many recent codec-based acoustic tokenizers tend to adopt the joint-training quantization techniques, k-means is still prevalent in extracting tokens from SSL models~\citep{mousavi2024, chang2023exploration,polyak2021speech,wang2023selm}. Typically, a layer or multiple layers from a pretrained SSL model are selected, and representations are clustered using offline trained k-means to create discrete tokens. Such tokenizers natively lack a built-in decoder, as they are primarily used for discriminative tasks like ASR. Nevertheless, recent studies have investigated training separate decoders to reconstruct speech from discrete representations, such as employing a modified HiFi-GAN~\citep{yang2023hifi}. Additionally, ~\citet{mousavi2024} introduced a multi-layer training strategy with dropout mechanisms, enabling the decoder to flexibly handle varying bitrates during inference. The assignment of each embedding $z_t$ to its nearest centroid $c_k$ is performed using the standard K-means rule:
+
+
+\begin{equation}
+q_t = \arg\min_{k \in \{1, \dots, K\}} \| z_t - c_k \|^2
+\end{equation}
+
+Here, $z_t \in \mathbb{R}^D$ denotes the continuous embedding at time step $t$ from a frozen SSL model, $c_k$ is the $k$-th cluster centroid, and $q_t \in \{1, \dots, K\}$ is the resulting discrete token index.
+
+
+\paragraph{Residual Vector Quantization (RVQ).} RVQ maps each frame-wise feature to the closest entry in a codebook and then refines this process by computing the residual after quantization. The remaining residual is compressed by sequentially applying a series of quantizers, each refining the residuals left by the previous one. The first neural network-based RVQ method was first introduced in SoundStream~\citep{zeghidour2021soundstream} and has since been widely adopted in other models~\citep{kumar2023high,defossez2022high,defossez2024moshi,zhang2023speechtokenizer}. Many approaches~\citep{kumar2023high,defossez2022high} also incorporate bitrate scalability by performing variable bandwidth training, where the number of codebooks is randomly selected during training to support different bandwidths during inference. A variant of RVQ, called Residual Normal Distribution Vector Quantization (RNDVQ), is used in ~\citep{niu2024ndvq}. Unlike standard RVQ, which selects the nearest neighbor deterministically, RNDVQ formulates quantization as a probabilistic selection problem. This addresses issues such as low codebook utilization and sensitivity to noise, making the model more robust to minor variations in input data. The procedure is defined recursively as:
+\begin{algorithm}[H]
+\caption{Residual Vector Quantization (RVQ)}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Embedding $z_t$, Codebooks $\{ \mathcal{C}^{(m)} \}_{m=1}^M$
+\State Initialize residual: $r_t^{(1)} \gets z_t$
+\For{$m = 1$ to $M$}
+    \State $q_t^{(m)} \gets \arg\min_k \left\| r_t^{(m)} - c_k^{(m)} \right\|^2$
+    \State $\hat{z}_t^{(m)} \gets c_{q_t^{(m)}}^{(m)}$
+    \State $r_t^{(m+1)} \gets r_t^{(m)} - \hat{z}_t^{(m)}$
+\EndFor
+\State \textbf{Output:} $\hat{z}_t \gets \sum_{m=1}^{M} \hat{z}_t^{(m)}$
+\end{algorithmic}
+\label{alg:rvq}
+\end{algorithm}
+
+Here, $z_t$ is the input embedding at time $t$, $q_t^{(m)}$ is the discrete index selected from the $m$-th codebook, and $\hat{z}_t$ is the final quantized vector produced by summing the quantized outputs from each residual stage.
+
+
+\paragraph{Single Vector Quantization (SVQ).} SVQ uses a single codebook for quantization, where each frame-wise embedding is mapped to a single code, unlike RVQ, which uses multiple codes. SVQ can be viewed as a simplified form of RVQ with a single codebook (i.e., $M{=}1$), without iterative residual refinement, similar to VQ-VAE~\citep{garbacea2019low}. It has gained popularity due to the architectural complexity introduced by multiple codebooks in acoustic language models, such as managing multiple codebook streams. SVQ, by contrast, is simpler and particularly useful for training acoustic language models. 
+To compensate for the potential loss of information caused by using a single codebook, some SVQ-based codec models adopt larger codebook sizes.  Examples of SVQ-based codecs include BigCodec~\citep{xin2024bigcodec}, TS3-Codec~\citep{Wu2024TS3CodecTS}, WavTokenizer~\citep{ji2024wavtokenizer}.
+
+
+\paragraph{Group Vector Quantization (GVQ).}
+One limitation of RVQ is that most of the information tends to be captured in the first-layer codebook, with later codebooks contributing minimally. To address this, GVQ~\citep{yang2023hifi} increases capacity at the first quantization stage by dividing the latent feature vector $z_t \in \mathbb{R}^D$ into $G$ non-overlapping groups:
+\begin{equation}
+z_t = \left[ z_t^{(1)} \, \| \, z_t^{(2)} \, \| \, \dots \, \| \, z_t^{(G)} \right],
+\end{equation}
+where each $z_t^{(g)} \in \mathbb{R}^{D/G}$ represents a segment of the input feature, and $\|$ denotes concatenation. Each group is quantized independently using a separate RVQ module, producing a group-wise quantized embedding $\hat{z}_t^{(g)}$. The final quantized vector is formed by concatenating the quantized outputs from all groups:
+\begin{equation}
+\hat{z}_t = \left[ \hat{z}_t^{(1)} \, \| \, \hat{z}_t^{(2)} \, \| \, \dots \, \| \, \hat{z}_t^{(G)} \right].
+\end{equation}
+
+This grouped structure improves performance while reducing the number of required codebooks.
+
+
+\paragraph{Finite Scalar Quantization (FSQ).}
+Unlike traditional vector quantization, FSQ maps each dimension of a feature vector to a fixed set of scalar values~\citep{mentzer2023finite}. Specifically, each feature value $z_t$ is first squashed into the range $[-1, 1]$ using a non-linear function such as $\tanh$, and then quantized into a scalar latent space by computing $\text{round}(z_t \cdot S) / S$, where $S$ is a hyperparameter controlling the quantization resolution. This procedure results in $2S + 1$ distinct scalar values per dimension, ensuring uniform coverage of the latent space. FSQ has been adopted in various recent models. SQ-Codec~\citep{simplespeech} achieves this by creating a scalar latent space, while Spectral Codecs~\citep{langman2024spectral} use FSQ to encode mel-spectrogram features into a flat codebook. FSQ is often used with diffusion models for high-quality audio generation. HARP-Net~\citep{petermann2021harp} similarly applies FSQ but directly maps bottleneck features i.e., single scalar values rather than vectors, to a set of learned scalar bins. Unlike other approaches, HARP-Net maintains the original input frame rate (44.1 kHz) by avoiding temporal decimation, instead expanding the feature dimension in intermediate layers before collapsing to scalar quantization. FocalCodec~\citep{della2025focalcodec} instead uses a variant of FSQ called Binary Spherical Quantization (BSQ), which relies on two scalar values.
+
+
+\paragraph{Multi-Scale RVQ (MSRVQ).} MSRVQ~\citep{siuzdak2024snac} extends standard RVQ by applying quantizers at different temporal resolutions. This hierarchical structure enables the model to efficiently capture both coarse and fine-grained details. The initial VQ layers operate at higher frame rates to encode fine details, while later layers work at lower temporal resolutions to refine the residuals using fewer tokens. At each stage $i$, the residual $r_t^{(i)}$ is downsampled by a factor $W_i$, quantized, and then upsampled back to length $T$:
+\begin{equation}
+\hat{z}_t^{(i)} = \text{Upsample}\left( Q^{(i)}\left( \text{Downsample}(r_t^{(i)}, W_i) \right) \right)
+\end{equation}
+This strategy reduces the number of tokens while preserving essential information in the representation.
+
+
+\paragraph{Cross-Scale RVQ (CSRVQ).}  CSRVQ~\citep{gu2024esc,jiang22_interspeech} extends RVQ by integrating multi-scale features that progressively encode coarse-to-fine information. Unlike conventional RVQ, which applies residual quantization only at a single and lowest-resolution layer, CSRVQ encodes residuals between encoder and decoder features at multiple hierarchical levels. During decoding, each level is conditioned on quantized residuals from coarser scales, allowing the model to refine reconstructions in a coarse-to-fine manner. This structure enables the preservation of low-level detail often lost in high-level-only representations. In practice, CSRVQ can include quantization modules across different decoder layers, with each layer incorporating its own quantizer. ESC~\citep{gu2024esc} adopts this design via hierarchical transformers and stepwise decoding, progressively improving reconstruction fidelity without requiring extra fusion networks between encoder and decoder.
+
+
+\paragraph{Product Quantization (PQ).}
+Product quantization is commonly used in self-supervised learning (SSL) models to discretize continuous speech representations. PQ can be viewed as a group of independent vector quantization modules~\citep{chung2021w2v,guo2024socodec}, partitioning embeddings into smaller sub-vectors and quantizing each separately. The quantized sub-vectors are then concatenated to form the final output. Other variations include Random-Projection Quantization, as seen in models like Best-RQ and USM~\citep{chiu2022bestrq,zhang2023googleusm}. This method maps speech signals into discrete labels using a randomly initialized projection matrix. Unlike other quantization methods, most PQ-based approaches do not have a built-in decoder, as they are primarily designed for SSL models rather than direct waveform reconstruction. 
+
+
+\subsubsection{Fixed vs. Adaptive Bitrate} 
+Depending on the system design, the bitrate of quantized representations can be either \textit{fixed} or \textit{adaptive}. In fixed-allocation schemes, such as those based on codebooks, the bitrate is determined by the number of bits required to represent each code index, irrespective of the actual token distribution. In contrast, \textit{adaptive bitrate} refers to entropy-based coding schemes that assign variable-length codes based on the statistical frequency of tokens~\citep{agustsson2017soft, kankanahalli2018end}. More frequent tokens are encoded using fewer bits, while rarer tokens require more, leading to improved compression efficiency. Standard methods such as Huffman coding or arithmetic coding are commonly employed to exploit this redundancy. Importantly, any quantization method, regardless of its original design, can benefit from post-hoc entropy coding to further reduce the effective bitrate. It is also important to distinguish between \textit{adaptive bitrate} and \textit{scalable bitrate}. Adaptive bitrate dynamically adjusts the number of bits per token according to the token distribution (e.g., via entropy coding~\citep{jiang2023disentangled, petermann2021harp}). In contrast, scalable bitrate refers to systems capable of operating at multiple fixed bitrates, typically achieved by varying the number of active codebooks. This bitrate level is selected manually or defined as a hyperparameter, but it remains fixed per run and does not adapt token-wise at runtime. For instance, Encodec~\citep{defossez2022high} enables scalable bitrate by employing a codebook dropout strategy during training.
+
+\subsection{Encoder-Decoder} \label{sec:lit-arch}
+This section describes the main encoder and decoder architectures, along with the encoder input and decoder output representations used across different designs.
+
+\subsubsection{Architecture}
+\paragraph{\textbf{Convolutional (CNN)}.} CNN extracts and downsamples audio waveforms into lower frame-rate features using CNN layers. CNN is the most widely applied architecture among early neural codecs~\citep{kumar2023high,zeghidour2021soundstream}. CNN models are generally more compact, thus can be readily integrated with different system sizes and are especially useful in resource-constrained environments. However, CNN tokenizers cannot capture long-range dependencies. 
+
+\paragraph{\textbf{Convolutional + RNN (CNN+RNN).}} Some tokenizers~\citep{defossez2022high,xin2024bigcodec} combine CNN-based feature extraction with LSTMs or GRUs for sequential modeling. RNN provides a mechanism for longer-range dependency than CNN, although it can still suffer from memory loss when the sequences reach a certain length. RNNs can easily add algorithm and system complexity to both training and inference. Therefore, the number of RNN layers used in tokenizers is usually small, and they are combined with CNN modules. 
+
+\paragraph{\textbf{Transformer (T).}} This category refers to the fully transformer-based models without convolutional components~\citep{Wu2024TS3CodecTS}. This type of tokenizer is less common than others. They may achieve impressive compression and reconstruction performance, but they generally demand a large amount of training data and much heavier computational resources, which limit their practicality in tokenization. 
+
+\paragraph{\textbf{Convolutional + Transformer (CNN+T).}} This group of tokenizers~\citep{mousavi2024,chiu2022bestrq,yang2024uniaudio} uses CNN-based feature extraction followed by attention mechanisms to capture long-range dependencies. Transformers have recently started to appear in audio tokenizers, as a replacement for RNN, due to their effectiveness in capturing long-range dependencies.
+
+\subsubsection{Input and Output Representations}
+Encoders can process audio inputs in either the time domain or the frequency domain. In the time domain approach, raw waveforms are directly passed to the encoder. In the frequency-domain approach, precomputed mel-spectrograms or other spectral features are used as inputs.
+The output representation can follow two approaches: (1) time domain waveforms, where the decoder directly upsamples the discrete representation into waveforms~\citep{defossez2022high}; or (2) time-frequency domain features, where the decoder outputs time-frequency domain features~\citep{siuzdak2023vocos}, and the Inverse Short-Time Fourier Transform (ISTFT) is applied for upsampling. In this case, the decoded features typically have a frame rate similar to that of the codec tokens. \citet{siuzdak2023vocos} argues that assigning the upsampling to the ISTFT reduces the burden on the decoder and leads to better performance.
+
+\subsection{Training Paradigm} \label{sec:lit-train-paradigm}
+In this section, we discuss three key dimensions of audio tokenizer training: the training strategy, the main training objectives used to optimize the model, and the auxiliary components that further enhance the learned representations.
+
+
+\subsubsection{Training Strategies}
+Training strategies for audio tokenizers can be categorized into two broad approaches: \textit{separate (post-training)} and \textit{joint (end-to-end training)}. These differ in how the encoder, quantizer, and decoder modules are optimized in relation to each other. In both cases, the encoder may be randomly initialized or initialized using a pretrained model, such an SSL model (e.g., wav2vec 2.0~\citep{baevski2020wav2vec}, HuBERT~\citep{hsu2021hubert}, WavLM~\citep{chen2022wavlm}) or an ASR model~\citep{radford2023robust}).
+
+
+\paragraph{\textbf{Separate (Post-Training).}} In this approach, the encoder and decoder are optimized independently from the quantization module. This is common in semantic tokenizers and earlier neural codecs. The encoder is often initialized from a pretrained SSL model such as wav2vec 2.0~\citep{baevski2020wav2vec}, HuBERT~\citep{hsu2021hubert}, or WavLM~\citep{chen2022wavlm}, and typically kept frozen during quantizer training~\citep{lakhotia2021generative,mousavi2024,shi2024mmm}.  
+The quantizer is trained offline using methods such as k-means clustering on latent representations. Discrete SSL~\citep{lakhotia2021generative,mousavi2024,shi2024mmm}, for example, uses k-means clustering to quantize the latent semantic features after pretraining. LPCNet-based codecs\footnote{\url{https://github.com/xiph/LPCNet}}~\citep{valin2019lpcnet, valin2019real, yang2023neural} use a combination of scalar quantization and a multi-stage vector residual quantization on the pre-extracted features (pitch and cepstra) with k-means, involving different levels of feature predictions. LAST~\citep{turetzky2024last} uses VQ to quantize adapted SSL features, with the objective of improving SpeechLM, and then separately trains a HiFi-GAN based vocoder. $\mu$-law is also a popular quantization technique used in earlier autoregressive vocoders~\citep{oord2016wavenet}, and some neural audio codecs~\citep{Kleijn2018wavenet}. Decoders are then trained independently to reconstruct waveforms or features from discrete tokens, often using HiFi-GAN~\citep{polyak2021speech, kong2020hifigan} or diffusion models~\citep{du2024cosyvoice, zeng2024glm}.
+
+
+\paragraph{\textbf{Joint (End-to-End Training).}} In joint training, the encoder, quantizer, and decoder are optimized simultaneously within a unified end-to-end framework. This approach is commonly adopted by acoustic tokenizers~\citep{zeghidour2021soundstream,defossez2022high}. The full model is optimized using a combination of reconstruction losses (e.g., MSE) and often adversarial losses~\citep{goodfellow2020generative} to promote both signal fidelity and perceptual quality. To address the non-differentiability of quantization, several gradient approximation techniques are used: (1) straight-through estimators~\citep{vqvae2017}, which copy gradients across the quantizer; (2) soft-to-hard quantization with annealing~\citep{agustsson2017soft, kankanahalli2018end}; and (3) Gumbel-softmax relaxation~\citep{Jang2016Gumbel, maddison2016concrete}.  
+Joint training also allows for incorporating auxiliary objectives (see Section~\ref{sec:lit-aux}) to improve downstream task utility, robustness, or bitrate flexibility~\citep{niu2024ndvq, kumar2023high}.
+
+
+\subsubsection{Main Training Objectives}
+\label{sec:lit-loss}
+Audio tokenizers are optimized using different main objectives, depending on the targeted application, as depicted in Figure~\ref{fig:architecture}.
+
+\paragraph{\textbf{Reconstruction (Recon).}} The most common objective for training audio tokenizers is to reconstruct the original audio input from discrete tokens. This is achieved using a regression loss, such as the mean squared error (MSE) or mean absolute error (MAE) between the input  $x$ and the reconstructed output $\hat{x}$~\citep{defossez2022high, zeghidour2021soundstream}:
+\begin{equation}
+    \mathcal{L}_{\text{Recon}} = \sum_{t=1}^{T} \left\| x_t - \hat{x}_t \right\|^2.
+\end{equation}
+
+\paragraph{\textbf{Vector Quantization (VQ)}.} In the straight-through estimator~\citep{vqvae2017} used for vector quantization, gradients bypass the codebook, requiring additional losses to align the embeddings with the encoder outputs. One example is the soft-to-hard scheme~\citep{agustsson2017soft}, where a quantization loss is applied during training to encourage the softmax-based quantization approximation to closely match the original continuous representation $z$: 
+\begin{equation}
+    \mathcal{L}_{VQ} = \|z - \hat{z}\|, \; \hat{z} = \sum_{m=1}^M\alpha_m * c_m,
+\end{equation} where $M$ denotes the total number of codebooks, $c_m$ is the continuous representation that corresponds to the $m$'th codebook (as defined in Section \ref{sec:lit-quant}), and $\alpha_m$ are their corresponding softmax weights. 
+
+Another example is the commitment loss, which encourages the encoder outputs to align with the selected codebook embeddings. The loss is computed between each residual \( z_t^{(m)} \) and its quantized counterpart \( \hat{z}_t^{(m)} \) from the \( m \)-th codebook, with gradients blocked from flowing through the quantized values:
+
+\begin{equation}
+\mathcal{L}_{\text{VQ}} = \sum_{t=1}^{T} \sum_{m=1}^{M} \left\| z_t^{(m)} - \text{sg}\left[\hat{z}_t^{(m)}\right] \right\|^2,
+\end{equation}
+
+where \( \text{sg}[\cdot] \) denotes the stop-gradient operator. This loss penalizes discrepancies between the encoder outputs and their corresponding quantized embeddings while ensuring that gradients do not update the codebook entries directly. Modern approaches often replace this loss with Exponential Moving Average (EMA) updates for the codebook, which improve training stability and mitigate codebook collapse. \rebuttal{This collapse occurs when the model selects only a few code vectors, leaving the rest inactive and unupdated~\citep{dhariwal2020jukebox,kumar2023high}. As a result, the effective codebook size decreases, lowering the target bitrate and degrading reconstruction quality. To address this issue, researchers have proposed several strategies to improve codebook utilization.
+Some models~\citep{dhariwal2020jukebox,zeghidour2021soundstream} apply codebook expiration, periodically reinitializing inactive code vectors. Others~\citep{kumar2023high,simplespeech,defossez2022high} use factorized quantization and L2 normalization to encourage more balanced usage across the codebook. Techniques like ESC~\citep{gu2024esc} and NDVQ~\citep{niu2024ndvq}introduce Euclidean normalization or represent codebooks as distributions, using margin-based or probabilistic losses to prevent collapse and promote diverse activation. Additional solutions introduce auxiliary constraints, such as entropy penalties or code balancing losses. For example, Enhanced Residual Vector Quantization (ERVQ)~\cite{zheng2025ervq} uses intra-codebook optimization via online clustering and a code balancing loss to reactivate unused vectors, while inter-codebook optimization minimizes redundancy between adjacent quantizers through a structural similarity loss, enhancing expressiveness and overall utilization.}
+
+
+% \rebuttal{Random restarts or codebook expiration: For example, some VQ‑VAE–based audio models periodically reset underutilized code vectors using encoder output or clustering centroids to revive dormant code entries and maintain codebook diversity}One such method is codebook expiration, which refreshes inactive entries by replacing them with randomly initialized vectors after prolonged inactivity [51]. Alternative approaches aim to improve code diversity through regularization, such as penalizing low-entropy usage distributions [52, 53], or by reducing the effective search space, for instance through low-dimensional factorized lookups [54]. Another line of work updates all code vectors simultaneously via shared linear projections, enabling more consistent learning dynamics across the entire codebook.}
+
+
+\paragraph{\textbf{Adversarial (GAN).}}  
+Acoustic tokenizers often apply adversarial losses to improve perceptual quality. A discriminator network $D$ is trained to distinguish between real signals $x$ and reconstructed signals $\hat{x}$, while the tokenizer (generator) is optimized to fool the discriminator. The adversarial loss is defined as a hinge loss over the logits of the discriminator, averaged over multiple discriminators and over time. 
+
+The generator loss is:
+\begin{equation}
+\mathcal{L}_{G} = \frac{1}{K} \sum_{k=1}^{K} \max(1 - D_k(\hat{x}), 0)
+\end{equation}
+The discriminator loss is:
+\begin{equation}
+\mathcal{L}_{D} = \frac{1}{K} \sum_{k=1}^{K} \left[ \max(1 - D_k(x), 0) + \max(1 + D_k(\hat{x}), 0) \right]
+\end{equation}
+where $D_k(\cdot)$ denotes the output of the $k$-th discriminator. 
+% To improve the quality of the generated audio, multiple discriminators are commonly used, including multi-resolution and multi-scale short-time Fourier transform (STFT) discriminators from neural vocoder research~\citep{kong2020hifigan,defossez2022high,zeghidour2021soundstream}.
+% Perceptual losses are applied using a variety of discriminators, including multi-scale STFT-based (MS-STFT), multi-period (MPD), and multi-scale (MSD) variants.
+\rebuttal{Following VQGAN~\cite{esser2021taming}, the subsequent audio neural vocoders commonly include multiple discriminators with a specific focus on the frequency-level rebuilding to enhance the perceptual quality~\citep{kong2020hifigan,defossez2022high,zeghidour2021soundstream}. Specifically, these multi-scale discriminators take the stack of multi-resolution or multi-scale complex-valued short-time Fourier transform (STFT) with the real and imaginary parts concatenated as input, e.g., 5 different scales with STFT window lengths of [2048, 1024, 512, 256, 128], for capturing different structures in audio signals.}
+
+\paragraph{\textbf{Feature Matching (Feat).}}  
+To encourage the original and reconstructed signals to exhibit similar abstractions (or to align closely in the latent space), stabilize adversarial training, and encourage more natural reconstructions, a feature-matching loss is often applied. This loss compares intermediate activations from the discriminator for real and reconstructed signals. It is defined as:
+\begin{equation}
+    \mathcal{L}_{\text{Feats}} = \frac{1}{K L} \sum_{k=1}^{K} \sum_{l=1}^{L} \frac{ \| D^l_k(x) - D^l_k(\hat{x}) \|_1 }{ \text{mean}(\| D^l_k(x) \|_1) },
+\end{equation}
+where $K$ is the number of discriminators, $L$ is the number of layers in each discriminator, and $D^l_k(\cdot)$ denotes the output of the $l$-th layer of the $k$-th discriminator.
+Feature matching encourages the generator to match higher-level statistics of real signals, improving stability and perceptual quality.
+
+
+\paragraph{\textbf{Diffusion (Diff).}} Diffusion loss is used when the decoder is modeled as a conditional denoising diffusion process. A diffusion model~\citep{rombach2022high} progressively adds noise $\epsilon_t$ to the latent representation $z_t$ during the forward process. A conditioned neural network, parameterized by $\theta$, is trained to predict the noise at each timestep.  
+The training objective minimizes the expected difference between the true noise $\epsilon_t$ and the network prediction $\epsilon_\theta(z_t, t, z_q)$, conditioned on the discrete tokens $z_q$:
+\begin{equation}
+    \mathcal{L}_{\text{diffusion}} = \mathbb{E}_{z_0, t, z_q}\left[\left\| \epsilon_t - \epsilon_\theta(z_t, t, z_q) \right\|\right],
+\end{equation}
+where $z_q$ represents the discrete conditioning tokens provided during both training and generation. This approach enables the model to recover acoustic features directly from discrete tokens~\citep{yang2024generative, san2023discrete, du2024cosyvoice}.
+
+\paragraph{\textbf{Masked Prediction (MP).}} Masked prediction loss is commonly used in tokenizers where the encoder and decoder are trained separately. The encoder is trained to predict masked portions of the input sequence, typically capturing phonetic information rather than reconstructing the full waveform.  Following the masked language modeling (MLM) paradigm~\citep{devlin2019bert}, a portion of the input is randomly masked, and the model is optimized to predict the masked frames from the surrounding context. \rebuttal{Formally, given an input sequence of frame-level features $\mathbf{X} = \{x_1, x_2, \dots, x_T\}$, a binary mask $\mathbf{M} \in \{0, 1\}^T$ is applied, where $M_t = 1$ indicates a masked position. The masked input is denoted as $\mathbf{X}^{\text{mask}}$, where $x_t^{\text{mask}} = [\text{MASK}]$ if $M_t = 1$, and $x_t^{\text{mask}} = x_t$ otherwise. The encoder processes this masked input to produce latent representations $\mathbf{Z} = f_e(\mathbf{X}^{\text{mask}})$, and the model is trained to minimize prediction loss.}
+
+\[
+\rebuttal{\mathcal{L}_{\text{MP}} = \sum_{t=1}^{T} M_t \cdot \ell(Z_t, x_t)}
+\]
+
+\rebuttal{where $f_e$ is the encoder network and $\ell(\cdot, \cdot)$ is the cross-entropy loss.} This approach is widely used in speech pretraining models such as HuBERT~\citep{hsu2021hubert} and WavLM~\citep{chen2022wavlm} and is adopted in several semantic tokenizer designs~\citep{lakhotia2021generative, mousavi2024}
+
+
+
+
+\subsubsection{Auxiliary Components}
+\label{sec:lit-aux}
+
+Beyond the main training objectives, neural audio tokenizers often combine auxiliary components to enhance generalization, improve representation learning, and refine specific features. 
+These auxiliary components fall into three categories: disentanglement, semantic distillation, and supervised semantic tokenization\footnote{We here inherit the original terminology from the referenced papers (i.e., semantic distillation, and supervised semantic tokenization) . However, it is important to note that both methods typically extract or learn information from SSL features, which predominantly encode phonetic information.}.
+
+\paragraph{\textbf{Disentanglement.}} Disentanglement methods separate different speech attributes into distinct representations, reducing redundancy while allowing independent control over acoustic properties and simplifying downstream tasks. 
+One type of disentanglement in the codec focuses on separating speech and background audio embedding space, enabling better bitrate, entropy control~\citep{yang2021source} or speech enhancement~\citep{omran2023disentangling}. \rebuttal{Those models normally aim to find a latent space where two ideally orthogonal components $\mathcal{Z}_1$ and $\mathcal{Z}_2$ can be conveniently separated, $\mathcal{F}(x) = \mathcal{Z}_1 \otimes \mathcal{Z}_2$, with $\otimes$ representing straightforward operations such as splitting along the channel ~\citep{yang2021source}. }
+
+Another type separates the conceptual and fundamental components of speech,  \rebuttal{where each component is typically extracted by its specific encoder. $\mathcal{Z}_k = \mathcal{F}_k(x)$.} Early attempts obtained efficient and low-bitrate speech coding through speaker and phoneme disentanglement, utilizing separate training~\citep{polyak2021speech} or joint training~\citep{jiang2023disentangled}. More recently,  
+TiCodec~\citep{ren2024ticodec} minimizes token usage by separately quantizing time-invariant global embeddings (e.g., timbre) and time-varying features (e.g., phonetic information). 
+FACodec~\citep{ju2024naturalspeech} decomposes speech into subspaces such as content, prosody, timbre, and acoustic details through supervised techniques. The timbre extractor in FACodec is optimized with a speaker classification loss, while distinct RVQ modules process other components before supervised decoupling. 
+LSCodec~\citep{Guo2024LSCodecLA} introduces a low-bitrate, speaker-decoupled speech codec using a three-stage training framework with speaker perturbation. A VQ layer is applied after a VAE that disentangles speaker attributes in a continuous space, followed by training a token vocoder on the quantized codes. Unlike most acoustic tokens that redundantly encode speaker timbre across time steps, LSCodec minimizes this inefficiency by isolating timbre from content and prosody. 
+SoCodec~\citep{guo2024socodec} employs multi-stream phonetic sequences and ordered product quantization to encode speech into phonetic and time-variant token sequences using HuBERT as a pretrained SSL model. An ECAPA-TDNN-based encoder~\citep{desplanques2020ecapa} extracts an utterance-level global embedding to retain time-invariant information, such as speaker identity, global speaking style, and acoustic environment. 
+SD-Codec~\citep{bie2024learning} integrates audio coding with source separation by assigning different audio domains (such as speech, music, and sound effects) to distinct codebooks using multiple parallel RVQ modules. 
+
+\paragraph{\textbf{Semantic Distillation.}} Semantic distillation enhances codec representations by incorporating phonetic information into specific codebooks. Various approaches have been explored to distill phonetic knowledge into tokenization while maintaining good reconstruction. Pretrained model guidance is a common approach, where models like SpeechTokenizer~\citep{zhang2023speechtokenizer}, X-Codec~\citep{Ye2024CodecDM}, and Mimi~\citep{defossez2024moshi} use SSL features to guide specific RVQ layers to learn information from such SSL features. 
+This distillation is implemented by applying regression or classification loss on the first RVQ output to align it with continuous SSL embeddings or discrete SSL tokens. 
+In this way, the first RVQ layers are trained to learn more phonetic information, while later layers focus on acoustic details. 
+Another method injects semantic knowledge directly into the quantizer codebook. LLM-Codec~\citep{yang2024uniaudio} follows this approach by initializing codebooks with token embeddings from LLaMa2~\citep{touvron2023llama} and keeping them frozen during training. This strengthens the ability of the codec to encode meaningful linguistic representations.
+Some models integrate semantic features into the encoder-quantizer pipeline by combining pretrained SSL representations with acoustic features through concatenation. SemantiCodec~\citep{liu2024semanticodec} and X-Codec~\citep{Ye2024CodecDM} adopt a dual-encoder-decoder architecture to process SSL semantic tokens independently from acoustic features.
+
+\paragraph{\textbf{Supervised Semantic Tokenization.}} Some tokenizers explicitly capture phonetic detail through supervised training. For example, Supervised Semantic Speech (S3)~\citep{Du2024CosyVoiceAS,du2024cosyvoice} employ a single-codebook VQ layer and FSQ, positioned between two transformer encoder modules. Recently,~\cite{har2025past} proposed adding phonetic classification auxiliary loss over the first codebook of the RVQ. These models optimize representations using an automatic speech recognition (ASR) loss. Additionally, they utilize optimal-transport conditional flow matching (OT-CFM)~\citep{tong2023improving} to model and generate Mel spectrogram distributions conditioned on the produced discrete speech tokens. These supervised approaches produce discrete tokens that effectively preserve phonetic information, making them more aligned with content information and suitable for understanding tasks in speech LMs~\citep{zeng2024glm}.
+
+\subsection{Streamability and Domain Categorization} 
+\label{sec:lit-str-domain}
+Beyond architecture and training paradigms, audio tokenizers also differ in their support for streaming and their domain of application.
+
+\paragraph{\textbf{Streamability.}}  
+Streamability refers to the ability of a tokenizer to process and generate audio in real-time with minimal latency, using little or no future context. This property is critical for low-latency applications such as real-time communication or streaming. Latency can be analyzed from two main perspectives:
+\begin{itemize}
+    \item \textbf{Algorithmic latency}, determined by the look-ahead window—i.e., how much future information is needed to compute the current frame. CNN-based models~\citep{defossez2022high} support streamability via causal convolutions, while Transformer-based~\citep{Wu2024TS3CodecTS} models require causal attention mechanisms. 
+    
+    \item \textbf{Computational complexity}, which becomes especially important when deploying models on resource-constrained systems like mobile or edge devices. Traditional and early neural audio codecs generally maintain low complexity for real-time feasibility. For instance, LPCNet~\citep{valin2019real} achieves real-time performance with fewer than 2M parameters at 1.6 kbps. In contrast, more recent models like Encodec scale up to $\sim$14M parameters to support 1.5 kbps, while BigCodec pushes further to 159M parameters at just 1.04 kbps to improve quality at low bitrates.
+\end{itemize}
+
+Many SSL-based tokenizers rely on non-causal encoders, which limits their use in real-time settings. Thus, achieving streamability with high-quality and efficient causal architectures remains an open research challenge.
+
+
+
+\paragraph{\textbf{Target Domain}.} 
+Some models~\citep{xin2024bigcodec,zhang2023speechtokenizer,mousavi2024,defossez2024moshi} are specifically designed for \emph{speech} tasks such as ASR and TTS. Others are optimized for \emph{music}~\citep{petermann2021harp,tang2024singomd} generation and enhancement, capturing tonal and harmonic structures. Some tokenizers~\citep{yang2024uniaudio} are designed for \emph{general audio}, including environmental sounds and non-speech signals. A few models~\citep{ji2024wavtokenizer,defossez2022high,kumar2023high} are trained to handle multiple domains.
+

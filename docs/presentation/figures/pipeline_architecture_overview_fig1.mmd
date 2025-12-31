@@ -1,0 +1,28 @@
+flowchart TD
+  classDef stage fill:#F3F6FF,stroke:#3949AB,stroke-width:1px,color:#111;
+  classDef artifact fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px,color:#111;
+  classDef agent fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#111;
+  classDef online fill:#E1F5FE,stroke:#0277BD,stroke-width:1px,color:#111;
+  classDef db fill:#F1F8E9,stroke:#558B2F,stroke-width:1px,color:#111;
+  classDef snowball fill:#FCE4EC,stroke:#C2185B,stroke-width:1px,color:#111;
+
+  A[輸入 topic]:::stage
+  B{{改寫 topic 為 query term<br/>以下載相關survey/review}}:::agent
+  C[(在 Arxiv 進行 seed paper<br/>檢索/下載)]:::db
+  D[Seed Papers]:::artifact
+  E{{抽取 anchor/search terms}}:::agent
+  F[(在 Arxiv 依組合後的 query<br/>檢索/下載)]:::db
+  G[初步 Retrieved Paper]:::artifact
+  H[/網路/]:::online
+  I{{產生 Criteria}}:::agent
+  J{{Title/Abstract 初篩}}:::agent
+  J1[入選 paper]:::artifact
+  K[[Snowball 擴展]]:::snowball
+  L[最終候選清單<br/>與歷程]:::artifact
+
+  A --> B --> C --> D --> E --> F --> G
+  D --> I
+  H --> I
+  I --> J
+  G --> J
+  J --> J1 --> K --> L

@@ -1,0 +1,75 @@
+
+\begin{table}[t]
+    \centering
+    \caption{Ablation experiments on audio tokenizer reconstruction performance  (speech domain).}
+    \begin{adjustbox}{width=\textwidth}
+    \begin{tabular}{l|cc|cc|cc|cc|cc|cc|cc}
+        \specialrule{.11em}{.2em}{.1em}
+        & \multicolumn{2}{c}{\textbf{SDR}$\uparrow$} & \multicolumn{2}{c}{\textbf{SI-SNR}$\uparrow$} & \multicolumn{2}{c}{\textbf{PESQ}$\uparrow$} & \multicolumn{2}{c}{\textbf{UTMOS}$\uparrow$}  & \multicolumn{2}{c}{\textbf{DNSMOS P835}$\uparrow$}  & \multicolumn{2}{c}{\textbf{WER}$\downarrow$} & \multicolumn{2}{c}{\textbf{Spk Sim}$\uparrow$} \\
+        \textbf{Model\textbackslash SR(kHz)} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} \\
+        \midrule
+        Ground truth & - & - & - & - & - & - & \textbf{\underline{4.09}} & \textbf{\underline{4.09}}  & 3.18 & \textbf{\underline{3.18}} & \hphantom{0}2.83 & \hphantom{0}2.83  & - & - \\
+        \midrule
+        RVQ-S & \hphantom{-1}\textbf{4.08} & \hphantom{-}\underline{8.24} & \hphantom{-1}\underline{1.15} & \hphantom{-}\textbf{6.38} & \textbf{2.59} & \underline{3.24} & \textbf{3.35} & \underline{3.62} & 3.16 & \textbf{3.16} & \hphantom{0}\textbf{2.04} & \textbf{\hphantom{0}2.63} & \underline{0.67} & \textbf{0.90} \\
+        RVQ-S+ & \hphantom{-1}1.63 & \hphantom{-}\textbf{8.40}  & \hphantom{1}-1.77 & \hphantom{-}\underline{5.67}  & 2.22 & \textbf{3.30}  & 3.12 & \textbf{3.65}  & 3.12 & \underline{3.14}  & \hphantom{0}\underline{2.12} & \hphantom{0}3.17  & \textbf{0.69} & \underline{0.89} \\
+        RVQ-A & \hphantom{-1}0.59 & \hphantom{-}6.92 & \hphantom{1}-3.36 & \hphantom{-}4.27 & 2.02 & 2.86 & 1.81 & 3.15 & 2.58 & 3.06 & \hphantom{0}2.47 & \hphantom{0}2.92 & 0.51 & 0.73 \\
+        RVQ-M & \hphantom{-1}2.80 & \hphantom{-}6.74 & \hphantom{1}-0.68 & \hphantom{-}4.61  & 2.00 & 2.41 & 1.64 & 2.33 & 2.64 & 2.68 & \hphantom{0}3.20 & \hphantom{0}2.85 & 0.44 & 0.56 \\
+        RVQ-3 & \hphantom{-1}2.46 & \hphantom{-}7.50 & \hphantom{1}-1.12 & \hphantom{-}4.63 & \underline{2.43} & 3.06 & 2.71 & 3.33 & 2.96 & 3.08 & \hphantom{0}2.22 & \hphantom{0}\underline{2.66} & 0.61 & 0.87 \\
+        \midrule
+        SVQ-S & \hphantom{1}-4.90 & \hphantom{-}0.92 & -13.59 & -2.04 & 1.43 & 1.69 & 2.19 & 2.61 & 3.09 & 3.10 & 13.16 & \hphantom{0}8.28 & 0.35 & 0.53\\ 
+        SVQ-S+ & \hphantom{1}-4.45 & -0.64 & -11.74 & -3.64 & 1.42 & 1.63 & 2.14 & 2.40 & 3.00 & 3.07 & 13.71 & \hphantom{0}7.89 & 0.36 & 0.52\\
+        SVQ-A & -11.80 & -5.04 & -33.46 & -9.56 & 1.19 & 1.18 & 1.25 & 1.26 & 1.86 & 1.97 & 31.40 & 34.68 & 0.19 & 0.14 \\
+        SVQ-M & \hphantom{1}-5.19 & -4.70 & -11.17 & -7.89 & 1.20 & 1.14 & 1.29 & 1.24 & 2.19 & 1.56 & 14.88 & 33.87 & 0.15 & 0.11 \\
+        SVQ-3 & \hphantom{1}-5.90 & -3.09 & -15.13 & -7.12 & 1.29 & 1.79 & 1.44 & 2.57 & 3.10 & 3.01  & 22.24 & \hphantom{0}6.71 & 0.26 & 0.49 \\
+        \midrule 
+        FSQ-S & \hphantom{-1}\underline{3.89} & 4.58 & \hphantom{-1}\textbf{1.75} & \hphantom{-}2.47 & 2.08 & 2.10 & \underline{3.29} & 3.06 & \textbf{3.21} & 3.12 & \hphantom{0}3.57 & \hphantom{0}4.02 & 0.48 & 0.66 \\
+        FSQ-A & \hphantom{-1}1.14 & \hphantom{-}1.00 & \hphantom{1}-1.89 & -1.58 & 1.94 & 1.74 & 2.84 & 2.41 & 3.15 & 2.97 & \hphantom{0}5.12 & \hphantom{0}7.59 & 0.43 & 0.39 \\
+        FSQ-M & \hphantom{1}-1.08 & -2.09 & \hphantom{1}-4.39 & -4.61 & 1.39 & 1.22 & 1.57 & 1.26 & 2.66  & 2.04 & 24.46 & 20.26 & 0.17 & 0.16 \\
+        FSQ-3 & \hphantom{-1}2.41 & \hphantom{-}1.29  & \hphantom{-1}0.01 & -1.28 & 1.97 & 1.79  & 3.06 & 2.57  & \underline{3.20} & 3.01 & \hphantom{0}4.35 & \hphantom{0}6.71  & 0.44 & 0.49 \\
+        \midrule 
+        K-means-S & -18.21 & - & -42.98 & - & 1.05 & - & 2.28 & - & 2.46 & - & 6.78 & - & 0.13 & - \\
+        \specialrule{.11em}{.2em}{.1em}
+    \end{tabular}
+    \end{adjustbox} 
+
+    \label{tab:recon_speech_results_ablation}
+\end{table}
+
+
+
+\begin{table}[!t]
+    \centering
+    \caption{Ablation experiments on audio tokenizer reconstruction performance (audio and music domain).}
+    \begin{adjustbox}{width=\textwidth}
+    
+    \begin{tabular}{lcc|cc|cc|cc|cc|cc|cc|cc|cc|cc}
+        \specialrule{.11em}{.2em}{.1em}
+        &  \multicolumn{10}{c}{\textbf{Audio}} & \multicolumn{10}{c}{\textbf{Music}} \\
+        \cmidrule(lr){2-11} \cmidrule(lr){12-21}
+         & \multicolumn{2}{c}{\textbf{SDR}$\uparrow$} & \multicolumn{2}{c}{\textbf{CI-SDR}$\uparrow$} & \multicolumn{2}{c}{\textbf{SI-SNR}$\uparrow$} & \multicolumn{2}{c}{\textbf{VISQOL}$\uparrow$}  & \multicolumn{2}{c}{\textbf{SingMOS}$\uparrow$} & \multicolumn{2}{c}{\textbf{SDR}$\uparrow$} & \multicolumn{2}{c}{\textbf{CI-SDR}$\uparrow$} & \multicolumn{2}{c}{\textbf{SI-SNR}$\uparrow$} & \multicolumn{2}{c}{\textbf{VISQOL}$\uparrow$}  & \multicolumn{2}{c}{\textbf{SingMOS}$\uparrow$} \\
+        \textbf{Model\textbackslash SR(kHz)}& \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} & \textbf{16} & \textbf{44.1} \\
+        \midrule
+        RVQ-S & -4.05 & 2.85 & -4.02 & 2.51 & -10.07 & -0.02 & \underline{4.18} & \underline{3.81} & 2.59 & \textbf{2.66} & 0.45 & 6.80 & 0.44 & 6.75 & -2.29 & 4.83 & \textbf{4.21} & \underline{4.17} & 2.67 & 2.60 \\
+        RVQ-S+ & -8.90 & 2.52 & -8.83 & 2.19 & -17.57 & -1.14 &  4.13 & 3.79 &  2.57 & 2.63 &  -6.73 & 6.60 & -6.70 & 6.55 & -11.10 & 4.46 &  4.07 & \textbf{4.24} &  2.64 & 2.70 \\
+        RVQ-A & -0.59 & 3.65 & -0.61 & 3.21 & -5.56 & 0.48 & \textbf{4.22} & 3.78 & \underline{2.63} & \underline{2.65} & \underline{5.78} & 8.24 & \underline{5.70} & 8.17 & 2.87 & 5.97 & \textbf{4.21} & 4.12 & \underline{2.71} & \underline{2.72} \\
+        RVQ-M & \textbf{0.65} & \underline{3.76} & \textbf{0.60} & \underline{3.35} & \textbf{-4.07} & \textbf{1.06} & 4.13 & 3.62 & \underline{2.63} & 2.63 & \textbf{6.34} & \underline{8.33} & \textbf{6.25} & \underline{8.26} & \textbf{3.82} & \textbf{6.48} & \underline{4.13} & 3.99 & 2.70 & 2.68 \\
+        RVQ-3 & \underline{0.14} & \textbf{3.99} & \underline{0.11} & \textbf{3.50} & \underline{-4.47} & \underline{0.70} & 4.17 & \textbf{3.83} & 2.61 & \underline{2.65} & 5.75 & \textbf{8.54} & 5.68 & \textbf{8.46} & \underline{3.32} & \underline{6.34} & 4.12 & 4.07 & 2.68 & \underline{2.72} \\
+        \midrule
+        SVQ-S & -14.80 & -8.43 & -14.72 & -8.07 & -31.86 & -14.73 & 3.83 & 3.28 & 2.55 & 2.59 & -14.25 & -4.78 & -14.22 & -4.76 & -27.16 & -7.77 & 3.68 & 3.64 & 2.59 & 2.70 \\
+        SVQ-S+ & -14.74 & -9.39 & -14.66 & -9.00 & -30.69 & -16.37 & 3.84 & 3.23 & 2.54 & 2.59 & -15.10 & -5.24 & -15.06 & -5.23 & -27.69 & -8.80 & 3.69 & 3.60 & 2.58 & 2.68 \\
+        SVQ-A & -13.08 & -6.80 & -13.00 & -6.46 & -30.70 & -12.80 & 3.86 & 3.32 & 2.56 & 2.59 & -6.54 & -0.49 & -6.52 & -0.40 & -14.76 & -3.21 & 3.68 & 3.52 & 2.65 & 2.69 \\
+        SVQ-M & -6.53 & -5.50 & -6.47 & -5.19 & -13.43 & -10.62 & 3.94 & 3.33 & 2.59 & 2.58 & -0.35 & 0.52 & -0.35 & 0.52 & -2.94 & -1.80 & 3.87 & 3.33 & 2.70 & 2.63 \\
+        SVQ-3 & -9.28 & -7.47 & -9.21 & -7.12 & -19.50 & -14.32 & 3.88 & 3.34 & 2.52 & 2.62 & -2.75 & -1.35 & -2.73 & -1.35 & -6.75 & -4.63 & 3.72 & 3.54 & 2.63 & \textbf{2.73} \\
+        \midrule 
+        FSQ-S & -7.32 & -4.26 & -7.26 & -4.04 & -14.22 & -8.12 & 4.05 & 3.32 & 2.60 & 2.63 & -5.04 & -0.37 & -5.02 & -0.37 & -8.42 & -2.84 & 3.80 & 3.65 & 2.69 & 2.71 \\
+        FSQ-A & -2.79 & -2.00 & -2.76 & -1.00 & -7.05 & -5.37 & 4.09 & 3.53 & \underline{2.63} & \underline{2.65} & 0.90 & 2.62 & 0.80 & 2.60 & -1.14 & 0.49 & 4.00 & 3.92 & 2.70 & \textbf{2.73} \\
+        FSQ-M & -3.37 & -3.25 & -3.33 & -3.05 & -8.23 & -6.85 & 4.02 & 3.41 & 2.62 & 2.60 & 1.54 & 2.70 & 1.52 & 2.77 & -0.67 & 0.66 & 3.99 & 3.54 & \underline{2.71} & 2.66 \\
+        FSQ-3 & -3.22 & -2.36 & -3.19 & -2.24 & -7.86 & -6.01 & 4.06 & 3.53 & 2.61 & 2.62 & 0.89 & 2.75 & 0.88 & 2.73 & -1.38 & 0.19 & 3.96 & 3.74 & 2.69 & 2.68 \\
+        \midrule 
+        K-means-S & -21.01 & - & -20.89 & - & -47.37 & - & 3.14 & - &  \textbf{2.78} & - & -19.53 & - & -19.49 & - & -46.03 & - & 2.82 & - & \textbf{2.87} & - \\
+        \specialrule{.11em}{.2em}{.1em}
+    \end{tabular}
+    \end{adjustbox} 
+
+    \label{tab:recon_audio_results_ablation}
+\end{table}

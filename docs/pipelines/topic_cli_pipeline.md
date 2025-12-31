@@ -142,16 +142,22 @@ flowchart TD
 - 產物：
   - `seed/queries/arxiv.json`
   - `seed/queries/seed_selection.json`（cutoff candidate、cutoff date、實際下載清單）
+  - `seed/queries/seed_rewrite.json`（若啟用改寫且觸發）
   - `seed/downloads/download_results.json`
   - `seed/downloads/arxiv/*.pdf`
 - 分歧/特殊情況：
   - `--arxiv-raw-query` 非空 → 直接使用 raw query，忽略 anchors/survey_terms/scope/boolean_operator。
   - 既有 `seed/queries/arxiv.json` 且未加 `--no-cache` → 直接重用 cache，不重新查詢。
   - `anchor_terms` 或 `survey_terms` 為空 → 直接報錯。
-  - 相似標題 cutoff（預設啟用）：
+  - **標題強制規則**：只保留 title 含 `survey` / `review` / `overview` 的紀錄，其餘一律剔除。
+  - 相似標題 cutoff（固定啟用）：
     - 會對搜尋到的 survey 標題計算與 `topic` 的相似度。
     - 若找到相似度 ≥ 門檻（預設 0.8）的 survey，會排除該篇並只保留更早發表的 surveys 來下載/抽關鍵字。
-    - 可用 `--no-cutoff-by-similar-title` 關閉，或用 `--similarity-threshold` 調整門檻。
+    - `--no-cutoff-by-similar-title` 會被忽略；可用 `--similarity-threshold` 調整門檻。
+  - seed query 改寫（需 `--seed-rewrite`）：
+    - 觸發條件：`records_after_filter == 0` / 無 PDF / `cutoff_removed_all_candidates`。
+    - 會使用單一片語重試（最多 N 次），輸出記錄於 `seed_rewrite.json`，並在 `download_results.json` 補上 `rewrite_attempts` / `rewrite_query`。
+    - 改寫輸出只允許單行片語，解析僅 `strip()`。
 
 ### Stage A.5（可選）：Filter-Seed（LLM 審核）
 
@@ -216,6 +222,10 @@ flowchart TD
   - `keywords.json` 缺 `anchor_terms` 或 `search_terms` → 直接報錯。
   - `search_terms` 會先依 `max_terms_per_category` 扁平化；若扁平化後為空 → 報錯。
   - `--start-date`/`--end-date` 會套用到 metadata 發表日期；若缺日期 → 排除該篇。
+  - 若未提供 `--end-date`：
+    - topic 為既有論文 → 使用該論文的發表日期
+    - 其餘情況 → 使用當天日期
+  - 若未提供 `--start-date`：自動以 `end-date` 往前推 3 年。
   - `--start-date` 晚於 `--end-date` → 直接報錯。
   - 預設要求 `pdf_url` 可 HEAD 存取；若不可存取或缺 `pdf_url` → 排除；可用 `--no-require-accessible-pdf` 關閉。
 
@@ -299,6 +309,8 @@ flowchart TD
   - `snowball_rounds/round_XX/latte_review_results.json`
   - `snowball_rounds/round_XX/dedup_report.json`
   - `snowball_rounds/round_XX/round_meta.json`
+  - `snowball_rounds/round_XX/final_included.json`
+  - `snowball_rounds/round_XX/final_included.csv`
 - 產物（全歷史）：
   - `snowball_rounds/review_registry.json`（所有回合的 include/exclude/hard_exclude 累積；`status == "include"` 即全歷史納入清單）
   - `snowball_rounds/final_included.json`

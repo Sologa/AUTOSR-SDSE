@@ -1,0 +1,41 @@
+\begin{table}[t]
+    \centering
+        \caption{Reconstruction performance of audio tokenizers for both general audio and music experiments.}
+    \begin{adjustbox}{width=\textwidth}
+    \begin{tabular}{lccc
+        |S[table-format=2.2]S[table-format=2.2]S[table-format=2.2]S[table-format=1.2]S[table-format=1.2]|
+        S[table-format=2.2]S[table-format=2.2]S[table-format=2.2]S[table-format=1.2]c}
+        \specialrule{.11em}{.2em}{.1em}
+& & & & \multicolumn{5}{c}{\textbf{Audio}} & \multicolumn{5}{c}{\textbf{Music}} \\
+\cmidrule(lr){5-9} \cmidrule(lr){10-14}
+\textbf{Tokenizer} & \textbf{\#Q} & \textbf{kbps} & \textbf{Token} & \textbf{SDR} & \textbf{CI-} & \textbf{SI-} & \textbf{VISQOL} & \textbf{Sing} 
+& \textbf{SDR} & \textbf{CI-} & \textbf{SI-} & \textbf{VISQOL} & \textbf{Sing} \\
+&              &              & \textbf{rate}
+& $\uparrow$  & \textbf{SDR}$\uparrow$ & \textbf{SNR$\uparrow$} & $\uparrow$ & \textbf{MOS}$\uparrow$
+& $\uparrow$  & \textbf{SDR}$\uparrow$ & \textbf{SNR}$\uparrow$ &              $\uparrow$ & \textbf{MOS}$\uparrow$ \\
+\midrule
+
+        Ground truth & - & - & - & \textbf{\underline{252.75}} & \textbf{\underline{84.90}} & \textbf{\underline{57.96}} & \textbf{\underline{4.73}} & \textbf{\underline{2.70}} & \textbf{\underline{254.24}} & \textbf{\underline{87.26}} & \textbf{\underline{60.26}} & \textbf{\underline{4.73}} & \textbf{\underline{2.79}} \\
+        \midrule
+        \multirow{3}{*}{Enc-SMA-24} 
+        & 2 & 1.5 & 150 & -1.29 & -1.28 & -4.31 & 3.94 & 2.59 & 2.16 & 2.13 & 0.46 & 4.05 & 2.67 \\
+        & 8 & 6 & 600 & \underline{4.28} & \underline{4.10} & 2.33 & 4.25 & 2.60 & \underline{7.32} & \underline{7.17} & \underline{5.87} & 4.38 & 2.66 \\
+        & 32 & 24 & 2400 & \textbf{7.72} & \textbf{7.33} & \underline{5.64} & \underline{4.36} & 2.60 & \textbf{11.04} & \textbf{10.75} & \textbf{9.19} & \underline{4.50} & 2.66 \\        
+        \midrule
+        \multirow{3}{*}{DAC-SMA-24} 
+        & 2 & 1.5 & 150 & -2.60 & -2.55 & -11.55 & 3.99 & 2.59 & 1.75 & 1.71 & -2.21 & 3.94 & \textbf{2.70} \\
+        & 8 & 6 & 600 & 1.35 & 1.22 & -10.28 & 4.35 & \underline{2.61} & 4.82 & 4.67 & -1.25 & 4.30 & \underline{2.68} \\ 
+        & 32 & 24 & 2400 & 2.45 & 2.22 & -9.91 & \textbf{4.59} & 2.60 & 5.56 & 5.37 & -1.16 & \textbf{4.56} & 2.66 \\
+        \midrule
+        \multirow{1}{*}{SQ-SMA-16} 
+        & 4 & 3 & 200 & -2.33 & -2.33 & -10.50 & 4.32 & \textbf{2.62} & 3.44 & 3.39 & -0.38 & 4.34 & \underline{2.68} \\
+        \midrule
+        \multirow{1}{*}{WT-SMA-24}    
+        & 1 & .98 & 75 & -4.55 & -4.45 & \textbf{9.78} & 3.96 & 2.56 & -14.30 & -14.28 & -23.09 & 3.64 & 2.60 \\
+        \multirow{1}{*}{WT-S-24} 
+        & 1 & .52 & 40 & -11.00 & -10.85 & -20.91 & 3.85 & 2.53 & -19.91 & -19.89 & -45.55 & 3.33 & 2.42 \\
+    \specialrule{.11em}{.2em}{.1em}
+    \end{tabular}
+    \end{adjustbox}
+    \label{tab:recon_combined_results}
+\end{table}

@@ -1,0 +1,97 @@
+\documentclass[10pt]{article} %
+\usepackage[preprint]{tmlr-style-file/tmlr}
+
+\input{tmlr-style-file/math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{comment}
+\usepackage{subfigure}
+
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\pgfplotsset{compat=1.3}
+\usetikzlibrary{shapes, arrows, positioning}
+\tikzset{
+    *|/.style={
+        to path={
+            (perpendicular cs: horizontal line through={(\tikztostart)},
+                                 vertical line through={(\tikztotarget)})
+            -- (\tikztotarget) \tikztonodes
+        }
+    }
+}
+\usepackage{multirow}
+\newcommand{\slm}{SLM}
+\newcommand{\slms}{SLMs}\usepackage{cleveref}
+\newcommand \blfootnote[1]{
+    \begingroup
+        \renewcommand
+        \thefootnote{}\footnote{#1}
+        \addtocounter{footnote}{-1}
+        \vspace{-1ex}
+    \endgroup
+}
+\usepackage{pifont}
+\newcommand{\xmark}{\ding{55}}
+
+\newif\ifdraft
+\drafttrue
+
+\ifdraft
+\newcommand{\adios}[1]{{\color{magenta} (YA: #1)}}
+\newcommand{\kl}[1]{{\color{blue} (KL: #1)}}
+\newcommand{\ed}[1]{{\color{orange} (ED: #1)}}
+\else
+\newcommand{\adios}[1]{}
+\newcommand{\kl}[1]{}
+\newcommand{\ed}[1]{}
+\fi
+
+\title{On The Landscape of Spoken Language Models:\\ A Comprehensive Survey}
+
+
+
+\author{\name Siddhant Arora$^{1}{}^*$ \name Kai-Wei Chang$^{2}{}^*$ \name Chung-Ming Chien$^{3}{}^*$ \name Yifan Peng$^{1}{}^*$ \name Haibin Wu$^{2}{}^{*\#}$\\
+\name Yossi Adi$^{4}{}^+$ \name Emmanuel Dupoux$^{5}{}^+$ \name Hung-Yi Lee$^{2}{}^+$ \name Karen Livescu$^{3}{}^+$ \name Shinji Watanabe$^{1}{}^+$\\
+$^{1}$ Carnegie Mellon University, USA\\
+$^{2}$ National Taiwan University, Taiwan\\
+$^{3}$ Toyota Technological Institute at Chicago, USA\\
+$^{4}$ Hebrew University of Jerusalem, Israel\\
+$^{5}$ ENS - PSL, EHESS, CNRS, France \\
+}
+
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\def\month{MM}  %
+\def\year{YYYY} %
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}} %
+
+
+\begin{document}
+
+
+\maketitle
+
+\input{sections/0_abstract_arxiv}
+\input{sections/1_intro}
+\input{sections/3and4_architecture}
+\input{sections/5_training}
+\input{sections/6_categorization_new}
+\input{sections/7_duplex}
+\input{sections/8_benchmarking}
+\input{sections/9_future}
+
+
+\bibliography{reference}
+\bibliographystyle{tmlr-style-file/tmlr}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

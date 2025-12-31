@@ -106,7 +106,7 @@ def _write_round_meta(round_dir: Path, meta: Dict[str, Any]) -> None:
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _write_final_included_outputs(registry_path: Path) -> Dict[str, object]:
+def _write_final_included_outputs(registry_path: Path, output_dir: Optional[Path] = None) -> Dict[str, object]:
     if not registry_path.exists():
         return {"written": False, "count": 0}
     payload = json.loads(registry_path.read_text(encoding="utf-8"))
@@ -114,7 +114,7 @@ def _write_final_included_outputs(registry_path: Path) -> Dict[str, object]:
     if not isinstance(entries, list):
         return {"written": False, "count": 0}
     included = [entry for entry in entries if isinstance(entry, dict) and entry.get("status") == "include"]
-    output_dir = registry_path.parent
+    output_dir = output_dir or registry_path.parent
     json_path = output_dir / "final_included.json"
     csv_path = output_dir / "final_included.csv"
     json_path.write_text(json.dumps(included, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -308,6 +308,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.mode == "while":
             if raw_count >= args.stop_raw_threshold or included_total >= args.stop_included_threshold:
                 break
+
+        _write_final_included_outputs(registry_path, output_dir=round_dir)
 
     _write_final_included_outputs(registry_path)
     return 0

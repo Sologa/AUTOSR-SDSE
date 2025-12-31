@@ -135,6 +135,13 @@ def _extract_publication_date(metadata: Dict[str, object]) -> Optional[date]:
     return None
 
 
+def _subtract_years(value: date, years: int) -> date:
+    try:
+        return value.replace(year=value.year - years)
+    except ValueError:
+        return value.replace(year=value.year - years, month=2, day=28)
+
+
 def _infer_criteria_cutoff_constraints(workspace: TopicWorkspace) -> Tuple[Optional[str], Optional[str]]:
     selection_path = workspace.seed_queries_dir / "seed_selection.json"
     if not selection_path.exists():
@@ -165,6 +172,73 @@ def _infer_criteria_cutoff_constraints(workspace: TopicWorkspace) -> Tuple[Optio
             cutoff_date = None
 
     return title.strip(), cutoff_date.isoformat() if cutoff_date else None
+
+
+def _infer_topic_publication_date(
+    workspace: TopicWorkspace,
+    *,
+    session: Optional[requests.Session] = None,
+) -> Optional[date]:
+    selection_path = workspace.seed_queries_dir / "seed_selection.json"
+    if not selection_path.exists():
+        return None
+    data = _read_json(selection_path)
+    if not isinstance(data, dict):
+        return None
+
+    def _title_matches_topic(candidate_title: str) -> bool:
+        return candidate_title.strip().casefold() == workspace.topic.strip().casefold()
+
+    def _parse_candidate_date(candidate: Dict[str, object]) -> Optional[date]:
+        published_raw = candidate.get("published_date") or candidate.get("published")
+        if not published_raw:
+            return None
+        try:
+            return _parse_date_bound(str(published_raw), label="published_date")
+        except ValueError:
+            return None
+
+    cutoff_candidate = data.get("cutoff_candidate")
+    if isinstance(cutoff_candidate, dict):
+        title = str(cutoff_candidate.get("title") or "")
+        if title and _title_matches_topic(title):
+            return _parse_candidate_date(cutoff_candidate)
+
+    candidates = data.get("candidates")
+    if isinstance(candidates, list):
+        for candidate in candidates:
+            if not isinstance(candidate, dict):
+                continue
+            title = str(candidate.get("title") or "")
+            if title and _title_matches_topic(title):
+                candidate_date = _parse_candidate_date(candidate)
+                if candidate_date:
+                    return candidate_date
+    if session is None:
+        return None
+
+    try:
+        query = _build_arxiv_phrase_clause([workspace.topic], "ti")
+        if not query:
+            return None
+        records = _search_arxiv_with_query(session, query=query, max_results=5)
+    except requests.RequestException:
+        return None
+
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        title = str(record.get("title") or "")
+        if not title or not _title_matches_topic(title):
+            continue
+        published_raw = record.get("published")
+        if not published_raw:
+            continue
+        try:
+            return _parse_date_bound(str(published_raw), label="published")
+        except ValueError:
+            continue
+    return None
 
 
 _DATE_TOKEN_RE = re.compile(r"\b(?P<year>\d{4})[/-](?P<month>\d{2})[/-](?P<day>\d{2})\b")
@@ -724,6 +798,13 @@ def _token_set(text: str) -> set[str]:
     return {tok for tok in tokens if tok}
 
 
+def _title_contains_any_keyword(title: str, keywords: Sequence[str]) -> bool:
+    if not keywords:
+        return True
+    lowered = (title or "").lower()
+    return any(keyword in lowered for keyword in keywords if keyword)
+
+
 def _similarity_score(topic: str, title: str, *, variants: Sequence[str]) -> Tuple[float, Dict[str, object]]:
     """Return a similarity score in [0, 1] for (topic, title).
 
@@ -769,8 +850,20 @@ def _select_seed_arxiv_records(
     download_top_k: int,
     cutoff_by_similar_title: bool,
     similarity_threshold: float,
+    title_required_keywords: Optional[Sequence[str]] = None,
 ) -> Tuple[List[Dict[str, object]], Dict[str, object]]:
     topic_variants = default_topic_variants(topic)
+    required_keywords = [kw.lower() for kw in (title_required_keywords or []) if str(kw).strip()]
+    original_records = list(records)
+    if required_keywords:
+        records = [
+            record
+            for record in original_records
+            if isinstance(record, dict)
+            and _title_contains_any_keyword(str(record.get("title") or ""), required_keywords)
+        ]
+    else:
+        records = original_records
     candidates: List[Dict[str, object]] = []
     for record in records:
         if not isinstance(record, dict):
@@ -874,10 +967,13 @@ def _select_seed_arxiv_records(
         "topic_variants": topic_variants,
         "cutoff_by_similar_title": cutoff_by_similar_title,
         "similarity_threshold": similarity_threshold,
+        "title_filter_applied": bool(required_keywords),
+        "title_filter_keywords": required_keywords,
         "cutoff_reason": cutoff_reason,
         "cutoff_candidate": cutoff_candidate,
         "cutoff_date": cutoff_date.isoformat() if cutoff_date else None,
-        "records_total": len(list(records)),
+        "records_total": len(original_records),
+        "records_after_title_filter": len(list(records)),
         "records_after_filter": len(filtered),
         "download_top_k": download_top_k,
         "download_selected": [
@@ -937,6 +1033,41 @@ def _load_download_metadata_index(path: Path) -> Dict[str, Dict[str, object]]:
     return index
 
 
+def _collect_downloaded_pdfs(download_manifest: Dict[str, object]) -> List[Path]:
+    if not isinstance(download_manifest, dict):
+        return []
+    downloads = download_manifest.get("downloads")
+    if not isinstance(downloads, dict):
+        return []
+    arxiv_entries = downloads.get("arxiv")
+    if not isinstance(arxiv_entries, list):
+        return []
+    pdfs: List[Path] = []
+    for entry in arxiv_entries:
+        if not isinstance(entry, dict):
+            continue
+        pdf_path = entry.get("pdf_path")
+        if isinstance(pdf_path, str) and pdf_path.strip():
+            pdfs.append(Path(pdf_path))
+    return pdfs
+
+
+def _should_trigger_seed_rewrite(
+    selection_report: Dict[str, object],
+    download_manifest: Dict[str, object],
+) -> Tuple[bool, str]:
+    cutoff_reason = str(selection_report.get("cutoff_reason") or "")
+    if cutoff_reason == "cutoff_removed_all_candidates":
+        return True, "cutoff_removed_all_candidates"
+    records_after_filter = selection_report.get("records_after_filter")
+    if isinstance(records_after_filter, int) and records_after_filter == 0:
+        return True, "records_after_filter_zero"
+    pdfs = _collect_downloaded_pdfs(download_manifest)
+    if not pdfs:
+        return True, "seed_pdfs_empty"
+    return False, ""
+
+
 def _extract_title_abstract(record: Dict[str, object]) -> Tuple[str, str]:
     title = str(record.get("title") or "").strip()
     abstract = str(record.get("summary") or record.get("abstract") or "").strip()
@@ -976,6 +1107,85 @@ def _parse_decision_payload(content: str) -> Dict[str, object]:
         raise ValueError("LLM response confidence must be between 0 and 1")
 
     return {"decision": decision, "reason": reason, "confidence": confidence}
+
+
+def _parse_seed_rewrite_phrase(content: str) -> str:
+    raw = (content or "").splitlines()
+    lines = [line for line in raw if line.strip()]
+    if len(lines) != 1:
+        raise ValueError("Seed rewrite output must contain exactly one non-empty line")
+    return lines[0].strip().lower()
+
+
+def _build_seed_rewrite_prompt(
+    *,
+    topic: str,
+    cutoff_reason: str,
+    cutoff_candidate_title: str,
+    original_seed_query: str,
+    template_path: Optional[Path] = None,
+) -> str:
+    prompt_path = template_path or Path("resources/LLM/prompts/seed/seed_query_rewrite.md")
+    template = prompt_path.read_text(encoding="utf-8")
+    replacements = {
+        "<<topic>>": topic.strip(),
+        "<<cutoff_reason>>": cutoff_reason.strip() if cutoff_reason else "not available",
+        "<<cutoff_candidate_title>>": cutoff_candidate_title.strip() if cutoff_candidate_title else "not available",
+        "<<original_seed_query>>": original_seed_query.strip() if original_seed_query else "not available",
+    }
+    text = template
+    for marker, value in replacements.items():
+        text = text.replace(marker, value)
+    return text
+
+
+@dataclass
+class SeedQueryRewriteAgent:
+    """Generate a single-phrase rewrite for seed queries."""
+
+    provider: str = "openai"
+    model: str = "gpt-5.2"
+    temperature: float = 0.2
+    max_output_tokens: int = 64
+    reasoning_effort: Optional[str] = "low"
+    template_path: Optional[Path] = None
+
+    def rewrite_query(
+        self,
+        *,
+        topic: str,
+        cutoff_reason: str,
+        cutoff_candidate_title: str,
+        original_seed_query: str,
+        attempt: int,
+    ) -> Tuple[str, str]:
+        load_env_file()
+        prompt = _build_seed_rewrite_prompt(
+            topic=topic,
+            cutoff_reason=cutoff_reason,
+            cutoff_candidate_title=cutoff_candidate_title,
+            original_seed_query=original_seed_query,
+            template_path=self.template_path,
+        )
+        svc = LLMService()
+        metadata_payload = {
+            "mode": "seed_rewrite",
+            "topic": topic[:500],
+            "attempt": str(attempt),
+        }
+        result = svc.chat(
+            self.provider,
+            self.model,
+            [{"role": "user", "content": prompt}],
+            temperature=self.temperature,
+            max_output_tokens=self.max_output_tokens,
+            reasoning_effort=self.reasoning_effort,
+            metadata=metadata_payload,
+        )
+        if not isinstance(result, LLMResult):
+            raise ProviderCallError("Provider did not return an LLMResult")
+        phrase = _parse_seed_rewrite_phrase(result.content)
+        return phrase, result.content
 
 
 def _build_filter_seed_prompt(
@@ -1147,6 +1357,8 @@ def filter_seed_papers_with_llm(
         "raw_pdf_dir": str(workspace.seed_downloads_raw_dir),
     }
 
+
+
 def seed_surveys_from_arxiv(
     workspace: TopicWorkspace,
     *,
@@ -1161,10 +1373,21 @@ def seed_surveys_from_arxiv(
     similarity_threshold: float = 0.8,
     anchor_mode: str = "phrase",
     arxiv_raw_query: Optional[str] = None,
+    seed_rewrite: bool = False,
+    seed_rewrite_max_attempts: int = 2,
+    seed_rewrite_model: str = "gpt-5.2",
+    seed_rewrite_preview: bool = False,
 ) -> Dict[str, object]:
-    """Search arXiv for survey-like papers and download the top results."""
+    """Search arXiv for survey-like papers and download the top results.
+
+    Optionally rewrites the seed query when no PDFs are available or when
+    cutoff removal eliminates all candidates.
+    """
 
     load_env_file()
+
+    # Cutoff-by-similar-title must stay enabled per project policy.
+    cutoff_by_similar_title = True
 
     anchors = list(anchor_terms) if anchor_terms else default_topic_variants(workspace.topic)
     modifiers = list(survey_terms) if survey_terms else default_seed_survey_terms()
@@ -1174,97 +1397,222 @@ def seed_surveys_from_arxiv(
 
     session = requests.Session()
     try:
-        search_query = None
-        query_mode = anchor_mode
+        def _run_seed_attempt(
+            *,
+            attempt_anchors: Sequence[str],
+            query_mode: str,
+            raw_query: Optional[str],
+            reuse_cache: bool,
+        ) -> Tuple[Dict[str, object], Dict[str, object], str]:
+            search_query = None
+            effective_query_mode = query_mode
 
-        if arxiv_raw_query:
-            search_query = str(arxiv_raw_query).strip()
-            if not search_query:
-                raise ValueError("--arxiv-raw-query is empty")
-            query_mode = "raw"
+            if raw_query is not None:
+                search_query = str(raw_query).strip()
+                if not search_query:
+                    raise ValueError("--arxiv-raw-query is empty")
+                effective_query_mode = "raw"
 
-        if query_mode not in {"phrase", "token_and", "raw"}:
-            raise ValueError(f"Unsupported anchor_mode: {query_mode}")
+            if effective_query_mode not in {"phrase", "token_and", "raw"}:
+                raise ValueError(f"Unsupported anchor_mode: {effective_query_mode}")
 
-        if reuse_cached_queries and records_path.exists():
-            records = json.loads(records_path.read_text(encoding="utf-8"))
-        else:
-            if query_mode == "raw" and search_query:
-                records = _search_arxiv_with_query(
-                    session,
-                    query=search_query,
-                    max_results=max_results,
-                )
+            field = scope.lower().strip() or "all"
+            if effective_query_mode == "raw":
+                if search_query is None:
+                    raise ValueError("--arxiv-raw-query is empty")
             else:
-                field = scope.lower().strip() or "all"
-                if query_mode == "token_and":
-                    anchor_clause = _build_arxiv_token_and_clause(anchors, field)
+                if effective_query_mode == "token_and":
+                    anchor_clause = _build_arxiv_token_and_clause(attempt_anchors, field)
                 else:
-                    anchor_clause = _build_arxiv_phrase_clause(anchors, field)
+                    anchor_clause = _build_arxiv_phrase_clause(attempt_anchors, field)
                 search_clause = _build_arxiv_phrase_clause(modifiers, field)
                 if not anchor_clause:
                     raise ValueError("anchor_terms 不能為空")
                 if not search_clause:
                     raise ValueError("survey_terms 不能為空")
                 search_query = f"({anchor_clause}) {boolean_operator} ({search_clause})"
+
+            if reuse_cache and records_path.exists():
+                records = json.loads(records_path.read_text(encoding="utf-8"))
+            else:
                 records = _search_arxiv_with_query(
                     session,
-                    query=search_query,
+                    query=search_query or "",
                     max_results=max_results,
                 )
-            _write_json(records_path, records)
+                _write_json(records_path, records)
 
-        selected, selection_report = _select_seed_arxiv_records(
-            records,
-            topic=workspace.topic,
-            download_top_k=download_top_k,
-            cutoff_by_similar_title=cutoff_by_similar_title,
-            similarity_threshold=similarity_threshold,
+            selected, selection_report = _select_seed_arxiv_records(
+                records,
+                topic=workspace.topic,
+                download_top_k=download_top_k,
+                cutoff_by_similar_title=cutoff_by_similar_title,
+                similarity_threshold=similarity_threshold,
+                title_required_keywords=["survey", "review", "overview"],
+            )
+            selection_report["anchor_mode"] = effective_query_mode
+            selection_report["search_query"] = search_query
+            selection_report["scope"] = scope
+            selection_report["boolean_operator"] = boolean_operator
+            selection_report["raw_query"] = raw_query
+            _write_json(queries_dir / "seed_selection.json", selection_report)
+            downloads = download_records_to_pdfs({"arxiv": selected}, workspace.seed_downloads_dir, session=session)
+
+            download_manifest: Dict[str, object] = {
+                "topic": workspace.topic,
+                "anchors": list(attempt_anchors),
+                "survey_terms": modifiers,
+                "anchor_mode": effective_query_mode,
+                "search_query": search_query,
+                "raw_query": raw_query,
+                "max_results": max_results,
+                "download_top_k": download_top_k,
+                "downloaded_at": datetime.now(timezone.utc).isoformat(),
+                "downloads": {
+                    source: [
+                        {
+                            "source": item.source,
+                            "identifier": item.identifier,
+                            "metadata": item.metadata,
+                            "pdf_path": str(item.pdf_path) if item.pdf_path else None,
+                            "bibtex_path": str(item.bibtex_path) if item.bibtex_path else None,
+                            "issues": item.issues,
+                        }
+                        for item in results
+                    ]
+                    for source, results in downloads.items()
+                },
+            }
+            _write_json(workspace.seed_downloads_dir / "download_results.json", download_manifest)
+            return selection_report, download_manifest, search_query or ""
+
+        selection_report, download_manifest, search_query = _run_seed_attempt(
+            attempt_anchors=anchors,
+            query_mode=anchor_mode,
+            raw_query=arxiv_raw_query,
+            reuse_cache=reuse_cached_queries,
         )
-        selection_report["anchor_mode"] = query_mode
-        selection_report["search_query"] = search_query
-        selection_report["scope"] = scope
-        selection_report["boolean_operator"] = boolean_operator
-        selection_report["raw_query"] = arxiv_raw_query
-        _write_json(queries_dir / "seed_selection.json", selection_report)
-        downloads = download_records_to_pdfs({"arxiv": selected}, workspace.seed_downloads_dir, session=session)
 
-        download_manifest: Dict[str, object] = {
-            "topic": workspace.topic,
-            "anchors": anchors,
-            "survey_terms": modifiers,
-            "anchor_mode": query_mode,
-            "search_query": search_query,
-            "raw_query": arxiv_raw_query,
-            "max_results": max_results,
-            "download_top_k": download_top_k,
-            "downloaded_at": datetime.now(timezone.utc).isoformat(),
-            "downloads": {
-                source: [
-                    {
-                        "source": item.source,
-                        "identifier": item.identifier,
-                        "metadata": item.metadata,
-                        "pdf_path": str(item.pdf_path) if item.pdf_path else None,
-                        "bibtex_path": str(item.bibtex_path) if item.bibtex_path else None,
-                        "issues": item.issues,
-                    }
-                    for item in results
-                ]
-                for source, results in downloads.items()
-            },
-        }
-        _write_json(workspace.seed_downloads_dir / "download_results.json", download_manifest)
+        original_records = json.loads(records_path.read_text(encoding="utf-8")) if records_path.exists() else []
+        original_selection_report = json.loads(json.dumps(selection_report))
+        original_download_manifest = json.loads(json.dumps(download_manifest))
+        original_pdfs = _collect_downloaded_pdfs(download_manifest)
+
+        trigger_rewrite, trigger_reason = _should_trigger_seed_rewrite(selection_report, download_manifest)
+        rewrite_payload: Optional[Dict[str, object]] = None
+        selected_query: Optional[str] = None
+        final_selection_report = selection_report
+        final_download_manifest = download_manifest
+        final_pdfs = list(original_pdfs)
+
+        if seed_rewrite and trigger_rewrite:
+            if seed_rewrite_max_attempts <= 0:
+                raise ValueError("seed_rewrite_max_attempts must be >= 1")
+
+            cutoff_candidate = selection_report.get("cutoff_candidate") or {}
+            cutoff_candidate_title = ""
+            if isinstance(cutoff_candidate, dict):
+                cutoff_candidate_title = str(cutoff_candidate.get("title") or "")
+
+            agent = SeedQueryRewriteAgent(model=seed_rewrite_model)
+            rewrite_attempts: List[Dict[str, object]] = []
+
+            for attempt in range(1, seed_rewrite_max_attempts + 1):
+                attempt_record: Dict[str, object] = {
+                    "attempt": attempt,
+                    "model": agent.model,
+                    "provider": agent.provider,
+                    "raw_output": None,
+                    "parsed_phrase": None,
+                    "status": None,
+                    "error": None,
+                }
+                try:
+                    phrase, raw_output = agent.rewrite_query(
+                        topic=workspace.topic,
+                        cutoff_reason=str(selection_report.get("cutoff_reason") or ""),
+                        cutoff_candidate_title=cutoff_candidate_title,
+                        original_seed_query=search_query or "",
+                        attempt=attempt,
+                    )
+                    attempt_record["raw_output"] = raw_output
+                    attempt_record["parsed_phrase"] = phrase
+                    attempt_record["status"] = "ok"
+                except Exception as exc:  # noqa: BLE001
+                    attempt_record["status"] = "error"
+                    attempt_record["error"] = str(exc)
+                    rewrite_attempts.append(attempt_record)
+                    continue
+
+                rewrite_attempts.append(attempt_record)
+                selected_query = phrase
+
+                if seed_rewrite_preview:
+                    break
+
+                attempt_selection, attempt_manifest, _ = _run_seed_attempt(
+                    attempt_anchors=[phrase],
+                    query_mode="phrase",
+                    raw_query=None,
+                    reuse_cache=False,
+                )
+                attempt_pdfs = _collect_downloaded_pdfs(attempt_manifest)
+                if attempt_pdfs:
+                    final_selection_report = attempt_selection
+                    final_download_manifest = attempt_manifest
+                    final_pdfs = list(attempt_pdfs)
+                    break
+
+            rewrite_payload = {
+                "topic": workspace.topic,
+                "trigger_reason": trigger_reason,
+                "attempts": rewrite_attempts,
+                "selected_query": selected_query,
+                "original_seed_query": search_query or "",
+                "cutoff_reason": str(selection_report.get("cutoff_reason") or ""),
+                "cutoff_candidate_title": cutoff_candidate_title,
+                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "preview_only": seed_rewrite_preview,
+            }
+
+            if not seed_rewrite_preview and not final_pdfs and original_pdfs:
+                final_selection_report = original_selection_report
+                final_download_manifest = original_download_manifest
+                final_pdfs = list(original_pdfs)
+                _write_json(records_path, original_records)
+                _write_json(queries_dir / "seed_selection.json", original_selection_report)
+
+            if not final_pdfs and not original_pdfs:
+                _write_json(queries_dir / "seed_rewrite.json", rewrite_payload)
+                final_download_manifest["rewrite_attempts"] = len(rewrite_attempts)
+                if selected_query:
+                    final_download_manifest["rewrite_query"] = selected_query
+                _write_json(workspace.seed_downloads_dir / "download_results.json", final_download_manifest)
+                raise ValueError("Seed rewrite exhausted without PDFs")
+
+        if rewrite_payload is not None:
+            _write_json(queries_dir / "seed_rewrite.json", rewrite_payload)
+            final_download_manifest["rewrite_attempts"] = len(rewrite_payload["attempts"])
+            if rewrite_payload.get("selected_query"):
+                final_download_manifest["rewrite_query"] = rewrite_payload["selected_query"]
+
+        _write_json(workspace.seed_downloads_dir / "download_results.json", final_download_manifest)
+
+        if final_pdfs:
+            keep_names = {path.name for path in final_pdfs}
+            for pdf_path in workspace.seed_arxiv_pdf_dir.glob("*.pdf"):
+                if pdf_path.is_file() and pdf_path.name not in keep_names:
+                    pdf_path.unlink()
     finally:
         session.close()
 
-    pdfs = sorted(path for path in workspace.seed_arxiv_pdf_dir.glob("*.pdf") if path.is_file())
+    pdfs = sorted({str(path) for path in _collect_downloaded_pdfs(final_download_manifest)})
     return {
         "workspace": str(workspace.root),
         "seed_query_records": str(records_path),
         "seed_selection": str(queries_dir / "seed_selection.json"),
         "seed_download_manifest": str(workspace.seed_downloads_dir / "download_results.json"),
-        "seed_pdfs": [str(path) for path in pdfs],
+        "seed_pdfs": pdfs,
     }
 
 
@@ -1377,11 +1725,6 @@ def harvest_arxiv_metadata(
     if not flattened_terms:
         raise ValueError("No search terms available after flattening.")
 
-    start_bound = _parse_date_bound(start_date, label="--start-date")
-    end_bound = _parse_date_bound(end_date, label="--end-date")
-    if start_bound and end_bound and start_bound > end_bound:
-        raise ValueError("--start-date cannot be later than --end-date")
-
     def _within_window(meta: Dict[str, object]) -> bool:
         if not start_bound and not end_bound:
             return True
@@ -1396,6 +1739,16 @@ def harvest_arxiv_metadata(
 
     session = requests.Session()
     try:
+        start_bound = _parse_date_bound(start_date, label="--start-date")
+        end_bound = _parse_date_bound(end_date, label="--end-date")
+        if end_bound is None:
+            inferred_end = _infer_topic_publication_date(workspace, session=session)
+            end_bound = inferred_end or datetime.now(timezone.utc).date()
+        if start_bound is None:
+            start_bound = _subtract_years(end_bound, 3)
+        if start_bound and end_bound and start_bound > end_bound:
+            raise ValueError("--start-date cannot be later than --end-date")
+
         aggregated: Dict[str, Dict[str, object]] = {}
         total_queries = 0
 

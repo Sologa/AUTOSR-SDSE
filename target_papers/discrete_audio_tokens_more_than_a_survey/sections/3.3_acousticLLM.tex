@@ -1,0 +1,281 @@
+\subsection{Acoustic Language Models Evaluation}
+Following the rise of LLMs, researchers have extended the generative auto-regressive framework beyond text to discrete representations of speech~\citep{lakhotia2021generative}, audio~\citep{borsos2023audiolm}, and music~\citep{copet2024musicgen}. \rebuttal{\textit{Acoustic language models} refer to models that learn to represent or generate audio signals (including speech, general audio, and music) using this generative autoregressive framework.} This modeling approach has proven highly effective across domains, enabling powerful generation capabilities~\citep{defossez2024moshi}. In this section, we begin by examining unconditional speech generation (Speech Language Models) and text-conditioned generation (text-to-speech (TTS)). We then explore audio generation and finally turn to the music modality.
+
+
+\label{sec:acousticLLM}
+\subsubsection{Speech Language Modeling}
+\paragraph{Background.} Speech Language Models (SLMs) have gained significant interest~\citep{arora2025landscape,wu2024towards,peng2024survey, cui2024recent, ji2024wavchat, latif2023sparks}, demonstrating remarkable performance in traditional speech tasks~\citep{wang2023neural, elmakies2025unsupervised}, diverse generative applications~\citep{yang2023uniaudio, yang2024uniaudio}, and reasoning over speech and audio signals~\citep{qwen_audio, 10889092, yosha2025stresstest}.
+
+SLMs can generally be classified into two main categories: (i) generative SLMs that are conditioned on previous speech/text tokens and generate speech/text~\citep{defossez2024moshi, cuervo2025textspeechlanguagemodelsimproved, nguyen2024spiritlminterleavedspokenwritten}, and (ii) speech-aware LMs that are conditioned on speech/text and generate text~\citep{qwen_audio, salmonn, mousavi2025listen}. This work focuses on the first category of SLMs as there is a growing interest from the research community to study generative SLMs~\citep{nguyen2024spiritlminterleavedspokenwritten, maimon2025scaling, rubenstein2023audiopalm}. 
+
+Several SLMs operate over discrete speech representations derived from a pre-trained SSL model~\citep{nguyen2024spiritlminterleavedspokenwritten, lakhotia2021generative, cuervo2025textspeechlanguagemodelsimproved}. Others employ semantically distilled acoustic tokenizers~\citep{defossez2024moshi} or adopt a cascading, mixed-resolution strategy~\citep{borsos2023audiolm}, modeling speech hierarchically from coarse semantic content to fine acoustic details, using language models conditioned on previously generated streams. More recently, supervised semantic tokenizers have gained popularity. These methods typically quantize the output layer of a pre-trained ASR system to produce discrete tokens~\citep{zeng2024glm, zengscaling}. In this study, we analyze the impact of these choices by comparing SLMs trained under a controlled setup with different audio tokenizers presented in Table~\ref{tab:bench_tokenizers}. 
+
+
+We focus on SLMs that model the joint probability of a sequence of speech tokens $\mathbf{q}$ as:
+
+\begin{equation}
+P(\mathbf{q} = q_1, \dots, q_n) = \prod_{i=1}^{n} \mathbb{P}(q_i \mid q_{<i}),
+\end{equation}
+
+where $q_i \in \mathcal{V}_q$, and $\mathcal{V}_q$ denotes the vocabulary of speech tokens. These models are typically implemented as decoder-only transformers ~\citep{transformer} and  trained to minimize the negative log-likelihood:
+
+\begin{equation}
+\mathcal{L}_{LM} = -\sum_{i=1}^n \mathbb{P}(q_i | q_{<i}).
+    \label{eq:lm_loss}
+\end{equation}
+
+Each token is embedded via a matrix $E \in \mathbb{R}^{|\mathcal{V}_s| \times d}$, where $d$ denotes the embedding dimension. The resulting sequence is processed by a stack of causal transformer layers, yielding contextual representations $\mathbf{c} \in \mathbb{R}^{n \times d}$. A final linear projection $U \in \mathbb{R}^{d \times |\mathcal{V}_s|}$ maps these to logits, which are converted to a probability distribution over the vocabulary via a softmax: $p(q_{i+1} \mid \mathbf{c}_i)$.
+
+\paragraph{Experimental Setup.} Motivated by~\cite{maimon2025slamming}, each SLM is built upon the Qwen-2.5 architecture~\citep{qwen2025qwen25technicalreport} ($357$M parameters in total, after removing the text embedding tables) and initialized using TWIST~\citep{hassid2023textually}. The textual embedding tables are replaced with new audio embedding tables corresponding to the audio codebooks. The models are trained using the standard cross-entropy loss reported in Eq.~\ref{eq:lm_loss}.
+To ensure all SLMs processed a comparable amount of audio during training, we dynamically adjusted the tokens per batch according to their tokenizer’s frame rate. 
+To accommodate multiple codebooks, the delay pattern from MusicGen~\citep{copet2024musicgen} is applied across all SLM models. The models are trained for a total of $50,000$ optimizer steps, with a context length set to $1024$. The audio target batch size is set to include about $2.9$ hours of speech per backpropagation step. We used the Adam optimizer coupled with a linear learning rate scheduler, applying a $1\%$ warmup ratio (corresponding to $500$ steps). All input samples are fed to the SLMs using a packing strategy by concatenating all samples together until having a sequence of the target length. To ensure fairer evaluations across different tokenizers, the number of codebooks is restricted to a maximum of $8$, promoting better alignment between them. All code was developed using the SpeechBrain toolkit~\citep{speechbrain_ravanelli}, and Hugging Face Transformers~\citep{wolf2020huggingfacestransformersstateoftheartnatural}.
+
+\paragraph{Dataset.} We use the publicly available dataset LibriHeavy~\citep{kang2024libriheavy} containing $56$k hours of transcribed speech, and the official validation and test sets of LibriSpeech~\citep{7178964}. 
+
+
+\paragraph{Evaluation Setup.} 
+To evaluate our SLMs, we use the ZeroSpeech~\citep{dunbar2021zero} sBLIMP and sWUGGY evaluation. The sBLIMP task assesses model perplexity on pairs of syntactically correct and incorrect sentences (e.g., \textit{the dog sleeps} vs. \textit{the dogs sleeps}). It evaluates the model's understanding of core grammatical phenomena in English. Similarly, sWUGGY measures whether the model assigns higher probability to a real word over a phonologically similar non-word (e.g., ``brick'' vs. ``blick''), thus testing lexical discrimination. We further assess semantic understanding using Spoken Story-Cloze (sSC) and Topic Story-Cloze (tSC) tasks~\citep{hassid2023textually}, derived from the spoken variant of the StoryCloze dataset~\citep{mostafazadeh2016corpus}. In sSC, the model must choose between the correct continuation and a randomly sampled, semantically incompatible adversarial one. This setup probes the model's ability to capture fine-grained causal and temporal commonsense relations. Similarly, in tSC, the adversarial continuation is taken from a different topic, so success reflects the model’s capacity to maintain topical coherence.
+
+To evaluate acoustic modeling such as prosody, speaker identity, and sentiment we adopt the SALMon evaluation suite~\citep{maimon2024suite}. This includes several metrics that test whether the SLM retains and models key acoustic attributes. We focus on two aspects: (1) \textit{acoustic consistency}, which evaluates the model’s sensitivity to changes in speaker, gender, and sentiment; and (2) \textit{sentiment-acoustic alignment}, which tests whether the model assigns higher scores to utterances where the acoustic sentiment aligns with the spoken content. This comprehensive suite allows us to assess both the linguistic and paralinguistic modeling capacities of our SLMs.
+
+\begin{table}[t!]
+ \centering
+  \caption{SLM results considering spoken content and acoustic elements using a subset of SALMon tasks.}
+  \scalebox{.98}{
+\resizebox{1.0\textwidth}{!}{
+  \begin{tabular}{l|c|cccc|ccc|c}
+  \specialrule{.11em}{.2em}{.1em}
+    \multirow{3}{*}{\textbf{Tokenizer}} & \multirow{3}{*}{\textbf{\#Q}} & \multicolumn{4}{c|}{\textbf{Spoken Content}} & \multicolumn{3}{c|}{\textbf{Acoustic Consistency}} & \multicolumn{1}{c}{\textbf{Sem.-Ac. Align.}} \\
+    \cmidrule(lr){3-6} \cmidrule(lr){7-9} \cmidrule(lr){10-10}
+     & & \textbf{sBLIMP}$\uparrow$ & \textbf{sWUGGY}$\uparrow$ & \textbf{sSC}$\uparrow$ & \textbf{tSC}$\uparrow$ 
+     & \textbf{Gender}$\uparrow$ & \textbf{Sent.}$\uparrow$ & \textbf{Spk}$\uparrow$ 
+     & \textbf{Sentiment}$\uparrow$ \\
+    \midrule 
+    HuBERT 25Hz & 1 & \textbf{60.89} & \textbf{70.51} & \textbf{53.23} & \textbf{71.46} & 69.50 & 62.50 & 69.00 & \textbf{53.00} \\
+    \midrule 
+    Enc-SMA-24  & 8 & 51.14 & 51.29 & 50.18 & 48.20 & 70.50 & 56.50 & 65.00 & 50.00 \\ 
+    \midrule
+    DAC-SMA-16 & 8 & 51.51 & 50.73 & 48.95 & 51.52 & 81.00 & 60.00 & 77.00 & 50.00 \\ 
+    \midrule
+    ST-S-16  & 8 & 51.08 & 56.89 & 48.42 & 55.74 & 66.50 & 58.00 & 65.00 & 49.50 \\ 
+    ST-S-16*  & 8 & 52.75 & 63.46 & 47.56 & 60.60 & 67.00 & 59.50 & 65.50 & 50.00 \\ 
+    \midrule
+    Mimi-S-24 & 8 & 52.25 & 62.21 & 51.52 & 54.30 & 77.50 & 71.50 & 78.00 & \underline{52.00} \\
+    Mimi-S-24* & 8 & \underline{60.17} & 67.57 & 51.68 & \underline{68.51} & 76.50 & \underline{77.00} & 76.00 & \underline{52.00} \\
+    \midrule
+    DWavL-S-16  & 6 &  53.96 & \underline{69.10} & 51.41 & 62.42  & \textbf{92.00} & 70.00 & \textbf{86.50} & 49.00 \\
+    \midrule
+    SQ-SMA-16  & 4 & 51.58 & 51.41 & 51.79 & 55.10 & \underline{83.00} & 64.00 & \underline{84.50} & 50.50 \\ 
+    \midrule
+    WT-SMA-24  & 1 & 51.22 & 54.60 & \underline{52.00} & 52.75 & 81.50 & \textbf{78.50} & 69.00 & 50.50 \\ 
+   \specialrule{.11em}{.2em}{.1em}
+  \end{tabular}}}
+  \label{table:SLM_results}
+\end{table}
+
+\paragraph{Results and Discussions.}
+The results of the SLM experiments are presented in Table~\ref{table:SLM_results}. To establish a clear baseline aligned with the current literature, we train an SLM using the HuBERT 25~Hz tokenizer, originally introduced in TWIST~\citep{hassid2023textually}, using the same configuration as previously described. Following the methodology of~\citet{defossez2024moshi}, all hybrid tokenizers marked with an asterisk ("*") correspond to SLMs trained with a semantic stream overweight factor of 100. This training setup prioritizes the semantic content over the acoustic content, and could be required for a better disentanglement of the semantic distillation. We maintain the same weighting strategy during evaluation.
+
+The results reveal significant differences in performance across semantic and acoustic evaluation tasks. On semantically-oriented benchmarks (sBLIMP, sWUGGY, sSC, and tSC), most tokenizers exhibit limited semantic capacity. The tokenizer achieving the strongest semantic performance is HuBERT, followed by the semantically distilled weighted tokenizers that demonstrate the second-highest semantic performance. Specifically, by overweighting the semantic stream, Mimi improves from 52.25\% to 60.17\% accuracy on sBLIMP. A similar trend is observed across all semantic evaluations, with an average performance gain of 6.91 accuracy points. The same pattern holds when comparing ST-S-16 to ST-S-16*, where the overweighted version achieves superior semantic results. Since semantic information is not clearly localized in a specific stream, WavLM is evaluated without any weighting strategy. Despite this, it still ranks second among unweighted tokenizers, just after HuBERT.
+
+This semantic trend is consistent with our expectations of HuBERT, Mimi, SpeechTokenizer, and WavLM, since they primarily encode or have specific phonetic streams (via distillation or self-supervised learning objectives), thereby enhancing performance on linguistic understanding tasks. These results suggest that, when carefully tuned, semantic distillation approaches can rival SSL-based models like HuBERT, though they still fall slightly behind on sSC and tSC. Further investigation is needed to determine the optimal weighting between semantic and acoustic streams. In contrast, purely acoustic tokenizers such as Encodec and DAC show negligible semantic capability, rendering them unsuitable for this SLM configuration. Similarly, SQCodec and WavTokenizer offer limited semantic utility. We note that contrary to Encodec and DAC, SQCodec and WavTokenizer obtained stronger semantic scores. One explanation could be due to the type of quantization (i.e. RVQ vs. SVQ / FSQ) or the limited number of streams. Overall, the performance varies substantially across tokenizers, with only Mimi-S-24\* approaching HuBERT's baseline on semantic tasks.
+
+WavLM achieves the best acoustic performance on average, with accuracies of 92.00\%, 70.00\%, and 86.50\% on gender, sentiment, and speaker consistency, respectively. This indicates that the model effectively captures and processes acoustic attributes in comparison to other tokenizers. Interestingly, Mimi also shows strong acoustic performance, outperforming HuBERT on each task. Purely acoustic tokenizers such as DAC and EnCodec, or SQ-codec and WavTokenizer also outperform HuBERT on acoustic evaluations and achieve results comparable to the semantically distilled tokenizers. However, no method yields substantial results on semantic-acoustic alignment, highlighting a limitation of current approaches in jointly modeling and reasoning over both modalities.
+
+
+\paragraph{Summary.} 
+Our study reveals that semantic and acoustic performance in SLMs varies significantly across tokenizer types. HuBERT remains the strongest performer on semantic tasks, while WavLM leads in acoustic consistency. Semantically distilled tokenizers, particularly those with semantic stream overweighting, showed promising results by narrowing the semantic gap with HuBERT. These gains, however, come with trade-offs, emphasizing the importance of carefully balancing semantic and acoustic objectives. Overall, our findings suggest that, for now, there is no single tokenizer that excels across all spoken and acoustic tasks.
+
+
+
+\subsubsection{Text-to-Speech}
+\paragraph{Background.} Text-to-Speech (TTS) is one of the primary applications of audio tokens. Traditional TTS systems typically rely on neural networks that predict mel spectrograms from text~\citep{tacotron2, ren2019fastspeech}, followed by neural vocoders~\citep{morise2016world, kong2020hifigan, oord2016wavenet} to synthesize waveforms.  
+The introduction of discrete audio tokens offers several advantages. Notably, it reframes waveform generation as a classification task over a fixed vocabulary, rather than a regression over continuous values. This shift enables optimization via categorical distributions and negative log-likelihood loss, which is typically more stable and tractable than regression objectives. Second, off-the-shelf neural codec decoders can reconstruct waveforms directly from token sequences, removing the need to train separate vocoders. Third, discrete tokens reduce sequence length, improving inference efficiency compared to µ-law quantization~\citep{oord2016wavenet}.
+
+Prior to the adoption of discrete representations, TTS was largely dominated by non-autoregressive (NAR) models~\citep{ren2020fastspeech, ren2019fastspeech, kim2021conditional} due to their inference speed and stability relative to autoregressive (AR) models~\citep{tacotron2}. However, the emergence of neural codecs has renewed interest in AR architectures~\citep{wang2023speechx, wang2023neural, yang2023uniaudio}, which have demonstrated strong performance in expressive and zero-shot generation settings. Meanwhile, NAR models have also benefited from discrete token supervision, with recent advances incorporating diffusion- and flow-matching-based methods~\citep{ju2024naturalspeech, simplespeech} to further enhance synthesis quality.
+
+
+\paragraph{Experimental Setup.} Our models are based on a customized adaptation of the ESPnet~\citep{tian2025espnet} implementation of VALL-E~\citep{wang2023neural}. To facilitate convergence, we adopt a staged training strategy that allows independent optimization of the AR and NAR components. We first perform 10 epochs of AR-only training, followed by 90 epochs of joint training with both AR and NAR layers to improve convergence for some tokenizers. All models use a 12-layer architecture for both AR and NAR decoders, with an attention dimension of 1024 and a dropout rate of 0.2. Following ESPnet conventions, we use looped nominal epochs, with 50,000 samples per epoch. The approach involves using a fixed number of data samples per epoch taken sequentially from the dataset until the end of the dataset is reached, at which point training restarts from the beginning.  The epoch achieving the lowest validation dWER is chosen for evaluation. 
+
+
+\paragraph{Dataset.} We train our model on the LibriTTS dataset~\citep{zen2019libritts}, using corresponding phoneme transcriptions obtained from LibriTTS with Forced Alignment dataset~\citep{mcauliffe2017montreal}. The model is trained to generate discrete audio tokens conditioned on phoneme prompts (representing content) and acoustic code prompts (capturing target speaker characteristics), enabling it to synthesize speech that matches both the textual input and the target speaker’s voice.
+
+\paragraph{Evaluation Setup.} We evaluate all models on all samples in the test split that fall within the length limit. To evaluate the speech naturalness of synthesized speech, we use a pretrained UTMOS model~\citep{1360861705599880960}. For assessing pronunciation accuracy, we transcribe both the ground-truth and generated utterances using the Whisper Large model~\citep{radford2023robust} with greedy decoding. We compute the degraded Word-Error-Rate (dWER) by treating the ASR prediction of the ground-truth audio as the reference instead of the original transcription. We report mean UTMOS scores and micro dWER values; that is, the Levenshtein edit distance computed over the entire dataset. To measure speaker fidelity, we compute the cosine similarity ({SpkSim}) between X-vectors extracted from the generated and reference audio using the base variant of WavLM~\citep{chen2022wavlm}, fine-tuned for speaker verification. 
+
+Following ESPnet-Codec, to mitigate the variability of samples arising from using a text-conditioned sampling-based generative model, we generate 10 samples simultaneously for each prompt and choose the best one based on the WER calculated with the original label as the ground truth using Whisper Small, while final dWERs are calculated using the large model. To establish a clear baseline aligned with current literature, we train VALL-E using ESPNet’s in-distribution retraining of EnCodec\footnote{https://huggingface.co/espnet/libritts\_encodec\_24k}, which is trained on LibriTTS data only instead of a mix of speech, audio, and music as in the original model.
+
+We perform a grid search over sampling temperature values $t \in {0.7, 0.8, 1.0, 1.2, 1.3}$ and top-$k$ values $k \in {10, 20, 30}$, where $t$ controls the sampling temperature and $k$ limits the number of highest-probability tokens considered during top-$k$ sampling. The optimal hyperparameters are selected based on the lowest dWER on a filtered subset of the validation set (67 samples selected from an initial random pool of 100, based on sequence length). These optimal values are then used for evaluation on the test set.
+
+\begin{table}[t!]
+ \centering
+  \caption{Text-to-Speech synthesis results when using the VALL-E speech language model conditioned on phoneme annotations.}
+  \begin{tabular}{l|c|ccc}
+    \specialrule{.11em}{.2em}{.1em}
+    \textbf{Tokenizer} & \textbf{\#Q} &\textbf{UTMOS}$\uparrow$ & \textbf{dWER}$\downarrow$ & \textbf{SpkSim}$\uparrow$ \\
+    \midrule    
+    Enc-SMA-24 & 8 & 2.31 & 4.77 & \textbf{0.91} \\ 
+    % \midrule
+    Enc-S-24 & 8 & \textbf{3.77} & 5.74 & \textbf{0.91} \\     
+    \midrule
+    DAC-SMA-24 & 8 &  2.47 & 11.71 & 0.88 \\ 
+    \midrule
+    ST-S-16    & 8 & 2.91 & 5.35 &  \textbf{0.91} \\ 
+    \midrule
+    Mimi-S-24  & 8 & 2.60 & 7.93 & \textbf{0.91} \\ 
+    \midrule
+    DWavL-S-16 & 6 & \underline{3.42} & \textbf{4.32} & \underline{0.90} \\
+    \midrule
+    WT-SMA-24  & 1 & 2.85   & \underline{4.67} & 0.88  \\ 
+   \specialrule{.11em}{.2em}{.1em}
+  \end{tabular}
+  \label{table:TTS_results}
+\end{table}
+
+
+\paragraph{Results and Discussion.}
+Table~\ref{table:TTS_results} presents the performance of various tokenizers on the TTS task. The highest audio quality is achieved by ESPNet EnCodec (Enc-S-24), which obtains a UTMOS score of 3.77. This model is trained on speech-only data, likely enabling it to better capture fine-grained speaker characteristics. Notably, the original EnCodec model performs significantly worse, with a UTMOS of only 2.31. We further investigate the impact of training data in Section~\ref{sec:ablation}.
+
+The best adherence to the text is achieved with WavLM~\citep{ji2024wavtokenizer} with a dWER of 4.32, which is likely attributable to the preservation of higher-level semantic information. It is followed by WavTokenizer at 4.67, which employs a single codebook with a larger vocabulary. The model also achieves a competitive audio quality at a UTMOS of 2.85. This result may be attributed to the expressive power of the larger vocabulary and the simplicity of single-stream generation. 
+
+Discrete WavLM6, achieves the second-best audio quality with a UTMOS of 3.42. It should be noted that during training, this tokenizer showed the most stable and robust results and early convergence, particularly in low-data regimes, and a reasonable speaker similarity at 0.90. These findings indicate that semantic representations derived from self-supervised models are well-suited for TTS, supporting both natural-sounding and phonetically faithful speech synthesis.
+
+In contrast, general-purpose acoustic tokenizers such as EnCodec (Enc-SMA-24) and DAC (DAC-SMA-24) result in decreased audio quality, and occasionally, as in the case of the latter, decreased pronunciation fidelity as well. These models likely require the TTS model to learn high-level speech abstractions from raw acoustic features, adding complexity to the generation process. Another possible contributing factor is that these tokenizers were trained on multi-domain audio data, whereas all other tokenizers evaluated were trained exclusively on speech. Finally, SQ-Codec, originally designed for diffusion-based generation with a large vocabulary ($\sim$ 20k), failed to converge in our AR/NAR setup, likely due to the challenges of modeling such a large token space in an autoregressive setting. All models achieve comparable levels of speaker similarity (ranging from 0.88 to 0.91).
+
+
+\paragraph{Summary.}
+Overall, achieving strong TTS performance with discrete tokenizers remains challenging, especially under constrained training conditions. Training with semantic tokenizers leads to more robust and effective TTS performance compared to acoustic or semantically distilled tokenizers; however, in high-data regimes with deep models, acoustic tokenizers, such as EnCodec, can be competitive with or even outperform semantic ones, particularly if they are trained on similar speech data, such as shown with Enc-S-24 trained on the same LibriTTS dataset as the TTS itself.
+
+
+\subsubsection{Audio Generation}\label{subsec:audioLM}
+\paragraph{Background.} Generating realistic audio is a long-standing goal in generative AI, with applications in media, accessibility, and human-computer interaction. Previous works have explored audio generation under various conditions, including text~\citep{liu2024audioldm2, dong2023clipsonic, saito2024soundctm,kumar2024sila}, image~\citep{sheffer2023hear, wang2024v2a}, video~\citep{luo2023diff, pascual2024masked, zhang2024foleycrafter, wang2025frieren}, and multimodal inputs~\citep{jeong2024read, chen2025video}, as well as in unconditional settings. In this study, we focus on both unconditional and text-conditioned generation, as these represent the most common and well-benchmarked paradigms.
+
+Audio generation can be very broadly categorized into two main categories: diffusion-based methods~\citep{yang2023diffsound, huang2023make, liu2023audioldm}, and language model based approaches~\citep{kreuk2022audiogen, borsos2023audiolm, ziv2024masked}. In this study, we focus on the latter, as the use of discrete audio tokens is more prevalent in such generation approaches. While both autoregressive~\citep{kreuk2022audiogen, borsos2023audiolm} and non-autoregressive~\citep{ziv2024masked} methods have been proposed for audio generation, we focus on AR models in this study. This choice is motivated by their typically superior generation quality and their prevalence in recent work, despite the trade-off of slower inference.
+
+
+\paragraph{Experimental Setup.}
+We adopt the AudioCraft toolkit~\citep{copet2024musicgen}, which provides a training pipeline for text-to-audio synthesis based on MusicGen~\citep{copet2024musicgen} and AudioGen~\citep{kreuk2022audiogen}. The framework uses a T5 model~\citep{raffel2020exploring} to encode the text prompt into a latent conditioning tensor $\mathcal{C} \in \mathbb{R}^{T_{\text{len}} \times D}$. This tensor is passed to a causal decoder Transformer, where each block consists of a causal self-attention layer over previously generated audio tokens, followed by a cross-attention layer on the conditioning tensor. Following the original setup, we adopt a delay pattern across streams and apply Classifier-Free Guidance (CFG). We use the base model configuration with approximately 300M parameters and T5-Base as the text encoder. This framework is well-established and supports both multi-stream and single-stream audio tokens. To enable unconditional generation with the same model, we apply CFG dropout during 10\% of training steps, a strategy shown to also enhance robustness in both conditional and unconditional settings.
+
+We use the same architecture across all tokenizers to ensure a fair comparison. To balance consistency and computational efficiency, each model is trained for 100{,}000 steps using a batch size of 128 audio samples (each 10 seconds long), with mix-up augmentation. This corresponds to half the batch size and training steps used in the original AudioGen, while still achieving competitive performance. Note that the effective number of tokens and training time may vary depending on the tokenizer’s frame rate and number of codebooks. For generation, we use fixed sampling parameters across all tokenizers, specifically top-k sampling with $k=250$, without tuning them for individual models. Additional experiments confirm that the observed trends remain consistent under different sampling hyperparameters, though detailed results are omitted for brevity.
+
+
+\paragraph{Dataset.} We use several audio datasets for training and evaluation, many of which are part of \emph{LAION-AUDIO-630K}~\citep{wu2023large}. Specifically, we include AudioCaps~\citep{audiocaps}, AudioStock\footnote{\url{https://audiostock.net/sfx}}, BBC Sound Effects\footnote{\url{https://sound-effects.bbcrewind.co.uk}}, EpidemicSound\footnote{\url{https://www.epidemicsound.com/sound-effects/}}, FreeSound\footnote{\url{https://freesound.org}}, Free to Use Sounds\footnote{\url{https://www.freetousesounds.com/all-in-one-bundle/}}, MACS~\citep{macs}, and Odeon Sound Effects\footnote{\url{https://www.paramountmotion.com/odeon-sound-effects}}. We follow~\citet{kreuk2022audiogen} and use the official splits of AudioCaps for validation and testing. All other datasets are used for training. These datasets vary in sample rate and format. We resample all audio and convert it to mono to match the input requirements of each tokenizer. In total, the training data contains approximately 4,050 hours of audio.
+
+
+\paragraph{Evaluation Setup.}
+We evaluate both text-conditioned generation and audio continuation with a $2.5$ second audio prompt (and no text condition). We use three objective metrics that provide complementary perspectives for evaluation. First, we compute the Fréchet Audio Distance (FAD) using the FadTK toolkit~\citep{fadtk} with the VGGish model. This metric is computed similarly to AudioGen~\citep{kreuk2022audiogen}, where FAD is calculated against the AudioCaps test set to measure the overall quality of synthesized audio. Second, we assess semantic consistency using KL Divergence. Specifically, we follow~\citet{yang2023diffsound} and compare the output distribution of a pre-trained audio classifier, specifically PASST~\citep{koutini2021passt}, on real samples versus model-generated samples for the same conditions. Finally, we evaluate text-audio alignment using the CLAP score~\citep{wu2023large, huang2023make}. This measures how well the generated audio matches the input prompt. All evaluation metrics used here are generative in nature and are therefore influenced not only by the language model's ability to predict tokens but also by the quality of the vocoder used to synthesize audio. As such, poor metric scores may reflect limitations in the vocoder rather than issues in the encoder or language model. 
+
+\begin{table}[t]
+ \centering
+\caption{Comparing performance of audio LMs over different tokenizers. We report FAD, KL divergence, and CLAP score on the AudioCaps test set. We also provide metrics for audio reconstruction. We note that ground truth audio in AudioCaps gets CLAP$=0.311$, proving a topline. For more information about the tokenizers see Section \ref{sec:literature}.}
+\label{tab:tta}
+ \scalebox{1.0}{
+\resizebox{0.95\textwidth}{!}{
+\begin{tabular}{l|c|ccc|ccc|ccc}
+\specialrule{.11em}{.2em}{.1em}
+  \multirow{2}{*}{\textbf{Tokenizer}} & \multirow{2}{*}{\textbf{\#Q}} & \multicolumn{3}{c|}{\textbf{Text Cond. Generation}} & \multicolumn{3}{c|}{\textbf{Uncond. Generation}} & \multicolumn{3}{c}{\textbf{Reconstruction}}\\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}\cmidrule(lr){9-11}
+ & &  FAD$\downarrow$ & KLD$\downarrow$ & CLAP$\uparrow$ & FAD$\downarrow$ & KLD$\downarrow$ & CLAP$\uparrow$ & FAD$\downarrow$ & KLD$\downarrow$ & CLAP$\uparrow$\\
+\midrule 
+Enc-SMA-24 & 8 & 3.771 & \underline{1.555} & .279 & 5.996 & \textbf{1.897} & .202 & 3.806 & 0.456 & \underline{.281}\\
+Enc-M-32 &  4  & 10.110 & 1.788 & \underline{.295} & 13.400 & 2.840 & .175 & 12.611 & 1.387 & .251\\
+Enc-A-16 &  4 & \textbf{1.955} & 1.576 & \textbf{.300} & \textbf{3.548} & 2.064 & \underline{.205}& \textbf{1.816} & \underline{0.419} & .273\\
+\midrule
+DAC-SMA-44 & 9  & 6.929 & 1.959 & .267 & 6.732 & \underline{2.041} & \textbf{.212} & \underline{2.206} & \textbf{0.242} & \textbf{.299}\\
+DAC-SMA-24 & 9 & 7.708 & 1.966 & .253 & 8.196 & 2.183 & .199 & 4.124 & 0.446 & \underline{.281}\\
+\midrule
+SQ-SMA-16 &  4  & 7.733 & 3.078 & .151 & 5.977 & 2.301 & .175 & 3.460 & 0.460 & .268\\
+\midrule
+WT-SMA-24 & 1  & \underline{2.594} & \textbf{1.463} & .291 & \underline{4.441} & 2.224 & .193 & 5.018 & 0.892 & .253\\
+
+\specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}
+
+
+\paragraph{Results and Discussion.} 
+Table~\ref{tab:tta} summarizes the performance for both text-conditioned generation and audio continuation. 
+Since all Audio LM evaluations rely on generative outputs, final performance is often influenced by vocoder quality. As a result, even a language model with strong next-token prediction capabilities may underperform if paired with a suboptimal vocoder. To better isolate the effect of vocoding, we report reconstruction quality metrics for each tokenizer without involving any language model training. These results highlight notable differences across tokenizers. The 44kHz variant of DAC performs particularly well, reaching quality levels comparable to the version of EnCodec trained specifically on audio. In contrast, the music-only EnCodec model shows poor reconstruction quality, as expected given its domain-specific training. Apart from the music-only EnCodec, which was not trained on general audio, WavTokenizer exhibits the weakest reconstruction performance among all evaluated tokenizers.
+
+The Audio LM trained on the music-only tokenizer (ENC-M-32) shows weak performance, particularly in terms of FAD. This may be attributed to limitations in the vocoder or the sensitivity of distribution-based metrics. For example, the model may be effective at next-token prediction and produce acoustically coherent samples, yet still deviate from the reference waveform distribution. The relatively strong CLAP and KLD scores for text-conditioned generation support this possibility, even though current evaluation metrics are insufficient to fully diagnose the cause of the performance drop. In contrast, the general-audio-trained version of EnCodec achieves the best FAD scores and consistently strong performance across all evaluation settings, emphasizing the value of domain-specific training for audio tokenizers.
+
+
+WavTokenizer achieves strong performance in text-to-audio generation, despite its relatively poor reconstruction quality. One possible explanation is that its single-token stream format simplifies the modeling task for the language model, potentially enabling faster convergence. This performance gap may narrow with additional training compute. In contrast, both DAC variants and SQCodec exhibit weaker results in text-conditioned generation compared to their strong reconstruction performance. For SQCodec, the large and potentially redundant token vocabulary may make next-token prediction more difficult, reducing generation quality. Similarly, while the DAC models offer excellent compression, their structure may be more challenging for autoregressive modeling, resulting in reduced generation performance. This gap may be due to its higher token rate leading to longer sequences, or modeling difficulties specific to DAC.
+
+\paragraph{Summary.} Our findings highlight the critical role of domain-specific training for audio tokenizers. Training the language model alone on in-domain data is not sufficient: tokenizers must also be trained on the same domain to ensure strong performance. Our results also show that the best reconstruction performance does not correlate with the best modeling performance. In the future, we encourage the development of evaluation metrics that disentangle modeling ability from vocoder performance, as is common in the speech domain. We also emphasize the need for more robust modeling metrics~\citep{chung2025kad}.
+
+
+
+\subsubsection{Music Generation}
+\paragraph{Background.}Music generation is particularly challenging due to the structural complexity of musical compositions, which involve diverse instrumentation, long-term dependencies, and high expectations for both acoustic quality and aesthetic coherence. Recent advances in generative models, especially diffusion-based approaches and LLM-based architectures, have shown strong potential for producing coherent and high-quality music, often conditioned on melodic~\citep{borsos2023audiolm} or text~\citep{huang2022mulan} prompts.
+
+A dominant paradigm in text-to-music generation involves latent diffusion models that operate over VAE-derived continuous representations~\citep{evans2025stable, chen2024musicldm, lam2023efficient}. In contrast, the use of autoregressive language models for music generation over discrete tokens remains an evolving area. Early work such as Jukebox~\citep{dhariwal2020jukebox} employed VQ-VAE~\citep{vqvae2017} to obtain quantized features for autoregressive modeling. More recent developments in neural audio codecs have shown that their latent spaces can serve as compact and expressive discrete representations of music. Building on this, several studies~\citep{borsos2023audiolm, borsos2023soundstorm, rouard2024audio} have explored LM-based music generation using various codec tokenizers and decoding strategies. In this section, we evaluate the effectiveness of discrete tokenizers in LM-based music generation, considering both text-conditioned synthesis and unconditional generation (i.e., music continuation).
+
+\paragraph{Experimental Setup.} Our experimental setup for text-to-music synthesis largely follows the same configuration described in the audio generation section. We use the AudioCraft toolkit~\citep{copet2024musicgen} with a decoder-only transformer and cross-attention over a T5-Base~\citep{raffel2020exploring} text encoder. The model has approximately 300M parameters and is trained using classifier-free guidance (CFG).
+Key differences from the audio setup include the use of a higher CFG dropout rate of 30\% (vs.\ 10\% for audio), which allocates more emphasis to unconditioned (self-conditioned) music generation. Additionally, no mix-up augmentations are applied, and models are trained for 200{,}000 steps using 4×A100 40GB GPUs, each with a batch size of 32 samples (10 seconds each). This results in significantly less computing compared to the original MusicGen configuration (192 samples for 1M steps).
+As in the audio experiments, we use the same architecture across all tokenizers to ensure a fair comparison. We adopt autoregressive modeling, which, while less efficient than masked non-autoregressive methods~\citep{garcia2023vampnet, ziv2024masked}, is more widely used and known to produce better perceptual quality.
+
+
+\paragraph{Datasets.}For training, we use the genre-balanced Free Music Archive (FMA) dataset~\citep{fma_dataset}, following the setup of stable-audio-open~\citep{evans2025stable}. All samples are 30 seconds long, and we follow the official split provided in the dataset repository\footnote{\url{https://github.com/mdeff/fma}}. The training set consists of 84,213 samples, totaling  $\sim$702 hours. We combine artist, album, keywords, genres, and titles from the metadata to build the text prompt of the model. 
+
+For evaluation, we use two datasets:
+(1)MusicCaps~\citep{agostinelli2023musiclm}\footnote{\url{https://www.kaggle.com/datasets/googleai/musiccaps}}, which contains 5,347 samples of 10 seconds each, annotated with descriptive text; and (2) the FMA test split, originally containing 11,235 samples of 30 seconds. To reduce evaluation time while preserving genre coverage, we randomly select 10 clips from each of the 156 genres, resulting in a genre-balanced subset of 1,560 samples.
+
+
+\paragraph{Evaluation Setup.}
+We evaluate music generation models on two tasks: text-conditioned generation and unconditioned generation, also referred to as continuation, where a 2-second audio clip is used as a prompt to extend the content in a coherent manner. In addition, we assess the reconstruction performance of each tokenizer on both test datasets, providing an upper bound on the potential quality of generated outputs.
+Our evaluation protocol follows the same setup as in the text-to-audio experiments. Specifically, we use three objective metrics: FAD\citep{fadtk} computed with the VGGish model to assess audio quality, KLD between PASST classifier outputs\citep{koutini2021passt} for semantic consistency, and CLAP score~\citep{wu2023large, huang2023make} to measure alignment with textual prompts.
+
+\begin{table}[t]
+ \centering
+\caption{Comparing the performance of text-to-music LMs over different tokenizers on MusicCaps and FMA-test. The abbreviation of the tokenizer column are shown in Table \ref{tab:bench_tokenizers}. \#Q denotes the number of quantization layers used in the tokenizer. 
+}
+\label{tab:ttm_mc}
+ \scalebox{1.0}{
+\resizebox{0.95\textwidth}{!}{
+\begin{tabular}{l|c|ccc|ccc|ccc}
+\specialrule{.11em}{.2em}{.1em}
+  \multirow{2}{*}{\textbf{Tokenizer}} & \multirow{2}{*}{\textbf{\#Q}} & \multicolumn{3}{c|}{\textbf{Text Cond. Generation}} & \multicolumn{3}{c|}{\textbf{Uncond. Generation}} & \multicolumn{3}{c}{\textbf{Reconstruction}}\\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}\cmidrule(lr){9-11}
+ & &  FAD$\downarrow$ & KLD$\downarrow$ & CLAP$\uparrow$ & FAD$\downarrow$ & KLD$\downarrow$ & CLAP$\uparrow$ & FAD$\downarrow$ & KLD$\downarrow$ & CLAP$\uparrow$\\
+\midrule
+\multicolumn{11}{c}{\textit{MusicCaps}}\\
+\midrule
+
+Enc-SMA-24 &  8 & 11.173 & 2.246 & .108 & 4.632 & 0.904 & .275 & 2.209 & 0.259 & \textbf{.358}\\
+Enc-M-32 & 4 & \textbf{4.264} & \textbf{2.006} & \textbf{.150} & \textbf{2.715} & 0.890 & \textbf{.282} & 1.995 & 0.356 & .339\\
+\midrule
+DAC-SMA-44 & 9 & \underline{8.398} & 2.214 & \underline{.119} & \underline{3.724} & \textbf{0.784} & \textbf{.282} & \textbf{0.927} & \textbf{0.182} & \underline{.340}\\
+DAC-SMA-24& 9 & 9.403 & \underline{2.127} & .093 & 4.001 & \underline{0.820} & \underline{.277} & \underline{1.335} & \underline{0.209} & \textbf{.358}\\
+\midrule
+SQ-SMA-16 & 4  & 14.211 & 2.810 & .064 & 5.163  & 0.979 & .270 & 2.078 & 0.258 & .338 \\
+\midrule
+WT-SMA-24 & 1 & 17.050  & 2.792 & .056 &  5.550 & 1.105 & .251 &  1.984 & 0.414 & .336 \\
+\midrule
+\multicolumn{11}{c}{\textit{FMA}}\\
+\midrule
+Enc-SMA-24  & 8  & 15.380 & 2.161 & .059 & 14.478 & 1.827 & .065 & 1.013 & 0.287 & .141\\
+Enc-M-32 &  4  & 8.871 & \textbf{1.299} & \textbf{.078} & 8.357 & \textbf{1.006} & \textbf{.079} & 0.784 & 0.344 & \underline{.153}\\
+\midrule
+DAC-SMA-44 & 9 & \textbf{8.115} & \underline{1.543} & \underline{.062} & \underline{6.398} & \underline{1.100} &\underline{.075} & \textbf{0.494} & \textbf{0.196} & \textbf{.158}\\
+DAC-SMA-24  & 9  & \underline{8.789} & 1.746 & .039 & 7.002 & 1.405 & .043 & 0.708 & \underline{0.222} & .125\\
+\midrule
+SQ-SMA-16  & 4  & 9.426 & 2.412 & .048 & \textbf{4.690} & 1.592 &  .070 & 0.956 & 0.327 & .133 \\
+\midrule
+WT-SMA-24& 1 & 16.511 & 1.881 & .030  & 6.890 & 1.414 & .047 & \underline{0.631} & 0.368 & .129 \\
+
+\specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}
+
+
+\paragraph{Results and Discussion.} 
+The evaluation scores on MusicCaps and FMA test set are presented in Table \ref{tab:ttm_mc}. Surprisingly, the evaluation score on the MusicCaps is consistently better than those on the FMA-test, despite the theoretical similarity between the FMA-test and the FMA training data. Compared to MusicCaps, the FMA training set only provides very limited text prompts and compromised sound quality. However, thanks to its large dataset size and publicity, it is a natural choice for open-sourced model training ~\citep{evans2025stable}. We observe that models trained on FMA are to some extent adaptable to other datasets. We believe the quality of the FMA dataset explains the lower evaluation scores on the FMA-test. On this issue, we also want to call for efforts within this community to make prompt-rich text-to-music datasets publicly available.
+
+Regarding reconstruction scores, EnCodec-32k tokenizer (despite being trained exclusively on music) does not consistently produce the highest quality. WavTokenizer achieves the best FAD score for reconstructed audio. DAC-44k and DAC-24k achieve the lowest KLD scores, indicating strong preservation of acoustic content. For text consistency, EnCodec-24k and DAC-24k perform best based on CLAP scores. Overall, DAC tokenizers at both sampling rates show the strongest reconstruction performance across metrics.
+
+For text-conditioned generation, the music-specific tokenizer (EnCodec-32k) demonstrates clear advantages across all metrics and evaluation datasets. Among the multi-domain tokenizers, DAC-44k consistently outperforms DAC-24k, EnCodec-24k, and the single-stream WavTokenizer. This performance gap may stem from DAC-44k’s higher bitrate, which likely enables it to produce a richer and more expressive representation, an essential factor for effective language modeling in music generation tasks.
+
+For the unconditional generation task, EnCodec-32k and DAC-44k generally produce higher-quality outputs. An exception is observed on the FMA dataset, where SQ-Codec achieves better generation quality, as indicated by the FAD score. Across both datasets, unconditional generation consistently outperforms text-conditioned generation. We attribute this to the higher CFG dropout rate used during training, which exposes the models to more unconditioned scenarios and improves their ability to generate coherent continuations. Additionally, the poor quality of text prompts in the FMA dataset, also evident from its lower reconstruction scores, likely hinders the models’ performance on text-conditioned tasks.
+
+\paragraph{Summary.} For music LM, we observe that tokenizers with higher sample rates and multi-codebook, associated with higher bitrates, tend to perform better. This contrasts with audio and speech generation, where higher bitrate tokenizers were harder to model. We hypothesize that music, with its complex harmonic and temporal structure, benefits more from detailed representations, whereas such granularity may be excessive or less critical for general audio tasks. Additionally, unconditional generation consistently outperforms text-conditioned generation, emphasizing the benefits of providing melody prompts in music generation tasks.
+

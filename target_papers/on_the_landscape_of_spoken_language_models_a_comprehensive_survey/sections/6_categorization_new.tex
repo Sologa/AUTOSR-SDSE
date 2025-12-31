@@ -1,0 +1,106 @@
+\section{Survey of representative \slms}
+
+\label{sec:lit_review}
+The previous sections have described the components, design choices, and training strategies for \slms.  In this section, we %
+review how these choices have been instantiated in existing \slms\ in the literature, 
+categorized according to the classes in Table~\ref{tab:typology}.
+For each category, we provide a brief review of the model design and highlight example models in the literature.
+Note that, aside from the examples listed, there are many \slms\  with similar configurations in each category which we are unable to introduce in detail; \Cref{table:SLMs} provides a more extensive catalogue of models and references, and~\Cref{fig:timeline} provides a timeline to place them in historical context.
+
+We also note that some of the 
+multi-modal LLMs developed by industry groups, such as GPT-4o~\citep{gpt4osafety} and Gemini~\citep{geminiteam2024gemini15unlockingmultimodal}, can also be seen as generalizations of speech+text LMs or speech-aware text LMs.
+These models have 
+conversation capabilities and include text, speech, general audio, and visual inputs and outputs.
+However, details of their model configurations and training strategies have not been publicly released, and rigorous evaluations of these models have focused on limited speech tasks such as ASR and ST.
+For these reasons, it is important that future work complements these high-impact industry models with open-source, reproducible approaches.
+
+\subsection{Pure Speech LM}
+\label{sec:pureSLM}
+Pure speech LMs
+are trained on unlabelled speech data to model $p(speech)$, and are the spoken analogue of pre-trained generative text LMs like GPT~\citep{radford2019language, brown2020language}.
+In order to apply the next-token-prediction objectives of LM training to continuous speech data, pure speech LMs typically use discrete speech representations (\Cref{sec:speech-encoder}) as the units for sequence modeling.  
+One of the earliest approaches in this category is the generative spoken language modeling (GSLM) work of~\citet{GSLM}. %
+GSLM relies on a pre-trained HuBERT model $\text{Enc}^{\text{sp}}()$ to convert speech signals into phonetic tokens $H^{\text{sp}}$ and uses an embedding layer $\text{Adp}^{\text{sp}}$() to map token IDs to continuous vectors.
+The model is trained to autoregressively predict the ID of the next speech token, and the predicted tokens are converted back to audio by a unit-based vocoder $\text{Dec}^{\text{sp}}()$.
+GSLM's demo\footnote{https://speechbot.github.io/gslm} shows anecdotally that this initial model can generate speech continuations with locally acceptable syntax given a speech prompt of a few seconds, but does not in general produce coherent long-form speech.
+
+Since GSLM initiated this line of research, follow-up work has improved on it in several ways. %
+For example, the prosody-aware generative spoken language model (pGSLM)~\citep{pGSLM} 
+predicts prosodic information like pitch and duration jointly with phonetic tokens for better expressiveness.
+TWIST~\citep{twist} is similar to GSLM but the model is initialized with a pre-trained text LLM (OPT~\citep{zhang2022opt}), which improves lexical and syntactic language modeling performance, as measured by the sWUGGY and sBLIMP metrics (see~\Cref{ssec:likelihood_eval} for more details of the evaluation).
+Another approach~\citep{tGSLM} uses \emph{longer} lexical units instead of phonetic tokens,
+significantly reducing memory consumption. %
+AudioLM~\citep{audiolm} introduced hierarchical generation of multiple types of tokens for pure speech LMs, using a coarse-to-fine strategy that generates phonetic tokens and audio codec tokens in order (\Cref{ssec:hybrid_generation}).
+SpeechSSM~\citep{park2024long} uses a state-space model~\citep{gu2021efficiently} rather than a Transformer, producing more natural and semantically consistent long-form (minutes-long) speech generation. 
+
+
+\subsection{Speech+Text LM}
+\label{subsubsec:cluster4}
+Speech+text LMs~\citep{nachmani2023spoken, nguyen2024spirit, defossezmoshi} are \slms\space that %
+jointly model the distribution of speech and text $p(text, speech)$, and can therefore understand and generate both modalities.  Such models often start with generative speech+text pre-training (\Cref{sec:pre-training}), and can then be post-trained in a variety of ways.
+
+A notable example of this approach is the Moshi model \citep{defossezmoshi}, which is the first open-source speech-in-speech-out \slm-based dialogue system with real-time inference capability. 
+Moshi takes time-aligned text and discrete speech representations as inputs %
+and generates outputs in both text and speech forms.
+Moshi’s text processing components---$\text{Enc}^{\text{txt}}()$, $\text{Adp}^{\text{txt}}()$, and $\text{Dec}^{\text{txt}}()$, and the LM backbone $\text{Seq}()$---are initialized from a pre-trained Helium text LLM~\citep{defossezmoshi}.
+After text pre-training, the LM is continually trained on jointly predicting the next speech and text tokens, followed by post-training in duplex mode (described in detail in \Cref{sec:duplex}) on conversation data.
+Moshi's training strategy produces a model that can generate consistent speech across long (several-minute) monologues and can engage in multi-turn conversations~\citep{defossezmoshi}.
+
+Speech+text LMs vary widely in their %
+decoding methods and approaches to constructing speech and text inputs/outputs.
+For example, SpiRit-LM~\citep{nguyen2024spirit} uses interleaved sequences of text and discrete speech tokens as both inputs and outputs, focusing solely on pre-training without doing any task-specific post-training.  Compared to pure speech LMs, SpiRiT-LM has improved semantic understanding, as measured by the StoryCloze test (see~\Cref{ssec:likelihood_eval} for more details).
+A precursor of this idea, SUTLM~\citep{chou2023toward}, modeled interleaved speech and text units of various sizes, but did not include a waveform synthesizer and was evaluated mainly on spoken language understanding tasks, with the main goal of enabling cross-modality transfer.
+\citet{zeng2024scaling} scale up the idea of interleaved speech-text training by using a speech synthesizer to generate massive datasets of interleaved speech-text sequences.
+As alternatives to time-aligned or interleaved speech and text sequences, SpeechGPT~\citep{zhang2023speechgpt} outputs a sequence of text %
+followed by corresponding speech, while Mini-Omni~\citep{xie2024mini,xie2024mini2} and LLaMA-Omni~\citep{fang2024llama} generate text and speech using separate output channels with a delay pattern in the speech token prediction (see~\Cref{subsubsec:text-speech-hybrid}).
+All three of these models (SpeechGPT, Mini-Omni, and LLaMA-Omni), unlike Moshi, focus on a traditional turn-taking structure and therefore have limited capability to model spontaneous turn-taking behavior (see \Cref{sec:duplex} for more on conversation modeling).
+
+
+
+\subsection{Speech-aware text LM}
+\label{subsec:IF_cluster1}
+Models in this category combine text LMs with speech encoders, and usually
+take both speech and text as inputs and generate responses in text form.
+The text input $X^{\text{txt}}$ can include 
+instructions asking the model to 
+perform 
+tasks related to the speech input $X^{\text{sp}}$, possibly including tasks for which the model is not specifically trained.
+This type of \slm\ 
+is typically initialized with a 
+text LLM (which has often already been post-trained with instruction tuning or RLHF) so as to inherit its linguistic knowledge and instruction-following capabilities.
+After combining the text LLM with a speech encoder and modality adapter, it is common to apply training methods that encourage better alignment between the speech and text modalities (\Cref{ssec:alignment}) or to start post-training with an ASR task (\Cref{ssec:training_tricks}) to help extract content information from speech inputs.
+The following post-training typically uses speech instruction-tuning datasets with diverse instructions 
+(\Cref{ssec:instruction_tuning}). 
+
+
+WavPrompt~\citep{gao2022wavprompt} represents the first example of this line of research.  WavPrompt combines a wav2vec 2.0~\citep{wav2vec2} SSL speech encoder with a GPT-2 text LM and is trained for speech classification tasks, keeping the LM backbone frozen and updating only the speech encoder.
+Although WavPrompt can improve over ASR+text model baselines on certain tasks, it is not evaluated on any unseen task.
+Since then, many models in this category have been proposed. 
+
+SALMONN~\citep{tang2023salmonn} is another early and impactful approach.
+The model is built on a pre-trained Vicuna LM backbone~\citep{zheng2023judging}.
+During post-training,
+the model is first trained on ASR and audio captioning and later on a more diverse set of speech understanding tasks.
+SALMONN's post-training keeps most of the parameters frozen---only the speech modality adapter and LoRA~\citep{lora} adapters for the LM are learned---%
+but the model is still able to generalize to unseen tasks with
+various natural language prompts.
+
+Several other speech-aware text LMs were developed nearly simultaneously with SALMONN, facilitated by the release of open-source LLMs like LLaMA~\citep{touvron2023llama} and Vicuna~\citep{zheng2023judging}, often post-trained and evaluated on different tasks~\citep{gong2023joint,wang2023slm,chu2023qwen,chen2024salm}.  
+For example, LTU-AS~\citep{gong2023joint} combines  spoken content understanding with paralinguistic analysis tasks (e.g., emotion recognition).
+SLM~\citep{wang2023slm} generalizes to unseen tasks specified by natural language prompts even while the LM backbone and speech encoder are both frozen, and only the speech adapter is optimized during instruction-based training, but focuses only on content-heavy tasks.
+Qwen-Audio~\citep{chu2023qwen} shares similar post-training tasks to those of SALMONN, but includes learning of the speech encoder and LM backbone (sequence model) weights.
+During post-training, Qwen-Audio starts with a more diverse task set instead of the single ASR task,
+including both content and paralinguistics, followed by a chat-based supervied fine-tuning stage that improves the model's robustness to variation in input prompts.
+The follow-up work, Qwen2-Audio~\citep{chu2024qwen2audio} also applies direct preference optimization~\cite{rafailov2023direct} after supervised fine-tuning.
+On the other hand, the more recent DeSTA~\citep{desta} and DeSTA 2~\citep{desta2} propose a single descriptive speech-text alignment post-training task which requires the model to both recognize the spoken content and describe paralinguistic attributes.  \Cref{tab:universal-models-2} summarizes and compares a representative set of these models' training and evaluation choices.  One key consideration is the tradeoff between preserving knowledge acquired through text pre-training and learning new speech tasks, especially those requiring non-textual information such as speech emotion.  An important design choice, therefore, is which of the pre-trained parameters to freeze or update, and this issue has not yet been thoroughly explored.
+
+In addition to the multiple post-training approaches, speech-aware text LMs also include some differences in architecture choices.  For example, WavLLM~\citep{wavllm} combines both SSL and supervised pre-trained speech encoders, and BESTOW~\citep{bestow2024chen} experiments with a sequence-to-sequence model in addition to the common decoder-only LM architecture.
+While most models in this category are initialized with pre-trained text LLMs, UniverSLU ~\citep{arora2023universlu} 
+starts from a Whisper model for conditional pre-training (see \Cref{ssec:conditional_pretraining})
+and is then fine-tuned for various understanding tasks first by prepending new task specifiers and then by adding natural language instructions to the input.
+
+
+
+
+
+

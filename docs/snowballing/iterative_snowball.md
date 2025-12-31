@@ -59,6 +59,8 @@ workspaces/<topic>/snowball_rounds/
     dedup_report.json
     latte_review_results.json
     round_meta.json
+    final_included.json
+    final_included.csv
   round_02/
     ...
 ```

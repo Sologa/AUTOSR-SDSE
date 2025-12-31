@@ -114,6 +114,15 @@
    - 由 `scripts/snowball_iterate.py` 驅動，可多輪迭代。
    - 每輪輸出 `snowball_rounds/round_XX/*`，並更新全歷史 `review_registry.json`。
 
+8) **新增 seed query 改寫機制**：
+   - 觸發條件：seed 無 PDF 或 `cutoff_removed_all_candidates`。
+   - 使用 `SeedQueryRewriteAgent`（`gpt-5.2`）產生單一片語並重試 seed。
+   - 輸出 `seed/queries/seed_rewrite.json`，`download_results.json` 會補上 `rewrite_attempts` / `rewrite_query`。
+   - 同名 cutoff 固定啟用（`--no-cutoff-by-similar-title` 會被忽略）。
+
+9) **seed 標題強制過濾**：
+   - seed 只保留 title 含 `survey` / `review` / `overview` 的紀錄。
+
 ---
 
 ## 4) 已知問題 / 風險
