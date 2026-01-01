@@ -11,6 +11,7 @@
   - `--formatter-model`：格式化模型（預設 `gpt-5.2`）
 - `--recency-hint`：時間範圍提示（預設 `過去3年`，僅供背景參考，不會轉成 criteria 條款）
   - `web_search` 工具：當 `--search-model=gpt-5-search-api` 時，會使用 `web_search_2025_08_26` 版本工具。
+  - formatter prompt 不再包含時間範圍描述，避免 LLM 產出時間條款。
 
 ## 使用範例
 ```bash

@@ -7,7 +7,6 @@ import argparse
 import hashlib
 import json
 import logging
-import sys
 import time
 import urllib.error
 import urllib.parse
@@ -15,7 +14,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from title_normalization import normalize_title
 

@@ -143,6 +143,136 @@ def _extract_publication_date(metadata: Dict[str, object]) -> Optional[date]:
     return None
 
 
+def _load_cutoff_artifact(workspace: TopicWorkspace) -> Optional[Dict[str, object]]:
+    """Load the cutoff artifact if it exists and is well-formed."""
+    if not workspace.cutoff_path.exists():
+        return None
+    data = _read_json(workspace.cutoff_path)
+    if isinstance(data, dict):
+        return data
+    return None
+
+
+def _extract_candidate_cutoff_date(
+    candidate: Dict[str, object],
+    *,
+    session: Optional[requests.Session] = None,
+) -> Tuple[Optional[date], Optional[str]]:
+    published_raw = candidate.get("published_date") or candidate.get("published")
+    if isinstance(published_raw, str) and published_raw.strip():
+        try:
+            return _parse_date_bound(published_raw, label="published_date"), published_raw
+        except ValueError:
+            pass
+    arxiv_id = candidate.get("arxiv_id")
+    if isinstance(arxiv_id, str) and arxiv_id.strip() and session is not None:
+        try:
+            metadata = fetch_arxiv_metadata(arxiv_id.strip(), session=session)
+        except requests.RequestException:
+            metadata = {}
+        published_raw = metadata.get("published") if isinstance(metadata, dict) else None
+        extracted = _extract_publication_date(metadata) if isinstance(metadata, dict) else None
+        if extracted:
+            return extracted, str(published_raw or extracted.isoformat())
+    return None, None
+
+
+def _resolve_cutoff_from_selection(
+    workspace: TopicWorkspace,
+    selection_report: Dict[str, object],
+    *,
+    session: Optional[requests.Session] = None,
+) -> Optional[Dict[str, object]]:
+    """Resolve a cutoff candidate from seed selection without user input."""
+    topic_norm = _normalize_title_for_match(workspace.topic)
+    if not topic_norm:
+        return None
+
+    candidates: List[Dict[str, object]] = []
+    cutoff_candidate = selection_report.get("cutoff_candidate")
+    if isinstance(cutoff_candidate, dict):
+        candidates.append(cutoff_candidate)
+    listed_candidates = selection_report.get("candidates")
+    if isinstance(listed_candidates, list):
+        for candidate in listed_candidates:
+            if isinstance(candidate, dict):
+                candidates.append(candidate)
+
+    matched: Optional[Dict[str, object]] = None
+    for candidate in candidates:
+        title = str(candidate.get("title") or "").strip()
+        if title and _normalize_title_for_match(title) == topic_norm:
+            matched = candidate
+            break
+
+    if matched is None:
+        return None
+
+    cutoff_date, published_raw = _extract_candidate_cutoff_date(matched, session=session)
+    if cutoff_date is None:
+        raise RuntimeError(
+            "cutoff candidate found but missing published date; cannot proceed safely."
+        )
+
+    arxiv_id = matched.get("arxiv_id")
+    source = "arxiv" if isinstance(arxiv_id, str) and arxiv_id.strip() else "unknown"
+    title = str(matched.get("title") or "").strip()
+
+    return {
+        "topic_title": workspace.topic,
+        "topic_title_normalized": topic_norm,
+        "target_paper": {
+            "source": source,
+            "id": str(arxiv_id or ""),
+            "title": title,
+            "published_date": cutoff_date.isoformat(),
+            "published_raw": str(published_raw or ""),
+        },
+        "cutoff_date": cutoff_date.isoformat(),
+        "policy": {
+            "exclude_same_title": True,
+            "exclude_on_or_after_cutoff_date": True,
+        },
+        "derived_from": "seed_selection",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def _ensure_cutoff_artifact(
+    workspace: TopicWorkspace,
+    selection_report: Dict[str, object],
+    *,
+    session: Optional[requests.Session] = None,
+) -> Optional[Dict[str, object]]:
+    """Persist cutoff metadata derived from seed selection if available."""
+    existing = _load_cutoff_artifact(workspace)
+    if existing is not None:
+        return existing
+    cutoff_payload = _resolve_cutoff_from_selection(workspace, selection_report, session=session)
+    if cutoff_payload is None:
+        return None
+    _write_json(workspace.cutoff_path, cutoff_payload)
+    return cutoff_payload
+
+
+def _get_cutoff_info(
+    workspace: TopicWorkspace,
+    *,
+    session: Optional[requests.Session] = None,
+) -> Optional[Dict[str, object]]:
+    """Load cutoff info, deriving it from seed selection if needed."""
+    existing = _load_cutoff_artifact(workspace)
+    if existing is not None:
+        return existing
+    selection_path = workspace.seed_queries_dir / "seed_selection.json"
+    if not selection_path.exists():
+        return None
+    selection_report = _read_json(selection_path)
+    if not isinstance(selection_report, dict):
+        return None
+    return _ensure_cutoff_artifact(workspace, selection_report, session=session)
+
+
 def _subtract_years(value: date, years: int) -> date:
     """Subtract years from a date while handling leap-day edge cases."""
     try:
@@ -190,6 +320,15 @@ def _infer_topic_publication_date(
     session: Optional[requests.Session] = None,
 ) -> Optional[date]:
     """Infer a topic's publication date from seed selection or arXiv search."""
+    cutoff_payload = _load_cutoff_artifact(workspace)
+    if cutoff_payload:
+        cutoff_value = cutoff_payload.get("cutoff_date")
+        if isinstance(cutoff_value, str) and cutoff_value.strip():
+            try:
+                return _parse_date_bound(cutoff_value.strip(), label="cutoff_date")
+            except ValueError:
+                pass
+
     selection_path = workspace.seed_queries_dir / "seed_selection.json"
     if not selection_path.exists():
         return None
@@ -428,6 +567,8 @@ def _strip_temporal_criteria(structured_payload: Dict[str, object]) -> Dict[str,
         return structured_payload
 
     payload = json.loads(json.dumps(structured_payload, ensure_ascii=False))
+    payload.pop("time_range", None)
+
     inclusion = payload.get("inclusion_criteria")
     if isinstance(inclusion, dict):
         required = []
@@ -626,6 +767,16 @@ class TopicWorkspace:
         return self.criteria_dir / "criteria.json"
 
     @property
+    def cutoff_dir(self) -> Path:
+        """Directory for cutoff metadata artifacts."""
+        return self.root / "cutoff"
+
+    @property
+    def cutoff_path(self) -> Path:
+        """Path to the cutoff.json artifact."""
+        return self.cutoff_dir / "cutoff.json"
+
+    @property
     def review_dir(self) -> Path:
         """Directory for LatteReview outputs."""
         return self.root / "review"
@@ -759,6 +910,24 @@ def _normalize_similarity_text(value: str) -> str:
     text = str(value or "").lower()
     text = re.sub(r"[^a-z0-9\\u4e00-\\u9fff\\s]+", " ", text)
     return " ".join(text.split())
+
+
+_TITLE_TEX_COMMAND_RE = re.compile(r"\\\\[A-Za-z]+\\*?")
+_TITLE_NON_ALNUM_RE = re.compile(r"[^0-9A-Za-z\\s]+")
+
+
+def _normalize_title_for_match(value: str) -> str:
+    """Normalize a title for exact-match comparisons across pipeline stages."""
+    text = str(value or "")
+    text = _TITLE_TEX_COMMAND_RE.sub(" ", text)
+    text = text.replace("{", " ").replace("}", " ")
+    text = _TITLE_NON_ALNUM_RE.sub(" ", text)
+    return " ".join(text.lower().split())
+
+
+def _titles_match_topic(topic: str, title: str) -> bool:
+    """Return True when a title matches the topic under normalization."""
+    return _normalize_title_for_match(topic) == _normalize_title_for_match(title)
 
 
 def _quote_term(term: str) -> str:
@@ -905,6 +1074,7 @@ def _select_seed_arxiv_records(
 ) -> Tuple[List[Dict[str, object]], Dict[str, object]]:
     """Filter and select seed survey records with similarity cutoff handling."""
     topic_variants = default_topic_variants(topic)
+    topic_norm = _normalize_title_for_match(topic)
     required_keywords = [kw.lower() for kw in (title_required_keywords or []) if str(kw).strip()]
     original_records = list(records)
     if required_keywords:
@@ -943,37 +1113,52 @@ def _select_seed_arxiv_records(
     cutoff_date: Optional[date] = None
     cutoff_reason: str = "disabled"
 
-    if cutoff_by_similar_title and candidates:
-        comparable = [
-            candidate
-            for candidate in candidates
-            if isinstance(candidate.get("similarity"), dict)
-            and float(candidate["similarity"].get("score") or 0.0) >= similarity_threshold
-        ]
-        if comparable:
-            def _date_key(value: Optional[str]) -> date:
-                if not value:
-                    return date.min
-                try:
-                    return _parse_date_bound(value, label="published_date") or date.min
-                except ValueError:
-                    return date.min
-
-            cutoff_candidate = max(
-                comparable,
-                key=lambda item: (
-                    float(item.get("similarity", {}).get("score") or 0.0),
-                    _date_key(item.get("published_date")),
-                ),
-            )
+    if candidates:
+        exact_match = None
+        for candidate in candidates:
+            title = str(candidate.get("title") or "").strip()
+            if title and _titles_match_topic(topic, title):
+                exact_match = candidate
+                break
+        if exact_match is not None:
+            cutoff_candidate = exact_match
             cutoff_date_str = cutoff_candidate.get("published_date")
             if isinstance(cutoff_date_str, str) and cutoff_date_str:
                 cutoff_date = _parse_date_bound(cutoff_date_str, label="published_date")
-                cutoff_reason = "similar_title_threshold_met"
+                cutoff_reason = "exact_title_match"
             else:
-                cutoff_reason = "similar_title_but_missing_date"
-        else:
-            cutoff_reason = "no_similar_title_found"
+                cutoff_reason = "exact_title_but_missing_date"
+        elif cutoff_by_similar_title:
+            comparable = [
+                candidate
+                for candidate in candidates
+                if isinstance(candidate.get("similarity"), dict)
+                and float(candidate["similarity"].get("score") or 0.0) >= similarity_threshold
+            ]
+            if comparable:
+                def _date_key(value: Optional[str]) -> date:
+                    if not value:
+                        return date.min
+                    try:
+                        return _parse_date_bound(value, label="published_date") or date.min
+                    except ValueError:
+                        return date.min
+
+                cutoff_candidate = max(
+                    comparable,
+                    key=lambda item: (
+                        float(item.get("similarity", {}).get("score") or 0.0),
+                        _date_key(item.get("published_date")),
+                    ),
+                )
+                cutoff_date_str = cutoff_candidate.get("published_date")
+                if isinstance(cutoff_date_str, str) and cutoff_date_str:
+                    cutoff_date = _parse_date_bound(cutoff_date_str, label="published_date")
+                    cutoff_reason = "similar_title_threshold_met"
+                else:
+                    cutoff_reason = "similar_title_but_missing_date"
+            else:
+                cutoff_reason = "no_similar_title_found"
 
     filtered: List[Dict[str, object]] = []
     for record in records:
@@ -984,6 +1169,10 @@ def _select_seed_arxiv_records(
             record_id = extract_arxiv_id_from_record(record) or ""
             if anchor_id and record_id and trim_arxiv_id(record_id) == trim_arxiv_id(anchor_id):
                 continue
+
+        record_title = str(record.get("title") or "").strip()
+        if record_title and topic_norm and _normalize_title_for_match(record_title) == topic_norm:
+            continue
 
         if cutoff_date is None:
             filtered.append(record)
@@ -1000,17 +1189,8 @@ def _select_seed_arxiv_records(
             filtered.append(record)
 
     if cutoff_date is not None and not filtered:
-        cutoff_date = None
         cutoff_reason = "cutoff_removed_all_candidates"
         filtered = []
-        anchor_id = ""
-        if cutoff_candidate and cutoff_candidate.get("arxiv_id"):
-            anchor_id = str(cutoff_candidate.get("arxiv_id") or "")
-        for record in records:
-            record_id = extract_arxiv_id_from_record(record) or ""
-            if anchor_id and record_id and trim_arxiv_id(record_id) == trim_arxiv_id(anchor_id):
-                continue
-            filtered.append(record)
 
     selected = list(filtered)[: max(download_top_k, 0)] if download_top_k else []
 
@@ -1024,6 +1204,7 @@ def _select_seed_arxiv_records(
         "cutoff_reason": cutoff_reason,
         "cutoff_candidate": cutoff_candidate,
         "cutoff_date": cutoff_date.isoformat() if cutoff_date else None,
+        "topic_title_normalized": topic_norm,
         "records_total": len(original_records),
         "records_after_title_filter": len(list(records)),
         "records_after_filter": len(filtered),
@@ -1555,6 +1736,8 @@ def seed_surveys_from_arxiv(
             raw_query=arxiv_raw_query,
             reuse_cache=reuse_cached_queries,
         )
+        if isinstance(selection_report, dict):
+            _ensure_cutoff_artifact(workspace, selection_report, session=session)
 
         original_records = json.loads(records_path.read_text(encoding="utf-8")) if records_path.exists() else []
         original_selection_report = json.loads(json.dumps(selection_report))
@@ -1666,6 +1849,9 @@ def seed_surveys_from_arxiv(
             for pdf_path in workspace.seed_arxiv_pdf_dir.glob("*.pdf"):
                 if pdf_path.is_file() and pdf_path.name not in keep_names:
                     pdf_path.unlink()
+
+        if isinstance(final_selection_report, dict):
+            _ensure_cutoff_artifact(workspace, final_selection_report, session=session)
     finally:
         session.close()
 
@@ -1790,12 +1976,20 @@ def harvest_arxiv_metadata(
         raise ValueError("No search terms available after flattening.")
 
     def _within_window(meta: Dict[str, object]) -> bool:
-        if not start_bound and not end_bound:
+        if cutoff_title_norm:
+            title = str(meta.get("title") or "")
+            if title and _normalize_title_for_match(title) == cutoff_title_norm:
+                return False
+        if not start_bound and not end_bound and not cutoff_date:
             return True
         published = _extract_publication_date(meta)
+        if cutoff_date and not published:
+            return False
         if not published:
             return False
         if start_bound and published < start_bound:
+            return False
+        if cutoff_date and published >= cutoff_date:
             return False
         if end_bound and published > end_bound:
             return False
@@ -1812,6 +2006,23 @@ def harvest_arxiv_metadata(
             start_bound = _subtract_years(end_bound, 3)
         if start_bound and end_bound and start_bound > end_bound:
             raise ValueError("--start-date cannot be later than --end-date")
+
+        cutoff_info = _get_cutoff_info(workspace, session=session)
+        cutoff_date: Optional[date] = None
+        cutoff_title_norm: Optional[str] = None
+        if cutoff_info:
+            cutoff_value = cutoff_info.get("cutoff_date")
+            if isinstance(cutoff_value, str) and cutoff_value.strip():
+                try:
+                    cutoff_date = _parse_date_bound(cutoff_value.strip(), label="cutoff_date")
+                except ValueError:
+                    cutoff_date = None
+            target = cutoff_info.get("target_paper") or {}
+            target_title = target.get("title") if isinstance(target, dict) else None
+            if isinstance(target_title, str) and target_title.strip():
+                cutoff_title_norm = _normalize_title_for_match(target_title)
+        if cutoff_date and end_bound and end_bound >= cutoff_date:
+            end_bound = cutoff_date - timedelta(days=1)
 
         aggregated: Dict[str, Dict[str, object]] = {}
         total_queries = 0
@@ -2016,7 +2227,6 @@ def generate_structured_criteria(
     if output_path.exists() and not force:
         return {"criteria_path": str(output_path), "skipped": True}
 
-    exclude_title, cutoff_before_date = _infer_criteria_cutoff_constraints(workspace)
     effective_recency_hint = recency_hint
 
     tool_type = "web_search_2025_08_26" if search_model == "gpt-5-search-api" else "web_search"
@@ -2044,28 +2254,12 @@ def generate_structured_criteria(
             workspace.topic,
             config=cfg,
             recency_hint=effective_recency_hint,
-            exclude_title=exclude_title,
-            cutoff_before_date=cutoff_before_date,
+            exclude_title=None,
+            cutoff_before_date=None,
             web_search_service=create_web_search_service(),
             formatter_service=LLMService(),
         )
-        if cutoff_before_date:
-            with requests.Session() as session:
-                validation_report = _validate_criteria_sources(
-                    pipeline_result.structured_payload,
-                    cutoff_before_date=cutoff_before_date,
-                    session=session,
-                )
-            if validation_report.get("ok"):
-                break
-            if attempt < max_attempts:
-                continue
-            raise ValueError(
-                "criteria source validation failed: "
-                + json.dumps(validation_report, ensure_ascii=False)
-            )
-        else:
-            break
+        break
     if pipeline_result is None:
         raise RuntimeError("criteria pipeline did not produce a result")
 
@@ -2074,8 +2268,8 @@ def generate_structured_criteria(
         "recency_hint": effective_recency_hint,
         "mode": mode,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "cutoff_before_date": cutoff_before_date,
-        "exclude_title": exclude_title,
+        "cutoff_before_date": None,
+        "exclude_title": None,
         "source_validation": validation_report,
         "search_prompt": pipeline_result.search_prompt,
         "structured_prompt_template": pipeline_result.structured_prompt_template,
@@ -2160,8 +2354,8 @@ def generate_structured_criteria(
                     "1) PDF Background (Survey Summaries)：模型閱讀本地 PDF 後的背景整理，僅供提供更準確的主題定義與條件靈感，來源欄請勿引用非 https 連結。\n"
                     "2) Web Search Notes：OpenAI Web Search 所產出的即時筆記與來源。\n"
                     "請輸出最終 JSON，並確保所有 source 欄位皆為 https URL。\n"
-                    f"主題：{workspace.topic}；時間範圍：{recency_hint}。\n"
-                    "inclusion_criteria.required 段落僅能包含主題定義逐字條款、recency 對齊條款，以及英文可評估性條款；其餘條件請歸入 any_of 群組。\n"
+                    f"主題：{workspace.topic}。\n"
+                    "inclusion_criteria.required 段落僅能包含主題定義逐字條款與英文可評估性條款；其餘條件請歸入 any_of 群組。\n"
                     "將以下筆記整合後再輸出：\n"
                     "---\n"
                     f"{combined_notes.strip()}\n"
@@ -2371,11 +2565,9 @@ def run_latte_review(
         raise FileNotFoundError(f"找不到 arXiv metadata 檔案：{metadata_path}")
 
     criteria_payload: Dict[str, object] = {}
-    criteria_obj: Optional[Dict[str, object]] = None
     if criteria_path:
         loaded = _read_json(Path(criteria_path))
         if isinstance(loaded, dict):
-            criteria_obj = loaded
             structured = loaded.get("structured_payload")
             if isinstance(structured, dict):
                 criteria_payload = structured
@@ -2384,17 +2576,17 @@ def run_latte_review(
     elif workspace.criteria_path.exists():
         loaded = _read_json(workspace.criteria_path)
         if isinstance(loaded, dict):
-            criteria_obj = loaded
             structured = loaded.get("structured_payload")
             if isinstance(structured, dict):
                 criteria_payload = structured
 
-    if criteria_obj and discard_title is None:
-        candidate = criteria_obj.get("exclude_title")
-        if isinstance(candidate, str) and candidate.strip():
-            discard_title = candidate.strip()
-    if criteria_obj and discard_after_date is None:
-        cutoff_value = criteria_obj.get("cutoff_before_date")
+    cutoff_info = _get_cutoff_info(workspace)
+    if cutoff_info:
+        target = cutoff_info.get("target_paper") or {}
+        target_title = target.get("title") if isinstance(target, dict) else None
+        cutoff_value = cutoff_info.get("cutoff_date")
+        if isinstance(target_title, str) and target_title.strip():
+            discard_title = target_title.strip()
         if isinstance(cutoff_value, str) and cutoff_value.strip():
             discard_after_date = cutoff_value.strip()
 
@@ -2411,7 +2603,7 @@ def run_latte_review(
     rows: List[Dict[str, object]] = []
     discarded: List[Dict[str, object]] = []
     skip_token = skip_titles_containing.strip().lower()
-    normalized_discard_title = " ".join(discard_title.split()).lower() if discard_title else None
+    normalized_discard_title = _normalize_title_for_match(discard_title) if discard_title else None
     cutoff_date = _parse_date_bound(discard_after_date, label="discard_after_date") if discard_after_date else None
     for entry in payload:
         if not isinstance(entry, dict):
@@ -2425,8 +2617,10 @@ def run_latte_review(
         cleaned_abstract = " ".join(abstract.split()) if abstract else ""
         published_date = _extract_publication_date(metadata)
         discard_reason: Optional[str] = None
-        if normalized_discard_title and cleaned_title.lower() == normalized_discard_title:
+        if normalized_discard_title and _normalize_title_for_match(cleaned_title) == normalized_discard_title:
             discard_reason = "title_matches_exclude_title"
+        elif cutoff_date and published_date is None:
+            discard_reason = "missing_publication_date_for_cutoff"
         elif cutoff_date and published_date and published_date >= cutoff_date:
             discard_reason = f"published_on_or_after_cutoff:{published_date.isoformat()}"
         if discard_reason:
@@ -2661,24 +2855,36 @@ def run_snowball_asreview(
 
     exclude_title: Optional[str] = None
     cutoff_before_date: Optional[str] = None
-    if workspace.criteria_path.exists():
-        criteria_obj = _read_json(workspace.criteria_path)
-        if isinstance(criteria_obj, dict):
-            candidate = criteria_obj.get("exclude_title")
-            if isinstance(candidate, str) and candidate.strip():
-                exclude_title = candidate.strip()
-            cutoff_value = criteria_obj.get("cutoff_before_date")
-            if isinstance(cutoff_value, str) and cutoff_value.strip():
-                cutoff_before_date = cutoff_value.strip()
+    cutoff_info = _get_cutoff_info(workspace)
+    if cutoff_info:
+        target = cutoff_info.get("target_paper") or {}
+        target_title = target.get("title") if isinstance(target, dict) else None
+        cutoff_value = cutoff_info.get("cutoff_date")
+        if isinstance(target_title, str) and target_title.strip():
+            exclude_title = target_title.strip()
+        if isinstance(cutoff_value, str) and cutoff_value.strip():
+            cutoff_before_date = cutoff_value.strip()
 
     effective_min_date = min_date
     effective_max_date = max_date
-    if not effective_max_date and cutoff_before_date:
+    if cutoff_before_date:
         try:
             cutoff_date = _parse_date_bound(cutoff_before_date, label="cutoff_before_date")
-            effective_max_date = (cutoff_date - timedelta(days=1)).isoformat()
         except ValueError:
-            effective_max_date = cutoff_before_date
+            cutoff_date = None
+        if cutoff_date:
+            cutoff_max = (cutoff_date - timedelta(days=1))
+            if effective_max_date:
+                try:
+                    user_max = _parse_date_bound(effective_max_date, label="max_date")
+                except ValueError:
+                    user_max = None
+                if user_max and user_max < cutoff_max:
+                    effective_max_date = user_max.isoformat()
+                else:
+                    effective_max_date = cutoff_max.isoformat()
+            else:
+                effective_max_date = cutoff_max.isoformat()
 
     argv: List[str] = [
         "--input",

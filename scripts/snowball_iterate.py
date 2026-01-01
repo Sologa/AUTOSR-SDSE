@@ -20,6 +20,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.pipelines.topic_pipeline import (
+    _normalize_title_for_match,
     resolve_workspace,
     run_latte_review,
     run_snowball_asreview,
@@ -32,6 +33,7 @@ FINAL_INCLUDED_COLUMNS = [
     "doi",
     "openalex_id",
     "arxiv_id",
+    "published_date",
     "criteria_hash",
     "source",
     "updated_at",
@@ -112,7 +114,103 @@ def _write_round_meta(round_dir: Path, meta: Dict[str, Any]) -> None:
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _write_final_included_outputs(registry_path: Path, output_dir: Optional[Path] = None) -> Dict[str, object]:
+def _parse_iso_date(value: str) -> Optional[datetime]:
+    """Parse an ISO date string (YYYY-MM-DD or ISO datetime)."""
+    if not value:
+        return None
+    text = value.strip()
+    try:
+        return datetime.strptime(text, "%Y-%m-%d")
+    except ValueError:
+        pass
+    try:
+        return datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _load_cutoff_payload(ws) -> Optional[Dict[str, Any]]:
+    """Load cutoff.json if present."""
+    cutoff_path = ws.cutoff_path
+    if not cutoff_path.exists():
+        return None
+    payload = json.loads(cutoff_path.read_text(encoding="utf-8"))
+    return payload if isinstance(payload, dict) else None
+
+
+def _validate_final_included(
+    ws,
+    included: List[Dict[str, Any]],
+    *,
+    output_dir: Path,
+) -> None:
+    """Assert final_included respects cutoff title/date constraints."""
+    cutoff = _load_cutoff_payload(ws)
+    if not cutoff:
+        return
+    cutoff_value = cutoff.get("cutoff_date")
+    if not isinstance(cutoff_value, str) or not cutoff_value.strip():
+        raise RuntimeError("cutoff.json missing cutoff_date; cannot validate final_included")
+    cutoff_dt = _parse_iso_date(cutoff_value)
+    if cutoff_dt is None:
+        raise RuntimeError(f"cutoff.json contains invalid cutoff_date: {cutoff_value}")
+
+    topic_norm = _normalize_title_for_match(ws.topic)
+    topic_slug = "".join(topic_norm.split())
+
+    violations: List[Dict[str, Any]] = []
+    for entry in included:
+        if not isinstance(entry, dict):
+            continue
+        title = str(entry.get("title") or "")
+        normalized_title = str(entry.get("normalized_title") or "")
+        if title and _normalize_title_for_match(title) == topic_norm:
+            violations.append({"type": "same_title", "title": title})
+        elif normalized_title and normalized_title == topic_slug:
+            violations.append({"type": "same_title", "title": normalized_title})
+
+        published_raw = entry.get("published_date")
+        if published_raw is None or (isinstance(published_raw, str) and not published_raw.strip()):
+            violations.append(
+                {"type": "missing_published_date", "title": title or normalized_title}
+            )
+            continue
+        if isinstance(published_raw, str):
+            published_dt = _parse_iso_date(published_raw)
+        else:
+            published_dt = None
+        if published_dt is None:
+            violations.append(
+                {"type": "invalid_published_date", "title": title or normalized_title}
+            )
+            continue
+        if published_dt.date() >= cutoff_dt.date():
+            violations.append(
+                {
+                    "type": "published_on_or_after_cutoff",
+                    "title": title or normalized_title,
+                    "published_date": published_raw,
+                    "cutoff_date": cutoff_value,
+                }
+            )
+
+    if violations:
+        report_path = output_dir / "cutoff_violations.json"
+        report_path.write_text(
+            json.dumps({"violations": violations}, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        raise RuntimeError(
+            f"final_included violates cutoff policy; see {report_path}"
+        )
+
+
+def _write_final_included_outputs(
+    registry_path: Path,
+    *,
+    workspace,
+    output_dir: Optional[Path] = None,
+) -> Dict[str, object]:
     """Write final_included JSON/CSV from the registry include entries."""
     if not registry_path.exists():
         return {"written": False, "count": 0}
@@ -122,6 +220,7 @@ def _write_final_included_outputs(registry_path: Path, output_dir: Optional[Path
         return {"written": False, "count": 0}
     included = [entry for entry in entries if isinstance(entry, dict) and entry.get("status") == "include"]
     output_dir = output_dir or registry_path.parent
+    _validate_final_included(workspace, included, output_dir=output_dir)
     json_path = output_dir / "final_included.json"
     csv_path = output_dir / "final_included.csv"
     json_path.write_text(json.dumps(included, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -318,9 +417,9 @@ def main(argv: Optional[List[str]] = None) -> int:
             if raw_count >= args.stop_raw_threshold or included_total >= args.stop_included_threshold:
                 break
 
-        _write_final_included_outputs(registry_path, output_dir=round_dir)
+        _write_final_included_outputs(registry_path, workspace=ws, output_dir=round_dir)
 
-    _write_final_included_outputs(registry_path)
+    _write_final_included_outputs(registry_path, workspace=ws)
     return 0
 
 

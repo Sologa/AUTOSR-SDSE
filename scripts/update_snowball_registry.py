@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -36,6 +36,36 @@ def normalize_arxiv_slug(value: Any) -> str:
     if text.startswith("arxiv:"):
         text = text[len("arxiv:"):]
     return "".join(text.split())
+
+
+def _parse_strict_date(value: Any) -> Optional[date]:
+    """Parse a full date (YYYY-MM-DD) or ISO datetime; ignore year-only strings."""
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    if not text or text.isdigit() and len(text) == 4:
+        return None
+    for fmt in ("%Y-%m-%d", "%Y/%m/%d"):
+        try:
+            return datetime.strptime(text, fmt).date()
+        except ValueError:
+            continue
+    normalized = text.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(normalized).date()
+    except ValueError:
+        return None
+
+
+def _extract_published_date(record: Dict[str, Any]) -> Optional[str]:
+    """Extract an ISO date string from record metadata if available."""
+    metadata = record.get("metadata") if isinstance(record.get("metadata"), dict) else {}
+    for key in ("published", "published_date", "publication_date", "date", "year"):
+        raw = metadata.get(key) if isinstance(metadata, dict) else None
+        parsed = _parse_strict_date(raw)
+        if parsed:
+            return parsed.isoformat()
+    return None
 
 
 def normalize_openalex_slug(value: Any) -> str:
@@ -136,6 +166,7 @@ def build_entry(
     doi = record.get("doi") or metadata.get("doi") or ""
     openalex_id = record.get("openalex_id") or metadata.get("openalex_id") or ""
     arxiv_id = record.get("arxiv_id") or metadata.get("arxiv_id") or ""
+    published_date = _extract_published_date(record)
     entry: Dict[str, Any] = {
         "status": status,
         "title": title,
@@ -143,6 +174,7 @@ def build_entry(
         "doi": normalize_doi_slug(doi),
         "openalex_id": normalize_openalex_slug(openalex_id),
         "arxiv_id": normalize_arxiv_slug(arxiv_id),
+        "published_date": published_date,
         "criteria_hash": criteria_hash,
         "source": source,
         "updated_at": now,
