@@ -1,3 +1,5 @@
+"""Download metadata, PDFs, and BibTeX from arXiv, Semantic Scholar, and DBLP."""
+
 from __future__ import annotations
 
 import html
@@ -20,6 +22,8 @@ class PaperDownloadError(RuntimeError):
 
 @dataclass
 class DownloadResult:
+    """Container for a downloaded paper and any associated issues."""
+
     source: str
     identifier: str
     metadata: Dict[str, object]
@@ -29,25 +33,35 @@ class DownloadResult:
 
 
 def _ensure_session(session: Optional[requests.Session]) -> requests.Session:
+    """Return the provided session or create a new one."""
+
     return session or requests.Session()
 
 
 def _ensure_dir(path: Path) -> None:
+    """Create the directory and its parents if missing."""
+
     path.mkdir(parents=True, exist_ok=True)
 
 
 def _safe_stem(identifier: str) -> str:
+    """Sanitize an identifier into a filesystem-safe stem."""
+
     stem = re.sub(r"[^A-Za-z0-9._-]", "_", identifier)
     return stem or "paper"
 
 
 def _write_binary(path: Path, content: bytes) -> Path:
+    """Write binary content to disk and return the path."""
+
     _ensure_dir(path.parent)
     path.write_bytes(content)
     return path
 
 
 def _write_text(path: Path, content: str) -> Path:
+    """Write text content to disk and return the path."""
+
     _ensure_dir(path.parent)
     path.write_text(content, encoding="utf-8")
     return path
@@ -60,6 +74,8 @@ def _download_file(
     *,
     timeout: int = _DEFAULT_TIMEOUT,
 ) -> Tuple[Optional[Path], Optional[Dict[str, object]]]:
+    """Download a file and return (path, issue) for error reporting."""
+
     if not url:
         return None, None
 
@@ -150,6 +166,8 @@ def _fetch_arxiv_metadata(
     arxiv_id: str,
     timeout: int,
 ) -> Dict[str, object]:
+    """Fetch arXiv metadata via the Atom API."""
+
     api_url = "https://export.arxiv.org/api/query"
     response = session.get(api_url, params={"id_list": arxiv_id}, timeout=timeout)
     response.raise_for_status()
@@ -228,6 +246,8 @@ def _resolve_arxiv_doi_from_export(
 
 
 def _extract_doi_from_export_html(html_text: str) -> Optional[str]:
+    """Extract a DOI link from the arXiv export HTML page."""
+
     marker = 'id="arxiv-doi-link"'
     lower_html = html_text.lower()
     marker_pos = lower_html.find(marker)
@@ -261,6 +281,8 @@ def _fetch_arxiv_bibtex(
     arxiv_id: str,
     timeout: int,
 ) -> Optional[str]:
+    """Fetch BibTeX from the arXiv bibtex endpoint."""
+
     url = f"https://arxiv.org/bibtex/{arxiv_id}"
     response = session.get(url, timeout=timeout)
     if response.status_code == 404:
@@ -276,6 +298,8 @@ def _fetch_arxiv_bibtex(
 
 
 def _get_text(element: Optional[ET.Element]) -> Optional[str]:
+    """Return stripped text content for an XML element."""
+
     if element is None or element.text is None:
         return None
     return element.text.strip()
@@ -329,6 +353,8 @@ def download_semantic_scholar_paper(
     api_key: Optional[str] = None,
     timeout: int = _DEFAULT_TIMEOUT,
 ) -> DownloadResult:
+    """Download Semantic Scholar metadata plus PDF/BibTeX assets."""
+
     session = _ensure_session(session)
     output_dir = Path(output_dir)
     safe_stem = _safe_stem(paper_id)
@@ -428,6 +454,8 @@ def _fetch_semantic_scholar_metadata(
     api_key: Optional[str],
     timeout: int,
 ) -> Dict[str, object]:
+    """Fetch Semantic Scholar paper metadata via the Graph API."""
+
     encoded_id = quote_plus(paper_id)
     url = f"https://api.semanticscholar.org/graph/v1/paper/{encoded_id}"
 
@@ -443,6 +471,8 @@ def _fetch_semantic_scholar_metadata(
 
 
 def _candidate_semantic_pdf_urls(metadata: Dict[str, object]) -> List[str]:
+    """Collect candidate PDF URLs from Semantic Scholar metadata."""
+
     candidates: List[str] = []
 
     open_access = metadata.get("openAccessPdf")
@@ -474,6 +504,8 @@ def _candidate_semantic_pdf_urls(metadata: Dict[str, object]) -> List[str]:
 
 
 def _normalise_semantic_external_ids(external_ids: Any) -> List[Dict[str, str]]:
+    """Normalize external IDs into a list of {source,value} records."""
+
     entries: List[Dict[str, str]] = []
     if isinstance(external_ids, dict):
         for source, value in external_ids.items():
@@ -496,6 +528,8 @@ def _normalise_semantic_external_ids(external_ids: Any) -> List[Dict[str, str]]:
 def _prepare_semantic_scholar_metadata(
     metadata: Dict[str, Any]
 ) -> Tuple[Dict[str, Any], List[str], Optional[str]]:
+    """Prepare Semantic Scholar metadata with derived fields and BibTeX."""
+
     prepared: Dict[str, Any] = dict(metadata)
 
     pdf_candidates = _candidate_semantic_pdf_urls(metadata)
@@ -558,6 +592,8 @@ def _prepare_semantic_scholar_metadata(
 
 
 def _arxiv_pdf_from_external_ids(external_ids: object) -> Optional[str]:
+    """Derive an arXiv PDF URL from external IDs."""
+
     if isinstance(external_ids, dict):
         for key in ("ArXiv", "arXiv", "arxiv"):
             value = external_ids.get(key)
@@ -608,6 +644,8 @@ _RDF_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 
 
 def _deduplicate_sequence(items: List[Optional[str]]) -> List[str]:
+    """Deduplicate a list while preserving order."""
+
     seen = set()
     deduped: List[str] = []
     for item in items:
@@ -619,6 +657,8 @@ def _deduplicate_sequence(items: List[Optional[str]]) -> List[str]:
 
 
 def _element_to_metadata_tree(element: ET.Element) -> Dict[str, Any]:
+    """Recursively convert an XML element into a dict tree."""
+
     node: Dict[str, Any] = {}
     text = _get_text(element)
     if text:
@@ -644,6 +684,8 @@ def _element_to_metadata_tree(element: ET.Element) -> Dict[str, Any]:
 
 
 def _shorten_identifier_scheme(uri: str) -> str:
+    """Shorten a URI to its trailing fragment for readability."""
+
     for separator in ("#", "/"):
         if separator in uri:
             uri = uri.rsplit(separator, 1)[-1]
@@ -651,6 +693,8 @@ def _shorten_identifier_scheme(uri: str) -> str:
 
 
 def _collect_dblp_identifiers(record: ET.Element) -> List[Dict[str, Optional[str]]]:
+    """Extract identifier records from a DBLP RDF element."""
+
     identifiers: List[Dict[str, Optional[str]]] = []
     for identifier in record.findall(
         "datacite:hasIdentifier/datacite:ResourceIdentifier",
@@ -669,6 +713,8 @@ def _collect_dblp_identifiers(record: ET.Element) -> List[Dict[str, Optional[str
 
 
 def _collect_dblp_electronic_editions(record: ET.Element) -> List[Dict[str, Any]]:
+    """Extract electronic edition records from a DBLP RDF element."""
+
     editions: List[Dict[str, Any]] = []
     for edition in record.findall("dblp:ee", _DBLP_NS):
         entry: Dict[str, Any] = {}
@@ -688,6 +734,8 @@ def _collect_dblp_electronic_editions(record: ET.Element) -> List[Dict[str, Any]
 
 
 def _collect_dblp_signatures(record: ET.Element) -> List[Dict[str, Any]]:
+    """Extract author signature details from a DBLP RDF element."""
+
     signatures: List[Dict[str, Any]] = []
     for signature in record.findall("dblp:hasSignature/dblp:AuthorSignature", _DBLP_NS):
         entry: Dict[str, Any] = {
@@ -709,6 +757,8 @@ def _collect_dblp_signatures(record: ET.Element) -> List[Dict[str, Any]]:
 
 
 def _collect_raw_dblp_fields(record: ET.Element) -> Dict[str, List[Dict[str, Any]]]:
+    """Collect raw XML fields for debugging/inspection."""
+
     raw_fields: Dict[str, List[Dict[str, Any]]] = {}
     for child in list(record):
         raw_fields.setdefault(child.tag, []).append(_element_to_metadata_tree(child))
@@ -722,6 +772,8 @@ def download_dblp_entry(
     session: Optional[requests.Session] = None,
     timeout: int = _DEFAULT_TIMEOUT,
 ) -> DownloadResult:
+    """Download DBLP metadata plus PDF/BibTeX when available."""
+
     session = _ensure_session(session)
     output_dir = Path(output_dir)
     safe_stem = _safe_stem(dblp_key)
@@ -783,6 +835,8 @@ def _fetch_dblp_metadata(
     dblp_key: str,
     timeout: int,
 ) -> Dict[str, object]:
+    """Fetch DBLP RDF metadata and normalize fields."""
+
     rdf_url = f"https://dblp.org/rec/{dblp_key}.rdf"
     response = session.get(rdf_url, timeout=timeout)
     response.raise_for_status()
@@ -894,6 +948,8 @@ def _fetch_dblp_bibtex(
     dblp_key: str,
     timeout: int,
 ) -> Optional[str]:
+    """Fetch BibTeX entry from DBLP."""
+
     url = f"https://dblp.org/rec/{dblp_key}.bib?download=1"
     response = session.get(url, timeout=timeout)
     if response.status_code == 404:

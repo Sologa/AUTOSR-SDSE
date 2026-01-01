@@ -62,10 +62,12 @@ class CriteriaPipelineResult:
 
     @property
     def raw_notes(self) -> str:
+        """Return the raw note text from the search stage."""
         return self.search_result.content
 
     @property
     def structured_text(self) -> str:
+        """Return the formatter stage response text."""
         return self.formatter_result.content
 
 

@@ -46,6 +46,7 @@ from src.pipelines.topic_pipeline import (
 
 
 def _positive_int(value: str) -> int:
+    """Argparse helper that enforces a positive integer."""
     number = int(value)
     if number <= 0:
         raise argparse.ArgumentTypeError("must be a positive integer")
@@ -53,6 +54,7 @@ def _positive_int(value: str) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the CLI parser with all subcommands and shared flags."""
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument(
         "--topic",
@@ -249,6 +251,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    """CLI entrypoint for the topic pipeline runner."""
     parser = build_parser()
     args = parser.parse_args(argv)
 

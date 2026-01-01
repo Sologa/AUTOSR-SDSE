@@ -22,12 +22,14 @@ DEDUP_KEY_ORDER = ("openalex_id", "doi", "arxiv_id", "title")
 
 
 def normalize_title_slug(value: Any) -> str:
+    """Normalize a title into a compact lowercase slug for deduping."""
     if not isinstance(value, str):
         return ""
     return "".join(value.lower().split())
 
 
 def normalize_arxiv_slug(value: Any) -> str:
+    """Normalize arXiv identifiers into a consistent lowercase slug."""
     if not isinstance(value, str):
         return ""
     text = value.strip().lower()
@@ -37,12 +39,14 @@ def normalize_arxiv_slug(value: Any) -> str:
 
 
 def normalize_openalex_slug(value: Any) -> str:
+    """Normalize OpenAlex identifiers into lowercase form."""
     if not isinstance(value, str):
         return ""
     return value.strip().lower()
 
 
 def normalize_doi_slug(value: Any) -> str:
+    """Normalize DOI strings by stripping URL prefixes and lowercasing."""
     if not isinstance(value, str):
         return ""
     text = value.strip().lower()
@@ -53,12 +57,14 @@ def normalize_doi_slug(value: Any) -> str:
 
 
 def compute_criteria_hash(criteria_path: Optional[Path]) -> str:
+    """Compute a SHA-256 hash for the criteria JSON (if provided)."""
     if not criteria_path or not criteria_path.exists():
         return ""
     return hashlib.sha256(criteria_path.read_bytes()).hexdigest()
 
 
 def load_registry(registry_path: Path) -> Dict[str, Any]:
+    """Load the registry JSON, returning a normalized payload structure."""
     if not registry_path.exists():
         return {"version": 1, "criteria_hash": "", "entries": []}
     payload = json.loads(registry_path.read_text(encoding="utf-8"))
@@ -72,6 +78,7 @@ def load_registry(registry_path: Path) -> Dict[str, Any]:
 
 
 def entry_key_candidates(entry: Dict[str, Any]) -> List[tuple[str, str]]:
+    """Return possible dedup keys extracted from a registry entry."""
     candidates: List[tuple[str, str]] = []
     openalex = normalize_openalex_slug(entry.get("openalex_id"))
     if openalex:
@@ -90,6 +97,7 @@ def entry_key_candidates(entry: Dict[str, Any]) -> List[tuple[str, str]]:
 
 
 def build_index(entries: List[Dict[str, Any]]) -> Dict[str, Dict[str, int]]:
+    """Build a lookup index for deduplication across registry entries."""
     index: Dict[str, Dict[str, int]] = {key: {} for key in DEDUP_KEY_ORDER}
     for idx, entry in enumerate(entries):
         for key_type, key_value in entry_key_candidates(entry):
@@ -98,6 +106,7 @@ def build_index(entries: List[Dict[str, Any]]) -> Dict[str, Dict[str, int]]:
 
 
 def classify_status(record: Dict[str, Any]) -> str:
+    """Map LatteReview verdict strings to registry status labels."""
     verdict = str(record.get("final_verdict") or "").strip().lower()
     if verdict.startswith("include"):
         return "include"
@@ -121,6 +130,7 @@ def build_entry(
     source: str,
     now: str,
 ) -> Dict[str, Any]:
+    """Build a normalized registry entry from a review record."""
     metadata = record.get("metadata") if isinstance(record.get("metadata"), dict) else {}
     title = str(record.get("title") or metadata.get("title") or "").strip()
     doi = record.get("doi") or metadata.get("doi") or ""
@@ -150,6 +160,7 @@ def update_registry(
     round_index: Optional[int],
     source: str,
 ) -> Dict[str, Any]:
+    """Merge LatteReview results into the registry JSON on disk."""
     payload = load_registry(registry_path)
     entries = payload.get("entries", [])
     if not isinstance(entries, list):
@@ -227,6 +238,7 @@ def update_registry(
 
 
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+    """Parse CLI arguments for the registry updater."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--review-results", type=Path, required=True, help="LatteReview 輸出 JSON")
     parser.add_argument("--registry", type=Path, required=True, help="review_registry.json")
@@ -237,6 +249,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    """CLI entrypoint for updating the snowball registry."""
     args = parse_args(argv)
     if not args.review_results.exists():
         raise FileNotFoundError(f"找不到 review results：{args.review_results}")

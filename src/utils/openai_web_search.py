@@ -26,6 +26,7 @@ class WebSearchOptions:
     )
 
     def __post_init__(self) -> None:
+        """Normalize and validate tool configuration values."""
         tool_type_normalized = self.tool_type.strip().lower()
         if tool_type_normalized not in {t.lower() for t in self._allowed_tool_types}:
             raise ValueError("tool_type must be one of {'web_search', 'web_search_2025_08_26'}")
@@ -40,6 +41,7 @@ class WebSearchOptions:
             }
 
     def to_tool_param(self) -> Dict[str, Any]:
+        """Convert options into a tool payload for the Responses API."""
         payload: Dict[str, Any] = {"type": self.tool_type}
         if self.allowed_domains:
             deduped = list(dict.fromkeys(domain.strip() for domain in self.allowed_domains if domain.strip()))
@@ -60,6 +62,7 @@ class OpenAIWebSearchProvider(OpenAIProvider):
     _EXTRA_ALLOWED_KEYS = {"tools", "tool_choice", "max_tool_calls", "parallel_tool_calls"}
 
     def _build_chat_kwargs(self, model: str, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+        """Extend OpenAI provider kwargs with web-search specific keys."""
         base_kwargs = super()._build_chat_kwargs(model, kwargs)
         for key in self._EXTRA_ALLOWED_KEYS:
             value = kwargs.get(key)
@@ -76,6 +79,7 @@ class OpenAIWebSearchProvider(OpenAIProvider):
         force_tool: bool = True,
         **kwargs: Any,
     ) -> LLMResult:
+        """Run a chat completion that includes the web_search tool."""
         tool_options = options or WebSearchOptions()
         tool_payload = tool_options.to_tool_param()
         merged_tools: List[Dict[str, Any]] = list(kwargs.pop("tools", []) or [])

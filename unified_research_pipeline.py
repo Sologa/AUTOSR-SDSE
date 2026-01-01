@@ -31,6 +31,7 @@ class PipelineConfig:
     output_formats: List[str] = None
 
     def __post_init__(self):
+        """Populate default config values when not provided."""
         if self.keywords is None:
             self.keywords = ["overview", "review", "survey"]
         if self.target_categories is None:
@@ -42,6 +43,7 @@ class ArxivPipeline:
     """統一的 arXiv 處理管道"""
 
     def __init__(self, config: PipelineConfig):
+        """Initialize the pipeline with configuration and tracking state."""
         self.config = config
         self.session = requests.Session()
         self.session.headers.update({

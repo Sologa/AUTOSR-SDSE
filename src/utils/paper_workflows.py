@@ -90,6 +90,8 @@ def respect_semantic_scholar_rate_limit(api_key_present: bool) -> None:
 
 
 def _build_arxiv_clause(terms: Sequence[str], field: str) -> str:
+    """Build an arXiv query clause for a list of terms and field."""
+
     prefix = field.strip() or "all"
     return " OR ".join(f"{prefix}:{_quote_term(term)}" for term in terms)
 

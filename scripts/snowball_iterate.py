@@ -40,6 +40,7 @@ FINAL_INCLUDED_COLUMNS = [
 
 
 def _load_registry_module(repo_root: Path):
+    """Load the registry update script as an importable module."""
     script_path = repo_root / "scripts" / "update_snowball_registry.py"
     spec = importlib.util.spec_from_file_location("update_snowball_registry", script_path)
     if spec is None or spec.loader is None:
@@ -51,6 +52,7 @@ def _load_registry_module(repo_root: Path):
 
 
 def _count_csv_rows(path: Path) -> int:
+    """Return row count for a CSV file, treating missing/empty as zero."""
     if not path.exists() or path.stat().st_size == 0:
         return 0
     df = pd.read_csv(path)
@@ -58,6 +60,7 @@ def _count_csv_rows(path: Path) -> int:
 
 
 def _count_review_outcome(path: Path) -> Dict[str, int]:
+    """Aggregate final_verdict labels from a LatteReview JSON list."""
     if not path.exists():
         return {}
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -83,6 +86,7 @@ def _count_review_outcome(path: Path) -> Dict[str, int]:
 
 
 def _count_registry_includes(registry_path: Path) -> int:
+    """Count entries marked include in the snowball registry."""
     if not registry_path.exists():
         return 0
     payload = json.loads(registry_path.read_text(encoding="utf-8"))
@@ -95,6 +99,7 @@ def _count_registry_includes(registry_path: Path) -> int:
 
 
 def _load_dedup_report(path: Path) -> Dict[str, Any]:
+    """Load a dedup report JSON file if present."""
     if not path.exists():
         return {}
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -102,11 +107,13 @@ def _load_dedup_report(path: Path) -> Dict[str, Any]:
 
 
 def _write_round_meta(round_dir: Path, meta: Dict[str, Any]) -> None:
+    """Write round_meta.json into the round directory."""
     meta_path = round_dir / "round_meta.json"
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def _write_final_included_outputs(registry_path: Path, output_dir: Optional[Path] = None) -> Dict[str, object]:
+    """Write final_included JSON/CSV from the registry include entries."""
     if not registry_path.exists():
         return {"written": False, "count": 0}
     payload = json.loads(registry_path.read_text(encoding="utf-8"))
@@ -130,6 +137,7 @@ def _write_final_included_outputs(registry_path: Path, output_dir: Optional[Path
 
 
 def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+    """Parse CLI arguments for the iterative snowball runner."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--topic", required=True)
     parser.add_argument("--workspace-root", type=Path, default=Path("workspaces"))
@@ -158,6 +166,7 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    """Execute iterative snowballing and return an exit code."""
     args = _parse_args(argv)
 
     if args.mode == "while":

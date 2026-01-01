@@ -65,6 +65,7 @@ class DownloadRecord:
 
     @property
     def ok(self) -> bool:
+        """Return True when the PDF was downloaded successfully."""
         return self.url is not None and self.filepath is not None and self.filepath.exists()
 
 
@@ -96,6 +97,7 @@ def load_json(path: Path) -> List[Dict[str, object]]:
 
 
 def resolve_snowball_json() -> Path:
+    """Resolve the snowball screening JSON path from available artifacts."""
     if DEFAULT_SNOWBALL_JSON.exists():
         return DEFAULT_SNOWBALL_JSON
     base_dir = DEFAULT_SNOWBALL_JSON.parent
@@ -128,6 +130,7 @@ def build_filename(identifier: str, title: str) -> str:
 
 
 def ensure_output_dir() -> None:
+    """Ensure the output directory exists."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -174,6 +177,7 @@ def resolve_arxiv_pdf(entry: Dict[str, object]) -> Optional[str]:
 
 
 def normalize_doi(doi: Optional[str]) -> Optional[str]:
+    """Normalize DOI by stripping URL prefixes."""
     if not doi:
         return None
     doi = doi.strip()
@@ -187,10 +191,12 @@ def normalize_doi(doi: Optional[str]) -> Optional[str]:
 
 
 def build_acl_url(doi_suffix: str) -> str:
+    """Build an ACL Anthology PDF URL from a DOI suffix."""
     return f"https://aclanthology.org/{doi_suffix}.pdf"
 
 
 def build_arxiv_url_from_doi(doi_suffix: str) -> Optional[str]:
+    """Build an arXiv PDF URL when a DOI encodes an arXiv id."""
     match = re.search(r"arxiv\.([\d\.]+v?\d*)", doi_suffix.lower())
     if match:
         return f"https://arxiv.org/pdf/{match.group(1)}.pdf"
@@ -216,6 +222,7 @@ def candidate_urls_from_doi(doi: Optional[str]) -> List[str]:
 
 
 def _print_progress(label: str, current: int, total: int) -> None:
+    """Print a simple progress bar to stdout."""
     if total <= 0:
         return
     ratio = min(max(current / total, 0.0), 1.0)
@@ -228,6 +235,7 @@ def _print_progress(label: str, current: int, total: int) -> None:
 
 
 def extract_abstract(entry: Dict[str, object]) -> str:
+    """Extract an abstract string from entry or nested metadata."""
     abstract = entry.get("abstract")
     if isinstance(abstract, str) and abstract.strip():
         return abstract.strip()
@@ -308,6 +316,7 @@ def search_arxiv_by_title(session: requests.Session, title: str) -> Optional[str
 
 
 def identify_entry(entry: Dict[str, object]) -> str:
+    """Return a preferred identifier string for an entry."""
     metadata = entry.get("metadata")
     if isinstance(metadata, dict):
         for key in ("arxiv_id", "doi", "openalex_id"):
@@ -320,6 +329,7 @@ def identify_entry(entry: Dict[str, object]) -> str:
 
 
 def build_fallback_key(entry: Dict[str, object], *, fallback_prefix: str = "entry") -> str:
+    """Build a fallback BibTeX key from identifiers or title text."""
     metadata = entry.get("metadata") or {}
     if isinstance(metadata, dict):
         for key in ("arxiv_id", "doi", "openalex_id"):
@@ -341,6 +351,7 @@ _BIB_KEY_PATTERN = re.compile(r"@\w+\{([^,]+),")
 
 
 def parse_bib_key(bibtex: str) -> Optional[str]:
+    """Extract the BibTeX entry key from a BibTeX string."""
     match = _BIB_KEY_PATTERN.search(bibtex)
     if match:
         return match.group(1).strip()
@@ -348,6 +359,7 @@ def parse_bib_key(bibtex: str) -> Optional[str]:
 
 
 def compute_custom_key(entry: Dict[str, object], metadata: Dict[str, Any], fallback_prefix: str) -> str:
+    """Compute a custom BibTeX key using author/year/title heuristics."""
     authors = metadata.get("authors") or entry.get("authors") or []
     first_author = "entry"
     if isinstance(authors, list) and authors:
@@ -421,6 +433,7 @@ def resolve_bibtex_and_key(
     metadata: Dict[str, Any],
     fallback_prefix: str,
 ) -> Tuple[str, Optional[str]]:
+    """Resolve a BibTeX key and content from available metadata sources."""
     fetchers = [
         lambda: fetch_arxiv_bibtex(session, metadata.get("arxiv_id")),
         lambda: fetch_openalex_bibtex(session, metadata.get("openalex_id")),
@@ -459,6 +472,7 @@ def resolve_bibtex_and_key(
 
 
 def fetch_openalex_bibtex(session: requests.Session, openalex_id: Optional[str]) -> Optional[str]:
+    """Fetch BibTeX for an OpenAlex work id."""
     if not openalex_id:
         return None
     identifier = openalex_id.rsplit("/", 1)[-1]
@@ -470,6 +484,7 @@ def fetch_openalex_bibtex(session: requests.Session, openalex_id: Optional[str])
 
 
 def fetch_doi_bibtex(session: requests.Session, doi: Optional[str]) -> Optional[str]:
+    """Fetch BibTeX via DOI content negotiation."""
     if not doi:
         return None
     normalized = normalize_doi(doi)
@@ -484,6 +499,7 @@ def fetch_doi_bibtex(session: requests.Session, doi: Optional[str]) -> Optional[
 
 
 def fetch_arxiv_bibtex(session: requests.Session, arxiv_id: Optional[str]) -> Optional[str]:
+    """Fetch BibTeX for an arXiv identifier."""
     if not arxiv_id:
         return None
     cleaned = str(arxiv_id).strip()
@@ -513,6 +529,7 @@ def ensure_bib_record(
     metadata: Dict[str, Any],
     bibtex: Optional[str] = None,
 ) -> None:
+    """Insert or update a BibTeX record in the cache."""
     record = bib_records.get(bib_key) or {
         "title": title,
         "abstract": abstract,
@@ -547,6 +564,7 @@ def download_entry(
     *,
     bib_records: Dict[str, Dict[str, Any]],
 ) -> DownloadRecord:
+    """Download a PDF entry and record BibTeX metadata."""
     title = entry.get("title", "(無標題)")
     if not isinstance(title, str):
         title = str(title)
@@ -621,6 +639,7 @@ def process_arxiv_entries(
     bib_records: Dict[str, Dict[str, Any]],
     max_entries: Optional[int] = None,
 ) -> List[DownloadRecord]:
+    """Process included arXiv entries and download PDFs."""
     entries = load_json(ARXIV_JSON)
     targets: List[Dict[str, object]] = []
     for entry in entries:
@@ -649,6 +668,7 @@ def process_snowball_entries(
     bib_records: Dict[str, Dict[str, Any]],
     max_entries: Optional[int] = None,
 ) -> List[DownloadRecord]:
+    """Process included snowball entries and download PDFs."""
     entries = load_json(SNOWBALL_JSON)
     results: List[DownloadRecord] = []
     filtered_entries: List[Dict[str, object]] = []
@@ -681,6 +701,7 @@ def process_snowball_entries(
 
 
 def summarize(records: Sequence[DownloadRecord]) -> None:
+    """Print a summary of download results."""
     ok = [r for r in records if r.ok]
     failed = [r for r in records if not r.ok]
     print(f"成功下載: {len(ok)} 筆")
@@ -693,6 +714,7 @@ def summarize(records: Sequence[DownloadRecord]) -> None:
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse CLI arguments for this download tool."""
     parser = argparse.ArgumentParser(description="Download Speech LM PDFs and aggregate BibTeX")
     parser.add_argument("--max-arxiv", type=int, default=None, help="限制初審下載筆數")
     parser.add_argument("--max-snowball", type=int, default=None, help="限制雪球下載筆數")
@@ -702,6 +724,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """CLI entrypoint for downloading PDFs and aggregating BibTeX."""
     args = parse_args()
     ensure_output_dir()
     session = requests.Session()

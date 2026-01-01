@@ -9,6 +9,7 @@ from typing import Any, Iterable, List
 
 
 def load_results(path: Path) -> List[dict[str, Any]]:
+    """Load LatteReview JSON results from a file path."""
     if not path.exists():
         raise FileNotFoundError(f"找不到輸入檔案：{path}")
     with path.open("r", encoding="utf-8") as handle:
@@ -19,6 +20,7 @@ def load_results(path: Path) -> List[dict[str, Any]]:
 
 
 def filter_included(records: Iterable[dict[str, Any]]) -> List[dict[str, Any]]:
+    """Filter records whose final_verdict indicates inclusion."""
     included: List[dict[str, Any]] = []
     for item in records:
         verdict = str(item.get("final_verdict", "")).strip()
@@ -28,12 +30,14 @@ def filter_included(records: Iterable[dict[str, Any]]) -> List[dict[str, Any]]:
 
 
 def write_output(records: List[dict[str, Any]], path: Path) -> None:
+    """Write filtered records to a JSON file."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
         json.dump(records, handle, ensure_ascii=False, indent=2)
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse CLI arguments for the screening result parser."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True, help="LatteReview 雪球審查 JSON")
     parser.add_argument(
@@ -46,6 +50,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    """CLI entrypoint for extracting included papers."""
     args = parse_args()
     records = load_results(args.input)
     included = filter_included(records)

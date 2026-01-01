@@ -67,26 +67,31 @@ def slugify_topic(text: str) -> str:
 
 
 def _ensure_dir(path: Path) -> Path:
+    """Create a directory (and parents) if missing, then return it."""
     path.mkdir(parents=True, exist_ok=True)
     return path
 
 
 def _write_json(path: Path, payload: Any) -> None:
+    """Write JSON to disk with UTF-8 encoding."""
     _ensure_dir(path.parent)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def _read_json(path: Path) -> Any:
+    """Read JSON content from disk."""
     return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _sha256_file(path: Path) -> str:
+    """Return the SHA-256 hex digest of a file if it exists."""
     if not path.exists():
         return ""
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _update_registry_criteria_hash(registry_path: Path, criteria_hash: str) -> None:
+    """Update criteria_hash in the registry JSON when it changes."""
     if not criteria_hash or not registry_path.exists():
         return
     payload = _read_json(registry_path)
@@ -100,10 +105,12 @@ def _update_registry_criteria_hash(registry_path: Path, criteria_hash: str) -> N
 
 
 def _now_utc_stamp() -> str:
+    """Return a compact UTC timestamp string."""
     return datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%SZ")
 
 
 def _parse_date_bound(raw: Optional[str], *, label: str) -> Optional[date]:
+    """Parse a date bound from multiple supported string formats."""
     if raw is None:
         return None
     value = str(raw).strip()
@@ -124,6 +131,7 @@ def _parse_date_bound(raw: Optional[str], *, label: str) -> Optional[date]:
 
 
 def _extract_publication_date(metadata: Dict[str, object]) -> Optional[date]:
+    """Extract a publication date from common metadata fields."""
     for key in ("published", "published_date", "publication_date", "date", "year"):
         raw = metadata.get(key)
         if raw is None:
@@ -136,6 +144,7 @@ def _extract_publication_date(metadata: Dict[str, object]) -> Optional[date]:
 
 
 def _subtract_years(value: date, years: int) -> date:
+    """Subtract years from a date while handling leap-day edge cases."""
     try:
         return value.replace(year=value.year - years)
     except ValueError:
@@ -143,6 +152,7 @@ def _subtract_years(value: date, years: int) -> date:
 
 
 def _infer_criteria_cutoff_constraints(workspace: TopicWorkspace) -> Tuple[Optional[str], Optional[str]]:
+    """Infer exclude_title and cutoff date based on seed selection."""
     selection_path = workspace.seed_queries_dir / "seed_selection.json"
     if not selection_path.exists():
         return None, None
@@ -179,6 +189,7 @@ def _infer_topic_publication_date(
     *,
     session: Optional[requests.Session] = None,
 ) -> Optional[date]:
+    """Infer a topic's publication date from seed selection or arXiv search."""
     selection_path = workspace.seed_queries_dir / "seed_selection.json"
     if not selection_path.exists():
         return None
@@ -257,6 +268,7 @@ _META_DATE_KEYS = (
 
 
 def _parse_explicit_date(value: str) -> Optional[date]:
+    """Extract an explicit YYYY-MM-DD date token from a string."""
     match = _DATE_TOKEN_RE.search(value)
     if not match:
         return None
@@ -271,6 +283,7 @@ def _parse_explicit_date(value: str) -> Optional[date]:
 
 
 def _extract_arxiv_id_from_url(url: str) -> Optional[str]:
+    """Extract an arXiv identifier from an arxiv.org URL."""
     parsed = urlparse(url)
     if "arxiv.org" not in parsed.netloc:
         return None
@@ -286,6 +299,7 @@ def _extract_arxiv_id_from_url(url: str) -> Optional[str]:
 
 
 def _extract_date_from_html(html: str) -> Optional[date]:
+    """Best-effort extraction of a publication date from HTML."""
     for key in _JSONLD_DATE_KEYS:
         match = re.search(rf'"{key}"\s*:\s*"([^"]+)"', html)
         if match:
@@ -319,6 +333,7 @@ def _extract_date_from_html(html: str) -> Optional[date]:
 
 
 def _fetch_source_date(source: str, session: requests.Session) -> Optional[date]:
+    """Fetch a source URL and extract its publication date."""
     arxiv_id = _extract_arxiv_id_from_url(source)
     if arxiv_id:
         try:
@@ -346,6 +361,7 @@ def _fetch_source_date(source: str, session: requests.Session) -> Optional[date]
 
 
 def _collect_criteria_sources(structured_payload: Dict[str, object]) -> Set[str]:
+    """Collect all source URLs referenced in structured criteria."""
     sources: Set[str] = set()
 
     def _add(value: Optional[str]) -> None:
@@ -397,6 +413,7 @@ _DATE_PATTERN = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
 
 
 def _is_temporal_criterion(text: str) -> bool:
+    """Detect whether a criterion string encodes a date constraint."""
     if not text:
         return False
     if _DATE_PATTERN.search(text):
@@ -406,6 +423,7 @@ def _is_temporal_criterion(text: str) -> bool:
 
 
 def _strip_temporal_criteria(structured_payload: Dict[str, object]) -> Dict[str, object]:
+    """Remove temporal criteria and normalize the sources list."""
     if not isinstance(structured_payload, dict):
         return structured_payload
 
@@ -482,6 +500,7 @@ def _validate_criteria_sources(
     session: requests.Session,
     min_https_sources: int = 3,
 ) -> Dict[str, object]:
+    """Validate criteria sources against date and HTTPS requirements."""
     cutoff_date = _parse_date_bound(cutoff_before_date, label="cutoff_before_date") if cutoff_before_date else None
     sources = sorted(_collect_criteria_sources(structured_payload))
     invalid: List[Dict[str, str]] = []
@@ -521,6 +540,7 @@ def _validate_criteria_sources(
 
 
 def _head_ok(session: requests.Session, url: str, *, timeout: int = 15) -> bool:
+    """Return True if the URL responds successfully to a HEAD request."""
     try:
         response = session.head(url, allow_redirects=True, timeout=timeout)
     except requests.RequestException:
@@ -537,84 +557,105 @@ class TopicWorkspace:
 
     @property
     def slug(self) -> str:
+        """Filesystem-friendly slug derived from the topic."""
         return slugify_topic(self.topic)
 
     @property
     def config_path(self) -> Path:
+        """Path to the workspace config JSON."""
         return self.root / "config.json"
 
     @property
     def seed_dir(self) -> Path:
+        """Root directory for seed artifacts."""
         return self.root / "seed"
 
     @property
     def seed_queries_dir(self) -> Path:
+        """Directory for seed query cache and selection reports."""
         return self.seed_dir / "queries"
 
     @property
     def seed_downloads_dir(self) -> Path:
+        """Directory for seed downloads (PDF/BibTeX)."""
         return self.seed_dir / "downloads"
 
     @property
     def seed_downloads_raw_dir(self) -> Path:
+        """Directory holding unfiltered seed PDFs."""
         return self.seed_downloads_dir / "arxiv_raw"
 
     @property
     def seed_arxiv_pdf_dir(self) -> Path:
+        """Directory holding filtered seed PDFs for downstream stages."""
         return self.seed_downloads_dir / "arxiv"
 
     @property
     def seed_filters_dir(self) -> Path:
+        """Directory for filter-seed outputs."""
         return self.seed_dir / "filters"
 
     @property
     def keywords_dir(self) -> Path:
+        """Directory for keyword extractor outputs."""
         return self.root / "keywords"
 
     @property
     def keywords_path(self) -> Path:
+        """Path to the keywords.json output."""
         return self.keywords_dir / "keywords.json"
 
     @property
     def harvest_dir(self) -> Path:
+        """Directory for harvested metadata outputs."""
         return self.root / "harvest"
 
     @property
     def arxiv_metadata_path(self) -> Path:
+        """Path to the harvested arXiv metadata JSON."""
         return self.harvest_dir / "arxiv_metadata.json"
 
     @property
     def criteria_dir(self) -> Path:
+        """Directory for structured criteria outputs."""
         return self.root / "criteria"
 
     @property
     def criteria_path(self) -> Path:
+        """Path to the criteria.json output."""
         return self.criteria_dir / "criteria.json"
 
     @property
     def review_dir(self) -> Path:
+        """Directory for LatteReview outputs."""
         return self.root / "review"
 
     @property
     def review_results_path(self) -> Path:
+        """Path to LatteReview results JSON."""
         return self.review_dir / "latte_review_results.json"
 
     @property
     def asreview_dir(self) -> Path:
+        """Legacy directory for ASReview outputs."""
         return self.root / "asreview"
 
     @property
     def snowball_rounds_dir(self) -> Path:
+        """Directory containing iterative snowball rounds."""
         return self.root / "snowball_rounds"
 
     def snowball_round_dir(self, round_index: int) -> Path:
+        """Return the directory path for a specific snowball round."""
         return self.snowball_rounds_dir / f"round_{round_index:02d}"
 
     @property
     def snowball_registry_path(self) -> Path:
+        """Path to the snowball review registry JSON."""
         return self.snowball_rounds_dir / "review_registry.json"
 
     def ensure_layout(self) -> None:
+        """Create the workspace folder structure on disk."""
         for path in (
             self.root,
             self.seed_queries_dir,
@@ -632,6 +673,7 @@ class TopicWorkspace:
             _ensure_dir(path)
 
     def write_config(self, payload: Dict[str, object]) -> None:
+        """Persist a workspace config payload to config.json."""
         data = {"topic": self.topic, **payload}
         _write_json(self.config_path, data)
 
@@ -713,17 +755,20 @@ def default_topic_variants(topic: str) -> List[str]:
 
 
 def _normalize_similarity_text(value: str) -> str:
+    """Normalize text for similarity scoring (lowercase, alnum, spaces)."""
     text = str(value or "").lower()
     text = re.sub(r"[^a-z0-9\\u4e00-\\u9fff\\s]+", " ", text)
     return " ".join(text.split())
 
 
 def _quote_term(term: str) -> str:
+    """Escape and quote a query term for arXiv search clauses."""
     escaped = term.replace("\\", r"\\").replace('"', r"\"")
     return f'"{escaped}"'
 
 
 def _tokenize_query_phrase(text: str) -> List[str]:
+    """Split a phrase into unique normalized tokens for token-AND queries."""
     normalized = _normalize_similarity_text(text)
     if not normalized:
         return []
@@ -739,11 +784,13 @@ def _tokenize_query_phrase(text: str) -> List[str]:
 
 
 def _build_arxiv_phrase_clause(terms: Sequence[str], field: str) -> str:
+    """Build an OR clause for quoted arXiv field searches."""
     prefix = field.strip() or "all"
     return " OR ".join(f"{prefix}:{_quote_term(term)}" for term in terms if str(term).strip())
 
 
 def _build_arxiv_token_and_clause(terms: Sequence[str], field: str) -> str:
+    """Build an OR clause where each term is tokenized with AND."""
     prefix = field.strip() or "all"
     clauses: List[str] = []
     for term in terms:
@@ -764,6 +811,7 @@ def _search_arxiv_with_query(
     query: str,
     max_results: int,
 ) -> List[Dict[str, object]]:
+    """Run an arXiv API query and return basic entry dictionaries."""
     params = {"search_query": query, "start": 0, "max_results": max_results}
     response = session.get("https://export.arxiv.org/api/query", params=params, timeout=30)
     response.raise_for_status()
@@ -784,12 +832,14 @@ def _search_arxiv_with_query(
 
 
 def _stem_token(token: str) -> str:
+    """Apply a minimal stem for plural tokens."""
     if token.endswith("s") and len(token) > 3:
         return token[:-1]
     return token
 
 
 def _token_set(text: str) -> set[str]:
+    """Convert normalized text into a set of tokens for similarity checks."""
     normalized = _normalize_similarity_text(text)
     if not normalized:
         return set()
@@ -799,6 +849,7 @@ def _token_set(text: str) -> set[str]:
 
 
 def _title_contains_any_keyword(title: str, keywords: Sequence[str]) -> bool:
+    """Return True when title includes any of the required keywords."""
     if not keywords:
         return True
     lowered = (title or "").lower()
@@ -852,6 +903,7 @@ def _select_seed_arxiv_records(
     similarity_threshold: float,
     title_required_keywords: Optional[Sequence[str]] = None,
 ) -> Tuple[List[Dict[str, object]], Dict[str, object]]:
+    """Filter and select seed survey records with similarity cutoff handling."""
     topic_variants = default_topic_variants(topic)
     required_keywords = [kw.lower() for kw in (title_required_keywords or []) if str(kw).strip()]
     original_records = list(records)
@@ -991,6 +1043,7 @@ def _select_seed_arxiv_records(
 
 
 def _load_seed_records_index(path: Path) -> Dict[str, Dict[str, object]]:
+    """Index seed records by trimmed arXiv id."""
     if not path.exists():
         return {}
     records = _read_json(path)
@@ -1009,6 +1062,7 @@ def _load_seed_records_index(path: Path) -> Dict[str, Dict[str, object]]:
 
 
 def _load_download_metadata_index(path: Path) -> Dict[str, Dict[str, object]]:
+    """Index download manifest metadata by trimmed arXiv id."""
     if not path.exists():
         return {}
     payload = _read_json(path)
@@ -1034,6 +1088,7 @@ def _load_download_metadata_index(path: Path) -> Dict[str, Dict[str, object]]:
 
 
 def _collect_downloaded_pdfs(download_manifest: Dict[str, object]) -> List[Path]:
+    """Collect PDF paths listed in a download manifest."""
     if not isinstance(download_manifest, dict):
         return []
     downloads = download_manifest.get("downloads")
@@ -1056,6 +1111,7 @@ def _should_trigger_seed_rewrite(
     selection_report: Dict[str, object],
     download_manifest: Dict[str, object],
 ) -> Tuple[bool, str]:
+    """Decide whether seed query rewrite should be triggered."""
     cutoff_reason = str(selection_report.get("cutoff_reason") or "")
     if cutoff_reason == "cutoff_removed_all_candidates":
         return True, "cutoff_removed_all_candidates"
@@ -1069,12 +1125,14 @@ def _should_trigger_seed_rewrite(
 
 
 def _extract_title_abstract(record: Dict[str, object]) -> Tuple[str, str]:
+    """Return title and abstract fields from a metadata record."""
     title = str(record.get("title") or "").strip()
     abstract = str(record.get("summary") or record.get("abstract") or "").strip()
     return title, abstract
 
 
 def _parse_decision_payload(content: str) -> Dict[str, object]:
+    """Parse and validate yes/no JSON payload from filter-seed LLM."""
     raw = (content or "").strip()
     if not raw:
         raise ValueError("LLM response is empty")
@@ -1110,6 +1168,7 @@ def _parse_decision_payload(content: str) -> Dict[str, object]:
 
 
 def _parse_seed_rewrite_phrase(content: str) -> str:
+    """Validate and normalize a single-line seed rewrite output."""
     raw = (content or "").splitlines()
     lines = [line for line in raw if line.strip()]
     if len(lines) != 1:
@@ -1125,6 +1184,7 @@ def _build_seed_rewrite_prompt(
     original_seed_query: str,
     template_path: Optional[Path] = None,
 ) -> str:
+    """Render the seed rewrite prompt template with runtime values."""
     prompt_path = template_path or Path("resources/LLM/prompts/seed/seed_query_rewrite.md")
     template = prompt_path.read_text(encoding="utf-8")
     replacements = {
@@ -1159,6 +1219,7 @@ class SeedQueryRewriteAgent:
         original_seed_query: str,
         attempt: int,
     ) -> Tuple[str, str]:
+        """Call the LLM to rewrite a seed query into a single phrase."""
         load_env_file()
         prompt = _build_seed_rewrite_prompt(
             topic=topic,
@@ -1196,6 +1257,7 @@ def _build_filter_seed_prompt(
     include_keywords: Optional[Sequence[str]] = None,
     template_path: Optional[Path] = None,
 ) -> str:
+    """Render the filter-seed prompt template."""
     prompt_path = template_path or Path("resources/LLM/prompts/filter_seed/llm_screening.md")
     template = prompt_path.read_text(encoding="utf-8")
     keywords = ", ".join(keyword.strip() for keyword in include_keywords or [] if keyword and keyword.strip())
@@ -1212,6 +1274,7 @@ def _build_filter_seed_prompt(
 
 
 def _prepare_seed_pdf_pool(workspace: TopicWorkspace) -> List[Path]:
+    """Move seed PDFs into arxiv_raw/ when needed and return raw PDFs."""
     raw_dir = workspace.seed_downloads_raw_dir
     filtered_dir = workspace.seed_arxiv_pdf_dir
 
@@ -1679,6 +1742,7 @@ def extract_keywords_from_seed_pdfs(
 
 
 def _flatten_search_terms(search_terms: Dict[str, Sequence[str]], *, max_terms_per_category: int) -> List[str]:
+    """Flatten categorized search terms with per-category caps."""
     flattened: List[str] = []
     for terms in search_terms.values():
         if not isinstance(terms, Sequence):
