@@ -46,3 +46,18 @@ python target_papers/scripts/compute_title_f1.py \
 ## Known Limitations
 - Title-only matching can miss paraphrased or heavily formatted titles.
 - arXiv-only enrichment cannot cover non-arXiv references.
+
+### Print per-round F1 tables (two fixed topics)
+```
+python scripts/print_oracle_f1_tables.py
+```
+
+Optional: write to a markdown file
+```
+python scripts/print_oracle_f1_tables.py --out docs/presentation/snowball_title_f1_results.md
+```
+
+Optional: write to a directory (uses default filename)
+```
+python scripts/print_oracle_f1_tables.py --out-dir workspaces/discrete_audio_tokens_more_than_a_survey
+```

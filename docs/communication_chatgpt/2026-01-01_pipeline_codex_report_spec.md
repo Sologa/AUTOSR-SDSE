@@ -34,6 +34,16 @@
 - **US6（P1）**：作為維護者，我需要重新跑 pipeline 驗證修正有效。
   - 獨立驗證：兩個 topic 的 criteria.json 與 cutoff.json 符合規格，且輸出可重現。
 
+### 執行限制（使用者指定）
+- 已完成現況備份：使用者已 push 現在程式碼，可回溯。
+- **重跑前需先備份兩個 topic 的完整工作區/產物**。
+- **預算限制：僅重跑一個 topic**（discrete audio tokens），另一個 topic 不重跑。
+- 執行時務必使用「exact topic」字串，避免 topic 輸入錯誤。
+
+### Exact Topics（必須逐字使用）
+- Discrete Audio Tokens: More Than a Survey!
+- On The Landscape of Spoken Language Models: A Comprehensive Survey
+
 ### 約束與規格
 - criteria JSON schema 仍採現行 `structured_web_search_pipeline.py` 既有 schema。
 - cutoff/date 過濾依程式規則處理，不允許由 criteria 或使用者輸入時間條款。
@@ -64,7 +74,8 @@
    - 若無法，新增後處理映射（依 cutoff / 同名 / 時間等規則給出 discard_reason）。
 
 6) **驗證與回歸**
-   - 針對兩個 topic 重跑，確認 criteria/time_range、cutoff、query_plan、discard_reason 等輸出完整。
+   - 先備份兩個 topic 產物。
+   - 僅重跑 `Discrete Audio Tokens: More Than a Survey!`，確認 criteria/time_range、cutoff、query_plan、discard_reason 等輸出完整。
 
 ### 產物與檔案
 - bundle summary/manifest（路徑需先定位）
@@ -96,7 +107,7 @@
 - **T007 [US4]**：新增 harvest query_plan.json 產物（含 anchor coverage 與實際查詢）。
 
 ### Phase 4 — Verification
-- **T008 [US6]**：重跑兩個 topic，驗證 criteria/time_range、cutoff、query_plan、discard_reason 輸出。
+- **T008 [US6]**：備份兩個 topic 後，僅重跑 `Discrete Audio Tokens: More Than a Survey!`，驗證 criteria/time_range、cutoff、query_plan、discard_reason 輸出。
 - **T009**：更新 docs/logs，整理執行證據與對照結果。
 
 ### 任務完成條件

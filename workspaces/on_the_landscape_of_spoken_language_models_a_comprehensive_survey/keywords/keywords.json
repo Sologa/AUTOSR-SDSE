@@ -1,0 +1,216 @@
+{
+  "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+  "anchor_terms": [
+    "full-duplex",
+    "spoken language models",
+    "synchronous dialogue",
+    "turn-taking"
+  ],
+  "search_terms": {
+    "duplex_concepts": [
+      "true full-duplex",
+      "pseudo full-duplex",
+      "half duplex",
+      "synchronous dialogue",
+      "turn-taking",
+      "overlapping speech",
+      "interruption",
+      "backchanneling",
+      "interruptions"
+    ],
+    "synchronization_architectures": [
+      "engineered synchronization",
+      "learned synchronization",
+      "modular architecture",
+      "end-to-end architecture",
+      "duplex controller",
+      "neural fsm",
+      "semantic vad",
+      "predictive synchronization",
+      "modular architectures",
+      "end-to-end architectures"
+    ],
+    "streaming_and_latency": [
+      "streaming architecture",
+      "real-time interaction",
+      "low latency",
+      "cognitive clock",
+      "chunk latency",
+      "parallel encoding",
+      "concurrent decoding",
+      "kv cache",
+      "streaming architectures"
+    ],
+    "training_data": [
+      "synchronous data",
+      "data scarcity",
+      "multichannel dialogue",
+      "spontaneous dialogue",
+      "synthetic tts",
+      "source separation",
+      "non-english resources",
+      "conversational synthesis",
+      "multi-channel dialogue"
+    ],
+    "evaluation_and_metrics": [
+      "temporal dynamics",
+      "behavioral arbitration",
+      "semantic coherence",
+      "acoustic performance",
+      "evaluation gap",
+      "latency-quality trade-off",
+      "floor transfer offset",
+      "word error rate"
+    ],
+    "audio_representations": [
+      "neural codec",
+      "discrete tokens",
+      "audio tokens",
+      "continuous embeddings",
+      "hubert",
+      "kmeans clustering",
+      "rvq",
+      "vocoder"
+    ],
+    "evaluation_framework": [
+      "temporal dynamics",
+      "behavioral arbitration",
+      "semantic coherence",
+      "acoustic performance",
+      "benchmarking taxonomy",
+      "evaluation gaps",
+      "reproducible evaluation",
+      "latency-quality trade-off"
+    ],
+    "metrics_and_tasks": [
+      "floor transfer offset",
+      "stop latency",
+      "interruption response delay",
+      "interruption success rate",
+      "word error rate",
+      "conditioned perplexity",
+      "mean opinion score",
+      "spoken question answering"
+    ]
+  },
+  "papers": [
+    {
+      "id": "chen_yu_full_duplex_slm_survey_2025",
+      "source_id": "arXiv:2509.14515",
+      "title": "From Turn-Taking to Synchronous Dialogue: A Survey of Full-Duplex Spoken Language Models",
+      "abstract": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction. This survey comprehensively reviews Full-Duplex Spoken Language Models (FD-SLMs) in the LLM era. We establish a taxonomy distinguishing Engineered Synchronization (modular architectures) from Learned Synchronization (end-to-end architectures), and unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance. Through comparative analysis of mainstream FD-SLMs, we identify fundamental challenges: synchronous data scarcity, architectural divergence, and evaluation gaps, providing a roadmap for advancing human-AI communication.",
+      "year": "2025",
+      "source_url": "https://arxiv.org/abs/2509.14515v1",
+      "detected_keywords": [
+        {
+          "term": "true full-duplex",
+          "category": "duplex_concepts",
+          "evidence": {
+            "quote": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction.",
+            "page": "n/a"
+          },
+          "confidence": 0.85
+        },
+        {
+          "term": "turn-taking",
+          "category": "duplex_concepts",
+          "evidence": {
+            "quote": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction.",
+            "page": "n/a"
+          },
+          "confidence": 0.8
+        },
+        {
+          "term": "overlapping speech",
+          "category": "duplex_concepts",
+          "evidence": {
+            "quote": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction.",
+            "page": "n/a"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "interruption",
+          "category": "duplex_concepts",
+          "evidence": {
+            "quote": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction.",
+            "page": "n/a"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "engineered synchronization",
+          "category": "synchronization_architectures",
+          "evidence": {
+            "quote": "We establish a taxonomy distinguishing Engineered Synchronization (modular architectures) from Learned Synchronization (end-to-end architectures)",
+            "page": "n/a"
+          },
+          "confidence": 0.8
+        },
+        {
+          "term": "learned synchronization",
+          "category": "synchronization_architectures",
+          "evidence": {
+            "quote": "We establish a taxonomy distinguishing Engineered Synchronization (modular architectures) from Learned Synchronization (end-to-end architectures)",
+            "page": "n/a"
+          },
+          "confidence": 0.8
+        },
+        {
+          "term": "temporal dynamics",
+          "category": "evaluation_and_metrics",
+          "evidence": {
+            "quote": "unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance.",
+            "page": "n/a"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "behavioral arbitration",
+          "category": "evaluation_and_metrics",
+          "evidence": {
+            "quote": "unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance.",
+            "page": "n/a"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "semantic coherence",
+          "category": "evaluation_and_metrics",
+          "evidence": {
+            "quote": "unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance.",
+            "page": "n/a"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "acoustic performance",
+          "category": "evaluation_and_metrics",
+          "evidence": {
+            "quote": "unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance.",
+            "page": "n/a"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "synchronous data",
+          "category": "training_data",
+          "evidence": {
+            "quote": "we identify fundamental challenges: synchronous data scarcity, architectural divergence, and evaluation gaps",
+            "page": "n/a"
+          },
+          "confidence": 0.65
+        },
+        {
+          "term": "evaluation gap",
+          "category": "evaluation_and_metrics",
+          "evidence": {
+            "quote": "we identify fundamental challenges: synchronous data scarcity, architectural divergence, and evaluation gaps",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "round": 3,
+  "seed_review": "workspaces/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/snowball_rounds/round_02/latte_review_results.json",
+  "seed_count": 4,
+  "raw_count": 104,
+  "filtered_count": 48,
+  "dedup_removed": 18,
+  "dedup_removed_by": {
+    "openalex_id": 16,
+    "title": 2
+  },
+  "for_review_count": 30,
+  "review_ran": true,
+  "review_outcome": {
+    "exclude": 28,
+    "include": 2
+  },
+  "included_total": 70,
+  "criteria_hash": "badd3f251a2232a292429d0e02fbb7a36292ea17539b3e7e160d4b704e6c1f56"
+}

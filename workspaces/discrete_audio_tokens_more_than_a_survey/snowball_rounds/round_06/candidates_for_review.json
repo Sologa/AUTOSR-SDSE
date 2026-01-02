@@ -1,0 +1,106 @@
+[
+  {
+    "metadata": {
+      "title": "An Unsupervised Approach to Speech Segmentation using Auto Resonance Networks",
+      "summary": "Automatic speech segmentation finds application in speech recognition, speaker diarization etc. However, it is challenging as it demands huge labelled data. Unsupervised approach can overcome the laborious labeling task. Auto resonance networks are one choice for unsupervised approach. Recently auto resonance networks have been used in classification problems. This work proposes an unsupervised approach for speech segmentation using auto resonance networks. The system is tested using the standard TIMIT database and a few pathological speech utterances. Results show that the speech frames belonging to the same broad class are assigned to the same cluster. The results are compared with another neural network approach, namely, self organizing maps.",
+      "abstract": "Automatic speech segmentation finds application in speech recognition, speaker diarization etc. However, it is challenging as it demands huge labelled data. Unsupervised approach can overcome the laborious labeling task. Auto resonance networks are one choice for unsupervised approach. Recently auto resonance networks have been used in classification problems. This work proposes an unsupervised approach for speech segmentation using auto resonance networks. The system is tested using the standard TIMIT database and a few pathological speech utterances. Results show that the speech frames belonging to the same broad class are assigned to the same cluster. The results are compared with another neural network approach, namely, self organizing maps.",
+      "doi": "https://doi.org/10.1109/mysurucon59703.2023.10396940",
+      "openalex_id": "https://openalex.org/W4391182775",
+      "arxiv_id": "",
+      "publication_date": "2023-12-01",
+      "published": "2023-12-01",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "Truly Unsupervised Acoustic Word Embeddings Using Weak Top-down Constraints in Encoder-decoder Models",
+      "summary": "We investigate unsupervised models that can map a variable-duration speech segment to a fixed-dimensional representation. In settings where unlabelled speech is the only available resource, such acoustic word embeddings can form the basis for \"zero-resource\" speech search, discovery and indexing systems. Most existing unsupervised embedding methods still use some supervision, such as word or phoneme boundaries. Here we propose the encoder-decoder correspondence autoencoder (EncDec-CAE), which, instead of true word segments, uses automatically discovered segments: an unsupervised term discovery system finds pairs of words of the same unknown type, and the EncDec-CAE is trained to reconstruct one word given the other as input. We compare it to a standard encoder-decoder autoencoder (AE), a variational AE with a prior over its latent embedding, and downsampling. EncDec-CAE outperforms its closest competitor by 24% relative in average precision on two languages in a word discrimination task.",
+      "abstract": "We investigate unsupervised models that can map a variable-duration speech segment to a fixed-dimensional representation. In settings where unlabelled speech is the only available resource, such acoustic word embeddings can form the basis for \"zero-resource\" speech search, discovery and indexing systems. Most existing unsupervised embedding methods still use some supervision, such as word or phoneme boundaries. Here we propose the encoder-decoder correspondence autoencoder (EncDec-CAE), which, instead of true word segments, uses automatically discovered segments: an unsupervised term discovery system finds pairs of words of the same unknown type, and the EncDec-CAE is trained to reconstruct one word given the other as input. We compare it to a standard encoder-decoder autoencoder (AE), a variational AE with a prior over its latent embedding, and downsampling. EncDec-CAE outperforms its closest competitor by 24% relative in average precision on two languages in a word discrimination task.",
+      "doi": "https://doi.org/10.1109/icassp.2019.8683639",
+      "openalex_id": "https://openalex.org/W2899069432",
+      "arxiv_id": "",
+      "publication_date": "2019-04-17",
+      "published": "2019-04-17",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "Evaluating speech features with the minimal-pair ABX task (II): resistance to noise",
+      "summary": "The Minimal-Pair ABX (MP-ABX) paradigm has been proposed as a method for evaluating speech features for zeroresource/unsupervised speech technologies. We apply it in a phoneme discrimination task on the Articulation Index corpus to evaluate the resistance to noise of various speech features. In Experiment 1, we evaluate the robustness to additive noise at different signal-to-noise ratios, using car and babble noise from the Aurora-4 database and white noise. In Experiment 2, we examine the robustness to different kinds of convolutional noise. In both experiments we consider two classes of techniques to induce noise resistance: smoothing of the time-frequency representation and short-term adaptation in the time-domain. We consider smoothing along the spectral axis (as in PLP) and along the time axis (as in FDLP). For short-term adaptation in the time-domain, we compare the use of a static compressive non-linearity followed by RASTA filtering to an adaptive compression scheme.",
+      "abstract": "The Minimal-Pair ABX (MP-ABX) paradigm has been proposed as a method for evaluating speech features for zeroresource/unsupervised speech technologies. We apply it in a phoneme discrimination task on the Articulation Index corpus to evaluate the resistance to noise of various speech features. In Experiment 1, we evaluate the robustness to additive noise at different signal-to-noise ratios, using car and babble noise from the Aurora-4 database and white noise. In Experiment 2, we examine the robustness to different kinds of convolutional noise. In both experiments we consider two classes of techniques to induce noise resistance: smoothing of the time-frequency representation and short-term adaptation in the time-domain. We consider smoothing along the spectral axis (as in PLP) and along the time axis (as in FDLP). For short-term adaptation in the time-domain, we compare the use of a static compressive non-linearity followed by RASTA filtering to an adaptive compression scheme.",
+      "doi": "https://doi.org/10.21437/interspeech.2014-228",
+      "openalex_id": "https://openalex.org/W2406349064",
+      "arxiv_id": "",
+      "publication_date": "2014-09-14",
+      "published": "2014-09-14",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "Bayesian unsupervised word segmentation with nested Pitman-Yor language modeling",
+      "summary": "In this paper, we propose a new Bayesian model for fully unsupervised word segmentation and an efficient blocked Gibbs sampler combined with dynamic programming for inference. Our model is a nested hierarchical Pitman-Yor language model, where Pitman-Yor spelling model is embedded in the word model. We confirmed that it significantly outperforms previous reported results in both phonetic transcripts and standard datasets for Chinese and Japanese word segmentation. Our model is also considered as a way to construct an accurate word n-gram language model directly from characters of arbitrary language, without any \"word\" indications.",
+      "abstract": "In this paper, we propose a new Bayesian model for fully unsupervised word segmentation and an efficient blocked Gibbs sampler combined with dynamic programming for inference. Our model is a nested hierarchical Pitman-Yor language model, where Pitman-Yor spelling model is embedded in the word model. We confirmed that it significantly outperforms previous reported results in both phonetic transcripts and standard datasets for Chinese and Japanese word segmentation. Our model is also considered as a way to construct an accurate word n-gram language model directly from characters of arbitrary language, without any \"word\" indications.",
+      "doi": "https://doi.org/10.3115/1687878.1687894",
+      "openalex_id": "https://openalex.org/W2140991203",
+      "arxiv_id": "",
+      "publication_date": "2009-01-01",
+      "published": "2009-01-01",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "A density-based algorithm for discovering clusters in large spatial Databases with Noise",
+      "summary": "Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that (1) DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLAR-ANS, and that (2) DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.",
+      "abstract": "Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that (1) DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLAR-ANS, and that (2) DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.",
+      "doi": "",
+      "openalex_id": "https://openalex.org/W1673310716",
+      "arxiv_id": "",
+      "publication_date": "1996-01-01",
+      "published": "1996-01-01",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "Statistical mechanics of community detection",
+      "summary": "Starting from a general ansatz, we show how community detection can be interpreted as finding the ground state of an infinite range spin glass. Our approach applies to weighted and directed networks alike. It contains the ad hoc introduced quality function from [J. Reichardt and S. Bornholdt, Phys. Rev. Lett. 93, 218701 (2004)] and the modularity Q as defined by Newman and Girvan [Phys. Rev. E 69, 026113 (2004)] as special cases. The community structure of the network is interpreted as the spin configuration that minimizes the energy of the spin glass with the spin states being the community indices. We elucidate the properties of the ground state configuration to give a concise definition of communities as cohesive subgroups in networks that is adaptive to the specific class of network under study. Further, we show how hierarchies and overlap in the community structure can be detected. Computationally efficient local update rules for optimization procedures to find the ground state are given. We show how the ansatz may be used to discover the community around a given node without detecting all communities in the full network and we give benchmarks for the performance of this extension. Finally, we give expectation values for the modularity of random graphs, which can be used in the assessment of statistical significance of community structure.",
+      "abstract": "Starting from a general ansatz, we show how community detection can be interpreted as finding the ground state of an infinite range spin glass. Our approach applies to weighted and directed networks alike. It contains the ad hoc introduced quality function from [J. Reichardt and S. Bornholdt, Phys. Rev. Lett. 93, 218701 (2004)] and the modularity Q as defined by Newman and Girvan [Phys. Rev. E 69, 026113 (2004)] as special cases. The community structure of the network is interpreted as the spin configuration that minimizes the energy of the spin glass with the spin states being the community indices. We elucidate the properties of the ground state configuration to give a concise definition of communities as cohesive subgroups in networks that is adaptive to the specific class of network under study. Further, we show how hierarchies and overlap in the community structure can be detected. Computationally efficient local update rules for optimization procedures to find the ground state are given. We show how the ansatz may be used to discover the community around a given node without detecting all communities in the full network and we give benchmarks for the performance of this extension. Finally, we give expectation values for the modularity of random graphs, which can be used in the assessment of statistical significance of community structure.",
+      "doi": "https://doi.org/10.1103/physreve.74.016110",
+      "openalex_id": "https://openalex.org/W2025543856",
+      "arxiv_id": "",
+      "publication_date": "2006-07-18",
+      "published": "2006-07-18",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "Robust word boundary detection in spontaneous speech using acoustic and lexical cues",
+      "summary": "We consider the problem of word boundary detection in spontaneous speech utterances. Acoustic features have been well explored in the literature in the context of word boundary detection; however, in spontaneous speech of Switchboard-I corpus, we found that the accuracy of word boundary detection using acoustic features is poor (F-score ~ 0.63). We propose a new feature - that captures lexical cues in the context of the word boundary detection problem. We show that including proposed lexical feature along with the usual acoustic features, the accuracy of the word boundary detection improves considerably (F-score ~ 0.81). We also demonstrate the robustness of our proposed feature in presence of different noise levels for additive white and pink noise.",
+      "abstract": "We consider the problem of word boundary detection in spontaneous speech utterances. Acoustic features have been well explored in the literature in the context of word boundary detection; however, in spontaneous speech of Switchboard-I corpus, we found that the accuracy of word boundary detection using acoustic features is poor (F-score ~ 0.63). We propose a new feature - that captures lexical cues in the context of the word boundary detection problem. We show that including proposed lexical feature along with the usual acoustic features, the accuracy of the word boundary detection improves considerably (F-score ~ 0.81). We also demonstrate the robustness of our proposed feature in presence of different noise levels for additive white and pink noise.",
+      "doi": "https://doi.org/10.1109/icassp.2009.4960701",
+      "openalex_id": "https://openalex.org/W2100308344",
+      "arxiv_id": "",
+      "publication_date": "2009-04-01",
+      "published": "2009-04-01",
+      "source": "openalex_snowball"
+    }
+  },
+  {
+    "metadata": {
+      "title": "Unsupervised optimal phoneme segmentation: Objectives, algorithm and comparisons",
+      "summary": "Phoneme segmentation is a fundamental problem in many speech recognition and synthesis studies. Unsupervised phoneme segmentation assumes no knowledge on linguistic contents and acoustic models, and thus poses a challenging problem. The essential question here is what is the optimal segmentation. This paper formulates the optimal segmentation problem into a probabilistic framework. Using statistics and information theory analysis, we develop three different objective functions, namely, summation of square error (SSE), log determinant (LD) and rate distortion (RD). Specially, RD function is derived from information rate distortion theory and can be related to human signal perception mechanism. We introduce a time-constrained agglomerative clustering algorithm to find the optimal segmentations. We also propose an efficient method to implement the algorithm by using integration functions. We carry out experiments on TIMIT database to compare the above three objective functions. The results show that rate distortion achieves the best performance and indicate that our method outperforms the recently published unsupervised segmentation methods.",
+      "abstract": "Phoneme segmentation is a fundamental problem in many speech recognition and synthesis studies. Unsupervised phoneme segmentation assumes no knowledge on linguistic contents and acoustic models, and thus poses a challenging problem. The essential question here is what is the optimal segmentation. This paper formulates the optimal segmentation problem into a probabilistic framework. Using statistics and information theory analysis, we develop three different objective functions, namely, summation of square error (SSE), log determinant (LD) and rate distortion (RD). Specially, RD function is derived from information rate distortion theory and can be related to human signal perception mechanism. We introduce a time-constrained agglomerative clustering algorithm to find the optimal segmentations. We also propose an efficient method to implement the algorithm by using integration functions. We carry out experiments on TIMIT database to compare the above three objective functions. The results show that rate distortion achieves the best performance and indicate that our method outperforms the recently published unsupervised segmentation methods.",
+      "doi": "https://doi.org/10.1109/icassp.2008.4518528",
+      "openalex_id": "https://openalex.org/W2121997342",
+      "arxiv_id": "",
+      "publication_date": "2008-03-01",
+      "published": "2008-03-01",
+      "source": "openalex_snowball"
+    }
+  }
+]

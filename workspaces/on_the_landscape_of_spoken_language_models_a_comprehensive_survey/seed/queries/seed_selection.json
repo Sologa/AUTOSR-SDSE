@@ -1,0 +1,80 @@
+{
+  "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+  "topic_variants": [
+    "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+    "on the landscape of speech language models: a comprehensive survey",
+    "on the landscape of spoken language models: a comprehensive surveys",
+    "OTLOSLMACS",
+    "OTLOSLMACSs"
+  ],
+  "cutoff_by_similar_title": true,
+  "similarity_threshold": 0.8,
+  "title_filter_applied": true,
+  "title_filter_keywords": [
+    "survey",
+    "review",
+    "overview"
+  ],
+  "cutoff_reason": "cutoff_removed_all_candidates",
+  "cutoff_candidate": {
+    "arxiv_id": "2504.08528",
+    "title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+    "published": "2025-04-11T13:40:53Z",
+    "published_date": "2025-04-11",
+    "similarity": {
+      "best_variant": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+      "sequence_ratio": 1.0,
+      "token_containment": 1.0,
+      "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+      "title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+      "score": 1.0
+    }
+  },
+  "cutoff_date": null,
+  "records_total": 5,
+  "records_after_title_filter": 2,
+  "records_after_filter": 1,
+  "download_top_k": 5,
+  "download_selected": [
+    {
+      "arxiv_id": "2509.14515",
+      "title": "From Turn-Taking to Synchronous Dialogue: A Survey of Full-Duplex Spoken Language Models",
+      "published": "2025-09-18T01:00:58Z"
+    }
+  ],
+  "candidates": [
+    {
+      "arxiv_id": "2509.14515",
+      "title": "From Turn-Taking to Synchronous Dialogue: A Survey of Full-Duplex Spoken Language Models",
+      "published": "2025-09-18T01:00:58Z",
+      "published_date": "2025-09-18",
+      "similarity": {
+        "best_variant": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+        "sequence_ratio": 0.4675324675324675,
+        "token_containment": 0.6428571428571429,
+        "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+        "title": "From Turn-Taking to Synchronous Dialogue: A Survey of Full-Duplex Spoken Language Models",
+        "score": 0.6428571428571429
+      }
+    },
+    {
+      "arxiv_id": "2504.08528",
+      "title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+      "published": "2025-04-11T13:40:53Z",
+      "published_date": "2025-04-11",
+      "similarity": {
+        "best_variant": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+        "sequence_ratio": 1.0,
+        "token_containment": 1.0,
+        "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+        "title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+        "score": 1.0
+      }
+    }
+  ],
+  "anchor_mode": "phrase",
+  "search_query": "(all:\"spoken language models\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "scope": "all",
+  "boolean_operator": "AND",
+  "raw_query": null
+}

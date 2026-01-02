@@ -1,0 +1,83 @@
+以下內容依你的要求整理，作為**可直接用於系統性回顧（systematic review / survey）之文獻收錄與排除規則草案**。所有敘述均以可操作、可評估為原則，並以已發表且具明確年月日（YYYY-MM-DD）的 https 一手論文頁為依據。
+
+---
+
+### Topic Definition
+
+本主題聚焦於 **Spoken Language Models（SLMs，口語語言模型）** 的整體研究版圖。SLMs 指的是以「語音序列」本身作為核心建模對象的語言模型，其目標並非僅產生或辨識文字，而是直接在語音層級進行建模、理解、生成與推理。這類模型通常能以端到端（end-to-end）的方式，從原始聲學訊號出發，完成語音理解（SLU）、語音翻譯（ST）、語音對話、或語音生成等高階語言任務。
+
+近年研究趨勢顯示，SLMs 正由傳統任務導向、模組化的 ASR→NLP 管線，轉向「通用化」與「基礎模型（foundation model）」範式。這包含純語音語言模型（如離散化語音 token 的 LM），以及結合語音編碼器與大型語言模型（LLM）的混合式架構，並強調跨任務泛化能力、預訓練策略、以及統一的評估視角。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))
+
+---
+
+### Summary
+
+整體而言，Spoken Language Models 的研究正快速朝向通用化、端到端與跨模態融合發展。研究亮點包含以大規模自監督預訓練建立語音基礎模型、將語音直接納入語言模型推理流程，以及以統一 benchmark 系統性評估模型能力。這些趨勢使語音不再只是文字處理的前處理步驟，而成為語言建模的第一等公民。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))
+
+---
+
+### Summary Topics
+
+S1: Spoken Language Models 的定義、分類與歷史演進  
+S2: SLM 的模型架構（純語音 LM、語音–文字混合、Speech–LLM）  
+S3: 預訓練、微調與評估基準（foundation models、SUPERB 等）  
+S4: 應用面向與挑戰（SLU、ST、對話、泛化與評估困難）
+
+---
+
+### Inclusion Criteria (Required)
+
+1. **主題定義：**研究必須明確以「Spoken Language Models 或等價概念」為核心，將語音視為主要建模與推理對象，而非僅作為文字處理前的輸入訊號；研究需討論模型架構、訓練或評估面向。  
+   英文可評估性條件：論文需在標題、摘要或關鍵詞中出現 *spoken language model(s)*、*speech language model(s)*、或等價描述（如 language modeling of speech）。  
+   source: https://arxiv.org/abs/2504.08528  
+   topic ids: S1, S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))
+
+2. 論文必須為可公開取得之英文學術研究（期刊、會議或 arXiv），並提供完整方法描述與實驗或系統性分析。  
+   source: https://arxiv.org/abs/2106.09009  
+   topic ids: S1 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))
+
+3. 研究需明確說明模型評估方式（任務設定、benchmark 或分析框架），而非僅概念性討論。  
+   source: https://arxiv.org/abs/2404.09385  
+   topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))
+
+---
+
+### Inclusion Criteria (Any-of Groups)
+
+- Group A：模型架構與建模方式  
+  * Option: 探討「純語音語言模型」（如以離散語音 token 進行 LM 建模）。  
+    source: https://arxiv.org/abs/2504.08528  
+    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))  
+  * Option: 探討「語音–文字或語音–LLM 混合式架構」，強調端到端語音理解或生成。  
+    source: https://arxiv.org/abs/2010.12283  
+    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2010.12283?utm_source=openai))
+
+- Group B：訓練與評估範式  
+  * Option: 使用大規模自監督或 foundation model 預訓練，並分析其跨任務泛化能力。  
+    source: https://arxiv.org/abs/2404.09385  
+    topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))
+
+---
+
+### Exclusion Criteria
+
+- 僅將語音作為輸入，核心研究仍為文字 NLP，且未對語音建模本身進行分析或創新（如單純 ASR→LLM 串接）。  
+  source: internal  
+  topic ids: S1
+
+- 僅針對單一下游任務（如特定指令辨識），未討論通用性、模型架構或語音語言建模觀點。  
+  source: https://arxiv.org/abs/2106.09009  
+  topic ids: S4 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))
+
+- 非學術性來源（部落格、產品白皮書、未公開技術報告），或缺乏完整方法與評估描述者。  
+  source: internal  
+  topic ids: S1
+
+---
+
+### Sources
+
+https://arxiv.org/abs/2504.08528  
+https://arxiv.org/abs/2404.09385  
+https://arxiv.org/abs/2106.09009  
+https://arxiv.org/abs/2010.12283

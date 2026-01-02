@@ -863,6 +863,29 @@ def default_topic_variants(topic: str) -> List[str]:
 
     variants: List[str] = []
 
+    def _looks_like_title(text: str) -> bool:
+        lowered = text.lower()
+        if any(marker in text for marker in (":", "!", "?", "—", "–")):
+            return True
+        tokens = [tok for tok in lowered.split() if tok]
+        if len(tokens) >= 6:
+            return True
+        if any(
+            phrase in lowered
+            for phrase in (
+                "survey",
+                "review",
+                "overview",
+                "systematic review",
+                "systematic literature review",
+                "scoping review",
+                "mapping study",
+                "tutorial",
+            )
+        ):
+            return True
+        return False
+
     def _add_variant(text: str) -> None:
         candidate = " ".join(str(text).split())
         if candidate:
@@ -873,12 +896,27 @@ def default_topic_variants(topic: str) -> List[str]:
     _add_variant(lower)
     _add_variant(normalized.title())
 
+    clean = _normalize_similarity_text(normalized)
+    if clean and clean != lower:
+        _add_variant(clean)
+
+    title_like = _looks_like_title(normalized)
+    prefix = None
+    for marker in (":", " - ", " — ", " – "):
+        if marker in normalized:
+            prefix = normalized.split(marker, 1)[0].strip()
+            break
+    if prefix:
+        _add_variant(prefix)
+        if prefix.lower() != lower:
+            _add_variant(prefix.lower())
+
     if "spoken" in lower:
         _add_variant(lower.replace("spoken", "speech"))
     if "speech" in lower:
         _add_variant(lower.replace("speech", "spoken"))
 
-    tokens = re.split(r"[\s/_-]+", lower)
+    tokens = _normalize_similarity_text(normalized).split()
     if tokens:
         last = tokens[-1]
         if last.endswith("s") and len(last) > 1:
@@ -888,7 +926,7 @@ def default_topic_variants(topic: str) -> List[str]:
             plural_tokens = tokens[:-1] + [last + "s"]
             _add_variant(" ".join(plural_tokens))
 
-    if len(tokens) >= 2:
+    if not title_like and len(tokens) >= 2:
         acronym = "".join(token[0] for token in tokens if token)
         if acronym:
             _add_variant(acronym.upper())
@@ -1480,6 +1518,9 @@ def filter_seed_papers_with_llm(
     max_output_tokens: int = 400,
     reasoning_effort: Optional[str] = "low",
     include_keywords: Optional[Sequence[str]] = None,
+    fallback_min_selected: int = 2,
+    fallback_max_additional: Optional[int] = None,
+    fallback_prompt_path: Optional[Path] = None,
     force: bool = False,
 ) -> Dict[str, object]:
     """Run LLM yes/no screening on seed papers using title + abstract only."""
@@ -1562,6 +1603,7 @@ def filter_seed_papers_with_llm(
             {
                 "arxiv_id": arxiv_id,
                 "title": title,
+                "abstract": abstract,
                 "decision": decision,
                 "reason": parsed["reason"],
                 "confidence": parsed["confidence"],
@@ -1572,15 +1614,90 @@ def filter_seed_papers_with_llm(
         else:
             rejected_ids.append(arxiv_id)
 
+    fallback_info: Dict[str, object] = {
+        "enabled": fallback_min_selected > 0,
+        "triggered": False,
+        "min_selected": fallback_min_selected,
+        "selected_before": len(selected_ids),
+        "selected_after": len(selected_ids),
+        "added": [],
+        "prompt_path": None,
+    }
+    if fallback_min_selected > 0 and len(selected_ids) < fallback_min_selected and rejected_ids:
+        fallback_prompt = fallback_prompt_path or Path(
+            "resources/LLM/prompts/filter_seed/llm_screening_fallback.md"
+        )
+        fallback_info["prompt_path"] = str(fallback_prompt)
+        fallback_info["triggered"] = True
+
+        fallback_candidates: List[Tuple[str, float]] = []
+        rejected_set = set(rejected_ids)
+        for paper in papers:
+            arxiv_id = str(paper.get("arxiv_id") or "")
+            if not arxiv_id or arxiv_id not in rejected_set:
+                continue
+            title = str(paper.get("title") or "")
+            abstract = str(paper.get("abstract") or "")
+            prompt = _build_filter_seed_prompt(
+                topic=workspace.topic,
+                title=title,
+                abstract=abstract,
+                include_keywords=include_keywords,
+                template_path=fallback_prompt,
+            )
+            metadata_payload = {
+                "mode": "filter_seed_fallback",
+                "topic": workspace.topic[:500],
+                "arxiv_id": arxiv_id,
+            }
+            result = svc.chat(
+                provider,
+                model,
+                [{"role": "user", "content": prompt}],
+                temperature=temperature,
+                max_output_tokens=max_output_tokens,
+                reasoning_effort=reasoning_effort,
+                metadata=metadata_payload,
+            )
+            if not isinstance(result, LLMResult):
+                raise ProviderCallError("Provider did not return an LLMResult")
+            parsed = _parse_decision_payload(result.content)
+            paper["fallback_decision"] = parsed["decision"]
+            paper["fallback_reason"] = parsed["reason"]
+            paper["fallback_confidence"] = parsed["confidence"]
+            if parsed["decision"] == "yes":
+                fallback_candidates.append((arxiv_id, float(parsed["confidence"])))
+
+        if fallback_candidates:
+            fallback_candidates.sort(key=lambda item: item[1], reverse=True)
+            if fallback_max_additional is not None:
+                fallback_candidates = fallback_candidates[: max(0, fallback_max_additional)]
+            added_ids = []
+            for arxiv_id, _ in fallback_candidates:
+                if arxiv_id not in selected_ids:
+                    selected_ids.append(arxiv_id)
+                    added_ids.append(arxiv_id)
+            rejected_ids = [arxiv_id for arxiv_id in rejected_ids if arxiv_id not in set(added_ids)]
+            fallback_info["added"] = added_ids
+            fallback_info["selected_after"] = len(selected_ids)
+
     filters_dir.mkdir(parents=True, exist_ok=True)
     screening_payload = {
         "topic": workspace.topic,
         "model": model,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "papers": papers,
+        "fallback": fallback_info,
     }
     _write_json(screening_path, screening_payload)
-    _write_json(selection_path, {"selected": selected_ids, "rejected": rejected_ids})
+    _write_json(
+        selection_path,
+        {
+            "selected": selected_ids,
+            "rejected": rejected_ids,
+            "fallback_added": fallback_info.get("added") if fallback_info else [],
+        },
+    )
 
     filtered_dir = workspace.seed_arxiv_pdf_dir
     filtered_dir.mkdir(parents=True, exist_ok=True)
@@ -1975,6 +2092,16 @@ def harvest_arxiv_metadata(
     if not flattened_terms:
         raise ValueError("No search terms available after flattening.")
 
+    def _quote_arxiv_term(term: str) -> str:
+        escaped = term.replace("\\", r"\\").replace('"', r"\"")
+        return f'"{escaped}"'
+
+    def _build_arxiv_query(anchor_term: str, search_term: str) -> str:
+        field = scope.lower().strip() or "all"
+        anchor_clause = f"{field}:{_quote_arxiv_term(anchor_term)}"
+        search_clause = f"{field}:{_quote_arxiv_term(search_term)}"
+        return f"({anchor_clause}) {boolean_operator} ({search_clause})"
+
     def _within_window(meta: Dict[str, object]) -> bool:
         if cutoff_title_norm:
             title = str(meta.get("title") or "")
@@ -2026,12 +2153,21 @@ def harvest_arxiv_metadata(
 
         aggregated: Dict[str, Dict[str, object]] = {}
         total_queries = 0
+        query_plan_entries: List[Dict[str, object]] = []
 
         for anchor in anchors:
             if not isinstance(anchor, str) or not anchor.strip():
                 continue
             for term in flattened_terms:
                 total_queries += 1
+                query_entry = {
+                    "anchor": anchor,
+                    "search_term": term,
+                    "search_query": _build_arxiv_query(anchor, term),
+                    "records_returned": 0,
+                    "records_added": 0,
+                    "error": None,
+                }
                 try:
                     records = search_arxiv_for_topic(
                         session,
@@ -2042,8 +2178,11 @@ def harvest_arxiv_metadata(
                         boolean_operator=boolean_operator,
                     )
                 except requests.RequestException:
+                    query_entry["error"] = "request_error"
+                    query_plan_entries.append(query_entry)
                     continue
 
+                query_entry["records_returned"] = len(records)
                 for record in records:
                     if not isinstance(record, dict):
                         continue
@@ -2078,24 +2217,43 @@ def harvest_arxiv_metadata(
                             "queries": [{"anchor": anchor, "search_term": term}],
                         }
                         aggregated[arxiv_id] = entry
+                        query_entry["records_added"] += 1
                     else:
                         queries = entry.get("queries")
                         if isinstance(queries, list):
                             candidate = {"anchor": anchor, "search_term": term}
                             if candidate not in queries:
                                 queries.append(candidate)
+                query_plan_entries.append(query_entry)
 
     finally:
         session.close()
 
     results = sorted(aggregated.values(), key=lambda item: str(item.get("arxiv_id", "")))
     _write_json(output_path, results)
+    query_plan_path = workspace.harvest_dir / "query_plan.json"
+    query_plan = {
+        "topic": workspace.topic,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "anchors": anchors,
+        "search_terms": flattened_terms,
+        "scope": scope,
+        "boolean_operator": boolean_operator,
+        "top_k_per_query": top_k_per_query,
+        "start_date": start_bound.isoformat() if start_bound else None,
+        "end_date": end_bound.isoformat() if end_bound else None,
+        "cutoff_date": cutoff_date.isoformat() if cutoff_date else None,
+        "queries_run": total_queries,
+        "queries": query_plan_entries,
+    }
+    _write_json(query_plan_path, query_plan)
     return {
         "arxiv_metadata_path": str(output_path),
         "unique_papers": len(results),
         "queries_run": total_queries,
         "start_date": start_date,
         "end_date": end_date,
+        "query_plan_path": str(query_plan_path),
     }
 
 
@@ -2356,6 +2514,7 @@ def generate_structured_criteria(
                     "請輸出最終 JSON，並確保所有 source 欄位皆為 https URL。\n"
                     f"主題：{workspace.topic}。\n"
                     "inclusion_criteria.required 段落僅能包含主題定義逐字條款與英文可評估性條款；其餘條件請歸入 any_of 群組。\n"
+                    "不得要求標題/摘要必須包含特定字串或關鍵字；避免任何硬字串匹配條款。\n"
                     "將以下筆記整合後再輸出：\n"
                     "---\n"
                     f"{combined_notes.strip()}\n"
@@ -2775,7 +2934,13 @@ def run_latte_review(
                 metadata_value = df.loc[index, "metadata"]
             record["metadata"] = metadata_value
             record["review_skipped"] = False
-            record["discard_reason"] = None
+            verdict = str(record.get("final_verdict") or "")
+            if verdict.startswith("exclude"):
+                record["discard_reason"] = verdict
+            elif verdict.startswith("maybe"):
+                record["discard_reason"] = "review_needs_followup"
+            else:
+                record["discard_reason"] = None
             review_records.append(record)
 
     output_records: List[Dict[str, object]] = []

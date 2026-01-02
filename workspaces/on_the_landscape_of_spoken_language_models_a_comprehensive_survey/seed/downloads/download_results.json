@@ -1,0 +1,62 @@
+{
+  "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+  "anchors": [
+    "spoken language models"
+  ],
+  "survey_terms": [
+    "survey",
+    "review",
+    "overview",
+    "systematic review",
+    "systematic literature review",
+    "scoping review",
+    "mapping study",
+    "tutorial"
+  ],
+  "anchor_mode": "phrase",
+  "search_query": "(all:\"spoken language models\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "raw_query": null,
+  "max_results": 25,
+  "download_top_k": 5,
+  "downloaded_at": "2025-12-29T17:32:07.026121+00:00",
+  "downloads": {
+    "arxiv": [
+      {
+        "source": "arxiv",
+        "identifier": "2509.14515",
+        "metadata": {
+          "arxiv_id": "2509.14515",
+          "title": "From Turn-Taking to Synchronous Dialogue: A Survey of Full-Duplex Spoken Language Models",
+          "summary": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction. This survey comprehensively reviews Full-Duplex Spoken Language Models (FD-SLMs) in the LLM era. We establish a taxonomy distinguishing Engineered Synchronization (modular architectures) from Learned Synchronization (end-to-end architectures), and unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance. Through comparative analysis of mainstream FD-SLMs, we identify fundamental challenges: synchronous data scarcity, architectural divergence, and evaluation gaps, providing a roadmap for advancing human-AI communication.",
+          "authors": [
+            "Yuxuan Chen",
+            "Haoyuan Yu"
+          ],
+          "published": "2025-09-18T01:00:58Z",
+          "updated": "2025-09-18T01:00:58Z",
+          "categories": [
+            "cs.CL",
+            "cs.SD",
+            "eess.AS"
+          ],
+          "pdf_url": "https://arxiv.org/pdf/2509.14515v1",
+          "landing_url": "https://arxiv.org/abs/2509.14515v1",
+          "doi": "https://doi.org/10.48550/arXiv.2509.14515"
+        },
+        "pdf_path": "workspaces/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/seed/downloads/arxiv/2509.14515.pdf",
+        "bibtex_path": null,
+        "issues": [
+          {
+            "asset": "bibtex",
+            "reason": "missing",
+            "url": "https://arxiv.org/bibtex/2509.14515"
+          }
+        ]
+      }
+    ],
+    "semantic_scholar": [],
+    "dblp": []
+  },
+  "rewrite_attempts": 1,
+  "rewrite_query": "spoken language models"
+}

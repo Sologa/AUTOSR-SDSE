@@ -1,0 +1,998 @@
+[
+  {
+    "title": "Multitask Feature Learning for Low-Resource Query-by-Example Spoken Term Detection",
+    "abstract": "We propose a novel technique that learns a low-dimensional feature representation from unlabeled data of a target language, and labeled data from a nontarget language. The technique is studied as a solution to query-by-example spoken term detection (QbE-STD) for a low-resource language. We extract low-dimensional features from a bottle-neck layer of a multitask deep neural network, which is jointly trained with speech data from the low-resource target language and resource-rich nontarget language. The proposed feature learning technique aims to extract acoustic features that offer phonetic discriminability. It explores a new way of leveraging cross-lingual speech data to overcome the resource limitation in the target language. We conduct QbE-STD experiments using the dynamic time warping distance of the multitask bottle-neck features between the query and the search database. The QbE-STD process does not rely on an automatic speech recognition pipeline of the target language. We validate the effectiveness of multitask feature learning through a series of comparative experiments.",
+    "metadata": {
+      "title": "Multitask Feature Learning for Low-Resource Query-by-Example Spoken Term Detection",
+      "summary": "We propose a novel technique that learns a low-dimensional feature representation from unlabeled data of a target language, and labeled data from a nontarget language. The technique is studied as a solution to query-by-example spoken term detection (QbE-STD) for a low-resource language. We extract low-dimensional features from a bottle-neck layer of a multitask deep neural network, which is jointly trained with speech data from the low-resource target language and resource-rich nontarget language. The proposed feature learning technique aims to extract acoustic features that offer phonetic discriminability. It explores a new way of leveraging cross-lingual speech data to overcome the resource limitation in the target language. We conduct QbE-STD experiments using the dynamic time warping distance of the multitask bottle-neck features between the query and the search database. The QbE-STD process does not rely on an automatic speech recognition pipeline of the target language. We validate the effectiveness of multitask feature learning through a series of comparative experiments.",
+      "abstract": "We propose a novel technique that learns a low-dimensional feature representation from unlabeled data of a target language, and labeled data from a nontarget language. The technique is studied as a solution to query-by-example spoken term detection (QbE-STD) for a low-resource language. We extract low-dimensional features from a bottle-neck layer of a multitask deep neural network, which is jointly trained with speech data from the low-resource target language and resource-rich nontarget language. The proposed feature learning technique aims to extract acoustic features that offer phonetic discriminability. It explores a new way of leveraging cross-lingual speech data to overcome the resource limitation in the target language. We conduct QbE-STD experiments using the dynamic time warping distance of the multitask bottle-neck features between the query and the search database. The QbE-STD process does not rely on an automatic speech recognition pipeline of the target language. We validate the effectiveness of multitask feature learning through a series of comparative experiments.",
+      "doi": "https://doi.org/10.1109/jstsp.2017.2764270",
+      "openalex_id": "https://openalex.org/W2767122664",
+      "arxiv_id": "",
+      "publication_date": "2017-10-18",
+      "published": "2017-10-18",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on learning cross-lingual bottleneck features for QbE-STD and does not involve discrete audio token design, vector quantization, or token-based representations, so it does not meet the inclusion criteria for Discrete Audio Tokens.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on learning cross-lingual bottleneck features for QbE-STD and does not involve discrete audio token design, vector quantization, or token-based representations, so it does not meet the inclusion criteria for Discrete Audio Tokens.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on feature learning for query-by-example spoken term detection using multitask deep neural networks but does not mention generating discrete audio tokens or a tokenization process involving vector quantization or related techniques. It addresses acoustic feature extraction rather than discrete token design for audio language modeling or related downstream sequence tasks, thus not meeting the inclusion criteria centered on discrete audio tokens.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on feature learning for query-by-example spoken term detection using multitask deep neural networks but does not mention generating discrete audio tokens or a tokenization process involving vector quantization or related techniques. It addresses acoustic feature extraction rather than discrete token design for audio language modeling or related downstream sequence tasks, thus not meeting the inclusion criteria centered on discrete audio tokens.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Individual Commute Time Recognition Based on the Hierarchical Semantic Model",
+    "abstract": "Individual commute time recognition is essential for traffic demand management. However, this problem has yet to be studied. In this study, we propose a hierarchical semantic model (HSM) to recognize individual commute time. To the best of our knowledge, this work is the first to integrates large scale travellers commute time prediction at an individual level. HSM consists of a low and a high semantic layer. The low semantic layer models spatial, temporal and environmental information, whereas the high semantic layer recognises commute time using the hidden Markov model on the basis of the low semantic layer outputs. Experimental results demonstrate the effectiveness of our proposed model for individual commute time recognition.",
+    "metadata": {
+      "title": "Individual Commute Time Recognition Based on the Hierarchical Semantic Model",
+      "summary": "Individual commute time recognition is essential for traffic demand management. However, this problem has yet to be studied. In this study, we propose a hierarchical semantic model (HSM) to recognize individual commute time. To the best of our knowledge, this work is the first to integrates large scale travellers commute time prediction at an individual level. HSM consists of a low and a high semantic layer. The low semantic layer models spatial, temporal and environmental information, whereas the high semantic layer recognises commute time using the hidden Markov model on the basis of the low semantic layer outputs. Experimental results demonstrate the effectiveness of our proposed model for individual commute time recognition.",
+      "abstract": "Individual commute time recognition is essential for traffic demand management. However, this problem has yet to be studied. In this study, we propose a hierarchical semantic model (HSM) to recognize individual commute time. To the best of our knowledge, this work is the first to integrates large scale travellers commute time prediction at an individual level. HSM consists of a low and a high semantic layer. The low semantic layer models spatial, temporal and environmental information, whereas the high semantic layer recognises commute time using the hidden Markov model on the basis of the low semantic layer outputs. Experimental results demonstrate the effectiveness of our proposed model for individual commute time recognition.",
+      "doi": "https://doi.org/10.1109/access.2020.3019253",
+      "openalex_id": "https://openalex.org/W3081171875",
+      "arxiv_id": "",
+      "publication_date": "2020-01-01",
+      "published": "2020-01-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on traffic prediction using a hierarchical semantic model and HMM, not on discrete audio tokens or token-based audio representations, so it does not meet the inclusion criteria and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on traffic prediction using a hierarchical semantic model and HMM, not on discrete audio tokens or token-based audio representations, so it does not meet the inclusion criteria and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper focuses on individual commute time recognition using a hierarchical semantic model, without any mention or indication of discrete audio token generation, vector quantization, or related audio modeling techniques, which are core to the inclusion criteria. Hence, it does not meet the inclusion criteria centered on discrete audio token research.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The paper focuses on individual commute time recognition using a hierarchical semantic model, without any mention or indication of discrete audio token generation, vector quantization, or related audio modeling techniques, which are core to the inclusion criteria. Hence, it does not meet the inclusion criteria centered on discrete audio token research.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Scoping natural language processing in Indonesian and Malay for education applications",
+    "abstract": "Indonesian and Malay are underrepresented in the development of natural language processing (NLP) technologies and available resources are difficult to find. A clear picture of existing work can invigorate and inform how researchers conceptualise worthwhile projects. Using an education sector project to motivate the study, we conducted a wide-ranging overview of Indonesian and Malay human language technologies and corpus work. We charted 657 included studies according to Hirschberg and Manning's 2015 description of NLP, concluding that the field was dominated by exploratory corpus work, machine reading of text gathered from the Internet, and sentiment analysis. In this paper, we identify most published authors and research hubs, and make a number of recommendations to encourage future collaboration and efficiency within NLP in Indonesian and Malay.",
+    "metadata": {
+      "title": "Scoping natural language processing in Indonesian and Malay for education applications",
+      "summary": "Indonesian and Malay are underrepresented in the development of natural language processing (NLP) technologies and available resources are difficult to find. A clear picture of existing work can invigorate and inform how researchers conceptualise worthwhile projects. Using an education sector project to motivate the study, we conducted a wide-ranging overview of Indonesian and Malay human language technologies and corpus work. We charted 657 included studies according to Hirschberg and Manning's 2015 description of NLP, concluding that the field was dominated by exploratory corpus work, machine reading of text gathered from the Internet, and sentiment analysis. In this paper, we identify most published authors and research hubs, and make a number of recommendations to encourage future collaboration and efficiency within NLP in Indonesian and Malay.",
+      "abstract": "Indonesian and Malay are underrepresented in the development of natural language processing (NLP) technologies and available resources are difficult to find. A clear picture of existing work can invigorate and inform how researchers conceptualise worthwhile projects. Using an education sector project to motivate the study, we conducted a wide-ranging overview of Indonesian and Malay human language technologies and corpus work. We charted 657 included studies according to Hirschberg and Manning's 2015 description of NLP, concluding that the field was dominated by exploratory corpus work, machine reading of text gathered from the Internet, and sentiment analysis. In this paper, we identify most published authors and research hubs, and make a number of recommendations to encourage future collaboration and efficiency within NLP in Indonesian and Malay.",
+      "doi": "https://doi.org/10.18653/v1/2022.acl-srw.15",
+      "openalex_id": "https://openalex.org/W4285114014",
+      "arxiv_id": "",
+      "publication_date": "2022-01-01",
+      "published": "2022-01-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item is about scoping NLP in Indonesian and Malay for education and does not address discrete audio tokens or token-based audio representations, so it does not meet the inclusion criteria; thus it should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item is about scoping NLP in Indonesian and Malay for education and does not address discrete audio tokens or token-based audio representations, so it does not meet the inclusion criteria; thus it should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper reviews natural language processing work in Indonesian and Malay within educational applications, without addressing discrete audio tokens, vector quantization, or other audio token generation methods as defined in the inclusion criteria. It lacks discussion of audio token formation processes or methodologies, focusing instead on NLP textual corpus analysis and sentiment analysis. Therefore, it does not meet the core requirements for inclusion.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The paper reviews natural language processing work in Indonesian and Malay within educational applications, without addressing discrete audio tokens, vector quantization, or other audio token generation methods as defined in the inclusion criteria. It lacks discussion of audio token formation processes or methodologies, focusing instead on NLP textual corpus analysis and sentiment analysis. Therefore, it does not meet the core requirements for inclusion.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Preserving Background Sound in Noise-Robust Voice Conversion Via Multi-Task Learning",
+    "abstract": "Background sound is an informative form of art that is helpful in providing a more immersive experience in real-application voice conversion (VC) scenarios. However, prior research about VC, mainly focusing on clean voices, pay rare attention to VC with background sound. The critical problem for preserving background sound in VC is inevitable speech distortion by the neural separation model and the cascade mismatch between the source separation model and the VC model. In this paper, we propose an end-to-end framework via multitask learning which sequentially cascades a source separation (SS) module, a bottleneck feature extraction module and a VC module. Specifically, the source separation task explicitly considers critical phase information and limits the distortion caused by the imperfect separation process. The source separation task, the typical VC task and the unified task share a uniform reconstruction loss constrained by joint training to reduce the mismatch between the SS and VC modules. Experimental results demonstrate that our proposed framework significantly outperforms the baseline systems while achieving comparable quality and speaker similarity to the VC models trained with clean data.",
+    "metadata": {
+      "title": "Preserving Background Sound in Noise-Robust Voice Conversion Via Multi-Task Learning",
+      "summary": "Background sound is an informative form of art that is helpful in providing a more immersive experience in real-application voice conversion (VC) scenarios. However, prior research about VC, mainly focusing on clean voices, pay rare attention to VC with background sound. The critical problem for preserving background sound in VC is inevitable speech distortion by the neural separation model and the cascade mismatch between the source separation model and the VC model. In this paper, we propose an end-to-end framework via multitask learning which sequentially cascades a source separation (SS) module, a bottleneck feature extraction module and a VC module. Specifically, the source separation task explicitly considers critical phase information and limits the distortion caused by the imperfect separation process. The source separation task, the typical VC task and the unified task share a uniform reconstruction loss constrained by joint training to reduce the mismatch between the SS and VC modules. Experimental results demonstrate that our proposed framework significantly outperforms the baseline systems while achieving comparable quality and speaker similarity to the VC models trained with clean data.",
+      "abstract": "Background sound is an informative form of art that is helpful in providing a more immersive experience in real-application voice conversion (VC) scenarios. However, prior research about VC, mainly focusing on clean voices, pay rare attention to VC with background sound. The critical problem for preserving background sound in VC is inevitable speech distortion by the neural separation model and the cascade mismatch between the source separation model and the VC model. In this paper, we propose an end-to-end framework via multitask learning which sequentially cascades a source separation (SS) module, a bottleneck feature extraction module and a VC module. Specifically, the source separation task explicitly considers critical phase information and limits the distortion caused by the imperfect separation process. The source separation task, the typical VC task and the unified task share a uniform reconstruction loss constrained by joint training to reduce the mismatch between the SS and VC modules. Experimental results demonstrate that our proposed framework significantly outperforms the baseline systems while achieving comparable quality and speaker similarity to the VC models trained with clean data.",
+      "doi": "https://doi.org/10.1109/icassp49357.2023.10095960",
+      "openalex_id": "https://openalex.org/W4372260214",
+      "arxiv_id": "",
+      "publication_date": "2023-05-05",
+      "published": "2023-05-05",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on preserving background sound in noise-robust voice conversion via multitask learning and does not propose discrete audio token representations or tokenization methods, so it does not meet the Inclusion criteria for Discrete Audio Tokens.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on preserving background sound in noise-robust voice conversion via multitask learning and does not propose discrete audio token representations or tokenization methods, so it does not meet the Inclusion criteria for Discrete Audio Tokens.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on voice conversion and preserving background sound via multitask learning but does not mention the generation or use of discrete audio tokens, vector quantization, or any discrete representation method, which are required for inclusion. The abstract lacks details on token creation or usage for sequence modeling, so it does not meet the inclusion criteria related to discrete audio token design.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on voice conversion and preserving background sound via multitask learning but does not mention the generation or use of discrete audio tokens, vector quantization, or any discrete representation method, which are required for inclusion. The abstract lacks details on token creation or usage for sequence modeling, so it does not meet the inclusion criteria related to discrete audio token design.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Self-supervised Context-aware Style Representation for Expressive Speech Synthesis",
+    "abstract": "Expressive speech synthesis, like audiobook synthesis, is still challenging for style representation learning and prediction.Deriving from reference audio or predicting style tags from text requires a huge amount of labeled data, which is costly to acquire and difficult to define and annotate accurately.In this paper, we propose a novel framework for learning style representation from abundant plain text in a self-supervised manner.It leverages an emotion lexicon and uses contrastive learning and deep clustering.We further integrate the style representation as a conditioned embedding in a multi-style Transformer TTS.Comparing with multi-style TTS by predicting style tags trained on the same dataset but with human annotations, our method achieves improved results according to subjective evaluations on both in-domain and out-of-domain test sets in audiobook speech.Moreover, with implicit context-aware style representation, the emotion transition of synthesized audio in a long paragraph appears more natural.The audio samples are available on the demo website.",
+    "metadata": {
+      "title": "Self-supervised Context-aware Style Representation for Expressive Speech Synthesis",
+      "summary": "Expressive speech synthesis, like audiobook synthesis, is still challenging for style representation learning and prediction.Deriving from reference audio or predicting style tags from text requires a huge amount of labeled data, which is costly to acquire and difficult to define and annotate accurately.In this paper, we propose a novel framework for learning style representation from abundant plain text in a self-supervised manner.It leverages an emotion lexicon and uses contrastive learning and deep clustering.We further integrate the style representation as a conditioned embedding in a multi-style Transformer TTS.Comparing with multi-style TTS by predicting style tags trained on the same dataset but with human annotations, our method achieves improved results according to subjective evaluations on both in-domain and out-of-domain test sets in audiobook speech.Moreover, with implicit context-aware style representation, the emotion transition of synthesized audio in a long paragraph appears more natural.The audio samples are available on the demo website.",
+      "abstract": "Expressive speech synthesis, like audiobook synthesis, is still challenging for style representation learning and prediction.Deriving from reference audio or predicting style tags from text requires a huge amount of labeled data, which is costly to acquire and difficult to define and annotate accurately.In this paper, we propose a novel framework for learning style representation from abundant plain text in a self-supervised manner.It leverages an emotion lexicon and uses contrastive learning and deep clustering.We further integrate the style representation as a conditioned embedding in a multi-style Transformer TTS.Comparing with multi-style TTS by predicting style tags trained on the same dataset but with human annotations, our method achieves improved results according to subjective evaluations on both in-domain and out-of-domain test sets in audiobook speech.Moreover, with implicit context-aware style representation, the emotion transition of synthesized audio in a long paragraph appears more natural.The audio samples are available on the demo website.",
+      "doi": "https://doi.org/10.21437/interspeech.2022-686",
+      "openalex_id": "https://openalex.org/W4283689139",
+      "arxiv_id": "",
+      "publication_date": "2022-09-16",
+      "published": "2022-09-16",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item targets self-supervised style representation for expressive TTS and uses emotion lexicons with contrastive learning, but it does not discuss discrete audio tokens, vector quantization, or token-based representations as the core contribution, so it fails the discrete audio token criterion. ",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item targets self-supervised style representation for expressive TTS and uses emotion lexicons with contrastive learning, but it does not discuss discrete audio tokens, vector quantization, or token-based representations as the core contribution, so it fails the discrete audio token criterion. ",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on expressive speech synthesis using self-supervised learning for style representation from text and audio, but it does not mention any discrete audio token design, vector quantization, or any form of audio discretization process. It lacks details on token generation, quantization methods, or how these tokens are used in sequence modeling or language models, which are mandatory according to the inclusion criteria. Hence, it does not meet the core criteria for discrete audio token research and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on expressive speech synthesis using self-supervised learning for style representation from text and audio, but it does not mention any discrete audio token design, vector quantization, or any form of audio discretization process. It lacks details on token generation, quantization methods, or how these tokens are used in sequence modeling or language models, which are mandatory according to the inclusion criteria. Hence, it does not meet the core criteria for discrete audio token research and should be excluded.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Distinguishable Speaker Anonymization Based on Formant and Fundamental Frequency Scaling",
+    "abstract": "Speech data on the Internet are proliferating exponentially because of the emergence of social media, and the sharing of such personal data raises obvious security and privacy concerns. One solution to mitigate these concerns involves concealing speaker identities before sharing speech data, also referred to as speaker anonymization. In our previous work, we have developed an automatic speaker verification (ASV)-model-free anonymization framework to protect speaker privacy while preserving speech intelligibility. Although the framework ranked first place in VoicePrivacy 2022 challenge, the anonymization was imperfect, since the speaker distinguishability of the anonymized speech was deteriorated. To address this issue, in this paper, we directly model the formant distribution and fundamental frequency (F0) to represent speaker identity and anonymize the source speech by the uniformly scaling formant and F0. By directly scaling the formant and F0, the speaker distinguishability degradation of the anonymized speech caused by the introduction of other speakers is prevented. The experimental results demonstrate that our proposed framework can improve the speaker distinguishability and significantly outperforms our previous framework in voice distinctiveness. Furthermore, our proposed method can trade off the privacy-utility by using different scaling factors.",
+    "metadata": {
+      "title": "Distinguishable Speaker Anonymization Based on Formant and Fundamental Frequency Scaling",
+      "summary": "Speech data on the Internet are proliferating exponentially because of the emergence of social media, and the sharing of such personal data raises obvious security and privacy concerns. One solution to mitigate these concerns involves concealing speaker identities before sharing speech data, also referred to as speaker anonymization. In our previous work, we have developed an automatic speaker verification (ASV)-model-free anonymization framework to protect speaker privacy while preserving speech intelligibility. Although the framework ranked first place in VoicePrivacy 2022 challenge, the anonymization was imperfect, since the speaker distinguishability of the anonymized speech was deteriorated. To address this issue, in this paper, we directly model the formant distribution and fundamental frequency (F0) to represent speaker identity and anonymize the source speech by the uniformly scaling formant and F0. By directly scaling the formant and F0, the speaker distinguishability degradation of the anonymized speech caused by the introduction of other speakers is prevented. The experimental results demonstrate that our proposed framework can improve the speaker distinguishability and significantly outperforms our previous framework in voice distinctiveness. Furthermore, our proposed method can trade off the privacy-utility by using different scaling factors.",
+      "abstract": "Speech data on the Internet are proliferating exponentially because of the emergence of social media, and the sharing of such personal data raises obvious security and privacy concerns. One solution to mitigate these concerns involves concealing speaker identities before sharing speech data, also referred to as speaker anonymization. In our previous work, we have developed an automatic speaker verification (ASV)-model-free anonymization framework to protect speaker privacy while preserving speech intelligibility. Although the framework ranked first place in VoicePrivacy 2022 challenge, the anonymization was imperfect, since the speaker distinguishability of the anonymized speech was deteriorated. To address this issue, in this paper, we directly model the formant distribution and fundamental frequency (F0) to represent speaker identity and anonymize the source speech by the uniformly scaling formant and F0. By directly scaling the formant and F0, the speaker distinguishability degradation of the anonymized speech caused by the introduction of other speakers is prevented. The experimental results demonstrate that our proposed framework can improve the speaker distinguishability and significantly outperforms our previous framework in voice distinctiveness. Furthermore, our proposed method can trade off the privacy-utility by using different scaling factors.",
+      "doi": "https://doi.org/10.1109/icassp49357.2023.10095120",
+      "openalex_id": "https://openalex.org/W4372267192",
+      "arxiv_id": "",
+      "publication_date": "2023-05-05",
+      "published": "2023-05-05",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on speaker anonymization via formant and F0 scaling, which does not involve discrete audio token design, vector quantization, SSL token extraction, or token-based representations needed to satisfy the Discrete Audio Tokens inclusion criteria; therefore it does not meet the required criteria and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on speaker anonymization via formant and F0 scaling, which does not involve discrete audio token design, vector quantization, SSL token extraction, or token-based representations needed to satisfy the Discrete Audio Tokens inclusion criteria; therefore it does not meet the required criteria and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on speaker anonymization by scaling formant and fundamental frequency to maintain speaker distinguishability. It does not address discrete audio token generation, vector quantization, or semantic disentanglement as defined in the inclusion criteria. Also, it lacks discussion of token generation processes intended for sequence or language models. Therefore, it does not meet the core thematic requirements for inclusion.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on speaker anonymization by scaling formant and fundamental frequency to maintain speaker distinguishability. It does not address discrete audio token generation, vector quantization, or semantic disentanglement as defined in the inclusion criteria. Also, it lacks discussion of token generation processes intended for sequence or language models. Therefore, it does not meet the core thematic requirements for inclusion.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Nonparallel Emotional Voice Conversion for Unseen Speaker-Emotion Pairs Using Dual Domain Adversarial Network &amp; Virtual Domain Pairing",
+    "abstract": "Primary goal of an emotional voice conversion (EVC) system is to convert the emotion of a given speech signal from one style to another style without modifying the linguistic content of the signal. Most of the state-of-the-art approaches convert emotions for seen speaker-emotion combinations only. In this paper, we tackle the problem of converting the emotion of speakers whose only neutral data are present during the time of training and testing (i.e., unseen speaker-emotion combinations). To this end, we extend a recently proposed StartGANv2-VC architecture by utilizing dual encoders for learning the speaker and emotion style embeddings separately along with dual domain source classifiers. For achieving the conversion to unseen speaker-emotion combinations, we propose a Virtual Domain Pairing (VDP) training strategy, which virtually incorporates the speaker-emotion pairs that are not present in the real data without compromising the min-max game of a discriminator and generator in adversarial training. We evaluate the proposed method using a Hindi emotional database.",
+    "metadata": {
+      "title": "Nonparallel Emotional Voice Conversion for Unseen Speaker-Emotion Pairs Using Dual Domain Adversarial Network &amp; Virtual Domain Pairing",
+      "summary": "Primary goal of an emotional voice conversion (EVC) system is to convert the emotion of a given speech signal from one style to another style without modifying the linguistic content of the signal. Most of the state-of-the-art approaches convert emotions for seen speaker-emotion combinations only. In this paper, we tackle the problem of converting the emotion of speakers whose only neutral data are present during the time of training and testing (i.e., unseen speaker-emotion combinations). To this end, we extend a recently proposed StartGANv2-VC architecture by utilizing dual encoders for learning the speaker and emotion style embeddings separately along with dual domain source classifiers. For achieving the conversion to unseen speaker-emotion combinations, we propose a Virtual Domain Pairing (VDP) training strategy, which virtually incorporates the speaker-emotion pairs that are not present in the real data without compromising the min-max game of a discriminator and generator in adversarial training. We evaluate the proposed method using a Hindi emotional database.",
+      "abstract": "Primary goal of an emotional voice conversion (EVC) system is to convert the emotion of a given speech signal from one style to another style without modifying the linguistic content of the signal. Most of the state-of-the-art approaches convert emotions for seen speaker-emotion combinations only. In this paper, we tackle the problem of converting the emotion of speakers whose only neutral data are present during the time of training and testing (i.e., unseen speaker-emotion combinations). To this end, we extend a recently proposed StartGANv2-VC architecture by utilizing dual encoders for learning the speaker and emotion style embeddings separately along with dual domain source classifiers. For achieving the conversion to unseen speaker-emotion combinations, we propose a Virtual Domain Pairing (VDP) training strategy, which virtually incorporates the speaker-emotion pairs that are not present in the real data without compromising the min-max game of a discriminator and generator in adversarial training. We evaluate the proposed method using a Hindi emotional database.",
+      "doi": "https://doi.org/10.1109/icassp49357.2023.10095842",
+      "openalex_id": "https://openalex.org/W4372260157",
+      "arxiv_id": "",
+      "publication_date": "2023-05-05",
+      "published": "2023-05-05",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on emotional voice conversion with GAN-based methods for unseen speaker-emotion pairs and does not discuss discrete audio tokens, vector quantization, or token-based representations for sequence modeling, thus it fails the inclusion criteria and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on emotional voice conversion with GAN-based methods for unseen speaker-emotion pairs and does not discuss discrete audio tokens, vector quantization, or token-based representations for sequence modeling, thus it fails the inclusion criteria and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on emotional voice conversion using dual encoders and adversarial training to handle unseen speaker-emotion pairs, but it does not mention generating or utilizing discrete audio tokens through vector quantization or similar methods, which is a core requirement of inclusion; also, no details of token generation or discrete representations for language model usage are provided.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on emotional voice conversion using dual encoders and adversarial training to handle unseen speaker-emotion pairs, but it does not mention generating or utilizing discrete audio tokens through vector quantization or similar methods, which is a core requirement of inclusion; also, no details of token generation or discrete representations for language model usage are provided.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Cross-Speaker Style Transfer for Text-to-Speech Using Data Augmentation",
+    "abstract": "We address the problem of cross-speaker style transfer for text-to-speech (TTS) using data augmentation via voice conversion. We assume to have a corpus of neutral non-expressive data from a target speaker and supporting conversational expressive data from different speakers. Our goal is to build a TTS system that is expressive, while retaining the target speaker's identity. The proposed approach relies on voice conversion to first generate high-quality data from the set of supporting expressive speakers. The voice converted data is then pooled with natural data from the target speaker and used to train a single-speaker multi-style TTS system. We provide evidence that this approach is efficient, flexible, and scalable. The method is evaluated using one or more supporting speakers, as well as a variable amount of supporting data. We further provide evidence that this approach allows some controllability of speaking style, when using multiple supporting speakers. We conclude by scaling our proposed technology to a set of 14 speakers across 7 languages. Results indicate that our technology consistently improves synthetic samples in terms of style similarity, while retaining the target speaker's identity.",
+    "metadata": {
+      "title": "Cross-Speaker Style Transfer for Text-to-Speech Using Data Augmentation",
+      "summary": "We address the problem of cross-speaker style transfer for text-to-speech (TTS) using data augmentation via voice conversion. We assume to have a corpus of neutral non-expressive data from a target speaker and supporting conversational expressive data from different speakers. Our goal is to build a TTS system that is expressive, while retaining the target speaker's identity. The proposed approach relies on voice conversion to first generate high-quality data from the set of supporting expressive speakers. The voice converted data is then pooled with natural data from the target speaker and used to train a single-speaker multi-style TTS system. We provide evidence that this approach is efficient, flexible, and scalable. The method is evaluated using one or more supporting speakers, as well as a variable amount of supporting data. We further provide evidence that this approach allows some controllability of speaking style, when using multiple supporting speakers. We conclude by scaling our proposed technology to a set of 14 speakers across 7 languages. Results indicate that our technology consistently improves synthetic samples in terms of style similarity, while retaining the target speaker's identity.",
+      "abstract": "We address the problem of cross-speaker style transfer for text-to-speech (TTS) using data augmentation via voice conversion. We assume to have a corpus of neutral non-expressive data from a target speaker and supporting conversational expressive data from different speakers. Our goal is to build a TTS system that is expressive, while retaining the target speaker's identity. The proposed approach relies on voice conversion to first generate high-quality data from the set of supporting expressive speakers. The voice converted data is then pooled with natural data from the target speaker and used to train a single-speaker multi-style TTS system. We provide evidence that this approach is efficient, flexible, and scalable. The method is evaluated using one or more supporting speakers, as well as a variable amount of supporting data. We further provide evidence that this approach allows some controllability of speaking style, when using multiple supporting speakers. We conclude by scaling our proposed technology to a set of 14 speakers across 7 languages. Results indicate that our technology consistently improves synthetic samples in terms of style similarity, while retaining the target speaker's identity.",
+      "doi": "https://doi.org/10.1109/icassp43922.2022.9746179",
+      "openalex_id": "https://openalex.org/W4225264140",
+      "arxiv_id": "",
+      "publication_date": "2022-04-27",
+      "published": "2022-04-27",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The paper addresses cross-speaker style transfer in TTS via data augmentation with voice conversion, but does not involve discrete audio token design or token-based representations required by the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The paper addresses cross-speaker style transfer in TTS via data augmentation with voice conversion, but does not involve discrete audio token design or token-based representations required by the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on cross-speaker style transfer for TTS using data augmentation via voice conversion but does not mention discrete audio tokens, vector quantization, or any discrete representation or tokenization methods relevant to the inclusion criteria. It lacks details on token generation, quantization processes, or any semantic disentanglement of discrete tokens, therefore it does not meet the key aspect of the topic defined for discrete audio tokens.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on cross-speaker style transfer for TTS using data augmentation via voice conversion but does not mention discrete audio tokens, vector quantization, or any discrete representation or tokenization methods relevant to the inclusion criteria. It lacks details on token generation, quantization processes, or any semantic disentanglement of discrete tokens, therefore it does not meet the key aspect of the topic defined for discrete audio tokens.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "One-Shot Voice Conversion For Style Transfer Based On Speaker Adaptation",
+    "abstract": "One-shot style transfer is a challenging task, since training on one utterance makes model extremely easy to over-fit to training data and causes low speaker similarity and lack of expressiveness. In this paper, we build on the recognition-synthesis framework and propose a one-shot voice conversion approach for style transfer based on speaker adaptation. First, a speaker normalization module is adopted to remove speaker-related information in bottleneck features extracted by ASR. Second, we adopt weight regularization in the adaptation process to prevent over-fitting caused by using only one utterance from target speaker as training data. Finally, to comprehensively decouple the speech factors, i.e., content, speaker, style, and transfer source style to the target, a prosody module is used to extract prosody representation. Experiments show that our approach is superior to the state-of-the-art one-shot VC systems in terms of style and speaker similarity; additionally, our approach also maintains good speech quality.",
+    "metadata": {
+      "title": "One-Shot Voice Conversion For Style Transfer Based On Speaker Adaptation",
+      "summary": "One-shot style transfer is a challenging task, since training on one utterance makes model extremely easy to over-fit to training data and causes low speaker similarity and lack of expressiveness. In this paper, we build on the recognition-synthesis framework and propose a one-shot voice conversion approach for style transfer based on speaker adaptation. First, a speaker normalization module is adopted to remove speaker-related information in bottleneck features extracted by ASR. Second, we adopt weight regularization in the adaptation process to prevent over-fitting caused by using only one utterance from target speaker as training data. Finally, to comprehensively decouple the speech factors, i.e., content, speaker, style, and transfer source style to the target, a prosody module is used to extract prosody representation. Experiments show that our approach is superior to the state-of-the-art one-shot VC systems in terms of style and speaker similarity; additionally, our approach also maintains good speech quality.",
+      "abstract": "One-shot style transfer is a challenging task, since training on one utterance makes model extremely easy to over-fit to training data and causes low speaker similarity and lack of expressiveness. In this paper, we build on the recognition-synthesis framework and propose a one-shot voice conversion approach for style transfer based on speaker adaptation. First, a speaker normalization module is adopted to remove speaker-related information in bottleneck features extracted by ASR. Second, we adopt weight regularization in the adaptation process to prevent over-fitting caused by using only one utterance from target speaker as training data. Finally, to comprehensively decouple the speech factors, i.e., content, speaker, style, and transfer source style to the target, a prosody module is used to extract prosody representation. Experiments show that our approach is superior to the state-of-the-art one-shot VC systems in terms of style and speaker similarity; additionally, our approach also maintains good speech quality.",
+      "doi": "https://doi.org/10.1109/icassp43922.2022.9746405",
+      "openalex_id": "https://openalex.org/W3216296943",
+      "arxiv_id": "",
+      "publication_date": "2022-04-27",
+      "published": "2022-04-27",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The title/abstract describe one-shot voice conversion with speaker adaptation and prosody, not discrete audio tokens or token-based representations (no VQ/RVQ, hierarchical quantization, or token generation/quantization details). Therefore it does not meet the inclusion criteria and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The title/abstract describe one-shot voice conversion with speaker adaptation and prosody, not discrete audio tokens or token-based representations (no VQ/RVQ, hierarchical quantization, or token generation/quantization details). Therefore it does not meet the inclusion criteria and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study proposes a one-shot voice conversion method focused on style transfer and speaker adaptation but does not mention generating or utilizing discrete audio tokens, vector quantization, or a tokenization process that aligns with the defined inclusion criteria. It lacks details on token formation mechanisms or using such tokens for sequence or language modeling, indicating that it does not meet the core thematic requirements for inclusion.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study proposes a one-shot voice conversion method focused on style transfer and speaker adaptation but does not mention generating or utilizing discrete audio tokens, vector quantization, or a tokenization process that aligns with the defined inclusion criteria. It lacks details on token formation mechanisms or using such tokens for sequence or language modeling, indicating that it does not meet the core thematic requirements for inclusion.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Expressive Voice Conversion: A Joint Framework for Speaker Identity and Emotional Style Transfer",
+    "abstract": "Traditional voice conversion (VC) has been focused on speaker identity conversion for speech with a neutral expression. We note that emotional expression plays an essential role in daily communication, and the emotional style of speech can be speaker-dependent. In this paper, we study a technique to jointly convert the speaker identity and speaker-dependent emotional style, that is called expressive voice conversion. We propose a StarGAN-based framework to learn a many-to-many mapping across different speakers, that takes into account speaker-dependent emotional style without the need for parallel data. To this end, we condition the generator on emotional style encoding derived from a pre-trained speech emotion recognition (SER) model. The experiments validate the effectiveness of our proposed framework in both objective and subjective evaluations. To our best knowledge, this is the first study on expressive voice conversion.",
+    "metadata": {
+      "title": "Expressive Voice Conversion: A Joint Framework for Speaker Identity and Emotional Style Transfer",
+      "summary": "Traditional voice conversion (VC) has been focused on speaker identity conversion for speech with a neutral expression. We note that emotional expression plays an essential role in daily communication, and the emotional style of speech can be speaker-dependent. In this paper, we study a technique to jointly convert the speaker identity and speaker-dependent emotional style, that is called expressive voice conversion. We propose a StarGAN-based framework to learn a many-to-many mapping across different speakers, that takes into account speaker-dependent emotional style without the need for parallel data. To this end, we condition the generator on emotional style encoding derived from a pre-trained speech emotion recognition (SER) model. The experiments validate the effectiveness of our proposed framework in both objective and subjective evaluations. To our best knowledge, this is the first study on expressive voice conversion.",
+      "abstract": "Traditional voice conversion (VC) has been focused on speaker identity conversion for speech with a neutral expression. We note that emotional expression plays an essential role in daily communication, and the emotional style of speech can be speaker-dependent. In this paper, we study a technique to jointly convert the speaker identity and speaker-dependent emotional style, that is called expressive voice conversion. We propose a StarGAN-based framework to learn a many-to-many mapping across different speakers, that takes into account speaker-dependent emotional style without the need for parallel data. To this end, we condition the generator on emotional style encoding derived from a pre-trained speech emotion recognition (SER) model. The experiments validate the effectiveness of our proposed framework in both objective and subjective evaluations. To our best knowledge, this is the first study on expressive voice conversion.",
+      "doi": "https://doi.org/10.1109/asru51503.2021.9687906",
+      "openalex_id": "https://openalex.org/W4226474318",
+      "arxiv_id": "",
+      "publication_date": "2021-12-13",
+      "published": "2021-12-13",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The paper focuses on expressive voice conversion with emotional style transfer and does not address discrete audio tokens or tokenization/quantization methods required by the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The paper focuses on expressive voice conversion with emotional style transfer and does not address discrete audio tokens or tokenization/quantization methods required by the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper focuses on expressive voice conversion, specifically transferring speaker identity and emotional style, without any mention of generating or using discrete audio tokens, vector quantization, or any form of tokenization process that converts continuous audio into discrete token sets for language or sequence modeling tasks. It does not meet the inclusion criteria regarding discrete audio token design as a core contribution nor detail token generation or quantization processes, thus failing to meet the criteria for inclusion.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The paper focuses on expressive voice conversion, specifically transferring speaker identity and emotional style, without any mention of generating or using discrete audio tokens, vector quantization, or any form of tokenization process that converts continuous audio into discrete token sets for language or sequence modeling tasks. It does not meet the inclusion criteria regarding discrete audio token design as a core contribution nor detail token generation or quantization processes, thus failing to meet the criteria for inclusion.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Prompttts: Controllable Text-To-Speech With Text Descriptions",
+    "abstract": "Using a text description as prompt to guide the generation of text or images (e.g., GPT-3 or DALLE-2) has drawn wide attention recently. Beyond text and image generation, in this work, we explore the possibility of utilizing text descriptions to guide speech synthesis. Thus, we develop a text-to-speech (TTS) system (dubbed as PromptTTS) that takes a prompt with both style and content descriptions as input to synthesize the corresponding speech. Specifically, PromptTTS consists of a style encoder and a content encoder to extract the corresponding representations from the prompt, and a speech decoder to synthesize speech according to the extracted style and content representations. Compared with previous works in controllable TTS that require users to have acoustic knowledge to understand style factors such as prosody and pitch, PromptTTS is more user-friendly since text descriptions are a more natural way to express speech style (e.g., \"A lady whispers to her friend slowly\"). Given that there is no TTS dataset with prompts, to benchmark the task of PromptTTS, we construct and release a dataset containing prompts with style and content information and the corresponding speech. Experiments show that PromptTTS can generate speech with precise style control and high speech quality. Audio samples and our dataset are publicly available <sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">1</sup> .",
+    "metadata": {
+      "title": "Prompttts: Controllable Text-To-Speech With Text Descriptions",
+      "summary": "Using a text description as prompt to guide the generation of text or images (e.g., GPT-3 or DALLE-2) has drawn wide attention recently. Beyond text and image generation, in this work, we explore the possibility of utilizing text descriptions to guide speech synthesis. Thus, we develop a text-to-speech (TTS) system (dubbed as PromptTTS) that takes a prompt with both style and content descriptions as input to synthesize the corresponding speech. Specifically, PromptTTS consists of a style encoder and a content encoder to extract the corresponding representations from the prompt, and a speech decoder to synthesize speech according to the extracted style and content representations. Compared with previous works in controllable TTS that require users to have acoustic knowledge to understand style factors such as prosody and pitch, PromptTTS is more user-friendly since text descriptions are a more natural way to express speech style (e.g., \"A lady whispers to her friend slowly\"). Given that there is no TTS dataset with prompts, to benchmark the task of PromptTTS, we construct and release a dataset containing prompts with style and content information and the corresponding speech. Experiments show that PromptTTS can generate speech with precise style control and high speech quality. Audio samples and our dataset are publicly available <sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">1</sup> .",
+      "abstract": "Using a text description as prompt to guide the generation of text or images (e.g., GPT-3 or DALLE-2) has drawn wide attention recently. Beyond text and image generation, in this work, we explore the possibility of utilizing text descriptions to guide speech synthesis. Thus, we develop a text-to-speech (TTS) system (dubbed as PromptTTS) that takes a prompt with both style and content descriptions as input to synthesize the corresponding speech. Specifically, PromptTTS consists of a style encoder and a content encoder to extract the corresponding representations from the prompt, and a speech decoder to synthesize speech according to the extracted style and content representations. Compared with previous works in controllable TTS that require users to have acoustic knowledge to understand style factors such as prosody and pitch, PromptTTS is more user-friendly since text descriptions are a more natural way to express speech style (e.g., \"A lady whispers to her friend slowly\"). Given that there is no TTS dataset with prompts, to benchmark the task of PromptTTS, we construct and release a dataset containing prompts with style and content information and the corresponding speech. Experiments show that PromptTTS can generate speech with precise style control and high speech quality. Audio samples and our dataset are publicly available <sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">1</sup> .",
+      "doi": "https://doi.org/10.1109/icassp49357.2023.10096285",
+      "openalex_id": "https://openalex.org/W4375869257",
+      "arxiv_id": "",
+      "publication_date": "2023-05-05",
+      "published": "2023-05-05",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on controllable TTS guided by text prompts and style/content descriptions, but it does not discuss discrete audio tokens, vector quantization, or token-based audio modeling, which are central to the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on controllable TTS guided by text prompts and style/content descriptions, but it does not discuss discrete audio tokens, vector quantization, or token-based audio modeling, which are central to the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on a text-to-speech (TTS) system guided by text descriptions to synthesize speech style and content, but it does not mention the use or design of discrete audio tokens, vector quantization, or any discrete representation of audio signals as defined by the inclusion criteria. It primarily introduces a controllable TTS method using style and content encoders without detailing tokenization or quantization mechanisms, thus failing to meet the core requirement of discrete audio token representation.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on a text-to-speech (TTS) system guided by text descriptions to synthesize speech style and content, but it does not mention the use or design of discrete audio tokens, vector quantization, or any discrete representation of audio signals as defined by the inclusion criteria. It primarily introduces a controllable TTS method using style and content encoders without detailing tokenization or quantization mechanisms, thus failing to meet the core requirement of discrete audio token representation.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Discriminant Analysis for Unsupervised Feature Selection",
+    "abstract": "Previous chapter Next chapter Full AccessProceedings Proceedings of the 2014 SIAM International Conference on Data Mining (SDM)Discriminant Analysis for Unsupervised Feature SelectionJiliang Tang, Xia Hu, Huiji Gao, and Huan LiuJiliang Tang, Xia Hu, Huiji Gao, and Huan Liupp.938 - 946Chapter DOI:https://doi.org/10.1137/1.9781611973440.107PDFBibTexSections ToolsAdd to favoritesExport CitationTrack CitationsEmail SectionsAboutAbstract Feature selection has been proven to be efficient in preparing high dimensional data for data mining and machine learning. As most data is unlabeled, unsupervised feature selection has attracted more and more attention in recent years. Discriminant analysis has been proven to be a powerful technique to select discriminative features for supervised feature selection. To apply discriminant analysis, we usually need label information which is absent for unlabeled data. This gap makes it challenging to apply discriminant analysis for unsupervised feature selection. In this paper, we investigate how to exploit discriminant analysis in unsupervised scenarios to select discriminative features. We introduce the concept of pseudo labels, which enable discriminant analysis on unlabeled data, propose a novel unsupervised feature selection framework DisUFS which incorporates learning discriminative features with generating pseudo labels, and develop an effective algorithm for DisUFS. Experimental results on different types of real-world data demonstrate the effectiveness of the proposed framework DisUFS. Previous chapter Next chapter RelatedDetails Published:2014eISBN:978-1-61197-344-0 https://doi.org/10.1137/1.9781611973440Book Series Name:ProceedingsBook Code:PRDT14Book Pages:1-1086",
+    "metadata": {
+      "title": "Discriminant Analysis for Unsupervised Feature Selection",
+      "summary": "Previous chapter Next chapter Full AccessProceedings Proceedings of the 2014 SIAM International Conference on Data Mining (SDM)Discriminant Analysis for Unsupervised Feature SelectionJiliang Tang, Xia Hu, Huiji Gao, and Huan LiuJiliang Tang, Xia Hu, Huiji Gao, and Huan Liupp.938 - 946Chapter DOI:https://doi.org/10.1137/1.9781611973440.107PDFBibTexSections ToolsAdd to favoritesExport CitationTrack CitationsEmail SectionsAboutAbstract Feature selection has been proven to be efficient in preparing high dimensional data for data mining and machine learning. As most data is unlabeled, unsupervised feature selection has attracted more and more attention in recent years. Discriminant analysis has been proven to be a powerful technique to select discriminative features for supervised feature selection. To apply discriminant analysis, we usually need label information which is absent for unlabeled data. This gap makes it challenging to apply discriminant analysis for unsupervised feature selection. In this paper, we investigate how to exploit discriminant analysis in unsupervised scenarios to select discriminative features. We introduce the concept of pseudo labels, which enable discriminant analysis on unlabeled data, propose a novel unsupervised feature selection framework DisUFS which incorporates learning discriminative features with generating pseudo labels, and develop an effective algorithm for DisUFS. Experimental results on different types of real-world data demonstrate the effectiveness of the proposed framework DisUFS. Previous chapter Next chapter RelatedDetails Published:2014eISBN:978-1-61197-344-0 https://doi.org/10.1137/1.9781611973440Book Series Name:ProceedingsBook Code:PRDT14Book Pages:1-1086",
+      "abstract": "Previous chapter Next chapter Full AccessProceedings Proceedings of the 2014 SIAM International Conference on Data Mining (SDM)Discriminant Analysis for Unsupervised Feature SelectionJiliang Tang, Xia Hu, Huiji Gao, and Huan LiuJiliang Tang, Xia Hu, Huiji Gao, and Huan Liupp.938 - 946Chapter DOI:https://doi.org/10.1137/1.9781611973440.107PDFBibTexSections ToolsAdd to favoritesExport CitationTrack CitationsEmail SectionsAboutAbstract Feature selection has been proven to be efficient in preparing high dimensional data for data mining and machine learning. As most data is unlabeled, unsupervised feature selection has attracted more and more attention in recent years. Discriminant analysis has been proven to be a powerful technique to select discriminative features for supervised feature selection. To apply discriminant analysis, we usually need label information which is absent for unlabeled data. This gap makes it challenging to apply discriminant analysis for unsupervised feature selection. In this paper, we investigate how to exploit discriminant analysis in unsupervised scenarios to select discriminative features. We introduce the concept of pseudo labels, which enable discriminant analysis on unlabeled data, propose a novel unsupervised feature selection framework DisUFS which incorporates learning discriminative features with generating pseudo labels, and develop an effective algorithm for DisUFS. Experimental results on different types of real-world data demonstrate the effectiveness of the proposed framework DisUFS. Previous chapter Next chapter RelatedDetails Published:2014eISBN:978-1-61197-344-0 https://doi.org/10.1137/1.9781611973440Book Series Name:ProceedingsBook Code:PRDT14Book Pages:1-1086",
+      "doi": "https://doi.org/10.1137/1.9781611973440.107",
+      "openalex_id": "https://openalex.org/W2402014506",
+      "arxiv_id": "",
+      "publication_date": "2014-04-28",
+      "published": "2014-04-28",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "This item concerns discriminant analysis for unsupervised feature selection and pseudo labels, with no discussion of discrete audio tokens or tokenization methods, so it does not meet the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "This item concerns discriminant analysis for unsupervised feature selection and pseudo labels, with no discussion of discrete audio tokens or tokenization methods, so it does not meet the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The title and abstract focus on unsupervised feature selection using discriminant analysis and pseudo labels within data mining and machine learning, with no indication of discrete audio tokens, audio representation, vector quantization, or related audio modeling methods as described in the inclusion criteria. The research topic does not address discrete audio token generation or relevant audio sequence modeling, thus failing to meet the inclusion criteria and unrelated to discrete audio token studies.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The title and abstract focus on unsupervised feature selection using discriminant analysis and pseudo labels within data mining and machine learning, with no indication of discrete audio tokens, audio representation, vector quantization, or related audio modeling methods as described in the inclusion criteria. The research topic does not address discrete audio token generation or relevant audio sequence modeling, thus failing to meet the inclusion criteria and unrelated to discrete audio token studies.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Towards unsupervised training of speaker independent acoustic models",
+    "abstract": "Can we automatically discover speaker independent phonemelike subword units with zero resources in a surprise language? There have been a number of recent efforts to automatically discover repeated spoken terms without a recognizer. This paper investigates the feasibility of using these results as constraints for unsupervised acoustic model training. We start with a relatively small set of word types, as well as their locations in the speech. The training process assumes that repetitions of the same (unknown) word share the same (unknown) sequence of subword units. For each word type, we train a whole-word hidden Markov model with Gaussian mixture observation densities and collapse correlated states across the word types using spectral clustering. We find that the resulting state clusters align reasonably well along phonetic lines. In evaluating cross-speaker word similarity, the proposed techniques outperform both raw acoustic features and language-mismatched acoustic models.",
+    "metadata": {
+      "title": "Towards unsupervised training of speaker independent acoustic models",
+      "summary": "Can we automatically discover speaker independent phonemelike subword units with zero resources in a surprise language? There have been a number of recent efforts to automatically discover repeated spoken terms without a recognizer. This paper investigates the feasibility of using these results as constraints for unsupervised acoustic model training. We start with a relatively small set of word types, as well as their locations in the speech. The training process assumes that repetitions of the same (unknown) word share the same (unknown) sequence of subword units. For each word type, we train a whole-word hidden Markov model with Gaussian mixture observation densities and collapse correlated states across the word types using spectral clustering. We find that the resulting state clusters align reasonably well along phonetic lines. In evaluating cross-speaker word similarity, the proposed techniques outperform both raw acoustic features and language-mismatched acoustic models.",
+      "abstract": "Can we automatically discover speaker independent phonemelike subword units with zero resources in a surprise language? There have been a number of recent efforts to automatically discover repeated spoken terms without a recognizer. This paper investigates the feasibility of using these results as constraints for unsupervised acoustic model training. We start with a relatively small set of word types, as well as their locations in the speech. The training process assumes that repetitions of the same (unknown) word share the same (unknown) sequence of subword units. For each word type, we train a whole-word hidden Markov model with Gaussian mixture observation densities and collapse correlated states across the word types using spectral clustering. We find that the resulting state clusters align reasonably well along phonetic lines. In evaluating cross-speaker word similarity, the proposed techniques outperform both raw acoustic features and language-mismatched acoustic models.",
+      "doi": "https://doi.org/10.21437/interspeech.2011-184",
+      "openalex_id": "https://openalex.org/W2401464865",
+      "arxiv_id": "",
+      "publication_date": "2011-08-27",
+      "published": "2011-08-27",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "此研究聚焦於在無監督情況下發現語音的 phoneme-like 子字單元以訓練 speaker-independent 的聲學模型，雖與表示學有關，但未以離散音訊 token 的生成/量化設計為核心貢獻，也未提供可用於語言模型的離散 token 流程與碼本等細節，因此不符合題意中「離散化音訊表徵/離散 token 設計」的核心要求。",
+      "evaluation": 2
+    },
+    "round-A_JuniorNano_reasoning": "此研究聚焦於在無監督情況下發現語音的 phoneme-like 子字單元以訓練 speaker-independent 的聲學模型，雖與表示學有關，但未以離散音訊 token 的生成/量化設計為核心貢獻，也未提供可用於語言模型的離散 token 流程與碼本等細節，因此不符合題意中「離散化音訊表徵/離散 token 設計」的核心要求。",
+    "round-A_JuniorNano_evaluation": 2,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper focuses on unsupervised training of acoustic models by discovering phonemelike subword units without using prior resources, which relates to acoustic modeling but does not clearly involve the generation or utilization of discrete audio tokens through vector quantization or similar quantization methods typical of 'Discrete Audio Tokens' as defined. The abstract lacks explicit mention of token generation processes, quantization techniques, or clear use of tokens for sequence or language modeling, making it uncertain whether the work meets the key inclusion criteria centered on discrete token design and application.",
+      "evaluation": 2
+    },
+    "round-A_JuniorMini_reasoning": "The paper focuses on unsupervised training of acoustic models by discovering phonemelike subword units without using prior resources, which relates to acoustic modeling but does not clearly involve the generation or utilization of discrete audio tokens through vector quantization or similar quantization methods typical of 'Discrete Audio Tokens' as defined. The abstract lacks explicit mention of token generation processes, quantization techniques, or clear use of tokens for sequence or language modeling, making it uncertain whether the work meets the key inclusion criteria centered on discrete token design and application.",
+    "round-A_JuniorMini_evaluation": 2,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:2)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:2)"
+  },
+  {
+    "title": "Adaptive dimension reduction using discriminant analysis and <i>K</i> -means clustering",
+    "abstract": "We combine linear discriminant analysis (LDA) and K-means clustering into a coherent framework to adaptively select the most discriminative subspace. We use K-means clustering to generate class labels and use LDA to do subspace selection. The clustering process is thus integrated with the subspace selection process and the data are then simultaneously clustered while the feature subspaces are selected. We show the rich structure of the general LDA-Km framework by examining its variants and their relationships to earlier approaches. Relations among PCA, LDA, K-means are clarified. Extensive experimental results on real-world datasets show the effectiveness of our approach.",
+    "metadata": {
+      "title": "Adaptive dimension reduction using discriminant analysis and <i>K</i> -means clustering",
+      "summary": "We combine linear discriminant analysis (LDA) and K-means clustering into a coherent framework to adaptively select the most discriminative subspace. We use K-means clustering to generate class labels and use LDA to do subspace selection. The clustering process is thus integrated with the subspace selection process and the data are then simultaneously clustered while the feature subspaces are selected. We show the rich structure of the general LDA-Km framework by examining its variants and their relationships to earlier approaches. Relations among PCA, LDA, K-means are clarified. Extensive experimental results on real-world datasets show the effectiveness of our approach.",
+      "abstract": "We combine linear discriminant analysis (LDA) and K-means clustering into a coherent framework to adaptively select the most discriminative subspace. We use K-means clustering to generate class labels and use LDA to do subspace selection. The clustering process is thus integrated with the subspace selection process and the data are then simultaneously clustered while the feature subspaces are selected. We show the rich structure of the general LDA-Km framework by examining its variants and their relationships to earlier approaches. Relations among PCA, LDA, K-means are clarified. Extensive experimental results on real-world datasets show the effectiveness of our approach.",
+      "doi": "https://doi.org/10.1145/1273496.1273562",
+      "openalex_id": "https://openalex.org/W2064210461",
+      "arxiv_id": "",
+      "publication_date": "2007-06-20",
+      "published": "2007-06-20",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item deals with adaptive dimension reduction using LDA and K-means, not with discrete audio tokens or tokenization for audio-language modeling as required by the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item deals with adaptive dimension reduction using LDA and K-means, not with discrete audio tokens or tokenization for audio-language modeling as required by the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The article focuses on combining linear discriminant analysis (LDA) and K-means clustering for adaptive dimension reduction; it does not address discrete audio token generation, vector quantization, or any audio-related tokenization methods relevant to audio language modeling or sequences, thus not meeting the inclusion criteria regarding discrete audio tokens.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The article focuses on combining linear discriminant analysis (LDA) and K-means clustering for adaptive dimension reduction; it does not address discrete audio token generation, vector quantization, or any audio-related tokenization methods relevant to audio language modeling or sequences, thus not meeting the inclusion criteria regarding discrete audio tokens.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Divergence measures based on the Shannon entropy",
+    "abstract": "A novel class of information-theoretic divergence measures based on the Shannon entropy is introduced. Unlike the well-known Kullback divergences, the new measures do not require the condition of absolute continuity to be satisfied by the probability distributions involved. More importantly, their close relationship with the variational distance and the probability of misclassification error are established in terms of bounds. These bounds are crucial in many applications of divergence measures. The measures are also well characterized by the properties of nonnegativity, finiteness, semiboundedness, and boundedness.< <ETX xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">&gt;</ETX>",
+    "metadata": {
+      "title": "Divergence measures based on the Shannon entropy",
+      "summary": "A novel class of information-theoretic divergence measures based on the Shannon entropy is introduced. Unlike the well-known Kullback divergences, the new measures do not require the condition of absolute continuity to be satisfied by the probability distributions involved. More importantly, their close relationship with the variational distance and the probability of misclassification error are established in terms of bounds. These bounds are crucial in many applications of divergence measures. The measures are also well characterized by the properties of nonnegativity, finiteness, semiboundedness, and boundedness.< <ETX xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">&gt;</ETX>",
+      "abstract": "A novel class of information-theoretic divergence measures based on the Shannon entropy is introduced. Unlike the well-known Kullback divergences, the new measures do not require the condition of absolute continuity to be satisfied by the probability distributions involved. More importantly, their close relationship with the variational distance and the probability of misclassification error are established in terms of bounds. These bounds are crucial in many applications of divergence measures. The measures are also well characterized by the properties of nonnegativity, finiteness, semiboundedness, and boundedness.< <ETX xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">&gt;</ETX>",
+      "doi": "https://doi.org/10.1109/18.61115",
+      "openalex_id": "https://openalex.org/W2146950091",
+      "arxiv_id": "",
+      "publication_date": "1991-01-01",
+      "published": "1991-01-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "This item focuses on divergence measures based on Shannon entropy, not on discrete audio token representations or methods for audio tokenization/quantization, so it does not meet the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "This item focuses on divergence measures based on Shannon entropy, not on discrete audio token representations or methods for audio tokenization/quantization, so it does not meet the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The article focuses on theoretical divergence measures based on Shannon entropy and does not mention any discrete audio tokens, vector quantization, token generation processes, or applications in audio language modeling or audio-related sequence models. It lacks relevant methodological and experimental details related to the inclusion criteria for discrete audio token research and does not address the key topics of semantic or acoustic disentanglement or downstream generative/understanding tasks required for inclusion.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The article focuses on theoretical divergence measures based on Shannon entropy and does not mention any discrete audio tokens, vector quantization, token generation processes, or applications in audio language modeling or audio-related sequence models. It lacks relevant methodological and experimental details related to the inclusion criteria for discrete audio token research and does not address the key topics of semantic or acoustic disentanglement or downstream generative/understanding tasks required for inclusion.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "NLP on Spoken Documents Without ASR",
+    "abstract": "There is considerable interest in interdisciplinary combinations of automatic speech recognition (ASR), machine learning, natural language processing, text classification and information retrieval. Many of these boxes, especially ASR, are often based on considerable linguistic resources. We would like to be able to process spoken documents with few (if any) resources. Moreover, connecting black boxes in series tends to multiply errors, especially when the key terms are out-ofvocabulary (OOV). The proposed alternative applies text processing directly to the speech without a dependency on ASR. The method finds long ( ∼ 1 sec) repetitions in speech, and clusters them into pseudo-terms (roughly phrases). Document clustering and classification work surprisingly well on pseudoterms; performance on a Switchboard task approaches a baseline using gold standard manual transcriptions. 1",
+    "metadata": {
+      "title": "NLP on Spoken Documents Without ASR",
+      "summary": "There is considerable interest in interdisciplinary combinations of automatic speech recognition (ASR), machine learning, natural language processing, text classification and information retrieval. Many of these boxes, especially ASR, are often based on considerable linguistic resources. We would like to be able to process spoken documents with few (if any) resources. Moreover, connecting black boxes in series tends to multiply errors, especially when the key terms are out-ofvocabulary (OOV). The proposed alternative applies text processing directly to the speech without a dependency on ASR. The method finds long ( ∼ 1 sec) repetitions in speech, and clusters them into pseudo-terms (roughly phrases). Document clustering and classification work surprisingly well on pseudoterms; performance on a Switchboard task approaches a baseline using gold standard manual transcriptions. 1",
+      "abstract": "There is considerable interest in interdisciplinary combinations of automatic speech recognition (ASR), machine learning, natural language processing, text classification and information retrieval. Many of these boxes, especially ASR, are often based on considerable linguistic resources. We would like to be able to process spoken documents with few (if any) resources. Moreover, connecting black boxes in series tends to multiply errors, especially when the key terms are out-ofvocabulary (OOV). The proposed alternative applies text processing directly to the speech without a dependency on ASR. The method finds long ( ∼ 1 sec) repetitions in speech, and clusters them into pseudo-terms (roughly phrases). Document clustering and classification work surprisingly well on pseudoterms; performance on a Switchboard task approaches a baseline using gold standard manual transcriptions. 1",
+      "doi": "",
+      "openalex_id": "https://openalex.org/W66167291",
+      "arxiv_id": "",
+      "publication_date": "2010-10-09",
+      "published": "2010-10-09",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The paper discusses discretizing spoken content into ‘pseudo-terms’ as a discrete representation, which aligns with discrete audio tokens, but it does not clearly describe a token generation/quantization process (e.g., VQ/RVQ or explicit token pipelines) or provide reproducible details, making inclusion uncertain.",
+      "evaluation": 3
+    },
+    "round-A_JuniorNano_reasoning": "The paper discusses discretizing spoken content into ‘pseudo-terms’ as a discrete representation, which aligns with discrete audio tokens, but it does not clearly describe a token generation/quantization process (e.g., VQ/RVQ or explicit token pipelines) or provide reproducible details, making inclusion uncertain.",
+    "round-A_JuniorNano_evaluation": 3,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on processing spoken documents without relying on ASR by clustering repeated speech segments into pseudo-terms for document classification. However, it does not describe generating discrete audio tokens through vector quantization or a related method, nor does it mention producing discrete tokens intended for sequence or language model processing, which is a core requirement for inclusion. The abstract lacks details on token generation mechanisms or quantitative methods needed for reproducibility. Therefore, it does not meet the inclusion criteria related to discrete audio token design.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on processing spoken documents without relying on ASR by clustering repeated speech segments into pseudo-terms for document classification. However, it does not describe generating discrete audio tokens through vector quantization or a related method, nor does it mention producing discrete tokens intended for sequence or language model processing, which is a core requirement for inclusion. The abstract lacks details on token generation mechanisms or quantitative methods needed for reproducibility. Therefore, it does not meet the inclusion criteria related to discrete audio token design.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": {
+      "reasoning": "Both junior reviewers noted the paper clusters repeated speech segments into “pseudo-terms” (which is superficially similar to producing discrete tokens) but the abstract provides no explicit token-generation/quantization mechanism (e.g., VQ/RVQ, codebook/layer design), no description of how tokens are produced for sequence/language models, and lacks method reproducibility—therefore it does not meet the inclusion criteria requiring discrete audio token design and detailed token-generation documentation. Given those points and the juniors' assessments (one uncertain, one excluding), this item should be excluded.",
+      "evaluation": 1
+    },
+    "round-B_SeniorLead_reasoning": "Both junior reviewers noted the paper clusters repeated speech segments into “pseudo-terms” (which is superficially similar to producing discrete tokens) but the abstract provides no explicit token-generation/quantization mechanism (e.g., VQ/RVQ, codebook/layer design), no description of how tokens are produced for sequence/language models, and lacks method reproducibility—therefore it does not meet the inclusion criteria requiring discrete audio token design and detailed token-generation documentation. Given those points and the juniors' assessments (one uncertain, one excluding), this item should be excluded.",
+    "round-B_SeniorLead_evaluation": 1,
+    "final_verdict": "exclude (senior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (senior:1)"
+  },
+  {
+    "title": "Making Sense of Sound: Unsupervised Topic Segmentation over Acoustic Input",
+    "abstract": "We address the task of unsupervised topic segmentation of speech data operating over raw acoustic information. In contrast to existing algorithms for topic segmentation of speech, our approach does not require input transcripts. Our method predicts topic changes by analyzing the distribution of reoccurring acoustic patterns in the speech signal corresponding to a single speaker. The algorithm robustly handles noise inherent in acoustic matching by intelligently aggregating information about the similarity profile from multiple local comparisons. Our experiments show that audio-based segmentation compares favorably with transcriptbased segmentation computed over noisy transcripts. These results demonstrate the desirability of our method for applications where a speech recognizer is not available, or its output has a high word error rate. 1",
+    "metadata": {
+      "title": "Making Sense of Sound: Unsupervised Topic Segmentation over Acoustic Input",
+      "summary": "We address the task of unsupervised topic segmentation of speech data operating over raw acoustic information. In contrast to existing algorithms for topic segmentation of speech, our approach does not require input transcripts. Our method predicts topic changes by analyzing the distribution of reoccurring acoustic patterns in the speech signal corresponding to a single speaker. The algorithm robustly handles noise inherent in acoustic matching by intelligently aggregating information about the similarity profile from multiple local comparisons. Our experiments show that audio-based segmentation compares favorably with transcriptbased segmentation computed over noisy transcripts. These results demonstrate the desirability of our method for applications where a speech recognizer is not available, or its output has a high word error rate. 1",
+      "abstract": "We address the task of unsupervised topic segmentation of speech data operating over raw acoustic information. In contrast to existing algorithms for topic segmentation of speech, our approach does not require input transcripts. Our method predicts topic changes by analyzing the distribution of reoccurring acoustic patterns in the speech signal corresponding to a single speaker. The algorithm robustly handles noise inherent in acoustic matching by intelligently aggregating information about the similarity profile from multiple local comparisons. Our experiments show that audio-based segmentation compares favorably with transcriptbased segmentation computed over noisy transcripts. These results demonstrate the desirability of our method for applications where a speech recognizer is not available, or its output has a high word error rate. 1",
+      "doi": "",
+      "openalex_id": "https://openalex.org/W2119187236",
+      "arxiv_id": "",
+      "publication_date": "2007-06-01",
+      "published": "2007-06-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The work targets unsupervised topic segmentation from raw acoustic input and does not describe discrete audio token representations or token-based modeling (e.g., VQ/RVQ, hierarchical quantization) as the main contribution; thus it fails the 'Discrete Audio Tokens' inclusion criterion and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The work targets unsupervised topic segmentation from raw acoustic input and does not describe discrete audio token representations or token-based modeling (e.g., VQ/RVQ, hierarchical quantization) as the main contribution; thus it fails the 'Discrete Audio Tokens' inclusion criterion and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on unsupervised topic segmentation of speech using raw acoustic input without transcripts, but it does not describe generating discrete audio tokens via vector quantization or related discrete token methods as required by the inclusion criteria. There is no detail about token generation processes or using discrete tokens as a core representation for sequence modeling. Thus, it does not meet the necessary criteria for inclusion in the \"Discrete Audio Tokens\" topic.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on unsupervised topic segmentation of speech using raw acoustic input without transcripts, but it does not describe generating discrete audio tokens via vector quantization or related discrete token methods as required by the inclusion criteria. There is no detail about token generation processes or using discrete tokens as a core representation for sequence modeling. Thus, it does not meet the necessary criteria for inclusion in the \"Discrete Audio Tokens\" topic.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Partitioning of Posteriorgrams Using Siamese Models for Unsupervised Acoustic Modelling",
+    "abstract": "Unsupervised methods tend to discover highly speaker-specific representations of speech.We propose a method for improving the quality of posteriorgrams generated from an unsupervised model through partitioning of the latent classes.We do this by training a sparse siamese model to find a linear transformation of the input posteriorgrams to lower-dimensional posteriorgrams.The siamese model makes use of same-category and differentcategory speech fragment pairs obtained by unsupervised term discovery.After training, the model is converted into an exact partitioning of the posteriorgrams.We evaluate the model on the minimal-pair ABX task in the context of the Zero Resource Speech Challenge.We are able to demonstrate that our method significantly reduces the dimensionality of standard Gaussian mixture model posteriorgrams, while still making them more robust to speaker variations.This suggests that the model may be viable as a general post-processing step to improve probabilistic acoustic features obtained by unsupervised learning.",
+    "metadata": {
+      "title": "Partitioning of Posteriorgrams Using Siamese Models for Unsupervised Acoustic Modelling",
+      "summary": "Unsupervised methods tend to discover highly speaker-specific representations of speech.We propose a method for improving the quality of posteriorgrams generated from an unsupervised model through partitioning of the latent classes.We do this by training a sparse siamese model to find a linear transformation of the input posteriorgrams to lower-dimensional posteriorgrams.The siamese model makes use of same-category and differentcategory speech fragment pairs obtained by unsupervised term discovery.After training, the model is converted into an exact partitioning of the posteriorgrams.We evaluate the model on the minimal-pair ABX task in the context of the Zero Resource Speech Challenge.We are able to demonstrate that our method significantly reduces the dimensionality of standard Gaussian mixture model posteriorgrams, while still making them more robust to speaker variations.This suggests that the model may be viable as a general post-processing step to improve probabilistic acoustic features obtained by unsupervised learning.",
+      "abstract": "Unsupervised methods tend to discover highly speaker-specific representations of speech.We propose a method for improving the quality of posteriorgrams generated from an unsupervised model through partitioning of the latent classes.We do this by training a sparse siamese model to find a linear transformation of the input posteriorgrams to lower-dimensional posteriorgrams.The siamese model makes use of same-category and differentcategory speech fragment pairs obtained by unsupervised term discovery.After training, the model is converted into an exact partitioning of the posteriorgrams.We evaluate the model on the minimal-pair ABX task in the context of the Zero Resource Speech Challenge.We are able to demonstrate that our method significantly reduces the dimensionality of standard Gaussian mixture model posteriorgrams, while still making them more robust to speaker variations.This suggests that the model may be viable as a general post-processing step to improve probabilistic acoustic features obtained by unsupervised learning.",
+      "doi": "https://doi.org/10.21437/glu.2017-6",
+      "openalex_id": "https://openalex.org/W2745710152",
+      "arxiv_id": "",
+      "publication_date": "2017-08-25",
+      "published": "2017-08-25",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "This work discusses unsupervised acoustic modeling by transforming posteriorgrams and partitioning latent classes, but it does not describe generating discrete audio tokens via quantization or a tokenization process suitable for language/sequence models, hence it should be excluded.",
+      "evaluation": 2
+    },
+    "round-A_JuniorNano_reasoning": "This work discusses unsupervised acoustic modeling by transforming posteriorgrams and partitioning latent classes, but it does not describe generating discrete audio tokens via quantization or a tokenization process suitable for language/sequence models, hence it should be excluded.",
+    "round-A_JuniorNano_evaluation": 2,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on improving unsupervised acoustic modeling through partitioning continuous posteriorgram representations using a Siamese model, but it does not explicitly describe converting continuous audio into discrete tokens through vector quantization or related discrete tokenization methods, nor does it clarify using such tokens for sequence or language modeling; thus, it does not clearly meet the core inclusion criteria regarding discrete audio token generation and utilization.",
+      "evaluation": 2
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on improving unsupervised acoustic modeling through partitioning continuous posteriorgram representations using a Siamese model, but it does not explicitly describe converting continuous audio into discrete tokens through vector quantization or related discrete tokenization methods, nor does it clarify using such tokens for sequence or language modeling; thus, it does not clearly meet the core inclusion criteria regarding discrete audio token generation and utilization.",
+    "round-A_JuniorMini_evaluation": 2,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:2)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:2)"
+  },
+  {
+    "title": "Unsupervised Speech Signal to Symbol Transformation for Zero Resource Speech Applications",
+    "abstract": "Zero resource speech processing refers to a scenario where no or minimal transcribed data is available. In this paper, we propose a three-step unsupervised approach to zero resource speech processing, which does not require any other information/dataset. In the first step, we segment the speech signal into phonemelike units, resulting in a large number of varying length segments. The second step involves clustering the varying-length segments into a finite number of clusters so that each segment can be labeled with a cluster index. The unsupervised transcriptions, thus obtained, can be thought of as a sequence of virtual phone labels. In the third step, a deep neural network classifier is trained to map the feature vectors extracted from the signal to its corresponding virtual phone label. The virtual phone posteriors extracted from the DNN are used as features in the zero resource speech processing. The effectiveness of the proposed approach is evaluated on both ABX and spoken term discovery tasks (STD) using spontaneous American English and Tsonga language datasets, provided as part of zero resource 2015 challenge. It is observed that the proposed system outperforms baselines, supplied along the datasets, in both the tasks without any task specific modifications.",
+    "metadata": {
+      "title": "Unsupervised Speech Signal to Symbol Transformation for Zero Resource Speech Applications",
+      "summary": "Zero resource speech processing refers to a scenario where no or minimal transcribed data is available. In this paper, we propose a three-step unsupervised approach to zero resource speech processing, which does not require any other information/dataset. In the first step, we segment the speech signal into phonemelike units, resulting in a large number of varying length segments. The second step involves clustering the varying-length segments into a finite number of clusters so that each segment can be labeled with a cluster index. The unsupervised transcriptions, thus obtained, can be thought of as a sequence of virtual phone labels. In the third step, a deep neural network classifier is trained to map the feature vectors extracted from the signal to its corresponding virtual phone label. The virtual phone posteriors extracted from the DNN are used as features in the zero resource speech processing. The effectiveness of the proposed approach is evaluated on both ABX and spoken term discovery tasks (STD) using spontaneous American English and Tsonga language datasets, provided as part of zero resource 2015 challenge. It is observed that the proposed system outperforms baselines, supplied along the datasets, in both the tasks without any task specific modifications.",
+      "abstract": "Zero resource speech processing refers to a scenario where no or minimal transcribed data is available. In this paper, we propose a three-step unsupervised approach to zero resource speech processing, which does not require any other information/dataset. In the first step, we segment the speech signal into phonemelike units, resulting in a large number of varying length segments. The second step involves clustering the varying-length segments into a finite number of clusters so that each segment can be labeled with a cluster index. The unsupervised transcriptions, thus obtained, can be thought of as a sequence of virtual phone labels. In the third step, a deep neural network classifier is trained to map the feature vectors extracted from the signal to its corresponding virtual phone label. The virtual phone posteriors extracted from the DNN are used as features in the zero resource speech processing. The effectiveness of the proposed approach is evaluated on both ABX and spoken term discovery tasks (STD) using spontaneous American English and Tsonga language datasets, provided as part of zero resource 2015 challenge. It is observed that the proposed system outperforms baselines, supplied along the datasets, in both the tasks without any task specific modifications.",
+      "doi": "https://doi.org/10.21437/interspeech.2017-1476",
+      "openalex_id": "https://openalex.org/W2747192917",
+      "arxiv_id": "",
+      "publication_date": "2017-08-16",
+      "published": "2017-08-16",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The paper proposes unsupervised generation of discrete tokens by segmenting speech into phoneme-like units and clustering into finite label clusters (virtual phone labels), aligning with discrete audio token research and providing a reproducible tokenization pathway, so it should be included.",
+      "evaluation": 4
+    },
+    "round-A_JuniorNano_reasoning": "The paper proposes unsupervised generation of discrete tokens by segmenting speech into phoneme-like units and clustering into finite label clusters (virtual phone labels), aligning with discrete audio token research and providing a reproducible tokenization pathway, so it should be included.",
+    "round-A_JuniorNano_evaluation": 4,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper describes an unsupervised approach to segment and cluster speech into phoneme-like units, which are then labeled with cluster indices acting as virtual phone labels, essentially forming discrete tokens representing speech signals. However, the method involves clustering rather than explicit neural vector quantization or learned quantization methods typical of modern discrete audio token generation focused on preserving semantic and acoustic disentanglement. The paper does not explicitly detail the token generation mechanism as a learned discrete representation with codebooks or residual quantization, nor its use for audio language modeling or cross-modal generative tasks. Therefore, while the study relates to transforming speech into discrete symbolic sequences, it does not fully meet the inclusion criteria centered on designed discrete audio tokens with explicit quantization and usage for sequence modeling as core contributions.",
+      "evaluation": 3
+    },
+    "round-A_JuniorMini_reasoning": "The paper describes an unsupervised approach to segment and cluster speech into phoneme-like units, which are then labeled with cluster indices acting as virtual phone labels, essentially forming discrete tokens representing speech signals. However, the method involves clustering rather than explicit neural vector quantization or learned quantization methods typical of modern discrete audio token generation focused on preserving semantic and acoustic disentanglement. The paper does not explicitly detail the token generation mechanism as a learned discrete representation with codebooks or residual quantization, nor its use for audio language modeling or cross-modal generative tasks. Therefore, while the study relates to transforming speech into discrete symbolic sequences, it does not fully meet the inclusion criteria centered on designed discrete audio tokens with explicit quantization and usage for sequence modeling as core contributions.",
+    "round-A_JuniorMini_evaluation": 3,
+    "round-B_SeniorLead_output": {
+      "reasoning": "Junior reviews: one judged this as includable (4), noting it creates discrete virtual-phone tokens via segmentation and clustering; the other was more cautious (3), pointing out the method uses clustering rather than modern learned VQ/RVQ codecs and may not match contemporary discrete-token designs. My assessment: the paper explicitly describes a token-generation pipeline (unsupervised segmentation → clustering → cluster-index “virtual phone” labels → DNN mapping) that converts continuous speech into a finite set of discrete symbols and evaluates them on standard zero-resource tasks, which fits the inclusion definition’s allowed path of forming discrete semantic tokens via clustering/quantization of representations. Although it does not use neural VQ/RVQ or hierarchical quantization, clustering-based discrete labeling is covered by the inclusion technical paths (SSL/quantize/cluster to form discrete tokens) and the abstract provides method and evaluation details. Therefore I recommend inclusion but not as an absolute/priority example of modern VQ-based token designs.",
+      "evaluation": 4
+    },
+    "round-B_SeniorLead_reasoning": "Junior reviews: one judged this as includable (4), noting it creates discrete virtual-phone tokens via segmentation and clustering; the other was more cautious (3), pointing out the method uses clustering rather than modern learned VQ/RVQ codecs and may not match contemporary discrete-token designs. My assessment: the paper explicitly describes a token-generation pipeline (unsupervised segmentation → clustering → cluster-index “virtual phone” labels → DNN mapping) that converts continuous speech into a finite set of discrete symbols and evaluates them on standard zero-resource tasks, which fits the inclusion definition’s allowed path of forming discrete semantic tokens via clustering/quantization of representations. Although it does not use neural VQ/RVQ or hierarchical quantization, clustering-based discrete labeling is covered by the inclusion technical paths (SSL/quantize/cluster to form discrete tokens) and the abstract provides method and evaluation details. Therefore I recommend inclusion but not as an absolute/priority example of modern VQ-based token designs.",
+    "round-B_SeniorLead_evaluation": 4,
+    "final_verdict": "include (senior:4)",
+    "review_skipped": false,
+    "discard_reason": null
+  },
+  {
+    "title": "Phoneme Based Embedded Segmental K-Means for Unsupervised Term Discovery",
+    "abstract": "Identifying and grouping the frequently occurring word-like patterns from raw acoustic waveforms is an important task in the zero resource speech processing. Embedded segmental K-means (ES-KMeans) discovers both the word boundaries and the word types from raw data. Starting from an initial set of subword boundaries, the ES-Kmeans iteratively eliminates some of the boundaries to arrive at frequently occurring longer word patterns. Notice that the initial word boundaries will not be adjusted during the process. As a result, the performance of the ES-Kmeans critically depends on the initial subword boundaries. Originally, syllable boundaries were used to initialize ES-Kmeans. In this paper, we propose to use a phoneme segmentation method that produces boundaries closer to true boundaries for ES-KMeans initialization. The use of shorter units increases the number of initial boundaries which leads to a significant increment in the computational complexity. To reduce the computational cost, we extract compact lower dimensional embeddings from an auto-encoder. The proposed algorithm is benchmarked on Zero Resource 2017 challenge, which consists of 70 hours of unlabeled data across three languages, viz. English, French, and Mandarin. The proposed algorithm outperforms the baseline system without any language-specific parameter tuning.",
+    "metadata": {
+      "title": "Phoneme Based Embedded Segmental K-Means for Unsupervised Term Discovery",
+      "summary": "Identifying and grouping the frequently occurring word-like patterns from raw acoustic waveforms is an important task in the zero resource speech processing. Embedded segmental K-means (ES-KMeans) discovers both the word boundaries and the word types from raw data. Starting from an initial set of subword boundaries, the ES-Kmeans iteratively eliminates some of the boundaries to arrive at frequently occurring longer word patterns. Notice that the initial word boundaries will not be adjusted during the process. As a result, the performance of the ES-Kmeans critically depends on the initial subword boundaries. Originally, syllable boundaries were used to initialize ES-Kmeans. In this paper, we propose to use a phoneme segmentation method that produces boundaries closer to true boundaries for ES-KMeans initialization. The use of shorter units increases the number of initial boundaries which leads to a significant increment in the computational complexity. To reduce the computational cost, we extract compact lower dimensional embeddings from an auto-encoder. The proposed algorithm is benchmarked on Zero Resource 2017 challenge, which consists of 70 hours of unlabeled data across three languages, viz. English, French, and Mandarin. The proposed algorithm outperforms the baseline system without any language-specific parameter tuning.",
+      "abstract": "Identifying and grouping the frequently occurring word-like patterns from raw acoustic waveforms is an important task in the zero resource speech processing. Embedded segmental K-means (ES-KMeans) discovers both the word boundaries and the word types from raw data. Starting from an initial set of subword boundaries, the ES-Kmeans iteratively eliminates some of the boundaries to arrive at frequently occurring longer word patterns. Notice that the initial word boundaries will not be adjusted during the process. As a result, the performance of the ES-Kmeans critically depends on the initial subword boundaries. Originally, syllable boundaries were used to initialize ES-Kmeans. In this paper, we propose to use a phoneme segmentation method that produces boundaries closer to true boundaries for ES-KMeans initialization. The use of shorter units increases the number of initial boundaries which leads to a significant increment in the computational complexity. To reduce the computational cost, we extract compact lower dimensional embeddings from an auto-encoder. The proposed algorithm is benchmarked on Zero Resource 2017 challenge, which consists of 70 hours of unlabeled data across three languages, viz. English, French, and Mandarin. The proposed algorithm outperforms the baseline system without any language-specific parameter tuning.",
+      "doi": "https://doi.org/10.1109/icassp.2018.8462264",
+      "openalex_id": "https://openalex.org/W2890718354",
+      "arxiv_id": "",
+      "publication_date": "2018-04-01",
+      "published": "2018-04-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The paper focuses on unsupervised term discovery and boundary segmentation with ES-KMeans and phoneme-based initialization; it does not propose discrete audio tokens/quantization suitable for audio language modeling or token-based representations.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The paper focuses on unsupervised term discovery and boundary segmentation with ES-KMeans and phoneme-based initialization; it does not propose discrete audio tokens/quantization suitable for audio language modeling or token-based representations.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on phoneme segmentation and embedded segmental K-means for unsupervised term discovery in speech, which relates to acoustic pattern discovery but does not explicitly discuss the generation of discrete audio tokens via vector quantization, residual vector quantization, or other neural codec approaches. It lacks clear description of token generation processes or usage for sequence/language models, and the abstract does not mention producing or using discrete tokens explicitly as defined in the inclusion criteria. Therefore, it does not meet the main criterion of discrete token design or use and thus should not be included.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on phoneme segmentation and embedded segmental K-means for unsupervised term discovery in speech, which relates to acoustic pattern discovery but does not explicitly discuss the generation of discrete audio tokens via vector quantization, residual vector quantization, or other neural codec approaches. It lacks clear description of token generation processes or usage for sequence/language models, and the abstract does not mention producing or using discrete tokens explicitly as defined in the inclusion criteria. Therefore, it does not meet the main criterion of discrete token design or use and thus should not be included.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Acoustic Segment Modeling with Spectral Clustering Methods",
+    "abstract": "This paper presents a study of spectral clustering-based approaches to acoustic segment modeling (ASM). ASM aims at finding the underlying phoneme-like speech units and building the corresponding acoustic models in the unsupervised setting, where no prior linguistic knowledge and manual transcriptions are available. A typical ASM process involves three stages, namely initial segmentation, segment labeling, and iterative modeling. This work focuses on the improvement of segment labeling. Specifically, we use posterior features as the segment representations, and apply spectral clustering algorithms on the posterior representations. We propose a Gaussian component clustering (GCC) approach and a segment clustering (SC) approach. GCC applies spectral clustering on a set of Gaussian components, and SC applies spectral clustering on a large number of speech segments. Moreover, to exploit the complementary information of different posterior representations, a multiview segment clustering (MSC) approach is proposed. MSC simultaneously utilizes multiple posterior representations to cluster speech segments. To address the computational problem of spectral clustering in dealing with large numbers of speech segments, we use inner product similarity graph and make reformulations to avoid the explicit computation of the affinity matrix and Laplacian matrix. We carried out two sets of experiments for evaluation. First, we evaluated the ASM accuracy on the OGI-MTS dataset, and it was shown that our approach could yield 18.7% relative purity improvement and 15.1% relative NMI improvement compared with the baseline approach. Second, we examined the performances of our approaches in the real application of zero-resource query-by-example spoken term detection on SWS2012 dataset, and it was shown that our approaches could provide consistent improvement on four different testing scenarios with three evaluation metrics.",
+    "metadata": {
+      "title": "Acoustic Segment Modeling with Spectral Clustering Methods",
+      "summary": "This paper presents a study of spectral clustering-based approaches to acoustic segment modeling (ASM). ASM aims at finding the underlying phoneme-like speech units and building the corresponding acoustic models in the unsupervised setting, where no prior linguistic knowledge and manual transcriptions are available. A typical ASM process involves three stages, namely initial segmentation, segment labeling, and iterative modeling. This work focuses on the improvement of segment labeling. Specifically, we use posterior features as the segment representations, and apply spectral clustering algorithms on the posterior representations. We propose a Gaussian component clustering (GCC) approach and a segment clustering (SC) approach. GCC applies spectral clustering on a set of Gaussian components, and SC applies spectral clustering on a large number of speech segments. Moreover, to exploit the complementary information of different posterior representations, a multiview segment clustering (MSC) approach is proposed. MSC simultaneously utilizes multiple posterior representations to cluster speech segments. To address the computational problem of spectral clustering in dealing with large numbers of speech segments, we use inner product similarity graph and make reformulations to avoid the explicit computation of the affinity matrix and Laplacian matrix. We carried out two sets of experiments for evaluation. First, we evaluated the ASM accuracy on the OGI-MTS dataset, and it was shown that our approach could yield 18.7% relative purity improvement and 15.1% relative NMI improvement compared with the baseline approach. Second, we examined the performances of our approaches in the real application of zero-resource query-by-example spoken term detection on SWS2012 dataset, and it was shown that our approaches could provide consistent improvement on four different testing scenarios with three evaluation metrics.",
+      "abstract": "This paper presents a study of spectral clustering-based approaches to acoustic segment modeling (ASM). ASM aims at finding the underlying phoneme-like speech units and building the corresponding acoustic models in the unsupervised setting, where no prior linguistic knowledge and manual transcriptions are available. A typical ASM process involves three stages, namely initial segmentation, segment labeling, and iterative modeling. This work focuses on the improvement of segment labeling. Specifically, we use posterior features as the segment representations, and apply spectral clustering algorithms on the posterior representations. We propose a Gaussian component clustering (GCC) approach and a segment clustering (SC) approach. GCC applies spectral clustering on a set of Gaussian components, and SC applies spectral clustering on a large number of speech segments. Moreover, to exploit the complementary information of different posterior representations, a multiview segment clustering (MSC) approach is proposed. MSC simultaneously utilizes multiple posterior representations to cluster speech segments. To address the computational problem of spectral clustering in dealing with large numbers of speech segments, we use inner product similarity graph and make reformulations to avoid the explicit computation of the affinity matrix and Laplacian matrix. We carried out two sets of experiments for evaluation. First, we evaluated the ASM accuracy on the OGI-MTS dataset, and it was shown that our approach could yield 18.7% relative purity improvement and 15.1% relative NMI improvement compared with the baseline approach. Second, we examined the performances of our approaches in the real application of zero-resource query-by-example spoken term detection on SWS2012 dataset, and it was shown that our approaches could provide consistent improvement on four different testing scenarios with three evaluation metrics.",
+      "doi": "https://doi.org/10.1109/taslp.2014.2387382",
+      "openalex_id": "https://openalex.org/W1975728937",
+      "arxiv_id": "",
+      "publication_date": "2015-01-05",
+      "published": "2015-01-05",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "Does not introduce discrete audio tokens (no VQ/RVQ/quantization-based tokenization) for downstream language/sequence modeling; the work centers on spectral clustering for segmentation/labeling rather than token creation, and no publication date is provided, triggering exclusion per criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "Does not introduce discrete audio tokens (no VQ/RVQ/quantization-based tokenization) for downstream language/sequence modeling; the work centers on spectral clustering for segmentation/labeling rather than token creation, and no publication date is provided, triggering exclusion per criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper focuses on acoustic segment modeling via spectral clustering methods to find phoneme-like units without supervised linguistic knowledge. Although it involves unsupervised segmentation and clustering of speech segments, it does not clearly describe the generation of discrete audio tokens through vector quantization or similar discrete tokenization methods intended for sequence or language model processing as required by the inclusion criteria. The paper also lacks explicit details about token formation, quantization methodology, or use of tokens for downstream audio language modeling or generation. Hence, it does not meet the core inclusion criteria focused on discrete audio token design and usage.",
+      "evaluation": 2
+    },
+    "round-A_JuniorMini_reasoning": "The paper focuses on acoustic segment modeling via spectral clustering methods to find phoneme-like units without supervised linguistic knowledge. Although it involves unsupervised segmentation and clustering of speech segments, it does not clearly describe the generation of discrete audio tokens through vector quantization or similar discrete tokenization methods intended for sequence or language model processing as required by the inclusion criteria. The paper also lacks explicit details about token formation, quantization methodology, or use of tokens for downstream audio language modeling or generation. Hence, it does not meet the core inclusion criteria focused on discrete audio token design and usage.",
+    "round-A_JuniorMini_evaluation": 2,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:2)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:2)"
+  },
+  {
+    "title": "On Spectral Clustering: Analysis and an algorithm",
+    "abstract": "Despite many empirical successes of spectral clustering methods -- algorithms that cluster points using eigenvectors of matrices derived from the distances between the points -- there are several unresolved issues. First, there is a wide variety of algorithms that use the eigenvectors in slightly different ways. Second, many of these algorithms have no proof that they will actually compute a reasonable clustering. In this paper, we present a simple spectral clustering algorithm that can be implemented using a few lines of Matlab. Using tools from matrix perturbation theory, we analyze the algorithm, and give conditions under which it can be expected to do well. We also show surprisingly good experimental results on a number of challenging clustering problems.",
+    "metadata": {
+      "title": "On Spectral Clustering: Analysis and an algorithm",
+      "summary": "Despite many empirical successes of spectral clustering methods -- algorithms that cluster points using eigenvectors of matrices derived from the distances between the points -- there are several unresolved issues. First, there is a wide variety of algorithms that use the eigenvectors in slightly different ways. Second, many of these algorithms have no proof that they will actually compute a reasonable clustering. In this paper, we present a simple spectral clustering algorithm that can be implemented using a few lines of Matlab. Using tools from matrix perturbation theory, we analyze the algorithm, and give conditions under which it can be expected to do well. We also show surprisingly good experimental results on a number of challenging clustering problems.",
+      "abstract": "Despite many empirical successes of spectral clustering methods -- algorithms that cluster points using eigenvectors of matrices derived from the distances between the points -- there are several unresolved issues. First, there is a wide variety of algorithms that use the eigenvectors in slightly different ways. Second, many of these algorithms have no proof that they will actually compute a reasonable clustering. In this paper, we present a simple spectral clustering algorithm that can be implemented using a few lines of Matlab. Using tools from matrix perturbation theory, we analyze the algorithm, and give conditions under which it can be expected to do well. We also show surprisingly good experimental results on a number of challenging clustering problems.",
+      "doi": "",
+      "openalex_id": "https://openalex.org/W2165874743",
+      "arxiv_id": "",
+      "publication_date": "2001-01-03",
+      "published": "2001-01-03",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item is about spectral clustering algorithms and theory and does not address discrete audio tokens or tokenization for audio-language modeling, thus it does not meet the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item is about spectral clustering algorithms and theory and does not address discrete audio tokens or tokenization for audio-language modeling, thus it does not meet the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The title and abstract discuss spectral clustering algorithms applied to clustering problems and do not mention any topics related to discrete audio tokens, vector quantization, or audio language modeling as defined in the inclusion criteria. There is no indication that the work involves generating discrete audio tokens or semantic/acoustic disentanglement relevant to sequence or language models.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The title and abstract discuss spectral clustering algorithms applied to clustering problems and do not mention any topics related to discrete audio tokens, vector quantization, or audio language modeling as defined in the inclusion criteria. There is no indication that the work involves generating discrete audio tokens or semantic/acoustic disentanglement relevant to sequence or language models.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Sequence-Level Consistency Training for Semi-Supervised End-to-End Automatic Speech Recognition",
+    "abstract": "This paper presents a novel semi-supervised end-to-end automatic speech recognition (ASR) method that employs consistency training with the use of unlabeled data. In consistency training, unlabeled data can be utilized for constraining a model such that it becomes invariant to small deformation. In fact, considering consistency can make the model robust to a variety of input examples. While previous studies have applied consistency training to primitive classification problems, no studies have employed consistency training to tackle sequence-to-sequence generation problems including end-to- end ASR. One problem is that existing consistency training schemes cannot take sequence-level generation consistency into consideration. In this paper, we propose a sequence-level consistency training scheme specialized to handle sequence-to-sequence generation problems. Our key idea is to consider the consistency of the generation function by utilizing beam search decoding results. For semi- supervised learning, we adopt Transformer as the end-to-end ASR model, and SpecAugment as the deformation function in consistency training. Our experiments show that our semi-supervised learning proposal with sequence-level consistency training can efficiently improve ASR performance using unlabeled speech data.",
+    "metadata": {
+      "title": "Sequence-Level Consistency Training for Semi-Supervised End-to-End Automatic Speech Recognition",
+      "summary": "This paper presents a novel semi-supervised end-to-end automatic speech recognition (ASR) method that employs consistency training with the use of unlabeled data. In consistency training, unlabeled data can be utilized for constraining a model such that it becomes invariant to small deformation. In fact, considering consistency can make the model robust to a variety of input examples. While previous studies have applied consistency training to primitive classification problems, no studies have employed consistency training to tackle sequence-to-sequence generation problems including end-to- end ASR. One problem is that existing consistency training schemes cannot take sequence-level generation consistency into consideration. In this paper, we propose a sequence-level consistency training scheme specialized to handle sequence-to-sequence generation problems. Our key idea is to consider the consistency of the generation function by utilizing beam search decoding results. For semi- supervised learning, we adopt Transformer as the end-to-end ASR model, and SpecAugment as the deformation function in consistency training. Our experiments show that our semi-supervised learning proposal with sequence-level consistency training can efficiently improve ASR performance using unlabeled speech data.",
+      "abstract": "This paper presents a novel semi-supervised end-to-end automatic speech recognition (ASR) method that employs consistency training with the use of unlabeled data. In consistency training, unlabeled data can be utilized for constraining a model such that it becomes invariant to small deformation. In fact, considering consistency can make the model robust to a variety of input examples. While previous studies have applied consistency training to primitive classification problems, no studies have employed consistency training to tackle sequence-to-sequence generation problems including end-to- end ASR. One problem is that existing consistency training schemes cannot take sequence-level generation consistency into consideration. In this paper, we propose a sequence-level consistency training scheme specialized to handle sequence-to-sequence generation problems. Our key idea is to consider the consistency of the generation function by utilizing beam search decoding results. For semi- supervised learning, we adopt Transformer as the end-to-end ASR model, and SpecAugment as the deformation function in consistency training. Our experiments show that our semi-supervised learning proposal with sequence-level consistency training can efficiently improve ASR performance using unlabeled speech data.",
+      "doi": "https://doi.org/10.1109/icassp40776.2020.9052940",
+      "openalex_id": "https://openalex.org/W3015737168",
+      "arxiv_id": "",
+      "publication_date": "2020-04-09",
+      "published": "2020-04-09",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item focuses on semi-supervised end-to-end ASR with sequence-level consistency training and beam-search, but does not involve discrete audio token representations (e.g., VQ/RVQ, hierarchical quantization) or token-based modeling, thus it fails the inclusion criteria and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item focuses on semi-supervised end-to-end ASR with sequence-level consistency training and beam-search, but does not involve discrete audio token representations (e.g., VQ/RVQ, hierarchical quantization) or token-based modeling, thus it fails the inclusion criteria and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on semi-supervised end-to-end automatic speech recognition (ASR) using consistency training and unlabeled data but does not mention the use or generation of discrete audio tokens (such as those produced by vector quantization or similar quantization/ discretization methods) as a core method or contribution. The methodology centers around model training strategies rather than discrete token representation or encoding, and no details on token formation or quantization are provided. Therefore, it does not meet the inclusion criteria for research centered on discrete audio tokens, nor does it align with the exclusion criteria regarding insufficient methodological details about tokens because it simply lacks relevant content on discrete audio tokens altogether.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on semi-supervised end-to-end automatic speech recognition (ASR) using consistency training and unlabeled data but does not mention the use or generation of discrete audio tokens (such as those produced by vector quantization or similar quantization/ discretization methods) as a core method or contribution. The methodology centers around model training strategies rather than discrete token representation or encoding, and no details on token formation or quantization are provided. Therefore, it does not meet the inclusion criteria for research centered on discrete audio tokens, nor does it align with the exclusion criteria regarding insufficient methodological details about tokens because it simply lacks relevant content on discrete audio tokens altogether.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Improving RNN transducer with normalized jointer network",
+    "abstract": "Recurrent neural transducer (RNN-T) is a promising end-to-end (E2E) model in automatic speech recognition (ASR). It has shown superior performance compared to traditional hybrid ASR systems. However, training RNN-T from scratch is still challenging. We observe a huge gradient variance during RNN-T training and suspect it hurts the performance. In this work, we analyze the cause of the huge gradient variance in RNN-T training and proposed a new \\textit{normalized jointer network} to overcome it. We also propose to enhance the RNN-T network with a modified conformer encoder network and transformer-XL predictor networks to achieve the best performance. Experiments are conducted on the open 170-hour AISHELL-1 and industrial-level 30000-hour mandarin speech dataset. On the AISHELL-1 dataset, our RNN-T system gets state-of-the-art results on AISHELL-1's streaming and non-streaming benchmark with CER 6.15\\% and 5.37\\% respectively. We further compare our RNN-T system with our well trained commercial hybrid system on 30000-hour-industry audio data and get 9\\% relative improvement without pre-training or external language model.",
+    "metadata": {
+      "title": "Improving RNN transducer with normalized jointer network",
+      "summary": "Recurrent neural transducer (RNN-T) is a promising end-to-end (E2E) model in automatic speech recognition (ASR). It has shown superior performance compared to traditional hybrid ASR systems. However, training RNN-T from scratch is still challenging. We observe a huge gradient variance during RNN-T training and suspect it hurts the performance. In this work, we analyze the cause of the huge gradient variance in RNN-T training and proposed a new \\textit{normalized jointer network} to overcome it. We also propose to enhance the RNN-T network with a modified conformer encoder network and transformer-XL predictor networks to achieve the best performance. Experiments are conducted on the open 170-hour AISHELL-1 and industrial-level 30000-hour mandarin speech dataset. On the AISHELL-1 dataset, our RNN-T system gets state-of-the-art results on AISHELL-1's streaming and non-streaming benchmark with CER 6.15\\% and 5.37\\% respectively. We further compare our RNN-T system with our well trained commercial hybrid system on 30000-hour-industry audio data and get 9\\% relative improvement without pre-training or external language model.",
+      "abstract": "Recurrent neural transducer (RNN-T) is a promising end-to-end (E2E) model in automatic speech recognition (ASR). It has shown superior performance compared to traditional hybrid ASR systems. However, training RNN-T from scratch is still challenging. We observe a huge gradient variance during RNN-T training and suspect it hurts the performance. In this work, we analyze the cause of the huge gradient variance in RNN-T training and proposed a new \\textit{normalized jointer network} to overcome it. We also propose to enhance the RNN-T network with a modified conformer encoder network and transformer-XL predictor networks to achieve the best performance. Experiments are conducted on the open 170-hour AISHELL-1 and industrial-level 30000-hour mandarin speech dataset. On the AISHELL-1 dataset, our RNN-T system gets state-of-the-art results on AISHELL-1's streaming and non-streaming benchmark with CER 6.15\\% and 5.37\\% respectively. We further compare our RNN-T system with our well trained commercial hybrid system on 30000-hour-industry audio data and get 9\\% relative improvement without pre-training or external language model.",
+      "doi": "https://doi.org/10.48550/arxiv.2011.01576",
+      "openalex_id": "https://openalex.org/W3095783102",
+      "arxiv_id": "",
+      "publication_date": "2020-11-03",
+      "published": "2020-11-03",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "This item focuses on improving RNN-T training and architectural components, not on discrete audio token generation/quantization; it does not meet the discrete audio token criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "This item focuses on improving RNN-T training and architectural components, not on discrete audio token generation/quantization; it does not meet the discrete audio token criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The article focuses on improving RNN transducer models for automatic speech recognition but does not address the design, generation, or utilization of discrete audio tokens via vector quantization or similar methods; it lacks discussion of tokenized audio representations used as core input for language or sequence models, which is essential per inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The article focuses on improving RNN transducer models for automatic speech recognition but does not address the design, generation, or utilization of discrete audio tokens via vector quantization or similar methods; it lacks discussion of tokenized audio representations used as core input for language or sequence models, which is essential per inclusion criteria.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Exploiting language-mismatched phoneme recognizers for unsupervised acoustic modeling",
+    "abstract": "This paper describes an investigation on acoustic modeling in the absence of transcribed training data. We propose to use language-mismatched phoneme recognizers to assist unsupervised segmentation and segment clustering of a new language. Using a language-mismatched recognizer, an input utterance is divided into many variable-length segments. Each segment is represented by a feature vector that is derived from the phoneme posterior probabilities. A spectral clustering algorithm is developed to group the segments into a prescribed number of clusters, which represent a set of basic speech units in the target language. By exploiting multiple recognizers for different languages, a wider phonetic space can be covered, leading to improved performance of segmentation and clustering. Experimental results on a multilingual speech database confirm the effectiveness of the proposed method.",
+    "metadata": {
+      "title": "Exploiting language-mismatched phoneme recognizers for unsupervised acoustic modeling",
+      "summary": "This paper describes an investigation on acoustic modeling in the absence of transcribed training data. We propose to use language-mismatched phoneme recognizers to assist unsupervised segmentation and segment clustering of a new language. Using a language-mismatched recognizer, an input utterance is divided into many variable-length segments. Each segment is represented by a feature vector that is derived from the phoneme posterior probabilities. A spectral clustering algorithm is developed to group the segments into a prescribed number of clusters, which represent a set of basic speech units in the target language. By exploiting multiple recognizers for different languages, a wider phonetic space can be covered, leading to improved performance of segmentation and clustering. Experimental results on a multilingual speech database confirm the effectiveness of the proposed method.",
+      "abstract": "This paper describes an investigation on acoustic modeling in the absence of transcribed training data. We propose to use language-mismatched phoneme recognizers to assist unsupervised segmentation and segment clustering of a new language. Using a language-mismatched recognizer, an input utterance is divided into many variable-length segments. Each segment is represented by a feature vector that is derived from the phoneme posterior probabilities. A spectral clustering algorithm is developed to group the segments into a prescribed number of clusters, which represent a set of basic speech units in the target language. By exploiting multiple recognizers for different languages, a wider phonetic space can be covered, leading to improved performance of segmentation and clustering. Experimental results on a multilingual speech database confirm the effectiveness of the proposed method.",
+      "doi": "https://doi.org/10.1109/iscslp.2016.7918442",
+      "openalex_id": "https://openalex.org/W2594951208",
+      "arxiv_id": "",
+      "publication_date": "2016-10-01",
+      "published": "2016-10-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The study targets unsupervised acoustic modeling using language-mismatched phoneme recognizers and clustering, but it does not describe discrete audio token formation (e.g., VQ/RVQ/hierarchical quantization) or a token-based representation for language-model style processing, so it fails the discrete-audio-token criterion.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The study targets unsupervised acoustic modeling using language-mismatched phoneme recognizers and clustering, but it does not describe discrete audio token formation (e.g., VQ/RVQ/hierarchical quantization) or a token-based representation for language-model style processing, so it fails the discrete-audio-token criterion.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on using language-mismatched phoneme recognizers for unsupervised acoustic modeling, involving segment clustering of speech, but it does not describe converting continuous audio signals into discrete tokens via vector quantization or similar methods, nor does it specify token generation processes intended for sequence or language modeling; therefore, it does not meet the inclusion criterion of focusing on discrete audio token design as a core contribution.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on using language-mismatched phoneme recognizers for unsupervised acoustic modeling, involving segment clustering of speech, but it does not describe converting continuous audio signals into discrete tokens via vector quantization or similar methods, nor does it specify token generation processes intended for sequence or language modeling; therefore, it does not meet the inclusion criterion of focusing on discrete audio token design as a core contribution.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Context-Dependent Pre-Trained Deep Neural Networks for Large-Vocabulary Speech Recognition",
+    "abstract": "We propose a novel context-dependent (CD) model for large-vocabulary speech recognition (LVSR) that leverages recent advances in using deep belief networks for phone recognition. We describe a pre-trained deep neural network hidden Markov model (DNN-HMM) hybrid architecture that trains the DNN to produce a distribution over senones (tied triphone states) as its output. The deep belief network pre-training algorithm is a robust and often helpful way to initialize deep neural networks generatively that can aid in optimization and reduce generalization error. We illustrate the key components of our model, describe the procedure for applying CD-DNN-HMMs to LVSR, and analyze the effects of various modeling choices on performance. Experiments on a challenging business search dataset demonstrate that CD-DNN-HMMs can significantly outperform the conventional context-dependent Gaussian mixture model (GMM)-HMMs, with an absolute sentence accuracy improvement of 5.8% and 9.2% (or relative error reduction of 16.0% and 23.2%) over the CD-GMM-HMMs trained using the minimum phone error rate (MPE) and maximum-likelihood (ML) criteria, respectively.",
+    "metadata": {
+      "title": "Context-Dependent Pre-Trained Deep Neural Networks for Large-Vocabulary Speech Recognition",
+      "summary": "We propose a novel context-dependent (CD) model for large-vocabulary speech recognition (LVSR) that leverages recent advances in using deep belief networks for phone recognition. We describe a pre-trained deep neural network hidden Markov model (DNN-HMM) hybrid architecture that trains the DNN to produce a distribution over senones (tied triphone states) as its output. The deep belief network pre-training algorithm is a robust and often helpful way to initialize deep neural networks generatively that can aid in optimization and reduce generalization error. We illustrate the key components of our model, describe the procedure for applying CD-DNN-HMMs to LVSR, and analyze the effects of various modeling choices on performance. Experiments on a challenging business search dataset demonstrate that CD-DNN-HMMs can significantly outperform the conventional context-dependent Gaussian mixture model (GMM)-HMMs, with an absolute sentence accuracy improvement of 5.8% and 9.2% (or relative error reduction of 16.0% and 23.2%) over the CD-GMM-HMMs trained using the minimum phone error rate (MPE) and maximum-likelihood (ML) criteria, respectively.",
+      "abstract": "We propose a novel context-dependent (CD) model for large-vocabulary speech recognition (LVSR) that leverages recent advances in using deep belief networks for phone recognition. We describe a pre-trained deep neural network hidden Markov model (DNN-HMM) hybrid architecture that trains the DNN to produce a distribution over senones (tied triphone states) as its output. The deep belief network pre-training algorithm is a robust and often helpful way to initialize deep neural networks generatively that can aid in optimization and reduce generalization error. We illustrate the key components of our model, describe the procedure for applying CD-DNN-HMMs to LVSR, and analyze the effects of various modeling choices on performance. Experiments on a challenging business search dataset demonstrate that CD-DNN-HMMs can significantly outperform the conventional context-dependent Gaussian mixture model (GMM)-HMMs, with an absolute sentence accuracy improvement of 5.8% and 9.2% (or relative error reduction of 16.0% and 23.2%) over the CD-GMM-HMMs trained using the minimum phone error rate (MPE) and maximum-likelihood (ML) criteria, respectively.",
+      "doi": "https://doi.org/10.1109/tasl.2011.2134090",
+      "openalex_id": "https://openalex.org/W2147768505",
+      "arxiv_id": "",
+      "publication_date": "2011-04-06",
+      "published": "2011-04-06",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The paper focuses on context-dependent DNN-HMM architectures and pre-training for LVSR, and does not present discrete audio token generation/quantization or token-based representations, so it does not meet the inclusion criteria.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The paper focuses on context-dependent DNN-HMM architectures and pre-training for LVSR, and does not present discrete audio token generation/quantization or token-based representations, so it does not meet the inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The article focuses on a context-dependent pre-trained deep neural network model for speech recognition, with no mention or evidence of discrete audio token design, quantization methods, or token generation for sequence or language modeling; thus, it does not meet the inclusion criteria centering on discrete audio tokens and their generation. It also lacks details on token formation, quantization, or semantic disentanglement, and primarily discusses conventional acoustic modeling improvements, so it should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The article focuses on a context-dependent pre-trained deep neural network model for speech recognition, with no mention or evidence of discrete audio token design, quantization methods, or token generation for sequence or language modeling; thus, it does not meet the inclusion criteria centering on discrete audio tokens and their generation. It also lacks details on token formation, quantization, or semantic disentanglement, and primarily discusses conventional acoustic modeling improvements, so it should be excluded.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "The Cambridge Handbook of Endangered Languages",
+    "abstract": "It is generally agreed that about 7,000 languages are spoken across the world today and at least half may no longer be spoken by the end of this century. This state-of-the-art Handbook examines the reasons behind this dramatic loss of linguistic diversity, why it matters, and what can be done to document and support endangered languages. The volume is relevant not only to researchers in language endangerment, language shift and language death, but to anyone interested in the languages and cultures of the world. It is accessible both to specialists and non-specialists: researchers will find cutting-edge contributions from acknowledged experts in their fields, while students, activists and other interested readers will find a wealth of readable yet thorough and up-to-date information",
+    "metadata": {
+      "title": "The Cambridge Handbook of Endangered Languages",
+      "summary": "It is generally agreed that about 7,000 languages are spoken across the world today and at least half may no longer be spoken by the end of this century. This state-of-the-art Handbook examines the reasons behind this dramatic loss of linguistic diversity, why it matters, and what can be done to document and support endangered languages. The volume is relevant not only to researchers in language endangerment, language shift and language death, but to anyone interested in the languages and cultures of the world. It is accessible both to specialists and non-specialists: researchers will find cutting-edge contributions from acknowledged experts in their fields, while students, activists and other interested readers will find a wealth of readable yet thorough and up-to-date information",
+      "abstract": "It is generally agreed that about 7,000 languages are spoken across the world today and at least half may no longer be spoken by the end of this century. This state-of-the-art Handbook examines the reasons behind this dramatic loss of linguistic diversity, why it matters, and what can be done to document and support endangered languages. The volume is relevant not only to researchers in language endangerment, language shift and language death, but to anyone interested in the languages and cultures of the world. It is accessible both to specialists and non-specialists: researchers will find cutting-edge contributions from acknowledged experts in their fields, while students, activists and other interested readers will find a wealth of readable yet thorough and up-to-date information",
+      "doi": "https://doi.org/10.1017/cbo9780511975981",
+      "openalex_id": "https://openalex.org/W1557247526",
+      "arxiv_id": "",
+      "publication_date": "1999-01-01",
+      "published": "1999-01-01",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item is a handbook on endangered languages and does not address discrete audio tokens or the methods for converting audio into discrete tokens, so it fails the inclusion criteria and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item is a handbook on endangered languages and does not address discrete audio tokens or the methods for converting audio into discrete tokens, so it fails the inclusion criteria and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The title and abstract pertain to language endangerment and preservation, with no mention of discrete audio tokens, vector quantization, or token generation processes related to audio language modeling, which are central to the inclusion criteria. Additionally, there is no technical detail or method description relevant to discrete audio token representation or generation processes.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The title and abstract pertain to language endangerment and preservation, with no mention of discrete audio tokens, vector quantization, or token generation processes related to audio language modeling, which are central to the inclusion criteria. Additionally, there is no technical detail or method description relevant to discrete audio token representation or generation processes.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "That Sounds Familiar: An Analysis of Phonetic Representations Transfer Across Languages",
+    "abstract": "Only a handful of the world's languages are abundant with the resources that enable practical applications of speech processing technologies. One of the methods to overcome this problem is to use the resources existing in other languages to train a multilingual automatic speech recognition (ASR) model, which, intuitively, should learn some universal phonetic representations. In this work, we focus on gaining a deeper understanding of how general these representations might be, and how individual phones are getting improved in a multilingual setting. To that end, we select a phonetically diverse set of languages, and perform a series of monolingual, multilingual and crosslingual (zero-shot) experiments. The ASR is trained to recognize the International Phonetic Alphabet (IPA) token sequences. We observe significant improvements across all languages in the multilingual setting, and stark degradation in the crosslingual setting, where the model, among other errors, considers Javanese as a tone language. Notably, as little as 10 hours of the target language training data tremendously reduces ASR error rates. Our analysis uncovered that even the phones that are unique to a single language can benefit greatly from adding training data from other languages - an encouraging result for the low-resource speech community.",
+    "metadata": {
+      "title": "That Sounds Familiar: An Analysis of Phonetic Representations Transfer Across Languages",
+      "summary": "Only a handful of the world's languages are abundant with the resources that enable practical applications of speech processing technologies. One of the methods to overcome this problem is to use the resources existing in other languages to train a multilingual automatic speech recognition (ASR) model, which, intuitively, should learn some universal phonetic representations. In this work, we focus on gaining a deeper understanding of how general these representations might be, and how individual phones are getting improved in a multilingual setting. To that end, we select a phonetically diverse set of languages, and perform a series of monolingual, multilingual and crosslingual (zero-shot) experiments. The ASR is trained to recognize the International Phonetic Alphabet (IPA) token sequences. We observe significant improvements across all languages in the multilingual setting, and stark degradation in the crosslingual setting, where the model, among other errors, considers Javanese as a tone language. Notably, as little as 10 hours of the target language training data tremendously reduces ASR error rates. Our analysis uncovered that even the phones that are unique to a single language can benefit greatly from adding training data from other languages - an encouraging result for the low-resource speech community.",
+      "abstract": "Only a handful of the world's languages are abundant with the resources that enable practical applications of speech processing technologies. One of the methods to overcome this problem is to use the resources existing in other languages to train a multilingual automatic speech recognition (ASR) model, which, intuitively, should learn some universal phonetic representations. In this work, we focus on gaining a deeper understanding of how general these representations might be, and how individual phones are getting improved in a multilingual setting. To that end, we select a phonetically diverse set of languages, and perform a series of monolingual, multilingual and crosslingual (zero-shot) experiments. The ASR is trained to recognize the International Phonetic Alphabet (IPA) token sequences. We observe significant improvements across all languages in the multilingual setting, and stark degradation in the crosslingual setting, where the model, among other errors, considers Javanese as a tone language. Notably, as little as 10 hours of the target language training data tremendously reduces ASR error rates. Our analysis uncovered that even the phones that are unique to a single language can benefit greatly from adding training data from other languages - an encouraging result for the low-resource speech community.",
+      "doi": "https://doi.org/10.21437/interspeech.2020-2513",
+      "openalex_id": "https://openalex.org/W3025286576",
+      "arxiv_id": "",
+      "publication_date": "2020-10-25",
+      "published": "2020-10-25",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "This work discusses multilingual ASR and IPA token sequences but does not present a discrete audio token design/quantization method (VQ/RVQ) suitable for use as language-modelable discrete tokens, so it does not meet the discrete audio token inclusion criteria.",
+      "evaluation": 2
+    },
+    "round-A_JuniorNano_reasoning": "This work discusses multilingual ASR and IPA token sequences but does not present a discrete audio token design/quantization method (VQ/RVQ) suitable for use as language-modelable discrete tokens, so it does not meet the discrete audio token inclusion criteria.",
+    "round-A_JuniorNano_evaluation": 2,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on phonetic representation transfer in multilingual ASR trained on IPA token sequences, but there is no mention of discrete audio token generation via quantization or related mechanisms central to the inclusion criteria. It emphasizes speech recognition performance in multiple languages rather than the design or use of discrete audio tokens for sequence modeling, semantic disentanglement, or downstream generation tasks. Thus, it lacks the core focus on discrete audio token design or implementation as defined in the inclusion criteria.",
+      "evaluation": 2
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on phonetic representation transfer in multilingual ASR trained on IPA token sequences, but there is no mention of discrete audio token generation via quantization or related mechanisms central to the inclusion criteria. It emphasizes speech recognition performance in multiple languages rather than the design or use of discrete audio tokens for sequence modeling, semantic disentanglement, or downstream generation tasks. Thus, it lacks the core focus on discrete audio token design or implementation as defined in the inclusion criteria.",
+    "round-A_JuniorMini_evaluation": 2,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:2)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:2)"
+  },
+  {
+    "title": "How Phonotactics Affect Multilingual and Zero-Shot ASR Performance",
+    "abstract": "The idea of combining multiple languages' recordings to train a single\\nautomatic speech recognition (ASR) model brings the promise of the emergence of\\nuniversal speech representation. Recently, a Transformer encoder-decoder model\\nhas been shown to leverage multilingual data well in IPA transcriptions of\\nlanguages presented during training. However, the representations it learned\\nwere not successful in zero-shot transfer to unseen languages. Because that\\nmodel lacks an explicit factorization of the acoustic model (AM) and language\\nmodel (LM), it is unclear to what degree the performance suffered from\\ndifferences in pronunciation or the mismatch in phonotactics. To gain more\\ninsight into the factors limiting zero-shot ASR transfer, we replace the\\nencoder-decoder with a hybrid ASR system consisting of a separate AM and LM.\\nThen, we perform an extensive evaluation of monolingual, multilingual, and\\ncrosslingual (zero-shot) acoustic and language models on a set of 13\\nphonetically diverse languages. We show that the gain from modeling\\ncrosslingual phonotactics is limited, and imposing a too strong model can hurt\\nthe zero-shot transfer. Furthermore, we find that a multilingual LM hurts a\\nmultilingual ASR system's performance, and retaining only the target language's\\nphonotactic data in LM training is preferable.\\n",
+    "metadata": {
+      "title": "How Phonotactics Affect Multilingual and Zero-Shot ASR Performance",
+      "summary": "The idea of combining multiple languages' recordings to train a single\\nautomatic speech recognition (ASR) model brings the promise of the emergence of\\nuniversal speech representation. Recently, a Transformer encoder-decoder model\\nhas been shown to leverage multilingual data well in IPA transcriptions of\\nlanguages presented during training. However, the representations it learned\\nwere not successful in zero-shot transfer to unseen languages. Because that\\nmodel lacks an explicit factorization of the acoustic model (AM) and language\\nmodel (LM), it is unclear to what degree the performance suffered from\\ndifferences in pronunciation or the mismatch in phonotactics. To gain more\\ninsight into the factors limiting zero-shot ASR transfer, we replace the\\nencoder-decoder with a hybrid ASR system consisting of a separate AM and LM.\\nThen, we perform an extensive evaluation of monolingual, multilingual, and\\ncrosslingual (zero-shot) acoustic and language models on a set of 13\\nphonetically diverse languages. We show that the gain from modeling\\ncrosslingual phonotactics is limited, and imposing a too strong model can hurt\\nthe zero-shot transfer. Furthermore, we find that a multilingual LM hurts a\\nmultilingual ASR system's performance, and retaining only the target language's\\nphonotactic data in LM training is preferable.\\n",
+      "abstract": "The idea of combining multiple languages' recordings to train a single\\nautomatic speech recognition (ASR) model brings the promise of the emergence of\\nuniversal speech representation. Recently, a Transformer encoder-decoder model\\nhas been shown to leverage multilingual data well in IPA transcriptions of\\nlanguages presented during training. However, the representations it learned\\nwere not successful in zero-shot transfer to unseen languages. Because that\\nmodel lacks an explicit factorization of the acoustic model (AM) and language\\nmodel (LM), it is unclear to what degree the performance suffered from\\ndifferences in pronunciation or the mismatch in phonotactics. To gain more\\ninsight into the factors limiting zero-shot ASR transfer, we replace the\\nencoder-decoder with a hybrid ASR system consisting of a separate AM and LM.\\nThen, we perform an extensive evaluation of monolingual, multilingual, and\\ncrosslingual (zero-shot) acoustic and language models on a set of 13\\nphonetically diverse languages. We show that the gain from modeling\\ncrosslingual phonotactics is limited, and imposing a too strong model can hurt\\nthe zero-shot transfer. Furthermore, we find that a multilingual LM hurts a\\nmultilingual ASR system's performance, and retaining only the target language's\\nphonotactic data in LM training is preferable.\\n",
+      "doi": "https://doi.org/10.1109/icassp39728.2021.9414478",
+      "openalex_id": "https://openalex.org/W3094197178",
+      "arxiv_id": "",
+      "publication_date": "2021-05-13",
+      "published": "2021-05-13",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "The item studies multilingual/zero-shot ASR and phonotactics but does not address discrete audio tokens or tokenization as defined in the inclusion criteria, so it fails the core inclusion requirement and should be excluded.",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "The item studies multilingual/zero-shot ASR and phonotactics but does not address discrete audio tokens or tokenization as defined in the inclusion criteria, so it fails the core inclusion requirement and should be excluded.",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The study focuses on multilingual and zero-shot ASR performance related to phonotactics without addressing discrete audio tokenization methods such as vector quantization, residual vector quantization, or hierarchical quantization mechanisms that produce discrete tokens for sequence modeling. It lacks discussion of token generation processes or usage for audio language modeling or downstream generative/understanding tasks with discrete tokens. Therefore, it does not meet the inclusion criteria centered on discrete audio token design and use.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The study focuses on multilingual and zero-shot ASR performance related to phonotactics without addressing discrete audio tokenization methods such as vector quantization, residual vector quantization, or hierarchical quantization mechanisms that produce discrete tokens for sequence modeling. It lacks discussion of token generation processes or usage for audio language modeling or downstream generative/understanding tasks with discrete tokens. Therefore, it does not meet the inclusion criteria centered on discrete audio token design and use.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  },
+  {
+    "title": "Globalphone: a multilingual speech and text database developed at karlsruhe university",
+    "abstract": "This paper describes the design, collection, and current status of the multilingual database GlobalPhone, an ongoing project since 1995 at Karlsruhe University.GlobalPhone is a highquality read speech and text database in a large variety of languages which is suitable for the development of large vocabulary speech recognition systems in many languages.It has already been successfully applied to language independent and language adaptive speech recognition.GlobalPhone currently covers 15 languages Arabic, Chinese (Mandarin and Shanghai), Croatian, Czech, French, German, Japanese, Korean, Portuguese, Russian, Spanish, Swedish, Tamil, and Turkish.The corpus contains more than 300 hours of transcribed speech spoken by more than 1500 native, adult speakers and will soon be available from ELRA.",
+    "metadata": {
+      "title": "Globalphone: a multilingual speech and text database developed at karlsruhe university",
+      "summary": "This paper describes the design, collection, and current status of the multilingual database GlobalPhone, an ongoing project since 1995 at Karlsruhe University.GlobalPhone is a highquality read speech and text database in a large variety of languages which is suitable for the development of large vocabulary speech recognition systems in many languages.It has already been successfully applied to language independent and language adaptive speech recognition.GlobalPhone currently covers 15 languages Arabic, Chinese (Mandarin and Shanghai), Croatian, Czech, French, German, Japanese, Korean, Portuguese, Russian, Spanish, Swedish, Tamil, and Turkish.The corpus contains more than 300 hours of transcribed speech spoken by more than 1500 native, adult speakers and will soon be available from ELRA.",
+      "abstract": "This paper describes the design, collection, and current status of the multilingual database GlobalPhone, an ongoing project since 1995 at Karlsruhe University.GlobalPhone is a highquality read speech and text database in a large variety of languages which is suitable for the development of large vocabulary speech recognition systems in many languages.It has already been successfully applied to language independent and language adaptive speech recognition.GlobalPhone currently covers 15 languages Arabic, Chinese (Mandarin and Shanghai), Croatian, Czech, French, German, Japanese, Korean, Portuguese, Russian, Spanish, Swedish, Tamil, and Turkish.The corpus contains more than 300 hours of transcribed speech spoken by more than 1500 native, adult speakers and will soon be available from ELRA.",
+      "doi": "https://doi.org/10.21437/icslp.2002-151",
+      "openalex_id": "https://openalex.org/W66627554",
+      "arxiv_id": "",
+      "publication_date": "2002-09-16",
+      "published": "2002-09-16",
+      "source": "openalex_snowball"
+    },
+    "round-A_JuniorNano_output": {
+      "reasoning": "本题目描述的是一个多语言语音与文本数据库的设计与现状，并未以离散音讯 token 的设计、量化或可重现的实验方法为核心贡献；且文献未给出明确的出版/更新日期，违反时间戳可追溯性的排除标准，因此不应收录。",
+      "evaluation": 1
+    },
+    "round-A_JuniorNano_reasoning": "本题目描述的是一个多语言语音与文本数据库的设计与现状，并未以离散音讯 token 的设计、量化或可重现的实验方法为核心贡献；且文献未给出明确的出版/更新日期，违反时间戳可追溯性的排除标准，因此不应收录。",
+    "round-A_JuniorNano_evaluation": 1,
+    "round-A_JuniorMini_output": {
+      "reasoning": "The paper describes the GlobalPhone multilingual speech and text database, focusing on data collection and resource availability for speech recognition across various languages. However, it does not discuss any discrete audio token generation methods such as vector quantization or tokenization suitable for sequence or language modeling, nor does it present any novel tokenization approach or detailed methodology related to discrete audio tokens. Therefore, it does not meet the inclusion criteria centered on discrete audio token design and methodology, nor is it excluded for reasons such as lack of publication date or being a demo-only resource.",
+      "evaluation": 1
+    },
+    "round-A_JuniorMini_reasoning": "The paper describes the GlobalPhone multilingual speech and text database, focusing on data collection and resource availability for speech recognition across various languages. However, it does not discuss any discrete audio token generation methods such as vector quantization or tokenization suitable for sequence or language modeling, nor does it present any novel tokenization approach or detailed methodology related to discrete audio tokens. Therefore, it does not meet the inclusion criteria centered on discrete audio token design and methodology, nor is it excluded for reasons such as lack of publication date or being a demo-only resource.",
+    "round-A_JuniorMini_evaluation": 1,
+    "round-B_SeniorLead_output": null,
+    "round-B_SeniorLead_reasoning": null,
+    "round-B_SeniorLead_evaluation": null,
+    "final_verdict": "exclude (junior:1)",
+    "review_skipped": false,
+    "discard_reason": "exclude (junior:1)"
+  }
+]
