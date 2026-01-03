@@ -6,11 +6,12 @@ import os
 import sys
 import types
 from pathlib import Path
+from typing import Any, Optional
 
 import pandas as pd
 
 try:  # pragma: no cover - 測試環境若缺 litellm 則建立最小 stub
-    import litellm  # type: ignore
+    import litellm  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     stub = types.ModuleType("litellm")
     stub.drop_params = True
@@ -24,7 +25,7 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     sys.modules["litellm"] = stub
 
 try:  # pragma: no cover - 測試環境若缺 tokencost 則建立最小 stub
-    from tokencost import calculate_prompt_cost, calculate_completion_cost
+    from tokencost import calculate_prompt_cost, calculate_completion_cost  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     tokencost_stub = types.ModuleType("tokencost")
 
@@ -36,7 +37,7 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     sys.modules["tokencost"] = tokencost_stub
 
 try:  # pragma: no cover - 測試環境若缺 ollama 套件則建立防呆 stub
-    import ollama  # type: ignore
+    import ollama  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     ollama_stub = types.ModuleType("ollama")
 
@@ -48,7 +49,7 @@ except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     sys.modules["ollama"] = ollama_stub
 
 try:  # pragma: no cover - 測試環境若缺 google genai 套件則建立防呆 stub
-    import google  # type: ignore
+    import google  # type: ignore  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover - 動態補上避免匯入失敗
     google_stub = types.ModuleType("google")
     google_stub.__path__ = []  # type: ignore[attr-defined]
@@ -82,7 +83,7 @@ METADATA_PATH = Path(
 )
 OUTPUT_DIR = METADATA_PATH.parent
 
-REASONING_EFFORT = "high"
+REASONING_EFFORT = "medium"
 
 
 def _require_openai_key() -> None:
@@ -90,9 +91,11 @@ def _require_openai_key() -> None:
     assert os.environ.get("OPENAI_API_KEY"), "OPENAI_API_KEY 未設定，無法執行 LatteReview 三人協作測試。"
 
 
-def _resolve_top_k() -> int:
+def _resolve_top_k() -> Optional[int]:
     load_env_file()
-    raw_value = os.environ.get("LATTE_REVIEW_TOP_K", "10").strip()
+    raw_value = os.environ.get("LATTE_REVIEW_TOP_K", "").strip()
+    if not raw_value:
+        return None
     try:
         top_k = int(raw_value)
     except ValueError as exc:  # pragma: no cover - 防呆驗證
@@ -101,7 +104,7 @@ def _resolve_top_k() -> int:
     return top_k
 
 
-def _select_primary_rows(limit: int) -> pd.DataFrame:
+def _select_primary_rows(limit: Optional[int]) -> pd.DataFrame:
     payload = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
     rows: list[dict[str, str]] = []
     for record in payload:
@@ -117,23 +120,38 @@ def _select_primary_rows(limit: int) -> pd.DataFrame:
                 "metadata": metadata,
             }
         )
-        if len(rows) >= limit:
+        if limit is not None and len(rows) >= limit:
             break
-    if len(rows) < limit:
+    if limit is not None and len(rows) < limit:
         raise AssertionError(f"找不到足夠的非 survey Speech LM 條目，僅取得 {len(rows)} 筆。")
+    if not rows:
+        raise AssertionError("找不到任何非 survey Speech LM 條目可供審查。")
     return pd.DataFrame(rows)
 
 
 INCLUSION_CRITERIA = (
-    "論文需直接探討 speech language model 或 speech foundation model 的建構、訓練、應用或評估（包含 benchmarks）。"
-    " 若為多模態模型，必須包含語音作為主要模態之一。"
+    "主題定義：口語語言模型（Speech Language Models, SLMs）指能直接以語音作為主要模態進行理解與生成的模型，逐步從傳統 ASR→LM→TTS 的串接式流程走向端到端或弱中介設計，以降低延遲、錯誤傳播並保留韻律/說話人等超語段資訊。\n\n近三年研究特別朝向全雙工口語語言模型（Full‑Duplex SLM, FD‑SLM）演進：模型在同一時刻同步聆聽與發聲，支援重疊語音、即時打斷與回饋，透過多流或單流的認知並行來協調時序與行為，並以時延、行為仲裁、語義連貫與聲學品質等多維度進行評估。 — 研究需明確以此範疇為核心，提出或分析 SLM/FD‑SLM 的架構、訓練或評估方法，並以語音作為主要互動模態。"
+    " 研究焦點滿足下列任一者即可：（a）端到端 SpeechLM 或面向低延遲的串流/同步語音對話（包含全雙工同時聽說、重疊語音、即時打斷與回饋）；（b）語音表示自監督學習與離散語音 toke／神經編解碼器 token 在 SpeechLM 中的建模與使用；（c）語音與大型語言模型的整合方法（文字中介、潛在表示、音訊 token）與跨模態推理/多任務設計；（d）多維度評估與資源（例如時延、行為仲裁、語義連貫、聲學品質；或提供開源模型/數據/基準）。"
+    "提供英文可評估性：需可取得英文全文或至少英文摘要與方法描述。"
 )
 
 EXCLUSION_CRITERIA = (
-    "1. 需為英文論文。"
-    "2. 若研究僅涉及傳統 ASR/TTS 管線或一般 NLP 模型，且未對 speech language models 有實質貢獻則排除。"
-    " 3. 亦排除純理論討論、缺乏技術細節的新聞稿或無同行評審佐證的技術報告。"
+    "以神經音訊編解碼/壓縮為主要目標之研究（例如 EnCodec 類型），聚焦位元率與重建品質的音訊壓縮或語音合成可懂度評測，研究任務與評估指標不以語言建模或對話行為為中心。"
+    "以語音增強、降噪、回聲消除或麥克風陣列信號處理為核心的工作（如 DNS Challenge 任務設定），其主要關注 PESQ、STOI、SI‑SDR 等聲學指標與前端處理，而非語音語言理解/生成或對話交互。"
+    " 專注於語者克隆、語音風格/情感轉換等語音合成能力展示的研究（如 VALL‑E），研究目標為聲學表達與可模仿性，缺乏語音理解、對話策略或跨輪交互設計。"
+"房間聲學/空間音訊建模與場景重建（如房響/聲場學習、Neural Acoustic Fields）之研究，關注空間化呈現與物理聲學重建，評估與方法論不屬於語言模型或對話系統範疇。"
 )
+
+# INCLUSION_CRITERIA = (
+#     "論文需直接探討 speech language model 或 speech foundation model 的建構、訓練、應用或評估（包含 benchmarks）。"
+#     " 若為多模態模型，必須包含語音作為主要模態之一。"
+# )
+
+# EXCLUSION_CRITERIA = (
+#     "1. 需為英文論文。"
+#     "2. 若研究僅涉及傳統 ASR/TTS 管線或一般 NLP 模型，且未對 speech language models 有實質貢獻則排除。"
+#     " 3. 亦排除純理論討論、缺乏技術細節的新聞稿或無同行評審佐證的技術報告。"
+# )
 
 
 def _build_title_abstract_reviewer(
@@ -251,7 +269,7 @@ def test_three_reviewer_workflow_for_speech_language_models() -> None:
         "SeniorLead",
         "gpt-5-mini",
         model_args={'reasoning_effort': REASONING_EFFORT},
-        reasoning="cot",
+        reasoning="brief",
         backstory="負責統整 speech language model 新知的首席研究員",
         additional_context="""
         兩位 junior reviewer 已提供初步評估，請在整合意見前檢視他們的回饋。
@@ -297,7 +315,12 @@ def test_three_reviewer_workflow_for_speech_language_models() -> None:
             metadata_value = df.loc[index, "metadata"]
         record["metadata"] = metadata_value
         output_records.append(record)
-    output_path = OUTPUT_DIR / f"latte_review_results_top{len(output_records)}.json"
+
+    if top_k is None:
+        output_filename = "latte_review_results_step5_full.json"
+    else:
+        output_filename = f"latte_review_results_step5_top{len(output_records)}.json"
+    output_path = OUTPUT_DIR / output_filename
     output_path.write_text(json.dumps(output_records, ensure_ascii=False, indent=2), encoding="utf-8")
 
     assert output_path.exists(), "結果輸出檔案未成功建立"

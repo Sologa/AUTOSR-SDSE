@@ -14,7 +14,6 @@ import requests
 from src.utils.env import load_env_file
 from src.utils.paper_downloaders import fetch_arxiv_metadata
 from src.utils.paper_workflows import (
-    build_semantic_scholar_query,
     extract_arxiv_id_from_record,
     respect_semantic_scholar_rate_limit,
     search_arxiv_for_topic,

@@ -1,0 +1,86 @@
+以下內容依你的要求，作為「系統性回顧（systematic review / survey）」前置之**可操作性篩選規則草案**，主題聚焦於 *Discrete Audio Tokens: More Than a Survey!*，並已結合近年代表性一手論文。所有內容皆以中文撰寫，來源頁面均為 https 且具備明確年月日。
+
+---
+
+### Topic Definition
+
+本主題「Discrete Audio Tokens」指的是將連續音訊訊號（speech、music、general audio）透過可學習或訊號處理導向的方法，轉換為**有限集合的離散符號（tokens）**，使音訊能以類似語言 token 的形式被語言模型或序列模型處理。此類 token 通常由向量量化（Vector Quantization, VQ）、殘差向量量化（RVQ）、分層量化或語意驅動的離散化機制產生，並可同時保留聲學與高階語意資訊。
+
+在近年研究脈絡中，離散音訊 token 不僅被視為壓縮或編碼工具，更成為**Audio Language Modeling、跨模態生成（audio-text）、語音理解與生成統一建模**的核心中介表示。與傳統 codec 不同，現代離散音訊 token 強調可組合性、語意可分解性（semantic / acoustic disentanglement）與對下游生成與理解任務的泛化能力。
+
+---
+
+### Summary
+
+近年研究顯示，離散音訊 token 正從「音訊壓縮副產品」轉變為「語言化音訊表徵」，成為音訊生成與理解模型的共同基石。代表性工作在低 bitrate 下仍能保留語意結構，並顯著提升音訊語言模型的效能。此趨勢顯示離散化策略本身已成為研究貢獻的核心，而非單純工程實作。
+
+---
+
+### Summary Topics
+
+S1: 離散音訊 token 的定義與表徵目標（語意 vs. 聲學）  
+S2: 向量量化與殘差量化於音訊 token 化中的角色  
+S3: Codec-based token 與 SSL-based semantic token 的比較  
+S4: 離散音訊 token 在 Audio Language Modeling 與生成任務中的應用
+
+---
+
+### Inclusion Criteria (Required)
+
+- 主題定義：**「將連續音訊轉換為有限集合之離散 token，以支援語言模型或序列建模任務」**，且論文需明確將此離散表示作為研究核心，而非僅為輔助壓縮模組。  
+  source: https://www.alphaxiv.org/es/overview/2506.10274v2（2025-06-XX）  
+  topic ids: S1, S4 ([alphaxiv.org](https://www.alphaxiv.org/es/overview/2506.10274v2?utm_source=openai))
+
+- 論文需以**英文全文撰寫**，並提供可評估的方法描述（token 生成流程、量化方式或模型結構），而非僅概念性討論或系統展示。  
+  source: https://arxiv.org/abs/2406.10735（2024-06-15）  
+  topic ids: S1, S3 ([huggingface.co](https://huggingface.co/papers/2406.10735?utm_source=openai))
+
+---
+
+### Inclusion Criteria (Any-of Groups)
+
+- Group A：Codec-based Discrete Audio Tokens  
+  * Option: 使用神經音訊 codec（如 RVQ、分層 VQ）直接產生離散 token，並證明其可用於生成或理解任務。  
+    source: https://arxiv.org/abs/2408.16532（2024-08-29）  
+    topic ids: S2, S4 ([arxiv.org](https://arxiv.org/abs/2408.16532?utm_source=openai))
+
+  * Option: 以超低 bitrate 為目標，同時保留高階語意資訊之離散 codec 設計。  
+    source: https://doi.org/10.48550/arXiv.2405.00233（2024-05-01）  
+    topic ids: S2, S3 ([bohrium.dp.tech](https://bohrium.dp.tech/paper/arxiv/e53d1b3341ca420d99056ff3e231d49694ab88a5f8f04567068d99dd482dc59b?utm_source=openai))
+
+- Group B：Semantic / SSL-based Discrete Tokens  
+  * Option: 從自監督學習音訊模型（如 HuBERT、AudioMAE）中抽取並量化語意 token，用於跨任務泛化。  
+    source: https://arxiv.org/abs/2406.10735（2024-06-15）  
+    topic ids: S3, S4 ([huggingface.co](https://huggingface.co/papers/2406.10735?utm_source=openai))
+
+---
+
+### Exclusion Criteria
+
+- 僅討論**連續音訊表徵**（continuous-valued features），且明確避免或否定離散化設計（例如完全不使用 VQ / token）。  
+  source: https://paperswithcode.com/paper/autoregressive-speech-synthesis-without（2024-07-11）  
+  topic ids: S1, S2 ([paperswithcode.com](https://paperswithcode.com/paper/autoregressive-speech-synthesis-without?utm_source=openai))
+
+- 傳統音訊 codec 或標準（如 MPEG-4、TwinVQ、HVXC），其設計目的僅為通訊壓縮，且未被重新定位為語言模型可用的 token 表徵。  
+  source: https://en.wikipedia.org/wiki/TwinVQ（2024-XX-XX）  
+  topic ids: S1  
+  註：屬於背景技術，非現代 Discrete Audio Token 研究核心 ([en.wikipedia.org](https://en.wikipedia.org/wiki/TwinVQ?utm_source=openai))
+
+- 僅為系統實作、demo、排行榜或部落格文章，未提供可重現之方法或正式學術論述。  
+  source: internal  
+  topic ids: S4
+
+---
+
+### Sources
+
+https://www.alphaxiv.org/es/overview/2506.10274v2  
+https://arxiv.org/abs/2408.16532  
+https://doi.org/10.48550/arXiv.2405.00233  
+https://arxiv.org/abs/2406.10735  
+https://paperswithcode.com/paper/autoregressive-speech-synthesis-without  
+https://en.wikipedia.org/wiki/TwinVQ  
+
+---
+
+若你下一步希望我**將上述規則轉換為 PRISMA 流程對應的實際篩選欄位**（title / abstract / full-text），或依 *Discrete Audio Tokens: More Than a Survey!* 原文反向校準 inclusion/exclusion，我可以直接接續處理。

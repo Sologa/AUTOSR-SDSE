@@ -26,10 +26,14 @@ sdse-uv/.venv/
 
 # Test and coverage artefacts
 test_artifacts/
+*.pdf
 test/.tmp/
 .pytest_cache/
 .coverage
 coverage.xml
+
+# Topic pipeline workspaces (large PDFs / run artefacts)
+workspaces/spoken_language_models
 
 # Keep version-controlled test sources
 !test/**/*.py

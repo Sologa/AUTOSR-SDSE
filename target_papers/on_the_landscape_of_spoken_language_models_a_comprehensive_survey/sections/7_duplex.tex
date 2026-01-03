@@ -1,0 +1,71 @@
+\section{Duplex speech dialogue} %
+\label{sec:duplex}
+
+\begin{figure}[!t]
+\centering
+\resizebox{0.85\linewidth}{!}{%
+\includegraphics[width=\columnwidth]{imgs/dual_overall.pdf}
+}
+\caption{
+Full-duplex speech conversation.
+(a) An example of full-duplex speech conversation between a user and an SLM.
+(b) Dual-channel approach.
+(c) Time-multiplexing approach (with equal chunks).
+(d) Time-multiplexing approach (where the SLM controls the switching between listening and speaking modes).
+}
+\label{fig:dual_overall}
+\end{figure}
+
+
+
+
+
+As discussed in the previous sections, most \slms\ to date assume that dialogue with a user follows a turn-by-turn structure, where a user provides an input, and the \slm\ generates a response.
+However, natural speech dialogue is \emph{duplex}: Both speakers can simultaneously send and receive information. Compared to text-based interaction, duplex dialogue presents unique challenges. 
+\Cref{fig:dual_overall}~(a) shows an example of a full-duplex dialogue. 
+The SLM must determine whether the user has finished their utterance before starting to speak.
+Backchannel signals (e.g., saying ``mm-hmm,'' ``I see,'' or ``okay'') and non-verbal vocalization (e.g., laughter) are often used to facilitate smoother conversation. 
+Additionally, the SLM may be interrupted while talking and must respond appropriately to maintain the flow of dialogue. 
+None of these characteristics exist in text-based dialogue.
+Over the years, researchers have explored various methods to enable duplex dialogue in speech systems~\citep{masumura-etal-2018-neural,turntakeingIS18,skantze-2017-towards,MEENA2014903,ekstedt-skantze-2020-turngpt}.\footnote{There is an extensive amount of older related literature, including on rule-based dialogue modeling; here, we only cite a few machine learning-based approaches.}
+Rather than reviewing all prior work on spoken duplex dialogue, we focus specifically on end-to-end \slm\space approaches.
+
+\paragraph{Dual Channel}
+One way to achieve full-duplex dialogue is by using dual channels~\citep{dGSLM,defossezmoshi,ma2024languagemodellistenspeaking,Parrot2024}, as shown in Fig.~\ref{fig:dual_overall}~(b). 
+The SLM has two input channels: the listening channel (the sequence with red blocks) which continuously receives input, and the speaking channel (the sequence with blue blocks) where the spoken output from the SLM is directed, allowing the model to track what it has said.
+The model produces output at each step, 
+including tokens representing speech or silence (blocks with a dotted outline).
+In this way, an SLM can listen to the user's words while generating output simultaneously.
+An early representative model for this method is the dialogue GSLM (dGSLM)~\citep{dGSLM}; Moshi has also implemented this strategy~\citep{defossezmoshi}. 
+One challenge when using the dual-channel approach is that, instead of a typical autoregressive model, a specialized architecture is required.
+dGSLM~\citep{dGSLM} uses a dual-tower transformer architecture, where 
+two transformers handle the two channels, using cross-attention to exchange information.
+Other models~\citep{defossezmoshi,ma2024languagemodellistenspeaking, Parrot2024} modify the input structure of the transformer to accommodate the dual-channel inputs.
+
+\paragraph{Time Multiplexing}
+Fig.~\ref{fig:dual_overall}~(c) and (d) illustrate the time multiplexing approach.
+In this approach, the SLM has only one channel, so it must switch between listening and speaking modes.
+During the listening mode, the SLM takes input from the user (red blocks) without generating output. During the speaking mode, the SLM generates speech representations (blue blocks) and takes its own output as input in an autoregressive manner.
+The strength of this approach 
+is that the sequence model %
+can be a typical decoder-only autoregressive model, and can therefore be initialized with a text LLM.
+
+The core 
+challenge 
+is determining how to switch between listening and speaking modes. 
+One approach, shown in~\Cref{fig:dual_overall}~(c), is to alternate between processing a fixed-duration
+time slice from the user's input 
+and then switching to the speaking mode~\citep{zhang2024turnbasedgameenablingrealtime}.
+This approach has been adopted in Synchronous LLM~\citep{veluri2024turnbasedinterfacessynchronousllms} and OmniFlatten~\citep{zhang2025omniflattenendtoendgptmodel}.
+
+Another approach allows the model to determine when to switch modes%
+~\citep{duplextimeNuerIPS24,xu2024enablingrealtimeconversationsminimal, wang2024freezeomnismartlowlatency}, as shown in~\Cref{fig:dual_overall}~(d).
+In listening mode, while processing the user's input, at each time step the model %
+predicts whether 
+to initiate a response.
+This decision is signalled by the prediction of a special token ([speak], as shown in the figure). 
+The model processes its generated output auto-regressively until it produces the [listen] token, which triggers a switch back to listening mode. Users can continue providing input during speaking mode, dynamically influencing the model's responses. %
+In particular, user input influences the [listen] token generation, enabling users to interrupt the model's output when desired. This interaction is implemented by interleaving the model's responses with user input, using some special tokens or embeddings to distinguish between the two sources.\footnote{Theoretically, there is always some input, even when no one is speaking. Here, we assume that a voice activity detection (VAD) system is in place, so only the tokens representing actual user speech are sent to the SLM during speaking mode.}
+
+
+

@@ -1,0 +1,32 @@
+\begin{table}[!t]
+\small
+    \centering
+    \caption{Summary of models used in the ablation study across 16kHz and 44.1kHz setups. Models are grouped by quantization method, RVQ, SVQ, FSQ, and Unit-based, with all models using the DAC backbone except D, which adopts Uni-HifiGAN. S, A, and M denote training on speech, general audio, and music, respectively. The “+” symbol indicates the use of distillation from SSL-based representations. Checkmarks (\checkmark) indicate domain-specific training data used for each model variant.}
+    \begin{tabular}{l|c|c|c|ccc}
+    \specialrule{.11em}{.2em}{.1em}
+        \multirow{2}{*}{Model} & \multirow{2}{*}{Base} & \multirow{2}{*}{Quantization} & \multirow{2}{*}{Distillation} & \multicolumn{3}{|c}{Data Domains}   \\
+         &  & & & Speech & Audio & Music \\
+         \midrule
+         RVQ-S & \multirow{5}{*}{DAC} & \multirow{5}{*}{RVQ} & - &  \checkmark \\
+         RVQ-S+ &  &   & \checkmark &  \checkmark \\
+         RVQ-A &  &  & - &  & \checkmark \\
+         RVQ-M &  &  & - & & & \checkmark \\
+         RVQ-3 &  &  & - & \checkmark & \checkmark & \checkmark \\
+         \midrule
+         SVQ-S & \multirow{5}{*}{DAC} & \multirow{5}{*}{SVQ} & - & \checkmark \\
+         SVQ-S+ &  &   & \checkmark &  \checkmark \\
+         SVQ-A &  &  & - & & \checkmark \\
+         SVQ-M &  &  & - & & & \checkmark \\
+         SVQ-3 &  &  & - & \checkmark & \checkmark & \checkmark  \\
+         \midrule
+         FSQ-S & \multirow{4}{*}{DAC} & \multirow{4}{*}{FSQ} & - & \checkmark \\
+         FSQ-A &  &  & - &  & \checkmark \\
+         FSQ-M &  &  & - & &  & \checkmark \\
+         FSQ-3 &  &  & - & \checkmark & \checkmark & \checkmark\\
+         \midrule
+         K-means-S & Unit-HifiGAN & K-means & - & \checkmark \\
+    \specialrule{.11em}{.2em}{.1em}
+    \end{tabular}
+
+    \label{tab:ablation_models}
+\end{table}

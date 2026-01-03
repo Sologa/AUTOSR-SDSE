@@ -1,0 +1,68 @@
+
+
+
+\begin{table}[h!]
+\centering
+\caption{Spoken language models. \textsl{P.}: Phonetic token. \textsl{A.}: Acoustic token. \textsl{C.}: Continuous feature. For components not explicitly cited in the table, please see the following references: SSE~\cite{algayres2022speech}, USM~\citep{usm}, SNAC~\citep{siuzdak2024snac}, SenseVoice~\citep{an2024funaudiollm}, and Canary~\citep{puvvada2024less} for speech representation models, and Tacotron 2~\citep{shen2018natural}, WaveFit~\citep{koizumi2022wavefit}, and CosyVoice~\citep{du2024cosyvoice} for speech decoders. Modalities other than text or speech (e.g., vision) are omitted. \textsuperscript{\textdagger}: Pre-trained ASR encoder.}
+\label{table:SLMs}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lp{45mm} p{30mm} p{40mm}}
+\toprule
+\textbf{Model} & \textbf{Input Representation \newline $\rightarrow$ Output Representation}  & \textbf{Speech Decoder} & \textbf{Modality Adapter}\\
+
+\toprule
+\multicolumn{4}{c}{\textit{\textbf{Pure Speech LM}}} \\
+\midrule
+
+GSLM~\citep{GSLM} & HuBERT (\textsl{P.})  & Tacotron 2 & X\\
+pGSLM~\citep{pGSLM} & HuBERT (\textsl{P.}) + F0 + duration  & HiFi-GAN & X \\
+dGSLM~\citep{dGSLM} & HuBERT (\textsl{P.}) + duration  & HiFi-GAN & X \\
+tGSLM~\citep{tGSLM} & SSE (\textsl{P.}) + HuBERT (\textsl{P.})  & Tacotron 2 & X\\
+AudioLM~\citep{audiolm} & w2v-BERT (\textsl{P.}) $\rightarrow$ SoundStream (\textsl{A.})  & SoundStream & X\\
+TWIST~\citep{twist} & HuBERT (\textsl{P.})  & HiFi-GAN & X \\
+SoundStorm~\citep{borsos2023soundstorm} & w2v-BERT (\textsl{P.}) $\rightarrow$ SoundStream (\textsl{A.})  & SoundStream & X\\
+Align-SLM~\citep{lin2024alignslmtextlessspokenlanguage} & HuBERT(\textsl{P.}) & HiFi-GAN & X\\
+
+\midrule
+\multicolumn{4}{c}{\textit{\textbf{Speech+Text LM}}} \\
+\midrule
+
+AnyGPT~\citep{anygpt} & Text + SpeechTokenizer (\textsl{A.})  & SpeechTokenizer & Vocabulary Expansion \\
+SpeechGPT~\citep{zhang2023speechgpt} & Text + mHuBERT (\textsl{P.})  & HiFi-GAN & Vocabulary Expansion\\
+VoxtLM~\citep{maiti2024voxtlm} & Text + HuBERT (\textsl{P.}) & HiFi-GAN & Vocabulary Expansion\\
+Spectron~\citep{nachmani2023spoken} & Text + Mel-Spectrogram (\textsl{C.})  & WaveFit & MLP\\
+SpiRit-LM~\citep{nguyen2024spirit} & Text + HuBERT (\textsl{P.})  & HiFi-GAN & Vocabulary Expansion\\
+Moshi~\citep{defossezmoshi} & Text + Mimi (\textsl{A.})  & Mimi & Vocabulary Expansion\\
+MiniOmni~\citep{xie2024mini} & Text + Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text + SNAC (\textsl{A.})  & SNAC & MLP \& Vocabulary Expansion\\
+LLaMA-Omni~\citep{fang2024llama} & Whisper (\textsl{C.}) $\rightarrow$ Text + HuBERT (\textsl{P.})  & HiFi-GAN & MLP \\
+SLAM-Omni~\citep{chen2024slam} & Text + Whisper\textsuperscript{\textdagger} (\textsl{P.})  & CosyVoice & Linear \\
+GLM-4-Voice~\citep{zeng2024glm} & Text + Whisper\textsuperscript{\textdagger} (\textsl{P.})  & CosyVoice & Vocabulary Expansion\\
+MinMo~\citep{chen2025minmo} & Text + SenseVoice\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text + SenseVoice\textsuperscript{\textdagger} (\textsl{P.}) & CosyVoice & Transformer + CNN\\
+
+
+
+\midrule
+\multicolumn{4}{c}{\textit{\textbf{Speech-Aware Text LM }}} \\
+\midrule
+
+WavPrompt~\citep{gao2022wavprompt} & Text + Wav2vec 2.0 (\textsl{C.}) $\rightarrow$ Text  & X & CNN\\
+X-LLM~\citep{chen2023x} & Text + Conformer\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & CIF + Transformer\\
+LTU-AS~\citep{gong2023joint} & Text +  Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & TLTR\\
+COSMIC~\citep{pan2023cosmic} & Text + Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & Window-level Q-Former \\
+SALMONN~\citep{tang2023salmonn} & Text + Whisper\textsuperscript{\textdagger} (\textsl{C.}) + BEATS (\textsl{C.}) $\rightarrow$ Text  & X & Window-level Q-Former \\
+Speech-LLaMA~\citep{wu2023decoder} & Mel-Spectrogram(\textsl{C.}) $\rightarrow$ Text  & X & CTC compressor + Transformer\\
+SLM~\citep{wang2023slm} & Text + USM\textsuperscript{\textdagger} (C.) $\rightarrow$ Text & X & Transformer\\
+LLaSM~\citep{shu2023llasm} & Text + Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & Linear \\
+SALM~\citep{chen2024salm} & Text + Conformer Encoder\textsuperscript{\textdagger} (C.) $\rightarrow$ Text & X & Conformer\\
+Qwen-Audio~\citep{chu2023qwen} & Text + Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & Pooling layer\\
+DiscreteSLU~\citep{shon2024discreteslu} & Text + WavLM (\textsl{P.}) $\rightarrow$ Text & X & Embedding + CNN + Transformer + Linear\\
+SpeechVerse~\citep{das2024speechverse} &Text +  Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & CNN\\
+DeSTA~\citep{desta} &Text +  Whisper\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text  & X & Q-Former\\
+WavLLM~\citep{wavllm} &Text +  Whisper\textsuperscript{\textdagger} (\textsl{C.}) + WavLM (\textsl{C.}) $\rightarrow$ Text  & X & CNN + Bottleneck adapter + Linear\\
+VoiceTextBlender~\citep{peng2024voicetextblenderaugmentinglargelanguage} & Text + Canary Encoder\textsuperscript{\textdagger} (\textsl{C.}) $\rightarrow$ Text & X & Conformer\\
+Phi-4-Multimodal~\citep{phi4mini} & Text + Conformer Encoder(\textsl{C.}) $\rightarrow$ Text & X & MLP\\
+
+\bottomrule
+\end{tabular}%
+}
+\end{table}

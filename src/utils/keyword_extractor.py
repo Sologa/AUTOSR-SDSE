@@ -25,10 +25,10 @@ DEFAULT_PROMPT_PATH = Path("resources/LLM/prompts/keyword_extractor/generate_sea
 DEFAULT_AGGREGATE_PATH = Path("resources/LLM/prompts/keyword_extractor/aggregate_terms.md")
 _DEFAULT_DYNAMIC_CATEGORY_COUNT = 6
 
-
-
 @dataclass(frozen=True)
 class PaperMetadataRecord:
+    """Container for arXiv metadata aligned with a local PDF."""
+
     arxiv_id: str
     title: str
     abstract: str
@@ -38,6 +38,8 @@ class PaperMetadataRecord:
 
     @property
     def source_id(self) -> str:
+        """Return a canonical source identifier for prompts/output."""
+
         return f"arXiv:{self.arxiv_id}"
 
 
@@ -48,6 +50,8 @@ _TERM_MULTI_SPACES = re.compile(r"\s{2,}")
 
 
 def _infer_arxiv_id(pdf_path: Path) -> str:
+    """Infer the arXiv identifier from a PDF filename."""
+
     candidate = trim_arxiv_id(pdf_path.stem)
     if not candidate:
         raise ValueError(f"Unable to infer arXiv identifier from PDF name: {pdf_path}")
@@ -55,6 +59,8 @@ def _infer_arxiv_id(pdf_path: Path) -> str:
 
 
 def _collect_paper_metadata(pdf_list: Sequence[Path]) -> List[PaperMetadataRecord]:
+    """Fetch and cache arXiv metadata for each PDF in ``pdf_list``."""
+
     if not pdf_list:
         return []
 
@@ -94,6 +100,8 @@ def _collect_paper_metadata(pdf_list: Sequence[Path]) -> List[PaperMetadataRecor
 
 
 def _format_metadata_block(metadata_list: Sequence[PaperMetadataRecord]) -> str:
+    """Format paper metadata as a prompt-friendly text block."""
+
     if not metadata_list:
         return "(no metadata provided)"
 
@@ -114,6 +122,8 @@ def _format_metadata_block(metadata_list: Sequence[PaperMetadataRecord]) -> str:
 
 
 def _normalize_string(value: Optional[str]) -> str:
+    """Normalize whitespace in a string for strict comparisons."""
+
     return " ".join((value or "").split())
 
 
@@ -135,6 +145,8 @@ def _extend_unique_strings(target: List[str], values: Iterable[str]) -> None:
 
 
 def _resolved_categories(params: "ExtractParams") -> List[str]:
+    """Return custom categories if provided; otherwise an empty list."""
+
     if params.custom_categories:
         return [category for category in params.custom_categories if category]
 
@@ -142,6 +154,8 @@ def _resolved_categories(params: "ExtractParams") -> List[str]:
 
 
 def _default_category_terms_target(params: "ExtractParams", *, category_count: Optional[int] = None) -> int:
+    """Compute a default per-category term target given max query limits."""
+
     if category_count is None:
         category_count = len(_resolved_categories(params))
 
@@ -168,6 +182,8 @@ def _default_category_terms_target(params: "ExtractParams", *, category_count: O
 def _collect_detected_keyword_candidates(
     papers: Sequence[Dict[str, Any]],
 ) -> Dict[str, List[str]]:
+    """Extract detected keyword terms grouped by category from paper entries."""
+
     by_category: Dict[str, List[str]] = {}
     for paper in papers:
         if not isinstance(paper, dict):
@@ -188,11 +204,15 @@ def _collect_detected_keyword_candidates(
 
 
 def _canonical_category_label(label: str) -> str:
+    """Return a normalized label for category deduplication."""
+
     slug = _CATEGORY_ALIAS_PATTERN.sub("", label.casefold())
     return slug or label.casefold()
 
 
 def _merge_duplicate_categories(search_terms: Dict[str, List[str]]) -> Dict[str, List[str]]:
+    """Merge category buckets that normalize to the same label."""
+
     if not isinstance(search_terms, dict):
         return {}
 
@@ -216,6 +236,8 @@ def _merge_duplicate_categories(search_terms: Dict[str, List[str]]) -> Dict[str,
 
 
 def _sanitize_search_term(value: str, *, max_words: int = 4, max_length: int = 60) -> Optional[str]:
+    """Normalize and validate a search term, returning None if invalid."""
+
     if not isinstance(value, str):
         return None
 
@@ -255,6 +277,8 @@ def _sanitize_search_term_buckets(
     max_words_per_term: int = 4,
     min_terms_per_category: int = 1,
 ) -> Dict[str, List[str]]:
+    """Sanitize all search term buckets and enforce minimum sizes."""
+
     cleaned: Dict[str, List[str]] = {}
     for category, values in search_terms.items():
         if not isinstance(category, str):
@@ -280,6 +304,8 @@ def _enrich_search_terms_from_papers(
     params: "ExtractParams",
     per_payloads: Optional[Sequence[Dict[str, Any]]] = None,
 ) -> None:
+    """Augment ``search_terms`` using detected keywords from paper entries."""
+
     if not isinstance(payload, dict):
         return
 
@@ -351,10 +377,13 @@ def _enrich_search_terms_from_papers(
     )
     payload["search_terms"] = sanitized_terms
 
+
 def _validate_output_against_metadata(
     payload: Dict[str, Any],
     metadata_list: Sequence[PaperMetadataRecord],
 ) -> None:
+    """Validate output JSON matches the aligned metadata block."""
+
     if not isinstance(payload, dict):
         raise ValueError("Keyword extractor must return a JSON object.")
 
@@ -395,6 +424,8 @@ def _build_metadata_aligned_paper_entry(
     meta: PaperMetadataRecord,
     template: Dict[str, Any],
 ) -> Dict[str, Any]:
+    """Build a paper entry seeded with authoritative metadata."""
+
     entry = dict(template) if isinstance(template, dict) else {}
     entry.setdefault("id", meta.source_id.replace(":", "_"))
     entry["source_id"] = meta.source_id
@@ -413,6 +444,8 @@ def _build_stub_payload(
     params: "ExtractParams",
     anchor_variants: Sequence[str],
 ) -> Dict[str, Any]:
+    """Create a minimal payload when the model response is invalid."""
+
     anchors = _dedupe_preserve_order(anchor_variants)
     if not anchors and params.seed_anchors:
         anchors = _dedupe_preserve_order(params.seed_anchors)
@@ -440,6 +473,8 @@ def _enforce_metadata_alignment(
     payload: Dict[str, Any],
     metadata_list: Sequence[PaperMetadataRecord],
 ) -> None:
+    """Align payload papers to metadata order and source identifiers."""
+
     if not isinstance(payload, dict):
         raise ValueError("Keyword extractor must return a JSON object.")
 
@@ -471,6 +506,8 @@ def _fallback_aggregate_per_paper_outputs(
     metadata_list: Sequence[PaperMetadataRecord],
     params: "ExtractParams",
 ) -> Dict[str, Any]:
+    """Aggregate per-paper payloads into a combined fallback payload."""
+
     if len(per_payloads) != len(metadata_list):
         raise ValueError("Per-paper payloads do not align with metadata for fallback aggregation.")
 
@@ -524,9 +561,13 @@ def _fallback_aggregate_per_paper_outputs(
         "papers": papers,
     }
 
+
 @dataclass
 class ExtractParams:
+    """Configuration settings for keyword extraction runs."""
+
     topic: Optional[str] = None
+    use_topic_variants: bool = True
     max_queries: int = 50
     include_ethics: bool = True
     language: str = "en"
@@ -543,10 +584,14 @@ class ExtractParams:
 
 
 def _normalize_phrase(value: str) -> str:
+    """Normalize internal whitespace for a phrase."""
+
     return " ".join(value.split())
 
 
 def _dedupe_preserve_order(values: Iterable[str]) -> List[str]:
+    """Return values deduplicated case-insensitively while preserving order."""
+
     seen: set[str] = set()
     result: List[str] = []
     for value in values:
@@ -564,6 +609,8 @@ def _dedupe_preserve_order(values: Iterable[str]) -> List[str]:
 
 
 def _generate_topic_variants(topic: Optional[str]) -> List[str]:
+    """Generate topic variants including case, plural, and acronym forms."""
+
     if not topic:
         return []
 
@@ -607,36 +654,49 @@ def _generate_topic_variants(topic: Optional[str]) -> List[str]:
 
 
 def _resolved_anchor_variants(params: ExtractParams) -> List[str]:
+    """Resolve anchor variants from explicit params and topic heuristics."""
+
     if params.anchor_variants:
         return _dedupe_preserve_order(params.anchor_variants)
 
-    variants = _generate_topic_variants(params.topic)
+    variants: List[str] = []
+    if params.use_topic_variants:
+        variants = _generate_topic_variants(params.topic)
     if params.seed_anchors:
         variants.extend(params.seed_anchors)
     return _dedupe_preserve_order(variants)
 
 
 def _anchor_guidance_text(params: ExtractParams, variants: Sequence[str]) -> str:
+    """Build a short prompt fragment describing anchor constraints."""
+
     if variants:
         return (
             "use exactly these topic-aligned variants: "
             + " | ".join(variants)
             + "; do not introduce unrelated anchor terms"
         )
-    if params.topic:
+    if params.topic and params.use_topic_variants:
         return (
             "limit anchors to well-formed variants of the provided topic; reject unrelated concepts"
         )
     return "infer 2–4 anchors grounded in the PDFs"
 
 
-def _anchor_policy_text(topic: Optional[str], variants: Sequence[str]) -> str:
+def _anchor_policy_text(
+    topic: Optional[str],
+    variants: Sequence[str],
+    *,
+    use_topic_variants: bool = True,
+) -> str:
+    """Construct the anchor policy text for aggregation prompts."""
+
     if variants:
         return (
             "Restrict anchor_terms to the exact topic variants: "
             + " | ".join(variants)
         )
-    if topic:
+    if topic and use_topic_variants:
         return (
             f"Anchor terms must stay aligned with the topic '{_normalize_phrase(topic)}' and only include close synonyms or abbreviations."
         )
@@ -648,6 +708,8 @@ def _apply_anchor_postprocessing(
     variants: Sequence[str],
     params: ExtractParams,
 ) -> None:
+    """Apply anchor overrides and topic-based filtering to payload output."""
+
     if not isinstance(payload, dict):
         return
 
@@ -661,7 +723,7 @@ def _apply_anchor_postprocessing(
         for item in payload.get("anchor_terms", [])
         if isinstance(item, str) and item.strip()
     ]
-    if params.topic:
+    if params.topic and params.use_topic_variants:
         topic_lower = params.topic.lower()
         filtered = [anchor for anchor in anchors if topic_lower in anchor.lower()]
         if not filtered and params.seed_anchors:
@@ -674,7 +736,120 @@ def _apply_anchor_postprocessing(
     else:
         payload["anchor_terms"] = _dedupe_preserve_order(anchors)
 
+
+def _sanitize_anchor_terms(
+    payload: Dict[str, Any],
+    metadata_list: Sequence[PaperMetadataRecord],
+    params: ExtractParams,
+    *,
+    max_anchors: int = 4,
+) -> None:
+    """Select and sanitize anchor terms using metadata context."""
+
+    if not isinstance(payload, dict):
+        return
+
+    raw_anchors = [
+        item
+        for item in payload.get("anchor_terms", [])
+        if isinstance(item, str) and item.strip()
+    ]
+    search_terms = payload.get("search_terms", {})
+    candidates: List[str] = list(raw_anchors)
+    if isinstance(search_terms, dict):
+        for values in search_terms.values():
+            if isinstance(values, list):
+                for term in values:
+                    if isinstance(term, str) and term.strip():
+                        candidates.append(term)
+
+    text_parts: List[str] = []
+    for meta in metadata_list:
+        title = meta.title or ""
+        abstract = meta.abstract or ""
+        combined = f"{title} {abstract}".strip()
+        if combined:
+            text_parts.append(combined)
+    corpus = " ".join(text_parts).lower()
+
+    forbidden: set[str] = set()
+    if params.topic:
+        for variant in _generate_topic_variants(params.topic):
+            forbidden.add(_normalize_phrase(variant).casefold())
+
+    def _has_blocked_punct(value: str) -> bool:
+        return any(ch in value for ch in [":", "!", "?", "\"", "'"])
+
+    def _accept(term: str, *, require_corpus: bool) -> bool:
+        normalized = _normalize_phrase(term)
+        if not normalized:
+            return False
+        if _has_blocked_punct(normalized):
+            return False
+        if len(normalized.split()) > 3:
+            return False
+        key = normalized.casefold()
+        if key in forbidden:
+            return False
+        if require_corpus and corpus and key not in corpus:
+            return False
+        return True
+
+    selected: List[str] = []
+    seen: set[str] = set()
+
+    for term in candidates:
+        if not isinstance(term, str):
+            continue
+        normalized = _normalize_phrase(term)
+        if not _accept(normalized, require_corpus=True):
+            continue
+        key = normalized.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        selected.append(normalized)
+        if len(selected) >= max_anchors:
+            break
+
+    if not selected:
+        for term in candidates:
+            if not isinstance(term, str):
+                continue
+            normalized = _normalize_phrase(term)
+            if not _accept(normalized, require_corpus=False):
+                continue
+            key = normalized.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            selected.append(normalized)
+            if len(selected) >= max_anchors:
+                break
+
+    if not selected and candidates:
+        for term in candidates:
+            if not isinstance(term, str):
+                continue
+            normalized = _normalize_phrase(term)
+            if not normalized:
+                continue
+            key = normalized.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            selected.append(normalized)
+            if len(selected) >= max_anchors:
+                break
+
+    if not selected and params.topic:
+        selected = [_normalize_phrase(params.topic)]
+
+    payload["anchor_terms"] = selected
+
 def _load_template(path: Path) -> str:
+    """Load a prompt template from disk."""
+
     if not path.exists():
         raise FileNotFoundError(f"Prompt template not found: {path}")
     return path.read_text(encoding="utf-8")
@@ -686,6 +861,8 @@ def build_generate_instructions(
     resolved_anchor_variants: Optional[Sequence[str]] = None,
     metadata_block: Optional[str] = None,
 ) -> str:
+    """Render the per-PDF prompt template with runtime parameters."""
+
     template_path = Path(params.prompt_path) if params.prompt_path else DEFAULT_PROMPT_PATH
     template = _load_template(template_path)
 
@@ -775,11 +952,14 @@ def build_aggregate_instructions(
     max_queries: int = 50,
     topic: Optional[str] = None,
     anchor_variants: Optional[Sequence[str]] = None,
+    use_topic_variants: bool = True,
     metadata_block: Optional[str] = None,
     aggregate_prompt_path: Optional[Path | str] = None,
     allow_additional_categories: bool = False,
     category_target: Optional[int] = None,
 ) -> str:
+    """Render the aggregation prompt using partial JSON outputs."""
+
     template_path = Path(aggregate_prompt_path) if aggregate_prompt_path else DEFAULT_AGGREGATE_PATH
     template = _load_template(template_path)
     joined = "\n\n".join(partials)
@@ -787,7 +967,10 @@ def build_aggregate_instructions(
     text = text.replace("<<max_queries>>", str(max_queries))
     anchor_list = _dedupe_preserve_order(anchor_variants) if anchor_variants else []
     text = text.replace("<<topic_hint>>", _normalize_phrase(topic or "not provided"))
-    text = text.replace("<<anchor_policy>>", _anchor_policy_text(topic, anchor_list))
+    text = text.replace(
+        "<<anchor_policy>>",
+        _anchor_policy_text(topic, anchor_list, use_topic_variants=use_topic_variants),
+    )
     text = text.replace("<<paper_metadata_block>>", metadata_block or "(metadata unavailable)")
     additional_note = ""
     if allow_additional_categories:
@@ -905,6 +1088,7 @@ def extract_search_terms_from_surveys(
                 resolved_anchor_variants,
             )
         _apply_anchor_postprocessing(parsed_partial, resolved_anchor_variants, p)
+        _sanitize_anchor_terms(parsed_partial, [paper_metadata[idx]], p)
         _enforce_metadata_alignment(parsed_partial, [paper_metadata[idx]])
         _validate_output_against_metadata(parsed_partial, [paper_metadata[idx]])
         per_parsed_payloads.append(parsed_partial)
@@ -920,6 +1104,7 @@ def extract_search_terms_from_surveys(
         max_queries=p.max_queries,
         topic=p.topic,
         anchor_variants=resolved_anchor_variants,
+        use_topic_variants=p.use_topic_variants,
         metadata_block=combined_metadata_block,
         aggregate_prompt_path=p.aggregate_prompt_path,
         allow_additional_categories=p.allow_additional_categories,
@@ -955,6 +1140,7 @@ def extract_search_terms_from_surveys(
         else:
             try:
                 _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+                _sanitize_anchor_terms(parsed, paper_metadata, p)
                 _enforce_metadata_alignment(parsed, paper_metadata)
                 _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
                 _validate_output_against_metadata(parsed, paper_metadata)
@@ -968,6 +1154,7 @@ def extract_search_terms_from_surveys(
                 p,
             )
             _apply_anchor_postprocessing(parsed, resolved_anchor_variants, p)
+            _sanitize_anchor_terms(parsed, paper_metadata, p)
             _enforce_metadata_alignment(parsed, paper_metadata)
             _enrich_search_terms_from_papers(parsed, p, per_parsed_payloads)
             _validate_output_against_metadata(parsed, paper_metadata)
@@ -978,6 +1165,8 @@ def extract_search_terms_from_surveys(
 
 
 def _parse_json_content(result: LLMResult) -> Dict[str, Any]:
+    """Parse JSON content from an LLM result, stripping code fences."""
+
     text = result.content.strip()
     # Some models may wrap JSON in code fences; attempt to strip if present.
     if text.startswith("```"):
@@ -1007,6 +1196,8 @@ def _parse_json_content(result: LLMResult) -> Dict[str, Any]:
 
 
 def _write_usage_log(path: Optional[Path | str], results: Sequence[LLMResult | None]) -> None:
+    """Write a usage log JSON file for completed LLM calls."""
+
     if not path:
         return
 

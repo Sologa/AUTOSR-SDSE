@@ -1,0 +1,20 @@
+{
+  "round": 1,
+  "seed_review": "workspaces/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/review/latte_review_results.json",
+  "seed_count": 58,
+  "raw_count": 398,
+  "filtered_count": 251,
+  "dedup_removed": 6,
+  "dedup_removed_by": {
+    "title": 6
+  },
+  "for_review_count": 245,
+  "review_ran": true,
+  "review_outcome": {
+    "exclude": 230,
+    "include": 6,
+    "other": 1
+  },
+  "included_total": 64,
+  "criteria_hash": "badd3f251a2232a292429d0e02fbb7a36292ea17539b3e7e160d4b704e6c1f56"
+}

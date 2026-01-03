@@ -14,21 +14,28 @@
 
 > **新增：LatteReview 整體資料集轉換**
 >
-> - 若需要將 `test_artifacts/metadata_harvest/speech_language_models/latte_review_results_top797.json`（含 `final_verdict` 與 `metadata`）轉成 ASReview CSV，請使用 `test/speech_lm_results_to_asreview.py`：
+> - 若需要將 `test_artifacts/metadata_harvest/speech_language_models/latte_review_results_step5_full.json`（含 `final_verdict` 與 `metadata`）轉成 ASReview CSV，請使用 `test/speech_lm_results_to_asreview.py`：
 >   ```bash
 >   source sdse-uv/.venv/bin/activate
 >   python test/speech_lm_results_to_asreview.py \
->       --input test_artifacts/metadata_harvest/speech_language_models/latte_review_results_top797.json \
+>       --input test_artifacts/metadata_harvest/speech_language_models/latte_review_results_step5_full.json \
 >       --metadata test_artifacts/metadata_harvest/speech_language_models/arxiv_metadata.json \
 >       --output-dir test_artifacts/metadata_harvest/speech_language_models \
->       --basename speech_lm_arxiv \
+>       --keep-label include \
+>       --min-date 2023-01-01 \
+>       --max-date 2025-12-31 \
 >       --email your_email@example.com
 >   ```
-> - 腳本會輸出：
->   - `speech_lm_arxiv_asreview.csv`：保留 `metadata_json`、`final_verdict`、`label` 等欄位。
->   - `speech_lm_arxiv_asreview_dedup.csv`：去重後資料。
->   - `speech_lm_arxiv_asreview_forward.csv` / `speech_lm_arxiv_asreview_backward.csv`：雪球延伸結果（可加 `--skip-forward` / `--skip-backward` 控制）。
+>   若使用 `LATTE_REVIEW_TOP_K` 產生 `latte_review_results_step5_top<X>.json`，請將 `--input` 改為對應檔名；`--min-date` / `--max-date` 為選填，會同時套用在 LatteReview 轉換結果與雪球輸出。
+>   指令同時會產出 `snowball_for_review.csv`，內容為去重後僅包含尚未在 `screening_included.csv` 出現的雪球候選，供後續 LatteReview 審查使用。
+> - 腳本會輸出固定檔名（僅路徑依 topic 不同）：
+>   - `screening_included.csv`：LatteReview 結果轉換後的 ASReview CSV，首欄為 `doi`，同時包含 `included`、`final_verdict`、`metadata_json` 等欄位。
+>   - `snowball_results.csv`：整合 forward/backward 的雪球結果（可用 `--skip-forward` / `--skip-backward` 控制方向，若無延伸文獻會輸出僅含標頭的空 CSV）。
+>   - `snowball_for_review.csv`：從雪球結果去重，排除已在 `screening_included.csv` 出現、缺題摘要或非英文內容的條目，作為後續 LatteReview 審查的待審清單。
 > - 若需只產生 CSV 而不做雪球，可加 `--skip-forward --skip-backward`。
+> - `--keep-label` 支援多次指定，可用值為 `include` / `exclude` / `needs-review`；未指定時會保留所有審查結果，上例示範僅將「納入」論文送入雪球階段。
+> - 雪球階段會逐筆呼叫 OpenAlex API，實測約 10~15 分鐘；程式已內建 429 重試與退避策略，執行時會顯示等待訊息，請避免中途中斷。
+> - 針對 5,898 筆雪球候選執行三審流程，OpenAI API 成本約 12 美元，可作為後續規劃預估基準。
 
 ## 操作步驟
 所有指令請在倉庫根目錄執行，並先啟用 `sdse-uv` 虛擬環境：

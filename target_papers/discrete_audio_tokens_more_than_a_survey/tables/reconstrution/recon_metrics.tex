@@ -1,0 +1,33 @@
+\begin{table}[t!]
+    \centering
+    \caption{Summary of evaluation metrics on resynthesized audio.}
+    \resizebox{.9\textwidth}{!}{ 
+        \begin{tabular}{l|c|c|ccc}
+            \specialrule{.11em}{.2em}{.1em}
+            \textbf{Metric} & \textbf{Functionality} & \textbf{Range} & \multicolumn{3}{c}{\textbf{Domain}} \\  
+            \cmidrule(r){4-6}
+            & & & Speech & Music & Audio \\
+            \midrule
+            \multicolumn{6}{c}{\textit{Signal-level}} \\
+            \midrule
+            SDR & Signal-to-distortion Ratio  & (-inf, inf) & \checkmark & \checkmark & \checkmark \\
+            SI-SNR & Scale-invariant signal-to-noise ratio & (-inf, inf) & \checkmark & \checkmark & \checkmark \\
+            PESQ & Perceptual Evaluation of Speech Quality  & [1, 5] & \checkmark &   & \\
+            UTMOS & UTokyo-SaruLab System for VoiceMOS 2022 & [1, 5] & \checkmark &   & \\
+            DNSMOS P808 & Deep Noise Suppression MOS Score of P.808  & [1, 5] & \checkmark &   & \\
+            DNSMOS P835 & Deep Noise Suppression MOS Score of P.835  & [1, 5] & \checkmark &   & \\
+            PLCMOS & Packet Loss Concealment-focus MOS & [1, 5]  & \checkmark &   & \\
+            STOI & Short-Time Objective Intelligibility  & [0, 1] & \checkmark &   & \\
+            VISQOL & Virtual Speech Quality Objective Listener & [1, 5] & & \checkmark & \checkmark \\
+            SingMOS & Singing voice MOS & [1, 5] & & \checkmark & \checkmark \\
+            \midrule
+            \multicolumn{6}{c}{\textit{Application-level}} \\
+            \midrule
+            WER  & Word Error Rate (beam=5) & [0, inf) & \checkmark & & \\
+            Spk Sim & Speaker Similarity & [-1, 1] & \checkmark & & \\
+            \specialrule{.11em}{.2em}{.1em}
+        \end{tabular}
+    }
+
+    \label{tab:codec-superb-metric}
+\end{table}

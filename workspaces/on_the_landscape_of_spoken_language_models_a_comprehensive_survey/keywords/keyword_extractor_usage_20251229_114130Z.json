@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-12-29T11:43:32.300256+00:00",
+  "records": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "pdf",
+      "input_tokens": 10603,
+      "output_tokens": 3283,
+      "cost": 0.064517,
+      "metadata": {
+        "mode": "per_pdf",
+        "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+        "pdf_path": "workspaces/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/seed/downloads/arxiv/2509.14515.pdf"
+      }
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "sync",
+      "input_tokens": 2333,
+      "output_tokens": 3193,
+      "cost": 0.048785,
+      "metadata": {
+        "mode": "aggregation",
+        "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey"
+      }
+    }
+  ],
+  "total": {
+    "input_tokens": 12936,
+    "output_tokens": 6476,
+    "cost": 0.11330200000000001
+  }
+}

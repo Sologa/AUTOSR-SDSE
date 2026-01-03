@@ -1,0 +1,20 @@
+{
+  "round": 5,
+  "seed_review": "workspaces/discrete_audio_tokens_more_than_a_survey/snowball_rounds/round_04/latte_review_results.json",
+  "seed_count": 6,
+  "raw_count": 153,
+  "filtered_count": 107,
+  "dedup_removed": 77,
+  "dedup_removed_by": {
+    "openalex_id": 71,
+    "title": 6
+  },
+  "for_review_count": 30,
+  "review_ran": true,
+  "review_outcome": {
+    "exclude": 29,
+    "include": 1
+  },
+  "included_total": 171,
+  "criteria_hash": "d3cde4fb3f0f0914b2aec218448cb1734f7532db1a8791a8d569e62d8a96e1b8"
+}

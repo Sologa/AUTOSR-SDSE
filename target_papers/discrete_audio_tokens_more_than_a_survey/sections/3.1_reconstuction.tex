@@ -1,0 +1,47 @@
+\subsection{Evaluation for Reconstructed Audio Quality and Complexity}
+\label{ssec: reconstruction evaluation}
+\label{sec:reconstruct}
+
+\textbf{Background.} We evaluate audio reconstruction quality and examine key properties of audio tokenizers, such as computational complexity, bitrate, and token rate. Reconstruction quality is particularly important for applications like transmission, where preserving signal fidelity is crucial. Moreover, high reconstruction quality might be a useful proxy for selecting effective tokenizers for downstream tasks, especially those that rely directly on the decoder for audio generation, such as speech enhancement and source separation. In such cases, the reconstruction performance of the  tokenizer can impact the overall task performance.
+
+\input{tables/reconstrution/recon_metrics}
+
+\textbf{Experimental Setup.}
+The input audio is first compressed using an audio tokenizer and then resynthesized through its corresponding decoder. The resynthesized audio is assessed from both signal-level and application-level perspectives, providing insights into how well each tokenizer preserves information. To ensure a comprehensive analysis, we integrate the evaluation scripts from Codec-SUPERB and VERSA~\citep{wu2024codec,wu2024codecslt,shi2024espnet,shi2024versa}. We extend the evaluation across three domains (music, general audio, and speech) to examine how different tokenizers perform in diverse acoustic scenarios. 
+
+\textbf{Dataset.}
+For speech evaluation, we use the LibriSpeech test-clean set~\citep{7178964}. For music, we use the MUSDB dataset~\citep{musdb18}, which consists of approximately 10 hours of full-length and professionally-recorded musical tracks at 44.1kHz. Lastly, for general audio we opt for the Audioset~\citep{gemmeke2017audio} test-set, which accounts for approximately 55 hours of audio clips extracted from YouTube.
+
+
+\textbf{Evaluation Setup.}
+Table~\ref{tab:codec-superb-metric} reports the reconstruction metrics for resynthesized audio. Beyond quality, it is important to jointly consider factors often overlooked in the literature, such as computational efficiency and tokenizer properties. 
+To address this, we also include these metrics as Table~\ref{tab:bench_tokenizers}: 
+(1). \emph{Model parameters (Params)}: The total number of parameters in the audio tokenizer.
+(2). \emph{Computational complexity (MACs)}: Number of arithmetic operations performed by a tokenizer. MACs are computed for a one-second audio sample using PyFlops\footnote{\url{https://github.com/sovrasov/flops-counter.pytorch/tree/master}}. For components incompatible with PyFlops, such as streaming self-attention, dot product, calculations are performed manually.
+(3). \emph{Bitrate}: The number of bits per second, representing a balance between audio quality and compression efficiency.
+(4). \emph{Frame rate}: The number of temporal frames used to encode one second of audio.
+(5). \emph{Token rate}: Number of tokens required to encode one second of audio, an important factor for acoustic language modeling applications.
+
+
+
+\input{tables/reconstrution/recon_speech_results}
+\textbf{Results and Discussion.}
+
+\noindent\hspace*{1em}\textbf{Speech.} From Table~\ref{tab:recon_speech_results}, we make the following observations: 
+(1) For both EnCodec and DAC, the reconstruction quality consistently degrades as the bitrate decreases from 24k to 6k and 1.5k. This trend confirms that higher bitrates better preserve acoustic detail, resulting in improved reconstruction quality across all evaluated metrics. 
+(2) For SpeechTokenizer (4k vs. 1k) and Mimi (4.4k vs. 1.1k), which both apply semantic distillation to the first codebook, all objective metrics decline at lower bitrates. However, the WER does not drop as drastically, indicating that semantic distillation effectively preserves linguistic content even when the overall reconstruction quality decreases. 
+(3) Discrete WavLM exhibits significantly lower SDR, SI-SNR, PESQ, STOI, and Spk-Sim scores. Since these metrics rely on reference ground truth signals, the poor performance indicates these models are not optimized for precise waveform reconstruction. Metrics such as UTMOS, DNSMOS, and PLCMOS, however, remain reasonable, suggesting these tokenizers still preserve speech quality. This discrepancy indicates that discrete tokenizers focus more on high-level representations than on exact waveform reconstruction. 
+(4) SQ-SMA-16 performs comparable or even better than large bitrate codec models (e.g., Mimi-S-24 4.4kbps, and DAC-SMA-24 6kbps).
+(5) Finally, we find that SDR and SI-SNR are less reliable indicators. A possible reason is that the signal is over-compressed, the generation of neural codec (especially in low-bitrate), usually have less consistency in the local sample-level information. It is likely due to non-linear shifts or amplitude variations.
+
+\noindent\hspace*{1em}\textbf{General Audio and Music.} Table~\ref{tab:recon_combined_results} summarizes the reconstruction results for the general audio and music domains. As in the speech domain, reconstruction quality generally decreases with lower bitrates. The results also reveal notable trends related to both the training domain and optimization objectives for each tokenizer. EnCodec achieves the best overall reconstruction performance across SDR, SI-SNR, and perceptual metrics (VISQOL and SingMOS), particularly at higher bitrates. In contrast, DAC shows surprisingly poor performance in time-domain metrics, with negative SI-SNR values in most settings. This suggests that DAC relies on adversarial or perceptual optimization strategies that do not prioritize time-domain reconstruction loss. Nonetheless, despite poor time-domain fidelity, DAC maintains strong VISQOL and SingMOS scores, indicating its reconstructions remain perceptually plausible.
+
+Similar to DAC, WavTokenizer is not explicitly optimized with a time-domain waveform reconstruction loss, resulting in poor SDR and SI-SNR scores. However, its perceptual metrics (VISQOL and SingMOS) remain relatively strong. This further highlights the limitations of time-domain metrics in evaluating token-based representations, as previously observed in the speech reconstruction results. 
+% SQ-Codec, the only fully out-of-domain model (trained only on speech data), gives the poorest performance in SDR and SI-SNR metrics. Nevertheless, its perceptual metrics remain comparable to in-domain models at certain bitrates, indicating that despite limited signal fidelity, key perceptual characteristics can still be preserved.
+\rebuttal{
+Among the two WavTokenizer variants, WT-S-24 and WT-SMA-24, only WT-S-24 is fully out-of-domain, having been trained exclusively on speech data. Both models exhibit poor performance across objective metrics such as SDR and SI-SNR, as well as perceptual metrics (VISQOL and SingMOS). This degradation stems from a combination of factors: the domain mismatch in WT-S-24, the use of the lowest bitrate among all models, and the absence of explicit waveform reconstruction losses during training.}
+
+\paragraph{Summary.} Overall, these results underscore the importance of evaluating audio tokenizers beyond traditional waveform fidelity measures. Models optimized for perceptual or downstream tasks may exhibit low signal reconstruction performance, yet still produce subjectively high-quality audio reconstructions.
+
+
+\input{tables/reconstrution/recon_audio_music_results}

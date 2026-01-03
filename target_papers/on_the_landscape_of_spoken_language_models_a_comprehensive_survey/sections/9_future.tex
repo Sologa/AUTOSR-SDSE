@@ -1,0 +1,34 @@
+\section{Challenges and future work}
+\label{sec:challenges}
+This survey has covered some of the key milestones that have been achieved in \slm\ research:  the first pure speech language models that could generate convincing-sounding stretches of English speech (GSLM~\citep{GSLM}); the first generation of models that could perform a variety of tasks with reasonable accuracy given natural language instructions~\citep{gao2022wavprompt,gong2023joint,wang2023slm}; models that can converse in ``full duplex'' mode~\citep{defossezmoshi}; and benchmarks tailored for evaluating the modeling and instruction-following capabilities of \slms~\citep{dunbar2021zero,huang2025dynamicsuperb}.
+
+While research in this area has produced many \slms\ and exciting outcomes, it is safe to say that we are not yet close to the goal of truly universal speech processing systems.
+ This section highlights several categories of challenges and open questions, which suggest directions for future research.
+
+\paragraph{Model architecture} 
+The optimal representation of speech within \slms\ remains unclear.
+Speech representations in \slms\ include both discrete and continuous varieties, derived from a wide range of encoders. This design choice can also influence other architectural choices in an \slm, for example depending on the information rate of the encoder and whether it encodes more phonetic or other types of information.
+
+Another open question is determining the best method to combine speech and text, which applies to all aspects of \slm\ modeling and training.  %
+We have described various choices of modality adapters and approaches for interleaving speech and text. These have not been thoroughly compared, so the effect of each modeling choice is still unclear.
+
+A final architectural challenge is that current \slms\ are large and slow, making them impractical for real-time and on-device settings.  To some extent this is because various compression algorithms (e.g.,~\citep{parp, dphubert, usm-lite}) and alternative architectures (e.g.,~\cite{park2024long}) have not been widely applied to \slms.  However, there is also an inherent efficiency challenge that arises when combining multiple pre-trained components, sometimes with different architectures and frame rates.
+
+
+\paragraph{Training} There is a lack of public high-quality training data, particularly for instruction tuning and chat-based training. \citet{zeng2024scaling} showed that scaling synthetic data generation enhances the performance of pure speech LMs; similar research efforts could be directed toward instruction tuning and chat-based spoken data. Additionally, \slms\ are trained on diverse datasets (including some proprietary datasets), making it difficult to analyze whether performance differences are caused by architecture design choices or training data. Thorough ablation studies focusing on the various model design choices (\Cref{sec:speech-encode-decode}) and training strategies (\Cref{sec:training}) are also essential and still lacking.
+Finally, scaling studies for \slms\ are needed in order to 
+better understand how \slms\ 
+scale with model and data.  Such studies would hopefully produce new scaling laws and help
+to speed up the development cycle
+\citet{scaling-slms} conducted the first such investigation 
+for pure \slms. %
+More recently, \citet{maimon2025slamming} presented a through empirical analysis of the optimization process for pure speech LMs,
+showing how one can train a high-quality pure \slm in  24 hours using a single GPU.  It remains uncertain whether scaling  findings apply also to speech+text LMs\ or speech-aware text LMs. 
+
+\paragraph{Evaluation}
+Thus far, different \slms\ have typically been evaluated on different datasets and tasks.  Recent efforts to collect large numbers of tasks and standardize benchmarking ~\citep{huang2024dynamic,airbench,huang2025dynamicsuperb} are promising, but as of this writing they are not yet widely adopted for evaluating new models.  Existing benchmarks also do not cover the full range of spoken language tasks.  The largest current benchmarking effort, Dynamic-SUPERB Phase-2~\citep{huang2025dynamicsuperb}, includes 180 tasks, which is similar to the size of the BIG-Bench suite of text LLM tasks~\citep{bigbench}.  However, the range of spoken language tasks is arguably much larger than that of text tasks, since speech tasks include the vast majority of text tasks (the ones that don't relate explicitly to the textual form, such as transliteration) and in addition include a variety of speech-specific tasks related to speaker properties, accents, or prosody-specific content.  In addition, there is a lack of standardized benchmarking for speech \emph{generation} tasks.  
+
+\paragraph{Open research}  Very few \slms\ are fully open-source---including code, model checkpoints, and training data---which makes a comprehensive comparison between approaches virtually impossible.  There has been progress in this direction, with some models having at least publicly available weights (see Fig.~\ref{fig:timeline}), and some support in open-source toolkits~\citep{tian2025espnet}.  Many of the items on the wish list above, such as controlled comparisons between multiple design decisions, will be infeasible to accomplish until more fully open models are released.
+
+\paragraph{Improving inclusiveness and safety}  \slm\ research has, thus far, understandably focused on high-resource languages and settings.  As \slms\ become more performant and enter commercial products in daily use, it will be critical to make them accessible to as broad a range of users as possible, including a variety of languages, dialects, and speech-related medical conditions.  Research in this area will likely follow the arc of text LLM research, but again, there are speech-specific challenges that arise from speaker variation.  Similarly, the area of safety and trustworthiness has only begun to be explored, and will require speech-specific solutions to speech-specific challenges like deepfakes and speaker type-related bias.
+

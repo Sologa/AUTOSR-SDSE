@@ -1,0 +1,15 @@
+flowchart TD
+  classDef stage fill:#F3F6FF,stroke:#3949AB,stroke-width:1px,color:#111;
+  classDef artifact fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px,color:#111;
+
+  P1[1. Paper Pool Construction and Retrieval]:::stage
+  P2[2. Paper Structuring - attribute and evidence extraction]:::stage
+  P3[3. Taxonomy and Outline]:::stage
+  P4[4. Survey Drafting - citation-aware synthesis]:::stage
+  P5[5. Verification and Refinement]:::stage
+  P6[6. LaTeX Build and Debug to PDF]:::stage
+  P7[7. PDF]:::artifact
+
+  P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7
+  P2 -.-> P4
+  P2 -.-> P5

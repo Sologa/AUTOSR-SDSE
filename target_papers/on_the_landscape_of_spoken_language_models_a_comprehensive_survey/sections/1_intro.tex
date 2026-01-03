@@ -1,0 +1,81 @@
+\section{Introduction}
+In the last few years, the field of natural language processing (NLP) has evolved from (1) training many task-specific models from scratch, to (2) combining pre-trained multi-purpose contextual representation models (such as BERT~\citep{bert}) with a small number of task-specific parameters, to (3) training generative \emph{universal}, large language models (LLMs~\citep{brown2020language,gpt4}\footnote{Throughout the paper, we use the terms LLMs and LMs interchangeably to refer to modern language models.}) that perform arbitrary text tasks given natural language instructions (prompts) and can generalize to unseen domains and tasks~\citep{FLAN,prompt1}, and finally to (4) dialogue / chatbot systems that function as assistants and perform tasks while directly interacting with the user. 
+
+The field of speech processing has been undergoing a similar evolution, although with some lag, and has mainly focussed on stages (1) and (2). The current state of the art (SOTA) for common specialized speech tasks---including automatic speech recognition (ASR), speech translation (ST), spoken language understanding (SLU) tasks, and speaker identification (SID)---involves combining a pre-trained self-supervised encoder model~\citep{mohamed2022self} with a task-specific prediction ``head''.  For some very common tasks---namely, ASR and ST---in relatively high-resource languages, large supervised models~\citep{whisper,owsm} also have consistently good (if not SOTA) performance. 
+
+\begin{table}[t!]
+\caption{Typology of text and spoken LMs.  We use a loose notation here, where $speech$ and $text$ are to be interpreted in context; for example, $p(text|text)$ in post-trained text LMs corresponds to modeling some desired ouptut text given an input text instruction or prompt. ``Post-training'' refers to any form of instruction-tuning and/or preference-based optimization of the \slm.  Please see the sections below for details and references for the example models.\label{tab:typology}}
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llll}
+\toprule
+\bf Type of LM            & \bf Training Strategy   & \bf Model distribution     & \bf Examples       \\
+\midrule
+pure text LM              & pre-training            & $p(text)$                         & GPT, Llama   \\
+pure text LM              & post-training           & $p(text | text)$                  & ChatGPT, Llama-Instruct \\
+\midrule
+pure speech LM            & pre-training            & $p(speech)$                       & GSLM, AudioLM, TWIST    \\
+pure speech LM            & post-training           & $p(speech | speech)$              & Align-SLM   \\
+\midrule
+speech+text LM            & pre-training            & $p(text, speech)$                 & SpiRit-LM, Moshi (pre-trained) \\
+speech+text LM            & post-training           & $p(text, speech | text, speech)$  & Moshi (post-trained), Mini-Omni \\
+\midrule
+speech-aware text LM      & post-training           & $p(text | speech, text)$                & SALMONN, Qwen-Audio-Chat \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Recent work has begun to develop {\it spoken language models} (\slms), analogous to text LLMs, which are in principle capable of performing arbitrary speech tasks given natural language instructions. However, the term ``SLM'' has not been standardized in the literature and has been used to refer to a wider range of model types than text language models. Several common classes of models have emerged, all referred to as SLMs:  (1) \emph{pure \slms}: 
+models of the distribution of speech, $p(speech)$, typically trained on unlabeled tokenized speech data only with a next-token prediction objective (similarly to the pre-training phase in text LLMs)~\citep{GSLM}; (2) \emph{speech+text \slms}: models of the joint distribution of speech and the corresponding text $p(text, speech)$, typically trained using paired (speech, text transcription) data, which can be viewed as a direct extension of class (1)~\citep{nguyen2024spirit}; and (3) \emph{speech-aware text LMs}: models that combine 
+text LLMs with pre-trained speech encoders to retain the instruction-following (IF) characteristics of the text LLMs and reason about the input speech or audio recordings \citep{tang2023salmonn, chu2023qwen}.  Approaches in category (3) model a conditional distribution, $p(text|speech,text)$, of desired output text in response to the input speech and text instruction.  
+
+Following the text LLMs analogy, models in categories (1) and (2) can be viewed as analogues to pre-trained LLMs.  Like text LLMs, these models can be post-trained---via instructions, preferences, or other means---to learn the distributions of desired output speech (for category (1)) or output speech+text (category (2)) given desired inputs (speech or speech+text, respectively).  Models in category (3) typically start with fine-tuned LLMs, but involve some additional post-training to both align the speech and text representations and enable the model to perform new speech-specific tasks.  Table~\ref{tab:typology} provides a typology of these categories along with example models from the recent literature.  The Appendix provides additional models and a timeline of their development (Table~\ref{table:SLMs} and Figure~\ref{fig:timeline}).
+
+
+
+
+
+Although existing models have been applied to different tasks using different priors and modeling techniques, all of the three categories of \slms\ mentioned above form steps on the way to 
+\emph{universal speech processing systems}. For the purposes of this paper, we define a universal speech processing system as a model that satisfies the following criteria:
+\begin{enumerate}
+    \item It has both spoken input and spoken output with optional text input and/or output. The spoken input may serve as either an instruction or a context. %
+    \item It is intended to be ``universal''; that is, it should in principle be able to address 
+    arbitrary spoken language tasks, including both traditional 
+    tasks and more complex reasoning about spoken data. 
+    \item It takes
+    instructions or prompts 
+    in the form of natural language (either speech or text), and not, for example, only task specifiers~\citep{whisper} or soft prompts~\citep{chang2024speechprompt}.
+\end{enumerate}
+This is a functional definition, and does not restrict the form of the model.  We also note that most of the models in the current literature, and therefore in this survey, do not satisfy all of these criteria; for example, many do not have speech as both input and output, and many are trained and evaluated on a fairly limited set of tasks. However, the models we include can all be seen as steps toward the same goal of eventually developing \slms\ that can serve as universal speech processing systems, in the same way that pre-trained and post-trained text LLMs have served as steps toward universal written language processing systems.
+
+One may wonder whether a better path to universal speech processing is to combine speech recognition, text LLMs, and speech synthesis in series. This is indeed a strong baseline approach for many tasks~\citep{huang2025dynamicsuperb,airbench}. However, some tasks require access to aspects of the audio signal beyond the word string, such as properties of the speaker, their emotional state, prosody, or other acoustic properties. In addition, even for tasks that are in principle addressable using the word string alone, an end-to-end \slm\ approach can avoid the compounding of errors and inefficiencies that can occur when combining ASR, text LLMs, and TTS systems in series.
+
+
+
+
+
+
+
+
+The past few years have seen a major acceleration in work on \slms.
+However, there have been limited efforts to perform an in-depth survey of the design and modeling choices made in this work. Additionally, these models are often evaluated on very different tasks and datasets, making it difficult to assess the relative performance of different approaches. As part of this survey, we collect and organize many of the existing evaluations (though standardized evaluation is still one of the remaining challenges in this research area).  Lastly, as \slms\ have been viewed and defined differently depending on the intended applications and modeling choices, we provide a unified formulation and terminology for describing \slms\ (\Cref{sec:overall_arch}).
+
+This survey is intended to serve as a snapshot of the current moment in the evolution of the field, providing a review of the recent literature and a unified definition of \slms\ and their components.  While new \slms\ are being proposed at a steady pace, we hope that this survey of the research landscape will help readers more easily place new models in context.  We aim to provide an improved understanding of the successes and remaining limitations of \slms\ developed thus far, along the path to \slms\ as universal speech processing systems. 
+
+\paragraph{Scope of this survey.}  Although the ultimate goal is task-independent models that can be instructed with natural language, many LM-inspired approaches thus far have been task-specific (for example, special cases of conditional $p(text|speech)$ models for speech recognition and translation such as Whisper~\citep{whisper} and OWSM~\citep{owsm}, and conditional $p(speech|text)$ models for text-to-speech synthesis such as VALL-E~\citep{wang2023neural} and VoiceBox~\citep{le2024voicebox}), and some have been more general but rely on task tokens or soft prompts (e.g., Qwen-Audio~\citep{chu2023qwen} and SpeechPrompt~\citep{chang2024speechprompt} respectively).  In this survey, we  focus on models that are at least in principle task-independent (although they may have been tuned on a relatively small set of tasks) and that take natural language as input rather than task tokens or soft prompts.  We will, however, discuss some of the important task-specific models as they relate to the more general models. 
+
+In addition, as discussed in Section~\ref{sec:overall_arch}, \slms\ often comprise several components including a speech encoder, speech decoder, speech-text alignment module (when applicable), and sequence modeling component.  In this survey, we provide relatively brief descriptions of speech encoding and decoding; these have been covered well in previous surveys (e.g.,~\citet{wu2024towards}), and our main focus is on the aspects that are specific to \slms, such as sequence modeling and speech-text alignment.  
+
+Finally, music and general audio share many properties with speech.  A number of language modeling approaches have been developed specifically for music and general audio (e.g.,~\citep{copet2024simple,agostinelli2023musiclm}), and some \slm\ research combines speech and other audio (e.g.,~\citep{gong2023joint}).  In this survey we include non-speech audio only to the extent that it is used in the context of \slms.
+
+\paragraph{Related surveys.} To place this paper in context, we note that several other recent surveys have addressed aspects of \slms. \citet{zhang2024mm,chen2024next} review multi-modal LLMs, including a limited subset of \slms.
+By focusing on \slms\ as our main subject, we survey a substantially larger set of models in greater detail and explore speech-specific issues. \citet{latif2023sparks} provide a survey on large audio models. This survey covers a much larger space of audio language models (including environmental sounds, music, and other audio) and therefore does not %
+present \slms\ in as much detail, nor include recent {\emph{instruction-following}} (IF) models of the past year. Another recent survey~\citep{wu2024towards} provides an overview of neural audio codecs and codec-based (\Cref{sec:speech-encode-decode}) models, which mainly focuses on speech tokenization 
+rather than the full range of \slms. \citet{guo2025recent} also survey tokenization methods.
+\citet{ji2024wavchat} provide a survey of \slms, but their main focus is on spoken dialogue systems. Another related \slm\ survey paper by \citet{peng2024surveyspeechlargelanguage} focuses on speech-aware text LMs but leaves out other types of \slms. 
+Finally, there is also concurrent work by~\citet{cui2024recentadvancesspeechlanguage} that surveys a similar range of \slms; we provide a complementary view of the landscape with a different historical focus and categorization of models.
+
+\paragraph{Outline.} %
+In the remaining sections, we begin by outlining a general formulation of \slms\ (\Cref{sec:overall_arch}), followed by a discussion of various design choices (\Cref{sec:speech-encode-decode}), including speech encoders and decoders, modality adapters, and sequence modeling. We then describe the multiple optimization pipelines used for training \slms\ (\Cref{sec:training}).  In \Cref{sec:lit_review}, we review and categorize some of the notable recent models. In \Cref{sec:duplex}, we discuss how \slms\ have been adapted for dialogue (``full duplex'') mode.  In \Cref{sec:evaluation}, we present existing approaches for evaluating \slms.
+Finally, we conclude by discussing the limitations of current approaches and provide some suggestions for future research (\Cref{sec:challenges}).
+

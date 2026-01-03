@@ -24,3 +24,5 @@
 - `src/utils/paper_workflows.py`
 - `src/utils/env.py`
 - `src/utils/keyword_extractor.py`
+- `outputs/*/latex/figs/*.tex`（已生成的圖表程式碼，未經使用者明示不得覆寫）
+- `outputs/*/tmp/mainbody_*.tex`（後處理輸出成品，禁止在未授權情況下修改）

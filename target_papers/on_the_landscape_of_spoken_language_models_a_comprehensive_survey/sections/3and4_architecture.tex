@@ -1,0 +1,379 @@
+
+
+
+\section{Overall architecture} 
+\label{sec:overall_arch}
+
+\begin{figure}[!t]
+\centering
+\resizebox{0.99\linewidth}{!}{%
+\includegraphics[width=\columnwidth]{imgs/overall_v5.png}
+}
+\caption{
+Overview of \slm\ architecture.  
+See Sections~\ref{sec:speech-encode-decode} and~\ref{sec:training} for more detailed descriptions of the components and training methods, respectively.
+}
+\label{fig:overall}
+\end{figure}
+
+
+We start by providing a \emph{general} formulation (shown in~\Cref{fig:overall}) of \slms, which takes either/both speech and text as input and generates either/both speech and text (where at least one of the input or output includes speech). 
+ Although \slms\ differ in many of their design choices, this unifying description subsumes all of the models we cover.\footnote{We do make some assumptions, for example, that the sequence model is autoregressive, which in principle need not hold but in practice do hold for current models.}
+ 
+Let \( X^{\text{txt}} \in \mathcal{V}^\ast \) and \( X^{\text{sp}} \in \mathbb{R}^\ast \) denote the input text and speech, respectively. 
+That is, \[ X^{\text{txt}} = \{t_1, t_2, \ldots, t_N\} \] is a sequence of text tokens \( t_i \) of arbitrary length $N$ drawn from a vocabulary \( \mathcal{V} \).  The
+ speech input is a waveform, that is a sequence \[ X^{\text{sp}} = \{s_1, s_2, \ldots, s_T\} \] of real-valued samples of arbitrary length $T$, where 
+typically \( T \gg N \).
+  The speech waveform is long and complex, and is therefore typically further processed before being modeled by the sequence model.
+We first map $X^{\text{sp}}$ using the speech encoder $\text{Enc}^{\text{sp}}()$ to a sequence of speech representations $H^{\text{sp}}$:
+\begin{equation} H^{\text{sp}} = \text{Enc}^{\text{sp}}(X^{\text{sp}}). \label{enc_speech_eq} \end{equation}
+The resulting speech representations, $H^{\text{sp}} = \{ h_1, h_2, \ldots, h_L \}$, can take one of two forms. In one case, $H^{\text{sp}}$ is a sequence of continuous vectors \(\ h_l \in \mathbb{R}^d \).
+Alternatively, they can be sequences of discrete tokens \(h_l \in \mathcal{D}\) drawn from a learned codebook \(\mathcal{D}\).
+
+
+The speech representations \( H^{\text{sp}} \) are further transformed through a modality adapter
+\[\text{Adp}^{\text{sp}}( H^{\text{sp}} ) \in \mathbb{R}^{d^\prime \times L^\prime}, \] where typically \( L^\prime \leq L \). 
+This transformation is intended to improve the alignment of the speech representations with the sequence model. 
+In addition, the inherent length disparity between speech and text sequences can be addressed at this stage by applying temporal adjustments in \( \text{Adp}^{\text{sp}}() \).
+The text token sequence \( X^{\text{txt}} \) is also transformed into a sequence of vector representations, with the same dimensionality $d^\prime$, via an adapter
+\[
+\text{Adp}^{\text{txt}}( X^{\text{txt}} ) \in \mathbb{R}^{d^\prime \times N^\prime}.
+\]
+The text adapter is typically simply an embedding table, and therefore $N^\prime = N$.\footnote{We are not aware of any \slms\ that use any text adapters besides the typical embedding table, nor models where $N^\prime \neq N$, but we allow this possibility in the definition for maximal generality.} 
+After the adapters, therefore, the text and speech 
+are mapped to the same representation space with dimension \( d^\prime \), but the text and speech representation sequences are still not necessarily the same length (i.e., $L^\prime$ and $N^\prime$ need not be identical). %
+
+Next, given the adapted input text and/or speech representations, a sequence model, denoted \(\text{Seq}()\), generates outputs, typically in an autoregressive manner. Here, we assume that each invocation of \(\text{Seq}()\) corresponds to one generation step. For the model types described in Table~\ref{tab:typology}, the formulations are as follows:
+
+\paragraph{Pure Speech LMs} The output of $\text{Seq}()$ is a speech representation
+    \[
+    h^\prime = \text{Seq}(\text{Adp}^{\text{sp}}(H^{\text{sp}})).
+    \]
+    The input to \(\text{Seq}()\) is a sequence of representations of the generated speech so far, with shape 
+    \(d^\prime \times L^\prime\) and the output speech representation $h^\prime$ is either a continuous vector (in \(\mathbb{R}^{d}\)) or a discrete token (in $\mathcal{D}$). 
+    Following the usual autoregressive generation formulation, $h^\prime$ is then appended to \(H^{\text{sp}}\), increasing its length by one, \(\text{Seq}()\) then generates the next output, and so on.
+    All of the generated outputs $h^\prime$ together form a sequence $A^{\text{sp}} = \{h^\prime_1,h^\prime_2, \ldots, h^\prime_{L^{\prime\prime}}\}$ with sequence length $L''$.
+    Finally, the speech decoder $\text{Dec}^{\text{sp}}$ converts the output speech representations $A^{\text{sp}}$ to a waveform $Y^{\text{sp}}$:
+\begin{equation}
+   Y^{\text{sp}} = \text{Dec}^{\text{sp}}(A^{\text{sp}}). \label{out_speech_eq}
+\end{equation}
+    
+    \paragraph{Speech-aware Text LMs} In this type of model, the sequence model $\text{Seq}()$ generates a text token $t^\prime$ according to 
+\[
+t^\prime = \text{Seq}\Big(\text{Adp}^{\text{sp}}(H^{\text{sp}}),\; \text{Adp}^{\text{txt}}(X^{\text{txt}})\Big)
+\]
+Here, the input to $\text{Seq}()$ is a concatenation of the adapted speech representation $\text{Adp}^{\text{sp}}(H^{\text{sp}})$ and the 
+text representation $\text{Adp}^{\text{txt}}(X^{\text{txt}})$, forming a tensor with shape %
+$d^\prime \times (L^\prime+N^\prime)$. The output is a text token $t^\prime \in \mathcal{V}$. This generated token is then appended to $X^{\text{txt}}$, and the process is repeated to generate subsequent tokens. Finally, the sequence of all generated tokens forms the output text sequence $Y^{\text{sp}}$.
+    
+    \paragraph{Speech+Text LMs} In this more complex scenario, speech and text are modeled jointly:
+    \[
+    h^\prime,t^\prime = \text{Seq}(\text{Adp}^{\text{sp}}(H^{\text{sp}}), \text{Adp}^{\text{txt}}(X^{\text{txt}}))
+    \]
+    Here both the inputs and outputs are ``hybrid'' representations consisting of a combination of speech and text representations. There are multiple approaches for generating such hybrid speech+text representations, 
+    which will be discussed in Section~\ref{subsubsec:text-speech-hybrid}.
+
+The 
+encoder, decoder, and sequence model $\text{Seq}()$ are often
+pre-trained separately.  The modality adapter is typically trained from scratch, 
+sometimes along with fine-tuning of the sequence model.
+The encoder and decoder parameters are usually fixed after pre-training.
+Section~\ref{sec:speech-encode-decode} provides more detailed information about the 
+model components, while Section~\ref{sec:training} describes typical training methods. %
+
+
+
+\section{SLM components}
+\label{sec:speech-encode-decode}
+
+\subsection{Speech Encoder}
+\label{sec:speech-encoder}
+
+\begin{figure}[!t]
+\centering
+\resizebox{0.9\linewidth}{!}{%
+\includegraphics[width=\columnwidth]{imgs/encoding_v2.png}
+}
+\caption{A general pipeline for speech encoders.  Note that different encoders use different components of the pipeline.  See \Cref{sec:speech-encoder} for more details.}
+\label{fig:encoding}
+\end{figure}
+
+In text LMs, text is typically tokenized
+into subword units, generated through methods like byte pair encoding (BPE)~\citep{bpe}, and these tokens are then represented as vector embeddings.
+In contrast, speech %
+is a continuous waveform with no obvious tokenization and no separation between linguistic information and other acoustic aspects.
+The task of the speech encoder, shown in Figure~\ref{fig:encoding}, is to extract meaningful representations from the waveform.
+
+The first part of the encoder is a speech representation model, which transforms the speech signal into continuous features (vectors).
+These continuous features can either be used directly as input to the speech modality adapter $\text{Adp}^{\text{sp}}(\cdot)$
+or quantized into discrete units (using, e.g., $k$-means or VQ-VAE~\citep{van2017neural}).  
+In general, pure speech LMs and speech+text LMs tend to use discrete speech tokens,
+whereas speech-aware text LMs tend to use continuous representations (with some exceptions; e.g., Flow-Omni~\citep{Flow-Omni} is a speech+text LM that generates continuous speech representations, and DiscreteSLU~\citep{shon2024discreteslu} is a speech-aware text LM that uses discrete speech token input).
+Finally, temporal compression (e.g., deduplication or BPE) is optionally applied to reduce the sequence length.
+
+\subsubsection{Continuous Features}
+
+To extract informative representations from raw waveforms, a speech representation model---either a learned encoder or a digital signal processing (DSP) feature extractor---converts speech into continuous features. These continuous features may include:
+
+\begin{enumerate} 
+    \item Traditional spectrogram features, such as mel filter bank features~\citep{huang2001spoken}.
+    \item Hidden representations from self-supervised learning-based (SSL) speech encoders, such as wav2vec 2.0~\citep{wav2vec2}, HuBERT~\citep{hubert}, or WavLM~\citep{wavlm}. 
+    \item Hidden representations from supervised pre-trained models, such as Whisper~\citep{whisper} or USM~\citep{usm}. 
+    \item Hidden representations from neural audio codec models, such as SoundStream~\citep{soundstream} or EnCodec~\citep{encodec}.
+\end{enumerate}
+
+
+
+\subsubsection{Discrete Tokens}
+We divide discrete speech tokens into two main categories, ``phonetic tokens'' and ``audio codec tokens'', based on how they are learned and their perceived properties.\footnote{In some literature, phonetic tokens are referred to as ``semantic tokens''~\citep{audiolm}. However, it’s important to clarify that ``semantic'' in this context does not imply the traditional linguistic meaning, as these tokens are more akin to phonetic units~\citep{sicherman2023analysing} and do not typically carry semantic content. Therefore, we use the term ``phonetic tokens'' throughout this paper.}
+
+
+\paragraph{Phonetic Tokens}
+Phonetic tokens are most commonly derived by quantizing self-supervised speech representations~\citep{mohamed2022self} or, occasionally, supervised encoders from a pre-trained ASR model (as in Cosyvoice~\citep{du2024cosyvoice}, GLM-4-voice~\citep{zeng2024glm}, and WhisperSpeech~\citep{WhisperSpeech}).
+These quantized representations have been shown to capture linguistic information and have strong correlation with phonetic units~\citep{sicherman2023analysing}.
+The pioneering pure speech LM, GSLM~\citep{GSLM}, treated these 
+tokens 
+as ``pseudo text,'' allowing the model  %
+to function similarly to text-based LMs and to generate phonetically coherent speech.
+These tokens, learned 
+directly from raw speech,
+formed a foundation for subsequent research, often described as ``textless NLP''~\citep{polyak21_interspeech, GSLM, pGSLM, dGSLM, twist}. 
+
+
+
+The process of deriving phonetic tokens involves several design decisions, such as selecting a pre-trained representaiton model, which layer’s representations to quantize, and the number of clusters. 
+Different layers in SSL speech models tend to encode different types of information~\citep{hubert, mousavi2024should,pasad2023comparative}. Representations from layers rich in phonetic information are typically chosen for extracting phonetic tokens. The number of clusters is also a key hyperparameter, and is often optimized based on downstream task performance, or the ABX task~\citep{schatz2013evaluating} which is a good proxy for downstream 
+performance. Too few clusters may result in a loss of fine-grained phonetic information, while too many clusters may risk encoding undesirable speaker-specific features~\citep{GSLM, kharitonov2022textless}. 
+
+
+\paragraph{Audio Codec Tokens}
+In contrast to phonetic tokens, audio codec tokens are intended to capture more detailed acoustic characteristics.  These tokens are derived from neural codec models, which were originally designed for audio compression and therefore for faithful reconstruction of audio from its encoding~\citep{soundstream,encodec}.  Although audio codecs were initially intended for compression, their intermediate discrete representations have proven valuable as tokens in \slms~\citep{audiolm}.
+
+Neural codecs comprise three components: an encoder that converts raw audio into frame-level features, a vector quantization (VQ) module that converts these features into discrete tokens,
+and a decoder that reconstructs audio from the codec tokens.
+Typically, the main encoder-decoder backbone is a convolution-dominant architecture (e.g., Encodec \citep{encodec}), but some recent work has introduced transformers as intermediate layers (e.g., Mimi~\citep{defossezmoshi}) or transformer-only architectures to reduce computation (e.g. TS3-Codec \citep{wu2024ts3}).
+
+For the VQ module, a commonly used approach is residual vector quantization (RVQ)~\citep{VQ, soundstream},
+which generates several discrete tokens for each time step, corresponding to multiple (hierarchical) levels of granularity (with the first level encoding most of the information, and the remaining levels encoding residual information). 
+Decoding such multi-codebook
+speech tokens typically requires additional design considerations for the SLM architecture and decoding strategy~\citep{audiolm, wang2023neural, yang2023uniaudio}. 
+Alternatively, several single-codebook quantization codecs~\citep{wu2024ts3,xin2024bigcodec} have been developed to simplify decoding in \slms. \Cref{subsec:sequence-model} describes decoding strategies in detail.
+
+\paragraph{Comparison of token types}
+Early SLMs, such as GSLM, typically used phonetic tokens, which reduce speaker-specific information~\citep{polyak21_interspeech}. This reduction allows language models to focus primarily on spoken content, making them 
+more effective for understanding tasks like %
+detecting words vs.~nonwords or syntactic correctness~\citep{GSLM, twist} and for applications such as speech-to-speech translation~\citep{lee2022direct, lee2022textless}. In contrast, audio codec tokens
+are frequently used in tasks where preserving speaker identity and acoustic details is crucial~\citep{wang2023neural}.
+
+The development of speech tokenization methods has attracted increasing attention. In SLMs, two important factors are the token bitrate, which impacts efficiency, and the token quality, which relates to generation quality and suitability for downstream tasks.
+Several benchmarks have been established to evaluate 
+different types of tokens \citep{shi2024espnet, wu-etal-2024-codec, mousavi2024dasb, wu2024codec}. 
+Codec-SUPERB \citep{wu-etal-2024-codec}, the first neural audio codec benchmark, 
+evaluates the quality of resynthesized audio,
+using subjective metrics and pre-trained downstream models for comparison. 
+DASB \citep{mousavi2024dasb} evaluates tokenization methods by using the extracted tokens  %
+for various downstream tasks.  ESPnet-Codec \citep{shi2024espnet} is an open-source framework that functions as both a toolkit for neural codec training and a platform for evaluation in a controlled setting.  Designing efficient and effective tokens for \slms\ remains an active area of research~\citep{guo2025recent}.
+
+\subsubsection{Temporal Compression}
+Quantized
+speech feature sequences are often very long due to the high frame rate of speech signals. 
+To mitigate the challenges this poses for language modeling, several techniques are typically applied within the encoder to reduce the sequence length. One such technique is ``deduplication'', which merges consecutive identical tokens into a single token (as shown in~\Cref{fig:encoding}). 
+However, this approach loses information about the duration of individual tokens. To address this issue, some approaches~\citep{dGSLM} use multi-stream modeling to capture token duration in a separate stream, while others introduce duration prediction when generating output speech~\citep{kreuk2022textless, maimon2023speaking, lee2022direct}. Additionally, byte pair encoding (BPE)~\citep{bpe} is also sometimes applied to the discrete token sequences~\citep{wav2seq, aBPE} to capture recurring patterns.
+
+
+
+\subsection{Speech Modality Adapter}
+\label{ssec:adapter}
+In many \slms\ (especially speech-aware text LMs), the speech encoder (Section~\ref{sec:speech-encoder}) and the sequence model (Section~\ref{subsec:sequence-model}) are initially developed separately and then combined. It is therefore necessary to somehow align the output of the speech encoder with the expectations of the sequence model, and this is the role of the modality adapter. 
+ The modality adapter is typically trained on downstream tasks or, in the case of speech+text LMs, as part of pre-training (see Section~\ref{sec:training} for more details on training).
+
+If the output sequence of the speech encoder is not very long, the modality adapter can be as simple as a linear layer, which transforms the encoder output into the embedding space of the sequence model. This typically occurs when the encoder produces discrete tokens with temporal compression. 
+On the other hand, if the output of the encoder is too long, the adapter is typically also responsible for shortening the sequence. This usually happens when the encoder produces continuous representations without discretization or temporal compression. Shortening the input sequence simplifies both training and inference for the sequence model. Furthermore, since the sequence model often processes both text and speech inputs, it is helpful for the token rate of 
+the speech sequence to roughly match that of the text sequence.
+
+
+Common adapters %
+include:
+
+\textbf{Linear Transformation / Vocabulary Expansion}  
+A straightforward way to integrate speech into a pre-trained sequence model is by applying a linear transformation to the speech representation \( H^{\text{sp}} \). In this approach, the adapter \( \text{Adp}^{\text{sp}}() \) is defined as a linear transformation.  
+This method is commonly used when the speech encoder produces discrete token outputs.
+This approach can be interpreted as vocabulary expansion, where the speech tokens are treated as additional tokens in the sequence model’s vocabulary. Their embeddings are then learned during subsequent task-oriented training.  
+For example, in SpeechGPT~\citep{zhang2023speechgpt}, the vocabulary of the sequence model LLaMA~\citep{touvron2023llama} is expanded to include HuBERT-based phonetic tokens. Similarly, in Mini-Omni2~\citep{xie2024mini2}, the sequence model Qwen~\citep{bai2023qwen} incorporates eight layers of acoustic codec tokens alongside standard text tokens.   
+
+\textbf{CNN with strides}:  
+Convolution layers with strides reduce the sequence length while preserving temporal information~\citep{desta}, which is essential for tasks that require %
+such information, like ASR~\citep{wu2023decoder}.  A special case of this adapter type is pooling layers with strides~\citep{chu2023qwen}. 
+
+\textbf{Connectionist Temporal Classification (CTC)-based compression}:  
+This method compresses $H^{\text{sp}}$ (Eq.~\ref{enc_speech_eq}) according to the posterior distribution from a CTC-based speech recognizer~\citep{gaido2021ctc}. CTC~\citep{graves2006connectionist}, a commonly used approach for ASR, assigns each time step a probability distribution over a set of label tokens, including a blank (``none of the above'') symbol. The time steps with high non-blank probabilities indicate segments that are likely to carry important linguistic information. CTC compression aggregates the frame-level labels, specifically by merging repeated non-blank labels and removing blanks.  %
+This approach produces a compressed representation intended to retain the relevant content of the original sequence while significantly reducing its length~\citep{wu2023decoder,tsunoo24_interspeech}.
+
+\textbf{Q-Former}:  
+The Q-Former~\citep{q-former} is an adapter that produces a fixed-length representation by encoding a speech representation sequence of arbitrary length into \(M\) embedding vectors, where \(M\) is a hyperparameter~\citep{desta2}. 
+
+Let the input speech representation sequence be:
+\begin{equation}
+    X = \{ x_1, x_2, \dots, x_{L'} \}, \quad x_i \in \mathbb{R}^{d'},
+\end{equation}
+where \(L'\) is the sequence length and \(d'\) is the dimension of the embeddings.
+
+To achieve a fixed-length representation, Q-Former introduces \(M\) trainable query embeddings:
+\begin{equation}
+    Q = \{ q_1, q_2, \dots, q_M \}, \quad q_i \in \mathbb{R}^{d'}.
+\end{equation}
+These queries interact with \(X\) via a cross-attention mechanism:
+\begin{equation}
+    \text{Attn}(Q, X) = \text{softmax} \left( \frac{Q W_Q (X W_K)^T}{\sqrt{d'}} \right) X W_V,
+\end{equation}
+where \(W_Q\), \(W_K\), and \(W_V\) are learnable projection matrices. The result is a sequence of \(M\) embeddings.
+
+In some approaches, instead of directly encoding the entire utterance into \(
+M
+\) vectors, a \textit{window-level Q-Former} is applied~\citep{yu2024connecting, pan2023cosmic, tang2023salmonn} to retain temporal information. In the window-level Q-Former, the input embedding sequence is segmented, and the Q-Former is applied to each segment. 
+
+ \citet{desta} compare the Q-Former with CNN-based modality adapters in a speech-aware text LM, finding that the Q-Former produces better performance 
+ on the Dynamic-SUPERB benchmark~\citep{huang2024dynamic} (see \Cref{sec:evaluation} for more on this and other \slm\ benchmarks).
+
+
+\textbf{AlignFormer}: AlignFormer~\citep{fan2024alignformer} combines a CTC compressor~\citep{gaido2021ctc} with a Q-Former~\citep{q-former}.
+When the LLM backbone is frozen, \citet{fan2024alignformer} find that AlignFormer enables zero-shot instruction-following capabilities for speech QA tasks using only ASR training data.
+Additionally, AlignFormer surpasses Q-Former in instruction-following performance across multiple datasets and tasks, including SQA and speech translation.
+
+
+
+\textbf{Others}: 
+Several other methods have been developed for the modality adapter. 
+For example, LTU-AS uses time and layer-wise transformers (TLTR)~\citep{gong2023whisperat}, 
+WavLLM~\citep{wavllm} uses a bottleneck adapter~\citep{houlsby2019parameter}, and other approaches uses multi-layer perceptron (MLP) adapters~\citep{fang2024llama, phi4mini}.
+
+
+
+
+
+
+
+
+
+
+\subsection{Sequence Model}
+\label{subsec:sequence-model}
+
+In principle, generating speech tokens is similar to generating text tokens. However, there are some important differences. 
+Unlike text tokens, audio tokens may include a mix of coarse and fine tokens — for example, phonetic tokens as coarse tokens and audio codec tokens as fine tokens. 
+For TTS models, using phonetic tokens as an intermediate representation rather than directly mapping text to audio codec tokens provides better supervision and reduces modelling complexity. For example, SPEAR-TTS~\citep{kharitonov2023speak}, which uses phonetic tokens, has similar performance to VALL-E~\citep{wang2023neural} while requiring significantly less parallel text-to-speech training data.
+The same concept applies to \slms, as described in \Cref{ssec:hybrid_generation} below.
+In addition to generating multiple speech token types, some \slms\ combine text and speech token generation to enhance the linguistic quality of the generated speech, as described in \Cref{subsubsec:text-speech-hybrid}. 
+
+
+
+\subsubsection{Hierarchical Token Generation}
+\label{ssec:hybrid_generation}
+
+\begin{figure}[!t]
+\centering
+\resizebox{1.0\linewidth}{!}{%
+\includegraphics[width=\columnwidth]{imgs/decoding.pdf}
+}
+\caption{Hierarchical generation strategies (see \Cref{ssec:hybrid_generation}).}
+\label{fig:decoding}
+\end{figure}
+
+
+There are several decoding strategies for hierarchical modeling of multiple types of tokens of different granularity, shown in \Cref{fig:decoding}. 
+Phonetic tokens 
+and first-layer codec tokens (e.g. Mimi~\citep{defossezmoshi} and SpeechTokenizer~\citep{speechtokenizer}) can be regarded as coarse tokens in Figure~\ref{fig:decoding},
+while the remaining layers of codec tokens can be regarded as fine-grained and finer tokens.\footnote{In~\Cref{fig:decoding} and in running examples, we assume 3 granularity levels. In practice, a sequence model can include a smaller or larger number of levels, and this number is also an important design choice.}
+We categorize common decoding strategies into the following types:
+
+
+\paragraph{Coarse first, then fine-grained (Figure~\ref{fig:decoding} (a)):} 
+In this approach, coarse tokens for all time steps are generated first, followed by fine-grained tokens conditioned on the coarse tokens, and finally the finer tokens.
+For example, AudioLM~\citep{audiolm} uses such a three-stage autoregressive process (which can be modeled by different LMs), first predicting phonetic tokens (the coarse tokens in~\Cref{fig:decoding} (a)), then first-layer audio codec tokens (the fine-grained tokens in~\Cref{fig:decoding} (a)) conditioned on the phonetic tokens, and finally %
+the remaining-layer codec tokens (the finer audio codec tokens in~\Cref{fig:decoding} (a)).
+SoundStorm \citep{borsos2023soundstorm} replaces the second 
+and third 
+stages of AudioLM with a non-autoregressive prediction approach inspired by MaskGIT \citep{chang2022maskgit}, which begins with masked tokens and then non-autoregressively predicts a portion of them in rounds based on confidence scores.
+Similarly, VALL-E \citep{wang2023neural} uses an autoregressive model to predict the first-layer audio codec tokens based on the corresponding phoneme transcriptions, and then uses a non-autoregressive model to generate the remaining codec token sequences.
+
+\paragraph{Interleaved coarse and fine tokens (Figure~\ref{fig:decoding} (b)):} In this decoding strategy, the three types of tokens—--coarse, fine-grained, and finer—--are aligned along the time axis and interleaved for generation. When predicting tokens for time step $t$, the coarse, fine-grained, and finer tokens corresponding to $t$ are generated sequentially.
+SpiRit-LM~\citep{nguyen2024spirit} applies this interleaved structure (interleaved phonetic, pitch and style tokens) to enhance speech expressiveness, and it also incudes text tokens in addition to the multiple types of speech tokens.
+
+\paragraph{Temporal generation plus depth generation (Figure~\ref{fig:decoding} (c)):} This strategy employs a large Transformer LM (indicated in blue) to model inter-frame information along the time axis and a small Transformer head (indicated in green) to capture intra-frame correlations. The small Transformer head predicts multi-layer tokens—--where fine-grained and finer tokens correspond to different layers of audio codec tokens--—within the same time step.
+For example, UniAudio \citep{yang2023uniaudio} adopts this approach, inspired by RQ-Transformer \citep{lee2022autoregressive} and the MegaByte Transformer model \citep{yu2023megabyte}.
+Moshi \citep{defossezmoshi} also adopts a similar strategy as UniAudio.
+
+\paragraph{Delay pattern (Figure~\ref{fig:decoding} (d)):} 
+In this approach, there are time delays (of 1 or more time steps, depending on the design) between coarse and fine tokens. 
+Such time delays allow the model to utilize look-ahead, that is to use future coarse tokens as conditions when generating fine tokens.
+Figure~\ref{fig:decoding} (d) shows an example where the delay is 1.
+The large blue LM in Figure~\ref{fig:decoding} (d) autoregressively outputs the temporal embeddings and feeds them into the green prediction head,
+which then predicts the coarse token and the delayed fine token in parallel. For example, pGSLM \citep{pGSLM} introduces a delay between the phonetic tokens and the ``expressive'' (pitch and duration) tokens.
+
+
+
+Using multiple stages of prediction %
+can achieve both high audio quality and long-term
+ consistency \citep{audiolm}. 
+However, this approach makes the decoding strategy complex and increases latency, making it less suitable for real-time applications like spoken dialogue generation.
+To address this drawback, there is a growing literature on tokenization methods that reduce the number of tokenization layers.
+One example is to combine the generation of phonetic and audio codec tokens into a single tokenizer by distilling the information from phonetic tokens directly into the audio codec~\citep{defossezmoshi, speechtokenizer}.
+
+\subsubsection{Text and speech hybrid generation} 
+\label{subsubsec:text-speech-hybrid}
+
+\begin{figure}[!t]
+\centering
+\resizebox{0.7\linewidth}{!}{%
+\includegraphics[width=\columnwidth]{imgs/textspeech.pdf}
+}
+\caption{Text and speech hybrid generation, expemplified by four representative models (a)-(d) (see \Cref{subsubsec:text-speech-hybrid}).  Green and yellow boxes represent text and audio tokens, respectively.}
+\label{fig:textspeechhybrid}
+\end{figure}
+
+Some sequence generation models use text tokens as the first-layer tokens,
+followed by 
+speech tokens (either phonetic or audio codec tokens). 
+This approach allows the \slm\ to leverage the knowledge from a pretrained text LM, which is typically trained on much larger-scale data than the available speech data,
+to improve the factuality and linguistic quality of generated speech. 
+As shown by~\citet{defossezmoshi}, this approach can improve language modeling quality, as measured by negative log-likelihood scores measured by an external text LM.\footnote{In this case, LiteLlama-460M-1T, https://huggingface.co/ahxt/LiteLlama-460M-1T}
+Another advantage to this approach is that during the process of developing the \slm, it is straightforward to separately evaluate both the correctness of the output content and the speech generation quality.
+
+Text and speech tokens operate on different scales: speech has a fixed sampling rate (unless tokenized into tokens of different durations), whereas text tokens do not.
+A text token sequence is also usually shorter than the corresponding speech token sequence.
+Hybrid decoding needs to address the issue of differing lengths and, ideally, also to achieve temporal alignment (synchronization).
+There are four main types of text-speech hybrid generation used in recent \slms, shown in Figure~\ref{fig:textspeechhybrid}.
+We use four representative models to illustrate the ideas.
+
+The first type (Figure~\ref{fig:textspeechhybrid} (a)) addresses the mismatch in sequence lengths by adding padding tokens after the text token sequence.
+In this setup, the text sequence ends first, and the generated text then guides the generation of the speech token sequence, making the process similar to text-to-speech (TTS). A representative example is Mini-Omni \citep{xie2024mini}, which adopts a delayed decoding approach \citep{copet2024simple}. %
+
+The second type (Figure~\ref{fig:textspeechhybrid} (b)) involves adding fixed padding tokens after each text token to extend the text token sequence. Padding tokens are also added between speech tokens so that both sequences have the same length. An example of this approach is LLaMA-Omni \citep{fang2024llama}: 
+After predicting the text tokens (padded 
+with fixed-length padding tokens),
+it then predicts the phonetic token sequence based on the padded text (where the phonetic token sequence is shorter than the padded text token sequence), and finally the CTC loss is applied to the phonetic token sequence to guide training.
+
+The third type (Figure~\ref{fig:textspeechhybrid} (c)) dynamically adjusts the number of padding tokens between text tokens. The generative model learns to insert these dynamic padding tokens to make the text and speech sequences the same length. During training, 
+time-aligned text-speech paired data is used to construct padded text sequences that match the lengths of the speech sequences.
+ Moshi \citep{defossezmoshi} is an example of this model type. 
+
+The fourth type (Figure~\ref{fig:textspeechhybrid} (d)) interleaves speech and text tokens in a single sequence, with text-speech token alignments derived in advance.
+SpiRit-LM \citep{nguyen2024spirit} is an example of this approach, using time-aligned text-speech paired data for training.
+GLM-4-Voice \citep{zeng2024glm,zeng2024scaling} uses a pre-trained text-to-token model to generate audio tokens from text, and interleaves the generated audio with text tokens.
+
+
+
+\subsection{Speech Decoder}
+\label{ssec:speech_decoder}
+The speech decoder converts speech representations—--whether continuous features, phonetic tokens, or audio codec tokens--—back into waveforms. The speech decoder can take various forms:
+
+\begin{enumerate} 
+    \item Vocoder~\citep{kong2020hifi} for continuous features, similar to those used in traditional synthesis systems.
+    For instance, in Spectron~\citep{nachmani2023spoken}, a generated mel spectrogram is synthesized into audio using the WavFit vocoder~\citep{koizumi2022wavefit}.
+    \item Unit-based vocoder~\citep{polyak21_interspeech} based on HiFi-GAN~\citep{kong2020hifi} for phonetic tokens. These vocoders take phonetic tokens as inputs and optionally combine them with additional information to improve synthesis quality. For example, when phonetic tokens are deduplicated, a duration modeling module is often included in the vocoder~\citep{GSLM}. 
+    \item Codec decoder~\citep{guo2025recent}. When the \slm\ generates audio codec tokens, these tokens can be input directly into the corresponding pre-trained audio neural codec decoder (without additional training) to get the waveform.
+\end{enumerate}
+
+
+
+

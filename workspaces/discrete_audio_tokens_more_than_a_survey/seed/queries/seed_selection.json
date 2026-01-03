@@ -1,0 +1,80 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "topic_variants": [
+    "Discrete Audio Tokens: More Than a Survey!",
+    "discrete audio tokens: more than a survey",
+    "Discrete Audio Tokens",
+    "discrete audio tokens: more than a surveys"
+  ],
+  "cutoff_by_similar_title": true,
+  "similarity_threshold": 0.8,
+  "title_filter_applied": true,
+  "title_filter_keywords": [
+    "survey",
+    "review",
+    "overview"
+  ],
+  "cutoff_reason": "exact_title_match",
+  "cutoff_candidate": {
+    "arxiv_id": "2506.10274",
+    "title": "Discrete Audio Tokens: More Than a Survey!",
+    "published": "2025-06-12T01:35:43Z",
+    "published_date": "2025-06-12",
+    "similarity": {
+      "best_variant": "Discrete Audio Tokens: More Than a Survey!",
+      "sequence_ratio": 1.0,
+      "token_containment": 1.0,
+      "topic": "Discrete Audio Tokens: More Than a Survey!",
+      "title": "Discrete Audio Tokens: More Than a Survey!",
+      "score": 1.0
+    }
+  },
+  "cutoff_date": "2025-06-12",
+  "topic_title_normalized": "discrete audio tokens more than a survey",
+  "records_total": 2,
+  "records_after_title_filter": 2,
+  "records_after_filter": 1,
+  "download_top_k": 8,
+  "download_selected": [
+    {
+      "arxiv_id": "2502.06490",
+      "title": "Recent Advances in Discrete Speech Tokens: A Review",
+      "published": "2025-02-10T14:08:25Z"
+    }
+  ],
+  "candidates": [
+    {
+      "arxiv_id": "2506.10274",
+      "title": "Discrete Audio Tokens: More Than a Survey!",
+      "published": "2025-06-12T01:35:43Z",
+      "published_date": "2025-06-12",
+      "similarity": {
+        "best_variant": "Discrete Audio Tokens: More Than a Survey!",
+        "sequence_ratio": 1.0,
+        "token_containment": 1.0,
+        "topic": "Discrete Audio Tokens: More Than a Survey!",
+        "title": "Discrete Audio Tokens: More Than a Survey!",
+        "score": 1.0
+      }
+    },
+    {
+      "arxiv_id": "2502.06490",
+      "title": "Recent Advances in Discrete Speech Tokens: A Review",
+      "published": "2025-02-10T14:08:25Z",
+      "published_date": "2025-02-10",
+      "similarity": {
+        "best_variant": "Discrete Audio Tokens: More Than a Survey!",
+        "sequence_ratio": 0.4782608695652174,
+        "token_containment": 0.5,
+        "topic": "Discrete Audio Tokens: More Than a Survey!",
+        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "score": 0.5
+      }
+    }
+  ],
+  "anchor_mode": "token_and",
+  "search_query": "(ti:(\"discrete\" AND \"speech\" AND \"tokens\") OR ti:(\"discrete\" AND \"audio\" AND \"tokens\")) AND (ti:\"survey\" OR ti:\"review\" OR ti:\"overview\" OR ti:\"systematic review\" OR ti:\"systematic literature review\" OR ti:\"scoping review\" OR ti:\"mapping study\" OR ti:\"tutorial\")",
+  "scope": "ti",
+  "boolean_operator": "AND",
+  "raw_query": null
+}

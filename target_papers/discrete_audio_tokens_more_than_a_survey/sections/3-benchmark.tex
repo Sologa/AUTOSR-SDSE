@@ -1,0 +1,111 @@
+\begin{table}[t]
+ \centering
+\caption{Audio tokenizers, their characteristics, and abbreviations used throughout the study. As abbreviations, we denote tokenizers as \texttt{[name]-[domain(s)]-[sample rate]}.}
+\label{tab:bench_tokenizers}
+ \scalebox{.96}{
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|c|ccc|ccccc|c}
+\specialrule{.11em}{.2em}{.1em}
+\textbf{Tokenizer} & \textbf{Abbreviations} & \multicolumn{3}{c}{\textbf{Domain}}     |& \textbf{SR} & \textbf{Frame} & \textbf{\#Codes} & \textbf{Params} & \textbf{MACs} & \textbf{Link} \\
+\cmidrule(r){3-5} 
+ & & Speech & Music & Audio & \textbf{(kHz)} & \textbf{Rate} & & \textbf{(Mil)} & \textbf{(G)} &  \\
+\midrule 
+\multirow{3}{*}{EnCodec}& Enc-SMA-24 & \checkmark & \checkmark & \checkmark & 24 & 75 & 1024 & 14.9 & 6.1 &\href{https://huggingface.co/facebook/encodec_24khz}{Link} \\
+ & Enc-M-32 & & \checkmark &  & 32 & 50 & 2048 & 56.9 & 14.4 &\href{https://huggingface.co/facebook/encodec_32khz}{Link} \\
+ & Enc-A-16 & &  & \checkmark & 16 & 50 & 2048 & 56.8 & 14.0 & \href{https://huggingface.co/facebook/audiogen-medium}{Link} \\
+\midrule
+\multirow{3}{*}{DAC} & DAC-SMA-44 & \checkmark & \checkmark & \checkmark & 44 & 86 & 1024 & 76.7 & 147.0 & \href{https://github.com/descriptinc/descript-audio-codec?tab=readme-ov-file}{Link} \\
+ & DAC-SMA-24 & \checkmark & \checkmark & \checkmark & 24 & 75 & 1024 & 74.7 & 83.4 &\href{https://github.com/descriptinc/descript-audio-codec?tab=readme-ov-file}{Link} \\
+ & DAC-SMA-16 & \checkmark & \checkmark & \checkmark & 16 & 50 & 1024 & 74.1 & 55.6 &\href{https://github.com/descriptinc/descript-audio-codec?tab=readme-ov-file}{Link} \\
+\midrule
+SpeechTokenizer & ST-S-16 & \checkmark &  &  & 16 & 50 & 1024 & 103.7 & 17.1 &\href{https://huggingface.co/fnlp/SpeechTokenizer}{Link} \\
+\midrule
+Mimi & Mimi-S-24 & \checkmark &  &  & 24 & 12.5 & 2048 & 79.3 & 8.1 & \href{https://huggingface.co/kyutai/mimi}{Link} \\
+\midrule
+Discrete-WavLM & DWavL-S-16 & \checkmark & &  & 16 & 50 & 1000 & 331.9 & 21.1 & \href{https://huggingface.co/speechbrain/hifigan-wavlm-k1000-LibriTTS}{Link} \\
+\midrule
+SQ-Codec & SQ-SMA-16 & \checkmark & \checkmark & \checkmark & 16 & 50 & 19683 & 23.5 & 14.7 & \href{https://huggingface.co/Dongchao/UniAudio}{Link} \\
+\midrule
+\multirow{2}{*}{WavTokenizer} & WT-SMA-24 & \checkmark & \checkmark & \checkmark & 24 & 75 & 4096 & 80.6 & 6.3 & \href{https://huggingface.co/novateur/WavTokenizer-medium-music-audio-75token}{Link} \\
+ & WT-S-24 & \checkmark &  &  & 24 & 40 & 4096 & 80.9 & 3.4 & \href{https://huggingface.co/novateur/WavTokenizer-large-speech-75token}{Link} \\
+\specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}
+
+
+\section{Benchmark Evaluation}
+\label{sec:benchmark}
+Given the wide range of available tokenizers, researchers and practitioners may wonder which \emph{existing} tokenizers are best suited for a given use case. This depends not only on the expected performance for a given task but also on computational efficiency and, in some cases, additional factors such as streamability or the ability to generalize across diverse domains.  
+Several benchmarks have been proposed to evaluate audio tokenizers, offering some guidance on which tokenizers are best suited for different applications and tasks~\citep{wu2024codec,mousavi2024dasb,shi2024espnet,maimon2024suite}.
+
+Nevertheless, drawing solid insights from current benchmarks is challenging, as each focuses on a specific aspect or domain and a holistic comparison of audio tokenizers is missing. Furthermore, while each existing benchmark is internally consistent in its evaluation protocol, they differ significantly in the set of tokenizers they consider, some focus exclusively on acoustic models, while others evaluate semantic tokenizers or even different configurations of the same model (e.g., EnCodec-16k vs. EnCodec-24k). This lack of alignment makes it difficult to derive unified or comparable conclusions across studies. 
+This section contributes to filling this gap by considering a diverse set of publicly available, pre-trained tokenizers across speech, music, and general audio tasks. Unlike previous benchmarks, we perform a joint evaluation across multiple dimensions:
+\begin{enumerate}
+    \item \textit{Reconstruction Evaluation and Complexity Analysis}. We assess the quality of resynthesized audio using the original decoder trained for each tokenizer, following protocols from CodecSUPERB and VERSA. We also evaluate the computational efficiency of each tokenizer based on model size (parameters), frame rate, token rate, and multiply-accumulate operations (MACs).
+    \item \textit{Downstream Evaluation}. We assess the effectiveness of tokenized representations when used directly as input to lightweight models for both discriminative and generative tasks using DASB benchmark.
+    \item \textit{Acoustic Language Modeling}. We analyze the effectiveness of each tokenizer in training acoustic language models, using the SALMon and Zero-resource benchmarks.
+\end{enumerate}
+
+A summary of all tokenizers included in the benchmark evaluation is provided in Table~\ref{tab:bench_tokenizers}. \rebuttal{We select these tokenizers based on several factors: (1) We prioritize open-source models with accessible checkpoints and code to ensure reproducibility; (2) we include tokenizers representing a diverse range of quantization strategies—including RVQ (EnCodec, DAC), SVQ (WavTokenizer), FSQ (SQ-Codec), KMeans (Discrete WavLM), and semantically distilled methods (SpeechTokenizer, Mimi); and (3) we aim to cover multiple domains such as speech, music, and general audio, favoring multi-domain tokenizers where available. The impact of single- versus multi-domain tokenizers is further discussed in Section~\ref{sec:ablation}.} We utilize pre-trained checkpoints released by the original authors. An overview of our benchmark evaluation pipeline is illustrated in Figure~\ref{fig:survey_pipeline}.
+
+
+\input{sections/3.1_reconstuction}
+
+\input{sections/3.2_DASB}
+
+\input{sections/3.3_acousticLLM}
+
+\begin{figure}[t!]
+\centering
+\resizebox{0.80\textwidth}{!}{%
+  \begin{minipage}{\textwidth}
+    \centering
+    % Centered legend
+    \begin{subfigure}[b]{1.0\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/speech_rank_legend.pdf}
+    \end{subfigure}
+
+    \par\vspace{1em} % Space between legend and first radar
+
+    % Top radar chart
+    \begin{subfigure}[b]{0.55\textwidth}
+      \includegraphics[width=\textwidth]{figures/speech_rank_radar.pdf}
+      \caption{Speech Ranking}
+      \label{fig:sub1}
+    \end{subfigure}
+
+    \par\vspace{1em} % Space between rows
+
+    % Two radar charts on the same line with no space between
+    \begin{minipage}{0.9\textwidth}
+      \centering
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\linewidth]{figures/audio_rank_radar.pdf}
+        \caption{Audio Ranking}
+        \label{fig:sub2}
+      \end{subfigure}%
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=\linewidth]{figures/music_rank_radar.pdf}
+        \caption{Music Ranking}
+        \label{fig:sub3}
+      \end{subfigure}
+    \end{minipage}
+  \end{minipage}%
+}
+\caption{Average ranking of audio tokenizers across three domains: speech, general audio, and music.}
+\label{fig:ranking}
+\end{figure}
+
+
+\subsection{General Trend}
+Figure~\ref{fig:ranking} summarizes the overall ranking of audio tokenizers in three domains: speech, general audio, and music. These rankings are computed by first sorting the performance of each tokenizer per metric within each task (with rank 1 as worst and rank $N$ as best for $N$ tokenizers), then averaging the ranks across all tasks in the respective category. For tasks with multiple metrics, rankings are computed separately for each metric and then averaged. 
+The resulting radar charts illustrate the average rank of each tokenizer across the following high-level categories, with higher values indicating better performance. For speech, we distinguish between two types of reconstruction: Reconstruction (Signal), which captures low-level fidelity (e.g., UTMOS), and Reconstruction (Application), which reflects the performance of resynthesized audio in downstream tasks (e.g., WER for ASR, speaker similarity for SV). Downstream tasks are categorized as either Discriminative or Generative. In speech, Discriminative tasks are further split into Content-level, which require higher-level semantic understanding (e.g., ASR, intent classification, keyword spotting), and Acoustic-level, which depend more on fine-grained acoustic cues (e.g., emotion recognition, speaker ID, speaker verification). Language modeling tasks are grouped into two types: Text-conditioned and Unconditional (i.e., continuation-based generation). For speech, we include SpeechLM with separate subcategories for phonetic and acoustic metrics.
+
+The radar charts highlight general trends in tokenizer strengths and weaknesses across domains. No tokenizer consistently outperforms others on all axes. The performance is strongly task- and domain-dependent. Some models excel at reconstruction but fall short in semantic modeling, while others achieve strong downstream results despite poorer signal fidelity. These plots are not meant to give strict recommendations, but rather to provide a high-level overview of performance trends. For real-world applications, we encourage referring to the full benchmark tables and task-specific analyses to identify the most appropriate tokenizer for the target use case.
+
+
+
+
+
+

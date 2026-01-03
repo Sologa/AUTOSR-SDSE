@@ -1,0 +1,32 @@
+[
+  {
+    "id": "http://arxiv.org/abs/2509.14515v1",
+    "title": "From Turn-Taking to Synchronous Dialogue: A Survey of Full-Duplex Spoken Language Models",
+    "summary": "True Full-Duplex (TFD) voice communication--enabling simultaneous listening and speaking with natural turn-taking, overlapping speech, and interruptions--represents a critical milestone toward human-like AI interaction. This survey comprehensively reviews Full-Duplex Spoken Language Models (FD-SLMs) in the LLM era. We establish a taxonomy distinguishing Engineered Synchronization (modular architectures) from Learned Synchronization (end-to-end architectures), and unify fragmented evaluation approaches into a framework encompassing Temporal Dynamics, Behavioral Arbitration, Semantic Coherence, and Acoustic Performance. Through comparative analysis of mainstream FD-SLMs, we identify fundamental challenges: synchronous data scarcity, architectural divergence, and evaluation gaps, providing a roadmap for advancing human-AI communication.",
+    "published": "2025-09-18T01:00:58Z"
+  },
+  {
+    "id": "http://arxiv.org/abs/2504.08528v1",
+    "title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+    "summary": "The field of spoken language processing is undergoing a shift from training custom-built, task-specific models toward using and optimizing spoken language models (SLMs) which act as universal speech processing systems. This trend is similar to the progression toward universal language models that has taken place in the field of (text) natural language processing. SLMs include both \"pure\" language models of speech -- models of the distribution of tokenized speech sequences -- and models that combine speech encoders with text language models, often including both spoken and written input or output. Work in this area is very diverse, with a range of terminology and evaluation settings. This paper aims to contribute an improved understanding of SLMs via a unifying literature survey of recent work in the context of the evolution of the field. Our survey categorizes the work in this area by model architecture, training, and evaluation choices, and describes some key challenges and directions for future work.",
+    "published": "2025-04-11T13:40:53Z"
+  },
+  {
+    "id": "http://arxiv.org/abs/2104.14700v2",
+    "title": "The Zero Resource Speech Challenge 2021: Spoken language modelling",
+    "summary": "We present the Zero Resource Speech Challenge 2021, which asks participants to learn a language model directly from audio, without any text or labels. The challenge is based on the Libri-light dataset, which provides up to 60k hours of audio from English audio books without any associated text. We provide a pipeline baseline system consisting on an encoder based on contrastive predictive coding (CPC), a quantizer ($k$-means) and a standard language model (BERT or LSTM). The metrics evaluate the learned representations at the acoustic (ABX discrimination), lexical (spot-the-word), syntactic (acceptability judgment) and semantic levels (similarity judgment). We present an overview of the eight submitted systems from four groups and discuss the main results.",
+    "published": "2021-04-29T23:53:37Z"
+  },
+  {
+    "id": "http://arxiv.org/abs/2210.15759v1",
+    "title": "Self-supervised language learning from raw audio: Lessons from the Zero Resource Speech Challenge",
+    "summary": "Recent progress in self-supervised or unsupervised machine learning has opened the possibility of building a full speech processing system from raw audio without using any textual representations or expert labels such as phonemes, dictionaries or parse trees. The contribution of the Zero Resource Speech Challenge series since 2015 has been to break down this long-term objective into four well-defined tasks -- Acoustic Unit Discovery, Spoken Term Discovery, Discrete Resynthesis, and Spoken Language Modeling -- and introduce associated metrics and benchmarks enabling model comparison and cumulative progress. We present an overview of the six editions of this challenge series since 2015, discuss the lessons learned, and outline the areas which need more work or give puzzling results.",
+    "published": "2022-10-27T20:32:41Z"
+  },
+  {
+    "id": "http://arxiv.org/abs/2506.21864v3",
+    "title": "DeepOmni: Towards Seamless and Smart Speech Interaction with Adaptive Modality-Specific MoE",
+    "summary": "Native multimodal large language models (MLLMs) restructure a single large language model (LLM) into a spoken language model (SLM) capable of both speech and text generation. Compared to modular and aligned MLLMs, native MLLMs preserve richer paralinguistic features such as emotion and prosody, and generate speech responses directly within the backbone LLM rather than using a separate speech decoder. This integration also results in lower response latency and smoother interaction. However, native MLLMs suffer from catastrophic forgetting and performance degradation because the available paired speech-text data is insufficient to support the pretraining of MLLMs compared to the vast amount of text data required to pretrain text LLMs. To address this issue, we propose DeepTalk, a framework for adaptive modality expert learning based on a Mixture of Experts (MoE) architecture. DeepTalk first adaptively distinguishes modality experts according to their modality load within the LLM. Each modality expert then undergoes specialized single-modality training, followed by joint multimodal collaborative training. As a result, DeepTalk incurs only a 5.5% performance drop compared to the original LLM, which is significantly lower than the average performance drop of over 20% typically seen in native MLLMs (such as GLM-4-Voice), and is on par with modular MLLMs. Meanwhile, the end-to-end dialogue latency remains within 0.5 seconds, ensuring a seamless and intelligent speech interaction experience. Code and models are released at https://github.com/talkking/DeepTalk.",
+    "published": "2025-06-27T02:32:04Z"
+  }
+]

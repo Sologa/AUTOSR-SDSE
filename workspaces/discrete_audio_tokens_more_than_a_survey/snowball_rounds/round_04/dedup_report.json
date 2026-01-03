@@ -1,0 +1,10 @@
+{
+  "removed_total": 373,
+  "removed_by": {
+    "openalex_id": 332,
+    "doi": 8,
+    "title": 33
+  },
+  "registry_used": true,
+  "active_criteria_hash": "d3cde4fb3f0f0914b2aec218448cb1734f7532db1a8791a8d569e62d8a96e1b8"
+}

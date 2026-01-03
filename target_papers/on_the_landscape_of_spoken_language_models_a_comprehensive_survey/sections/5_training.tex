@@ -1,0 +1,174 @@
+\section{Training Strategies}
+\label{sec:training}
+
+
+We divide the training phases of \slms\ into \textit{pre-training} and \textit{post-training}, analogously (but not identically) to the typical division in text LLM training. 
+ For text LMs, pre-training refers to training a model of $p(text)$ with a next-token prediction objective, whereas post-training is task-oriented and directly facilitates alignment and improved performance on tasks.  Since many \slms\ start with a post-trained text LLM, we consider this to be a part of \slm\ pre-training.  More precisely, we define \textit{pre-training} and \textit{post-training} of \slms\ as follows:
+
+\paragraph{Pre-training:}
+We define pre-training as any training strategy that \textit{does not have the explicit goal of enabling the model to perform a wide variety of downstream tasks}.  In particular, pre-training does not directly aim to make a model a universal speech processing system (but, as described below, it can include training for specific tasks).
+In the context of \slms, which handle multiple modalities, pre-training often involves a multi-stage process. 
+This may include initial next-token-prediction training on text, followed by continual training  on speech continuation tasks using large unlabeled speech corpora.
+ Continual training may enhance the capabilities of \slms\ for specific tasks, but the resulting pre-trained \slms\ remain limited in scope and are still far from being universal models.  Text LLM post-training before adding the speech modality is also considered pre-training of the \slm, since it does not target universal \textit{speech} processing. 
+
+\paragraph{Post-training:}
+Post-training refers to  training strategies  \textit{focused on variety of downstream tasks, with a goal of producing a more or less universal speech processing system}. 
+The tasks can be either predefined with specific task specifiers or dynamically defined through text or spoken language prompts.
+Instruction tuning~\citep{tang2023salmonn,pan2023cosmic,shu2023llasm} and preference optimization~\citep{lin2024alignslmtextlessspokenlanguage} are examples of post-training.
+
+\subsection{Pre-training strategies}
+\label{sec:pre-training}
+
+Here we focus on speech-specific pre-training strategies; that is, we do not discuss the training of any text LM that is included in \slm\ pre-training.
+
+\subsubsection{Generative pre-training}
+
+\paragraph{Pure speech pre-training $p(speech)$}
+
+Pure speech pre-training refers to training a model of $p(speech)$ from unlabeled speech (a pure speech LM in~\Cref{tab:typology}), typically by tokenizing the speech and modeling the token sequences with an autoregressive model trained to perform \emph{next speech token prediction}.  The success of SSL speech representation models~\cite{mohamed2022self} facilitated the development of pure speech LMs, because SSL models provided high-quality representations that could easily be quantized to produce tokenized speech. Pure speech LMs, such as GSLM~\citep{GSLM}, 
+typically use discrete phonetic speech tokens as the basic language modeling units, 
+but \emph{non-phonetic information}---such as duration and pitch---can also be incorporated~\citep{pGSLM,dGSLM}
+to enhance prosody modeling.  \Cref{sec:pureSLM} expands on pure speech LMs.
+
+\paragraph{Joint speech and text pre-training $p(text, speech)$}
+This approach refers to pre-training \slms\ on aligned speech and text to 
+model $p(text, speech)$ %
+(speech+text LM in Table~\ref{tab:typology})~\citep{chou2023toward,nguyen2024spirit,defossezmoshi}.
+The speech and text sequences 
+may be 
+interleaved~\citep{chou2023toward,nguyen2024spirit} or treated as dual channels
+~\citep{defossezmoshi}, as detailed in \Cref{subsubsec:text-speech-hybrid}.
+
+
+\paragraph{Continual pre-training following text pre-training $p(text)$}
+\label{ssec:text_pretraining}
+Continual pre-training~\citep{ke2023continual} refers to the process of further training a pre-trained model on additional data that is domain- or modality-specific, but still not task-oriented. This intermediate step allows the model to adapt to new domains or datasets while (hopefully) retaining its general-purpose capabilities~\citep{tang2023salmonn,chu2023qwen,twist}.  A common example of continual pre-training for \slms\ 
+is to start with a text LLM pre-trained with a next token prediction
+objective (a pure text LM in Table~\ref{tab:typology}) and then further pre-train it with speech data to improve its performance on the speech continuation task~\citep{twist}. 
+
+
+\subsubsection{Conditional pre-training $p(text|speech)$}
+\label{ssec:conditional_pretraining}
+While generative pre-training is the most common form of pre-training, it is also in principle possible to initialize \slm\ training from a \emph{conditional} model. 
+ For example, the pre-trained conditional model could be an encoder-decoder speech recognizer~\cite{chan2016listen}, or a joint speech recognition and translation model like Whisper~\cite{whisper} or OWSM~\cite{owsm,owsm-ctc} that uses task specifier tokens to indicate the desired task.  Such models can be trained on massive amounts of transcribed speech, and therefore have already learned to align the speech and text modalities.  Although these models are trained for very specific tasks, they have shown promise as an initialization for instruction-following models that perform a wider range of understanding tasks~\citep{lai2023instruction,arora2023universlu}.  
+
+\subsubsection{Aligning speech and text modalities}
+\label{ssec:alignment}
+
+For \slms\ that combine pre-trained text LMs and speech encoders, another pre-training strategy is to align the speech and text modalities in a task-independent way.
+
+\paragraph{Implicit alignment} Speech and text modalities can be implicitly aligned through techniques such as the ``modal-invariance trick''~\citep{audiochatllama} or behavior alignment~\citep{blsp}. The idea is that the model should produce identical responses regardless of the input modality, provided the input conveys the same meaning. This approach often utilizes ASR datasets. The text transcript is input to a text LLM to generate a text response, while the corresponding speech recording is input into the \slm, which is trained to generate the same text response. Another idea found to be useful for implicit alignment is training spoken LLMs for audio captioning, where a spoken LLM takes audio as input and outputs its description.
+It has been observed that training a spoken LLM solely through audio captioning can generalize to tasks it has never seen during training~\citep{desta,desta2}.
+
+\paragraph{Explicit alignment} Speech and text modalities can also be explicitly aligned by matching speech features to corresponding text embeddings, via optimization of appropriate distance/similarity measures.
+    For example, Wav2Prompt~\citep{wav2prompt} and DiVA~\citep{diva} align modalities by minimizing the $L_2$ distance between speech features and the token embeddings of their transcripts in a text LLM while keeping the text embeddings fixed. 
+
+
+
+\subsection{Post-training strategies}
+\label{sec:post-training}
+
+The pre-training of LLMs and \slms\ in Section~\ref{sec:pre-training} enables the modeling of the general data distributions of text $p(text)$ or speech $p(speech)$, the joint distribution of speech and text $p(text, speech)$, or a conditional distribution $p(text|speech)$ based on specific pre-training tasks. However, pre-trained models still often lack the capability to solve a large range of downstream spoken language tasks, to follow natural language instructions, or both.
+In the post-training phase, carefully curated datasets are used to bias \slms\ toward generating desired outputs or performing tasks,
+typically 
+specified using natural language instructions.
+
+\subsubsection{Task-specific training}
+\label{ssec:task_specific_training}
+While the eventual goal is to handle arbitrary tasks within a single model via instructions, 
+some \slm\ approaches begin with a simpler post-training setting: multi-task training with task specifiers $p(\cdot|speech,\langle task specifier \rangle)$.
+In this approach, the pre-trained \slm\ 
+is fine-tuned for a predefined set of target tasks.
+Qwen-Audio is an example of such an approach~\citep{chu2023qwen}.  Task-specific training can then be followed by instruction tuning or other post-training approaches, described below.
+
+\subsubsection{Instruction tuning  $p(\cdot|speech,instruction)$}
+\label{ssec:instruction_tuning}
+
+\begin{table}[t!]
+\centering
+\resizebox{\linewidth}{!}
+    {
+\begin{tabular}{ll}
+\toprule
+\textbf{Task} & \textbf{Examples of Instructions} \\
+\midrule
+\multirow{2}{*}{Speech recognition} & Recognize the speech and give me the transcription.~\citep{tang2023salmonn}\\
+& Repeat after me in English.~\citep{llama3}\\
+\midrule
+\multirow{2}{*}{Speech translation} & Translate the following sentence into English.~\citep{llama3}\\
+& Recognize the speech, and translate it into English~\citep{chu2023qwen}\\
+\midrule
+Speaker recognition & How many speakers did you hear in this audio? Who are they?~\citep{tang2023salmonn} \\
+\midrule
+\multirow{2}{*}{Emotion recognition} & Describe the emotion of the speaker.~\citep{tang2023salmonn}\\
+& Can you identify the emotion? Categorise into: sad, angry, neutral, happy~\citep{das2024speechverse}\\
+\midrule
+\multirow{3}{*}{Question answering} & What happened to this person?~\citep{wang2023slm}\\
+& Generate a factual answer to preceding question~\citep{das2024speechverse}\\
+& What medicine is mentioned? Briefly introduce that medicine.~\citep{peng2024voicetextblenderaugmentinglargelanguage}\\
+\bottomrule
+\end{tabular}
+}
+\caption{Examples of instructions for speech-related tasks used in \slm\ instruction tuning.}
+\label{tab:ex-instruction}
+\end{table}
+
+
+Instruction tuning of \slms\ has been inspired by, and closely follows, successful approaches for text LLM instruction tuning.
+Instruction-tuning data typically consists of a speech recording, an instruction that describes the speech task, and the ground-truth output.
+During instruction tuning, the instructions are appended to the speech recording as inputs to the \slm, which is trained to generate the corresponding ground-truth output. 
+Depending on the model design, the instruction can be in either text~\citep{tang2023salmonn, pan2023cosmic}, i.e., $p(\cdot|speech,text instruction)$,
+or speech format~\citep{shu2023llasm}, i.e., $p(\cdot|speech, speech instruction)$. 
+In both cases, it has been found that \slms\ trained on diverse instruction-tuning data can perform tasks unseen during the instruction-tuning phase~\citep{tang2023salmonn, das2024speechverse, peng2024voicetextblenderaugmentinglargelanguage}. \autoref{tab:ex-instruction} shows examples of instructions for various speech tasks taken from existing instruction tuning sets.
+
+
+Instruction-tuning data can be generated through various methods:
+\paragraph{Conversion of task-specific data to instructions}  Task-specific data (Sec.~\ref{ssec:task_specific_training}) can be adapted to the instruction-tuning format by replacing task-specific tags with natural language instructions~\citep{tang2023salmonn}. LLMs can be used to rephrase those instructions to increase diversity~\citep{arora2023universlu}. 
+    
+\paragraph{Speech-based question answering (SQA) data}  Such data is typically generated using LLMs such as ChatGPT. In this process, the transcript of a speech recording is provided as input to an LLM, which is instructed to generate a question-answer pair in text format~\citep{tang2023salmonn, gong2023listen, peng2024voicetextblenderaugmentinglargelanguage}. To incorporate additional context, supplementary textual descriptions about attributes such as the speaker, gender, age, emotion, and noise level may also be provided to the LLM~\citep{airbench}.
+    During training, the speech recording and the corresponding LLM-generated question are provided as inputs, and the model learns to predict the LLM-generated answer.
+    
+    \paragraph{Synthesis of text instruction-tuning data} Speech instruction-tuning data can also be created by applying TTS to existing textual instruction-tuning or user-assistant conversation datasets~\citep{peng2024voicetextblenderaugmentinglargelanguage}. In this approach, either a subset or the entirety of the user's input is converted to speech.
+    This type of data encompasses a wide variety of instruction types and response styles. The answers tend to be more descriptive than the ones in SQA and are presented in diverse textual formats, such as markdown.
+    
+    \paragraph{Compositional instructions} Instructions for individual tasks can be combined to form more complex instructions,
+    which improves the performance on more challenging tasks. For example, an \slm\ can be instructed to first perform speech recognition and then speech translation conditioned on the ASR hypothesis~\citep{hu2024chain}.
+
+\subsubsection{Chat SLM training}
+
+In addition to the general post-training methods mentioned above, an important specific application setting that is gaining attention
+is chat \slms, which require carefully curated training data and tailored training strategies.
+The development of chat \slms\ has involved two main directions: (1) building a speech-aware text LM based on a text LM with %
+chat capabilities, and (2) creating a pure speech LM or a speech+text LM that can handle speech-input-to-speech-output conversations. For (1), 
+one approach is to use a more powerful text LLM to generate text-based conversations centered around a speech recording and use this pseudo-conversation data to fine-tune the \slm~\citep{chu2023qwen}. For (2), a common approach is to use a TTS system to generate speech conversation data from text datasets~\citep{zhang2023speechgpt, defossezmoshi}.  If available, real speech conversation data can be used to provide more natural, spontaneous behaviors—--such as pauses and interruptions--—that occur in real conversations, though such data is often noisier and requires careful preprocessing~\citep{defossezmoshi}.  \Cref{sec:duplex} addresses conversational SLMs in greater detail.
+
+\subsection{Other training details}
+\label{ssec:training_tricks}
+Aside from the basic strategies discussed in~\Cref{sec:pre-training,sec:post-training}, several additional training methods have proven useful for building universal \slms, including:
+
+\paragraph{Parameter-efficient fine-tuning (PEFT)} Since pre-training equips LMs with strong text or speech generation capabilities, it is possible to not update the entire LM during the fine-tuning phase. 
+Common strategies include: (1) freezing both the 
+sequence model $Seq$ and the speech encoder $\text{Enc}^{\text{sp}}$ (see~\Cref{fig:overall}) and updating only the parameters of the adaptor $\text{Adp}^{\text{sp}}$~\citep{wang2023slm}, and (2) adding to the sequence model a set of parameter-efficient trainable adapter modules,
+which are trained alongside $\text{Adp}^{\text{sp}}$~\citep{tang2023salmonn}.
+\paragraph{Progressive fine-tuning} 
+A key objective in training speech-aware LMs and speech+text LMs is to align the hidden representations of speech and text, in order to leverage the generation and reasoning capabilities of the pre-trained LLM.
+To achieve this goal, it is common to kick off post-training with content-heavy tasks, such as ASR, %
+and gradually progress to tasks that require a more comprehensive understanding of additional information embedded in speech (e.g. emotion recognition)~\citep{tang2023salmonn} or tasks composed of multiple sub-tasks~\citep{wavllm}.
+To stabilize training, a small number of components is updated during the initial training stage, while more are updated later.
+
+A similar strategy is adopted by conversational \slms\
+~\citep{defossezmoshi}.
+The intrinsic properties of human conversations present several challenges for building such \slms.
+For instance, speech from different speakers often overlaps,
+rather than following a strictly turn-based structure.
+Therefore, training on real human conversations is essential.
+However, collecting spoken human-human conversation datasets is difficult, and publicly available datasets are often limited in size. To address these challenges, these models may be first trained on multichannel audio data before being fine-tuned on real human conversation data.
+See~\Cref{sec:duplex} for more details about such models.
+
+\paragraph{Experience replay of pre-training data during post-training} To prevent the catastrophic forgetting phenomenon~\citep{Kirkpatrick2017overcoming}, reusing pre-training data during the post-training stage can help the \slm\ retain important capabilities learned during pre-training, such as the %
+reasoning abilities of LLMs associated with text instruction-tuning~\citep{peng2024voicetextblenderaugmentinglargelanguage}. Another approach to prevent forgetting is to use data generated by the original text LLM during post-training~\citep{desta2}.
+
+\paragraph{Preference optimization} 
+Reinforcement learning from human feedback (RLHF)~\citep{ouyang2022training} has become a key method for aligning LLM generations with human preferences. 
+This method was used in Qwen2-Audio~\citep{chu2024qwen2audio} to improve the quality of responses generated by the speech-aware text LM.
+On the other hand, Align-SLM~\citep{lin2024alignslmtextlessspokenlanguage} was the first to apply this method to a pure \slm\ and used AI-generated feedback as a substitute for human evaluation to make the process more cost-efficient. Recently, \citet{maimon2025slamming} analyzed the performance of pure \slm\ fine-tuning using direct prefenrece optimization as a function of fine-tuning examples. 

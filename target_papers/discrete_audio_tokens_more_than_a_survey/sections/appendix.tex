@@ -1,0 +1,125 @@
+\section{\rebuttal{Additional Evaluation for Reconstructed Audio Quality}}
+
+\rebuttal{Table \ref{tab:utmosv2} shows the UTMOS V2 scores for different audio tokenizers.}
+
+\begin{table}[H]
+    \centering
+    \caption{\rebuttal{UTMOS V2 scores of audio tokenizers across different bitrates.}}
+    \renewcommand{\arraystretch}{0.7}
+    \scriptsize
+    \begin{tabular}{>{\raggedright\arraybackslash}p{2.8cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.5cm}}
+        \toprule
+        \textbf{Model} & \textbf{Bitrate (kbps)} & \textbf{UTMOS V2} \\
+        \midrule
+        \multirow{3}{=}{Enc-SMA-24} 
+            & 1.5   & 1.40 \\
+            & 6.0   & 2.13 \\
+            & 24.0  & 2.71 \\
+        \midrule
+        \multirow{3}{=}{DAC-SMA-24} 
+            & 1.5   & 1.40 \\
+            & 6.0   & 2.46 \\
+            & 24.0  & 3.06 \\
+        \midrule
+        \multirow{2}{=}{ST-S-16} 
+            & 1.0   & 1.52 \\
+            & 4.0   & 2.92 \\
+        \midrule
+        \multirow{2}{=}{Mimi-S-24} 
+            & 1.1   & 2.12 \\
+            & 4.4   & 2.82 \\
+        \midrule
+        \multirow{2}{=}{DWavL-S-16} 
+            & 1.0   & 2.16 \\
+            & 3.0   & 2.33 \\
+        \midrule
+        SQ-SMA-16 
+            & 3.0   & 3.19 \\
+        \midrule
+        WT-SMA-24 
+            & 0.98  & 2.39 \\
+        \midrule
+        WT-S-24 
+            & 0.52  & 3.12 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:utmosv2}
+\end{table}
+
+\section{\rebuttal{Computational Setup}}
+
+\rebuttal{Table \ref{tab:compute_settings} shows computaional setting for our experiments. Approximate runtimes are provided per run and may vary slightly between tokenizers depending on token rate, number of token streams, and other factors. For downstream tasks time is reported per run, runtimes range from 2 hours (e.g., Keyword Spotting) to 48 hours (e.g., ASR), depending on the task complexity.}
+
+\begin{table}[H]
+\centering
+\caption{
+\rebuttal{Computational settings for our experiments.}
+}
+\label{tab:compute_settings}
+\begin{tabular}{l|l|c}
+\toprule
+\textbf{Experimental Name} & \textbf{Computational Resource} & \textbf{Approx. Time} \\
+\midrule
+Downstream Evaluation      & 1×A100 (80GB)        & 2–48 hrs  \\
+Reconstructed Audio Quality & 1×A6000 (48G)  & 24 hrs                         \\
+Speech Language Modeling   & 2×A100 (40GB)        & 48 hrs                   \\
+Text-to-Speech             & 1×A100 (80GB)        & 96 hrs                   \\
+Audio Generation           & 2×A100 (80GB)        & 48 hrs                   \\
+Music Generation           & 4×A100 (40GB)        & 48 hrs                    \\
+Ablation Studies           & 2×GH200 (100GB)              & 48 hrs                   \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{\rebuttal{Dataset}}
+\rebuttal{For each experiment, we report the dataset, source, and approximate duration of the corresponding dataset. A detailed summary is provided in Table~\ref{tab:dataset-all}. For more information, please refer to the "Dataset" subsection in each benchmark section.}
+
+\begin{table}[H]
+ \centering
+\caption{\rebuttal{Summary of datasets, their specifications, and approximate number of hours used for all experiments in this survey.}}
+\label{tab:dataset-all}
+ \scalebox{.98}{
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|ccc}
+\specialrule{.11em}{.2em}{.1em}
+\textbf{Task} & \textbf{Dataset} & \textbf{\textasciitilde  Hours} &  \textbf{Data Link} \\
+\midrule
+\multicolumn{4}{c}{\textit{Reconstruction}} \\
+\midrule
+Speech & LibriSpeech~\citep{korvas_2014}  & 6 & \href{https://openslr.org/12}{Link} \\
+Music & MUSDB~\citep{musdb18}  & 10 & \href{https://sigsep.github.io/datasets/musdb.html}{Link}  \\
+Audio & Audioset~\citep{gemmeke2017audio}  & 56 & \href{https://research.google.com/audioset/download.html}{Link}  \\
+\midrule 
+\multicolumn{4}{c}{\textit{Downstream}} \\
+\midrule
+ASR (En) & LibriSpeech~\citep{korvas_2014}  & 1,000 & \href{https://openslr.org/12}{Link} \\
+ASR (Welsh) & CommonVoice 17.0~\citep{ardila2019common} & 8 & \href{https://commonvoice.mozilla.org/en/datasets}{Link} \\
+ASR (Basque) & CommonVoice 17.0~\citep{ardila2019common} & 116 & \href{https://commonvoice.mozilla.org/en/datasets}{Link} \\
+Speaker ID / Verification & VoxCeleb1~\citep{nagrani2017voxceleb} & 350 & \href{https://www.robots.ox.ac.uk/~vgg/data/voxceleb/vox1.html}{Link} \\
+Emotion Recognition & IEMOCAP~\citep{busso2008iemocap} & 7 & \href{https://sail.usc.edu/iemocap/}{Link} \\
+Keyword Spotting & Speech Commands~\citep{warden2017speech} & 18 & \href{https://www.tensorflow.org/datasets/catalog/speech_commands}{Link} \\
+Intent Classification & SLURP~\citep{bastianelli2020slurp} & 10 & \href{https://zenodo.org/record/4274930}{Link} \\
+Speech Enhancement & VoiceBank~\citep{valentinibotinhao2016voicebank} & 10  & \href{https://datashare.ed.ac.uk/handle/10283/2791}{Link} \\
+Speech Separation & Libri2Mix~\citep{cosentino2020librimix} &  400 & \href{https://github.com/JorisCos/LibriMix}{Link} \\
+Music Genre Classification & GTZAN~\citep{tzanetakis2002musical} & 8 & \href{https://huggingface.co/datasets/marsyas/gtzan}{Link} \\
+Music Source Separation & MUSDB~\citep{musdb18} & 10 & \href{https://sigsep.github.io/datasets/musdb.html}{Link} \\
+
+Sound Event Classification & ESC-50~\citep{piczak2015esc} & 2 & \href{https://github.com/karolpiczak/ESC-50}{Link} \\
+Audio Separation & FUSS~\citep{wisdom2021s} & 23  & \href{https://zenodo.org/records/4012661}{Link} \\
+\midrule 
+\multicolumn{4}{c}{\textit{Acoustic LM}} \\
+\midrule 
+Speech Language Modeling &  LibriHeavy~\citep{kang2024libriheavy} & 56,000 & \href{https://github.com/k2-fsa/libriheavy}{Link}  \\
+Text-to-Speech &   LibriTTS~(\cite{zen2019libritts}) &  960&\href{https://www.openslr.org/60/}{Link} \\
+Audio Generation & Data Mix (see Sec. \ref{subsec:audioLM} for details) &  4050 & - \\
+Music Generation & FMA~\citep{fma_dataset}  & 702 & \href{https://github.com/mdeff/fma}{Link}\\
+\midrule 
+\multicolumn{4}{c}{\textit{Ablation}} \\
+\midrule 
+Speech & Data Mix (see Sec. \ref{sec:ablation} for details) & 1,000 & - \\
+Music &  Data Mix (see Sec. \ref{sec:ablation} for details) & 1,000 & - \\
+Audio & Data Mix (see Sec. \ref{sec:ablation} for details) & 1,000 & - \\
+\midrule
+\specialrule{.11em}{.2em}{.1em}
+\end{tabular}}}
+\end{table}

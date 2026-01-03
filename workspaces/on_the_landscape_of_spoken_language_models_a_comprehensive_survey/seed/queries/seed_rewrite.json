@@ -1,0 +1,21 @@
+{
+  "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+  "trigger_reason": "cutoff_removed_all_candidates",
+  "attempts": [
+    {
+      "attempt": 1,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "spoken language models",
+      "parsed_phrase": "spoken language models",
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "selected_query": "spoken language models",
+  "original_seed_query": "(all:\"On The Landscape of Spoken Language Models: A Comprehensive Survey\" OR all:\"on the landscape of speech language models: a comprehensive survey\" OR all:\"on the landscape of spoken language models: a comprehensive surveys\" OR all:\"OTLOSLMACS\" OR all:\"OTLOSLMACSs\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "cutoff_reason": "cutoff_removed_all_candidates",
+  "cutoff_candidate_title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+  "generated_at": "2025-12-29T17:32:07.027711+00:00",
+  "preview_only": false
+}

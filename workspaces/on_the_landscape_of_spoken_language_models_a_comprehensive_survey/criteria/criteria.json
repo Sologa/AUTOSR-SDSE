@@ -1,0 +1,250 @@
+{
+  "topic": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+  "recency_hint": "過去3年",
+  "mode": "pdf+web",
+  "generated_at": "2025-12-29T15:02:34.085813+00:00",
+  "cutoff_before_date": null,
+  "exclude_title": null,
+  "source_validation": null,
+  "search_prompt": "你是系統性回顧助理。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n主題：On The Landscape of Spoken Language Models: A Comprehensive Survey。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n請先以純文字整理資訊，不要輸出 JSON、Markdown 表格或程式碼區塊。\n依序撰寫下列段落：\n### Topic Definition\n- 以 1–2 段中文精準定義主題，可包含背景脈絡與核心能力描述。\n### Summary\n- 以 2–3 句中文概述趨勢與亮點。\n### Summary Topics\n- 列 3–4 個主題節點，格式為 `S1: 描述`。\n### Inclusion Criteria (Required)\n- 僅保留必須同時滿足的條件：① 主題定義條款（以『主題定義：』+定義原文開頭）、② 提供英文可評估性的條件。\n- 每條附上來源 (source) 與對應 topic id；一般條件需為 https。\n### Inclusion Criteria (Any-of Groups)\n- 針對技術覆蓋或差異化條件建立至少一個群組，格式為 `- Group 名稱` 搭配 `* Option:`，各自附上 source 與 topic ids。\n- 群組語意為 OR：只需滿足任一群組中的任一 option 即可。\n- 若筆記中原本在 Required 段落出現多個技術細節條件，請搬移到任選群組，不要重複留在 Required。\n- 若確實沒有任選條件，再寫 `(none)`。\n### Exclusion Criteria\n- 條列需要排除的情境，同樣附來源與 topic ids；若屬於系統設定（如 exclude_title），可標示 source: internal 或留空。\n- source 必須能直接支持該排除條件；若找不到合適來源，請用 internal。\n### Sources\n- 逐行呈現所有引用來源 (https)，不包含 internal/空白來源。\n- 優先引用一手論文頁（arXiv/期刊/會議/出版社），避免動態排行榜、搜尋結果頁或彙整站作為核心依據。",
+  "structured_prompt_template": "你是系統性回顧助理。\n主題：On The Landscape of Spoken Language Models: A Comprehensive Survey。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n僅輸出單一 JSON 物件，鍵為：topic_definition、summary、summary_topics、inclusion_criteria、exclusion_criteria；JSON 外勿輸出其他文字。\ntopic_definition：以中文撰寫，1–2 段清楚定義主題，可補充背景脈絡與核心能力描述。\ntopic_definition 的來源應優先引用一手論文頁（如 arXiv/期刊/會議頁），避免彙整站、排行榜或動態搜尋結果頁。\nsummary：中文、簡潔扼要。\nsummary_topics：列出 3–4 項主題，每項含 id（如 S1、S2）與 description；用詞與 summary 一致。\ninclusion_criteria：每條含 criterion、source、topic_ids（至少 1 個）；僅能使用正向條件（不得寫否定句）。\ninclusion_criteria 的第一條必須以『主題定義：』+ topic_definition 原文開頭，之後接上『—』或『:』與具體條件（需逐字包含 topic_definition）。\ninclusion_criteria 中至少一條需明確要求英文（例如提供英文全文或英文評估語料）。\n若條件之間為 OR 關係，請放入 inclusion_criteria.any_of 的 options。\nany_of 群組語意：只需滿足「任一群組中的任一 option」即可；群組彼此為 OR，而非全部都必須滿足。\ninclusion_criteria 的範圍僅量廣泛，不可限縮在特定的小範圍內。\nexclusion_criteria：列『具體剔除情境』，不可是 inclusion 的鏡像否定（例如僅單一語言或單一應用、與主題無關）；每條同樣含 source、topic_ids。\nsource 規則：一般條件必須是 https；若條件屬於系統設定（例如 exclude_title），可用 source=internal 或留空，且這類來源不要放入 sources 清單。\n來源一致性：source 必須能直接支持該條件，不可使用會與條件相矛盾的來源；若找不到合適來源，請用 source=internal。\n來源選擇：避免動態排行榜、搜尋結果頁或彙整站，優先使用一手論文頁或正式出版頁。\n一致性：每條 criterion 必須對應至少一個 summary topic（以 topic_ids 連結）。",
+  "web_search_notes": "以下內容依你的要求整理，作為**可直接用於系統性回顧（systematic review / survey）之文獻收錄與排除規則草案**。所有敘述均以可操作、可評估為原則，並以已發表且具明確年月日（YYYY-MM-DD）的 https 一手論文頁為依據。\n\n---\n\n### Topic Definition\n\n本主題聚焦於 **Spoken Language Models（SLMs，口語語言模型）** 的整體研究版圖。SLMs 指的是以「語音序列」本身作為核心建模對象的語言模型，其目標並非僅產生或辨識文字，而是直接在語音層級進行建模、理解、生成與推理。這類模型通常能以端到端（end-to-end）的方式，從原始聲學訊號出發，完成語音理解（SLU）、語音翻譯（ST）、語音對話、或語音生成等高階語言任務。\n\n近年研究趨勢顯示，SLMs 正由傳統任務導向、模組化的 ASR→NLP 管線，轉向「通用化」與「基礎模型（foundation model）」範式。這包含純語音語言模型（如離散化語音 token 的 LM），以及結合語音編碼器與大型語言模型（LLM）的混合式架構，並強調跨任務泛化能力、預訓練策略、以及統一的評估視角。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n---\n\n### Summary\n\n整體而言，Spoken Language Models 的研究正快速朝向通用化、端到端與跨模態融合發展。研究亮點包含以大規模自監督預訓練建立語音基礎模型、將語音直接納入語言模型推理流程，以及以統一 benchmark 系統性評估模型能力。這些趨勢使語音不再只是文字處理的前處理步驟，而成為語言建模的第一等公民。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n---\n\n### Summary Topics\n\nS1: Spoken Language Models 的定義、分類與歷史演進  \nS2: SLM 的模型架構（純語音 LM、語音–文字混合、Speech–LLM）  \nS3: 預訓練、微調與評估基準（foundation models、SUPERB 等）  \nS4: 應用面向與挑戰（SLU、ST、對話、泛化與評估困難）\n\n---\n\n### Inclusion Criteria (Required)\n\n1. **主題定義：**研究必須明確以「Spoken Language Models 或等價概念」為核心，將語音視為主要建模與推理對象，而非僅作為文字處理前的輸入訊號；研究需討論模型架構、訓練或評估面向。  \n   英文可評估性條件：論文需在標題、摘要或關鍵詞中出現 *spoken language model(s)*、*speech language model(s)*、或等價描述（如 language modeling of speech）。  \n   source: https://arxiv.org/abs/2504.08528  \n   topic ids: S1, S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n2. 論文必須為可公開取得之英文學術研究（期刊、會議或 arXiv），並提供完整方法描述與實驗或系統性分析。  \n   source: https://arxiv.org/abs/2106.09009  \n   topic ids: S1 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))\n\n3. 研究需明確說明模型評估方式（任務設定、benchmark 或分析框架），而非僅概念性討論。  \n   source: https://arxiv.org/abs/2404.09385  \n   topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))\n\n---\n\n### Inclusion Criteria (Any-of Groups)\n\n- Group A：模型架構與建模方式  \n  * Option: 探討「純語音語言模型」（如以離散語音 token 進行 LM 建模）。  \n    source: https://arxiv.org/abs/2504.08528  \n    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))  \n  * Option: 探討「語音–文字或語音–LLM 混合式架構」，強調端到端語音理解或生成。  \n    source: https://arxiv.org/abs/2010.12283  \n    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2010.12283?utm_source=openai))\n\n- Group B：訓練與評估範式  \n  * Option: 使用大規模自監督或 foundation model 預訓練，並分析其跨任務泛化能力。  \n    source: https://arxiv.org/abs/2404.09385  \n    topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))\n\n---\n\n### Exclusion Criteria\n\n- 僅將語音作為輸入，核心研究仍為文字 NLP，且未對語音建模本身進行分析或創新（如單純 ASR→LLM 串接）。  \n  source: internal  \n  topic ids: S1\n\n- 僅針對單一下游任務（如特定指令辨識），未討論通用性、模型架構或語音語言建模觀點。  \n  source: https://arxiv.org/abs/2106.09009  \n  topic ids: S4 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))\n\n- 非學術性來源（部落格、產品白皮書、未公開技術報告），或缺乏完整方法與評估描述者。  \n  source: internal  \n  topic ids: S1\n\n---\n\n### Sources\n\nhttps://arxiv.org/abs/2504.08528  \nhttps://arxiv.org/abs/2404.09385  \nhttps://arxiv.org/abs/2106.09009  \nhttps://arxiv.org/abs/2010.12283",
+  "structured_payload": {
+    "review_title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+    "time_range": {
+      "type": "relative",
+      "past_years": 3
+    },
+    "topic_definition": {
+      "narrative": "本主題涵蓋 Spoken Language Models（SLMs）與全雙工口語語言模型（Full-Duplex Spoken Language Models, FD-SLMs）的研究版圖：以「語音序列/聲學訊號」作為核心建模與推理對象（不僅是文字處理前處理），並聚焦端到端或混合式（Speech-LLM/語音-文字）架構的訓練、推理與評估。特別關注從 turn-taking（half-duplex）走向可同步聽說的 full-duplex 互動能力，包括認知並行（cognitive parallelism）、語音重疊管理、即時打斷與回饋（backchanneling）、以及低延遲（例如 sub-200ms）等，同時納入工程式同步（模組化控制）與學習式同步（端到端）兩路徑，並要求可被明確評估（任務/benchmark/分析框架），而非僅概念性討論。",
+      "key_concepts": [
+        "Spoken Language Models (SLMs) / Speech Language Models",
+        "語音層級的 language modeling（離散語音 token LM、或連續表徵）",
+        "Speech–LLM / 語音-文字混合式架構",
+        "Full-Duplex Spoken Language Models (FD-SLMs)",
+        "Engineered Synchronization（模組化/控制器式同步）",
+        "Learned Synchronization（端到端學習式同步）",
+        "cognitive parallelism",
+        "低延遲即時互動（例如 sub-200ms）",
+        "語音重疊、打斷(interruption)、回饋(backchanneling)",
+        "多維度評估：時序動態、行為仲裁、語意連貫、聲學表現"
+      ],
+      "source": "https://arxiv.org/abs/2504.08528"
+    },
+    "scope_notes": {
+      "included_study_types": [
+        "期刊論文",
+        "會議論文",
+        "arXiv 預印本（具完整方法與可重現/可檢核之評估或系統性分析）"
+      ],
+      "primary_outcomes_or_axes": [
+        "模型架構與同步策略（純語音LM、混合式、Speech–LLM；engineered vs learned synchronization）",
+        "訓練/預訓練策略與資料（含多聲道/同步標註、合成資料）",
+        "即時性與串流推理設計（延遲、流式編碼/生成等）",
+        "互動行為能力（重疊、打斷、回饋等）",
+        "評估框架/benchmark（任務設定、指標與可比性）"
+      ],
+      "source": "https://arxiv.org/abs/2504.08528"
+    },
+    "inclusion_criteria": {
+      "required": [
+        {
+          "criterion": "研究必須明確以「Spoken Language Models 或等價概念」為核心，將語音視為主要建模與推理對象，而非僅作為文字處理前的輸入訊號；研究需討論模型架構、訓練或評估面向。",
+          "source": "https://arxiv.org/abs/2504.08528",
+          "topic_ids": [
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "criterion": "納入時間範圍為過去3年內公開之研究。",
+          "source": "https://arxiv.org/abs/2504.08528",
+          "topic_ids": [
+            "S1"
+          ]
+        },
+        {
+          "criterion": "論文需在標題、摘要或關鍵詞中出現 spoken language model(s)、speech language model(s)、或等價描述（如 language modeling of speech）。",
+          "source": "https://arxiv.org/abs/2504.08528",
+          "topic_ids": [
+            "S1",
+            "S2"
+          ]
+        }
+      ],
+      "any_of_groups": [
+        {
+          "group_id": "A",
+          "group_name": "模型架構與建模方式",
+          "options": [
+            {
+              "criterion": "探討「純語音語言模型」（如以離散語音 token 進行 LM 建模）。",
+              "source": "https://arxiv.org/abs/2504.08528",
+              "topic_ids": [
+                "S2"
+              ]
+            },
+            {
+              "criterion": "探討「語音–文字或語音–LLM 混合式架構」，強調端到端語音理解或生成。",
+              "source": "https://arxiv.org/abs/2010.12283",
+              "topic_ids": [
+                "S2"
+              ]
+            },
+            {
+              "criterion": "研究涉及 Full-Duplex Spoken Language Models（FD-SLMs），並討論 engineered synchronization 或 learned synchronization 的設計取徑。",
+              "source": "https://arxiv.org/abs/2504.08528",
+              "topic_ids": [
+                "S2"
+              ]
+            }
+          ]
+        },
+        {
+          "group_id": "B",
+          "group_name": "訓練與評估範式",
+          "options": [
+            {
+              "criterion": "使用大規模自監督或 foundation model 預訓練，並分析其跨任務泛化能力。",
+              "source": "https://arxiv.org/abs/2404.09385",
+              "topic_ids": [
+                "S3"
+              ]
+            },
+            {
+              "criterion": "研究需明確說明模型評估方式（任務設定、benchmark 或分析框架），而非僅概念性討論。",
+              "source": "https://arxiv.org/abs/2404.09385",
+              "topic_ids": [
+                "S3"
+              ]
+            },
+            {
+              "criterion": "評估面向包含即時互動/行為（例如時序動態、行為仲裁、語意連貫、聲學表現）之任一或多項，而非僅限 WER/音質等單一指標。",
+              "source": "https://arxiv.org/abs/2504.08528",
+              "topic_ids": [
+                "S3"
+              ]
+            }
+          ]
+        },
+        {
+          "group_id": "C",
+          "group_name": "出版與可取得性（方法完整性）",
+          "options": [
+            {
+              "criterion": "論文必須為可公開取得之英文學術研究（期刊、會議或 arXiv），並提供完整方法描述與實驗或系統性分析。",
+              "source": "https://arxiv.org/abs/2106.09009",
+              "topic_ids": [
+                "S1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "exclusion_criteria": [
+      {
+        "criterion": "僅討論傳統輪流發言（half-duplex）或單向語音理解/合成的系統，未涵蓋同步互動或對話行為仲裁。",
+        "source": "https://arxiv.org/abs/2504.08528",
+        "topic_ids": [
+          "S2",
+          "S4"
+        ]
+      },
+      {
+        "criterion": "只聚焦於 ASR、TTS 等單一語音技術，未涵蓋對話交互、同步行為或語音語言建模觀點。",
+        "source": "https://arxiv.org/abs/2504.08528",
+        "topic_ids": [
+          "S4"
+        ]
+      },
+      {
+        "criterion": "評估指標僅限於語音辨識率（WER）或音質分數，未涉及即時互動、語音重疊處理或行為仲裁等評估。",
+        "source": "https://arxiv.org/abs/2504.08528",
+        "topic_ids": [
+          "S3"
+        ]
+      },
+      {
+        "criterion": "僅將語音作為輸入，核心研究仍為文字 NLP，且未對語音建模本身進行分析或創新（如單純 ASR→LLM 串接）。",
+        "source": "https://arxiv.org/abs/2504.08528",
+        "topic_ids": [
+          "S1"
+        ]
+      },
+      {
+        "criterion": "僅針對單一下游任務（如特定指令辨識），未討論通用性、模型架構或語音語言建模觀點。",
+        "source": "https://arxiv.org/abs/2106.09009",
+        "topic_ids": [
+          "S4"
+        ]
+      },
+      {
+        "criterion": "非學術性來源，或缺乏完整方法與評估描述者。",
+        "source": "https://arxiv.org/abs/2106.09009",
+        "topic_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "summary_topics": [
+      {
+        "topic_id": "S1",
+        "label": "Spoken Language Models 的定義、分類與歷史演進",
+        "source": "https://arxiv.org/abs/2504.08528"
+      },
+      {
+        "topic_id": "S2",
+        "label": "SLM 的模型架構（純語音 LM、語音–文字混合、Speech–LLM；含全雙工同步設計）",
+        "source": "https://arxiv.org/abs/2504.08528"
+      },
+      {
+        "topic_id": "S3",
+        "label": "預訓練、微調與評估基準（foundation models、benchmark、分析框架）",
+        "source": "https://arxiv.org/abs/2404.09385"
+      },
+      {
+        "topic_id": "S4",
+        "label": "應用面向與挑戰（SLU、ST、對話/互動、泛化與評估困難）",
+        "source": "https://arxiv.org/abs/2504.08528"
+      }
+    ],
+    "search_keywords": [
+      "spoken language model",
+      "speech language model",
+      "language modeling of speech",
+      "speech LM",
+      "speech foundation model",
+      "speech-LLM",
+      "full-duplex spoken language model",
+      "full-duplex dialogue",
+      "engineered synchronization",
+      "learned synchronization",
+      "cognitive parallelism",
+      "streaming speech generation",
+      "low-latency speech interaction",
+      "overlapped speech",
+      "barge-in",
+      "backchannel"
+    ],
+    "sources": [
+      "https://arxiv.org/abs/2504.08528",
+      "https://arxiv.org/abs/2404.09385",
+      "https://arxiv.org/abs/2106.09009",
+      "https://arxiv.org/abs/2010.12283"
+    ]
+  },
+  "pdf_background": "### PDF Topic Definition\n本篇綜述聚焦於「全雙工口語語言模型（Full-Duplex Spoken Language Models, FD-SLMs）」的發展現況與挑戰，強調從傳統輪流發言（turn-taking）的對話系統，進化到能夠實現同步聽說、重疊語音與即時打斷的人機互動。文章明確區分了「工程式同步」（模組化架構）與「學習式同步」（端到端架構）兩大設計路線，並提出一套涵蓋「時序動態」、「行為仲裁」、「語意連貫」及「聲學表現」的統一評估框架。核心概念包括認知並行（cognitive parallelism）、實時性（sub-200ms latency）、語音重疊管理、主動打斷與回饋（backchanneling）等，並針對現有主流FD-SLM進行比較分析，揭示資料稀缺、架構分歧及評估標準碎片化等關鍵挑戰。\n\n### PDF Key Trends\n- 近年趨勢聚焦於從「偽全雙工」轉向「真全雙工」語言模型，實現同步聽說與自然對話流暢性。\n- 研究資料來源逐漸從單聲道語音、會議語料庫，擴展到多聲道、同步標註的自然對話資料（如AMI、ICSI、Fisher等）。\n- 主流研究角度包含：架構創新（如雙塔Transformer、FSM控制器）、資料增強（合成TTS、多語言資源）、即時性優化（KV-cache、流式編碼）及行為評估標準化。\n- 評估面向由傳統的語音辨識/理解，擴展至即時互動、語音重疊處理、語意與行為一致性等多維度。\n- 開放原始碼與標準化基準（如FD-Bench、Full-Duplex-Bench）促進模型間的可比性與可重現性。\n\n### PDF Capability Highlights\n- 必須具備同步語音編碼與生成的並行運算能力。\n- 支援低於200毫秒的反應延遲以符合自然對話節奏。\n- 能夠辨識與處理語音重疊、打斷、回饋等複雜對話事件。\n- 需在多聲道或多模態輸入下維持語意與語音的連貫性。\n- 具備彈性架構以支援外部或內部控制機制（如FSM、控制token）。\n\n### PDF Inclusion Signals\n- 關鍵字：「Full-Duplex」、「同步對話」、「認知並行」、「流式語音處理」、「行為仲裁」。\n- 涉及「Engineered Synchronization」或「Learned Synchronization」架構討論（參見第3章）。\n- 針對「時序動態」、「語意連貫」、「聲學表現」等多維度評估（參見第4章、Fig. 3）。\n- 涉及公開多聲道同步語音資料集或合成數據生成（參見4.2節、Table 3）。\n- 關注於「人機自然互動」及「主動對話行為」的模型設計與評測。\n\n### PDF Exclusion Signals\n- 僅討論傳統輪流發言（half-duplex）或單向語音理解/合成的系統。\n- 只聚焦於ASR、TTS等單一語音技術，未涵蓋對話交互與同步行為。\n- 評估指標僅限於語音辨識率（WER）或音質分數，未涉及即時互動與行為仲裁。\n- 研究資料僅來自單聲道、無同步標註的語音語料。\n- 未討論架構層級的同步策略或認知並行設計。\n\n### PDF Notes\n- FROM TURN-TAKING TO SYNCHRONOUS DIALOGUE.pdf: 系統性梳理全雙工口語語言模型的演進、架構分類與評估框架，強調認知並行、時序動態與多維度行為評測，並列舉現有主流模型與資料集，對資料瓶頸與評估碎片化提出具體展望。",
+  "combined_notes": "### PDF Background (Survey Summaries)\n### PDF Topic Definition\n本篇綜述聚焦於「全雙工口語語言模型（Full-Duplex Spoken Language Models, FD-SLMs）」的發展現況與挑戰，強調從傳統輪流發言（turn-taking）的對話系統，進化到能夠實現同步聽說、重疊語音與即時打斷的人機互動。文章明確區分了「工程式同步」（模組化架構）與「學習式同步」（端到端架構）兩大設計路線，並提出一套涵蓋「時序動態」、「行為仲裁」、「語意連貫」及「聲學表現」的統一評估框架。核心概念包括認知並行（cognitive parallelism）、實時性（sub-200ms latency）、語音重疊管理、主動打斷與回饋（backchanneling）等，並針對現有主流FD-SLM進行比較分析，揭示資料稀缺、架構分歧及評估標準碎片化等關鍵挑戰。\n\n### PDF Key Trends\n- 近年趨勢聚焦於從「偽全雙工」轉向「真全雙工」語言模型，實現同步聽說與自然對話流暢性。\n- 研究資料來源逐漸從單聲道語音、會議語料庫，擴展到多聲道、同步標註的自然對話資料（如AMI、ICSI、Fisher等）。\n- 主流研究角度包含：架構創新（如雙塔Transformer、FSM控制器）、資料增強（合成TTS、多語言資源）、即時性優化（KV-cache、流式編碼）及行為評估標準化。\n- 評估面向由傳統的語音辨識/理解，擴展至即時互動、語音重疊處理、語意與行為一致性等多維度。\n- 開放原始碼與標準化基準（如FD-Bench、Full-Duplex-Bench）促進模型間的可比性與可重現性。\n\n### PDF Capability Highlights\n- 必須具備同步語音編碼與生成的並行運算能力。\n- 支援低於200毫秒的反應延遲以符合自然對話節奏。\n- 能夠辨識與處理語音重疊、打斷、回饋等複雜對話事件。\n- 需在多聲道或多模態輸入下維持語意與語音的連貫性。\n- 具備彈性架構以支援外部或內部控制機制（如FSM、控制token）。\n\n### PDF Inclusion Signals\n- 關鍵字：「Full-Duplex」、「同步對話」、「認知並行」、「流式語音處理」、「行為仲裁」。\n- 涉及「Engineered Synchronization」或「Learned Synchronization」架構討論（參見第3章）。\n- 針對「時序動態」、「語意連貫」、「聲學表現」等多維度評估（參見第4章、Fig. 3）。\n- 涉及公開多聲道同步語音資料集或合成數據生成（參見4.2節、Table 3）。\n- 關注於「人機自然互動」及「主動對話行為」的模型設計與評測。\n\n### PDF Exclusion Signals\n- 僅討論傳統輪流發言（half-duplex）或單向語音理解/合成的系統。\n- 只聚焦於ASR、TTS等單一語音技術，未涵蓋對話交互與同步行為。\n- 評估指標僅限於語音辨識率（WER）或音質分數，未涉及即時互動與行為仲裁。\n- 研究資料僅來自單聲道、無同步標註的語音語料。\n- 未討論架構層級的同步策略或認知並行設計。\n\n### PDF Notes\n- FROM TURN-TAKING TO SYNCHRONOUS DIALOGUE.pdf: 系統性梳理全雙工口語語言模型的演進、架構分類與評估框架，強調認知並行、時序動態與多維度行為評測，並列舉現有主流模型與資料集，對資料瓶頸與評估碎片化提出具體展望。\n### Web Search Notes\n以下內容依你的要求整理，作為**可直接用於系統性回顧（systematic review / survey）之文獻收錄與排除規則草案**。所有敘述均以可操作、可評估為原則，並以已發表且具明確年月日（YYYY-MM-DD）的 https 一手論文頁為依據。\n\n---\n\n### Topic Definition\n\n本主題聚焦於 **Spoken Language Models（SLMs，口語語言模型）** 的整體研究版圖。SLMs 指的是以「語音序列」本身作為核心建模對象的語言模型，其目標並非僅產生或辨識文字，而是直接在語音層級進行建模、理解、生成與推理。這類模型通常能以端到端（end-to-end）的方式，從原始聲學訊號出發，完成語音理解（SLU）、語音翻譯（ST）、語音對話、或語音生成等高階語言任務。\n\n近年研究趨勢顯示，SLMs 正由傳統任務導向、模組化的 ASR→NLP 管線，轉向「通用化」與「基礎模型（foundation model）」範式。這包含純語音語言模型（如離散化語音 token 的 LM），以及結合語音編碼器與大型語言模型（LLM）的混合式架構，並強調跨任務泛化能力、預訓練策略、以及統一的評估視角。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n---\n\n### Summary\n\n整體而言，Spoken Language Models 的研究正快速朝向通用化、端到端與跨模態融合發展。研究亮點包含以大規模自監督預訓練建立語音基礎模型、將語音直接納入語言模型推理流程，以及以統一 benchmark 系統性評估模型能力。這些趨勢使語音不再只是文字處理的前處理步驟，而成為語言建模的第一等公民。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n---\n\n### Summary Topics\n\nS1: Spoken Language Models 的定義、分類與歷史演進  \nS2: SLM 的模型架構（純語音 LM、語音–文字混合、Speech–LLM）  \nS3: 預訓練、微調與評估基準（foundation models、SUPERB 等）  \nS4: 應用面向與挑戰（SLU、ST、對話、泛化與評估困難）\n\n---\n\n### Inclusion Criteria (Required)\n\n1. **主題定義：**研究必須明確以「Spoken Language Models 或等價概念」為核心，將語音視為主要建模與推理對象，而非僅作為文字處理前的輸入訊號；研究需討論模型架構、訓練或評估面向。  \n   英文可評估性條件：論文需在標題、摘要或關鍵詞中出現 *spoken language model(s)*、*speech language model(s)*、或等價描述（如 language modeling of speech）。  \n   source: https://arxiv.org/abs/2504.08528  \n   topic ids: S1, S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n2. 論文必須為可公開取得之英文學術研究（期刊、會議或 arXiv），並提供完整方法描述與實驗或系統性分析。  \n   source: https://arxiv.org/abs/2106.09009  \n   topic ids: S1 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))\n\n3. 研究需明確說明模型評估方式（任務設定、benchmark 或分析框架），而非僅概念性討論。  \n   source: https://arxiv.org/abs/2404.09385  \n   topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))\n\n---\n\n### Inclusion Criteria (Any-of Groups)\n\n- Group A：模型架構與建模方式  \n  * Option: 探討「純語音語言模型」（如以離散語音 token 進行 LM 建模）。  \n    source: https://arxiv.org/abs/2504.08528  \n    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))  \n  * Option: 探討「語音–文字或語音–LLM 混合式架構」，強調端到端語音理解或生成。  \n    source: https://arxiv.org/abs/2010.12283  \n    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2010.12283?utm_source=openai))\n\n- Group B：訓練與評估範式  \n  * Option: 使用大規模自監督或 foundation model 預訓練，並分析其跨任務泛化能力。  \n    source: https://arxiv.org/abs/2404.09385  \n    topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))\n\n---\n\n### Exclusion Criteria\n\n- 僅將語音作為輸入，核心研究仍為文字 NLP，且未對語音建模本身進行分析或創新（如單純 ASR→LLM 串接）。  \n  source: internal  \n  topic ids: S1\n\n- 僅針對單一下游任務（如特定指令辨識），未討論通用性、模型架構或語音語言建模觀點。  \n  source: https://arxiv.org/abs/2106.09009  \n  topic ids: S4 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))\n\n- 非學術性來源（部落格、產品白皮書、未公開技術報告），或缺乏完整方法與評估描述者。  \n  source: internal  \n  topic ids: S1\n\n---\n\n### Sources\n\nhttps://arxiv.org/abs/2504.08528  \nhttps://arxiv.org/abs/2404.09385  \nhttps://arxiv.org/abs/2106.09009  \nhttps://arxiv.org/abs/2010.12283",
+  "augmented_formatter_messages": [
+    {
+      "role": "system",
+      "content": "你是系統性回顧的資料整理助理，需將研究助理的筆記轉為結構化 JSON。\n僅能輸出單一 JSON 物件，勿加入額外敘述或 Markdown。"
+    },
+    {
+      "role": "user",
+      "content": "以下內容結合了兩種來源：\n1) PDF Background (Survey Summaries)：模型閱讀本地 PDF 後的背景整理，僅供提供更準確的主題定義與條件靈感，來源欄請勿引用非 https 連結。\n2) Web Search Notes：OpenAI Web Search 所產出的即時筆記與來源。\n請輸出最終 JSON，並確保所有 source 欄位皆為 https URL。\n主題：On The Landscape of Spoken Language Models: A Comprehensive Survey；時間範圍：過去3年。\ninclusion_criteria.required 段落僅能包含主題定義逐字條款、recency 對齊條款，以及英文可評估性條款；其餘條件請歸入 any_of 群組。\n將以下筆記整合後再輸出：\n---\n### PDF Background (Survey Summaries)\n### PDF Topic Definition\n本篇綜述聚焦於「全雙工口語語言模型（Full-Duplex Spoken Language Models, FD-SLMs）」的發展現況與挑戰，強調從傳統輪流發言（turn-taking）的對話系統，進化到能夠實現同步聽說、重疊語音與即時打斷的人機互動。文章明確區分了「工程式同步」（模組化架構）與「學習式同步」（端到端架構）兩大設計路線，並提出一套涵蓋「時序動態」、「行為仲裁」、「語意連貫」及「聲學表現」的統一評估框架。核心概念包括認知並行（cognitive parallelism）、實時性（sub-200ms latency）、語音重疊管理、主動打斷與回饋（backchanneling）等，並針對現有主流FD-SLM進行比較分析，揭示資料稀缺、架構分歧及評估標準碎片化等關鍵挑戰。\n\n### PDF Key Trends\n- 近年趨勢聚焦於從「偽全雙工」轉向「真全雙工」語言模型，實現同步聽說與自然對話流暢性。\n- 研究資料來源逐漸從單聲道語音、會議語料庫，擴展到多聲道、同步標註的自然對話資料（如AMI、ICSI、Fisher等）。\n- 主流研究角度包含：架構創新（如雙塔Transformer、FSM控制器）、資料增強（合成TTS、多語言資源）、即時性優化（KV-cache、流式編碼）及行為評估標準化。\n- 評估面向由傳統的語音辨識/理解，擴展至即時互動、語音重疊處理、語意與行為一致性等多維度。\n- 開放原始碼與標準化基準（如FD-Bench、Full-Duplex-Bench）促進模型間的可比性與可重現性。\n\n### PDF Capability Highlights\n- 必須具備同步語音編碼與生成的並行運算能力。\n- 支援低於200毫秒的反應延遲以符合自然對話節奏。\n- 能夠辨識與處理語音重疊、打斷、回饋等複雜對話事件。\n- 需在多聲道或多模態輸入下維持語意與語音的連貫性。\n- 具備彈性架構以支援外部或內部控制機制（如FSM、控制token）。\n\n### PDF Inclusion Signals\n- 關鍵字：「Full-Duplex」、「同步對話」、「認知並行」、「流式語音處理」、「行為仲裁」。\n- 涉及「Engineered Synchronization」或「Learned Synchronization」架構討論（參見第3章）。\n- 針對「時序動態」、「語意連貫」、「聲學表現」等多維度評估（參見第4章、Fig. 3）。\n- 涉及公開多聲道同步語音資料集或合成數據生成（參見4.2節、Table 3）。\n- 關注於「人機自然互動」及「主動對話行為」的模型設計與評測。\n\n### PDF Exclusion Signals\n- 僅討論傳統輪流發言（half-duplex）或單向語音理解/合成的系統。\n- 只聚焦於ASR、TTS等單一語音技術，未涵蓋對話交互與同步行為。\n- 評估指標僅限於語音辨識率（WER）或音質分數，未涉及即時互動與行為仲裁。\n- 研究資料僅來自單聲道、無同步標註的語音語料。\n- 未討論架構層級的同步策略或認知並行設計。\n\n### PDF Notes\n- FROM TURN-TAKING TO SYNCHRONOUS DIALOGUE.pdf: 系統性梳理全雙工口語語言模型的演進、架構分類與評估框架，強調認知並行、時序動態與多維度行為評測，並列舉現有主流模型與資料集，對資料瓶頸與評估碎片化提出具體展望。\n### Web Search Notes\n以下內容依你的要求整理，作為**可直接用於系統性回顧（systematic review / survey）之文獻收錄與排除規則草案**。所有敘述均以可操作、可評估為原則，並以已發表且具明確年月日（YYYY-MM-DD）的 https 一手論文頁為依據。\n\n---\n\n### Topic Definition\n\n本主題聚焦於 **Spoken Language Models（SLMs，口語語言模型）** 的整體研究版圖。SLMs 指的是以「語音序列」本身作為核心建模對象的語言模型，其目標並非僅產生或辨識文字，而是直接在語音層級進行建模、理解、生成與推理。這類模型通常能以端到端（end-to-end）的方式，從原始聲學訊號出發，完成語音理解（SLU）、語音翻譯（ST）、語音對話、或語音生成等高階語言任務。\n\n近年研究趨勢顯示，SLMs 正由傳統任務導向、模組化的 ASR→NLP 管線，轉向「通用化」與「基礎模型（foundation model）」範式。這包含純語音語言模型（如離散化語音 token 的 LM），以及結合語音編碼器與大型語言模型（LLM）的混合式架構，並強調跨任務泛化能力、預訓練策略、以及統一的評估視角。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n---\n\n### Summary\n\n整體而言，Spoken Language Models 的研究正快速朝向通用化、端到端與跨模態融合發展。研究亮點包含以大規模自監督預訓練建立語音基礎模型、將語音直接納入語言模型推理流程，以及以統一 benchmark 系統性評估模型能力。這些趨勢使語音不再只是文字處理的前處理步驟，而成為語言建模的第一等公民。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n---\n\n### Summary Topics\n\nS1: Spoken Language Models 的定義、分類與歷史演進  \nS2: SLM 的模型架構（純語音 LM、語音–文字混合、Speech–LLM）  \nS3: 預訓練、微調與評估基準（foundation models、SUPERB 等）  \nS4: 應用面向與挑戰（SLU、ST、對話、泛化與評估困難）\n\n---\n\n### Inclusion Criteria (Required)\n\n1. **主題定義：**研究必須明確以「Spoken Language Models 或等價概念」為核心，將語音視為主要建模與推理對象，而非僅作為文字處理前的輸入訊號；研究需討論模型架構、訓練或評估面向。  \n   英文可評估性條件：論文需在標題、摘要或關鍵詞中出現 *spoken language model(s)*、*speech language model(s)*、或等價描述（如 language modeling of speech）。  \n   source: https://arxiv.org/abs/2504.08528  \n   topic ids: S1, S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))\n\n2. 論文必須為可公開取得之英文學術研究（期刊、會議或 arXiv），並提供完整方法描述與實驗或系統性分析。  \n   source: https://arxiv.org/abs/2106.09009  \n   topic ids: S1 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))\n\n3. 研究需明確說明模型評估方式（任務設定、benchmark 或分析框架），而非僅概念性討論。  \n   source: https://arxiv.org/abs/2404.09385  \n   topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))\n\n---\n\n### Inclusion Criteria (Any-of Groups)\n\n- Group A：模型架構與建模方式  \n  * Option: 探討「純語音語言模型」（如以離散語音 token 進行 LM 建模）。  \n    source: https://arxiv.org/abs/2504.08528  \n    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))  \n  * Option: 探討「語音–文字或語音–LLM 混合式架構」，強調端到端語音理解或生成。  \n    source: https://arxiv.org/abs/2010.12283  \n    topic ids: S2 ([arxiv.org](https://arxiv.org/abs/2010.12283?utm_source=openai))\n\n- Group B：訓練與評估範式  \n  * Option: 使用大規模自監督或 foundation model 預訓練，並分析其跨任務泛化能力。  \n    source: https://arxiv.org/abs/2404.09385  \n    topic ids: S3 ([arxiv.org](https://arxiv.org/abs/2404.09385?utm_source=openai))\n\n---\n\n### Exclusion Criteria\n\n- 僅將語音作為輸入，核心研究仍為文字 NLP，且未對語音建模本身進行分析或創新（如單純 ASR→LLM 串接）。  \n  source: internal  \n  topic ids: S1\n\n- 僅針對單一下游任務（如特定指令辨識），未討論通用性、模型架構或語音語言建模觀點。  \n  source: https://arxiv.org/abs/2106.09009  \n  topic ids: S4 ([arxiv.org](https://arxiv.org/abs/2106.09009?utm_source=openai))\n\n- 非學術性來源（部落格、產品白皮書、未公開技術報告），或缺乏完整方法與評估描述者。  \n  source: internal  \n  topic ids: S1\n\n---\n\n### Sources\n\nhttps://arxiv.org/abs/2504.08528  \nhttps://arxiv.org/abs/2404.09385  \nhttps://arxiv.org/abs/2106.09009  \nhttps://arxiv.org/abs/2010.12283\n---"
+    }
+  ],
+  "formatter_raw": "{\n  \"review_title\": \"On The Landscape of Spoken Language Models: A Comprehensive Survey\",\n  \"time_range\": {\n    \"type\": \"relative\",\n    \"past_years\": 3\n  },\n  \"topic_definition\": {\n    \"narrative\": \"本主題涵蓋 Spoken Language Models（SLMs）與全雙工口語語言模型（Full-Duplex Spoken Language Models, FD-SLMs）的研究版圖：以「語音序列/聲學訊號」作為核心建模與推理對象（不僅是文字處理前處理），並聚焦端到端或混合式（Speech-LLM/語音-文字）架構的訓練、推理與評估。特別關注從 turn-taking（half-duplex）走向可同步聽說的 full-duplex 互動能力，包括認知並行（cognitive parallelism）、語音重疊管理、即時打斷與回饋（backchanneling）、以及低延遲（例如 sub-200ms）等，同時納入工程式同步（模組化控制）與學習式同步（端到端）兩路徑，並要求可被明確評估（任務/benchmark/分析框架），而非僅概念性討論。\",\n    \"key_concepts\": [\n      \"Spoken Language Models (SLMs) / Speech Language Models\",\n      \"語音層級的 language modeling（離散語音 token LM、或連續表徵）\",\n      \"Speech–LLM / 語音-文字混合式架構\",\n      \"Full-Duplex Spoken Language Models (FD-SLMs)\",\n      \"Engineered Synchronization（模組化/控制器式同步）\",\n      \"Learned Synchronization（端到端學習式同步）\",\n      \"cognitive parallelism\",\n      \"低延遲即時互動（例如 sub-200ms）\",\n      \"語音重疊、打斷(interruption)、回饋(backchanneling)\",\n      \"多維度評估：時序動態、行為仲裁、語意連貫、聲學表現\"\n    ],\n    \"source\": \"https://arxiv.org/abs/2504.08528\"\n  },\n  \"scope_notes\": {\n    \"included_study_types\": [\n      \"期刊論文\",\n      \"會議論文\",\n      \"arXiv 預印本（具完整方法與可重現/可檢核之評估或系統性分析）\"\n    ],\n    \"primary_outcomes_or_axes\": [\n      \"模型架構與同步策略（純語音LM、混合式、Speech–LLM；engineered vs learned synchronization）\",\n      \"訓練/預訓練策略與資料（含多聲道/同步標註、合成資料）\",\n      \"即時性與串流推理設計（延遲、流式編碼/生成等）\",\n      \"互動行為能力（重疊、打斷、回饋等）\",\n      \"評估框架/benchmark（任務設定、指標與可比性）\"\n    ],\n    \"source\": \"https://arxiv.org/abs/2504.08528\"\n  },\n  \"inclusion_criteria\": {\n    \"required\": [\n      {\n        \"criterion\": \"研究必須明確以「Spoken Language Models 或等價概念」為核心，將語音視為主要建模與推理對象，而非僅作為文字處理前的輸入訊號；研究需討論模型架構、訓練或評估面向。\",\n        \"source\": \"https://arxiv.org/abs/2504.08528\",\n        \"topic_ids\": [\n          \"S1\",\n          \"S2\"\n        ]\n      },\n      {\n        \"criterion\": \"納入時間範圍為過去3年內公開之研究。\",\n        \"source\": \"https://arxiv.org/abs/2504.08528\",\n        \"topic_ids\": [\n          \"S1\"\n        ]\n      },\n      {\n        \"criterion\": \"論文需在標題、摘要或關鍵詞中出現 spoken language model(s)、speech language model(s)、或等價描述（如 language modeling of speech）。\",\n        \"source\": \"https://arxiv.org/abs/2504.08528\",\n        \"topic_ids\": [\n          \"S1\",\n          \"S2\"\n        ]\n      }\n    ],\n    \"any_of_groups\": [\n      {\n        \"group_id\": \"A\",\n        \"group_name\": \"模型架構與建模方式\",\n        \"options\": [\n          {\n            \"criterion\": \"探討「純語音語言模型」（如以離散語音 token 進行 LM 建模）。\",\n            \"source\": \"https://arxiv.org/abs/2504.08528\",\n            \"topic_ids\": [\n              \"S2\"\n            ]\n          },\n          {\n            \"criterion\": \"探討「語音–文字或語音–LLM 混合式架構」，強調端到端語音理解或生成。\",\n            \"source\": \"https://arxiv.org/abs/2010.12283\",\n            \"topic_ids\": [\n              \"S2\"\n            ]\n          },\n          {\n            \"criterion\": \"研究涉及 Full-Duplex Spoken Language Models（FD-SLMs），並討論 engineered synchronization 或 learned synchronization 的設計取徑。\",\n            \"source\": \"https://arxiv.org/abs/2504.08528\",\n            \"topic_ids\": [\n              \"S2\"\n            ]\n          }\n        ]\n      },\n      {\n        \"group_id\": \"B\",\n        \"group_name\": \"訓練與評估範式\",\n        \"options\": [\n          {\n            \"criterion\": \"使用大規模自監督或 foundation model 預訓練，並分析其跨任務泛化能力。\",\n            \"source\": \"https://arxiv.org/abs/2404.09385\",\n            \"topic_ids\": [\n              \"S3\"\n            ]\n          },\n          {\n            \"criterion\": \"研究需明確說明模型評估方式（任務設定、benchmark 或分析框架），而非僅概念性討論。\",\n            \"source\": \"https://arxiv.org/abs/2404.09385\",\n            \"topic_ids\": [\n              \"S3\"\n            ]\n          },\n          {\n            \"criterion\": \"評估面向包含即時互動/行為（例如時序動態、行為仲裁、語意連貫、聲學表現）之任一或多項，而非僅限 WER/音質等單一指標。\",\n            \"source\": \"https://arxiv.org/abs/2504.08528\",\n            \"topic_ids\": [\n              \"S3\"\n            ]\n          }\n        ]\n      },\n      {\n        \"group_id\": \"C\",\n        \"group_name\": \"出版與可取得性（方法完整性）\",\n        \"options\": [\n          {\n            \"criterion\": \"論文必須為可公開取得之英文學術研究（期刊、會議或 arXiv），並提供完整方法描述與實驗或系統性分析。\",\n            \"source\": \"https://arxiv.org/abs/2106.09009\",\n            \"topic_ids\": [\n              \"S1\"\n            ]\n          }\n        ]\n      }\n    ]\n  },\n  \"exclusion_criteria\": [\n    {\n      \"criterion\": \"僅討論傳統輪流發言（half-duplex）或單向語音理解/合成的系統，未涵蓋同步互動或對話行為仲裁。\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\",\n      \"topic_ids\": [\n        \"S2\",\n        \"S4\"\n      ]\n    },\n    {\n      \"criterion\": \"只聚焦於 ASR、TTS 等單一語音技術，未涵蓋對話交互、同步行為或語音語言建模觀點。\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\",\n      \"topic_ids\": [\n        \"S4\"\n      ]\n    },\n    {\n      \"criterion\": \"評估指標僅限於語音辨識率（WER）或音質分數，未涉及即時互動、語音重疊處理或行為仲裁等評估。\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\",\n      \"topic_ids\": [\n        \"S3\"\n      ]\n    },\n    {\n      \"criterion\": \"僅將語音作為輸入，核心研究仍為文字 NLP，且未對語音建模本身進行分析或創新（如單純 ASR→LLM 串接）。\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\",\n      \"topic_ids\": [\n        \"S1\"\n      ]\n    },\n    {\n      \"criterion\": \"僅針對單一下游任務（如特定指令辨識），未討論通用性、模型架構或語音語言建模觀點。\",\n      \"source\": \"https://arxiv.org/abs/2106.09009\",\n      \"topic_ids\": [\n        \"S4\"\n      ]\n    },\n    {\n      \"criterion\": \"非學術性來源，或缺乏完整方法與評估描述者。\",\n      \"source\": \"https://arxiv.org/abs/2106.09009\",\n      \"topic_ids\": [\n        \"S1\"\n      ]\n    }\n  ],\n  \"summary_topics\": [\n    {\n      \"topic_id\": \"S1\",\n      \"label\": \"Spoken Language Models 的定義、分類與歷史演進\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\"\n    },\n    {\n      \"topic_id\": \"S2\",\n      \"label\": \"SLM 的模型架構（純語音 LM、語音–文字混合、Speech–LLM；含全雙工同步設計）\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\"\n    },\n    {\n      \"topic_id\": \"S3\",\n      \"label\": \"預訓練、微調與評估基準（foundation models、benchmark、分析框架）\",\n      \"source\": \"https://arxiv.org/abs/2404.09385\"\n    },\n    {\n      \"topic_id\": \"S4\",\n      \"label\": \"應用面向與挑戰（SLU、ST、對話/互動、泛化與評估困難）\",\n      \"source\": \"https://arxiv.org/abs/2504.08528\"\n    }\n  ],\n  \"search_keywords\": [\n    \"spoken language model\",\n    \"speech language model\",\n    \"language modeling of speech\",\n    \"speech LM\",\n    \"speech foundation model\",\n    \"speech-LLM\",\n    \"full-duplex spoken language model\",\n    \"full-duplex dialogue\",\n    \"engineered synchronization\",\n    \"learned synchronization\",\n    \"cognitive parallelism\",\n    \"streaming speech generation\",\n    \"low-latency speech interaction\",\n    \"overlapped speech\",\n    \"barge-in\",\n    \"backchannel\"\n  ],\n  \"sources\": [\n    \"https://arxiv.org/abs/2504.08528\",\n    \"https://arxiv.org/abs/2404.09385\",\n    \"https://arxiv.org/abs/2106.09009\",\n    \"https://arxiv.org/abs/2010.12283\"\n  ]\n}"
+}
