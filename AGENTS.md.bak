@@ -82,22 +82,24 @@
 ---
 
 ## 5) Git 工作流與提交政策（嚴格）
-- 允許直接 push 到遠端 default branch（目前為 `main`；以 `origin/HEAD` 為準）。
-- 標準流程：**本地檢查（ruff/mypy/pytest）→ 更新 docs/logs → commit → push 到 default branch**；如需隔離工作可自行建立分支。
+- **禁止**直接 push 到 `main`/`master`。
+- 標準流程：**建立分支 → 本地檢查（ruff/mypy/pytest）→ 更新 docs/logs → commit → push 分支 → 建立 PR**。
 - **Commit 節奏**：一個邏輯單元一個 commit；訊息遵循 Conventional Commits（例：`feat(core): add scoring`）。
 - **Agent 自動提交限制**：
-  - 僅允許對 **`docs/**` 與 **`logs/**`** 的純內容變更自動 **commit & push 到 default branch**；
-  - 任何涉及 **`src/**` 或 **`tests/**`** 的改動，**不得**自動提交，需由使用者確認後自行提交到 default branch。
+  - 僅允許對 **`docs/**` 與 **`logs/**`** 的純內容變更自動 **commit & push 到 feature 分支**，並自動建立 PR；
+  - 任何涉及 **`src/**` 或 **`tests/**`** 的改動，**不得**自動提交，務必走 PR 審查；
+  - **嚴禁**任何情況下直推 `main`/`master`。
 
 ---
 
-## 6) 提交前自檢（必做）
+## 6) PR 檢查清單（提交前自檢）
 - `ruff check .` ✅  
 - `pytest -q` ✅  
 - 若有啟用型別檢查：`mypy src/` ✅  
 - 本次若改了 `src/**` 或 `tests/**` → **必須**同時更新 `docs/**` 或 `logs/**`（至少一者） ✅  
+- PR 標題：`[模組] 簡述`；描述包含動機與測試要點 ✅
 
-> CI 會比照上述條件執行；不合規變更將被退回修正。
+> CI 會比照上述條件執行；不合規 PR 將被拒絕。
 
 ---
 
