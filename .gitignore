@@ -51,3 +51,6 @@ docs/local_issue_notes.md
 # Local workspaces and IDE artifacts
 .specstory/
 workspaces/spoken_language_models/
+
+
+*.pdf
