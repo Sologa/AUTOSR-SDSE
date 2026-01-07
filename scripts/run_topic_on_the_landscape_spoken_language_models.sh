@@ -9,6 +9,7 @@ python scripts/topic_pipeline.py seed --topic "$TOPIC" \
   --seed-rewrite \
   --seed-rewrite-max-attempts 2 \
   --seed-rewrite-model gpt-5.2
+  
 python scripts/topic_pipeline.py filter-seed --topic "$TOPIC"
 python scripts/topic_pipeline.py keywords --topic "$TOPIC"
 python scripts/topic_pipeline.py harvest --topic "$TOPIC"

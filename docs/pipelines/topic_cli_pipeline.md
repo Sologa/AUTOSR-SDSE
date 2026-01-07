@@ -283,7 +283,7 @@ flowchart TD
 - 分歧/特殊情況：
   - 若 `OPENAI_API_KEY` 未設定 → 直接報錯。
   - 若 metadata 檔不存在 → 直接報錯。
-  - 會略過 title/abstract 缺失者，或 title 含 `skip_titles_containing`（預設 "survey"）。
+  - 會略過 title/abstract 缺失者，或 title 含 `skip_titles_containing`（預設 "***"）。
   - 若 criteria 內含 `exclude_title` 或 `cutoff_before_date`，會在審查前直接標記為 `discard`，不送 LLM；仍會出現在結果中，並標註 `review_skipped=true`、`discard_reason`。
   - 若過濾後無可審核條目但有 discard → 仍輸出結果（僅包含 discard）。
   - 若過濾後無可審核且無 discard → 直接報錯。

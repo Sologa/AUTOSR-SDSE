@@ -31,15 +31,25 @@
   },
   "cutoff_date": "2025-06-12",
   "topic_title_normalized": "discrete audio tokens more than a survey",
-  "records_total": 2,
-  "records_after_title_filter": 2,
-  "records_after_filter": 1,
-  "download_top_k": 8,
+  "records_total": 11,
+  "records_after_title_filter": 5,
+  "records_after_filter": 3,
+  "download_top_k": 5,
   "download_selected": [
     {
-      "arxiv_id": "2502.06490",
-      "title": "Recent Advances in Discrete Speech Tokens: A Review",
-      "published": "2025-02-10T14:08:25Z"
+      "arxiv_id": "2502.12448",
+      "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+      "published": "2025-02-18T02:29:51Z"
+    },
+    {
+      "arxiv_id": "2502.19548",
+      "title": "When Large Language Models Meet Speech: A Survey on Integration Approaches",
+      "published": "2025-02-26T20:40:49Z"
+    },
+    {
+      "arxiv_id": "2502.08869",
+      "title": "Harnessing Vision Models for Time Series Analysis: A Survey",
+      "published": "2025-02-13T00:42:11Z"
     }
   ],
   "candidates": [
@@ -58,23 +68,65 @@
       }
     },
     {
-      "arxiv_id": "2502.06490",
-      "title": "Recent Advances in Discrete Speech Tokens: A Review",
-      "published": "2025-02-10T14:08:25Z",
-      "published_date": "2025-02-10",
+      "arxiv_id": "2502.12448",
+      "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+      "published": "2025-02-18T02:29:51Z",
+      "published_date": "2025-02-18",
       "similarity": {
         "best_variant": "Discrete Audio Tokens: More Than a Survey!",
-        "sequence_ratio": 0.4782608695652174,
+        "sequence_ratio": 0.2872340425531915,
+        "token_containment": 0.6,
+        "topic": "Discrete Audio Tokens: More Than a Survey!",
+        "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+        "score": 0.6
+      }
+    },
+    {
+      "arxiv_id": "2507.22920",
+      "title": "Discrete Tokenization for Multimodal LLMs: A Comprehensive Survey",
+      "published": "2025-07-21T10:52:14Z",
+      "published_date": "2025-07-21",
+      "similarity": {
+        "best_variant": "Discrete Audio Tokens: More Than a Survey!",
+        "sequence_ratio": 0.5471698113207547,
+        "token_containment": 0.6,
+        "topic": "Discrete Audio Tokens: More Than a Survey!",
+        "title": "Discrete Tokenization for Multimodal LLMs: A Comprehensive Survey",
+        "score": 0.6
+      }
+    },
+    {
+      "arxiv_id": "2502.19548",
+      "title": "When Large Language Models Meet Speech: A Survey on Integration Approaches",
+      "published": "2025-02-26T20:40:49Z",
+      "published_date": "2025-02-26",
+      "similarity": {
+        "best_variant": "Discrete Audio Tokens: More Than a Survey!",
+        "sequence_ratio": 0.3826086956521739,
         "token_containment": 0.5,
         "topic": "Discrete Audio Tokens: More Than a Survey!",
-        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "title": "When Large Language Models Meet Speech: A Survey on Integration Approaches",
+        "score": 0.5
+      }
+    },
+    {
+      "arxiv_id": "2502.08869",
+      "title": "Harnessing Vision Models for Time Series Analysis: A Survey",
+      "published": "2025-02-13T00:42:11Z",
+      "published_date": "2025-02-13",
+      "similarity": {
+        "best_variant": "Discrete Audio Tokens: More Than a Survey!",
+        "sequence_ratio": 0.44,
+        "token_containment": 0.5,
+        "topic": "Discrete Audio Tokens: More Than a Survey!",
+        "title": "Harnessing Vision Models for Time Series Analysis: A Survey",
         "score": 0.5
       }
     }
   ],
-  "anchor_mode": "token_and",
-  "search_query": "(ti:(\"discrete\" AND \"speech\" AND \"tokens\") OR ti:(\"discrete\" AND \"audio\" AND \"tokens\")) AND (ti:\"survey\" OR ti:\"review\" OR ti:\"overview\" OR ti:\"systematic review\" OR ti:\"systematic literature review\" OR ti:\"scoping review\" OR ti:\"mapping study\" OR ti:\"tutorial\")",
-  "scope": "ti",
+  "anchor_mode": "phrase",
+  "search_query": "(all:\"discrete audio tokens\" OR all:\"audio tokens\" OR all:\"discrete tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "scope": "all",
   "boolean_operator": "AND",
   "raw_query": null
 }

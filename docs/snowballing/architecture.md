@@ -14,7 +14,7 @@
   - `review/latte_review_results.json`
 - 重要行為：
   - 若 `criteria.json` 內含 `exclude_title` 或 `cutoff_before_date`，會在 review 前直接標記為 discard（不送 LLM）。
-  - `skip_titles_containing` 預設為 `survey`，標題包含該字串者會被跳過（不進 LLM review）。
+- `skip_titles_containing` 預設為 `***`，標題包含該字串者會被跳過（不進 LLM review）。
   - Review 僅處理 **有摘要** 的條目（無摘要會被略過）。
 
 ### 1.2 Snowballing（ASReview + OpenAlex）
@@ -196,7 +196,7 @@ workspaces/<topic>/snowball_rounds/
    - non-final：`needs_enrichment` / `error` / `temp_discard`
    - 去重時僅排除 final + hard_exclude
 
-2) **`skip_titles_containing=survey` 改為可配置**
+2) **`skip_titles_containing` 預設 `***`，且可配置**
    - 預設關閉或改成 `seed_only`（保留作為種子，避免完全跳過）
 
 3) **criteria 變更保護**

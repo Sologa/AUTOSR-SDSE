@@ -1,24 +1,48 @@
 {
   "topic": "Discrete Audio Tokens: More Than a Survey!",
   "model": "gpt-5-mini",
-  "generated_at": "2026-01-02T03:45:23.599840+00:00",
+  "generated_at": "2026-01-07T05:01:32.263204+00:00",
   "papers": [
     {
-      "arxiv_id": "2502.06490",
-      "title": "Recent Advances in Discrete Speech Tokens: A Review",
-      "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+      "arxiv_id": "2502.08869",
+      "title": "Harnessing Vision Models for Time Series Analysis: A Survey",
+      "abstract": "Time series analysis has witnessed the inspiring development from traditional autoregressive models, deep learning models, to recent Transformers and Large Language Models (LLMs). Efforts in leveraging vision models for time series analysis have also been made along the way but are less visible to the community due to the predominant research on sequence modeling in this domain. However, the discrepancy between continuous time series and the discrete token space of LLMs, and the challenges in explicitly modeling the correlations of variates in multivariate time series have shifted some research attentions to the equally successful Large Vision Models (LVMs) and Vision Language Models (VLMs). To fill the blank in the existing literature, this survey discusses the advantages of vision models over LLMs in time series analysis. It provides a comprehensive and in-depth overview of the existing methods, with dual views of detailed taxonomy that answer the key research questions including how to encode time series as images and how to model the imaged time series for various tasks. Additionally, we address the challenges in the pre- and post-processing steps involved in this framework and outline future directions to further advance time series analysis with vision models.",
+      "decision": "no",
+      "reason": "本文雖為綜述，但主題聚焦於視覺模型與時間序列分析，與離散音頻標記主題不符。",
+      "confidence": 0.9,
+      "fallback_decision": "no",
+      "fallback_reason": "本文聚焦於視覺模型在時序分析的應用與分類，與離散音頻標記主題不直接相關。",
+      "fallback_confidence": 0.9
+    },
+    {
+      "arxiv_id": "2502.12448",
+      "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+      "abstract": "Discrete tokenizers have emerged as indispensable components in modern machine learning systems, particularly within the context of autoregressive modeling and large language models (LLMs). These tokenizers serve as the critical interface that transforms raw, unstructured data from diverse modalities into discrete tokens, enabling LLMs to operate effectively across a wide range of tasks. Despite their central role in generation, comprehension, and recommendation systems, a comprehensive survey dedicated to discrete tokenizers remains conspicuously absent in the literature. This paper addresses this gap by providing a systematic review of the design principles, applications, and challenges of discrete tokenizers. We begin by dissecting the sub-modules of tokenizers and systematically demonstrate their internal mechanisms to provide a comprehensive understanding of their functionality and design. Building on this foundation, we synthesize state-of-the-art methods, categorizing them into multimodal generation and comprehension tasks, and semantic tokens for personalized recommendations. Furthermore, we critically analyze the limitations of existing tokenizers and outline promising directions for future research. By presenting a unified framework for understanding discrete tokenizers, this survey aims to guide researchers and practitioners in addressing open challenges and advancing the field, ultimately contributing to the development of more robust and versatile AI systems.",
+      "decision": "no",
+      "reason": "本文为关于离散分词器的综合综述，但并未明确聚焦于离散音频令牌（Discrete Audio Tokens），与主题不直接匹配。",
+      "confidence": 0.9,
+      "fallback_decision": "yes",
+      "fallback_reason": "題目與摘要明確為離散標記器的綜述，涵蓋設計原則、方法分類與應用，對抽取關鍵詞很有價值。",
+      "fallback_confidence": 0.92
+    },
+    {
+      "arxiv_id": "2502.19548",
+      "title": "When Large Language Models Meet Speech: A Survey on Integration Approaches",
+      "abstract": "Recent advancements in large language models (LLMs) have spurred interest in expanding their application beyond text-based tasks. A large number of studies have explored integrating other modalities with LLMs, notably speech modality, which is naturally related to text. This paper surveys the integration of speech with LLMs, categorizing the methodologies into three primary approaches: text-based, latent-representation-based, and audio-token-based integration. We also demonstrate how these methods are applied across various speech-related applications and highlight the challenges in this field to offer inspiration for",
       "decision": "yes",
-      "reason": "文章标题与摘要明确表明为综述，系统总结并评估了离散语音令牌的分类与进展，与主题直接相关。",
-      "confidence": 0.95
+      "reason": "文章明確標示為關於語音與大型語言模型整合的綜述，且包含音頻標記（audio-token）相關方法，與題目直接相關。",
+      "confidence": 0.9
     }
   ],
   "fallback": {
     "enabled": true,
-    "triggered": false,
+    "triggered": true,
     "min_selected": 2,
     "selected_before": 1,
-    "selected_after": 1,
-    "added": [],
-    "prompt_path": null
+    "selected_after": 2,
+    "added": [
+      "2502.12448"
+    ],
+    "prompt_path": "resources/LLM/prompts/filter_seed/llm_screening_fallback.md"
   }
 }

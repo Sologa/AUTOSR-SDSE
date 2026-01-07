@@ -21,7 +21,7 @@
 - `--min-date / --max-date`：套用到 snowball 硬性過濾
 - 若未指定 `--max-date` 且 `criteria.json` 含 `cutoff_before_date`，snowball 會自動套用 `max_date = cutoff_before_date - 1 day`
 - `--review-top-k`：限制每輪送 LatteReview 的筆數（省成本）
-- `--skip-titles-containing`：review 階段跳過標題包含字串（預設 survey）
+- `--skip-titles-containing`：review 階段跳過標題包含字串（預設 ***）
 - `--registry`：指定 `review_registry.json`
 - `--retain-registry`：保留既有 registry（預設會清空並以 base review 重建）
 - `--bootstrap-review`：指定初始 review 結果（預設 workspace/review/latte_review_results.json）

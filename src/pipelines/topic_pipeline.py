@@ -1386,13 +1386,27 @@ def _parse_decision_payload(content: str) -> Dict[str, object]:
     return {"decision": decision, "reason": reason, "confidence": confidence}
 
 
-def _parse_seed_rewrite_phrase(content: str) -> str:
-    """Validate and normalize a single-line seed rewrite output."""
+def _parse_seed_rewrite_phrase(content: str, *, max_phrases: int = 3) -> List[str]:
+    """Validate and normalize seed rewrite output into up to N phrases."""
     raw = (content or "").splitlines()
-    lines = [line for line in raw if line.strip()]
-    if len(lines) != 1:
-        raise ValueError("Seed rewrite output must contain exactly one non-empty line")
-    return lines[0].strip().lower()
+    lines = [line.strip() for line in raw if line.strip()]
+    if not lines:
+        raise ValueError("Seed rewrite output must contain at least one non-empty line")
+    if len(lines) > max_phrases:
+        raise ValueError("Seed rewrite output must contain no more than three lines")
+    phrases: List[str] = []
+    seen: set[str] = set()
+    for line in lines:
+        phrase = line.strip().lower()
+        if not phrase:
+            continue
+        if phrase in seen:
+            continue
+        seen.add(phrase)
+        phrases.append(phrase)
+    if not phrases:
+        raise ValueError("Seed rewrite output must contain at least one non-empty line")
+    return phrases
 
 
 def _build_seed_rewrite_prompt(
@@ -1437,8 +1451,8 @@ class SeedQueryRewriteAgent:
         cutoff_candidate_title: str,
         original_seed_query: str,
         attempt: int,
-    ) -> Tuple[str, str]:
-        """Call the LLM to rewrite a seed query into a single phrase."""
+    ) -> Tuple[List[str], str]:
+        """Call the LLM to rewrite a seed query into up to three phrases."""
         load_env_file()
         prompt = _build_seed_rewrite_prompt(
             topic=topic,
@@ -1464,8 +1478,8 @@ class SeedQueryRewriteAgent:
         )
         if not isinstance(result, LLMResult):
             raise ProviderCallError("Provider did not return an LLMResult")
-        phrase = _parse_seed_rewrite_phrase(result.content)
-        return phrase, result.content
+        phrases = _parse_seed_rewrite_phrase(result.content)
+        return phrases, result.content
 
 
 def _build_filter_seed_prompt(
@@ -1863,7 +1877,7 @@ def seed_surveys_from_arxiv(
 
         trigger_rewrite, trigger_reason = _should_trigger_seed_rewrite(selection_report, download_manifest)
         rewrite_payload: Optional[Dict[str, object]] = None
-        selected_query: Optional[str] = None
+        selected_queries: Optional[List[str]] = None
         final_selection_report = selection_report
         final_download_manifest = download_manifest
         final_pdfs = list(original_pdfs)
@@ -1886,12 +1900,13 @@ def seed_surveys_from_arxiv(
                     "model": agent.model,
                     "provider": agent.provider,
                     "raw_output": None,
+                    "parsed_phrases": None,
                     "parsed_phrase": None,
                     "status": None,
                     "error": None,
                 }
                 try:
-                    phrase, raw_output = agent.rewrite_query(
+                    phrases, raw_output = agent.rewrite_query(
                         topic=workspace.topic,
                         cutoff_reason=str(selection_report.get("cutoff_reason") or ""),
                         cutoff_candidate_title=cutoff_candidate_title,
@@ -1899,7 +1914,8 @@ def seed_surveys_from_arxiv(
                         attempt=attempt,
                     )
                     attempt_record["raw_output"] = raw_output
-                    attempt_record["parsed_phrase"] = phrase
+                    attempt_record["parsed_phrases"] = phrases
+                    attempt_record["parsed_phrase"] = phrases[0] if phrases else None
                     attempt_record["status"] = "ok"
                 except Exception as exc:  # noqa: BLE001
                     attempt_record["status"] = "error"
@@ -1908,13 +1924,13 @@ def seed_surveys_from_arxiv(
                     continue
 
                 rewrite_attempts.append(attempt_record)
-                selected_query = phrase
+                selected_queries = phrases
 
                 if seed_rewrite_preview:
                     break
 
                 attempt_selection, attempt_manifest, _ = _run_seed_attempt(
-                    attempt_anchors=[phrase],
+                    attempt_anchors=phrases,
                     query_mode="phrase",
                     raw_query=None,
                     reuse_cache=False,
@@ -1930,7 +1946,7 @@ def seed_surveys_from_arxiv(
                 "topic": workspace.topic,
                 "trigger_reason": trigger_reason,
                 "attempts": rewrite_attempts,
-                "selected_query": selected_query,
+                "selected_queries": selected_queries,
                 "original_seed_query": search_query or "",
                 "cutoff_reason": str(selection_report.get("cutoff_reason") or ""),
                 "cutoff_candidate_title": cutoff_candidate_title,
@@ -1948,16 +1964,20 @@ def seed_surveys_from_arxiv(
             if not final_pdfs and not original_pdfs:
                 _write_json(queries_dir / "seed_rewrite.json", rewrite_payload)
                 final_download_manifest["rewrite_attempts"] = len(rewrite_attempts)
-                if selected_query:
-                    final_download_manifest["rewrite_query"] = selected_query
+                if selected_queries:
+                    final_download_manifest["rewrite_query"] = selected_queries[0]
+                    final_download_manifest["rewrite_queries"] = selected_queries
                 _write_json(workspace.seed_downloads_dir / "download_results.json", final_download_manifest)
                 raise ValueError("Seed rewrite exhausted without PDFs")
 
         if rewrite_payload is not None:
             _write_json(queries_dir / "seed_rewrite.json", rewrite_payload)
             final_download_manifest["rewrite_attempts"] = len(rewrite_payload["attempts"])
-            if rewrite_payload.get("selected_query"):
-                final_download_manifest["rewrite_query"] = rewrite_payload["selected_query"]
+            if rewrite_payload.get("selected_queries"):
+                selected = rewrite_payload["selected_queries"]
+                if isinstance(selected, list) and selected:
+                    final_download_manifest["rewrite_query"] = selected[0]
+                    final_download_manifest["rewrite_queries"] = selected
 
         _write_json(workspace.seed_downloads_dir / "download_results.json", final_download_manifest)
 
@@ -2695,7 +2715,7 @@ def run_latte_review(
     criteria_path: Optional[Path] = None,
     output_path: Optional[Path] = None,
     top_k: Optional[int] = None,
-    skip_titles_containing: str = "survey",
+    skip_titles_containing: str = "***",
     discard_title: Optional[str] = None,
     discard_after_date: Optional[str] = None,
     junior_nano_model: str = "gpt-5-nano",
@@ -3100,7 +3120,7 @@ def run_snowball_iterative(
     skip_forward: bool = False,
     skip_backward: bool = False,
     review_top_k: Optional[int] = None,
-    skip_titles_containing: Optional[str] = "survey",
+    skip_titles_containing: Optional[str] = "***",
     registry_path: Optional[Path] = None,
     retain_registry: bool = False,
     bootstrap_review: Optional[Path] = None,

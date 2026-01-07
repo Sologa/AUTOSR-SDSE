@@ -252,7 +252,7 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--skip-forward", action="store_true")
     parser.add_argument("--skip-backward", action="store_true")
     parser.add_argument("--review-top-k", type=int, default=None)
-    parser.add_argument("--skip-titles-containing", default="survey")
+    parser.add_argument("--skip-titles-containing", default="***")
     parser.add_argument("--registry", type=Path, default=None)
     parser.add_argument(
         "--retain-registry",

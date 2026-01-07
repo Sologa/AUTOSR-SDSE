@@ -15,22 +15,23 @@
 - Rewrite agent：`SeedQueryRewriteAgent`
 - 模型：`gpt-5.2`（可由 CLI 參數覆寫）
 - Prompt：`resources/LLM/prompts/seed/seed_query_rewrite.md`
-- 目標：把「標題式 query」縮成 **更廣的核心領域片語**，移除標題修飾語（如 On/overview/comprehensive/survey 等）。
+- 目標：把「標題式 query」縮成 **更廣的核心領域片語**，移除非核心的標題修飾語或情境描述。
+- 允許在不引入新領域概念的前提下，使用常見同義/近義詞替換核心名詞。
 
 ### 輸出限制（嚴格）
-- 只允許 **單一片語**（單行）。
+- 允許 **1~3 個片語**（每行一個）。
 - 不可修飾、不可加標號/引號/解釋。
 - 輸出必須是 **核心領域片語**，不得是原題名或其改寫。
 - 輸出 **一律小寫**。
 - **解析規則**：
   1) 讀取 LLM 原文，按行拆分。
-  2) 移除空行後必須只剩 1 行，否則視為失敗。
-  3) 取得該行作為 `selected_query`，**只允許 `strip()` 後轉為小寫**。
+  2) 移除空行後需保留 1~3 行，否則視為失敗。
+  3) 每行作為一個片語，`strip()` 後轉為小寫；去除重複但保留原順序。
   4) 禁止其他正規化（如去標點、替換同義詞）。
 
 ### arXiv Query 組合規則
 - 改寫用 **phrase** 方式嵌入查詢（避免 token_and 造成字詞正規化）。
-- `selected_query` 原樣帶入查詢，不改寫片語內容。
+- `selected_queries` 內每個片語原樣帶入查詢，使用 OR 組合。
 
 ## 介面 / 參數
 - `--seed-rewrite`：啟用改寫（預設關閉）
@@ -42,15 +43,16 @@
 - `seed/queries/seed_rewrite.json`
   - `topic`
   - `trigger_reason`
-  - `attempts[]`（含 raw_output / parsed_phrase / status / error）
-  - `selected_query`
+  - `attempts[]`（含 raw_output / parsed_phrases / parsed_phrase / status / error）
+- `selected_queries`
   - `original_seed_query`
   - `cutoff_reason` / `cutoff_candidate_title`
   - `generated_at`
   - `preview_only`
 - `seed/downloads/download_results.json`
   - `rewrite_attempts`
-  - `rewrite_query`（如有）
+  - `rewrite_query`（如有，第一個片語）
+  - `rewrite_queries`（如有，完整片語清單）
 
 ## 行為重點
 - 只要觸發條件成立且 `--seed-rewrite` 開啟，就會進入改寫流程。
