@@ -32,6 +32,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.pipelines.topic_pipeline import (
+    backfill_arxiv_metadata_from_dblp_titles,
     extract_keywords_from_seed_pdfs,
     filter_seed_papers_with_llm,
     generate_structured_criteria,
@@ -142,6 +143,12 @@ def build_parser() -> argparse.ArgumentParser:
     other.add_argument("--request-pause", type=float, default=0.3)
     other.add_argument("--no-semantic-scholar", action="store_true")
     other.add_argument("--no-dblp", action="store_true")
+    other.add_argument(
+        "--dblp-title-arxiv",
+        action="store_true",
+        help="用 DBLP title 回查 arXiv 並合併到 arxiv_metadata.json",
+    )
+    other.add_argument("--dblp-title-arxiv-max-results", type=_positive_int, default=10)
     other.add_argument("--force", action="store_true")
 
     criteria = add_subparser("criteria", help="（選用）產生 structured criteria JSON")
@@ -342,6 +349,14 @@ def main(argv: Optional[List[str]] = None) -> int:
             include_dblp=not args.no_dblp,
             force=args.force,
         )
+        if args.dblp_title_arxiv:
+            backfill_result = backfill_arxiv_metadata_from_dblp_titles(
+                ws,
+                max_results_per_title=args.dblp_title_arxiv_max_results,
+                request_pause=args.request_pause,
+                force=args.force,
+            )
+            result.update(backfill_result)
         print(result)
         return 0
 

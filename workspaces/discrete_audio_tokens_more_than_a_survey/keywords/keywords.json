@@ -1,0 +1,232 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "anchor_terms": [
+    "discrete speech tokens",
+    "speech tokenization",
+    "acoustic tokens",
+    "semantic tokens"
+  ],
+  "search_terms": {
+    "quantization_methods": [
+      "offline clustering",
+      "k-means",
+      "vector quantization",
+      "gumbel vq",
+      "finite scalar quantization",
+      "residual vq",
+      "straight through estimator",
+      "grouped vq"
+    ],
+    "acoustic_token_models": [
+      "acoustic tokens",
+      "semantic distillation",
+      "neural codec",
+      "vq-gan",
+      "vq-vae",
+      "diffusion",
+      "transformer",
+      "disentanglement",
+      "single codebook"
+    ],
+    "semantic_token_models": [
+      "semantic tokens",
+      "self supervised learning",
+      "hubert",
+      "wav2vec",
+      "wavlm",
+      "vq-wav2vec",
+      "supervised tokenizer",
+      "internal quantization",
+      "external quantization"
+    ],
+    "length_reduction": [
+      "deduplication",
+      "acoustic bpe",
+      "variable frame rate",
+      "length reduction",
+      "byte pair encoding",
+      "unit discovery",
+      "frame rate",
+      "variable bitrate"
+    ],
+    "evaluation_benchmarks": [
+      "reconstruction metrics",
+      "pesq",
+      "stoi",
+      "word error rate",
+      "gross pitch error",
+      "codebook utilization",
+      "codec-superb",
+      "dasb"
+    ],
+    "downstream_applications": [
+      "discrete speech tokens",
+      "speech tokenization",
+      "speech token vocoder",
+      "voice conversion",
+      "speech generation",
+      "text to speech",
+      "spoken language modeling",
+      "spoken language understanding",
+      "speech translation",
+      "decoder-only transformers"
+    ]
+  },
+  "papers": [
+    {
+      "id": "guo_discrete_speech_tokens_2025",
+      "source_id": "arXiv:2502.06490",
+      "title": "Recent Advances in Discrete Speech Tokens: A Review",
+      "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+      "year": "2025",
+      "source_url": "https://arxiv.org/abs/2502.06490v4",
+      "pdf_path": "workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf",
+      "detected_keywords": [
+        {
+          "term": "discrete speech tokens",
+          "category": "downstream_applications",
+          "evidence": {
+            "quote": "has established discrete speech tokens as a foundational paradigm for speech representation.",
+            "page": "1"
+          },
+          "confidence": 0.65
+        },
+        {
+          "term": "speech tokenization",
+          "category": "downstream_applications",
+          "evidence": {
+            "quote": "a necessary step before applying speech data to LLM is the tokenization of speech",
+            "page": "1"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "acoustic tokens",
+          "category": "acoustic_token_models",
+          "evidence": {
+            "quote": "two types of speech tokens: acoustic tokens and semantic tokens.",
+            "page": "1"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "semantic tokens",
+          "category": "semantic_token_models",
+          "evidence": {
+            "quote": "two types of speech tokens: acoustic tokens and semantic tokens.",
+            "page": "1"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "offline clustering",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "A. Offline Clustering",
+            "page": "2"
+          },
+          "confidence": 0.48
+        },
+        {
+          "term": "k-means",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "The most frequently used clustering method for discrete speech tokens is k-means clustering",
+            "page": "2"
+          },
+          "confidence": 0.52
+        },
+        {
+          "term": "vector quantization",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "vector quantization (VQ) [44] enables a learnable network module",
+            "page": "2"
+          },
+          "confidence": 0.55
+        },
+        {
+          "term": "Gumbel VQ",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "2) Gumbel VQ:",
+            "page": "3"
+          },
+          "confidence": 0.42
+        },
+        {
+          "term": "finite scalar quantization",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "3) Finite Scalar Quantization (FSQ):",
+            "page": "3"
+          },
+          "confidence": 0.46
+        },
+        {
+          "term": "residual VQ",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "2) Residual VQ (RVQ), also known as multi-stage quantization",
+            "page": "4"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "semantic distillation",
+          "category": "acoustic_token_models",
+          "evidence": {
+            "quote": "The process of introducing semantic information into acoustic tokens is termed semantic distillation",
+            "page": "7"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "speech token vocoder",
+          "category": "downstream_applications",
+          "evidence": {
+            "quote": "a speech token vocoder\n(also known as speech resynthesis model) becomes necessary.",
+            "page": "10"
+          },
+          "confidence": 0.48
+        },
+        {
+          "term": "deduplication",
+          "category": "length_reduction",
+          "evidence": {
+            "quote": "A common approach to reduce token sequence lengths is deduplication",
+            "page": "11"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "acoustic BPE",
+          "category": "length_reduction",
+          "evidence": {
+            "quote": "Another popular approach is acoustic byte-pair encoding\n(BPE)",
+            "page": "11"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "variable frame rate",
+          "category": "length_reduction",
+          "evidence": {
+            "quote": "This kind of discrete speech tokens is referred to as variable frame rate (VFR) tokens in this review.",
+            "page": "11"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "voice conversion",
+          "category": "downstream_applications",
+          "evidence": {
+            "quote": "we conduct voice\nconversion (VC) experiments",
+            "page": "14"
+          },
+          "confidence": 0.45
+        }
+      ]
+    }
+  ]
+}

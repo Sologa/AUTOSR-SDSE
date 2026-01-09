@@ -236,12 +236,16 @@ flowchart TD
 - API：`paper_workflows.search_semantic_scholar_for_topic`、`paper_workflows.search_dblp_for_topic`
 - CLI：
   - `python scripts/topic_pipeline.py harvest-other --topic "<topic>"`
+  - `python scripts/topic_pipeline.py harvest-other --topic "<topic>" --dblp-title-arxiv`
 - 產物：
   - `harvest/semantic_scholar_records.json`
   - `harvest/dblp_records.json`
+  - `harvest/dblp_title_arxiv_matches.json`（啟用 `--dblp-title-arxiv` 才會產生）
+  - `harvest/arxiv_metadata.json`（啟用 `--dblp-title-arxiv` 後會合併更新）
 - 分歧/特殊情況：
   - 可用 `--no-semantic-scholar` / `--no-dblp` 關閉個別來源。
   - 若對應輸出檔已存在且未 `--force` → 該來源會被跳過。
+  - `--dblp-title-arxiv` 會用 DBLP title 回查 arXiv，僅接受「標題正規化後完全一致」的匹配。
 
 ### Stage E（可選）：Criteria Consolidation（Web / PDF+Web）
 
@@ -284,6 +288,7 @@ flowchart TD
   - 若 `OPENAI_API_KEY` 未設定 → 直接報錯。
   - 若 metadata 檔不存在 → 直接報錯。
   - 會略過 title/abstract 缺失者，或 title 含 `skip_titles_containing`（預設 "***"）。
+  - 若已執行 filter-seed 且 `seed/filters/selected_ids.json` 存在，對應的 seed 論文會被**強制 include**（不送 LLM），並標記 `review_skipped=true`、`force_include_reason=seed_filter_selected`。
   - 若 criteria 內含 `exclude_title` 或 `cutoff_before_date`，會在審查前直接標記為 `discard`，不送 LLM；仍會出現在結果中，並標註 `review_skipped=true`、`discard_reason`。
   - 若過濾後無可審核條目但有 discard → 仍輸出結果（僅包含 discard）。
   - 若過濾後無可審核且無 discard → 直接報錯。

@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-01-07T10:18:45.048675+00:00",
+  "records": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "pdf",
+      "input_tokens": 54364,
+      "output_tokens": 3607,
+      "cost": 0.145635,
+      "metadata": {
+        "mode": "per_pdf",
+        "topic": "Discrete Audio Tokens: More Than a Survey!",
+        "pdf_path": "workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+      }
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "sync",
+      "input_tokens": 2421,
+      "output_tokens": 7059,
+      "cost": 0.103063,
+      "metadata": {
+        "mode": "aggregation",
+        "topic": "Discrete Audio Tokens: More Than a Survey!"
+      }
+    }
+  ],
+  "total": {
+    "input_tokens": 56785,
+    "output_tokens": 10666,
+    "cost": 0.24869799999999997
+  }
+}

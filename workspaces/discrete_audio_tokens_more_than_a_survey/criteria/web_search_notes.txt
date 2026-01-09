@@ -1,0 +1,57 @@
+### Topic Definition
+離散音訊標記（Discrete Audio Tokens）是指將連續音訊波形，透過神經音訊編碼器與量化機制（如向量量化、殘差向量量化等），轉換為有限詞彙集合中的離散符號序列。此類表示旨在在大幅降低位元率與序列長度的同時，保留可感知音質、語音語義（如音素、語義結構）以及說話人或聲學特徵，使音訊能以「類文字 token」的形式被語言模型處理。該概念最初源自神經音訊編碼（neural audio codec），近年則成為音訊語言模型（Audio Language Models, ALMs）與多模態大型語言模型的重要基石。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))
+
+在研究脈絡上，離散音訊標記不僅服務於重建任務（codec），更被視為一種通用中介表示，可支援語音生成、語音理解、音樂建模與一般聲音建模等下游任務。相較於傳統連續特徵（如 Mel-spectrogram），離散標記更利於自回歸或 Transformer 式語言建模，並促進跨模態對齊與長期結構建模，因此逐漸從「編碼工具」演進為「表徵學習核心能力」。([sciencestack.ai](https://www.sciencestack.ai/paper/2209.03143v2?utm_source=openai))
+
+### Summary
+近年研究顯示，離散音訊標記正從單純的語音 codec 發展為支援語義、聲學與長時結構的多層次表示。研究亮點包括極低位元率下的高保真重建，以及可直接用於音訊語言模型與多模態生成。整體趨勢顯示，token 設計與訓練目標已成為影響音訊智慧系統能力的關鍵因素。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))
+
+### Summary Topics
+S1: 神經音訊編碼與離散化方法（VQ、RVQ、多碼本）  
+S2: 語義導向與聲學導向音訊標記的分工與融合  
+S3: 離散音訊標記於音訊語言模型與生成任務中的應用  
+S4: 位元率、重建品質與下游任務效能之權衡分析  
+
+### Inclusion Criteria (Required)
+1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號轉換為有限詞彙集合中的離散符號序列，並用於重建、生成或理解等音訊任務。  
+   條件：論文需明確提出或分析「離散化音訊表示」或「audio tokenization」作為核心研究對象，且全文需為英文、可進行學術評估。  
+   source: https://arxiv.org/abs/2506.10274 （2025-06-12）  
+   topic id: S1, S2  
+
+2. 條件：論文需為同儕審查論文或可追溯之預印本（如 arXiv），並提供完整方法描述與實驗或分析。  
+   source: https://arxiv.org/abs/2209.03143 （2022-09-07）  
+   topic id: S3  
+
+### Inclusion Criteria (Any-of Groups)
+- Group 技術實作取向  
+  * Option: 提出或分析神經音訊 codec（如 SoundStream、EnCodec）並以離散 token 形式輸出。  
+    source: https://arxiv.org/abs/2209.03143 （2022-09-07）  
+    topic ids: S1, S3  
+  * Option: 著重語義強化或超低位元率之離散音訊標記設計（如語義編碼器、雙編碼架構）。  
+    source: https://arxiv.org/abs/2405.00233 （2024-04-30）  
+    topic ids: S2, S4  
+
+- Group 應用與分析取向  
+  * Option: 系統性比較、benchmark 或綜述離散音訊標記方法與下游任務效能。  
+    source: https://arxiv.org/abs/2506.10274 （2025-06-12）  
+    topic ids: S4  
+  * Option: 將離散音訊標記應用於音訊語言模型、生成或理解任務，並分析其效益。  
+    source: https://arxiv.org/abs/2504.10344 （2025-04-14）  
+    topic ids: S3  
+
+### Exclusion Criteria
+- 僅使用連續音訊特徵（如 Mel-spectrogram、MFCC），未涉及任何離散化或 token 設計之研究。  
+  source: internal  
+  topic ids: S1  
+- 僅為工程實作或程式庫說明，未提供方法創新、系統性分析或實驗驗證。  
+  source: internal  
+  topic ids: S4  
+- 研究焦點為純文字或純影像 token，僅附帶音訊作為資料來源，未探討音訊離散表示本身。  
+  source: internal  
+  topic ids: S2  
+
+### Sources
+https://arxiv.org/abs/2506.10274  
+https://arxiv.org/abs/2209.03143  
+https://arxiv.org/abs/2405.00233  
+https://arxiv.org/abs/2504.10344

@@ -20,6 +20,7 @@ import os
 import re
 import shutil
 import sys
+import time
 import types
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
@@ -1306,6 +1307,26 @@ def _load_download_metadata_index(path: Path) -> Dict[str, Dict[str, object]]:
     return index
 
 
+def _load_seed_filter_selected_ids(path: Path) -> Set[str]:
+    """Load selected arXiv ids from filter-seed output."""
+    if not path.exists():
+        return set()
+    payload = _read_json(path)
+    if not isinstance(payload, dict):
+        return set()
+    selected = payload.get("selected")
+    if not isinstance(selected, list):
+        return set()
+    ids: Set[str] = set()
+    for entry in selected:
+        if not isinstance(entry, str):
+            continue
+        trimmed = trim_arxiv_id(entry) or entry.strip()
+        if trimmed:
+            ids.add(trimmed)
+    return ids
+
+
 def _collect_downloaded_pdfs(download_manifest: Dict[str, object]) -> List[Path]:
     """Collect PDF paths listed in a download manifest."""
     if not isinstance(download_manifest, dict):
@@ -2379,6 +2400,191 @@ def harvest_other_sources(
         session.close()
 
 
+def backfill_arxiv_metadata_from_dblp_titles(
+    workspace: TopicWorkspace,
+    *,
+    dblp_path: Optional[Path] = None,
+    arxiv_metadata_path: Optional[Path] = None,
+    max_results_per_title: int = 10,
+    request_pause: float = 0.3,
+    force: bool = False,
+) -> Dict[str, object]:
+    """Backfill arXiv metadata using strict title matches from DBLP records."""
+
+    load_env_file()
+
+    dblp_source = Path(dblp_path) if dblp_path else workspace.harvest_dir / "dblp_records.json"
+    if not dblp_source.exists():
+        raise FileNotFoundError(f"找不到 DBLP records 檔案：{dblp_source}")
+
+    if max_results_per_title <= 0:
+        raise ValueError("max_results_per_title must be a positive integer")
+
+    matches_path = workspace.harvest_dir / "dblp_title_arxiv_matches.json"
+    arxiv_path = Path(arxiv_metadata_path) if arxiv_metadata_path else workspace.arxiv_metadata_path
+    if matches_path.exists() and arxiv_path.exists() and not force:
+        return {
+            "arxiv_metadata_path": str(arxiv_path),
+            "dblp_title_arxiv_matches_path": str(matches_path),
+            "skipped": True,
+            "skip_reason": "dblp_title_arxiv_matches_exists",
+        }
+
+    dblp_records = _read_json(dblp_source)
+    if not isinstance(dblp_records, list):
+        raise ValueError("DBLP records payload must be a list")
+
+    existing_entries: List[Dict[str, object]] = []
+    if arxiv_path.exists():
+        payload = _read_json(arxiv_path)
+        if not isinstance(payload, list):
+            raise ValueError("arXiv metadata payload must be a list")
+        existing_entries = payload
+
+    def _entry_arxiv_id(entry: Dict[str, object]) -> Optional[str]:
+        value = entry.get("arxiv_id")
+        if not isinstance(value, str) or not value.strip():
+            metadata = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
+            value = metadata.get("arxiv_id")
+        if not isinstance(value, str) or not value.strip():
+            return None
+        trimmed = trim_arxiv_id(value.strip())
+        return trimmed or value.strip()
+
+    aggregated: Dict[str, Dict[str, object]] = {}
+    for entry in existing_entries:
+        if not isinstance(entry, dict):
+            continue
+        arxiv_id = _entry_arxiv_id(entry)
+        if not arxiv_id or arxiv_id in aggregated:
+            continue
+        aggregated[arxiv_id] = entry
+
+    seen_title_norms: Set[str] = set()
+    matches_report: List[Dict[str, object]] = []
+    queries_run = 0
+    added = 0
+    updated = 0
+    no_match = 0
+
+    session = requests.Session()
+    try:
+        for record in dblp_records:
+            if not isinstance(record, dict):
+                continue
+            title = str(record.get("title") or "").strip()
+            if not title:
+                matches_report.append({"dblp_key": record.get("key"), "status": "missing_title"})
+                continue
+            normalized_title = _normalize_title_for_match(title)
+            if not normalized_title:
+                matches_report.append({"dblp_key": record.get("key"), "title": title, "status": "invalid_title"})
+                continue
+            if normalized_title in seen_title_norms:
+                matches_report.append(
+                    {"dblp_key": record.get("key"), "title": title, "status": "duplicate_title"}
+                )
+                continue
+            seen_title_norms.add(normalized_title)
+
+            query = _build_arxiv_phrase_clause([title], "ti")
+            if not query:
+                matches_report.append({"dblp_key": record.get("key"), "title": title, "status": "invalid_query"})
+                continue
+
+            matched_ids: List[str] = []
+            try:
+                queries_run += 1
+                candidates = _search_arxiv_with_query(session, query=query, max_results=max_results_per_title)
+            except requests.RequestException:
+                matches_report.append({"dblp_key": record.get("key"), "title": title, "status": "request_error"})
+                continue
+
+            for candidate in candidates:
+                if not isinstance(candidate, dict):
+                    continue
+                candidate_title = str(candidate.get("title") or "").strip()
+                if _normalize_title_for_match(candidate_title) != normalized_title:
+                    continue
+                arxiv_id = extract_arxiv_id_from_record(candidate)
+                if not arxiv_id:
+                    continue
+                arxiv_id = trim_arxiv_id(arxiv_id) or arxiv_id
+                matched_ids.append(arxiv_id)
+                entry = aggregated.get(arxiv_id)
+                if entry is None:
+                    try:
+                        metadata = fetch_arxiv_metadata(arxiv_id, session=session)
+                    except requests.RequestException:
+                        continue
+                    entry = {
+                        "arxiv_id": arxiv_id,
+                        "anchor": "dblp_title",
+                        "search_term": title,
+                        "search_record": candidate,
+                        "metadata": metadata,
+                        "queries": [{"anchor": "dblp_title", "search_term": title}],
+                    }
+                    aggregated[arxiv_id] = entry
+                    existing_entries.append(entry)
+                    added += 1
+                else:
+                    queries = entry.get("queries")
+                    if not isinstance(queries, list):
+                        queries = []
+                        entry["queries"] = queries
+                    marker = {"anchor": "dblp_title", "search_term": title}
+                    if marker not in queries:
+                        queries.append(marker)
+                    updated += 1
+
+            if matched_ids:
+                matches_report.append(
+                    {
+                        "dblp_key": record.get("key"),
+                        "title": title,
+                        "status": "matched",
+                        "arxiv_ids": matched_ids,
+                        "query": query,
+                    }
+                )
+            else:
+                matches_report.append(
+                    {
+                        "dblp_key": record.get("key"),
+                        "title": title,
+                        "status": "no_match",
+                        "query": query,
+                    }
+                )
+                no_match += 1
+
+            if request_pause > 0:
+                time.sleep(request_pause)
+    finally:
+        session.close()
+
+    def _sort_key(entry: Dict[str, object]) -> Tuple[str, str]:
+        arxiv_id = _entry_arxiv_id(entry) or ""
+        return ("" if arxiv_id else "~", arxiv_id)
+
+    results = sorted(
+        [entry for entry in existing_entries if isinstance(entry, dict)],
+        key=_sort_key,
+    )
+    _write_json(arxiv_path, results)
+    _write_json(matches_path, matches_report)
+
+    return {
+        "arxiv_metadata_path": str(arxiv_path),
+        "dblp_title_arxiv_matches_path": str(matches_path),
+        "dblp_title_arxiv_queries": queries_run,
+        "dblp_title_arxiv_added": added,
+        "dblp_title_arxiv_updated": updated,
+        "dblp_title_arxiv_no_match": no_match,
+    }
+
+
 def generate_structured_criteria(
     workspace: TopicWorkspace,
     *,
@@ -2781,6 +2987,9 @@ def run_latte_review(
 
     rows: List[Dict[str, object]] = []
     discarded: List[Dict[str, object]] = []
+    forced_included: List[Dict[str, object]] = []
+    forced_ids = _load_seed_filter_selected_ids(workspace.seed_filters_dir / "selected_ids.json")
+    forced_seen: Set[str] = set()
     skip_token = skip_titles_containing.strip().lower()
     normalized_discard_title = _normalize_title_for_match(discard_title) if discard_title else None
     cutoff_date = _parse_date_bound(discard_after_date, label="discard_after_date") if discard_after_date else None
@@ -2788,9 +2997,30 @@ def run_latte_review(
         if not isinstance(entry, dict):
             continue
         metadata = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
+        arxiv_id = str(
+            metadata.get("arxiv_id")
+            or entry.get("arxiv_id")
+            or extract_arxiv_id_from_record(entry)
+            or ""
+        ).strip()
+        arxiv_id = trim_arxiv_id(arxiv_id) or arxiv_id
         title = str(metadata.get("title") or "").strip()
         abstract = str(metadata.get("summary") or metadata.get("abstract") or "").strip()
         if not title:
+            continue
+        if arxiv_id and arxiv_id in forced_ids and arxiv_id not in forced_seen:
+            forced_seen.add(arxiv_id)
+            forced_included.append(
+                {
+                    "title": " ".join(title.split()),
+                    "abstract": " ".join(abstract.split()) if abstract else "",
+                    "metadata": metadata,
+                    "final_verdict": "include (seed_filter)",
+                    "review_skipped": True,
+                    "discard_reason": None,
+                    "force_include_reason": "seed_filter_selected",
+                }
+            )
             continue
         cleaned_title = " ".join(title.split())
         cleaned_abstract = " ".join(abstract.split()) if abstract else ""
@@ -2964,6 +3194,7 @@ def run_latte_review(
             review_records.append(record)
 
     output_records: List[Dict[str, object]] = []
+    output_records.extend(forced_included)
     output_records.extend(review_records)
     if discarded:
         base_record = {column: None for column in result_columns}
@@ -2984,6 +3215,7 @@ def run_latte_review(
     return {
         "review_results_path": str(out),
         "reviewed": len(review_records),
+        "forced_included": len(forced_included),
         "discarded": len(discarded),
         "total": len(output_records),
     }

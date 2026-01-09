@@ -64,6 +64,7 @@
 ### E) harvest-other（可選）
 - 入口：`python scripts/topic_pipeline.py harvest-other --topic "<topic>"`
 - 會補 Semantic Scholar / DBLP（若啟用）
+- 可選：`--dblp-title-arxiv` 會用 DBLP title 回查 arXiv，合併寫回 `harvest/arxiv_metadata.json`
 
 ### F) criteria（可選）
 - 入口：`python scripts/topic_pipeline.py criteria --topic "<topic>" --mode web|pdf+web`

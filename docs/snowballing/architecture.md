@@ -14,7 +14,8 @@
   - `review/latte_review_results.json`
 - 重要行為：
   - 若 `criteria.json` 內含 `exclude_title` 或 `cutoff_before_date`，會在 review 前直接標記為 discard（不送 LLM）。
-- `skip_titles_containing` 預設為 `***`，標題包含該字串者會被跳過（不進 LLM review）。
+  - `skip_titles_containing` 預設為 `***`，標題包含該字串者會被跳過（不進 LLM review）。
+  - 若 `seed/filters/selected_ids.json` 存在，對應 seed 論文會被強制 include（不送 LLM）。
   - Review 僅處理 **有摘要** 的條目（無摘要會被略過）。
 
 ### 1.2 Snowballing（ASReview + OpenAlex）

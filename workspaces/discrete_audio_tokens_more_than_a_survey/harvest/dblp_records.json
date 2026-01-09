@@ -1,0 +1,260 @@
+[
+  {
+    "key": "conf/icassp/ShenGD0024",
+    "title": "Acoustic BPE for Speech Generation with Discrete Tokens.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/icassp/ShenGD0024"
+  },
+  {
+    "key": "journals/corr/abs-2310-14580",
+    "title": "Acoustic BPE for Speech Generation with Discrete Tokens.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2310-14580"
+  },
+  {
+    "key": "conf/acl/0003GXLCLL25",
+    "title": "Analyzing and Mitigating Inconsistency in Discrete Speech Tokens for Neural Codec Language Models.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/acl/0003GXLCLL25"
+  },
+  {
+    "key": "journals/corr/abs-2411-08742",
+    "title": "A Comparative Study of Discrete Speech Tokens for Semantic-Related Tasks with Large Language Models.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2411-08742"
+  },
+  {
+    "key": "conf/interspeech/OndaIFSM25",
+    "title": "Discrete Tokens Exhibit Interlanguage Speech Intelligibility Benefit: an Analytical Study Towards Accent-robust ASR Only with Native Speech Data.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/interspeech/OndaIFSM25"
+  },
+  {
+    "key": "journals/corr/abs-2505-16182",
+    "title": "Discrete Tokens Exhibit Interlanguage Speech Intelligibility Benefit: an Analytical Study Towards Accent-robust ASR Only with Native Speech Data.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2505-16182"
+  },
+  {
+    "key": "journals/corr/abs-2508-17863",
+    "title": "Speech Discrete Tokens or Continuous Features? A Comparative Analysis for Spoken Language Understanding in SpeechLLMs.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2508-17863"
+  },
+  {
+    "key": "journals/corr/abs-2509-09631",
+    "title": "DiFlow-TTS: Discrete Flow Matching with Factorized Speech Tokens for Low-Latency Zero-Shot Text-To-Speech.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2509-09631"
+  },
+  {
+    "key": "conf/interspeech/ErdoganWCBTZH23",
+    "title": "TokenSplit: Using Discrete Speech Representations for Direct, Refined, and Transcript-Conditioned Speech Separation and Recognition.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/interspeech/ErdoganWCBTZH23"
+  },
+  {
+    "key": "journals/corr/abs-2308-10415",
+    "title": "TokenSplit: Using Discrete Speech Representations for Direct, Refined, and Transcript-Conditioned Speech Separation and Recognition.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2308-10415"
+  },
+  {
+    "key": "conf/icassp/WangXGHXCLDL25",
+    "title": "Phone-purity Guided Discrete Tokens for Dysarthric Speech Recognition.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/icassp/WangXGHXCLDL25"
+  },
+  {
+    "key": "journals/corr/abs-2501-04379",
+    "title": "Phone-purity Guided Discrete Tokens for Dysarthric Speech Recognition.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2501-04379"
+  },
+  {
+    "key": "journals/corr/abs-2502-06490",
+    "title": "Recent Advances in Discrete Speech Tokens: A Review.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2502-06490"
+  },
+  {
+    "key": "journals/corr/abs-2506-16738",
+    "title": "LM-SPT: LM-Aligned Semantic Distillation for Speech Tokenization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2506-16738"
+  },
+  {
+    "key": "conf/eusipco/RouxRWD24",
+    "title": "A Comprehensive Analysis of Tokenization and Self-Supervised Learning in End-to-End Automatic Speech Recognition Applied on French Language.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/eusipco/RouxRWD24"
+  },
+  {
+    "key": "journals/corr/abs-2509-04685",
+    "title": "Say More with Less: Variable-Frame-Rate Speech Tokenization via Adaptive Clustering and Implicit Duration Coding.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2509-04685"
+  },
+  {
+    "key": "journals/corr/abs-2310-07246",
+    "title": "Vec-Tok Speech: speech vectorization and tokenization for neural speech generation.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2310-07246"
+  },
+  {
+    "key": "conf/interspeech/KandoMT25",
+    "title": "Exploring the Effect of Segmentation and Vocabulary Size on Speech Tokenization for Speech Language Models.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/interspeech/KandoMT25"
+  },
+  {
+    "key": "journals/corr/abs-2505-17446",
+    "title": "Exploring the Effect of Segmentation and Vocabulary Size on Speech Tokenization for Speech Language Models.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2505-17446"
+  },
+  {
+    "key": "conf/acl/HuangMK24",
+    "title": "RepCodec: A Speech Representation Codec for Speech Tokenization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/acl/HuangMK24"
+  },
+  {
+    "key": "conf/interspeech/MessicaA24",
+    "title": "NAST: Noise Aware Speech Tokenization for Speech Language Models.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/interspeech/MessicaA24"
+  },
+  {
+    "key": "journals/corr/abs-2406-11037",
+    "title": "NAST: Noise Aware Speech Tokenization for Speech Language Models.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2406-11037"
+  },
+  {
+    "key": "journals/corr/abs-2309-00169",
+    "title": "RepCodec: A Speech Representation Codec for Speech Tokenization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2309-00169"
+  },
+  {
+    "key": "journals/speech/AsoTTS20",
+    "title": "Acoustic model-based subword tokenization and prosodic-context extraction without language knowledge for text-to-speech synthesis.",
+    "year": "2020",
+    "url": "https://dblp.org/rec/journals/speech/AsoTTS20"
+  },
+  {
+    "key": "conf/icassp/SinghD025",
+    "title": "BEST-STD: Bidirectional Mamba-Enhanced Speech Tokenization for Spoken Term Detection.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/icassp/SinghD025"
+  },
+  {
+    "key": "conf/interspeech/KhuranaKLBNGZHH25",
+    "title": "Factorized RVQ-GAN For Disentangled Speech Tokenization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/interspeech/KhuranaKLBNGZHH25"
+  },
+  {
+    "key": "conf/icassp/WeiCLL17",
+    "title": "Personalized acoustic modeling by weakly supervised multi-task deep learning using acoustic tokens discovered from unlabeled data.",
+    "year": "2017",
+    "url": "https://dblp.org/rec/conf/icassp/WeiCLL17"
+  },
+  {
+    "key": "journals/corr/WeiCLL17",
+    "title": "Personalized Acoustic Modeling by Weakly Supervised Multi-Task Deep Learning using Acoustic Tokens Discovered from Unlabeled Data.",
+    "year": "2017",
+    "url": "https://dblp.org/rec/journals/corr/WeiCLL17"
+  },
+  {
+    "key": "journals/corr/abs-2507-12825",
+    "title": "Autoregressive Speech Enhancement via Acoustic Tokens.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2507-12825"
+  },
+  {
+    "key": "journals/corr/abs-2509-14882",
+    "title": "Llama-Mimi: Speech Language Models with Interleaved Semantic and Acoustic Tokens.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2509-14882"
+  },
+  {
+    "key": "journals/taslp/FengZM24",
+    "title": "Masking Hierarchical Tokens for Underwater Acoustic Target Recognition With Self-Supervised Learning.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/taslp/FengZM24"
+  },
+  {
+    "key": "conf/sigtype/SanPAHKAJ24",
+    "title": "Predicting positive transfer for improved low-resource speech recognition using acoustic pseudo-tokens.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/sigtype/SanPAHKAJ24"
+  },
+  {
+    "key": "journals/corr/abs-2402-02302",
+    "title": "Predicting positive transfer for improved low-resource speech recognition using acoustic pseudo-tokens.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2402-02302"
+  },
+  {
+    "key": "conf/icdip/ZhouWLWT23",
+    "title": "UATR-MSG-Transformer: A Deep Learning Network for Underwater Acoustic Target Recognition Based on Spectrogram Feature Fusion and Transformer with Messenger Tokens.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/icdip/ZhouWLWT23"
+  },
+  {
+    "key": "journals/bdcc/RodionovLKOGP25",
+    "title": "Integration of Associative Tokens into Thematic Hyperspace: A Method for Determining Semantically Significant Clusters in Dynamic Text Streams.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/bdcc/RodionovLKOGP25"
+  },
+  {
+    "key": "journals/spl/PengXXXL25",
+    "title": "Large Model Empowered Multi-Modal Semantic Communication With Selective Tokens for Training.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/spl/PengXXXL25"
+  },
+  {
+    "key": "journals/tacl/HaslettC25",
+    "title": "How Much Semantic Information is Available in Large Language Model Tokens?",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/tacl/HaslettC25"
+  },
+  {
+    "key": "conf/cvpr/KalibhatKNZSSKF25",
+    "title": "Understanding the Effect of using Semantically Meaningful Tokens for Visual Representation Learning.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/cvpr/KalibhatKNZSSKF25"
+  },
+  {
+    "key": "conf/icassp/ZhaoMLXXZAGLF25",
+    "title": "Textless Streaming Speech-to-Speech Translation using Semantic Speech Tokens.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/icassp/ZhaoMLXXZAGLF25"
+  },
+  {
+    "key": "journals/corr/abs-2505-13775",
+    "title": "Beyond Semantics: The Unreasonable Effectiveness of Reasonless Intermediate Tokens.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2505-13775"
+  },
+  {
+    "key": "journals/corr/abs-2506-19028",
+    "title": "Quantifying Fairness in LLMs Beyond Tokens: A Semantic and Statistical Perspective.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2506-19028"
+  },
+  {
+    "key": "journals/corr/abs-2508-02401",
+    "title": "CompressKV: Semantic Retrieval Heads Know What Tokens are Not Important Before Generation.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2508-02401"
+  },
+  {
+    "key": "journals/corr/abs-2508-03695",
+    "title": "Trokens: Semantic-Aware Relational Trajectory Tokens for Few-Shot Action Recognition.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2508-03695"
+  }
+]

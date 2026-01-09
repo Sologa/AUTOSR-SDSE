@@ -1,0 +1,35 @@
+### PDF Topic Definition
+本篇系統性綜述聚焦於「離散語音標記（Discrete Speech Tokens）」的技術發展與應用，特別是在大語言模型（LLM）時代下的語音生成、理解與跨模態語言建模。離散語音標記指的是將連續語音訊號經過編碼與量化，轉換為一系列離散、緊湊且符號化的單元，方便於儲存、傳輸，並能與現有的文字語言模型架構無縫整合。主題涵蓋兩大核心類型：聲學標記（Acoustic Tokens）與語意標記（Semantic Tokens），分別著重於語音重建/壓縮與語音語意抽象。評估面向包括重建品質、語者轉換、語意建模能力、下游任務表現、資訊密度、比特率、流式處理能力、可擴展性等。
+
+### PDF Key Trends
+- **離散語音標記的雙主線發展**：聲學標記（如神經語音編解碼器）強調壓縮與重建；語意標記（如SSL模型）強調語音語意抽象與下游語言任務。
+- **語音與文字的融合**：離散標記讓語音能以類似文字token的方式進行語言建模，推動語音LLM、端到端語音對話、語音生成等新應用。
+- **多樣化的量化方法**：從k-means聚類、向量量化（VQ）、殘差VQ（RVQ）、分組VQ（GVQ）、有限純量量化（FSQ）到Gumbel-Softmax等，提升壓縮效率與資訊表達力。
+- **語意蒸餾與解耦**：結合語音自監督學習（SSL）特徵、語意教師模型、語者/內容解耦等，提升標記的語意表現與下游可用性。
+- **長度縮減與可變速率標記**：為解決語音token序列過長，發展如deduplication、acoustic BPE、可變速率（VFR）tokenization等技術。
+- **應用廣泛**：涵蓋語音理解（ASR、意圖分類、語音翻譯）、語音生成（TTS、VC）、語音對話模型（SLM）、多語言/多任務統一建模等。
+
+### PDF Capability Highlights
+- 能將連續語音訊號轉換為高資訊密度、低比特率的離散符號序列。
+- 支援多種量化策略與神經網路架構（CNN、Transformer、U-Net等）。
+- 可針對語音重建、語意建模、語者/內容解耦等不同目標進行優化。
+- 能與大語言模型架構無縫整合，實現語音與文字的統一建模。
+- 支援流式（streaming）處理與低延遲應用需求。
+
+### PDF Inclusion Signals
+- 關鍵字：「discrete speech tokens」、「neural audio codec」、「speech tokenizer」、「spoken language modeling」、「semantic tokens」、「acoustic tokens」、「vector quantization」、「self-supervised learning」、「speech generation」、「token vocoder」。
+- 章節參考：Section III（聲學標記）、Section IV（語意標記）、Section V（長度縮減與可變速率）、Section VI（分析與評測）、Section VII（應用）、Section VIII（挑戰與展望）。
+- 涉及語音tokenization於語音生成、理解、對話、語音LLM等應用。
+- 探討tokenization方法對下游語音任務（如ASR、TTS、VC、SLU、S2ST）之影響。
+- 具體比較不同token類型在重建、語意建模、語者轉換等多維度的性能。
+
+### PDF Exclusion Signals
+- 只討論傳統連續語音特徵（如MFCC、梅爾頻譜）而未涉及離散化/量化者。
+- 僅針對音樂、環境聲音等非語音離散標記技術，未聚焦語音應用。
+- 只關注傳統信號處理編碼器（如MP3、Opus）而無神經網路或現代VQ方法。
+- 未涉及語音與語言模型結合、語音token下游應用、或僅為單一技術細節（如單一VQ算法改進）。
+- 研究主題偏向語者辨識、情緒辨識等單一下游任務，未討論tokenization對多任務/多模態語音建模的影響。
+
+### PDF Notes
+- Recent Advances in Discrete Speech Tokens: A Review: 
+  - 系統性梳理離散語音標記的技術發展、分類、量化方法、神經架構、語意蒸餾、解耦、長度縮減、可變速率、下游應用與挑戰，並提供跨類型統一的實驗比較與未來展望，是LLM時代語音tokenization領域的代表性綜述。

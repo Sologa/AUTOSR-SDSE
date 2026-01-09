@@ -1,0 +1,615 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "generated_at": "2026-01-07T10:51:54.648784+00:00",
+  "anchors": [
+    "discrete speech tokens",
+    "speech tokenization",
+    "acoustic tokens",
+    "semantic tokens"
+  ],
+  "search_terms": [
+    "offline clustering",
+    "k-means",
+    "vector quantization",
+    "acoustic tokens",
+    "semantic distillation",
+    "neural codec",
+    "semantic tokens",
+    "self supervised learning",
+    "hubert",
+    "deduplication",
+    "acoustic bpe",
+    "variable frame rate",
+    "reconstruction metrics",
+    "pesq",
+    "stoi",
+    "discrete speech tokens",
+    "speech tokenization",
+    "speech token vocoder"
+  ],
+  "scope": "all",
+  "boolean_operator": "OR",
+  "top_k_per_query": 100,
+  "start_date": "2022-06-12",
+  "end_date": "2025-06-11",
+  "cutoff_date": "2025-06-12",
+  "queries_run": 72,
+  "queries": [
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "offline clustering",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"offline clustering\")",
+      "records_returned": 58,
+      "records_added": 33,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "k-means",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"k-means\")",
+      "records_returned": 100,
+      "records_added": 15,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 45,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"acoustic tokens\")",
+      "records_returned": 98,
+      "records_added": 38,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "semantic distillation",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"semantic distillation\")",
+      "records_returned": 72,
+      "records_added": 17,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "neural codec",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"neural codec\")",
+      "records_returned": 100,
+      "records_added": 43,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 34,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "self supervised learning",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"self supervised learning\")",
+      "records_returned": 100,
+      "records_added": 47,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "hubert",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"hubert\")",
+      "records_returned": 100,
+      "records_added": 38,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "deduplication",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"deduplication\")",
+      "records_returned": 100,
+      "records_added": 30,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "acoustic bpe",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"acoustic bpe\")",
+      "records_returned": 37,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "variable frame rate",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"variable frame rate\")",
+      "records_returned": 53,
+      "records_added": 10,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "reconstruction metrics",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"reconstruction metrics\")",
+      "records_returned": 100,
+      "records_added": 29,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "pesq",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"pesq\")",
+      "records_returned": 100,
+      "records_added": 23,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "stoi",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"stoi\")",
+      "records_returned": 100,
+      "records_added": 18,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "discrete speech tokens",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"discrete speech tokens\")",
+      "records_returned": 35,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "speech tokenization",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"speech tokenization\")",
+      "records_returned": 100,
+      "records_added": 31,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "speech token vocoder",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"speech token vocoder\")",
+      "records_returned": 36,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "offline clustering",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"offline clustering\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "k-means",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"k-means\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"acoustic tokens\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "semantic distillation",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"semantic distillation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "neural codec",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"neural codec\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "self supervised learning",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"self supervised learning\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "hubert",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"hubert\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "deduplication",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"deduplication\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "acoustic bpe",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"acoustic bpe\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "variable frame rate",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"variable frame rate\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "reconstruction metrics",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"reconstruction metrics\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "pesq",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"pesq\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "stoi",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"stoi\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "discrete speech tokens",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"discrete speech tokens\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "speech tokenization",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"speech tokenization\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "speech tokenization",
+      "search_term": "speech token vocoder",
+      "search_query": "(all:\"speech tokenization\") OR (all:\"speech token vocoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "offline clustering",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"offline clustering\")",
+      "records_returned": 89,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "k-means",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"k-means\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"acoustic tokens\")",
+      "records_returned": 66,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "semantic distillation",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"semantic distillation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "neural codec",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"neural codec\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "self supervised learning",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"self supervised learning\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "hubert",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"hubert\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "deduplication",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"deduplication\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "acoustic bpe",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"acoustic bpe\")",
+      "records_returned": 68,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "variable frame rate",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"variable frame rate\")",
+      "records_returned": 84,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "reconstruction metrics",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"reconstruction metrics\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "pesq",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"pesq\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "stoi",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"stoi\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "discrete speech tokens",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"discrete speech tokens\")",
+      "records_returned": 98,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "speech tokenization",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"speech tokenization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "acoustic tokens",
+      "search_term": "speech token vocoder",
+      "search_query": "(all:\"acoustic tokens\") OR (all:\"speech token vocoder\")",
+      "records_returned": 67,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "offline clustering",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"offline clustering\")",
+      "records_returned": 100,
+      "records_added": 8,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "k-means",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"k-means\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"acoustic tokens\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "semantic distillation",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"semantic distillation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "neural codec",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"neural codec\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "self supervised learning",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"self supervised learning\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "hubert",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"hubert\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "deduplication",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"deduplication\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "acoustic bpe",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"acoustic bpe\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "variable frame rate",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"variable frame rate\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "reconstruction metrics",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"reconstruction metrics\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "pesq",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"pesq\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "stoi",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"stoi\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "discrete speech tokens",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"discrete speech tokens\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "speech tokenization",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"speech tokenization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "semantic tokens",
+      "search_term": "speech token vocoder",
+      "search_query": "(all:\"semantic tokens\") OR (all:\"speech token vocoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    }
+  ]
+}

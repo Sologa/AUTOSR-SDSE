@@ -1,0 +1,229 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "recency_hint": "過去3年",
+  "mode": "pdf+web",
+  "generated_at": "2026-01-07T18:11:30.417875+00:00",
+  "cutoff_before_date": null,
+  "exclude_title": null,
+  "source_validation": null,
+  "search_prompt": "你是系統性回顧助理。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n主題：Discrete Audio Tokens: More Than a Survey!。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n請先以純文字整理資訊，不要輸出 JSON、Markdown 表格或程式碼區塊。\n依序撰寫下列段落：\n### Topic Definition\n- 以 1–2 段中文精準定義主題，可包含背景脈絡與核心能力描述。\n### Summary\n- 以 2–3 句中文概述趨勢與亮點。\n### Summary Topics\n- 列 3–4 個主題節點，格式為 `S1: 描述`。\n### Inclusion Criteria (Required)\n- 僅保留必須同時滿足的條件：① 主題定義條款（以『主題定義：』+定義原文開頭）、② 提供英文可評估性的條件。\n- 每條附上來源 (source) 與對應 topic id；一般條件需為 https。\n### Inclusion Criteria (Any-of Groups)\n- 針對技術覆蓋或差異化條件建立至少一個群組，格式為 `- Group 名稱` 搭配 `* Option:`，各自附上 source 與 topic ids。\n- 群組語意為 OR：只需滿足任一群組中的任一 option 即可。\n- 若筆記中原本在 Required 段落出現多個技術細節條件，請搬移到任選群組，不要重複留在 Required。\n- 若確實沒有任選條件，再寫 `(none)`。\n### Exclusion Criteria\n- 條列需要排除的情境，同樣附來源與 topic ids；若屬於系統設定（如 exclude_title），可標示 source: internal 或留空。\n- source 必須能直接支持該排除條件；若找不到合適來源，請用 internal。\n### Sources\n- 逐行呈現所有引用來源 (https)，不包含 internal/空白來源。\n- 優先引用一手論文頁（arXiv/期刊/會議/出版社），避免動態排行榜、搜尋結果頁或彙整站作為核心依據。",
+  "structured_prompt_template": "你是系統性回顧助理。\n主題：Discrete Audio Tokens: More Than a Survey!。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n僅輸出單一 JSON 物件，鍵為：topic_definition、summary、summary_topics、inclusion_criteria、exclusion_criteria；JSON 外勿輸出其他文字。\ntopic_definition：以中文撰寫，1–2 段清楚定義主題，可補充背景脈絡與核心能力描述。\ntopic_definition 的來源應優先引用一手論文頁（如 arXiv/期刊/會議頁），避免彙整站、排行榜或動態搜尋結果頁。\nsummary：中文、簡潔扼要。\nsummary_topics：列出 3–4 項主題，每項含 id（如 S1、S2）與 description；用詞與 summary 一致。\ninclusion_criteria：每條含 criterion、source、topic_ids（至少 1 個）；僅能使用正向條件（不得寫否定句）。\ninclusion_criteria 的第一條必須以『主題定義：』+ topic_definition 原文開頭，之後接上『—』或『:』與具體條件（需逐字包含 topic_definition）。\ninclusion_criteria 中至少一條需明確要求英文（例如提供英文全文或英文評估語料）。\n若條件之間為 OR 關係，請放入 inclusion_criteria.any_of 的 options。\nany_of 群組語意：只需滿足「任一群組中的任一 option」即可；群組彼此為 OR，而非全部都必須滿足。\ninclusion_criteria 的範圍僅量廣泛，不可限縮在特定的小範圍內。\nexclusion_criteria：列『具體剔除情境』，不可是 inclusion 的鏡像否定（例如僅單一語言或單一應用、與主題無關）；每條同樣含 source、topic_ids。\nsource 規則：一般條件必須是 https；若條件屬於系統設定（例如 exclude_title），可用 source=internal 或留空，且這類來源不要放入 sources 清單。\n來源一致性：source 必須能直接支持該條件，不可使用會與條件相矛盾的來源；若找不到合適來源，請用 source=internal。\n來源選擇：避免動態排行榜、搜尋結果頁或彙整站，優先使用一手論文頁或正式出版頁。\n一致性：每條 criterion 必須對應至少一個 summary topic（以 topic_ids 連結）。",
+  "web_search_notes": "### Topic Definition\n離散音訊標記（Discrete Audio Tokens）是指將連續音訊波形，透過神經音訊編碼器與量化機制（如向量量化、殘差向量量化等），轉換為有限詞彙集合中的離散符號序列。此類表示旨在在大幅降低位元率與序列長度的同時，保留可感知音質、語音語義（如音素、語義結構）以及說話人或聲學特徵，使音訊能以「類文字 token」的形式被語言模型處理。該概念最初源自神經音訊編碼（neural audio codec），近年則成為音訊語言模型（Audio Language Models, ALMs）與多模態大型語言模型的重要基石。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n在研究脈絡上，離散音訊標記不僅服務於重建任務（codec），更被視為一種通用中介表示，可支援語音生成、語音理解、音樂建模與一般聲音建模等下游任務。相較於傳統連續特徵（如 Mel-spectrogram），離散標記更利於自回歸或 Transformer 式語言建模，並促進跨模態對齊與長期結構建模，因此逐漸從「編碼工具」演進為「表徵學習核心能力」。([sciencestack.ai](https://www.sciencestack.ai/paper/2209.03143v2?utm_source=openai))\n\n### Summary\n近年研究顯示，離散音訊標記正從單純的語音 codec 發展為支援語義、聲學與長時結構的多層次表示。研究亮點包括極低位元率下的高保真重建，以及可直接用於音訊語言模型與多模態生成。整體趨勢顯示，token 設計與訓練目標已成為影響音訊智慧系統能力的關鍵因素。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n### Summary Topics\nS1: 神經音訊編碼與離散化方法（VQ、RVQ、多碼本）  \nS2: 語義導向與聲學導向音訊標記的分工與融合  \nS3: 離散音訊標記於音訊語言模型與生成任務中的應用  \nS4: 位元率、重建品質與下游任務效能之權衡分析  \n\n### Inclusion Criteria (Required)\n1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號轉換為有限詞彙集合中的離散符號序列，並用於重建、生成或理解等音訊任務。  \n   條件：論文需明確提出或分析「離散化音訊表示」或「audio tokenization」作為核心研究對象，且全文需為英文、可進行學術評估。  \n   source: https://arxiv.org/abs/2506.10274 （2025-06-12）  \n   topic id: S1, S2  \n\n2. 條件：論文需為同儕審查論文或可追溯之預印本（如 arXiv），並提供完整方法描述與實驗或分析。  \n   source: https://arxiv.org/abs/2209.03143 （2022-09-07）  \n   topic id: S3  \n\n### Inclusion Criteria (Any-of Groups)\n- Group 技術實作取向  \n  * Option: 提出或分析神經音訊 codec（如 SoundStream、EnCodec）並以離散 token 形式輸出。  \n    source: https://arxiv.org/abs/2209.03143 （2022-09-07）  \n    topic ids: S1, S3  \n  * Option: 著重語義強化或超低位元率之離散音訊標記設計（如語義編碼器、雙編碼架構）。  \n    source: https://arxiv.org/abs/2405.00233 （2024-04-30）  \n    topic ids: S2, S4  \n\n- Group 應用與分析取向  \n  * Option: 系統性比較、benchmark 或綜述離散音訊標記方法與下游任務效能。  \n    source: https://arxiv.org/abs/2506.10274 （2025-06-12）  \n    topic ids: S4  \n  * Option: 將離散音訊標記應用於音訊語言模型、生成或理解任務，並分析其效益。  \n    source: https://arxiv.org/abs/2504.10344 （2025-04-14）  \n    topic ids: S3  \n\n### Exclusion Criteria\n- 僅使用連續音訊特徵（如 Mel-spectrogram、MFCC），未涉及任何離散化或 token 設計之研究。  \n  source: internal  \n  topic ids: S1  \n- 僅為工程實作或程式庫說明，未提供方法創新、系統性分析或實驗驗證。  \n  source: internal  \n  topic ids: S4  \n- 研究焦點為純文字或純影像 token，僅附帶音訊作為資料來源，未探討音訊離散表示本身。  \n  source: internal  \n  topic ids: S2  \n\n### Sources\nhttps://arxiv.org/abs/2506.10274  \nhttps://arxiv.org/abs/2209.03143  \nhttps://arxiv.org/abs/2405.00233  \nhttps://arxiv.org/abs/2504.10344",
+  "structured_payload": {
+    "topic": {
+      "title": "Discrete Audio Tokens: More Than a Survey!",
+      "definition": "Discrete audio/speech tokens are discrete, compact, symbol-like units produced by encoding and quantizing a continuous audio (especially speech) waveform into a sequence of symbols from a finite vocabulary, enabling storage/transmission efficiency and seamless integration with language-model-style sequence modeling for audio reconstruction, generation, understanding, and cross-/multi-modal modeling. The scope includes both acoustic tokens (focused on reconstruction/compression) and semantic tokens (focused on linguistic/semantic abstraction), and considers tokenization methods, quantization strategies, sequence-length reduction, variable-rate tokenization, streaming/latency concerns, and evaluation across reconstruction quality, bitrate/information density, and downstream task performance.",
+      "scope_notes": {
+        "core_token_types": [
+          "acoustic tokens (neural audio codecs; reconstruction/compression oriented)",
+          "semantic tokens (linguistic/semantic abstraction; often derived from SSL features/teachers)",
+          "hybrid or multi-level tokens combining acoustic and semantic information"
+        ],
+        "representative_methods": [
+          "k-means clustering",
+          "vector quantization (VQ)",
+          "residual vector quantization (RVQ)",
+          "grouped vector quantization (GVQ)",
+          "finite scalar quantization (FSQ)",
+          "Gumbel-Softmax / differentiable quantization"
+        ],
+        "sequence_efficiency_methods": [
+          "deduplication / run-length style reduction",
+          "acoustic BPE or learned token merging",
+          "variable frame-rate (VFR) tokenization"
+        ],
+        "evaluation_dimensions": [
+          "reconstruction quality and perceptual audio quality",
+          "bitrate / token rate and information density",
+          "speaker/content disentanglement and voice conversion capability",
+          "semantic modeling quality and downstream performance (e.g., ASR/SLU/S2ST/TTS/VC)",
+          "streaming capability and latency",
+          "scalability and robustness across languages/domains"
+        ],
+        "typical_applications": [
+          "spoken language modeling / speech LLMs",
+          "audio language models and multimodal LLMs",
+          "speech generation (TTS) and voice conversion (VC)",
+          "speech understanding (ASR, intent classification, SLU)",
+          "speech-to-speech translation (S2ST)",
+          "general audio modeling when discrete tokenization is central"
+        ]
+      }
+    },
+    "inclusion_criteria": {
+      "required": [
+        {
+          "criterion": "The study must explicitly propose, analyze, or evaluate discrete audio/speech tokenization as a core object of study, where a continuous audio signal is converted into a sequence of discrete symbols from a finite vocabulary for audio reconstruction, generation, and/or understanding tasks.",
+          "source": "https://arxiv.org/abs/2506.10274"
+        },
+        {
+          "criterion": "The full text must be in English and available for academic evaluation.",
+          "source": "https://arxiv.org/abs/2506.10274"
+        }
+      ],
+      "any_of_groups": [
+        {
+          "group_name": "Study type / research maturity",
+          "options": [
+            {
+              "criterion": "Peer-reviewed paper or a traceable preprint (e.g., arXiv) that provides sufficient methodological detail plus experiments and/or substantive analysis relevant to discrete audio tokens.",
+              "source": "https://arxiv.org/abs/2209.03143"
+            }
+          ]
+        },
+        {
+          "group_name": "Tokenization / codec implementation focus",
+          "options": [
+            {
+              "criterion": "Proposes or analyzes a neural audio codec that outputs discrete tokens (e.g., codec-style token sequences intended for compression and reconstruction).",
+              "source": "https://arxiv.org/abs/2209.03143"
+            },
+            {
+              "criterion": "Focuses on semantic-enhanced and/or ultra-low-bitrate discrete audio token design (e.g., semantic encoders, teacher-distilled semantics, dual-encoder or disentangled architectures) and evaluates trade-offs between bitrate, quality, and/or downstream utility.",
+              "source": "https://arxiv.org/abs/2405.00233"
+            }
+          ]
+        },
+        {
+          "group_name": "Applications, benchmarks, and analyses",
+          "options": [
+            {
+              "criterion": "Provides a systematic comparison, benchmark, or survey/review of discrete audio token methods and evaluates token choices against reconstruction and/or downstream task performance.",
+              "source": "https://arxiv.org/abs/2506.10274"
+            },
+            {
+              "criterion": "Applies discrete audio tokens to audio language modeling, audio generation, or audio understanding, and includes analysis of the benefits/limitations of tokenization choices.",
+              "source": "https://arxiv.org/abs/2504.10344"
+            }
+          ]
+        },
+        {
+          "group_name": "Efficiency, length reduction, and deployment constraints",
+          "options": [
+            {
+              "criterion": "Investigates token sequence length reduction and/or variable-rate tokenization (e.g., deduplication, token merging/BPE-style schemes, variable frame-rate tokens) and reports impacts on modeling and/or downstream performance.",
+              "source": "https://arxiv.org/abs/2506.10274"
+            },
+            {
+              "criterion": "Addresses streaming or low-latency constraints for discrete audio token generation/consumption and evaluates the impact on quality and/or task performance.",
+              "source": "https://arxiv.org/abs/2506.10274"
+            }
+          ]
+        }
+      ]
+    },
+    "exclusion_criteria": [
+      {
+        "criterion": "Studies that only use continuous audio features (e.g., Mel-spectrogram, MFCC) without any discrete quantization/token design or analysis of discrete tokenization.",
+        "source": "https://arxiv.org/abs/2506.10274"
+      },
+      {
+        "criterion": "Works focused on traditional signal-processing codecs (e.g., MP3/Opus-style) without neural encoding/modern quantization-based discrete token representations relevant to language-model-style token sequences.",
+        "source": "https://arxiv.org/abs/2209.03143"
+      },
+      {
+        "criterion": "Engineering-only reports (e.g., library/tool descriptions) without methodological contribution, systematic analysis, or experimental validation related to discrete audio tokens.",
+        "source": "https://arxiv.org/abs/2506.10274"
+      },
+      {
+        "criterion": "Studies where audio is merely a data modality while the core tokenization contribution is for text or images, and the work does not analyze discrete audio representations themselves.",
+        "source": "https://arxiv.org/abs/2504.10344"
+      },
+      {
+        "criterion": "Tokenization methods for non-speech audio only (e.g., music/environmental sound) when the study does not make its discrete token approach applicable to speech tasks or does not evaluate speech-relevant implications.",
+        "source": "https://arxiv.org/abs/2506.10274"
+      }
+    ],
+    "topic_clusters": [
+      {
+        "id": "S1",
+        "name": "Neural audio codec & discretization methods",
+        "description": "Discrete token formation from waveforms via neural encoders and quantizers (VQ/RVQ/multi-codebook/FSQ, etc.), including bitrate–quality trade-offs and reconstruction.",
+        "sources": [
+          "https://arxiv.org/abs/2209.03143",
+          "https://arxiv.org/abs/2506.10274"
+        ]
+      },
+      {
+        "id": "S2",
+        "name": "Semantic vs. acoustic tokens (and their fusion)",
+        "description": "Designs that target semantic abstraction and/or disentanglement (speaker/content) versus pure acoustic fidelity; hybrid multi-level token schemes; semantic distillation from SSL/teachers.",
+        "sources": [
+          "https://arxiv.org/abs/2405.00233",
+          "https://arxiv.org/abs/2506.10274"
+        ]
+      },
+      {
+        "id": "S3",
+        "name": "Audio language models & generation/understanding applications",
+        "description": "Using discrete audio tokens as LM-compatible sequences for spoken language modeling, audio LMs, multimodal LLM integration, and downstream tasks (ASR/SLU/S2ST/TTS/VC).",
+        "sources": [
+          "https://arxiv.org/abs/2504.10344",
+          "https://arxiv.org/abs/2209.03143"
+        ]
+      },
+      {
+        "id": "S4",
+        "name": "Evaluation and trade-off analyses",
+        "description": "Systematic evaluation across reconstruction quality, bitrate/token rate, information density, streaming/latency, scalability, and downstream task performance; benchmarks and surveys.",
+        "sources": [
+          "https://arxiv.org/abs/2506.10274",
+          "https://arxiv.org/abs/2405.00233"
+        ]
+      }
+    ],
+    "data_extraction_fields": {
+      "bibliographic": [
+        "title",
+        "authors",
+        "year",
+        "venue_or_preprint_server",
+        "url"
+      ],
+      "tokenization_method": [
+        "input_audio_type (speech / general audio / multilingual)",
+        "token_type (acoustic / semantic / hybrid)",
+        "encoder_architecture",
+        "quantization_method (VQ/RVQ/GVQ/FSQ/k-means/Gumbel-Softmax/other)",
+        "codebook_size_and_structure (single/multi-codebook; residual levels)",
+        "token_rate_or_frame_rate",
+        "bitrate (if reported)",
+        "sequence_length_reduction (dedup/BPE/VFR/etc.)",
+        "streaming_support (yes/no; latency details)"
+      ],
+      "training_objectives": [
+        "reconstruction losses",
+        "perceptual/adversarial losses",
+        "semantic distillation/teacher signals",
+        "disentanglement objectives",
+        "LM training objective (AR/MLM/other)"
+      ],
+      "evaluation": [
+        "reconstruction metrics (e.g., MOS, PESQ, STOI, SDR, other)",
+        "downstream tasks evaluated (ASR, TTS, VC, SLU, S2ST, etc.)",
+        "task metrics (e.g., WER, BLEU, accuracy)",
+        "ablation/comparison of token designs",
+        "reported limitations/failure cases"
+      ]
+    },
+    "sources": [
+      "https://arxiv.org/abs/2506.10274",
+      "https://arxiv.org/abs/2209.03143",
+      "https://arxiv.org/abs/2405.00233",
+      "https://arxiv.org/abs/2504.10344"
+    ]
+  },
+  "pdf_background": "### PDF Topic Definition\n本篇系統性綜述聚焦於「離散語音標記（Discrete Speech Tokens）」的技術發展與應用，特別是在大語言模型（LLM）時代下的語音生成、理解與跨模態語言建模。離散語音標記指的是將連續語音訊號經過編碼與量化，轉換為一系列離散、緊湊且符號化的單元，方便於儲存、傳輸，並能與現有的文字語言模型架構無縫整合。主題涵蓋兩大核心類型：聲學標記（Acoustic Tokens）與語意標記（Semantic Tokens），分別著重於語音重建/壓縮與語音語意抽象。評估面向包括重建品質、語者轉換、語意建模能力、下游任務表現、資訊密度、比特率、流式處理能力、可擴展性等。\n\n### PDF Key Trends\n- **離散語音標記的雙主線發展**：聲學標記（如神經語音編解碼器）強調壓縮與重建；語意標記（如SSL模型）強調語音語意抽象與下游語言任務。\n- **語音與文字的融合**：離散標記讓語音能以類似文字token的方式進行語言建模，推動語音LLM、端到端語音對話、語音生成等新應用。\n- **多樣化的量化方法**：從k-means聚類、向量量化（VQ）、殘差VQ（RVQ）、分組VQ（GVQ）、有限純量量化（FSQ）到Gumbel-Softmax等，提升壓縮效率與資訊表達力。\n- **語意蒸餾與解耦**：結合語音自監督學習（SSL）特徵、語意教師模型、語者/內容解耦等，提升標記的語意表現與下游可用性。\n- **長度縮減與可變速率標記**：為解決語音token序列過長，發展如deduplication、acoustic BPE、可變速率（VFR）tokenization等技術。\n- **應用廣泛**：涵蓋語音理解（ASR、意圖分類、語音翻譯）、語音生成（TTS、VC）、語音對話模型（SLM）、多語言/多任務統一建模等。\n\n### PDF Capability Highlights\n- 能將連續語音訊號轉換為高資訊密度、低比特率的離散符號序列。\n- 支援多種量化策略與神經網路架構（CNN、Transformer、U-Net等）。\n- 可針對語音重建、語意建模、語者/內容解耦等不同目標進行優化。\n- 能與大語言模型架構無縫整合，實現語音與文字的統一建模。\n- 支援流式（streaming）處理與低延遲應用需求。\n\n### PDF Inclusion Signals\n- 關鍵字：「discrete speech tokens」、「neural audio codec」、「speech tokenizer」、「spoken language modeling」、「semantic tokens」、「acoustic tokens」、「vector quantization」、「self-supervised learning」、「speech generation」、「token vocoder」。\n- 章節參考：Section III（聲學標記）、Section IV（語意標記）、Section V（長度縮減與可變速率）、Section VI（分析與評測）、Section VII（應用）、Section VIII（挑戰與展望）。\n- 涉及語音tokenization於語音生成、理解、對話、語音LLM等應用。\n- 探討tokenization方法對下游語音任務（如ASR、TTS、VC、SLU、S2ST）之影響。\n- 具體比較不同token類型在重建、語意建模、語者轉換等多維度的性能。\n\n### PDF Exclusion Signals\n- 只討論傳統連續語音特徵（如MFCC、梅爾頻譜）而未涉及離散化/量化者。\n- 僅針對音樂、環境聲音等非語音離散標記技術，未聚焦語音應用。\n- 只關注傳統信號處理編碼器（如MP3、Opus）而無神經網路或現代VQ方法。\n- 未涉及語音與語言模型結合、語音token下游應用、或僅為單一技術細節（如單一VQ算法改進）。\n- 研究主題偏向語者辨識、情緒辨識等單一下游任務，未討論tokenization對多任務/多模態語音建模的影響。\n\n### PDF Notes\n- Recent Advances in Discrete Speech Tokens: A Review: \n  - 系統性梳理離散語音標記的技術發展、分類、量化方法、神經架構、語意蒸餾、解耦、長度縮減、可變速率、下游應用與挑戰，並提供跨類型統一的實驗比較與未來展望，是LLM時代語音tokenization領域的代表性綜述。",
+  "combined_notes": "### PDF Background (Survey Summaries)\n### PDF Topic Definition\n本篇系統性綜述聚焦於「離散語音標記（Discrete Speech Tokens）」的技術發展與應用，特別是在大語言模型（LLM）時代下的語音生成、理解與跨模態語言建模。離散語音標記指的是將連續語音訊號經過編碼與量化，轉換為一系列離散、緊湊且符號化的單元，方便於儲存、傳輸，並能與現有的文字語言模型架構無縫整合。主題涵蓋兩大核心類型：聲學標記（Acoustic Tokens）與語意標記（Semantic Tokens），分別著重於語音重建/壓縮與語音語意抽象。評估面向包括重建品質、語者轉換、語意建模能力、下游任務表現、資訊密度、比特率、流式處理能力、可擴展性等。\n\n### PDF Key Trends\n- **離散語音標記的雙主線發展**：聲學標記（如神經語音編解碼器）強調壓縮與重建；語意標記（如SSL模型）強調語音語意抽象與下游語言任務。\n- **語音與文字的融合**：離散標記讓語音能以類似文字token的方式進行語言建模，推動語音LLM、端到端語音對話、語音生成等新應用。\n- **多樣化的量化方法**：從k-means聚類、向量量化（VQ）、殘差VQ（RVQ）、分組VQ（GVQ）、有限純量量化（FSQ）到Gumbel-Softmax等，提升壓縮效率與資訊表達力。\n- **語意蒸餾與解耦**：結合語音自監督學習（SSL）特徵、語意教師模型、語者/內容解耦等，提升標記的語意表現與下游可用性。\n- **長度縮減與可變速率標記**：為解決語音token序列過長，發展如deduplication、acoustic BPE、可變速率（VFR）tokenization等技術。\n- **應用廣泛**：涵蓋語音理解（ASR、意圖分類、語音翻譯）、語音生成（TTS、VC）、語音對話模型（SLM）、多語言/多任務統一建模等。\n\n### PDF Capability Highlights\n- 能將連續語音訊號轉換為高資訊密度、低比特率的離散符號序列。\n- 支援多種量化策略與神經網路架構（CNN、Transformer、U-Net等）。\n- 可針對語音重建、語意建模、語者/內容解耦等不同目標進行優化。\n- 能與大語言模型架構無縫整合，實現語音與文字的統一建模。\n- 支援流式（streaming）處理與低延遲應用需求。\n\n### PDF Inclusion Signals\n- 關鍵字：「discrete speech tokens」、「neural audio codec」、「speech tokenizer」、「spoken language modeling」、「semantic tokens」、「acoustic tokens」、「vector quantization」、「self-supervised learning」、「speech generation」、「token vocoder」。\n- 章節參考：Section III（聲學標記）、Section IV（語意標記）、Section V（長度縮減與可變速率）、Section VI（分析與評測）、Section VII（應用）、Section VIII（挑戰與展望）。\n- 涉及語音tokenization於語音生成、理解、對話、語音LLM等應用。\n- 探討tokenization方法對下游語音任務（如ASR、TTS、VC、SLU、S2ST）之影響。\n- 具體比較不同token類型在重建、語意建模、語者轉換等多維度的性能。\n\n### PDF Exclusion Signals\n- 只討論傳統連續語音特徵（如MFCC、梅爾頻譜）而未涉及離散化/量化者。\n- 僅針對音樂、環境聲音等非語音離散標記技術，未聚焦語音應用。\n- 只關注傳統信號處理編碼器（如MP3、Opus）而無神經網路或現代VQ方法。\n- 未涉及語音與語言模型結合、語音token下游應用、或僅為單一技術細節（如單一VQ算法改進）。\n- 研究主題偏向語者辨識、情緒辨識等單一下游任務，未討論tokenization對多任務/多模態語音建模的影響。\n\n### PDF Notes\n- Recent Advances in Discrete Speech Tokens: A Review: \n  - 系統性梳理離散語音標記的技術發展、分類、量化方法、神經架構、語意蒸餾、解耦、長度縮減、可變速率、下游應用與挑戰，並提供跨類型統一的實驗比較與未來展望，是LLM時代語音tokenization領域的代表性綜述。\n### Web Search Notes\n### Topic Definition\n離散音訊標記（Discrete Audio Tokens）是指將連續音訊波形，透過神經音訊編碼器與量化機制（如向量量化、殘差向量量化等），轉換為有限詞彙集合中的離散符號序列。此類表示旨在在大幅降低位元率與序列長度的同時，保留可感知音質、語音語義（如音素、語義結構）以及說話人或聲學特徵，使音訊能以「類文字 token」的形式被語言模型處理。該概念最初源自神經音訊編碼（neural audio codec），近年則成為音訊語言模型（Audio Language Models, ALMs）與多模態大型語言模型的重要基石。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n在研究脈絡上，離散音訊標記不僅服務於重建任務（codec），更被視為一種通用中介表示，可支援語音生成、語音理解、音樂建模與一般聲音建模等下游任務。相較於傳統連續特徵（如 Mel-spectrogram），離散標記更利於自回歸或 Transformer 式語言建模，並促進跨模態對齊與長期結構建模，因此逐漸從「編碼工具」演進為「表徵學習核心能力」。([sciencestack.ai](https://www.sciencestack.ai/paper/2209.03143v2?utm_source=openai))\n\n### Summary\n近年研究顯示，離散音訊標記正從單純的語音 codec 發展為支援語義、聲學與長時結構的多層次表示。研究亮點包括極低位元率下的高保真重建，以及可直接用於音訊語言模型與多模態生成。整體趨勢顯示，token 設計與訓練目標已成為影響音訊智慧系統能力的關鍵因素。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n### Summary Topics\nS1: 神經音訊編碼與離散化方法（VQ、RVQ、多碼本）  \nS2: 語義導向與聲學導向音訊標記的分工與融合  \nS3: 離散音訊標記於音訊語言模型與生成任務中的應用  \nS4: 位元率、重建品質與下游任務效能之權衡分析  \n\n### Inclusion Criteria (Required)\n1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號轉換為有限詞彙集合中的離散符號序列，並用於重建、生成或理解等音訊任務。  \n   條件：論文需明確提出或分析「離散化音訊表示」或「audio tokenization」作為核心研究對象，且全文需為英文、可進行學術評估。  \n   source: https://arxiv.org/abs/2506.10274 （2025-06-12）  \n   topic id: S1, S2  \n\n2. 條件：論文需為同儕審查論文或可追溯之預印本（如 arXiv），並提供完整方法描述與實驗或分析。  \n   source: https://arxiv.org/abs/2209.03143 （2022-09-07）  \n   topic id: S3  \n\n### Inclusion Criteria (Any-of Groups)\n- Group 技術實作取向  \n  * Option: 提出或分析神經音訊 codec（如 SoundStream、EnCodec）並以離散 token 形式輸出。  \n    source: https://arxiv.org/abs/2209.03143 （2022-09-07）  \n    topic ids: S1, S3  \n  * Option: 著重語義強化或超低位元率之離散音訊標記設計（如語義編碼器、雙編碼架構）。  \n    source: https://arxiv.org/abs/2405.00233 （2024-04-30）  \n    topic ids: S2, S4  \n\n- Group 應用與分析取向  \n  * Option: 系統性比較、benchmark 或綜述離散音訊標記方法與下游任務效能。  \n    source: https://arxiv.org/abs/2506.10274 （2025-06-12）  \n    topic ids: S4  \n  * Option: 將離散音訊標記應用於音訊語言模型、生成或理解任務，並分析其效益。  \n    source: https://arxiv.org/abs/2504.10344 （2025-04-14）  \n    topic ids: S3  \n\n### Exclusion Criteria\n- 僅使用連續音訊特徵（如 Mel-spectrogram、MFCC），未涉及任何離散化或 token 設計之研究。  \n  source: internal  \n  topic ids: S1  \n- 僅為工程實作或程式庫說明，未提供方法創新、系統性分析或實驗驗證。  \n  source: internal  \n  topic ids: S4  \n- 研究焦點為純文字或純影像 token，僅附帶音訊作為資料來源，未探討音訊離散表示本身。  \n  source: internal  \n  topic ids: S2  \n\n### Sources\nhttps://arxiv.org/abs/2506.10274  \nhttps://arxiv.org/abs/2209.03143  \nhttps://arxiv.org/abs/2405.00233  \nhttps://arxiv.org/abs/2504.10344",
+  "augmented_formatter_messages": [
+    {
+      "role": "system",
+      "content": "你是系統性回顧的資料整理助理，需將研究助理的筆記轉為結構化 JSON。\n僅能輸出單一 JSON 物件，勿加入額外敘述或 Markdown。"
+    },
+    {
+      "role": "user",
+      "content": "以下內容結合了兩種來源：\n1) PDF Background (Survey Summaries)：模型閱讀本地 PDF 後的背景整理，僅供提供更準確的主題定義與條件靈感，來源欄請勿引用非 https 連結。\n2) Web Search Notes：OpenAI Web Search 所產出的即時筆記與來源。\n請輸出最終 JSON，並確保所有 source 欄位皆為 https URL。\n主題：Discrete Audio Tokens: More Than a Survey!。\ninclusion_criteria.required 段落僅能包含主題定義逐字條款與英文可評估性條款；其餘條件請歸入 any_of 群組。\n不得要求標題/摘要必須包含特定字串或關鍵字；避免任何硬字串匹配條款。\n將以下筆記整合後再輸出：\n---\n### PDF Background (Survey Summaries)\n### PDF Topic Definition\n本篇系統性綜述聚焦於「離散語音標記（Discrete Speech Tokens）」的技術發展與應用，特別是在大語言模型（LLM）時代下的語音生成、理解與跨模態語言建模。離散語音標記指的是將連續語音訊號經過編碼與量化，轉換為一系列離散、緊湊且符號化的單元，方便於儲存、傳輸，並能與現有的文字語言模型架構無縫整合。主題涵蓋兩大核心類型：聲學標記（Acoustic Tokens）與語意標記（Semantic Tokens），分別著重於語音重建/壓縮與語音語意抽象。評估面向包括重建品質、語者轉換、語意建模能力、下游任務表現、資訊密度、比特率、流式處理能力、可擴展性等。\n\n### PDF Key Trends\n- **離散語音標記的雙主線發展**：聲學標記（如神經語音編解碼器）強調壓縮與重建；語意標記（如SSL模型）強調語音語意抽象與下游語言任務。\n- **語音與文字的融合**：離散標記讓語音能以類似文字token的方式進行語言建模，推動語音LLM、端到端語音對話、語音生成等新應用。\n- **多樣化的量化方法**：從k-means聚類、向量量化（VQ）、殘差VQ（RVQ）、分組VQ（GVQ）、有限純量量化（FSQ）到Gumbel-Softmax等，提升壓縮效率與資訊表達力。\n- **語意蒸餾與解耦**：結合語音自監督學習（SSL）特徵、語意教師模型、語者/內容解耦等，提升標記的語意表現與下游可用性。\n- **長度縮減與可變速率標記**：為解決語音token序列過長，發展如deduplication、acoustic BPE、可變速率（VFR）tokenization等技術。\n- **應用廣泛**：涵蓋語音理解（ASR、意圖分類、語音翻譯）、語音生成（TTS、VC）、語音對話模型（SLM）、多語言/多任務統一建模等。\n\n### PDF Capability Highlights\n- 能將連續語音訊號轉換為高資訊密度、低比特率的離散符號序列。\n- 支援多種量化策略與神經網路架構（CNN、Transformer、U-Net等）。\n- 可針對語音重建、語意建模、語者/內容解耦等不同目標進行優化。\n- 能與大語言模型架構無縫整合，實現語音與文字的統一建模。\n- 支援流式（streaming）處理與低延遲應用需求。\n\n### PDF Inclusion Signals\n- 關鍵字：「discrete speech tokens」、「neural audio codec」、「speech tokenizer」、「spoken language modeling」、「semantic tokens」、「acoustic tokens」、「vector quantization」、「self-supervised learning」、「speech generation」、「token vocoder」。\n- 章節參考：Section III（聲學標記）、Section IV（語意標記）、Section V（長度縮減與可變速率）、Section VI（分析與評測）、Section VII（應用）、Section VIII（挑戰與展望）。\n- 涉及語音tokenization於語音生成、理解、對話、語音LLM等應用。\n- 探討tokenization方法對下游語音任務（如ASR、TTS、VC、SLU、S2ST）之影響。\n- 具體比較不同token類型在重建、語意建模、語者轉換等多維度的性能。\n\n### PDF Exclusion Signals\n- 只討論傳統連續語音特徵（如MFCC、梅爾頻譜）而未涉及離散化/量化者。\n- 僅針對音樂、環境聲音等非語音離散標記技術，未聚焦語音應用。\n- 只關注傳統信號處理編碼器（如MP3、Opus）而無神經網路或現代VQ方法。\n- 未涉及語音與語言模型結合、語音token下游應用、或僅為單一技術細節（如單一VQ算法改進）。\n- 研究主題偏向語者辨識、情緒辨識等單一下游任務，未討論tokenization對多任務/多模態語音建模的影響。\n\n### PDF Notes\n- Recent Advances in Discrete Speech Tokens: A Review: \n  - 系統性梳理離散語音標記的技術發展、分類、量化方法、神經架構、語意蒸餾、解耦、長度縮減、可變速率、下游應用與挑戰，並提供跨類型統一的實驗比較與未來展望，是LLM時代語音tokenization領域的代表性綜述。\n### Web Search Notes\n### Topic Definition\n離散音訊標記（Discrete Audio Tokens）是指將連續音訊波形，透過神經音訊編碼器與量化機制（如向量量化、殘差向量量化等），轉換為有限詞彙集合中的離散符號序列。此類表示旨在在大幅降低位元率與序列長度的同時，保留可感知音質、語音語義（如音素、語義結構）以及說話人或聲學特徵，使音訊能以「類文字 token」的形式被語言模型處理。該概念最初源自神經音訊編碼（neural audio codec），近年則成為音訊語言模型（Audio Language Models, ALMs）與多模態大型語言模型的重要基石。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n在研究脈絡上，離散音訊標記不僅服務於重建任務（codec），更被視為一種通用中介表示，可支援語音生成、語音理解、音樂建模與一般聲音建模等下游任務。相較於傳統連續特徵（如 Mel-spectrogram），離散標記更利於自回歸或 Transformer 式語言建模，並促進跨模態對齊與長期結構建模，因此逐漸從「編碼工具」演進為「表徵學習核心能力」。([sciencestack.ai](https://www.sciencestack.ai/paper/2209.03143v2?utm_source=openai))\n\n### Summary\n近年研究顯示，離散音訊標記正從單純的語音 codec 發展為支援語義、聲學與長時結構的多層次表示。研究亮點包括極低位元率下的高保真重建，以及可直接用於音訊語言模型與多模態生成。整體趨勢顯示，token 設計與訓練目標已成為影響音訊智慧系統能力的關鍵因素。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n### Summary Topics\nS1: 神經音訊編碼與離散化方法（VQ、RVQ、多碼本）  \nS2: 語義導向與聲學導向音訊標記的分工與融合  \nS3: 離散音訊標記於音訊語言模型與生成任務中的應用  \nS4: 位元率、重建品質與下游任務效能之權衡分析  \n\n### Inclusion Criteria (Required)\n1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號轉換為有限詞彙集合中的離散符號序列，並用於重建、生成或理解等音訊任務。  \n   條件：論文需明確提出或分析「離散化音訊表示」或「audio tokenization」作為核心研究對象，且全文需為英文、可進行學術評估。  \n   source: https://arxiv.org/abs/2506.10274 （2025-06-12）  \n   topic id: S1, S2  \n\n2. 條件：論文需為同儕審查論文或可追溯之預印本（如 arXiv），並提供完整方法描述與實驗或分析。  \n   source: https://arxiv.org/abs/2209.03143 （2022-09-07）  \n   topic id: S3  \n\n### Inclusion Criteria (Any-of Groups)\n- Group 技術實作取向  \n  * Option: 提出或分析神經音訊 codec（如 SoundStream、EnCodec）並以離散 token 形式輸出。  \n    source: https://arxiv.org/abs/2209.03143 （2022-09-07）  \n    topic ids: S1, S3  \n  * Option: 著重語義強化或超低位元率之離散音訊標記設計（如語義編碼器、雙編碼架構）。  \n    source: https://arxiv.org/abs/2405.00233 （2024-04-30）  \n    topic ids: S2, S4  \n\n- Group 應用與分析取向  \n  * Option: 系統性比較、benchmark 或綜述離散音訊標記方法與下游任務效能。  \n    source: https://arxiv.org/abs/2506.10274 （2025-06-12）  \n    topic ids: S4  \n  * Option: 將離散音訊標記應用於音訊語言模型、生成或理解任務，並分析其效益。  \n    source: https://arxiv.org/abs/2504.10344 （2025-04-14）  \n    topic ids: S3  \n\n### Exclusion Criteria\n- 僅使用連續音訊特徵（如 Mel-spectrogram、MFCC），未涉及任何離散化或 token 設計之研究。  \n  source: internal  \n  topic ids: S1  \n- 僅為工程實作或程式庫說明，未提供方法創新、系統性分析或實驗驗證。  \n  source: internal  \n  topic ids: S4  \n- 研究焦點為純文字或純影像 token，僅附帶音訊作為資料來源，未探討音訊離散表示本身。  \n  source: internal  \n  topic ids: S2  \n\n### Sources\nhttps://arxiv.org/abs/2506.10274  \nhttps://arxiv.org/abs/2209.03143  \nhttps://arxiv.org/abs/2405.00233  \nhttps://arxiv.org/abs/2504.10344\n---"
+    }
+  ],
+  "formatter_raw": "{\n  \"topic\": {\n    \"title\": \"Discrete Audio Tokens: More Than a Survey!\",\n    \"definition\": \"Discrete audio/speech tokens are discrete, compact, symbol-like units produced by encoding and quantizing a continuous audio (especially speech) waveform into a sequence of symbols from a finite vocabulary, enabling storage/transmission efficiency and seamless integration with language-model-style sequence modeling for audio reconstruction, generation, understanding, and cross-/multi-modal modeling. The scope includes both acoustic tokens (focused on reconstruction/compression) and semantic tokens (focused on linguistic/semantic abstraction), and considers tokenization methods, quantization strategies, sequence-length reduction, variable-rate tokenization, streaming/latency concerns, and evaluation across reconstruction quality, bitrate/information density, and downstream task performance.\",\n    \"scope_notes\": {\n      \"core_token_types\": [\n        \"acoustic tokens (neural audio codecs; reconstruction/compression oriented)\",\n        \"semantic tokens (linguistic/semantic abstraction; often derived from SSL features/teachers)\",\n        \"hybrid or multi-level tokens combining acoustic and semantic information\"\n      ],\n      \"representative_methods\": [\n        \"k-means clustering\",\n        \"vector quantization (VQ)\",\n        \"residual vector quantization (RVQ)\",\n        \"grouped vector quantization (GVQ)\",\n        \"finite scalar quantization (FSQ)\",\n        \"Gumbel-Softmax / differentiable quantization\"\n      ],\n      \"sequence_efficiency_methods\": [\n        \"deduplication / run-length style reduction\",\n        \"acoustic BPE or learned token merging\",\n        \"variable frame-rate (VFR) tokenization\"\n      ],\n      \"evaluation_dimensions\": [\n        \"reconstruction quality and perceptual audio quality\",\n        \"bitrate / token rate and information density\",\n        \"speaker/content disentanglement and voice conversion capability\",\n        \"semantic modeling quality and downstream performance (e.g., ASR/SLU/S2ST/TTS/VC)\",\n        \"streaming capability and latency\",\n        \"scalability and robustness across languages/domains\"\n      ],\n      \"typical_applications\": [\n        \"spoken language modeling / speech LLMs\",\n        \"audio language models and multimodal LLMs\",\n        \"speech generation (TTS) and voice conversion (VC)\",\n        \"speech understanding (ASR, intent classification, SLU)\",\n        \"speech-to-speech translation (S2ST)\",\n        \"general audio modeling when discrete tokenization is central\"\n      ]\n    }\n  },\n  \"inclusion_criteria\": {\n    \"required\": [\n      {\n        \"criterion\": \"The study must explicitly propose, analyze, or evaluate discrete audio/speech tokenization as a core object of study, where a continuous audio signal is converted into a sequence of discrete symbols from a finite vocabulary for audio reconstruction, generation, and/or understanding tasks.\",\n        \"source\": \"https://arxiv.org/abs/2506.10274\"\n      },\n      {\n        \"criterion\": \"The full text must be in English and available for academic evaluation.\",\n        \"source\": \"https://arxiv.org/abs/2506.10274\"\n      }\n    ],\n    \"any_of_groups\": [\n      {\n        \"group_name\": \"Study type / research maturity\",\n        \"options\": [\n          {\n            \"criterion\": \"Peer-reviewed paper or a traceable preprint (e.g., arXiv) that provides sufficient methodological detail plus experiments and/or substantive analysis relevant to discrete audio tokens.\",\n            \"source\": \"https://arxiv.org/abs/2209.03143\"\n          }\n        ]\n      },\n      {\n        \"group_name\": \"Tokenization / codec implementation focus\",\n        \"options\": [\n          {\n            \"criterion\": \"Proposes or analyzes a neural audio codec that outputs discrete tokens (e.g., codec-style token sequences intended for compression and reconstruction).\",\n            \"source\": \"https://arxiv.org/abs/2209.03143\"\n          },\n          {\n            \"criterion\": \"Focuses on semantic-enhanced and/or ultra-low-bitrate discrete audio token design (e.g., semantic encoders, teacher-distilled semantics, dual-encoder or disentangled architectures) and evaluates trade-offs between bitrate, quality, and/or downstream utility.\",\n            \"source\": \"https://arxiv.org/abs/2405.00233\"\n          }\n        ]\n      },\n      {\n        \"group_name\": \"Applications, benchmarks, and analyses\",\n        \"options\": [\n          {\n            \"criterion\": \"Provides a systematic comparison, benchmark, or survey/review of discrete audio token methods and evaluates token choices against reconstruction and/or downstream task performance.\",\n            \"source\": \"https://arxiv.org/abs/2506.10274\"\n          },\n          {\n            \"criterion\": \"Applies discrete audio tokens to audio language modeling, audio generation, or audio understanding, and includes analysis of the benefits/limitations of tokenization choices.\",\n            \"source\": \"https://arxiv.org/abs/2504.10344\"\n          }\n        ]\n      },\n      {\n        \"group_name\": \"Efficiency, length reduction, and deployment constraints\",\n        \"options\": [\n          {\n            \"criterion\": \"Investigates token sequence length reduction and/or variable-rate tokenization (e.g., deduplication, token merging/BPE-style schemes, variable frame-rate tokens) and reports impacts on modeling and/or downstream performance.\",\n            \"source\": \"https://arxiv.org/abs/2506.10274\"\n          },\n          {\n            \"criterion\": \"Addresses streaming or low-latency constraints for discrete audio token generation/consumption and evaluates the impact on quality and/or task performance.\",\n            \"source\": \"https://arxiv.org/abs/2506.10274\"\n          }\n        ]\n      }\n    ]\n  },\n  \"exclusion_criteria\": [\n    {\n      \"criterion\": \"Studies that only use continuous audio features (e.g., Mel-spectrogram, MFCC) without any discrete quantization/token design or analysis of discrete tokenization.\",\n      \"source\": \"https://arxiv.org/abs/2506.10274\"\n    },\n    {\n      \"criterion\": \"Works focused on traditional signal-processing codecs (e.g., MP3/Opus-style) without neural encoding/modern quantization-based discrete token representations relevant to language-model-style token sequences.\",\n      \"source\": \"https://arxiv.org/abs/2209.03143\"\n    },\n    {\n      \"criterion\": \"Engineering-only reports (e.g., library/tool descriptions) without methodological contribution, systematic analysis, or experimental validation related to discrete audio tokens.\",\n      \"source\": \"https://arxiv.org/abs/2506.10274\"\n    },\n    {\n      \"criterion\": \"Studies where audio is merely a data modality while the core tokenization contribution is for text or images, and the work does not analyze discrete audio representations themselves.\",\n      \"source\": \"https://arxiv.org/abs/2504.10344\"\n    },\n    {\n      \"criterion\": \"Tokenization methods for non-speech audio only (e.g., music/environmental sound) when the study does not make its discrete token approach applicable to speech tasks or does not evaluate speech-relevant implications.\",\n      \"source\": \"https://arxiv.org/abs/2506.10274\"\n    }\n  ],\n  \"topic_clusters\": [\n    {\n      \"id\": \"S1\",\n      \"name\": \"Neural audio codec & discretization methods\",\n      \"description\": \"Discrete token formation from waveforms via neural encoders and quantizers (VQ/RVQ/multi-codebook/FSQ, etc.), including bitrate–quality trade-offs and reconstruction.\",\n      \"sources\": [\n        \"https://arxiv.org/abs/2209.03143\",\n        \"https://arxiv.org/abs/2506.10274\"\n      ]\n    },\n    {\n      \"id\": \"S2\",\n      \"name\": \"Semantic vs. acoustic tokens (and their fusion)\",\n      \"description\": \"Designs that target semantic abstraction and/or disentanglement (speaker/content) versus pure acoustic fidelity; hybrid multi-level token schemes; semantic distillation from SSL/teachers.\",\n      \"sources\": [\n        \"https://arxiv.org/abs/2405.00233\",\n        \"https://arxiv.org/abs/2506.10274\"\n      ]\n    },\n    {\n      \"id\": \"S3\",\n      \"name\": \"Audio language models & generation/understanding applications\",\n      \"description\": \"Using discrete audio tokens as LM-compatible sequences for spoken language modeling, audio LMs, multimodal LLM integration, and downstream tasks (ASR/SLU/S2ST/TTS/VC).\",\n      \"sources\": [\n        \"https://arxiv.org/abs/2504.10344\",\n        \"https://arxiv.org/abs/2209.03143\"\n      ]\n    },\n    {\n      \"id\": \"S4\",\n      \"name\": \"Evaluation and trade-off analyses\",\n      \"description\": \"Systematic evaluation across reconstruction quality, bitrate/token rate, information density, streaming/latency, scalability, and downstream task performance; benchmarks and surveys.\",\n      \"sources\": [\n        \"https://arxiv.org/abs/2506.10274\",\n        \"https://arxiv.org/abs/2405.00233\"\n      ]\n    }\n  ],\n  \"data_extraction_fields\": {\n    \"bibliographic\": [\n      \"title\",\n      \"authors\",\n      \"year\",\n      \"venue_or_preprint_server\",\n      \"url\"\n    ],\n    \"tokenization_method\": [\n      \"input_audio_type (speech / general audio / multilingual)\",\n      \"token_type (acoustic / semantic / hybrid)\",\n      \"encoder_architecture\",\n      \"quantization_method (VQ/RVQ/GVQ/FSQ/k-means/Gumbel-Softmax/other)\",\n      \"codebook_size_and_structure (single/multi-codebook; residual levels)\",\n      \"token_rate_or_frame_rate\",\n      \"bitrate (if reported)\",\n      \"sequence_length_reduction (dedup/BPE/VFR/etc.)\",\n      \"streaming_support (yes/no; latency details)\"\n    ],\n    \"training_objectives\": [\n      \"reconstruction losses\",\n      \"perceptual/adversarial losses\",\n      \"semantic distillation/teacher signals\",\n      \"disentanglement objectives\",\n      \"LM training objective (AR/MLM/other)\"\n    ],\n    \"evaluation\": [\n      \"reconstruction metrics (e.g., MOS, PESQ, STOI, SDR, other)\",\n      \"downstream tasks evaluated (ASR, TTS, VC, SLU, S2ST, etc.)\",\n      \"task metrics (e.g., WER, BLEU, accuracy)\",\n      \"ablation/comparison of token designs\",\n      \"reported limitations/failure cases\"\n    ]\n  },\n  \"sources\": [\n    \"https://arxiv.org/abs/2506.10274\",\n    \"https://arxiv.org/abs/2209.03143\",\n    \"https://arxiv.org/abs/2405.00233\",\n    \"https://arxiv.org/abs/2504.10344\"\n  ]\n}"
+}

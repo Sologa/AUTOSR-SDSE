@@ -1,0 +1,204 @@
+{
+  "topic": {
+    "title": "Discrete Audio Tokens: More Than a Survey!",
+    "definition": "Discrete audio/speech tokens are discrete, compact, symbol-like units produced by encoding and quantizing a continuous audio (especially speech) waveform into a sequence of symbols from a finite vocabulary, enabling storage/transmission efficiency and seamless integration with language-model-style sequence modeling for audio reconstruction, generation, understanding, and cross-/multi-modal modeling. The scope includes both acoustic tokens (focused on reconstruction/compression) and semantic tokens (focused on linguistic/semantic abstraction), and considers tokenization methods, quantization strategies, sequence-length reduction, variable-rate tokenization, streaming/latency concerns, and evaluation across reconstruction quality, bitrate/information density, and downstream task performance.",
+    "scope_notes": {
+      "core_token_types": [
+        "acoustic tokens (neural audio codecs; reconstruction/compression oriented)",
+        "semantic tokens (linguistic/semantic abstraction; often derived from SSL features/teachers)",
+        "hybrid or multi-level tokens combining acoustic and semantic information"
+      ],
+      "representative_methods": [
+        "k-means clustering",
+        "vector quantization (VQ)",
+        "residual vector quantization (RVQ)",
+        "grouped vector quantization (GVQ)",
+        "finite scalar quantization (FSQ)",
+        "Gumbel-Softmax / differentiable quantization"
+      ],
+      "sequence_efficiency_methods": [
+        "deduplication / run-length style reduction",
+        "acoustic BPE or learned token merging",
+        "variable frame-rate (VFR) tokenization"
+      ],
+      "evaluation_dimensions": [
+        "reconstruction quality and perceptual audio quality",
+        "bitrate / token rate and information density",
+        "speaker/content disentanglement and voice conversion capability",
+        "semantic modeling quality and downstream performance (e.g., ASR/SLU/S2ST/TTS/VC)",
+        "streaming capability and latency",
+        "scalability and robustness across languages/domains"
+      ],
+      "typical_applications": [
+        "spoken language modeling / speech LLMs",
+        "audio language models and multimodal LLMs",
+        "speech generation (TTS) and voice conversion (VC)",
+        "speech understanding (ASR, intent classification, SLU)",
+        "speech-to-speech translation (S2ST)",
+        "general audio modeling when discrete tokenization is central"
+      ]
+    }
+  },
+  "inclusion_criteria": {
+    "required": [
+      {
+        "criterion": "The study must explicitly propose, analyze, or evaluate discrete audio/speech tokenization as a core object of study, where a continuous audio signal is converted into a sequence of discrete symbols from a finite vocabulary for audio reconstruction, generation, and/or understanding tasks.",
+        "source": "https://arxiv.org/abs/2506.10274"
+      },
+      {
+        "criterion": "The full text must be in English and available for academic evaluation.",
+        "source": "https://arxiv.org/abs/2506.10274"
+      }
+    ],
+    "any_of_groups": [
+      {
+        "group_name": "Study type / research maturity",
+        "options": [
+          {
+            "criterion": "Peer-reviewed paper or a traceable preprint (e.g., arXiv) that provides sufficient methodological detail plus experiments and/or substantive analysis relevant to discrete audio tokens.",
+            "source": "https://arxiv.org/abs/2209.03143"
+          }
+        ]
+      },
+      {
+        "group_name": "Tokenization / codec implementation focus",
+        "options": [
+          {
+            "criterion": "Proposes or analyzes a neural audio codec that outputs discrete tokens (e.g., codec-style token sequences intended for compression and reconstruction).",
+            "source": "https://arxiv.org/abs/2209.03143"
+          },
+          {
+            "criterion": "Focuses on semantic-enhanced and/or ultra-low-bitrate discrete audio token design (e.g., semantic encoders, teacher-distilled semantics, dual-encoder or disentangled architectures) and evaluates trade-offs between bitrate, quality, and/or downstream utility.",
+            "source": "https://arxiv.org/abs/2405.00233"
+          }
+        ]
+      },
+      {
+        "group_name": "Applications, benchmarks, and analyses",
+        "options": [
+          {
+            "criterion": "Provides a systematic comparison, benchmark, or survey/review of discrete audio token methods and evaluates token choices against reconstruction and/or downstream task performance.",
+            "source": "https://arxiv.org/abs/2506.10274"
+          },
+          {
+            "criterion": "Applies discrete audio tokens to audio language modeling, audio generation, or audio understanding, and includes analysis of the benefits/limitations of tokenization choices.",
+            "source": "https://arxiv.org/abs/2504.10344"
+          }
+        ]
+      },
+      {
+        "group_name": "Efficiency, length reduction, and deployment constraints",
+        "options": [
+          {
+            "criterion": "Investigates token sequence length reduction and/or variable-rate tokenization (e.g., deduplication, token merging/BPE-style schemes, variable frame-rate tokens) and reports impacts on modeling and/or downstream performance.",
+            "source": "https://arxiv.org/abs/2506.10274"
+          },
+          {
+            "criterion": "Addresses streaming or low-latency constraints for discrete audio token generation/consumption and evaluates the impact on quality and/or task performance.",
+            "source": "https://arxiv.org/abs/2506.10274"
+          }
+        ]
+      }
+    ]
+  },
+  "exclusion_criteria": [
+    {
+      "criterion": "Studies that only use continuous audio features (e.g., Mel-spectrogram, MFCC) without any discrete quantization/token design or analysis of discrete tokenization.",
+      "source": "https://arxiv.org/abs/2506.10274"
+    },
+    {
+      "criterion": "Works focused on traditional signal-processing codecs (e.g., MP3/Opus-style) without neural encoding/modern quantization-based discrete token representations relevant to language-model-style token sequences.",
+      "source": "https://arxiv.org/abs/2209.03143"
+    },
+    {
+      "criterion": "Engineering-only reports (e.g., library/tool descriptions) without methodological contribution, systematic analysis, or experimental validation related to discrete audio tokens.",
+      "source": "https://arxiv.org/abs/2506.10274"
+    },
+    {
+      "criterion": "Studies where audio is merely a data modality while the core tokenization contribution is for text or images, and the work does not analyze discrete audio representations themselves.",
+      "source": "https://arxiv.org/abs/2504.10344"
+    },
+    {
+      "criterion": "Tokenization methods for non-speech audio only (e.g., music/environmental sound) when the study does not make its discrete token approach applicable to speech tasks or does not evaluate speech-relevant implications.",
+      "source": "https://arxiv.org/abs/2506.10274"
+    }
+  ],
+  "topic_clusters": [
+    {
+      "id": "S1",
+      "name": "Neural audio codec & discretization methods",
+      "description": "Discrete token formation from waveforms via neural encoders and quantizers (VQ/RVQ/multi-codebook/FSQ, etc.), including bitrate–quality trade-offs and reconstruction.",
+      "sources": [
+        "https://arxiv.org/abs/2209.03143",
+        "https://arxiv.org/abs/2506.10274"
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "Semantic vs. acoustic tokens (and their fusion)",
+      "description": "Designs that target semantic abstraction and/or disentanglement (speaker/content) versus pure acoustic fidelity; hybrid multi-level token schemes; semantic distillation from SSL/teachers.",
+      "sources": [
+        "https://arxiv.org/abs/2405.00233",
+        "https://arxiv.org/abs/2506.10274"
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "Audio language models & generation/understanding applications",
+      "description": "Using discrete audio tokens as LM-compatible sequences for spoken language modeling, audio LMs, multimodal LLM integration, and downstream tasks (ASR/SLU/S2ST/TTS/VC).",
+      "sources": [
+        "https://arxiv.org/abs/2504.10344",
+        "https://arxiv.org/abs/2209.03143"
+      ]
+    },
+    {
+      "id": "S4",
+      "name": "Evaluation and trade-off analyses",
+      "description": "Systematic evaluation across reconstruction quality, bitrate/token rate, information density, streaming/latency, scalability, and downstream task performance; benchmarks and surveys.",
+      "sources": [
+        "https://arxiv.org/abs/2506.10274",
+        "https://arxiv.org/abs/2405.00233"
+      ]
+    }
+  ],
+  "data_extraction_fields": {
+    "bibliographic": [
+      "title",
+      "authors",
+      "year",
+      "venue_or_preprint_server",
+      "url"
+    ],
+    "tokenization_method": [
+      "input_audio_type (speech / general audio / multilingual)",
+      "token_type (acoustic / semantic / hybrid)",
+      "encoder_architecture",
+      "quantization_method (VQ/RVQ/GVQ/FSQ/k-means/Gumbel-Softmax/other)",
+      "codebook_size_and_structure (single/multi-codebook; residual levels)",
+      "token_rate_or_frame_rate",
+      "bitrate (if reported)",
+      "sequence_length_reduction (dedup/BPE/VFR/etc.)",
+      "streaming_support (yes/no; latency details)"
+    ],
+    "training_objectives": [
+      "reconstruction losses",
+      "perceptual/adversarial losses",
+      "semantic distillation/teacher signals",
+      "disentanglement objectives",
+      "LM training objective (AR/MLM/other)"
+    ],
+    "evaluation": [
+      "reconstruction metrics (e.g., MOS, PESQ, STOI, SDR, other)",
+      "downstream tasks evaluated (ASR, TTS, VC, SLU, S2ST, etc.)",
+      "task metrics (e.g., WER, BLEU, accuracy)",
+      "ablation/comparison of token designs",
+      "reported limitations/failure cases"
+    ]
+  },
+  "sources": [
+    "https://arxiv.org/abs/2506.10274",
+    "https://arxiv.org/abs/2209.03143",
+    "https://arxiv.org/abs/2405.00233",
+    "https://arxiv.org/abs/2504.10344"
+  ]
+}
