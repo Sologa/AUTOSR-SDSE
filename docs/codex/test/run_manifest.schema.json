@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["run_id", "created_at", "input_source", "criteria_source", "outputs", "commands"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "input_source": {"type": "string"},
+    "criteria_source": {"type": "string", "enum": ["workspace", "default"]},
+    "criteria_path": {"type": ["string", "null"]},
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "mode", "provider"],
+        "properties": {
+          "name": {"type": "string"},
+          "path": {"type": "string"},
+          "mode": {"type": "string"},
+          "provider": {"type": "string"},
+          "reviewer": {"type": ["string", "null"]},
+          "model": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["provider", "command"],
+        "properties": {
+          "provider": {"type": "string"},
+          "command": {"type": "string"},
+          "model": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

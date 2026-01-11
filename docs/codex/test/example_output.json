@@ -1,0 +1,29 @@
+{
+  "run_id": "20260110_090000",
+  "mode": "single",
+  "provider": "codex",
+  "reviewer": "JuniorNano",
+  "models": {
+    "JuniorNano": "gpt-5.1-codex-mini"
+  },
+  "criteria_source": "default",
+  "criteria": {
+    "inclusion": "<inclusion criteria>",
+    "exclusion": "<exclusion criteria>"
+  },
+  "items": [
+    {
+      "index": 0,
+      "arxiv_id": "0000.00000",
+      "title": "Example title",
+      "abstract": "Example abstract.",
+      "missing_fields": [],
+      "reviewer": "JuniorNano",
+      "evaluation": 3,
+      "reasoning": "Example reasoning.",
+      "raw_output": "{\"evaluation\": 3, \"reasoning\": \"Example reasoning.\"}",
+      "error": null
+    }
+  ],
+  "errors": []
+}

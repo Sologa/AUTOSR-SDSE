@@ -1,0 +1,60 @@
+{
+  "run_id": "20260110_090000",
+  "created_at": "2026-01-11T16:22:30.792846",
+  "input_source": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/harvest/arxiv_metadata.json",
+  "criteria_source": "workspace",
+  "criteria_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/criteria/criteria.json",
+  "outputs": [
+    {
+      "name": "gemini_single",
+      "path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/outputs/20260110_090000/gemini_single.json",
+      "mode": "single",
+      "provider": "gemini",
+      "reviewer": "JuniorMini",
+      "model": "gemini-2.5-pro"
+    },
+    {
+      "name": "full_workflow",
+      "path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/outputs/20260110_090000/full_workflow.json",
+      "mode": "full",
+      "provider": "mixed",
+      "reviewer": null,
+      "model": null
+    },
+    {
+      "name": "codex_single",
+      "path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/outputs/20260110_090000/codex_single.json",
+      "mode": "single",
+      "provider": "codex",
+      "reviewer": "JuniorNano",
+      "model": "gpt-5.1-codex-mini"
+    }
+  ],
+  "commands": [
+    {
+      "provider": "gemini",
+      "command": "gemini --output-format json --model gemini-2.5-pro",
+      "model": "gemini-2.5-pro"
+    },
+    {
+      "provider": "codex",
+      "command": "/opt/homebrew/bin/codex exec --disable web_search_request - --model gpt-5.1-codex-mini --output-schema /Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/review_response.schema.json",
+      "model": "gpt-5.1-codex-mini"
+    },
+    {
+      "provider": "gemini",
+      "command": "gemini --output-format json --model gemini-2.5-pro",
+      "model": "gemini-2.5-pro"
+    },
+    {
+      "provider": "codex",
+      "command": "/opt/homebrew/bin/codex exec --disable web_search_request - --model gpt-5.2 --output-schema /Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/review_response.schema.json",
+      "model": "gpt-5.2"
+    },
+    {
+      "provider": "codex",
+      "command": "/opt/homebrew/bin/codex exec --disable web_search_request - --model gpt-5.1-codex-mini --output-schema /Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/review_response.schema.json",
+      "model": "gpt-5.1-codex-mini"
+    }
+  ]
+}

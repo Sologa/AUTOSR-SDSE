@@ -1,0 +1,77 @@
+{
+  "run_id": "20260110_090000",
+  "mode": "single",
+  "provider": "gemini",
+  "reviewer": "JuniorMini",
+  "models": {
+    "JuniorMini": "gemini-2.5-pro"
+  },
+  "criteria_source": "workspace",
+  "criteria": {
+    "inclusion": "The study must explicitly propose, analyze, or evaluate discrete audio/speech tokenization as a core object of study, where a continuous audio signal is converted into a sequence of discrete symbols from a finite vocabulary for audio reconstruction, generation, and/or understanding tasks.\nThe full text must be in English and available for academic evaluation.",
+    "exclusion": "Studies that only use continuous audio features (e.g., Mel-spectrogram, MFCC) without any discrete quantization/token design or analysis of discrete tokenization.\nWorks focused on traditional signal-processing codecs (e.g., MP3/Opus-style) without neural encoding/modern quantization-based discrete token representations relevant to language-model-style token sequences.\nEngineering-only reports (e.g., library/tool descriptions) without methodological contribution, systematic analysis, or experimental validation related to discrete audio tokens.\nStudies where audio is merely a data modality while the core tokenization contribution is for text or images, and the work does not analyze discrete audio representations themselves.\nTokenization methods for non-speech audio only (e.g., music/environmental sound) when the study does not make its discrete token approach applicable to speech tasks or does not evaluate speech-relevant implications."
+  },
+  "items": [
+    {
+      "index": 0,
+      "arxiv_id": "1706.07793",
+      "title": "Personalized Acoustic Modeling by Weakly Supervised Multi-Task Deep Learning using Acoustic Tokens Discovered from Unlabeled Data",
+      "abstract": "It is well known that recognizers personalized to each user are much more effective than user-independent recognizers. With the popularity of smartphones today, although it is not difficult to collect a large set of audio data for each user, it is difficult to transcribe it. However, it is now possible to automatically discover acoustic tokens from unlabeled personal data in an unsupervised way. We therefore propose a multi-task deep learning framework called a phoneme-token deep neural network (PTDNN), jointly trained from unsupervised acoustic tokens discovered from unlabeled data and very limited transcribed data for personalized acoustic modeling. We term this scenario \"weakly supervised\". The underlying intuition is that the high degree of similarity between the HMM states of acoustic token models and phoneme models may help them learn from each other in this multi-task learning framework. Initial experiments performed over a personalized audio data set recorded from Facebook posts demonstrated that very good improvements can be achieved in both frame accuracy and word accuracy over popularly-considered baselines such as fDLR, speaker code and lightly supervised adaptation. This approach complements existing speaker adaptation approaches and can be used jointly with such techniques to yield improved results.",
+      "missing_fields": [],
+      "reviewer": "JuniorMini",
+      "evaluation": 5,
+      "reasoning": "The study explicitly proposes a deep learning framework that leverages \"acoustic tokens discovered from unlabeled data\" as a core component for personalized acoustic modeling, directly matching the primary inclusion criterion.",
+      "raw_output": "```json\n{\n  \"reasoning\": \"The study explicitly proposes a deep learning framework that leverages \\\"acoustic tokens discovered from unlabeled data\\\" as a core component for personalized acoustic modeling, directly matching the primary inclusion criterion.\",\n  \"evaluation\": 5\n}\n```",
+      "error": null
+    },
+    {
+      "index": 1,
+      "arxiv_id": "2206.07086",
+      "title": "Synthesizing Mathematical Identities with E-Graphs",
+      "abstract": "Identities compactly describe properties of a mathematical expression and can be leveraged into faster and more accurate function implementations. However, identities must currently be discovered manually, which requires a lot of expertise. We propose a two-phase synthesis and deduplication pipeline that discovers these identities automatically. In the synthesis step, a set of rewrite rules is composed, using an e-graph, to discover candidate identities. However, most of these candidates are duplicates, which a secondary deduplication step discards using integer linear programming and another e-graph. Applied to a set of 61 benchmarks, the synthesis phase generates 7215 candidate identities which the deduplication phase then reduces down to 125 core identities.",
+      "missing_fields": [],
+      "reviewer": "JuniorMini",
+      "evaluation": 1,
+      "reasoning": "The study focuses on synthesizing mathematical identities and has no connection to the topic of discrete audio or speech tokenization.",
+      "raw_output": "```json\n{\n  \"reasoning\": \"The study focuses on synthesizing mathematical identities and has no connection to the topic of discrete audio or speech tokenization.\",\n  \"evaluation\": 1\n}\n```",
+      "error": null
+    },
+    {
+      "index": 2,
+      "arxiv_id": "2206.09680",
+      "title": "Misspelling Semantics In Thai",
+      "abstract": "User-generated content is full of misspellings. Rather than being just random noise, we hypothesise that many misspellings contain hidden semantics that can be leveraged for language understanding tasks. This paper presents a fine-grained annotated corpus of misspelling in Thai, together with an analysis of misspelling intention and its possible semantics to get a better understanding of the misspelling patterns observed in the corpus. In addition, we introduce two approaches to incorporate the semantics of misspelling: Misspelling Average Embedding (MAE) and Misspelling Semantic Tokens (MST). Experiments on a sentiment analysis task confirm our overall hypothesis: additional semantics from misspelling can boost the micro F1 score up to 0.4-2%, while blindly normalising misspelling is harmful and suboptimal.",
+      "missing_fields": [],
+      "reviewer": "JuniorMini",
+      "evaluation": 1,
+      "reasoning": "The study focuses on misspelling semantics in text and has no relevance to discrete audio or speech tokenization.",
+      "raw_output": "```json\n{\n  \"reasoning\": \"The study focuses on misspelling semantics in text and has no relevance to discrete audio or speech tokenization.\",\n  \"evaluation\": 1\n}\n```",
+      "error": null
+    },
+    {
+      "index": 3,
+      "arxiv_id": "2206.12117",
+      "title": "Self Supervised Learning for Few Shot Hyperspectral Image Classification",
+      "abstract": "Deep learning has proven to be a very effective approach for Hyperspectral Image (HSI) classification. However, deep neural networks require large annotated datasets to generalize well. This limits the applicability of deep learning for HSI classification, where manually labelling thousands of pixels for every scene is impractical. In this paper, we propose to leverage Self Supervised Learning (SSL) for HSI classification. We show that by pre-training an encoder on unlabeled pixels using Barlow-Twins, a state-of-the-art SSL algorithm, we can obtain accurate models with a handful of labels. Experimental results demonstrate that this approach significantly outperforms vanilla supervised learning.",
+      "missing_fields": [],
+      "reviewer": "JuniorMini",
+      "evaluation": 1,
+      "reasoning": "The study focuses on hyperspectral image classification, which is entirely unrelated to the required topic of discrete audio or speech tokenization.",
+      "raw_output": "```json\n{\n  \"reasoning\": \"The study focuses on hyperspectral image classification, which is entirely unrelated to the required topic of discrete audio or speech tokenization.\",\n  \"evaluation\": 1\n}\n```",
+      "error": null
+    },
+    {
+      "index": 4,
+      "arxiv_id": "2206.13680",
+      "title": "Attention-based conditioning methods using variable frame rate for style-robust speaker verification",
+      "abstract": "We propose an approach to extract speaker embeddings that are robust to speaking style variations in text-independent speaker verification. Typically, speaker embedding extraction includes training a DNN for speaker classification and using the bottleneck features as speaker representations. Such a network has a pooling layer to transform frame-level to utterance-level features by calculating statistics over all utterance frames, with equal weighting. However, self-attentive embeddings perform weighted pooling such that the weights correspond to the importance of the frames in a speaker classification task. Entropy can capture acoustic variability due to speaking style variations. Hence, an entropy-based variable frame rate vector is proposed as an external conditioning vector for the self-attention layer to provide the network with information that can address style effects. This work explores five different approaches to conditioning. The best conditioning approach, concatenation with gating, provided statistically significant improvements over the x-vector baseline in 12/23 tasks and was the same as the baseline in 11/23 tasks when using the UCLA speaker variability database. It also significantly outperformed self-attention without conditioning in 9/23 tasks and was worse in 1/23. The method also showed significant improvements in multi-speaker scenarios of SITW.",
+      "missing_fields": [],
+      "reviewer": "JuniorMini",
+      "evaluation": 1,
+      "reasoning": "The study focuses on extracting continuous speaker embeddings using attention mechanisms and does not propose or analyze the conversion of audio signals into a sequence of discrete tokens, which is the central inclusion criterion.",
+      "raw_output": "```json\n{\n  \"reasoning\": \"The study focuses on extracting continuous speaker embeddings using attention mechanisms and does not propose or analyze the conversion of audio signals into a sequence of discrete tokens, which is the central inclusion criterion.\",\n  \"evaluation\": 1\n}\n```",
+      "error": null
+    }
+  ],
+  "errors": []
+}

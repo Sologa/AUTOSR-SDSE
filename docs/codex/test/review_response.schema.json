@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "evaluation": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "reasoning": {
+      "type": "string"
+    }
+  },
+  "required": ["evaluation", "reasoning"]
+}
