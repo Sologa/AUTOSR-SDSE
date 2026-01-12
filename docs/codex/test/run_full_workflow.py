@@ -15,8 +15,10 @@ from review_cli_utils import (
     load_arxiv_items,
     load_criteria,
     load_env,
+    prepare_gemini_settings,
     repo_root,
     resolve_codex_bin,
+    restore_gemini_settings,
     run_codex_exec,
     run_gemini_cli,
     write_json,
@@ -98,144 +100,150 @@ def run_full_workflow(
     codex_bin: str,
     codex_extra_args: Optional[List[str]] = None,
     allow_web_search: bool = False,
+    gemini_allow_web_search: bool = False,
+    gemini_root: Optional[Path] = None,
 ) -> Path:
-    """Run the full workflow (JuniorNano/JuniorMini + optional SeniorLead)."""
+    """Run the full workflow with repo-local Gemini tool policy applied."""
     resolved_codex_extra_args = _resolve_extra_args(codex_extra_args, allow_web_search)
     items, warnings = load_arxiv_items(metadata_path, limit)
     inclusion, exclusion, criteria_source, used_criteria_path = load_criteria(criteria_path)
 
     results: List[Dict[str, Any]] = []
     errors: List[str] = list(warnings)
+    settings_state = prepare_gemini_settings(root=gemini_root, allow_web_search=gemini_allow_web_search)
 
-    for item in items:
-        round_a_text = _build_round_text(
-            "A",
-            item["index"],
-            [
-                ("title", item["title"]),
-                ("abstract", item["abstract"]),
-            ],
-        )
-        prompt_a = build_review_prompt(round_a_text, inclusion, exclusion)
-
-        nano_parsed, nano_raw, nano_err = run_codex_exec(
-            prompt_a,
-            junior_nano_model,
-            schema_path,
-            codex_bin=codex_bin,
-            codex_extra_args=resolved_codex_extra_args,
-        )
-        nano_eval = None
-        nano_reason = ""
-        nano_error = None
-        if nano_err:
-            nano_error = nano_err
-            errors.append(f"JuniorNano {item.get('arxiv_id') or item['index']}: {nano_err}")
-        elif isinstance(nano_parsed, dict):
-            nano_eval = _coerce_score(nano_parsed.get("evaluation"))
-            nano_reason = nano_parsed.get("reasoning") or ""
-
-        mini_parsed, mini_raw, mini_err, mini_model_used = run_gemini_cli(prompt_a, junior_mini_model)
-        mini_eval = None
-        mini_reason = ""
-        mini_error = None
-        if mini_err:
-            mini_error = mini_err
-            errors.append(f"JuniorMini {item.get('arxiv_id') or item['index']}: {mini_err}")
-        elif isinstance(mini_parsed, dict):
-            mini_eval = _coerce_score(mini_parsed.get("evaluation"))
-            mini_reason = mini_parsed.get("reasoning") or ""
-
-        senior_eval = None
-        senior_reason = ""
-        senior_error = None
-        senior_raw = ""
-
-        nano_score = _coerce_score(nano_eval)
-        mini_score = _coerce_score(mini_eval)
-        if _should_run_senior(nano_score, mini_score):
-            round_b_text = _build_round_text(
-                "B",
+    try:
+        for item in items:
+            round_a_text = _build_round_text(
+                "A",
                 item["index"],
                 [
                     ("title", item["title"]),
                     ("abstract", item["abstract"]),
-                    ("round-A_JuniorNano_output", json.dumps(nano_parsed, ensure_ascii=False)),
-                    ("round-A_JuniorNano_evaluation", str(nano_eval)),
-                    ("round-A_JuniorMini_output", json.dumps(mini_parsed, ensure_ascii=False)),
-                    ("round-A_JuniorMini_evaluation", str(mini_eval)),
                 ],
             )
-            prompt_b = build_review_prompt(round_b_text, inclusion, exclusion)
-            senior_parsed, senior_raw, senior_err = run_codex_exec(
-                prompt_b,
-                senior_model,
+            prompt_a = build_review_prompt(round_a_text, inclusion, exclusion)
+
+            nano_parsed, nano_raw, nano_err = run_codex_exec(
+                prompt_a,
+                junior_nano_model,
                 schema_path,
                 codex_bin=codex_bin,
                 codex_extra_args=resolved_codex_extra_args,
             )
-            if senior_err:
-                senior_error = senior_err
-                errors.append(f"SeniorLead {item.get('arxiv_id') or item['index']}: {senior_err}")
-            elif isinstance(senior_parsed, dict):
-                senior_eval = _coerce_score(senior_parsed.get("evaluation"))
-                senior_reason = senior_parsed.get("reasoning") or ""
-        else:
-            senior_parsed = None
+            nano_eval = None
+            nano_reason = ""
+            nano_error = None
+            if nano_err:
+                nano_error = nano_err
+                errors.append(f"JuniorNano {item.get('arxiv_id') or item['index']}: {nano_err}")
+            elif isinstance(nano_parsed, dict):
+                nano_eval = _coerce_score(nano_parsed.get("evaluation"))
+                nano_reason = nano_parsed.get("reasoning") or ""
 
-        junior_scores: List[int] = []
-        for score in (nano_score, mini_score):
-            if isinstance(score, int):
-                junior_scores.append(score)
-        verdict = _derive_verdict(
-            _coerce_score(senior_eval),
-            junior_scores,
-        )
-        discard_reason = None
-        if verdict.startswith("exclude"):
-            discard_reason = verdict
-        elif verdict.startswith("maybe"):
-            discard_reason = "review_needs_followup"
+            mini_parsed, mini_raw, mini_err, mini_model_used = run_gemini_cli(prompt_a, junior_mini_model)
+            mini_eval = None
+            mini_reason = ""
+            mini_error = None
+            if mini_err:
+                mini_error = mini_err
+                errors.append(f"JuniorMini {item.get('arxiv_id') or item['index']}: {mini_err}")
+            elif isinstance(mini_parsed, dict):
+                mini_eval = _coerce_score(mini_parsed.get("evaluation"))
+                mini_reason = mini_parsed.get("reasoning") or ""
 
-        results.append(
-            {
-                "index": item["index"],
-                "arxiv_id": item["arxiv_id"],
-                "title": item["title"],
-                "abstract": item["abstract"],
-                "missing_fields": item["missing_fields"],
-                "rounds": {
-                    "A": {
-                        "JuniorNano": {
-                            "evaluation": nano_eval,
-                            "reasoning": nano_reason,
-                            "raw_output": nano_raw,
-                            "error": nano_error,
+            senior_eval = None
+            senior_reason = ""
+            senior_error = None
+            senior_raw = ""
+
+            nano_score = _coerce_score(nano_eval)
+            mini_score = _coerce_score(mini_eval)
+            if _should_run_senior(nano_score, mini_score):
+                round_b_text = _build_round_text(
+                    "B",
+                    item["index"],
+                    [
+                        ("title", item["title"]),
+                        ("abstract", item["abstract"]),
+                        ("round-A_JuniorNano_output", json.dumps(nano_parsed, ensure_ascii=False)),
+                        ("round-A_JuniorNano_evaluation", str(nano_eval)),
+                        ("round-A_JuniorMini_output", json.dumps(mini_parsed, ensure_ascii=False)),
+                        ("round-A_JuniorMini_evaluation", str(mini_eval)),
+                    ],
+                )
+                prompt_b = build_review_prompt(round_b_text, inclusion, exclusion)
+                senior_parsed, senior_raw, senior_err = run_codex_exec(
+                    prompt_b,
+                    senior_model,
+                    schema_path,
+                    codex_bin=codex_bin,
+                    codex_extra_args=resolved_codex_extra_args,
+                )
+                if senior_err:
+                    senior_error = senior_err
+                    errors.append(f"SeniorLead {item.get('arxiv_id') or item['index']}: {senior_err}")
+                elif isinstance(senior_parsed, dict):
+                    senior_eval = _coerce_score(senior_parsed.get("evaluation"))
+                    senior_reason = senior_parsed.get("reasoning") or ""
+            else:
+                senior_parsed = None
+
+            junior_scores: List[int] = []
+            for score in (nano_score, mini_score):
+                if isinstance(score, int):
+                    junior_scores.append(score)
+            verdict = _derive_verdict(
+                _coerce_score(senior_eval),
+                junior_scores,
+            )
+            discard_reason = None
+            if verdict.startswith("exclude"):
+                discard_reason = verdict
+            elif verdict.startswith("maybe"):
+                discard_reason = "review_needs_followup"
+
+            results.append(
+                {
+                    "index": item["index"],
+                    "arxiv_id": item["arxiv_id"],
+                    "title": item["title"],
+                    "abstract": item["abstract"],
+                    "missing_fields": item["missing_fields"],
+                    "rounds": {
+                        "A": {
+                            "JuniorNano": {
+                                "evaluation": nano_eval,
+                                "reasoning": nano_reason,
+                                "raw_output": nano_raw,
+                                "error": nano_error,
+                            },
+                            "JuniorMini": {
+                                "evaluation": mini_eval,
+                                "reasoning": mini_reason,
+                                "raw_output": mini_raw,
+                                "error": mini_error,
+                                "model_used": mini_model_used,
+                            },
                         },
-                        "JuniorMini": {
-                            "evaluation": mini_eval,
-                            "reasoning": mini_reason,
-                            "raw_output": mini_raw,
-                            "error": mini_error,
-                            "model_used": mini_model_used,
-                        },
-                    },
-                    "B": {
-                        "SeniorLead": {
-                            "evaluation": senior_eval,
-                            "reasoning": senior_reason,
-                            "raw_output": senior_raw,
-                            "error": senior_error,
+                        "B": {
+                            "SeniorLead": {
+                                "evaluation": senior_eval,
+                                "reasoning": senior_reason,
+                                "raw_output": senior_raw,
+                                "error": senior_error,
+                            }
                         }
-                    }
-                    if senior_raw or senior_error or senior_eval is not None
-                    else {},
-                },
-                "final_verdict": verdict,
-                "discard_reason": discard_reason,
-                "review_skipped": False,
-            }
-        )
+                        if senior_raw or senior_error or senior_eval is not None
+                        else {},
+                    },
+                    "final_verdict": verdict,
+                    "discard_reason": discard_reason,
+                    "review_skipped": False,
+                }
+            )
+    finally:
+        restore_gemini_settings(settings_state)
 
     output_payload = {
         "run_id": run_id,
@@ -293,6 +301,7 @@ def run_full_workflow(
             "provider": "gemini",
             "command": f"gemini --output-format json --model {junior_mini_model}",
             "model": junior_mini_model,
+            "tool_policy": settings_state["policy"],
         }
     )
     commands.append(
@@ -336,6 +345,11 @@ def main() -> int:
         action="store_true",
         help="Allow Codex web search tool for this workflow (disabled by default).",
     )
+    parser.add_argument(
+        "--gemini-allow-web-search",
+        action="store_true",
+        help="Allow Gemini web search tool for this workflow (disabled by default).",
+    )
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument(
@@ -372,6 +386,8 @@ def main() -> int:
         codex_bin=codex_bin,
         codex_extra_args=args.codex_extra_arg,
         allow_web_search=args.allow_web_search,
+        gemini_allow_web_search=args.gemini_allow_web_search,
+        gemini_root=root,
     )
     print(str(output_dir))
     return 0

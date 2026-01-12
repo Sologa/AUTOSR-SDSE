@@ -32,7 +32,18 @@
         "properties": {
           "provider": {"type": "string"},
           "command": {"type": "string"},
-          "model": {"type": ["string", "null"]}
+          "model": {"type": ["string", "null"]},
+          "tool_policy": {
+            "type": "object",
+            "properties": {
+              "settings_path": {"type": "string"},
+              "allow_web_search": {"type": "boolean"},
+              "tools_core": {"type": "array", "items": {"type": "string"}},
+              "tools_exclude": {"type": "array", "items": {"type": "string"}},
+              "modified": {"type": "boolean"}
+            },
+            "additionalProperties": false
+          }
         },
         "additionalProperties": false
       }

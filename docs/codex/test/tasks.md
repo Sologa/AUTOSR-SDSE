@@ -33,6 +33,10 @@
 - [x] **T011 [P]** 補充 `docs/codex/test/config.md`（與 README 一致）說明 `CODEX_HOME`、sandbox/network 控制與 `--codex-extra-arg` 的測試流程。
 - [x] **T012 [P]** 驗證並紀錄 `docs/codex/test/outputs/<run_id>/run_manifest.json` 中 codex 命令包含 `--disable web_search_request`，並確認輸出 JSON 未出現 `web_search` tool entry。
 
+## Phase 3.6: Web Search Controls (Gemini)
+- [x] **T013 [P]** 補充 `docs/codex/test/README.md`、`docs/codex/test/config.md`、`docs/codex/test/gemini_web_search_control.md` 說明 Gemini CLI 以 `./.gemini/settings.json` 控制 `google_web_search`。
+- [x] **T014 [P]** 在 Gemini runner 增加 `./.gemini/settings.json` 切換機制（預設禁用 `google_web_search`），並將設定策略寫入 `run_manifest.json`。
+
 ## Dependencies
 - T001/T002 → T003/T004 → T005/T006 → T007/T008 → T009/T010
 

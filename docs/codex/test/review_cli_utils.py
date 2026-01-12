@@ -17,11 +17,18 @@ from src.utils.env import load_env_file
 DEFAULT_INCLUSION = "論文需與指定主題高度相關，且提供可用於評估的英文內容（全文或摘要/方法）。"
 DEFAULT_EXCLUSION = "論文若與主題無關，或缺乏可判斷的英文題名/摘要/方法描述則排除。"
 DEFAULT_CODEX_DISABLE_FLAGS = ["--disable", "web_search_request"]
+GEMINI_WEB_SEARCH_TOOL = "google_web_search"
 
 
 def repo_root() -> Path:
     """Return the repository root path used by the test utilities."""
     return REPO_ROOT
+
+
+def gemini_settings_path(root: Optional[Path] = None) -> Path:
+    """Return the repo-local Gemini CLI settings.json path."""
+    base = root or repo_root()
+    return base / ".gemini" / "settings.json"
 
 
 def load_env() -> None:
@@ -51,6 +58,114 @@ def write_json(path: Path, payload: Any) -> None:
     """Write JSON to disk, creating parent directories as needed."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _normalize_tool_list(value: Any) -> List[str]:
+    """Normalize tool list inputs to a de-duplicated list of strings."""
+    if isinstance(value, list):
+        items = [str(item).strip() for item in value if str(item).strip()]
+    elif isinstance(value, str) and value.strip():
+        items = [value.strip()]
+    else:
+        items = []
+    seen = set()
+    result = []
+    for item in items:
+        if item in seen:
+            continue
+        seen.add(item)
+        result.append(item)
+    return result
+
+
+def _apply_gemini_tool_policy(
+    settings: Dict[str, Any],
+    *,
+    allow_web_search: bool,
+) -> Tuple[Dict[str, Any], List[str], List[str]]:
+    """Apply Gemini tool policy updates and return updated settings plus tools lists."""
+    tools = settings.get("tools")
+    tools_payload = tools if isinstance(tools, dict) else {}
+    core = _normalize_tool_list(tools_payload.get("core"))
+    exclude = _normalize_tool_list(tools_payload.get("exclude"))
+
+    if allow_web_search:
+        if core and GEMINI_WEB_SEARCH_TOOL not in core:
+            core.append(GEMINI_WEB_SEARCH_TOOL)
+        if GEMINI_WEB_SEARCH_TOOL in exclude:
+            exclude = [item for item in exclude if item != GEMINI_WEB_SEARCH_TOOL]
+    else:
+        if GEMINI_WEB_SEARCH_TOOL in core:
+            core = [item for item in core if item != GEMINI_WEB_SEARCH_TOOL]
+        if GEMINI_WEB_SEARCH_TOOL not in exclude:
+            exclude.append(GEMINI_WEB_SEARCH_TOOL)
+
+    updated_tools: Dict[str, Any] = dict(tools_payload)
+    if core:
+        updated_tools["core"] = core
+    else:
+        updated_tools.pop("core", None)
+    if exclude:
+        updated_tools["exclude"] = exclude
+    else:
+        updated_tools.pop("exclude", None)
+
+    updated_settings = dict(settings)
+    if updated_tools:
+        updated_settings["tools"] = updated_tools
+    else:
+        updated_settings.pop("tools", None)
+    return updated_settings, core, exclude
+
+
+def prepare_gemini_settings(*, root: Optional[Path], allow_web_search: bool) -> Dict[str, Any]:
+    """Apply repo-local Gemini settings for web search control and return state."""
+    settings_path = gemini_settings_path(root)
+    existed = settings_path.exists()
+    original: Dict[str, Any] = {}
+    if existed:
+        loaded = read_json(settings_path)
+        if not isinstance(loaded, dict):
+            raise ValueError("Gemini settings.json must be a JSON object")
+        original = loaded
+
+    updated, core, exclude = _apply_gemini_tool_policy(
+        original,
+        allow_web_search=allow_web_search,
+    )
+    changed = updated != original
+    if changed:
+        write_json(settings_path, updated)
+
+    return {
+        "path": settings_path,
+        "existed": existed,
+        "original": original,
+        "changed": changed,
+        "policy": {
+            "settings_path": str(settings_path),
+            "allow_web_search": allow_web_search,
+            "tools_core": core,
+            "tools_exclude": exclude,
+            "modified": changed,
+        },
+    }
+
+
+def restore_gemini_settings(state: Dict[str, Any]) -> None:
+    """Restore Gemini settings.json to its original state when modified."""
+    if not state.get("changed"):
+        return
+    settings_path = state.get("path")
+    if not isinstance(settings_path, Path):
+        return
+    if state.get("existed"):
+        original = state.get("original")
+        if isinstance(original, dict):
+            write_json(settings_path, original)
+    else:
+        if settings_path.exists():
+            settings_path.unlink()
 
 
 def build_run_id() -> str:
@@ -381,6 +496,7 @@ def update_manifest(
     reviewer: Optional[str],
     model: Optional[str],
     command: List[str],
+    command_meta: Optional[Dict[str, Any]] = None,
 ) -> None:
     """Append output and command entries, then persist the manifest."""
     outputs = manifest.setdefault("outputs", [])
@@ -395,11 +511,12 @@ def update_manifest(
         }
     )
     commands = manifest.setdefault("commands", [])
-    commands.append(
-        {
-            "provider": provider,
-            "command": " ".join(command),
-            "model": model,
-        }
-    )
+    command_entry = {
+        "provider": provider,
+        "command": " ".join(command),
+        "model": model,
+    }
+    if command_meta:
+        command_entry["tool_policy"] = command_meta
+    commands.append(command_entry)
     write_json(output_dir / "run_manifest.json", manifest)

@@ -43,6 +43,7 @@ docs/codex/test/
    - Gemini CLI：採用官方 Gemini CLI 的 headless 模式與 model selection（見外部文件）。
    - 設定控制：預設 `CODEX_HOME` 指向 repo 內 `./.codex`，並在 config 中鎖定 sandbox/network（例如 `network_access=false`）與 `--codex-extra-arg` 支援，確保測試者無需改動使用者層級設定就能關閉網路或調整 approval。
    - Web search policy：預設 `./.codex/config.toml` 關閉 `features.web_search_request`/`tools.web_search`，腳本在 manifest 及 CLI 參數中註記 `--disable web_search_request` 與 `-c 'tools.web_search=false'`，並提供 `--allow-web-search` 無縫反向覆寫，這一做法需加入手動測試檢核清單。
+   - Gemini web search policy：使用 repo 內 `./.gemini/settings.json` 的 `tools.exclude`/`tools.core` 控制工具可用性，headless CLI 無單次旗標；後續 runner 需記錄設定策略並提供 per-run 覆寫。
 
 **Output**: 更新 spec.md/plan.md 並固定輸出命名與模型策略
 
@@ -59,6 +60,7 @@ docs/codex/test/
   - criteria 讀取順序：`workspace/criteria/criteria.json` → 內建預設文案
   - 完整 workflow：Round A（JuniorNano+JuniorMini）→ Round B（SeniorLead）
   - **Codex config design**：規範 repo-local `.codex/config.toml` 為 `CODEX_HOME`，說明如何透過該檔調整 approve/network，並記錄 flag 使用方式（`--codex-extra-arg`）。
+  - **Gemini config design**：規範 repo-local `./.gemini/settings.json` 控制工具可用性（預設禁用 `google_web_search`），並在 manifest/README 說明覆寫方式。
 
 3. **Output schema design**
    - 結構化輸出欄位（paper id/title/abstract + evaluation/reasoning + provider/meta）

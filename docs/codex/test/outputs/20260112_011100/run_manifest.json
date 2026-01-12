@@ -1,0 +1,43 @@
+{
+  "run_id": "20260112_011100",
+  "created_at": "2026-01-12T01:13:57.593712",
+  "input_source": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/harvest/arxiv_metadata.json",
+  "criteria_source": "workspace",
+  "criteria_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/criteria/criteria.json",
+  "outputs": [
+    {
+      "name": "full_workflow",
+      "path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/outputs/20260112_011100/full_workflow.json",
+      "mode": "full",
+      "provider": "mixed",
+      "reviewer": null,
+      "model": null
+    }
+  ],
+  "commands": [
+    {
+      "provider": "codex",
+      "command": "/opt/homebrew/bin/codex exec --disable web_search_request - --model gpt-5.1-codex-mini --output-schema /Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/review_response.schema.json",
+      "model": "gpt-5.1-codex-mini"
+    },
+    {
+      "provider": "gemini",
+      "command": "gemini --output-format json --model gemini-2.5-pro",
+      "model": "gemini-2.5-pro",
+      "tool_policy": {
+        "settings_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/.gemini/settings.json",
+        "allow_web_search": false,
+        "tools_core": [],
+        "tools_exclude": [
+          "google_web_search"
+        ],
+        "modified": false
+      }
+    },
+    {
+      "provider": "codex",
+      "command": "/opt/homebrew/bin/codex exec --disable web_search_request - --model gpt-5.2 --output-schema /Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test/review_response.schema.json",
+      "model": "gpt-5.2"
+    }
+  ]
+}

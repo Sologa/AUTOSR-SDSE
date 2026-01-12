@@ -28,6 +28,18 @@ network_access = false
 trust_level = 'trusted'
 ```
 
-4. 需要調整 approval/automation (例如 `--full-auto`) 時，請透過 `docs/codex/test/run_*` 的 `--codex-extra-arg` 參數在 codex exec 之前插入 flag，執行後結果與 manifest 會記錄實際命令。`web_search` 工具預設被關閉；若某次要允許，可加上 `--allow-web-search`。
+4. Gemini CLI 的 Web Search 需透過專案層 `./.gemini/settings.json` 控制；headless 模式沒有單次指令旗標。runner 會在執行時自動套用/回復該檔，預設禁用 `google_web_search`。若要長期固定設定，可在 repo root 自行建立：
 
-5. 維持此配置可避免改動個人 `~/.codex/config.toml`，也讓測試過程可重現。
+```json
+{
+  "tools": {
+    "exclude": ["google_web_search"]
+  }
+}
+```
+
+這是專案層設定，不會影響使用者全域設定；詳細來源與說明見 `docs/codex/test/gemini_web_search_control.md`。若需一次性允許 Web Search，請加 `--gemini-allow-web-search`。
+
+5. 需要調整 approval/automation (例如 `--full-auto`) 時，請透過 `docs/codex/test/run_*` 的 `--codex-extra-arg` 參數在 codex exec 之前插入 flag，執行後結果與 manifest 會記錄實際命令。`web_search` 工具預設被關閉；若某次要允許，可加上 `--allow-web-search`。
+
+6. 維持此配置可避免改動個人 `~/.codex/config.toml`，也讓測試過程可重現。

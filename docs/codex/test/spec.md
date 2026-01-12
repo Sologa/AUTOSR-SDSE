@@ -28,7 +28,8 @@
 3. **Given** 單 reviewer 測試完成，**When** 執行完整 workflow（JuniorNano + JuniorMini → SeniorLead），**Then** 產出含 `final_verdict` 或等價欄位的多 reviewer 結果。
 4. **Given** criteria 檔案不存在，**When** 執行任一測試腳本，**Then** 使用與 pipeline 等價的預設 criteria 並完成輸出。
 5. **Given** 預設 `./.codex/config.toml` 關閉 web search、且未額外指定 `--allow-web-search`，**When** 執行任一 `codex exec` runner，**Then** `run_manifest.json` 中的命令必須包含 `--disable web_search_request` + `-c 'tools.web_search=false'`，並在 `codex exec --json` 產生的 transcript 裡不會出現 `web_search` tool 呼叫。
-5. **Given** 測試需要調整 approval/network 或使用非預設 automation，**When** 透過 `--codex-extra-arg` 及 `CODEX_HOME=$PWD/.codex`（指向 repo 內 `.codex/config.toml`），**Then** runner 能在不修改使用者全域設定的前提下執行所需 flag 並鎖定 sandbox 網路行為，且 README/plan 提供相關說明。
+6. **Given** 測試需要調整 approval/network 或使用非預設 automation，**When** 透過 `--codex-extra-arg` 及 `CODEX_HOME=$PWD/.codex`（指向 repo 內 `.codex/config.toml`），**Then** runner 能在不修改使用者全域設定的前提下執行所需 flag 並鎖定 sandbox 網路行為，且 README/plan 提供相關說明。
+7. **Given** 專案層 `./.gemini/settings.json` 已排除 `google_web_search` 且未啟用 override，**When** 執行 Gemini runner，**Then** `run_manifest.json` 必須記錄使用的 Gemini 設定控制策略，且輸出若包含 tool stats 時不得出現 `google_web_search` 呼叫。
 
 ### Edge Cases
 - 若來源資料少於 5 筆，輸出應包含實際可用筆數並明確記錄不足原因。
@@ -55,6 +56,7 @@
 - **FR-012**：runner MUST 支援 `--codex-extra-arg`，允許測試者將任意 CLI flag 插入 `codex exec`（例如 `--full-auto`），且 manifest/README 需記錄使用過的 flags 以利重現。
 - **FR-013**：系統 MUST 約定一份 repo-local 的 Codex config（`CODEX_HOME=$PWD/.codex`），該配置應包含 sandbox/network 控制（例如 `network_access=false`），讓測試時可在不改動 `~/.codex/config.toml` 的情況下長期鎖網；README 或 docs 需說明如何啟用此設定。
 - **FR-014**：Codex runner 預設 MUST 將 `web_search` 工具關閉（透過 repo 設定與 CLI args），並提供 `--allow-web-search` 以在特定 run 解鎖；manifest/README/命令紀錄需反映此政策。
+- **FR-015**：Gemini runner MUST 支援專案層設定檔控制工具可用性，預設 MUST 禁用 `google_web_search`，並提供不需修改使用者全域設定的 per-run 覆寫機制；manifest/README 需反映此政策。
 
 ### Key Entities (include if feature involves data)
 - **ReviewSource**：代表「前 5 篇 paper」的來源檔案與排序規則。

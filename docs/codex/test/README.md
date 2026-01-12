@@ -9,6 +9,7 @@
 - 已用 ChatGPT 訂閱帳號登入 Codex CLI（使用 `codex login`，或 `codex login --device-auth`）
 - `CODEX_HOME` 已指向 repo 下的 `./.codex`：（`export CODEX_HOME=$PWD/.codex`）
 - Codex CLI 中的 web search 工具預設也已在 repo 內 `./.codex/config.toml` 關閉（`features.web_search_request=false`）；如需特別允許某次 run 可搭配 `--allow-web-search` 參數來覆寫。
+- Gemini CLI 的 Web Search 由專案層 `./.gemini/settings.json` 控制，headless 模式沒有單次指令旗標；runner 會在執行時自動套用/回復該檔（預設排除 `google_web_search`），如需允許請加 `--gemini-allow-web-search`，細節見 `docs/codex/test/gemini_web_search_control.md`。
 - 若需一次性調整 sandbox/network/approval 設定，請參考 `docs/codex/test/config.md`，裡面示範 `./.codex/config.toml` 的範例與建議做法。
 
 ## 建議執行順序
@@ -35,10 +36,20 @@ source sdse-uv/.venv/bin/activate
 python docs/codex/test/run_gemini_single.py --run-id 20260110_090000 --model gemini-2.5-pro
 ```
 
+允許 Gemini Web Search：
+```bash
+python docs/codex/test/run_gemini_single.py --run-id 20260110_090000 --model gemini-2.5-pro --gemini-allow-web-search
+```
+
 ### 3) 完整 workflow
 ```bash
 source sdse-uv/.venv/bin/activate
 python docs/codex/test/run_full_workflow.py --run-id 20260110_090000
+```
+
+允許 Gemini Web Search（僅 Gemini）：
+```bash
+python docs/codex/test/run_full_workflow.py --run-id 20260110_090000 --gemini-allow-web-search
 ```
 
 ## 輸出檔案
