@@ -240,6 +240,8 @@ def run_structured_criteria_pipeline(
     recency_hint: Optional[str] = None,
     exclude_title: Optional[str] = None,
     cutoff_before_date: Optional[str] = None,
+    search_reasoning_effort: Optional[str] = None,
+    formatter_reasoning_effort: Optional[str] = None,
     web_search_service: Optional[LLMService] = None,
     formatter_service: Optional[LLMService] = None,
 ) -> CriteriaPipelineResult:
@@ -267,6 +269,7 @@ def run_structured_criteria_pipeline(
         force_tool=search_cfg.enforce_tool_choice,
         temperature=search_cfg.temperature,
         max_output_tokens=search_cfg.max_output_tokens,
+        reasoning_effort=search_reasoning_effort,
     )
 
     structured_prompt_template = _build_structured_json_prompt(
@@ -290,6 +293,7 @@ def run_structured_criteria_pipeline(
         formatter_messages,
         temperature=formatter_cfg.temperature,
         max_output_tokens=formatter_cfg.max_output_tokens,
+        reasoning_effort=formatter_reasoning_effort,
     )
 
     structured_payload = _extract_json_payload(formatter_result.content)

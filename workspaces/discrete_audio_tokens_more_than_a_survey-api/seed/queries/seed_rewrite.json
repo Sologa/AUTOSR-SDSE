@@ -1,0 +1,44 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "trigger_reason": "cutoff_removed_all_candidates",
+  "attempts": [
+    {
+      "attempt": 1,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens  \ndiscrete audio tokenization  \nquantized audio tokens",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "discrete audio tokenization",
+        "quantized audio tokens"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 2,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens  \ndiscrete speech tokens  \naudio tokenization discrete tokens",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "discrete speech tokens",
+        "audio tokenization discrete tokens"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "selected_queries": [
+    "discrete audio tokens",
+    "discrete speech tokens",
+    "audio tokenization discrete tokens"
+  ],
+  "original_seed_query": "(all:\"Discrete Audio Tokens: More Than a Survey!\" OR all:\"discrete audio tokens: more than a survey\" OR all:\"Discrete Audio Tokens\" OR all:\"discrete audio tokens: more than a surveys\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "cutoff_reason": "cutoff_removed_all_candidates",
+  "cutoff_candidate_title": "Discrete Audio Tokens: More Than a Survey!",
+  "generated_at": "2026-01-07T09:56:02.311663+00:00",
+  "preview_only": false
+}

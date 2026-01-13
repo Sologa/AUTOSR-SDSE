@@ -1,5 +1,13 @@
 # Codex/Gemini CLI 可行性報告（基於 repo 現況）
 
+> 規範：禁止使用任何 API key；禁止將 CLI 測試納入 CI/CD；僅允許手動執行。
+
+- 最後驗證日期：2026-01-13
+- Codex CLI 版本：OpenAI Codex v0.79.0
+- 版本來源：`docs/codex/test-keywords/outputs/20260112_213838/codex_keywords.json`
+
+> ⚠️ **重要提醒**：在 `sdse-uv` 虛擬環境中，`codex` 命令可能被另一個套件覆蓋。請使用 `/opt/homebrew/bin/codex` 或設定 `CODEX_BIN` 環境變數。
+
 ## 範圍與依據
 
 ### 範圍
@@ -9,7 +17,7 @@
 ### 依據與檢核方式（repo 內）
 - Pipeline 交接與流程：`docs/pipelines/pipeline_handoff.md`、`docs/pipelines/topic_cli_pipeline.md`、`docs/pipelines/topic_cli_pipeline_overview.md`
 - 主要程式碼：`src/pipelines/topic_pipeline.py`、`src/utils/llm.py`、`src/utils/keyword_extractor.py`、`src/utils/structured_web_search_pipeline.py`
-- Codex/Gemini CLI 測試與規格：`docs/codex/codex_cli_single_turn_report.md`、`docs/codex/codex_cli_implementation_report.md`、`docs/codex/test/README.md`、`docs/codex/test/REVIEW_REPORT.md`、`docs/codex/test/review_cli_utils.py`
+- Codex/Gemini CLI 測試與規格：`docs/codex/codex_cli_single_turn_report.md`、`docs/codex/codex_cli_implementation_report.md`、`docs/codex/test-review/README.md`、`docs/codex/test-review/REVIEW_REPORT.md`、`docs/codex/test-review/review_cli_utils.py`
 - 受保護檔案：`docs/agent-protected-files.md`
 
 ### 外部查詢動機與渠道
@@ -17,7 +25,7 @@
 - Codex CLI sandbox/approval 安全設定：`https://developers.openai.com/codex/security`
 - Codex CLI config reference（含 web_search_request 與 sandbox_mode）：`https://developers.openai.com/codex/config-reference`
 - Gemini CLI headless 與 JSON 輸出：`https://github.com/google-gemini/gemini-cli`、`https://raw.githubusercontent.com/google-gemini/gemini-cli/main/docs/cli/headless.md`
-- 失敗來源：`https://platform.openai.com/docs/guides/codex` 回傳 403，內容無法確定
+- 替代來源：`https://developers.openai.com/codex/`（原 `https://platform.openai.com/docs/guides/codex` 回傳 403）
 
 ---
 
@@ -31,12 +39,12 @@
 ---
 
 ## docs/codex 現況
-- `docs/codex/test` 已提供可手動執行的 Codex/Gemini CLI smoke test：
-  - `docs/codex/test/run_codex_single.py`
-  - `docs/codex/test/run_gemini_single.py`
-  - `docs/codex/test/run_full_workflow.py`
-- 已有實測輸出：`docs/codex/test/outputs/20260110_090000/`，並通過 validator。
-- `docs/codex/test/config.md` 規範 `CODEX_HOME` 與 repo-local `.codex/config.toml`。
+- `docs/codex/test-review` 已提供可手動執行的 Codex/Gemini CLI smoke test：
+  - `docs/codex/test-review/run_codex_single.py`
+  - `docs/codex/test-review/run_gemini_single.py`
+  - `docs/codex/test-review/run_full_workflow.py`
+- 已有實測輸出：`docs/codex/test-review/outputs/20260110_090000/`，並通過 validator。
+- `docs/codex/test-review/config.md` 規範 `CODEX_HOME` 與 repo-local `.codex/config.toml`。
 
 ---
 
@@ -49,13 +57,13 @@
 | Keywords | 不可等價替換 | 依賴 PDF 讀取與 `src/utils/keyword_extractor.py`（受保護）；CLI 無外部證據支援 PDF 直傳。 |
 | Criteria（web-only） | 有條件 | 需重建兩階段 prompt 與驗證規則；CLI web search 旗標與 domain allowlist 的支援度無法確定（外部來源未明示）。 |
 | Criteria（pdf+web） | 不可等價替換 | 依賴 `LLMService.read_pdfs`；CLI PDF 讀取無外部依據。 |
-| LatteReview | 有條件 | 可新增 CLI provider 或使用 `docs/codex/test` 既有 runner；需節流併發。 |
+| LatteReview | 有條件 | 可新增 CLI provider 或使用 `docs/codex/test-review` 既有 runner；需節流併發。 |
 
 ---
 
 ## 建議落地順序
 1) Seed rewrite / filter-seed：在 `src/pipelines/topic_pipeline.py` 增加 CLI 分支，維持現有 parser 與輸出格式。
-2) LatteReview：新增 CLI provider 或包裝 `docs/codex/test/review_cli_utils.py`，並降低並發。
+2) LatteReview：新增 CLI provider 或包裝 `docs/codex/test-review/review_cli_utils.py`，並降低並發。
 3) Criteria（web-only）：在確認 CLI web search 能力與輸出一致性後再投入。
 
 ---
@@ -72,7 +80,7 @@
 - Seed rewrite：輸出至少 1 行片語，且可被 `_parse_seed_rewrite_phrase` 接受。
 - Filter-seed：JSON 僅含 decision/reason/confidence，且可被 `_parse_decision_payload` 接受。
 - LatteReview：至少 1 篇 paper 走完完整流程並產生 `final_verdict`。
-- 使用現有工具驗證：`docs/codex/test/validate_review_output.py`、`docs/codex/test/validate_run_manifest.py`。
+- 使用現有工具驗證：`docs/codex/test-review/validate_review_output.py`、`docs/codex/test-review/validate_run_manifest.py`。
 
 ---
 

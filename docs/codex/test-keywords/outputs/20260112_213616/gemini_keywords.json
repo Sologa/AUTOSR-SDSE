@@ -1,0 +1,222 @@
+{
+  "run_id": "20260112_213616",
+  "mode": "single",
+  "provider": "gemini",
+  "models": {
+    "Keywords": "gemini-2.5-pro"
+  },
+  "topic": "discrete audio tokens more than a survey",
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "tool_usage": {
+    "totalCalls": 1,
+    "totalSuccess": 1,
+    "totalFail": 0,
+    "totalDurationMs": 7,
+    "totalDecisions": {
+      "accept": 0,
+      "reject": 0,
+      "modify": 0,
+      "auto_accept": 1
+    },
+    "byName": {
+      "read_file": {
+        "count": 1,
+        "success": 1,
+        "fail": 0,
+        "durationMs": 7,
+        "decisions": {
+          "accept": 0,
+          "reject": 0,
+          "modify": 0,
+          "auto_accept": 1
+        }
+      }
+    }
+  },
+  "payload": {
+    "topic": "discrete audio tokens more than a survey",
+    "anchor_terms": [
+      "discrete speech tokens",
+      "speech representation",
+      "acoustic tokens",
+      "semantic tokens"
+    ],
+    "search_terms": {
+      "token_types": [
+        "acoustic tokens",
+        "semantic tokens",
+        "supervised semantic tokens",
+        "ssl semantic tokens",
+        "disentangled acoustic tokens",
+        "single-codebook tokens",
+        "variable frame rate",
+        "multi-resolution tokens"
+      ],
+      "models_and_architectures": [
+        "vq-gan",
+        "diffusion models",
+        "u-net-based codecs",
+        "transformer-based models",
+        "cnn-based generator",
+        "vq-vae",
+        "conformer",
+        "autoregressive prediction",
+        "predictive models",
+        "contrastive models"
+      ],
+      "quantization_and_learning": [
+        "vector quantization",
+        "k-means clustering",
+        "residual vq",
+        "grouped vq",
+        "finite scalar quantization",
+        "gumbel-softmax",
+        "straight-through estimators",
+        "self-supervised learning",
+        "semantic distillation",
+        "gradient reversal layer"
+      ],
+      "tasks_and_applications": [
+        "speech generation",
+        "spoken language modeling",
+        "zero-shot text-to-speech",
+        "voice conversion",
+        "speech recognition",
+        "speech translation",
+        "speech synthesis",
+        "neural audio codec",
+        "text-free spoken language",
+        "speech resynthesis"
+      ],
+      "evaluation_and_properties": [
+        "reconstruction quality",
+        "bitrate",
+        "intelligibility",
+        "speaker similarity",
+        "temporal redundancy",
+        "frame rate",
+        "codebook utilization",
+        "timbre control",
+        "perceptual quality"
+      ],
+      "challenges_and_future_directions": [
+        "disentanglement",
+        "streaming ability",
+        "codebook collapse",
+        "low-bitrate tokens",
+        "noise robustness",
+        "paralinguistics",
+        "computational complexity",
+        "data requirements"
+      ]
+    },
+    "papers": [
+      {
+        "id": "advances_review_2025",
+        "source_id": "arXiv:2502.06490",
+        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+        "year": "2025",
+        "source_url": "https://arxiv.org/abs/2502.06490v4",
+        "detected_keywords": [
+          {
+            "term": "acoustic tokens",
+            "category": "token_types",
+            "evidence": {
+              "quote": "Acoustic tokens are derived from neural codecs designed to encode speech at a low bitrate while preserving as much information as possible.",
+              "page": "1"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "semantic tokens",
+            "category": "token_types",
+            "evidence": {
+              "quote": "semantic tokens originate from speech self-supervised learning (SSL), which aims to learn a more phonetic or semantic representation space, making it easier for speech recognition.",
+              "page": "1"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "vector quantization",
+            "category": "quantization_and_learning",
+            "evidence": {
+              "quote": "Instead, vector quantization (VQ) enables a learnable network module that allows gradients to pass through when producing discrete representations.",
+              "page": "2"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "codebook collapse",
+            "category": "challenges_and_future_directions",
+            "evidence": {
+              "quote": "VQ in high-dimensional spaces is known to suffer from codebook collapse, where the codebook usage is highly imbalanced.",
+              "page": "2"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "residual vq",
+            "category": "quantization_and_learning",
+            "evidence": {
+              "quote": "Residual VQ (RVQ), also known as multi-stage quantization. It adopts a serial approach that iteratively quantizes the residual of the last quantizer.",
+              "page": "4"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "semantic distillation",
+            "category": "quantization_and_learning",
+            "evidence": {
+              "quote": "The process of introducing semantic information into acoustic tokens is termed semantic distillation, with approaches summarized in Fig. 6.",
+              "page": "7"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "disentanglement",
+            "category": "challenges_and_future_directions",
+            "evidence": {
+              "quote": "A prominent research direction is the disentanglement of speaker timbre information, as this is a global trait among all the speech information aspects.",
+              "page": "8"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "voice conversion",
+            "category": "tasks_and_applications",
+            "evidence": {
+              "quote": "The disentanglement of speaker timbre also enables an acoustic token to perform voice conversion (VC), as timbre from the target speaker can be easily combined with the speaker-agnostic content tokens.",
+              "page": "8"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "spoken language modeling",
+            "category": "tasks_and_applications",
+            "evidence": {
+              "quote": "In most cases, the frame rate of discrete speech tokens ranges from 25 to 100Hz. This leads to a huge discrepancy in lengths between speech representations and the underlying text modality.",
+              "page": "10"
+            },
+            "confidence": 1.0
+          },
+          {
+            "term": "variable frame rate tokens",
+            "category": "token_types",
+            "evidence": {
+              "quote": "This kind of discrete speech tokens is referred to as variable frame rate (VFR) tokens in this review.",
+              "page": "11"
+            },
+            "confidence": 1.0
+          }
+        ]
+      }
+    ]
+  },
+  "raw_output": "```json\n{\n  \"topic\": \"discrete audio tokens more than a survey\",\n  \"anchor_terms\": [\n    \"discrete speech tokens\",\n    \"speech representation\",\n    \"acoustic tokens\",\n    \"semantic tokens\"\n  ],\n  \"search_terms\": {\n    \"token_types\": [\n      \"acoustic tokens\",\n      \"semantic tokens\",\n      \"supervised semantic tokens\",\n      \"ssl semantic tokens\",\n      \"disentangled acoustic tokens\",\n      \"single-codebook tokens\",\n      \"variable frame rate tokens\",\n      \"multi-resolution tokens\"\n    ],\n    \"models_and_architectures\": [\n      \"vq-gan\",\n      \"diffusion models\",\n      \"u-net-based codecs\",\n      \"transformer-based models\",\n      \"cnn-based generator\",\n      \"vq-vae\",\n      \"conformer\",\n      \"autoregressive prediction\",\n      \"predictive models\",\n      \"contrastive models\"\n    ],\n    \"quantization_and_learning\": [\n      \"vector quantization\",\n      \"k-means clustering\",\n      \"residual vq\",\n      \"grouped vq\",\n      \"finite scalar quantization\",\n      \"gumbel-softmax\",\n      \"straight-through estimators\",\n      \"self-supervised learning\",\n      \"semantic distillation\",\n      \"gradient reversal layer\"\n    ],\n    \"tasks_and_applications\": [\n      \"speech generation\",\n      \"spoken language modeling\",\n      \"zero-shot text-to-speech\",\n      \"voice conversion\",\n      \"speech recognition\",\n      \"speech translation\",\n      \"speech synthesis\",\n      \"neural audio codec\",\n      \"text-free spoken language models\",\n      \"speech resynthesis\"\n    ],\n    \"evaluation_and_properties\": [\n      \"reconstruction quality\",\n      \"bitrate\",\n      \"intelligibility\",\n      \"speaker similarity\",\n      \"temporal redundancy\",\n      \"frame rate\",\n      \"codebook utilization\",\n      \"timbre control\",\n      \"perceptual quality\"\n    ],\n    \"challenges_and_future_directions\": [\n      \"disentanglement\",\n      \"streaming ability\",\n      \"codebook collapse\",\n      \"low-bitrate tokens\",\n      \"noise robustness\",\n      \"paralinguistics\",\n      \"computational complexity\",\n      \"data requirements\"\n    ]\n  },\n  \"papers\": [\n    {\n      \"id\": \"advances_review_2025\",\n      \"source_id\": \"arXiv:2502.06490\",\n      \"title\": \"Recent Advances in Discrete Speech Tokens: A Review\",\n      \"abstract\": \"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.\",\n      \"year\": \"2025\",\n      \"source_url\": \"https://arxiv.org/abs/2502.06490v4\",\n      \"detected_keywords\": [\n        {\n          \"term\": \"acoustic tokens\",\n          \"category\": \"token_types\",\n          \"evidence\": {\n            \"quote\": \"Acoustic tokens are derived from neural codecs designed to encode speech at a low bitrate while preserving as much information as possible.\",\n            \"page\": \"1\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"semantic tokens\",\n          \"category\": \"token_types\",\n          \"evidence\": {\n            \"quote\": \"semantic tokens originate from speech self-supervised learning (SSL), which aims to learn a more phonetic or semantic representation space, making it easier for speech recognition.\",\n            \"page\": \"1\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"vector quantization\",\n          \"category\": \"quantization_and_learning\",\n          \"evidence\": {\n            \"quote\": \"Instead, vector quantization (VQ) enables a learnable network module that allows gradients to pass through when producing discrete representations.\",\n            \"page\": \"2\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"codebook collapse\",\n          \"category\": \"challenges_and_future_directions\",\n          \"evidence\": {\n            \"quote\": \"VQ in high-dimensional spaces is known to suffer from codebook collapse, where the codebook usage is highly imbalanced.\",\n            \"page\": \"2\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"residual vq\",\n          \"category\": \"quantization_and_learning\",\n          \"evidence\": {\n            \"quote\": \"Residual VQ (RVQ), also known as multi-stage quantization. It adopts a serial approach that iteratively quantizes the residual of the last quantizer.\",\n            \"page\": \"4\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"semantic distillation\",\n          \"category\": \"quantization_and_learning\",\n          \"evidence\": {\n            \"quote\": \"The process of introducing semantic information into acoustic tokens is termed semantic distillation, with approaches summarized in Fig. 6.\",\n            \"page\": \"7\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"disentanglement\",\n          \"category\": \"challenges_and_future_directions\",\n          \"evidence\": {\n            \"quote\": \"A prominent research direction is the disentanglement of speaker timbre information, as this is a global trait among all the speech information aspects.\",\n            \"page\": \"8\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"voice conversion\",\n          \"category\": \"tasks_and_applications\",\n          \"evidence\": {\n            \"quote\": \"The disentanglement of speaker timbre also enables an acoustic token to perform voice conversion (VC), as timbre from the target speaker can be easily combined with the speaker-agnostic content tokens.\",\n            \"page\": \"8\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"spoken language modeling\",\n          \"category\": \"tasks_and_applications\",\n          \"evidence\": {\n            \"quote\": \"In most cases, the frame rate of discrete speech tokens ranges from 25 to 100Hz. This leads to a huge discrepancy in lengths between speech representations and the underlying text modality.\",\n            \"page\": \"10\"\n          },\n          \"confidence\": 1.0\n        },\n        {\n          \"term\": \"variable frame rate tokens\",\n          \"category\": \"token_types\",\n          \"evidence\": {\n            \"quote\": \"This kind of discrete speech tokens is referred to as variable frame rate (VFR) tokens in this review.\",\n            \"page\": \"11\"\n          },\n          \"confidence\": 1.0\n        }\n      ]\n    }\n  ]\n}\n```",
+  "errors": []
+}

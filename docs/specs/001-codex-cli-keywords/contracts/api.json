@@ -1,0 +1,10 @@
+{
+  "name": "codex-cli-keywords",
+  "version": "0.1",
+  "description": "Internal pipeline interfaces; no external API endpoints.",
+  "endpoints": [],
+  "notes": [
+    "Keywords provider switch is implemented as internal Python functions.",
+    "No network API surface is introduced by this feature."
+  ]
+}

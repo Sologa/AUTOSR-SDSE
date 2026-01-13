@@ -1,0 +1,25 @@
+{
+  "run_id": "20260112_195054",
+  "mode": "single",
+  "provider": "gemini",
+  "models": {
+    "Keywords": "gemini-2.5-pro"
+  },
+  "topic": "discrete audio tokens more than a survey",
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "tool_usage": {},
+  "payload": {
+    "topic": "discrete audio tokens more than a survey",
+    "anchor_terms": [],
+    "search_terms": {},
+    "papers": []
+  },
+  "raw_output": "",
+  "errors": [
+    "gemini output is not valid JSON"
+  ]
+}

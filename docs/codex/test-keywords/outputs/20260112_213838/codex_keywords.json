@@ -1,0 +1,128 @@
+{
+  "run_id": "20260112_213838",
+  "mode": "single",
+  "provider": "codex",
+  "models": {
+    "Keywords": "gpt-5.1-codex-mini"
+  },
+  "topic": "discrete audio tokens more than a survey",
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "pdf_text_inputs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test-keywords/outputs/20260112_213838/2502.06490.txt"
+  ],
+  "pdf_text_generated": true,
+  "payload": {
+    "topic": "discrete audio tokens more than a survey",
+    "anchor_terms": [
+      "discrete speech tokens",
+      "acoustic tokens",
+      "semantic tokens"
+    ],
+    "search_terms": {
+      "core_concepts": [
+        "discrete speech tokens",
+        "speech representation",
+        "speech tokenization",
+        "speech llms",
+        "speech tokenizer",
+        "spoken language modeling",
+        "language modeling",
+        "speech generation technologies"
+      ],
+      "quantization_methods": [
+        "vector quantization",
+        "kmeans clustering",
+        "gumbel vq",
+        "finite scalar quantization",
+        "grouped quantization",
+        "residual quantization",
+        "codebook expiration",
+        "entropy penalty"
+      ],
+      "architecture_designs": [
+        "vq gan",
+        "diffusion models",
+        "flow matching",
+        "cnn encoder",
+        "transformer encoder",
+        "u-net codec",
+        "rvq quantizer",
+        "global encoder"
+      ],
+      "length_reduction_strategies": [
+        "deduplication",
+        "acoustic bpe",
+        "variable frame rate",
+        "unit discovery",
+        "boundary prediction",
+        "soft pooling",
+        "dynamic downsampling",
+        "frame rate selection"
+      ],
+      "application_domains": [
+        "speech generation",
+        "voice conversion",
+        "speech translation",
+        "automatic speech recognition",
+        "intent classification",
+        "spoken dialogue modeling",
+        "spoken language understanding",
+        "text guided slms"
+      ]
+    },
+    "papers": [
+      {
+        "id": "recent_discrete_speech_tokens_2025",
+        "source_id": "arXiv:2502.06490",
+        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+        "year": "2025",
+        "source_url": "https://arxiv.org/abs/2502.06490v4",
+        "detected_keywords": [
+          {
+            "term": "discrete speech tokens",
+            "category": "core_concepts",
+            "evidence": {
+              "quote": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation.",
+              "page": "1"
+            },
+            "confidence": 0.72
+          },
+          {
+            "term": "acoustic tokens",
+            "category": "core_concepts",
+            "evidence": {
+              "quote": "Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches.",
+              "page": "1"
+            },
+            "confidence": 0.68
+          },
+          {
+            "term": "semantic tokens",
+            "category": "core_concepts",
+            "evidence": {
+              "quote": "Semantic tokens originate from speech self-supervised learning (SSL), which aims to learn a more phonetic or semantic representation space, making it easier for speech recognition.",
+              "page": "1"
+            },
+            "confidence": 0.65
+          },
+          {
+            "term": "acoustic bpe",
+            "category": "length_reduction_strategies",
+            "evidence": {
+              "quote": "Another popular approach is acoustic byte-pair encoding (BPE) or so-called subword modeling, which iteratively merges the two most frequent consecutive tokens and adds the merged token to the vocabulary.",
+              "page": "11"
+            },
+            "confidence": 0.58
+          }
+        ]
+      }
+    ]
+  },
+  "raw_output": "{\"topic\":\"discrete audio tokens more than a survey\",\"anchor_terms\":[\"discrete speech tokens\",\"acoustic tokens\",\"semantic tokens\"],\"search_terms\":[{\"category\":\"core_concepts\",\"terms\":[\"discrete speech tokens\",\"speech representation\",\"speech tokenization\",\"speech LLMs\",\"speech tokenizer\",\"spoken language modeling\",\"language modeling\",\"speech generation technologies\"]},{\"category\":\"quantization_methods\",\"terms\":[\"vector quantization\",\"kmeans clustering\",\"gumbel vq\",\"finite scalar quantization\",\"grouped quantization\",\"residual quantization\",\"codebook expiration\",\"entropy penalty\"]},{\"category\":\"architecture_designs\",\"terms\":[\"vq gan\",\"diffusion models\",\"flow matching\",\"cnn encoder\",\"transformer encoder\",\"u-net codec\",\"rvq quantizer\",\"global encoder\"]},{\"category\":\"length_reduction_strategies\",\"terms\":[\"deduplication\",\"acoustic bpe\",\"variable frame rate tokens\",\"unit discovery\",\"boundary prediction\",\"soft pooling\",\"dynamic downsampling\",\"frame rate selection\"]},{\"category\":\"application_domains\",\"terms\":[\"speech generation\",\"voice conversion\",\"speech translation\",\"automatic speech recognition\",\"intent classification\",\"spoken dialogue modeling\",\"spoken language understanding\",\"text guided slms\"]}],\"papers\":[{\"id\":\"recent_discrete_speech_tokens_2025\",\"source_id\":\"arXiv:2502.06490\",\"title\":\"Recent Advances in Discrete Speech Tokens: A Review\",\"abstract\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.\",\"year\":\"2025\",\"source_url\":\"https://arxiv.org/abs/2502.06490v4\",\"detected_keywords\":[{\"term\":\"discrete speech tokens\",\"category\":\"core_concepts\",\"evidence\":{\"quote\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation.\",\"page\":\"1\"},\"confidence\":0.72},{\"term\":\"acoustic tokens\",\"category\":\"core_concepts\",\"evidence\":{\"quote\":\"Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches.\",\"page\":\"1\"},\"confidence\":0.68},{\"term\":\"semantic tokens\",\"category\":\"core_concepts\",\"evidence\":{\"quote\":\"Semantic tokens originate from speech self-supervised learning (SSL), which aims to learn a more phonetic or semantic representation space, making it easier for speech recognition.\",\"page\":\"1\"},\"confidence\":0.65},{\"term\":\"acoustic bpe\",\"category\":\"length_reduction_strategies\",\"evidence\":{\"quote\":\"Another popular approach is acoustic byte-pair encoding (BPE) or so-called subword modeling, which iteratively merges the two most frequent consecutive tokens and adds the merged token to the vocabulary.\",\"page\":\"11\"},\"confidence\":0.58}]}]}",
+  "errors": []
+}

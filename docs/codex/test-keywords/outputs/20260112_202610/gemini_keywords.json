@@ -1,0 +1,183 @@
+{
+  "run_id": "20260112_202610",
+  "mode": "single",
+  "provider": "gemini",
+  "models": {
+    "Keywords": "gemini-2.5-pro"
+  },
+  "topic": "discrete audio tokens more than a survey",
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "tool_usage": {
+    "totalCalls": 4,
+    "totalSuccess": 2,
+    "totalFail": 2,
+    "totalDurationMs": 15,
+    "totalDecisions": {
+      "accept": 0,
+      "reject": 0,
+      "modify": 0,
+      "auto_accept": 2
+    },
+    "byName": {
+      "read_file": {
+        "count": 2,
+        "success": 0,
+        "fail": 2,
+        "durationMs": 0,
+        "decisions": {
+          "accept": 0,
+          "reject": 0,
+          "modify": 0,
+          "auto_accept": 0
+        }
+      },
+      "list_directory": {
+        "count": 1,
+        "success": 1,
+        "fail": 0,
+        "durationMs": 3,
+        "decisions": {
+          "accept": 0,
+          "reject": 0,
+          "modify": 0,
+          "auto_accept": 1
+        }
+      },
+      "glob": {
+        "count": 1,
+        "success": 1,
+        "fail": 0,
+        "durationMs": 12,
+        "decisions": {
+          "accept": 0,
+          "reject": 0,
+          "modify": 0,
+          "auto_accept": 1
+        }
+      }
+    }
+  },
+  "payload": {
+    "topic": "discrete audio tokens more than a survey",
+    "anchor_terms": [
+      "discrete speech tokens",
+      "speech representation",
+      "acoustic tokens",
+      "semantic tokens"
+    ],
+    "search_terms": {
+      "tokenization_paradigms": [
+        "acoustic tokens",
+        "semantic tokens",
+        "discrete speech tokenization",
+        "speech representation",
+        "language modeling framework",
+        "speech generation",
+        "token types",
+        "design philosophies"
+      ],
+      "model_integration": [
+        "large language models",
+        "llms",
+        "llm architectures",
+        "text-dominated architectures",
+        "language modeling",
+        "speech integration",
+        "methodological approaches",
+        "experimental comparisons"
+      ],
+      "properties_and_attributes": [
+        "discrete tokens",
+        "compact tokens",
+        "concise tokens",
+        "efficient transmission",
+        "efficient storage",
+        "strengths",
+        "limitations",
+        "taxonomy"
+      ],
+      "research_and_development": [
+        "recent innovations",
+        "persistent challenges",
+        "research directions",
+        "future advancements",
+        "critical examination",
+        "systematic experimental comparisons",
+        "existing taxonomy",
+        "actionable insights"
+      ]
+    },
+    "papers": [
+      {
+        "id": "advances_dst_2025",
+        "source_id": "arXiv:2502.06490",
+        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+        "year": "2025",
+        "source_url": "https://arxiv.org/abs/2502.06490v4",
+        "detected_keywords": [
+          {
+            "term": "acoustic tokens",
+            "category": "tokenization_paradigms",
+            "evidence": {
+              "quote": "Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens...",
+              "page": "n/a"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "semantic tokens",
+            "category": "tokenization_paradigms",
+            "evidence": {
+              "quote": "Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens...",
+              "page": "n/a"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "large language models",
+            "category": "model_integration",
+            "evidence": {
+              "quote": "The rapid advancement of speech generation technologies in the era of large language models (LLMs)...",
+              "page": "n/a"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "speech generation",
+            "category": "tokenization_paradigms",
+            "evidence": {
+              "quote": "The rapid advancement of speech generation technologies in the era of large language models (LLMs)...",
+              "page": "n/a"
+            },
+            "confidence": 0.4
+          },
+          {
+            "term": "persistent challenges",
+            "category": "research_and_development",
+            "evidence": {
+              "quote": "Furthermore, we identify persistent challenges in the field and propose potential research directions...",
+              "page": "n/a"
+            },
+            "confidence": 0.4
+          },
+          {
+            "term": "research directions",
+            "category": "research_and_development",
+            "evidence": {
+              "quote": "Furthermore, we identify persistent challenges in the field and propose potential research directions...",
+              "page": "n/a"
+            },
+            "confidence": 0.4
+          }
+        ]
+      }
+    ]
+  },
+  "raw_output": "```json\n{\n  \"topic\": \"discrete audio tokens more than a survey\",\n  \"anchor_terms\": [\n    \"discrete speech tokens\",\n    \"speech representation\",\n    \"acoustic tokens\",\n    \"semantic tokens\"\n  ],\n  \"search_terms\": {\n    \"tokenization_paradigms\": [\n      \"acoustic tokens\",\n      \"semantic tokens\",\n      \"discrete speech tokenization\",\n      \"speech representation\",\n      \"language modeling framework\",\n      \"speech generation\",\n      \"token types\",\n      \"design philosophies\"\n    ],\n    \"model_integration\": [\n      \"large language models\",\n      \"llms\",\n      \"llm architectures\",\n      \"text-dominated architectures\",\n      \"language modeling\",\n      \"speech integration\",\n      \"methodological approaches\",\n      \"experimental comparisons\"\n    ],\n    \"properties_and_attributes\": [\n      \"discrete tokens\",\n      \"compact tokens\",\n      \"concise tokens\",\n      \"efficient transmission\",\n      \"efficient storage\",\n      \"strengths\",\n      \"limitations\",\n      \"taxonomy\"\n    ],\n    \"research_and_development\": [\n      \"recent innovations\",\n      \"persistent challenges\",\n      \"research directions\",\n      \"future advancements\",\n      \"critical examination\",\n      \"systematic experimental comparisons\",\n      \"existing taxonomy\",\n      \"actionable insights\"\n    ]\n  },\n  \"papers\": [\n    {\n      \"id\": \"advances_dst_2025\",\n      \"source_id\": \"arXiv:2502.06490\",\n      \"title\": \"Recent Advances in Discrete Speech Tokens: A Review\",\n      \"abstract\": \"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.\",\n      \"year\": \"2025\",\n      \"source_url\": \"https://arxiv.org/abs/2502.06490v4\",\n      \"detected_keywords\": [\n        {\n          \"term\": \"acoustic tokens\",\n          \"category\": \"tokenization_paradigms\",\n          \"evidence\": {\n            \"quote\": \"Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens...\",\n            \"page\": \"n/a\"\n          },\n          \"confidence\": 0.5\n        },\n        {\n          \"term\": \"semantic tokens\",\n          \"category\": \"tokenization_paradigms\",\n          \"evidence\": {\n            \"quote\": \"Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens...\",\n            \"page\": \"n/a\"\n          },\n          \"confidence\": 0.5\n        },\n        {\n          \"term\": \"large language models\",\n          \"category\": \"model_integration\",\n          \"evidence\": {\n            \"quote\": \"The rapid advancement of speech generation technologies in the era of large language models (LLMs)...\",\n            \"page\": \"n/a\"\n          },\n          \"confidence\": 0.5\n        },\n        {\n          \"term\": \"speech generation\",\n          \"category\": \"tokenization_paradigms\",\n          \"evidence\": {\n            \"quote\": \"The rapid advancement of speech generation technologies in the era of large language models (LLMs)...\",\n            \"page\": \"n/a\"\n          },\n          \"confidence\": 0.4\n        },\n        {\n          \"term\": \"persistent challenges\",\n          \"category\": \"research_and_development\",\n          \"evidence\": {\n            \"quote\": \"Furthermore, we identify persistent challenges in the field and propose potential research directions...\",\n            \"page\": \"n/a\"\n          },\n          \"confidence\": 0.4\n        },\n        {\n          \"term\": \"research directions\",\n          \"category\": \"research_and_development\",\n          \"evidence\": {\n            \"quote\": \"Furthermore, we identify persistent challenges in the field and propose potential research directions...\",\n            \"page\": \"n/a\"\n          },\n          \"confidence\": 0.4\n        }\n      ]\n    }\n  ]\n}\n```",
+  "errors": []
+}

@@ -1,0 +1,18 @@
+{
+  "topic_title": "Discrete Audio Tokens: More Than a Survey!",
+  "topic_title_normalized": "discrete audio tokens more than a survey",
+  "target_paper": {
+    "source": "arxiv",
+    "id": "2506.10274",
+    "title": "Discrete Audio Tokens: More Than a Survey!",
+    "published_date": "2025-06-12",
+    "published_raw": "2025-06-12"
+  },
+  "cutoff_date": "2025-06-12",
+  "policy": {
+    "exclude_same_title": true,
+    "exclude_on_or_after_cutoff_date": true
+  },
+  "derived_from": "seed_selection",
+  "generated_at": "2026-01-07T09:55:53.644292+00:00"
+}

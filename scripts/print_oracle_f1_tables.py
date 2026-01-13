@@ -7,7 +7,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Iterable, List, Set
+from typing import List, Set
 
 sys.path.insert(0, "target_papers/scripts")
 from title_normalization import normalize_title  # noqa: E402

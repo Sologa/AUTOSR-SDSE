@@ -6,7 +6,63 @@
       "attempt": 1,
       "model": "gpt-5.2",
       "provider": "openai",
-      "raw_output": "discrete audio tokens  \ndiscrete audio tokenization  \nquantized audio tokens",
+      "raw_output": "discrete audio tokens  \ndiscrete acoustic tokens  \ndiscrete audio units",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "discrete acoustic tokens",
+        "discrete audio units"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 2,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens\nquantized audio tokens\naudio token quantization",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "quantized audio tokens",
+        "audio token quantization"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 3,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens  \ndiscrete audio tokenization  \ndiscrete audio token representations",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "discrete audio tokenization",
+        "discrete audio token representations"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 4,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens\nquantized audio tokens\ndiscrete audio tokenization",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "quantized audio tokens",
+        "discrete audio tokenization"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 5,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens\ndiscrete audio tokenization\nquantized audio tokens",
       "parsed_phrases": [
         "discrete audio tokens",
         "discrete audio tokenization",
@@ -17,14 +73,70 @@
       "error": null
     },
     {
-      "attempt": 2,
+      "attempt": 6,
       "model": "gpt-5.2",
       "provider": "openai",
-      "raw_output": "discrete audio tokens  \ndiscrete speech tokens  \naudio tokenization discrete tokens",
+      "raw_output": "discrete audio tokens\ndiscrete audio tokenization\nquantized audio tokens",
       "parsed_phrases": [
         "discrete audio tokens",
-        "discrete speech tokens",
-        "audio tokenization discrete tokens"
+        "discrete audio tokenization",
+        "quantized audio tokens"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 7,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokenization\ndiscrete audio token representations\ndiscrete audio token modeling",
+      "parsed_phrases": [
+        "discrete audio tokenization",
+        "discrete audio token representations",
+        "discrete audio token modeling"
+      ],
+      "parsed_phrase": "discrete audio tokenization",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 8,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens\nquantized audio tokens\ndiscrete audio tokenization",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "quantized audio tokens",
+        "discrete audio tokenization"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 9,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens\ndiscrete audio tokenization\ndiscrete audio tokenizers",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "discrete audio tokenization",
+        "discrete audio tokenizers"
+      ],
+      "parsed_phrase": "discrete audio tokens",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "attempt": 10,
+      "model": "gpt-5.2",
+      "provider": "openai",
+      "raw_output": "discrete audio tokens\ndiscrete audio tokenization\ndiscrete acoustic tokens",
+      "parsed_phrases": [
+        "discrete audio tokens",
+        "discrete audio tokenization",
+        "discrete acoustic tokens"
       ],
       "parsed_phrase": "discrete audio tokens",
       "status": "ok",
@@ -33,12 +145,12 @@
   ],
   "selected_queries": [
     "discrete audio tokens",
-    "discrete speech tokens",
-    "audio tokenization discrete tokens"
+    "discrete audio tokenization",
+    "discrete acoustic tokens"
   ],
   "original_seed_query": "(all:\"Discrete Audio Tokens: More Than a Survey!\" OR all:\"discrete audio tokens: more than a survey\" OR all:\"Discrete Audio Tokens\" OR all:\"discrete audio tokens: more than a surveys\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
   "cutoff_reason": "cutoff_removed_all_candidates",
   "cutoff_candidate_title": "Discrete Audio Tokens: More Than a Survey!",
-  "generated_at": "2026-01-07T09:56:02.311663+00:00",
+  "generated_at": "2026-01-13T15:04:22.486406+00:00",
   "preview_only": false
 }

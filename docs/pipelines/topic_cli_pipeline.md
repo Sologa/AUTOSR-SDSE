@@ -158,6 +158,7 @@ flowchart TD
     - 觸發條件：`records_after_filter == 0` / 無 PDF / `cutoff_removed_all_candidates`。
     - 會使用單一片語重試（最多 N 次），輸出記錄於 `seed_rewrite.json`，並在 `download_results.json` 補上 `rewrite_attempts` / `rewrite_query`。
     - 改寫輸出只允許單行片語，解析僅 `strip()`。
+    - 可用 `--seed-rewrite-model` / `--seed-rewrite-reasoning-effort` 調整改寫模型與 reasoning effort。
 
 ### Stage A.5（可選）：Filter-Seed（LLM 審核）
 

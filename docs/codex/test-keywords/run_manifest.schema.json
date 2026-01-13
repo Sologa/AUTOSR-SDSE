@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "run_id",
+    "created_at",
+    "topic",
+    "input_pdfs",
+    "prompt_path",
+    "outputs",
+    "commands"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "topic": {"type": "string"},
+    "input_pdf_dir": {"type": ["string", "null"]},
+    "input_pdfs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "prompt_path": {"type": "string"},
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "mode", "provider"],
+        "properties": {
+          "name": {"type": "string"},
+          "path": {"type": "string"},
+          "mode": {"type": "string"},
+          "provider": {"type": "string"},
+          "reviewer": {"type": ["string", "null"]},
+          "model": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["provider", "command"],
+        "properties": {
+          "provider": {"type": "string"},
+          "command": {"type": "string"},
+          "model": {"type": ["string", "null"]},
+          "tool_policy": {
+            "type": "object",
+            "properties": {
+              "settings_path": {"type": "string"},
+              "allow_web_search": {"type": "boolean"},
+              "tools_core": {"type": "array", "items": {"type": "string"}},
+              "tools_exclude": {"type": "array", "items": {"type": "string"}},
+              "modified": {"type": "boolean"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

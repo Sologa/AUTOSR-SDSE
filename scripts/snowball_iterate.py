@@ -22,6 +22,7 @@ if str(REPO_ROOT) not in sys.path:
 from src.pipelines.topic_pipeline import (
     _normalize_title_for_match,
     resolve_workspace,
+    run_cli_review,
     run_latte_review,
     run_snowball_asreview,
 )
@@ -253,6 +254,37 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--skip-backward", action="store_true")
     parser.add_argument("--review-top-k", type=int, default=None)
     parser.add_argument("--skip-titles-containing", default="***")
+    parser.add_argument("--review-provider", default="openai", choices=["openai", "codex-cli"])
+    parser.add_argument("--junior-nano-model", default=None)
+    parser.add_argument("--junior-mini-model", default=None)
+    parser.add_argument("--senior-model", default=None)
+    parser.add_argument("--junior-nano-reasoning-effort", default=None)
+    parser.add_argument("--junior-mini-reasoning-effort", default=None)
+    parser.add_argument("--senior-reasoning-effort", default="medium")
+    parser.add_argument("--codex-bin", default=None, help="Codex CLI 執行檔路徑")
+    parser.add_argument("--codex-home", type=Path, default=None, help="CODEX_HOME（repo-local .codex 建議）")
+    parser.add_argument(
+        "--codex-extra-arg",
+        action="append",
+        default=None,
+        help="附加在 `codex exec` 之前的旗標（可重複）。",
+    )
+    parser.add_argument(
+        "--codex-allow-web-search",
+        action="store_true",
+        help="允許 Codex web search（預設關閉）",
+    )
+    parser.add_argument(
+        "--gemini-allow-web-search",
+        action="store_true",
+        help="允許 Gemini web search（預設關閉）",
+    )
+    parser.add_argument(
+        "--codex-schema",
+        type=Path,
+        default=None,
+        help="Codex review schema path（預設 resources/schemas/review_response.schema.json）",
+    )
     parser.add_argument("--registry", type=Path, default=None)
     parser.add_argument(
         "--retain-registry",
@@ -357,14 +389,49 @@ def main(argv: Optional[List[str]] = None) -> int:
             candidates_payload = json.loads(candidates_json.read_text(encoding="utf-8"))
             if isinstance(candidates_payload, list) and candidates_payload:
                 try:
-                    run_latte_review(
-                        ws,
-                        arxiv_metadata_path=candidates_json,
-                        criteria_path=criteria_path,
-                        output_path=review_output,
-                        top_k=args.review_top_k,
-                        skip_titles_containing=args.skip_titles_containing,
-                    )
+                    provider = args.review_provider.strip().lower()
+                    if provider == "codex-cli":
+                        junior_nano_model = args.junior_nano_model or "gpt-5.1-codex-mini"
+                        junior_mini_model = args.junior_mini_model or "gemini-2.5-pro"
+                        senior_model = args.senior_model or "gpt-5.2"
+                        run_cli_review(
+                            ws,
+                            arxiv_metadata_path=candidates_json,
+                            criteria_path=criteria_path,
+                            output_path=review_output,
+                            top_k=args.review_top_k,
+                            skip_titles_containing=args.skip_titles_containing,
+                            junior_nano_model=junior_nano_model,
+                            junior_mini_model=junior_mini_model,
+                            senior_model=senior_model,
+                            junior_nano_reasoning_effort=args.junior_nano_reasoning_effort,
+                            junior_mini_reasoning_effort=args.junior_mini_reasoning_effort,
+                            senior_reasoning_effort=args.senior_reasoning_effort,
+                            codex_bin=args.codex_bin,
+                            codex_home=args.codex_home,
+                            codex_extra_args=args.codex_extra_arg,
+                            codex_schema_path=args.codex_schema,
+                            allow_web_search=args.codex_allow_web_search,
+                            gemini_allow_web_search=args.gemini_allow_web_search,
+                        )
+                    else:
+                        junior_nano_model = args.junior_nano_model or "gpt-5-nano"
+                        junior_mini_model = args.junior_mini_model or "gpt-4.1-mini"
+                        senior_model = args.senior_model or "gpt-5-mini"
+                        run_latte_review(
+                            ws,
+                            arxiv_metadata_path=candidates_json,
+                            criteria_path=criteria_path,
+                            output_path=review_output,
+                            top_k=args.review_top_k,
+                            skip_titles_containing=args.skip_titles_containing,
+                            junior_nano_model=junior_nano_model,
+                            junior_mini_model=junior_mini_model,
+                            senior_model=senior_model,
+                            junior_nano_reasoning_effort=args.junior_nano_reasoning_effort,
+                            junior_mini_reasoning_effort=args.junior_mini_reasoning_effort,
+                            senior_reasoning_effort=args.senior_reasoning_effort,
+                        )
                     review_ran = True
                 except RuntimeError as exc:
                     if "找不到任何可供 LatteReview 審查或標記的條目" in str(exc):

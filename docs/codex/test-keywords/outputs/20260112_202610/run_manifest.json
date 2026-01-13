@@ -1,0 +1,36 @@
+{
+  "run_id": "20260112_202610",
+  "created_at": "2026-01-12T20:27:18.415174",
+  "topic": "discrete audio tokens more than a survey",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "outputs": [
+    {
+      "name": "gemini_keywords",
+      "path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test-keywords/outputs/20260112_202610/gemini_keywords.json",
+      "mode": "single",
+      "provider": "gemini",
+      "reviewer": "Keywords",
+      "model": "gemini-2.5-pro"
+    }
+  ],
+  "commands": [
+    {
+      "provider": "gemini",
+      "command": "gemini --output-format json --model gemini-2.5-pro",
+      "model": "gemini-2.5-pro",
+      "tool_policy": {
+        "settings_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/.gemini/settings.json",
+        "allow_web_search": false,
+        "tools_core": [],
+        "tools_exclude": [
+          "google_web_search"
+        ],
+        "modified": false
+      }
+    }
+  ]
+}

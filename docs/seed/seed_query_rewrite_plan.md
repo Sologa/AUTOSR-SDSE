@@ -37,6 +37,7 @@
 - `--seed-rewrite`：啟用改寫（預設關閉）
 - `--seed-rewrite-max-attempts N`：最大嘗試次數（預設 2）
 - `--seed-rewrite-model`：改寫 LLM 模型（預設 `gpt-5.2`）
+- `--seed-rewrite-reasoning-effort`：改寫 LLM 的 reasoning effort（預設 `low`）
 - `--seed-rewrite-preview`：只產生改寫結果、不重跑 seed
 
 ## 輸出

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["topic", "anchor_terms", "search_terms", "papers"],
+  "properties": {
+    "topic": {"type": "string"},
+    "anchor_terms": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "search_terms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {"type": "string"}
+      }
+    },
+    "papers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "source_id",
+          "title",
+          "abstract",
+          "year",
+          "source_url",
+          "detected_keywords"
+        ],
+        "properties": {
+          "id": {"type": "string"},
+          "source_id": {"type": "string"},
+          "title": {"type": "string"},
+          "abstract": {"type": "string"},
+          "year": {"type": ["string", "null"]},
+          "source_url": {"type": "string"},
+          "detected_keywords": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["term", "category", "evidence", "confidence"],
+              "properties": {
+                "term": {"type": "string"},
+                "category": {"type": "string"},
+                "evidence": {
+                  "type": "object",
+                  "required": ["quote", "page"],
+                  "properties": {
+                    "quote": {"type": "string"},
+                    "page": {"type": "string"}
+                  },
+                  "additionalProperties": false
+                },
+                "confidence": {"type": ["number", "integer"]}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

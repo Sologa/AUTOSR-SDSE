@@ -1,0 +1,175 @@
+{
+  "run_id": "20260112_211828",
+  "mode": "single",
+  "provider": "codex",
+  "models": {
+    "Keywords": "gpt-5.1-codex-mini"
+  },
+  "topic": "discrete audio tokens more than a survey",
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "pdf_text_inputs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test-keywords/outputs/20260112_211828/2502.06490.txt"
+  ],
+  "pdf_text_generated": true,
+  "payload": {
+    "topic": "discrete audio tokens more than a survey",
+    "anchor_terms": [
+      "discrete speech tokens",
+      "acoustic tokens",
+      "semantic tokens",
+      "speech tokenization"
+    ],
+    "search_terms": {
+      "token_types": [
+        "discrete speech tokens",
+        "acoustic tokens",
+        "semantic tokens",
+        "speech tokenizer",
+        "speech tokenization",
+        "neural audio codec",
+        "speech LLM",
+        "spoken language modeling"
+      ],
+      "quantization_methods": [
+        "vector quantization",
+        "k-means clustering",
+        "Gumbel VQ",
+        "finite scalar quantization",
+        "residual vector quantization",
+        "grouped VQ",
+        "codebook utilization",
+        "codebook collapse"
+      ],
+      "architecture_variants": [
+        "VQ-GAN codec",
+        "Transformer encoder",
+        "CNN encoder",
+        "U-Net decoder",
+        "Conformer encoder",
+        "diffusion codec",
+        "multi-resolution codec",
+        "variable frame rate tokenization"
+      ],
+      "downstream_applications": [
+        "speech generation",
+        "voice conversion",
+        "spoken dialogue modeling",
+        "text-to-speech",
+        "speech translation",
+        "speech understanding",
+        "semantic modeling",
+        "zero-shot TTS"
+      ],
+      "evaluation_metrics": [
+        "reconstruction quality",
+        "voice conversion similarity",
+        "ASR accuracy",
+        "perceptual quality",
+        "pitch correlation",
+        "bitrate analysis",
+        "token robustness",
+        "signal fidelity"
+      ],
+      "challenges": [
+        "codebook collapse",
+        "redundant bitrate",
+        "length discrepancy",
+        "streaming latency",
+        "information loss",
+        "high computational cost",
+        "temporal redundancy",
+        "disentanglement trade-offs"
+      ]
+    },
+    "papers": [
+      {
+        "id": "recent_discrete_speech_tokens_2025",
+        "source_id": "arXiv:2502.06490",
+        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+        "year": "2025",
+        "source_url": "https://arxiv.org/abs/2502.06490v4",
+        "detected_keywords": [
+          {
+            "term": "discrete speech tokens",
+            "category": "token_types",
+            "evidence": {
+              "quote": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation.",
+              "page": "1"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "acoustic tokens",
+            "category": "token_types",
+            "evidence": {
+              "quote": "Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches.",
+              "page": "1"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "semantic tokens",
+            "category": "token_types",
+            "evidence": {
+              "quote": "Acoustic tokens are derived from neural codecs designed to encode speech at a low bitrate while preserving as much information as possible. In contrast, semantic tokens originate from speech self-supervised learning (SSL) [12], which aims to learn a more phonetic or semantic representation space.",
+              "page": "1"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "speech tokenization",
+            "category": "token_types",
+            "evidence": {
+              "quote": "This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types.",
+              "page": "1"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "vector quantization",
+            "category": "quantization_methods",
+            "evidence": {
+              "quote": "Discrete speech tokens are obtained through the quantization of continuous representations, which is usually achieved by offline clustering or online vector quantization algorithms.",
+              "page": "2"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "VQ-GAN codec",
+            "category": "architecture_variants",
+            "evidence": {
+              "quote": "VQ-GAN [66] is a very commonly adopted framework of codec models that trains a VQ-VAE with GAN objectives...",
+              "page": "5"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "speech generation",
+            "category": "downstream_applications",
+            "evidence": {
+              "quote": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation.",
+              "page": "1"
+            },
+            "confidence": 0.5
+          },
+          {
+            "term": "reconstruction quality",
+            "category": "evaluation_metrics",
+            "evidence": {
+              "quote": "Acoustic tokens designed only for reconstruction can achieve decent speech quality, but still far from the state-of-the-art spectrogram-based vocoders because of higher compression rates.",
+              "page": "13"
+            },
+            "confidence": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  "raw_output": "{\"topic\":\"discrete audio tokens more than a survey\",\"anchor_terms\":[\"discrete speech tokens\",\"acoustic tokens\",\"semantic tokens\",\"speech tokenization\"],\"search_terms\":[{\"category\":\"token_types\",\"terms\":[\"discrete speech tokens\",\"acoustic tokens\",\"semantic tokens\",\"speech tokenizer\",\"speech tokenization\",\"neural audio codec\",\"speech LLM\",\"spoken language modeling\"]},{\"category\":\"quantization_methods\",\"terms\":[\"vector quantization\",\"k-means clustering\",\"Gumbel VQ\",\"finite scalar quantization\",\"residual vector quantization\",\"grouped VQ\",\"codebook utilization\",\"codebook collapse\"]},{\"category\":\"architecture_variants\",\"terms\":[\"VQ-GAN codec\",\"Transformer encoder\",\"CNN encoder\",\"U-Net decoder\",\"Conformer encoder\",\"diffusion codec\",\"multi-resolution codec\",\"variable frame rate tokenization\"]},{\"category\":\"downstream_applications\",\"terms\":[\"speech generation\",\"voice conversion\",\"spoken dialogue modeling\",\"text-to-speech\",\"speech translation\",\"speech understanding\",\"semantic modeling\",\"zero-shot TTS\"]},{\"category\":\"evaluation_metrics\",\"terms\":[\"reconstruction quality\",\"voice conversion similarity\",\"ASR accuracy\",\"perceptual quality\",\"pitch correlation\",\"bitrate analysis\",\"token robustness\",\"signal fidelity\"]},{\"category\":\"challenges\",\"terms\":[\"codebook collapse\",\"redundant bitrate\",\"length discrepancy\",\"streaming latency\",\"information loss\",\"high computational cost\",\"temporal redundancy\",\"disentanglement trade-offs\"]}],\"papers\":[{\"id\":\"recent_discrete_speech_tokens_2025\",\"source_id\":\"arXiv:2502.06490\",\"title\":\"Recent Advances in Discrete Speech Tokens: A Review\",\"abstract\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.\",\"year\":\"2025\",\"source_url\":\"https://arxiv.org/abs/2502.06490v4\",\"detected_keywords\":[{\"term\":\"discrete speech tokens\",\"category\":\"token_types\",\"evidence\":{\"quote\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation.\",\"page\":\"1\"},\"confidence\":0.5},{\"term\":\"acoustic tokens\",\"category\":\"token_types\",\"evidence\":{\"quote\":\"Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches.\",\"page\":\"1\"},\"confidence\":0.5},{\"term\":\"semantic tokens\",\"category\":\"token_types\",\"evidence\":{\"quote\":\"Acoustic tokens are derived from neural codecs designed to encode speech at a low bitrate while preserving as much information as possible. In contrast, semantic tokens originate from speech self-supervised learning (SSL) [12], which aims to learn a more phonetic or semantic representation space.\",\"page\":\"1\"},\"confidence\":0.5},{\"term\":\"speech tokenization\",\"category\":\"token_types\",\"evidence\":{\"quote\":\"This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types.\",\"page\":\"1\"},\"confidence\":0.5},{\"term\":\"vector quantization\",\"category\":\"quantization_methods\",\"evidence\":{\"quote\":\"Discrete speech tokens are obtained through the quantization of continuous representations, which is usually achieved by offline clustering or online vector quantization algorithms.\",\"page\":\"2\"},\"confidence\":0.5},{\"term\":\"VQ-GAN codec\",\"category\":\"architecture_variants\",\"evidence\":{\"quote\":\"VQ-GAN [66] is a very commonly adopted framework of codec models that trains a VQ-VAE with GAN objectives...\",\"page\":\"5\"},\"confidence\":0.5},{\"term\":\"speech generation\",\"category\":\"downstream_applications\",\"evidence\":{\"quote\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation.\",\"page\":\"1\"},\"confidence\":0.5},{\"term\":\"reconstruction quality\",\"category\":\"evaluation_metrics\",\"evidence\":{\"quote\":\"Acoustic tokens designed only for reconstruction can achieve decent speech quality, but still far from the state-of-the-art spectrogram-based vocoders because of higher compression rates.\",\"page\":\"13\"},\"confidence\":0.5}]}]}",
+  "errors": []
+}

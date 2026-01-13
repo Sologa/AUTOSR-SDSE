@@ -1,8 +1,79 @@
 # Codex CLI 單次對話與混合模式實作（投影片式整合）
 
+> 規範：禁止使用任何 API key；禁止將 CLI 測試納入 CI/CD；僅允許手動執行。
+
+- 最後驗證日期：2026-01-13
+- Codex CLI 版本：OpenAI Codex v0.79.0
+- 版本來源：`docs/codex/test-keywords/outputs/20260112_213838/codex_keywords.json`
+
+> ⚠️ **重要提醒**：在 `sdse-uv` 虛擬環境中，`codex` 命令可能被另一個套件覆蓋。請使用 `/opt/homebrew/bin/codex` 或設定 `CODEX_BIN` 環境變數。
+
 > 重述版本：本文件整合 `docs/codex/codex_cli_single_turn_report.md` 與 `docs/codex/codex_cli_implementation_report.md`，僅重排與簡化，不改變語義。
 > 
 > 註記：文中標示「推論」的內容沿用原報告之標註。
+
+## 目錄
+
+- A-1（簡報版）封面
+- A-2（簡報版）範圍與前提
+- A-3（簡報版）Codex exec 核心能力（重點）
+- A-4（簡報版）可替換 vs 暫不替換
+- A-5（簡報版）混合模式整合原則
+- A-6（簡報版）建議實作層級
+- A-7（簡報版）主要風險
+- A-8（簡報版）推進順序（建議）
+- A-9（簡報版）最小驗證清單
+- A-10（簡報版）結論
+- B-0（技術完整版）說明
+- B-1（技術完整版）單次對話報告：標題頁
+- B-1.1 官方已明確的單次對話（codex exec）用法
+- B-1.1.1 單次對話入口與 Prompt 來源
+- B-1.1.2 結構化輸出與輸出控制
+- B-1.1.3 沙箱與權限
+- B-1.1.4 連網（Web Search）
+- B-1.1.5 認證（CI/非互動）
+- B-1.2 單次對話 Prompt 的實際寫法（示例）
+- B-1.2.1 直接傳入單句 Prompt（推論）
+- B-1.2.2 從 stdin 讀取 Prompt（推論）
+- B-1.2.3 產出結構化 JSON（推論）
+- B-1.3 與現有 pipeline 的混合模式映射（推論）
+- B-1.3.1 可直接改為 codex exec 的步驟（推論）
+- B-1.3.2 需額外處理才可改用 codex exec 的步驟（推論）
+- B-1.4 建議的最小驗證清單（推論）
+- B-1.5 結論
+- B-2（技術完整版）混合模式實作報告：標題頁
+- B-2.0 範圍與依據
+- B-2.0.1 範圍
+- B-2.0.2 依據（repo 內）
+- B-2.0.3 依據（外部）
+- B-2.1 現行 LLM 呼叫盤點（依實作）
+- B-2.1.1 Seed rewrite
+- B-2.1.2 Filter-seed
+- B-2.1.3 Keywords（含 PDF）
+- B-2.1.4 Criteria（web / pdf+web）
+- B-2.1.5 LatteReview
+- B-2.2 受保護檔案限制
+- B-2.3 Codex CLI 能力與實作假設
+- B-2.3.1 非互動 exec
+- B-2.3.2 Web search
+- B-2.3.3 認證
+- B-2.4 混合模式整合策略（總覽）
+- B-2.5 實作細節（逐步驟）
+- B-2.5.1 Seed rewrite（可替換）
+- B-2.5.2 Filter-seed（可替換）
+- B-2.5.3 Keywords（含 PDF，暫不替換）
+- B-2.5.4 Criteria（web / pdf+web）
+- B-2.5.5 LatteReview（建議新增 Codex CLI provider）
+- B-2.6 建議的檔案與 API 變更
+- B-2.6.1 新增檔案
+- B-2.6.2 修改檔案
+- B-2.7 執行指令模板（建議）
+- B-2.7.1 Seed rewrite（建議）
+- B-2.7.2 Filter-seed（JSON schema，建議）
+- B-2.7.3 Criteria（web-only，建議）
+- B-2.8 測試與驗證
+- B-2.9 風險清單
+- B-2.10 推進順序（建議）
 
 ---
 
@@ -555,4 +626,3 @@ codex exec - \
 2) LatteReview 新 provider
 3) criteria web-only
 4) keywords / pdf+web 暫不替換
-

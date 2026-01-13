@@ -19,6 +19,7 @@ import hashlib
 import os
 import re
 import shutil
+import subprocess
 import sys
 import time
 import types
@@ -33,7 +34,17 @@ from urllib.parse import urlparse
 
 import requests
 
+from src.utils.codex_cli import (
+    DEFAULT_CODEX_DISABLE_FLAGS,
+    parse_json_snippet,
+    resolve_codex_bin,
+    resolve_codex_home,
+    run_codex_exec,
+    temporary_codex_config,
+)
+from src.utils.codex_keywords import run_codex_cli_keywords
 from src.utils.env import load_env_file
+from src.utils.gemini_cli import prepare_gemini_settings, restore_gemini_settings, run_gemini_cli
 from src.utils.keyword_extractor import ExtractParams, extract_search_terms_from_surveys
 from src.utils.llm import LLMResult, LLMService, ProviderCallError
 from src.utils.openai_web_search import WebSearchOptions, create_web_search_service
@@ -1772,6 +1783,7 @@ def seed_surveys_from_arxiv(
     seed_rewrite: bool = False,
     seed_rewrite_max_attempts: int = 2,
     seed_rewrite_model: str = "gpt-5.2",
+    seed_rewrite_reasoning_effort: Optional[str] = "low",
     seed_rewrite_preview: bool = False,
 ) -> Dict[str, object]:
     """Search arXiv for survey-like papers and download the top results.
@@ -1912,7 +1924,10 @@ def seed_surveys_from_arxiv(
             if isinstance(cutoff_candidate, dict):
                 cutoff_candidate_title = str(cutoff_candidate.get("title") or "")
 
-            agent = SeedQueryRewriteAgent(model=seed_rewrite_model)
+            agent = SeedQueryRewriteAgent(
+                model=seed_rewrite_model,
+                reasoning_effort=seed_rewrite_reasoning_effort,
+            )
             rewrite_attempts: List[Dict[str, object]] = []
 
             for attempt in range(1, seed_rewrite_max_attempts + 1):
@@ -2036,11 +2051,47 @@ def extract_keywords_from_seed_pdfs(
     seed_anchors: Optional[Sequence[str]] = None,
     reasoning_effort: Optional[str] = "medium",
     max_output_tokens: Optional[int] = 128000,
+    codex_bin: Optional[str] = None,
+    codex_extra_args: Optional[Sequence[str]] = None,
+    codex_home: Optional[Path] = None,
+    codex_allow_web_search: bool = False,
     force: bool = False,
 ) -> Dict[str, object]:
     """Run ``keyword_extractor`` on seed PDFs and write ``keywords.json``."""
 
     load_env_file()
+
+    provider_key = provider.strip().lower()
+    if provider_key == "codex-cli":
+        repo_root = workspace.root.parent.parent
+        resolved_codex_home = resolve_codex_home(codex_home, repo_root=repo_root)
+        with temporary_codex_config(
+            codex_home=resolved_codex_home,
+            reasoning_effort=reasoning_effort,
+        ) as active_codex_home:
+            result = run_codex_cli_keywords(
+                workspace,
+                pdf_dir=pdf_dir,
+                max_pdfs=max_pdfs,
+                model=model,
+                max_queries=max_queries,
+                include_ethics=include_ethics,
+                seed_anchors=seed_anchors,
+                reasoning_effort=reasoning_effort,
+                codex_bin=codex_bin,
+                codex_extra_args=codex_extra_args,
+                codex_home=active_codex_home,
+                allow_web_search=codex_allow_web_search,
+                force=force,
+            )
+        payload = {
+            "keywords_path": result.keywords_path,
+            "usage_log_path": result.usage_log_path,
+            "pdf_count": result.pdf_count,
+        }
+        if not result.usage_log_path:
+            payload["skipped"] = True
+        return payload
 
     # Hard lock for reasoning LLM usage.
     model = "gpt-5.2"
@@ -2595,6 +2646,9 @@ def generate_structured_criteria(
     search_model: str = "gpt-5.2-chat-latest",
     formatter_model: str = "gpt-5.2",
     pdf_model: str = "gpt-4.1",
+    search_reasoning_effort: Optional[str] = None,
+    formatter_reasoning_effort: Optional[str] = None,
+    pdf_reasoning_effort: Optional[str] = None,
     search_temperature: float = 0.7,
     formatter_temperature: float = 0.2,
     pdf_temperature: float = 0.4,
@@ -2640,6 +2694,8 @@ def generate_structured_criteria(
             recency_hint=effective_recency_hint,
             exclude_title=None,
             cutoff_before_date=None,
+            search_reasoning_effort=search_reasoning_effort,
+            formatter_reasoning_effort=formatter_reasoning_effort,
             web_search_service=create_web_search_service(),
             formatter_service=LLMService(),
         )
@@ -2701,6 +2757,7 @@ def generate_structured_criteria(
                 instructions=instructions,
                 temperature=pdf_temperature,
                 max_output_tokens=pdf_max_output_tokens,
+                reasoning_effort=pdf_reasoning_effort,
                 metadata={"stage": "pdf_background", "topic": workspace.topic},
             )
             if isinstance(result, LLMResult):
@@ -2914,6 +2971,418 @@ def _criteria_payload_to_strings(payload: Dict[str, object]) -> Tuple[str, str]:
     return inclusion_text, exclusion_text
 
 
+def _build_review_prompt(item_text: str, inclusion: str, exclusion: str) -> str:
+    reasoning_instruction = (
+        "Provide a brief (1-sentence) explanation for your scoring. "
+        "State your reasoning before giving the score."
+    )
+    prompt = f"""
+**Review the title and abstract below and evaluate whether they should be included based on the following inclusion and exclusion criteria (if any).**
+**Note that the study should be included only and only if it meets ALL inclusion criteria and NONE of the exclusion criteria.**
+
+---
+
+**Input item:**
+<<{item_text}>>
+
+---
+
+**Inclusion criteria:**
+{inclusion}
+
+**Exclusion criteria:**
+{exclusion}
+
+---
+
+**Instructions**
+
+1. Output your evaluation as an integer between 1 and 5, where:
+   - 1 means absolutely to exclude.
+   - 2 means better to exclude.
+   - 3 Not sure if to include or exclude.
+   - 4 means better to include.
+   - 5 means absolutely to include.
+---
+
+{reasoning_instruction}
+
+Return a JSON object with keys "reasoning" (string) and "evaluation" (integer 1-5). Only output JSON.
+""".strip()
+    return prompt
+
+
+def _build_review_round_text(round_id: str, index: int, fields: Sequence[Tuple[str, str]]) -> str:
+    parts = []
+    for key, value in fields:
+        parts.append(f"=== {key} ===\n{value}")
+    return f"Review Task ID: {round_id}-{index}\n" + "\n\n".join(parts)
+
+
+def _coerce_review_score(value: Any) -> Optional[int]:
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str) and value.strip().isdigit():
+        return int(value.strip())
+    return None
+
+
+def _should_run_senior_review(score1: Optional[int], score2: Optional[int]) -> bool:
+    if score1 is None or score2 is None:
+        return False
+    if score1 != score2:
+        if score1 >= 4 and score2 >= 4:
+            return False
+        if score1 >= 3 or score2 >= 3:
+            return True
+    elif score1 == score2 == 3:
+        return True
+    return False
+
+
+def _derive_review_verdict(senior_eval: Optional[int], junior_scores: List[int]) -> str:
+    score = None
+    source = "junior"
+    if senior_eval is not None:
+        score = senior_eval
+        source = "senior"
+    if score is None:
+        if not junior_scores:
+            return "需再評估 (no_score)"
+        score = int(round(sum(junior_scores) / len(junior_scores)))
+    if score >= 4:
+        return f"include ({source}:{score})"
+    if score <= 2:
+        return f"exclude ({source}:{score})"
+    return f"maybe ({source}:{score})"
+
+
+def _resolve_codex_cli_extra_args(
+    codex_extra_args: Optional[Sequence[str]],
+    *,
+    allow_web_search: bool,
+) -> List[str]:
+    extra_args: List[str] = []
+    if not allow_web_search:
+        extra_args.extend(DEFAULT_CODEX_DISABLE_FLAGS)
+    if codex_extra_args:
+        extra_args.extend(list(codex_extra_args))
+    return extra_args
+
+
+def run_cli_review(
+    workspace: TopicWorkspace,
+    *,
+    arxiv_metadata_path: Optional[Path] = None,
+    criteria_path: Optional[Path] = None,
+    output_path: Optional[Path] = None,
+    top_k: Optional[int] = None,
+    skip_titles_containing: str = "***",
+    discard_title: Optional[str] = None,
+    discard_after_date: Optional[str] = None,
+    junior_nano_model: str = "gpt-5.1-codex-mini",
+    junior_mini_model: str = "gemini-2.5-pro",
+    senior_model: str = "gpt-5.2",
+    junior_nano_reasoning_effort: Optional[str] = None,
+    junior_mini_reasoning_effort: Optional[str] = None,
+    senior_reasoning_effort: Optional[str] = "medium",
+    codex_bin: Optional[str] = None,
+    codex_extra_args: Optional[Sequence[str]] = None,
+    codex_home: Optional[Path] = None,
+    codex_schema_path: Optional[Path] = None,
+    allow_web_search: bool = False,
+    gemini_allow_web_search: bool = False,
+) -> Dict[str, object]:
+    """Run Title/Abstract review via codex exec + Gemini CLI."""
+
+    load_env_file()
+
+    metadata_path = Path(arxiv_metadata_path) if arxiv_metadata_path else workspace.arxiv_metadata_path
+    if not metadata_path.exists():
+        raise FileNotFoundError(f"找不到 arXiv metadata 檔案：{metadata_path}")
+
+    criteria_payload: Dict[str, object] = {}
+    if criteria_path:
+        loaded = _read_json(Path(criteria_path))
+        if isinstance(loaded, dict):
+            structured = loaded.get("structured_payload")
+            if isinstance(structured, dict):
+                criteria_payload = structured
+            elif isinstance(loaded.get("topic_definition"), (str, dict, list)):
+                criteria_payload = loaded
+    elif workspace.criteria_path.exists():
+        loaded = _read_json(workspace.criteria_path)
+        if isinstance(loaded, dict):
+            structured = loaded.get("structured_payload")
+            if isinstance(structured, dict):
+                criteria_payload = structured
+
+    cutoff_info = _get_cutoff_info(workspace)
+    if cutoff_info:
+        target = cutoff_info.get("target_paper") or {}
+        target_title = target.get("title") if isinstance(target, dict) else None
+        cutoff_value = cutoff_info.get("cutoff_date")
+        if isinstance(target_title, str) and target_title.strip():
+            discard_title = target_title.strip()
+        if isinstance(cutoff_value, str) and cutoff_value.strip():
+            discard_after_date = cutoff_value.strip()
+
+    inclusion_criteria, exclusion_criteria = _criteria_payload_to_strings(criteria_payload)
+    if not inclusion_criteria:
+        inclusion_criteria = "論文需與指定主題高度相關，且提供可用於評估的英文內容（全文或摘要/方法）。"
+    if not exclusion_criteria:
+        exclusion_criteria = "論文若與主題無關，或缺乏可判斷的英文題名/摘要/方法描述則排除。"
+
+    payload = _read_json(metadata_path)
+    if not isinstance(payload, list):
+        raise ValueError("arXiv metadata payload must be a list")
+
+    rows: List[Dict[str, object]] = []
+    discarded: List[Dict[str, object]] = []
+    forced_included: List[Dict[str, object]] = []
+    forced_ids = _load_seed_filter_selected_ids(workspace.seed_filters_dir / "selected_ids.json")
+    forced_seen: Set[str] = set()
+    skip_token = skip_titles_containing.strip().lower()
+    normalized_discard_title = _normalize_title_for_match(discard_title) if discard_title else None
+    cutoff_date = _parse_date_bound(discard_after_date, label="discard_after_date") if discard_after_date else None
+
+    for entry in payload:
+        if not isinstance(entry, dict):
+            continue
+        metadata = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
+        arxiv_id = str(
+            metadata.get("arxiv_id")
+            or entry.get("arxiv_id")
+            or extract_arxiv_id_from_record(entry)
+            or ""
+        ).strip()
+        arxiv_id = trim_arxiv_id(arxiv_id) or arxiv_id
+        title = str(metadata.get("title") or "").strip()
+        abstract = str(metadata.get("summary") or metadata.get("abstract") or "").strip()
+        if not title:
+            continue
+        if arxiv_id and arxiv_id in forced_ids and arxiv_id not in forced_seen:
+            forced_seen.add(arxiv_id)
+            forced_included.append(
+                {
+                    "title": " ".join(title.split()),
+                    "abstract": " ".join(abstract.split()) if abstract else "",
+                    "metadata": metadata,
+                    "final_verdict": "include (seed_filter)",
+                    "review_skipped": True,
+                    "discard_reason": None,
+                    "force_include_reason": "seed_filter_selected",
+                }
+            )
+            continue
+        cleaned_title = " ".join(title.split())
+        cleaned_abstract = " ".join(abstract.split()) if abstract else ""
+        published_date = _extract_publication_date(metadata)
+        discard_reason: Optional[str] = None
+        if normalized_discard_title and _normalize_title_for_match(cleaned_title) == normalized_discard_title:
+            discard_reason = "title_matches_exclude_title"
+        elif cutoff_date and published_date is None:
+            discard_reason = "missing_publication_date_for_cutoff"
+        elif cutoff_date and published_date and published_date >= cutoff_date:
+            discard_reason = f"published_on_or_after_cutoff:{published_date.isoformat()}"
+        if discard_reason:
+            discarded.append(
+                {
+                    "title": cleaned_title,
+                    "abstract": cleaned_abstract,
+                    "metadata": metadata,
+                    "discard_reason": discard_reason,
+                }
+            )
+            continue
+        if not cleaned_abstract:
+            continue
+        if skip_token and skip_token in cleaned_title.lower():
+            continue
+        if top_k is None or len(rows) < top_k:
+            rows.append({"title": cleaned_title, "abstract": cleaned_abstract, "metadata": metadata})
+
+    if not rows and not discarded:
+        raise RuntimeError("找不到任何可供 review 審查或標記的條目（請確認 metadata/skip 條件）。")
+
+    repo_root = workspace.root.parent.parent
+    resolved_codex_home = resolve_codex_home(codex_home, repo_root=repo_root)
+    resolved_codex_bin = resolve_codex_bin(codex_bin)
+    extra_args = _resolve_codex_cli_extra_args(codex_extra_args, allow_web_search=allow_web_search)
+    schema_path = Path(codex_schema_path) if codex_schema_path else Path("resources/schemas/review_response.schema.json")
+    if not schema_path.is_absolute():
+        schema_path = repo_root / schema_path
+
+    warnings: List[str] = []
+    if junior_mini_reasoning_effort:
+        warnings.append("Gemini CLI does not support reasoning effort; junior_mini_reasoning_effort is ignored.")
+
+    review_records: List[Dict[str, object]] = []
+    errors: List[str] = []
+    result_columns = [
+        "title",
+        "abstract",
+        "metadata",
+        "round-A_JuniorNano_output",
+        "round-A_JuniorNano_reasoning",
+        "round-A_JuniorNano_evaluation",
+        "round-A_JuniorMini_output",
+        "round-A_JuniorMini_reasoning",
+        "round-A_JuniorMini_evaluation",
+        "round-B_SeniorLead_output",
+        "round-B_SeniorLead_reasoning",
+        "round-B_SeniorLead_evaluation",
+        "final_verdict",
+        "review_skipped",
+        "discard_reason",
+    ]
+
+    gemini_state = prepare_gemini_settings(root=repo_root, allow_web_search=gemini_allow_web_search)
+    try:
+        for index, row in enumerate(rows):
+            title = str(row.get("title") or "")
+            abstract = str(row.get("abstract") or "")
+            metadata = row.get("metadata") if isinstance(row.get("metadata"), dict) else {}
+            round_a_text = _build_review_round_text(
+                "A",
+                index,
+                [("title", title), ("abstract", abstract)],
+            )
+            prompt_a = _build_review_prompt(round_a_text, inclusion_criteria, exclusion_criteria)
+
+            with temporary_codex_config(
+                codex_home=resolved_codex_home,
+                reasoning_effort=junior_nano_reasoning_effort,
+            ) as active_codex_home:
+                nano_parsed, _, nano_err, _ = run_codex_exec(
+                    prompt_a,
+                    junior_nano_model,
+                    schema_path,
+                    codex_bin=resolved_codex_bin,
+                    codex_extra_args=extra_args,
+                    codex_home=active_codex_home,
+                )
+            nano_eval = None
+            nano_reason = None
+            nano_output = nano_parsed if isinstance(nano_parsed, dict) else None
+            if nano_err:
+                errors.append(f"JuniorNano {metadata.get('arxiv_id') or index}: {nano_err}")
+            elif isinstance(nano_parsed, dict):
+                nano_eval = _coerce_review_score(nano_parsed.get("evaluation"))
+                nano_reason = str(nano_parsed.get("reasoning") or "") or None
+
+            mini_parsed, _, mini_err, _ = run_gemini_cli(prompt_a, junior_mini_model)
+            mini_eval = None
+            mini_reason = None
+            mini_output = mini_parsed if isinstance(mini_parsed, dict) else None
+            if mini_err:
+                errors.append(f"JuniorMini {metadata.get('arxiv_id') or index}: {mini_err}")
+            elif isinstance(mini_parsed, dict):
+                mini_eval = _coerce_review_score(mini_parsed.get("evaluation"))
+                mini_reason = str(mini_parsed.get("reasoning") or "") or None
+
+            senior_eval = None
+            senior_reason = None
+            senior_output = None
+            nano_score = _coerce_review_score(nano_eval)
+            mini_score = _coerce_review_score(mini_eval)
+            if _should_run_senior_review(nano_score, mini_score):
+                round_b_text = _build_review_round_text(
+                    "B",
+                    index,
+                    [
+                        ("title", title),
+                        ("abstract", abstract),
+                        ("round-A_JuniorNano_output", json.dumps(nano_output, ensure_ascii=False)),
+                        ("round-A_JuniorNano_evaluation", str(nano_eval)),
+                        ("round-A_JuniorMini_output", json.dumps(mini_output, ensure_ascii=False)),
+                        ("round-A_JuniorMini_evaluation", str(mini_eval)),
+                    ],
+                )
+                prompt_b = _build_review_prompt(round_b_text, inclusion_criteria, exclusion_criteria)
+                with temporary_codex_config(
+                    codex_home=resolved_codex_home,
+                    reasoning_effort=senior_reasoning_effort,
+                ) as active_codex_home:
+                    senior_parsed, _, senior_err, _ = run_codex_exec(
+                        prompt_b,
+                        senior_model,
+                        schema_path,
+                        codex_bin=resolved_codex_bin,
+                        codex_extra_args=extra_args,
+                        codex_home=active_codex_home,
+                    )
+                senior_output = senior_parsed if isinstance(senior_parsed, dict) else None
+                if senior_err:
+                    errors.append(f"SeniorLead {metadata.get('arxiv_id') or index}: {senior_err}")
+                elif isinstance(senior_parsed, dict):
+                    senior_eval = _coerce_review_score(senior_parsed.get("evaluation"))
+                    senior_reason = str(senior_parsed.get("reasoning") or "") or None
+
+            junior_scores: List[int] = []
+            for score in (nano_score, mini_score):
+                if isinstance(score, int):
+                    junior_scores.append(score)
+
+            verdict = _derive_review_verdict(_coerce_review_score(senior_eval), junior_scores)
+            discard_reason = None
+            if verdict.startswith("exclude"):
+                discard_reason = verdict
+            elif verdict.startswith("maybe"):
+                discard_reason = "review_needs_followup"
+
+            review_records.append(
+                {
+                    "title": title,
+                    "abstract": abstract,
+                    "metadata": metadata,
+                    "round-A_JuniorNano_output": nano_output,
+                    "round-A_JuniorNano_reasoning": nano_reason,
+                    "round-A_JuniorNano_evaluation": nano_eval,
+                    "round-A_JuniorMini_output": mini_output,
+                    "round-A_JuniorMini_reasoning": mini_reason,
+                    "round-A_JuniorMini_evaluation": mini_eval,
+                    "round-B_SeniorLead_output": senior_output,
+                    "round-B_SeniorLead_reasoning": senior_reason,
+                    "round-B_SeniorLead_evaluation": senior_eval,
+                    "final_verdict": verdict,
+                    "review_skipped": False,
+                    "discard_reason": discard_reason,
+                }
+            )
+    finally:
+        restore_gemini_settings(gemini_state)
+
+    output_records: List[Dict[str, object]] = []
+    output_records.extend(forced_included)
+    output_records.extend(review_records)
+    if discarded:
+        base_record = {column: None for column in result_columns}
+        for item in discarded:
+            record = dict(base_record)
+            record["title"] = item.get("title")
+            record["abstract"] = item.get("abstract")
+            record["metadata"] = item.get("metadata")
+            discard_reason = str(item.get("discard_reason") or "discard_rule")
+            record["final_verdict"] = f"discard ({discard_reason})"
+            record["review_skipped"] = True
+            record["discard_reason"] = discard_reason
+            output_records.append(record)
+
+    out = Path(output_path) if output_path else workspace.review_results_path
+    _ensure_dir(out.parent)
+    out.write_text(json.dumps(output_records, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {
+        "review_results_path": str(out),
+        "reviewed": len(review_records),
+        "forced_included": len(forced_included),
+        "discarded": len(discarded),
+        "total": len(output_records),
+        "errors": errors,
+        "warnings": warnings,
+    }
+
+
 def run_latte_review(
     workspace: TopicWorkspace,
     *,
@@ -2927,6 +3396,8 @@ def run_latte_review(
     junior_nano_model: str = "gpt-5-nano",
     junior_mini_model: str = "gpt-4.1-mini",
     senior_model: str = "gpt-5-mini",
+    junior_nano_reasoning_effort: Optional[str] = None,
+    junior_mini_reasoning_effort: Optional[str] = None,
     senior_reasoning_effort: str = "medium",
 ) -> Dict[str, object]:
     """Run LatteReview's Title/Abstract workflow and write results JSON."""
@@ -3083,14 +3554,22 @@ def run_latte_review(
         junior_nano = _build_reviewer(
             "JuniorNano",
             junior_nano_model,
-            model_args={},
+            model_args={
+                "reasoning_effort": junior_nano_reasoning_effort
+            }
+            if junior_nano_reasoning_effort
+            else {},
             reasoning="brief",
             backstory="一位負責初步篩選文獻的研究助理",
         )
         junior_mini = _build_reviewer(
             "JuniorMini",
             junior_mini_model,
-            model_args={},
+            model_args={
+                "reasoning_effort": junior_mini_reasoning_effort
+            }
+            if junior_mini_reasoning_effort
+            else {},
             reasoning="brief",
             backstory="一位熟悉相關領域的研究助理",
         )

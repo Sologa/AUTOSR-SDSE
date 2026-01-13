@@ -1,0 +1,147 @@
+{
+  "run_id": "20260112_213244",
+  "mode": "single",
+  "provider": "codex",
+  "models": {
+    "Keywords": "gpt-5.1-codex-mini"
+  },
+  "topic": "discrete audio tokens more than a survey",
+  "prompt_path": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/resources/LLM/prompts/keyword_extractor/generate_search_terms.md",
+  "input_pdf_dir": "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv",
+  "input_pdfs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf"
+  ],
+  "pdf_text_inputs": [
+    "/Users/xjp/Desktop/Survey-with-LLMs/Survey-for-survey-review-with-LLMs/AUTOSR-SDSE/docs/codex/test-keywords/outputs/20260112_213244/2502.06490.txt"
+  ],
+  "pdf_text_generated": true,
+  "payload": {
+    "topic": "discrete audio tokens more than a survey",
+    "anchor_terms": [
+      "discrete speech tokens",
+      "speech generation",
+      "acoustic tokens",
+      "semantic tokens"
+    ],
+    "search_terms": {
+      "tokenization_methods": [
+        "vector quantization",
+        "k-means clustering",
+        "gumbel vq",
+        "finite scalar quantization",
+        "residual vq",
+        "grouped vq",
+        "codebook balancing",
+        "codebook collapse"
+      ],
+      "acoustic_codec_architectures": [
+        "neural codec",
+        "vq gan",
+        "diffusion models",
+        "cnn encoder",
+        "transformer backbone",
+        "u-net generator",
+        "global encoder",
+        "multi-resolution quantizers"
+      ],
+      "semantic_representation": [
+        "self-supervised learning",
+        "contrastive models",
+        "predictive models",
+        "hubert embeddings",
+        "wavlm features",
+        "semantic distillation",
+        "supervised tokenizer",
+        "semantic codebook"
+      ],
+      "efficiency_strategies": [
+        "length reduction",
+        "deduplication",
+        "acoustic bpe",
+        "variable frame rate",
+        "variable bitrate",
+        "temporal redundancy",
+        "unit discovery",
+        "frame rate selection"
+      ],
+      "applications_analysis": [
+        "spoken language modeling",
+        "text-to-speech",
+        "voice conversion",
+        "spoken translation",
+        "speech generation",
+        "spoken dialogue",
+        "spoken language understanding",
+        "speech llms"
+      ]
+    },
+    "papers": [
+      {
+        "id": "discrete_speech_tokens_review_2025",
+        "source_id": "arXiv:2502.06490",
+        "title": "Recent Advances in Discrete Speech Tokens: A Review",
+        "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+        "year": "2025",
+        "source_url": "https://arxiv.org/abs/2502.06490v4",
+        "detected_keywords": [
+          {
+            "term": "discrete speech tokens",
+            "category": "tokenization_methods",
+            "evidence": {
+              "quote": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures.",
+              "page": "1"
+            },
+            "confidence": 0.85
+          },
+          {
+            "term": "vector quantization",
+            "category": "tokenization_methods",
+            "evidence": {
+              "quote": "Clustering is often an isolate process, thus cannot be optimized together with other neural network modules. Instead, vector quantization (VQ) [44] enables a learnable network module that allows gradients to pass through when producing discrete representations. Autoencoders with a VQ module is termed VQ-VAE [45].",
+              "page": "n/a"
+            },
+            "confidence": 0.78
+          },
+          {
+            "term": "semantic distillation",
+            "category": "semantic_representation",
+            "evidence": {
+              "quote": "The process of introducing semantic information into acoustic tokens is termed semantic distillation, with approaches summarized in Fig. 6. The earliest effort in semantic distillation is to guide some RVQ layers in codec models towards semantic features, which are typically SSL features.",
+              "page": "n/a"
+            },
+            "confidence": 0.76
+          },
+          {
+            "term": "acoustic BPE",
+            "category": "efficiency_strategies",
+            "evidence": {
+              "quote": "Another popular approach is acoustic byte-pair encoding (BPE), which iteratively merges the two most frequent consecutive tokens and adds the merged token to the vocabulary, enabling a deterministic BPE mapping that losslessly compresses sequences while identifying redundant patterns that purely repeated deduplication would miss.",
+              "page": "n/a"
+            },
+            "confidence": 0.75
+          },
+          {
+            "term": "variable frame rate tokens",
+            "category": "efficiency_strategies",
+            "evidence": {
+              "quote": "This kind of discrete speech tokens is referred to as variable frame rate (VFR) tokens in this review, and VFR tokens are closely related to acoustic unit discovery so that heuristically located boundaries from SSL models can guide segmentation while introducing an inductive bias that encodes linguistic knowledge.",
+              "page": "n/a"
+            },
+            "confidence": 0.72
+          },
+          {
+            "term": "spoken language modeling",
+            "category": "applications_analysis",
+            "evidence": {
+              "quote": "Index Terms—Discrete speech tokens, neural audio codec, speech tokenizer, speech LLMs, spoken language modeling, speech generation, acoustic tokens, semantic tokens.",
+              "page": "1"
+            },
+            "confidence": 0.71
+          }
+        ]
+      }
+    ]
+  },
+  "raw_output": "{\"topic\":\"discrete audio tokens more than a survey\",\"anchor_terms\":[\"discrete speech tokens\",\"speech generation\",\"acoustic tokens\",\"semantic tokens\"],\"search_terms\":[{\"category\":\"tokenization_methods\",\"terms\":[\"vector quantization\",\"k-means clustering\",\"Gumbel VQ\",\"finite scalar quantization\",\"residual VQ\",\"grouped VQ\",\"codebook balancing\",\"codebook collapse\"]},{\"category\":\"acoustic_codec_architectures\",\"terms\":[\"neural codec\",\"VQ GAN\",\"diffusion models\",\"CNN encoder\",\"Transformer backbone\",\"U-Net generator\",\"global encoder\",\"multi-resolution quantizers\"]},{\"category\":\"semantic_representation\",\"terms\":[\"self-supervised learning\",\"contrastive models\",\"predictive models\",\"HuBERT embeddings\",\"WavLM features\",\"semantic distillation\",\"supervised tokenizer\",\"semantic codebook\"]},{\"category\":\"efficiency_strategies\",\"terms\":[\"length reduction\",\"deduplication\",\"acoustic BPE\",\"variable frame rate tokens\",\"variable bitrate\",\"temporal redundancy\",\"unit discovery\",\"frame rate selection\"]},{\"category\":\"applications_analysis\",\"terms\":[\"spoken language modeling\",\"text-to-speech\",\"voice conversion\",\"spoken translation\",\"speech generation\",\"spoken dialogue\",\"spoken language understanding\",\"speech LLMs\"]}],\"papers\":[{\"id\":\"discrete_speech_tokens_review_2025\",\"source_id\":\"arXiv:2502.06490\",\"title\":\"Recent Advances in Discrete Speech Tokens: A Review\",\"abstract\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.\",\"year\":\"2025\",\"source_url\":\"https://arxiv.org/abs/2502.06490v4\",\"detected_keywords\":[{\"term\":\"discrete speech tokens\",\"category\":\"tokenization_methods\",\"evidence\":{\"quote\":\"The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures.\",\"page\":\"1\"},\"confidence\":0.85},{\"term\":\"vector quantization\",\"category\":\"tokenization_methods\",\"evidence\":{\"quote\":\"Clustering is often an isolate process, thus cannot be optimized together with other neural network modules. Instead, vector quantization (VQ) [44] enables a learnable network module that allows gradients to pass through when producing discrete representations. Autoencoders with a VQ module is termed VQ-VAE [45].\",\"page\":\"n/a\"},\"confidence\":0.78},{\"term\":\"semantic distillation\",\"category\":\"semantic_representation\",\"evidence\":{\"quote\":\"The process of introducing semantic information into acoustic tokens is termed semantic distillation, with approaches summarized in Fig. 6. The earliest effort in semantic distillation is to guide some RVQ layers in codec models towards semantic features, which are typically SSL features.\",\"page\":\"n/a\"},\"confidence\":0.76},{\"term\":\"acoustic BPE\",\"category\":\"efficiency_strategies\",\"evidence\":{\"quote\":\"Another popular approach is acoustic byte-pair encoding (BPE), which iteratively merges the two most frequent consecutive tokens and adds the merged token to the vocabulary, enabling a deterministic BPE mapping that losslessly compresses sequences while identifying redundant patterns that purely repeated deduplication would miss.\",\"page\":\"n/a\"},\"confidence\":0.75},{\"term\":\"variable frame rate tokens\",\"category\":\"efficiency_strategies\",\"evidence\":{\"quote\":\"This kind of discrete speech tokens is referred to as variable frame rate (VFR) tokens in this review, and VFR tokens are closely related to acoustic unit discovery so that heuristically located boundaries from SSL models can guide segmentation while introducing an inductive bias that encodes linguistic knowledge.\",\"page\":\"n/a\"},\"confidence\":0.72},{\"term\":\"spoken language modeling\",\"category\":\"applications_analysis\",\"evidence\":{\"quote\":\"Index Terms—Discrete speech tokens, neural audio codec, speech tokenizer, speech LLMs, spoken language modeling, speech generation, acoustic tokens, semantic tokens.\",\"page\":\"1\"},\"confidence\":0.71}]}]}",
+  "errors": []
+}

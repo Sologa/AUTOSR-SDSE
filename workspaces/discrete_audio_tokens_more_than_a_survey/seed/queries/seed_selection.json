@@ -14,7 +14,7 @@
     "review",
     "overview"
   ],
-  "cutoff_reason": "exact_title_match",
+  "cutoff_reason": "cutoff_removed_all_candidates",
   "cutoff_candidate": {
     "arxiv_id": "2506.10274",
     "title": "Discrete Audio Tokens: More Than a Survey!",
@@ -31,32 +31,12 @@
   },
   "cutoff_date": "2025-06-12",
   "topic_title_normalized": "discrete audio tokens more than a survey",
-  "records_total": 4,
-  "records_after_title_filter": 2,
-  "records_after_filter": 1,
+  "records_total": 1,
+  "records_after_title_filter": 1,
+  "records_after_filter": 0,
   "download_top_k": 5,
-  "download_selected": [
-    {
-      "arxiv_id": "2502.06490",
-      "title": "Recent Advances in Discrete Speech Tokens: A Review",
-      "published": "2025-02-10T14:08:25Z"
-    }
-  ],
+  "download_selected": [],
   "candidates": [
-    {
-      "arxiv_id": "2502.06490",
-      "title": "Recent Advances in Discrete Speech Tokens: A Review",
-      "published": "2025-02-10T14:08:25Z",
-      "published_date": "2025-02-10",
-      "similarity": {
-        "best_variant": "Discrete Audio Tokens: More Than a Survey!",
-        "sequence_ratio": 0.4782608695652174,
-        "token_containment": 0.5,
-        "topic": "Discrete Audio Tokens: More Than a Survey!",
-        "title": "Recent Advances in Discrete Speech Tokens: A Review",
-        "score": 0.5
-      }
-    },
     {
       "arxiv_id": "2506.10274",
       "title": "Discrete Audio Tokens: More Than a Survey!",
@@ -73,7 +53,7 @@
     }
   ],
   "anchor_mode": "phrase",
-  "search_query": "(all:\"discrete audio tokens\" OR all:\"discrete speech tokens\" OR all:\"audio tokenization discrete tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "search_query": "(all:\"discrete audio tokens\" OR all:\"discrete audio tokenization\" OR all:\"discrete acoustic tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
   "scope": "all",
   "boolean_operator": "AND",
   "raw_query": null

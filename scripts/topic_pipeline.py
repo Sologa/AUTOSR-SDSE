@@ -39,6 +39,7 @@ from src.pipelines.topic_pipeline import (
     harvest_arxiv_metadata,
     harvest_other_sources,
     resolve_workspace,
+    run_cli_review,
     run_latte_review,
     run_snowball_asreview,
     run_snowball_iterative,
@@ -109,19 +110,37 @@ def build_parser() -> argparse.ArgumentParser:
     seed.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
     seed.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
     seed.add_argument("--seed-rewrite-model", default="gpt-5.2")
+    seed.add_argument("--seed-rewrite-reasoning-effort", default="low")
     seed.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
 
     keywords = add_subparser("keywords", help="從 seed PDFs 抽取 anchor/search terms")
     keywords.add_argument("--pdf-dir", type=Path, default=None, help="PDF 來源目錄（預設 seed downloads/arxiv）")
     keywords.add_argument("--max-pdfs", type=_positive_int, default=3)
-    keywords.add_argument("--provider", default="openai")
-    keywords.add_argument("--model", default="gpt-5.2", help="固定 gpt-5.2（忽略此參數）")
-    keywords.add_argument("--temperature", type=float, default=1.0, help="固定 1.0（忽略此參數）")
+    keywords.add_argument("--provider", default="openai", choices=["openai", "codex-cli"])
+    keywords.add_argument(
+        "--model",
+        default="gpt-5.2",
+        help="openai 路徑固定 gpt-5.2；codex-cli 會使用此參數",
+    )
+    keywords.add_argument("--temperature", type=float, default=1.0, help="openai 路徑固定 1.0（忽略此參數）")
     keywords.add_argument("--max-queries", type=_positive_int, default=50)
     keywords.add_argument("--include-ethics", action="store_true", help="允許 ethics 類術語")
     keywords.add_argument("--seed-anchor", action="append", default=None, help="傳入 ExtractParams.seed_anchors")
     keywords.add_argument("--reasoning-effort", default="medium")
     keywords.add_argument("--max-output-tokens", type=int, default=128000)
+    keywords.add_argument("--codex-bin", default=None, help="Codex CLI 執行檔路徑")
+    keywords.add_argument("--codex-home", type=Path, default=None, help="CODEX_HOME（repo-local .codex 建議）")
+    keywords.add_argument(
+        "--codex-extra-arg",
+        action="append",
+        default=None,
+        help="附加在 `codex exec` 之前的旗標（可重複）。",
+    )
+    keywords.add_argument(
+        "--codex-allow-web-search",
+        action="store_true",
+        help="允許 Codex web search（預設關閉）",
+    )
     keywords.add_argument("--force", action="store_true", help="覆寫 keywords.json")
 
     harvest = add_subparser("harvest", help="用 keywords 做 arXiv metadata harvest")
@@ -159,18 +178,48 @@ def build_parser() -> argparse.ArgumentParser:
     criteria.add_argument("--search-model", default="gpt-5.2-chat-latest")
     criteria.add_argument("--formatter-model", default="gpt-5.2")
     criteria.add_argument("--pdf-model", default="gpt-4.1")
+    criteria.add_argument("--search-reasoning-effort", default=None)
+    criteria.add_argument("--formatter-reasoning-effort", default=None)
+    criteria.add_argument("--pdf-reasoning-effort", default=None)
     criteria.add_argument("--force", action="store_true")
 
-    review = add_subparser("review", help="（選用）跑 LatteReview Title/Abstract 初篩")
+    review = add_subparser("review", help="（選用）跑 Title/Abstract 初篩")
     review.add_argument("--metadata", type=Path, default=None, help="arXiv metadata JSON（預設 workspace/harvest/arxiv_metadata.json）")
     review.add_argument("--criteria", type=Path, default=None, help="criteria.json（預設 workspace/criteria/criteria.json）")
     review.add_argument("--output", type=Path, default=None, help="輸出檔案（預設 workspace/review/latte_review_results.json）")
     review.add_argument("--top-k", type=int, default=None)
     review.add_argument("--skip-titles-containing", default="***")
-    review.add_argument("--junior-nano-model", default="gpt-5-nano")
-    review.add_argument("--junior-mini-model", default="gpt-4.1-mini")
-    review.add_argument("--senior-model", default="gpt-5-mini")
+    review.add_argument("--provider", default="openai", choices=["openai", "codex-cli"])
+    review.add_argument("--junior-nano-model", default=None)
+    review.add_argument("--junior-mini-model", default=None)
+    review.add_argument("--senior-model", default=None)
+    review.add_argument("--junior-nano-reasoning-effort", default=None)
+    review.add_argument("--junior-mini-reasoning-effort", default=None)
     review.add_argument("--senior-reasoning-effort", default="medium")
+    review.add_argument("--codex-bin", default=None, help="Codex CLI 執行檔路徑")
+    review.add_argument("--codex-home", type=Path, default=None, help="CODEX_HOME（repo-local .codex 建議）")
+    review.add_argument(
+        "--codex-extra-arg",
+        action="append",
+        default=None,
+        help="附加在 `codex exec` 之前的旗標（可重複）。",
+    )
+    review.add_argument(
+        "--codex-allow-web-search",
+        action="store_true",
+        help="允許 Codex web search（預設關閉）",
+    )
+    review.add_argument(
+        "--gemini-allow-web-search",
+        action="store_true",
+        help="允許 Gemini web search（預設關閉）",
+    )
+    review.add_argument(
+        "--codex-schema",
+        type=Path,
+        default=None,
+        help="Codex review schema path（預設 resources/schemas/review_response.schema.json）",
+    )
 
     snowball = add_subparser("snowball", help="（選用）LatteReview → ASReview + snowballing")
     snowball.add_argument("--review-results", type=Path, default=None)
@@ -229,6 +278,7 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
     run.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
     run.add_argument("--seed-rewrite-model", default="gpt-5.2")
+    run.add_argument("--seed-rewrite-reasoning-effort", default="low")
     run.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
 
     run.add_argument("--max-pdfs", type=_positive_int, default=3)
@@ -284,6 +334,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             seed_rewrite=args.seed_rewrite,
             seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
             seed_rewrite_model=args.seed_rewrite_model,
+            seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
             seed_rewrite_preview=args.seed_rewrite_preview,
         )
         print(result)
@@ -302,6 +353,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             seed_anchors=args.seed_anchor,
             reasoning_effort=args.reasoning_effort,
             max_output_tokens=args.max_output_tokens,
+            codex_bin=args.codex_bin,
+            codex_extra_args=args.codex_extra_arg,
+            codex_home=args.codex_home,
+            codex_allow_web_search=args.codex_allow_web_search,
             force=args.force,
         )
         print(result)
@@ -370,24 +425,58 @@ def main(argv: Optional[List[str]] = None) -> int:
             search_model=args.search_model,
             formatter_model=args.formatter_model,
             pdf_model=args.pdf_model,
+            search_reasoning_effort=args.search_reasoning_effort,
+            formatter_reasoning_effort=args.formatter_reasoning_effort,
+            pdf_reasoning_effort=args.pdf_reasoning_effort,
             force=args.force,
         )
         print(result)
         return 0
 
     if args.command == "review":
-        result = run_latte_review(
-            ws,
-            arxiv_metadata_path=args.metadata,
-            criteria_path=args.criteria,
-            output_path=args.output,
-            top_k=args.top_k,
-            skip_titles_containing=args.skip_titles_containing,
-            junior_nano_model=args.junior_nano_model,
-            junior_mini_model=args.junior_mini_model,
-            senior_model=args.senior_model,
-            senior_reasoning_effort=args.senior_reasoning_effort,
-        )
+        provider = args.provider.strip().lower()
+        if provider == "codex-cli":
+            junior_nano_model = args.junior_nano_model or "gpt-5.1-codex-mini"
+            junior_mini_model = args.junior_mini_model or "gemini-2.5-pro"
+            senior_model = args.senior_model or "gpt-5.2"
+            result = run_cli_review(
+                ws,
+                arxiv_metadata_path=args.metadata,
+                criteria_path=args.criteria,
+                output_path=args.output,
+                top_k=args.top_k,
+                skip_titles_containing=args.skip_titles_containing,
+                junior_nano_model=junior_nano_model,
+                junior_mini_model=junior_mini_model,
+                senior_model=senior_model,
+                junior_nano_reasoning_effort=args.junior_nano_reasoning_effort,
+                junior_mini_reasoning_effort=args.junior_mini_reasoning_effort,
+                senior_reasoning_effort=args.senior_reasoning_effort,
+                codex_bin=args.codex_bin,
+                codex_home=args.codex_home,
+                codex_extra_args=args.codex_extra_arg,
+                codex_schema_path=args.codex_schema,
+                allow_web_search=args.codex_allow_web_search,
+                gemini_allow_web_search=args.gemini_allow_web_search,
+            )
+        else:
+            junior_nano_model = args.junior_nano_model or "gpt-5-nano"
+            junior_mini_model = args.junior_mini_model or "gpt-4.1-mini"
+            senior_model = args.senior_model or "gpt-5-mini"
+            result = run_latte_review(
+                ws,
+                arxiv_metadata_path=args.metadata,
+                criteria_path=args.criteria,
+                output_path=args.output,
+                top_k=args.top_k,
+                skip_titles_containing=args.skip_titles_containing,
+                junior_nano_model=junior_nano_model,
+                junior_mini_model=junior_mini_model,
+                senior_model=senior_model,
+                junior_nano_reasoning_effort=args.junior_nano_reasoning_effort,
+                junior_mini_reasoning_effort=args.junior_mini_reasoning_effort,
+                senior_reasoning_effort=args.senior_reasoning_effort,
+            )
         print(result)
         return 0
 
@@ -424,6 +513,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             seed_rewrite=args.seed_rewrite,
             seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
             seed_rewrite_model=args.seed_rewrite_model,
+            seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
             seed_rewrite_preview=args.seed_rewrite_preview,
         )
         extract_keywords_from_seed_pdfs(

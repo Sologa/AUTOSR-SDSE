@@ -1,0 +1,2250 @@
+1
+Recent Advances in Discrete Speech Tokens: A
+Review
+Yiwei Guo, Student Member, IEEE, Zhihan Li, Hankun Wang, Bohan Li, Chongtian Shao, Hanglei Zhang,
+Chenpeng Du, Xie Chen, Shujie Liu, Kai Yu, Fellow, IEEE
+Abstract—The rapid advancement of speech generation tech-
+nologies in the era of large language models (LLMs) has
+Discrete
+established discrete speech tokens as a foundational paradigm Speech Tokenizer Codec decoder
+for speech representation. These tokens, characterized by their Tokenization (Acoustic/Semantic) or (optional) vocoder
+discrete,compact,andconcisenature,arenotonlyadvantageous
+forefficienttransmissionandstorage,butalsoinherentlycompat- Discrete speech tokens
+ible with the language modeling framework, enabling seamless
+integration of speech into text-dominated LLM architectures. The quick fox …
+Current research categorizes discrete speech tokens into two Speech
+Token-based Spoken Speech Spoken ……
+principal classes: acoustic tokens and semantic tokens, each of Downstream Language Synthesis Language (Dialogue)
+which has evolved into a rich research domain characterized Applications Understanding Modeling
+by unique design philosophies and methodological approaches. The quick fox …
+Thissurveysystematicallysynthesizestheexistingtaxonomyand
+Fig. 1: Diagram of discrete speech tokenization process and
+recent innovations in discrete speech tokenization, conducts a
+critical examination of the strengths and limitations of each speech token-based downstream applications.
+paradigm, and presents systematic experimental comparisons
+acrosstokentypes.Furthermore,weidentifypersistentchallenges To transform long speech waveforms into compact sequences
+in the field and propose potential research directions, aiming to of discrete tokens compatible with textual representations,
+offer actionable insights to inspire future advancements in the particularly for language modeling tasks involving speech.
+development and application of discrete speech tokens.
+As a result, significant efforts have been directed towards
+Index Terms—Discrete speech tokens, neural audio codec,
+speech tokenizer, speech LLMs, spoken language modeling, developing efficient and powerful speech tokenization meth-
+speech generation, acoustic tokens, semantic tokens ods.Generally,thesemethodsarebasedontwodistinctprinci-
+ples,givingrisetotwotypesofspeechtokens:acoustictokens
+and semantic tokens. Acoustic tokens are derived from neural
+I. INTRODUCTION codecs designed to encode speech at a low bitrate while pre-
+serving as much information as possible [8]–[11]. In contrast,
+THErapidadvancementoflargelanguagemodels(LLMs)
+semantictokensoriginatefromspeechself-supervisedlearning
+in natural language processing has revolutionized speech (SSL) [12], which aims to learn a more phonetic or semantic
+generation tasks [1], [2], with speech being tokenized and representation space, making it easier for speech recognition.
+modeled using decoder-only Transformers [3]. Efforts starting These two nearly independent lines of research magically
+from GSLM [4] and AudioLM [5] aim to develop text-free intersectinthecontextoflanguagemodelingforspeech.Now,
+spoken LLMs, akin to how current LLM-powered chatbots there are also efforts that try to design a speech tokenizer
+enable text-based interactions. Other works, including VALL- thataccomplishesthetwoobjectivessimultaneously[13],[14].
+E [6] and VioLA [7], extend this approach to conditional Consequently,speechtokenizationhasbecomeacoreproblem
+speech generation tasks, such as zero-shot text-to-speech and of speech processing under the new paradigm, with versatile
+speech translation. However, this paradigm requires data to downstream applications, as shown in Fig.1.
+be tokenized, as LLMs typically process discrete data only. Prior to discrete tokens, continuous speech representations
+Textual tokens naturally meet this requirement because they from autoencoders and self-supervised learning have been
+are designed as discrete units separated by clear boundaries, extensively explored [12]. Comparatively, continuous repre-
+whereasrawspeechsignalsarecontinuousandboundary-less. sentations generally provide higher fidelity in reconstruction
+Therefore, a necessary step before applying speech data to or stronger performance on understanding tasks, but lack the
+LLM is the tokenization of speech, whose goal is: compactness, symbolic abstraction, and compatibility with
+language model-based generation that discrete tokens easily
+CorrespondingAuthor:KaiYu.Email:kai.yu@sjtu.edu.cn afford. In other words, they highlight different tradeoffs in
+YiweiGuo,ZhihanLi,BohanLi,ChongtianShao,HangleiZhang,Hankun
+representation learning.
+Wang, Chenpeng Du, Xie Chen and Kai Yu are with the MoE Key Lab of
+ArtificialIntelligence,JiangsuKeyLabofLanguageComputing;X-LANCE Despite the rapid development and numerous recent works,
+Lab,DepartmentofComputerScienceandEngineering,ShanghaiJiaoTong a comprehensive taxonomy of methodologies in discrete
+University,Shanghai,China.Email:yiwei.guo@sjtu.edu.cn
+speech tokens has not been clearly constructed. Existing
+Shujie Liu is with Microsoft Research Asia (MSRA), Beijing 100080,
+China. reviews [1], [2], [8]–[10], [12] in this field overlook the
+5202
+ceD
+21
+]SA.ssee[
+4v09460.2052:viXra
+
+2
+diverse categories and methodologies in both acoustic and assign each sample x to a group such that some cost is
+i
+semantic tokens. For example, [1], [2] focus primarily on minimized. The most frequently used clustering method for
+methods in spoken language modeling, providing only brief discretespeechtokensisk-meansclustering[40].Forexample,
+descriptions of some speech tokens used in existing models. k-meansisappliedonHuBERT[34]featuresinGSLM[4].K-
+Thetaxonomyofneuralaudiocodecshasbeensummarizedin means is a clustering algorithm based on Euclidean distances.
+[8], [11], but the realm of semantic tokens is still overlooked. Its training process iteratively assigns each data sample to the
+In this review, we provide a comprehensive overview of the nearest centroid, and moves cluster centroids till convergence,
+concepts, methods, and characteristics of various types of with a pre-defined number of clusters. After training, the
+discrete speech tokens, with their applications in spoken lan- centroids form the codebook, and new data can be quantized
+guage understanding, speech generation, and spoken dialogue totheindexofthenearestcentroidinthisVoronoipartition.In
+models. We hope that through this review, the community can practice, centroids are usually initialized with the k-means++
+have a clear understanding of the current development and algorithm [41] for better convergence.
+key technologies of discrete speech tokens, so as to promote Hierarchical agglomerative clustering has also been used in
+further research in the future. discrete speech tokens, which iteratively merges the closest
+Our contributions are summarized as follows: clusters. It is usually applied after k-means to reduce the
+• This review is the first to focus specifically on discrete number of clusters [42], [43]. Other clustering algorithms are
+speech tokens with sufficient depth in the LLM era. less explored in the context of discrete speech tokens.
+• We construct a comprehensive taxonomy of current re-
+searchondiscretespeechtokensandmeticulouslyreview
+B. Vector Quantization
+themotivation,representativeapproaches,andchallenges
+in each sub-category. Clustering is often an isolate process, thus cannot be opti-
+• We provide a unified comparison of different types of mized together with other neural network modules. Instead,
+discrete speech tokens in terms of reconstruction and vector quantization (VQ) [44] enables a learnable network
+voiceconversionperformance,coveringbothacousticand module that allows gradients to pass through when producing
+semantic tokens. discrete representations. Autoencoders with a VQ module is
+• Wesummarizethecurrentchallengesandpotentialfuture termed VQ-VAE [45]. There are multiple VQ methods:
+directionsfordiscretespeechtokens,includingdecoupled 1) K-means VQ: Like k-means clustering, k-means VQ
+and variable frame rate tokens. method finds the code-vector closest to the input, i.e.
+ThestructureofthisreviewisshowninFig.2.Following[5],
+[15],[16],weclassifydiscretespeechtokensintoacousticand q(x)= argmin ∥x−c i ∥2. (1)
+i∈{1,2,...,V}
+semantictokensbasedontheirprinciples.Wewillcharacterize
+the two types of tokens both by conceptual descriptions and
+Then, code-vector c ≜ c is fed to subsequent networks.
+unified experimental comparisons. k q(x)
+As the min operation is not differentiable, straight-through
+estimators (STEs) [46] are usually applied to graft gradients,
+II. PRE-REQUISITES:DISCRETEREPRESENTATION
+i.e. STE(c ,x)=x+sg(c −x) where sg(·) stops tracking
+LEARNING k k
+gradients. In this way, the input value to subsequent networks
+Discrete speech tokens are obtained through the quantiza-
+is still c , but gradients are grafted to x in back propagation.
+k
+tion of continuous representations, which is usually achieved
+Auxiliary loss functions are often used together with k-
+by offline clustering or online vector quantization algorithms.
+means VQ [45]: commitment loss L =∥sg(c )−x∥2 and
+Thissectionprovidesaconciseoverviewoftheexistingquan- cmt k
+codebook loss L =∥sg(x)−c ∥2. The commitment loss
+tization methods commonly used in discrete speech tokens. code k
+pushes the continuous input x towards the closest codebook
+Denotex∈Rd asavectorinthed-dimensionalcontinuous
+entry, while the codebook loss does the opposite and updates
+space. A quantization process q transforms x into a discrete
+the code-vector c . The two loss terms are weighted by
+token in a finite set, i.e. q(x):Rd →{1,2,...,V} where V is k
+different factors to put different optimization strengths on x
+thevocabularysize.Theoutputtokensaresometimesreferred
+and c , as pushing c towards x is an easier task. It is also
+to as indexes in the finite V-cardinal set. The function q is k k
+common to replace L with exponential moving average
+usuallyassociatedwithacodebookC ={c ,c ,...,c }where code
+1 2 V (EMA) to update the codebook instead [47], which does not
+every code-vector c ∈ Rd corresponds to the i-th token.
+i rely on explicit loss functions.
+The code-vectors are representations of tokens in the original
+VQ in high-dimensional spaces is known to suffer from
+d-dimensional space. As V elements can be encoded using
+codebook collapse, where the codebook usage is highly im-
+⌈log V⌉ rawbits1,quantization oftencompresses thecost for
+2 balanced [48], [49]. To improve codebook utilization, random
+data storage and transmission to a great extent.
+replacement (as known as codebook expiration) can be ap-
+A. Offline Clustering
+plied [49] on code-vectors that have remained inactive for a
+Clustering is a simple approach for quantization. Given a
+longtime.Otherpopularsolutionsincludeadditionalauxiliary
+dataset X = {x ,x ,...x }, a clustering algorithm aims to
+1 2 N constraintssuchasentropypenalty[50],[51],factorizedcode-
+book lookup in low-dimensional space [52], and reparameter-
+1We denote by ⌈z⌉ and ⌊z⌋ the ceiling and floor of scalar z, i.e., ⌈z⌉=
+min{n∈Z:n≥z}and⌊z⌋=max{n∈Z:n≤z}. izing code-vectors through a learnable linear projection [53].
+
+3
+Pre-requisites:DiscreteRepresentationLearning OfflineClustering:k-meansclustering,agglomerativeclustering,etc.
+(SectionII) VectorQuantization:k-meansVQ,GumbelVQ,FSQ,GVQ,RVQ,etc.
+Modelarchitectures VQ-GAN:CNN-based,Transformer-based,U-Net-based,etc.
+(SectionIII-A) Diffusion:LaDiffCodec[17],SemantiCodec[18],etc.
+AdvancedVQmethodsandmodelarchitectures:DAC[19],TS3-Codec[20],etc.
+General-Purpose
+Temporalredundancyreduction:Disen-TF-Codec[21],TiCodec[22],etc.
+(SectionIII-B)
+Multi-resolutionorvariable-bitrate:SNAC[23],VRVQ[24],etc.
+AcousticTokens
+(SectionIII,TableII) Semanticfeatureguidance:SpeechTokenizer[13],Mimi[14],etc.
+SemanticDistillation
+Fixedsemanticcodebook:LLM-Codec[25],etc.
+(SectionIII-C)
+Semanticfeaturesasinputsoroutputs:X-Codec[26],SemantiCodec[18],etc.
+Discrete Gradientreversallayer:SSVC[27],FACodec[28],etc.
+Disentanglement
+Speech Perturbation:LSCodec[29],etc.
+(SectionIII-D)
+Tokens Sourceseparation:SD-Codec[30],DeCodec[31],etc.
+Contrastivemodels:vq-wav2vec[32],wav2vec2.0[33],etc.
+SSLSemanticTokens
+Predictivemodels:HuBERT[34],WavLM[35],etc.
+(SectionIV-A)
+Perturbation-invariantSSLmodels:ContentVec[36],NAST[37],etc.
+SemanticTokens
+SupervisedSemanticTokens(SectionIV-B):Whisper[38],S3Tokenizer[39],etc.
+(SectionIV,TableIII)
+SpeechTokenVocoders(SectionIV-C)
+LengthReductionbyDeduplicationandAcousticBPE(SectionV-A)
+LengthReductionandVariable-RateTokenization
+(SectionV)
+VariableFrameRateTokensandUnitDiscovery(SectionV-B)
+Analysis(SectionVI):Metrics,benchmarks,experimentalcomparisons(reconstruction,voiceconversion,downstreamsemanticmodeling)
+Applications(SectionVII),ChallengesandFutureDirections(SectionVIII)
+Fig. 2: Structure of this review. After a brief introduction to the preliminary knowledge, we will taxonomize acoustic tokens
+and semantic tokens, followed by cross-cutting methods such as length reduction and variable-rate tokenization. Later sections
+cover experimental analysis, applications, and future directions. Each branch corresponds to a subsection in the paper.
+2) Gumbel VQ: Instead of quantizing by Euclidean dis- 3) FiniteScalarQuantization(FSQ): Asmentionedbefore,
+tance, another choice is by probability. Gumbel VQ [54] VQ methods based on code-vector assignment usually suffer
+uses Gumbel-Softmax as a proxy distribution for traditional from codebook collapse. Despite many efforts, this remains
+Softmax to allow differentiable sampling. Given input x and a crucial challenge. FSQ [56] is an alternative that performs
+a codebook of size V, a transform h(·) is applied on x into quantization in scalar domain. FSQ quantizes each dimension
+V logits: l = h(x) ∈ RV. In inference, quantization is of a vector x into L levels. For the i-th dimension x(i), FSQ
+performed by choosing the index with the largest logit, i.e. transforms the values into a limited range and then rounds to
+q(x)=argmax
+(cid:8) l(i)(cid:9)
+. In training, samples are drawn from integers, i.e.
+i
+the categorical distribution implied by l for the subsequent (cid:16) (cid:17) (cid:16) (cid:16) (cid:17)(cid:17)
+neural networks. To achieve efficient sampling and let gradi- q x(i) =round ⌊L/2⌋tanh x(i) . (4)
+ents pass through, Gumbel trick is used:
+The quantized values for each dimension are thus integers
+u∈RV ∼Uniform(0,1),v =−log(−log(u)) (2) ranging from −⌊L/2⌋ to ⌊L/2⌋2. For a d-dimensional vector
+s=Softmax((l+v)/τ) (3) x, there are V = Ld possible quantization outcomes. STE
+is also applied to pass gradients. As quantization is simply
+where Eq.(2) samples Gumbel noise v element-wise, and done via rounding to integers, there are no explicit codebooks
+Eq.(3) calculates Gumbel-Softmax distribution s with a tem- associated with the FSQ process.
+perature τ. The forward pass simply uses j =argmax i {s(i)} 4) Other VQ Tricks: In many cases, a single VQ module
+asthesampledindex,butthetruegradientofGumbel-Softmax suffersfromahighly-limitedrepresentationspace,thusresults
+is used in backward pass. In other words, the gradient on the in poor performance compared to continuous counterparts.
+one-hot distribution corresponding to j is grafted to s as an Therearesomewidely-usedVQtricksthatintroducemultiple
+approximate. The temperature τ balances the approximation quantizers to refine the quantized space, as shown in Fig.3:
+accuracyandgradientvariances.Thetransformh(·)isusually
+1) Grouped VQ (GVQ), also known as product quantiza-
+parameterized as neural networks, or negatively proportional
+tion[57].Itpartitionstheinputvectorxbydimensionsand
+to Euclidean distances [55].
+applies VQ on different groups independently. Different
+After quantization, code-vector c with k = q(x) is fed
+k groupscanhavedifferentorsharedcodebooks.Eachgroup
+to subsequent networks. Gumbel VQ does not require addi-
+tional losses, since code-vectors can be directly learned with
+2Following [56], this is the symmetric case for L being odd. When L is
+gradients and do not need to be pushed towards x. even,thereisanoffsetbeforeroundingtoobtainasymmetricquantizedvalues.
+
+4
+...... ...... Discriminator
+𝒙 !"# ∈ℝ$!"# 𝒄 !!"# 𝒙! 𝒄 !!"#
+𝒙∈ℝ$ 𝒙 ! ∈ℝ$! 𝑘!=𝑞!(𝒙!) 𝒄 !! 𝒄∈ℝ$ 𝒙∈ℝ$ 𝒙! 𝒙 " 𝑘 ! # ! " = # = 𝒙 𝑞 ! !( − 𝒙! 𝒄 ) $! 𝒄 !! + 𝒄∈ℝ$ VQ-GAN Encoder Glo Q b u a a l ntizer spe D e i c s h c r t e o t k e e n D s ecoder
+...... ...... Encoder
+𝒙 !%# ∈ℝ$!$# 𝒄 !!$# 𝒄 !!$#
+EEnnccooddeerr Quantizer
+Fig. 3: Diagram of GVQ (left) and RVQ (right). GVQ quan- Discrete
+speech tokens
+tizes different partitions of the input vector independently, Diffusion
+while RVQ sequentially quantizes the residuals. Diffusion /
+Flow Matching
+Gaussian Fixed
+produces a code-vector of the same dimensionality as distribution continuous space
+its partition. These code-vectors are concatenated across Fig.4:Neuralarchitecturesofacoustictokens.Notethatinputs
+groups to form a final output whose dimensionality equals and outputs can be waveforms, frequency-domain features or
+that of x. even SSL features depending on purpose and design.
+2) Residual VQ (RVQ), also known as multi-stage quanti-
+zation [58]. It adopts a serial approach that iteratively preventsefficientparallelizationincomputation,butmightalso
+quantizestheresidualofthelastquantizer.SimilartoGVQ, complicate optimization due to the nested STE operations.
+RVQ also has multiple quantizers. For the i-th quantizer
+q with input x and output code-vector c , the residual III. SPEECHTOKENIZATIONMETHODS:ACOUSTIC
+i i k
+is defined as x = x − c . The outputs from all q TOKENS
+i+1 i k i
+are finally summed as the quantized result of x. In this Acoustic speech tokens are discrete representations derived
+way, information in the codebooks is supposed to follow fromcodecmodels,primarilydesignedforspeechcompression
+a coarse-to-fine order, and more details in the original x and reconstruction. The audio codec technology emerged
+can be preserved than a plain quantizer. long ago. Traditional codecs, including MP3 [63], Opus [64]
+GVQ and RVQ can also be flexibly combined to form and EVS [65], typically take advantage of signal processing
+GRVQ [59] that applies RVQ on each GVQ branch for better algorithms to improve quality and lower the bitrate.
+codebook utilization. RVQ can also be applied to FSQ [60]. In the deep learning era, numerous codec models based on
+Note that RVQ naturally produces an order of importance neural networks have been developed. These models typically
+in residual layers, while all quantizers in GVQ are equally consist of an encoder that compresses speech signals and a
+important. Such order of importance can also be enforced in decoder that reconstructs the speech signals, with a quantizer
+GVQ by a “nested dropout” trick [61]. situated between the two. The quantizer is also parameterized
+5) Comparisons: Compared to k-means VQ, both Gumbel and jointly trained with the whole network in an end-to-end
+VQandFSQavoidadditionallosstermsduringtraining.How- manner. The codebook indices produced by the quantizer are
+ever, Gumbel VQ is sensitive to the temperature parameter referred to as acoustic tokens. To improve the representation
+τ in practice [62]. FSQ, by contrast, has a simpler design abilityofdiscreteVQspacesandthusobtainbettercodecper-
+and optimization procedure, and has been reported to achieve formance, RVQ, GVQ, GRVQ and FSQ tricks are commonly
+better codebook utilization3 under large vocabulary sizes than applied in the quantization module.
+k-means VQ [56]. WelisttheVQmethod,numberofquantizersQ,framerate
+Nevertheless, FSQ also has certain limitations. In FSQ, as F, vocabulary size V for each quantizer, and the resulting
+the vocabulary size V follows V =Ld, d is usually chosen to bitrate of existing neural acoustic speech tokens in Table II in
+be small (like d=6 in StableCodec [60]). For VQ, V is not the appendix.
+related to the code-vector dimension d, which can therefore
+be set to a wider range of values. The bottleneck of such low A. Model Architectures
+dimensionalitymightalsocauseFSQtounderperforminsmall
+Although acoustic codec models differ from one to one
+vocabulary sizes compared to a fully-utilized VQ [56]. Also,
+regardingtheirpurposes,mostofthemshareasimilarencoder-
+the quantization space of FSQ is strictly fixed, whereas VQ
+quantizer-decoderframework.Withaudioclipxthatcaneither
+methods maintain a learnable codebook. This rigidity forces
+be time-domain sampling points, frequency-domain features
+the surrounding network modules, particularly the encoder, to
+or even other machine learning features, an encoder f (·)
+θ
+mapthedatadistributionintosuchlow-dimensionalstructured
+transformsittof (x)inacontinuouslatentvectorspace.The
+θ
+codes, thereby placing greater demands on model capacity.
+encoderf (·)willusuallyperformdownsamplingtoreducethe
+θ
+Regarding GVQ and RVQ, the inherent ordering in RVQ
+temporal length of the input signals, especially for waveform
+provides greater flexibility than GVQ in trading off bitrate
+inputs. A VQ module q (·) discretizes f (x) into tokens and
+ϕ θ
+and performance. However, RVQ’s sequential nature not only
+corresponding codebook vectors c. A decoder g (·) then uses
+ψ
+c to reconstruct xˆ, and a certain distance metric of d(x,xˆ)
+3AlthoughFSQdoesnotmaintainanexplicitcodebook,utilizationcanstill
+bemeasuredovertheV =Ld possibleoutcomes. is usually optimized. There are two major paradigms for
+
+5
+Q. Block
+Patchify
+Conv.
+Conv.
+or
+Block Conv. Block Conv. Block Conv.
+Q.
+Trans.
+or
+CNN
+Trans.
+Block
+Unpatchify
+Conv.
+or
+Q.
+Q. Q.
+Trans.
+or
+CNN
+Trans.
+Trans.
+or
+or
+CNN
+CNN
+Trans.
+Trans.
+or
+or
+CNN
+CNN
+CNN-based
+Transformer-
+based
+U-Net-based
+Trans.
+Block
+Trans.
+Block
+C B o lo n c v k .
+Trans.
+Block
+Block
+Trans.
+Block
+Conv. Block
+Trans.
+Block
+Conv. Block Conv.
+inputs and outputs of the codec model can also be frequency-
+domainfeatureslikemagnitudeandphasespectraforreducing
+computation burden [71]. There, the convolution kernels are typically 2D instead of 1D in the time-domain codecs.
+Later, Transformers [3] have been adopted, e.g. in Single-
+Codec [72] and Mimi [14]. They can be directly applied
+to frequency-domain inputs and outputs. When operating on
+waveform-domain inputs or outputs, a CNN [14] or patchi-
+fying [20], [60] operation is usually added before or after
+theTransformerblocks.InMimi,ashallowTransformerlayer
+is added after the CNN-based encoder, and vice versa in its
+decoder. Recently, some propose to use purely Transformer-
+based backbone and discard the CNN blocks, e.g. TS3-
+Codec [20]. As Transformers demonstrate superior modeling
+ability and scaling property, these works prove to outperform
+CNN-basedcodecseitherwithlesscomputation[20]orlarger
+Fig. 5: Major generator architectures of VQ-GAN-based scale [60]. However, to ensure stream-ability, an attention
+acoustic tokens. “Conv.”, “Q.” and “Trans.” are short for mask should be employed [14]. The encoder and decoder
+convolution, quantizer and Transformer, respectively. can also be designed to be different. For example, Single-
+Codec [72] uses Conformer [73] encoder and CNN decoder,
+designing the encoder, decoder, and quantizers, which can be
+while LSCodec [29] uses the reverse configuration.
+summarized as diagrams in Fig.4.
+Inaddition,U-Net-basedcodecsemploymultiplequantizers
+1) VQ-GAN: VQ-GAN [66] is a very commonly adopted
+at different layers of the network, rather than relying on
+framework of codec models that trains a VQ-VAE with GAN
+a single GVQ or RVQ module for the entire codec. Typi-
+objectives. Besides the original reconstruction and VQ objec-
+cal examples in this category include CoFi-Codec [74] and
+tives in a VQ-VAE, VQ-GAN uses discriminators d (x,xˆ)
+ξ ESC [75]. In such designs, each sub-encoder or decoder in
+to distinguish real and reconstructed data that adversarially
+the U-Net can be implemented with a CNN or Transformer,
+train the generator network composed of f ,q , and g . In
+θ ϕ ψ offering more flexible control over the resolution of each VQ
+acousticcodecs,thereareusuallymultiplediscriminators,e.g.
+stream (Section III-B2c).
+multi-resolutionandmulti-scaleSTFTdiscriminatorsfromthe
+It is also noteworthy that training a separate vocoder on
+neural vocoder researches [67], [68]. The generator architec-
+top of existing acoustic tokens may result in improved audio
+ture of VQ-GAN-based codec models has multiple choices,
+quality than the original decoded outputs, since reconstruct-
+with the three most representative ones visualized in Fig.5:
+ing waveform alone may be simpler than optimizing VQ
+CNN-based, Transformer-based, and U-Net-based.
+representation and reconstruction at the same time. This is
+The CNN-based generator is the most widely used ar-
+exemplarily verified in AudioDec [76], MBD [77] and Vo-
+chitecture so far in codec models. SoundStream [69] and
+cos [78]. Therefore, some codec models directly simplify the
+EnCodec [70] are two famous early neural codec models that
+VQ-GAN training objective back to the original VQ-VAE,
+operateinanend-to-endVQ-GANmanner.Theyreceivetime-
+where the discrete acoustic tokens are obtained first by a
+domain waveforms as inputs and directly reconstruct wave-
+simple reconstruction loss, and a vocoder is trained as an
+forms.Theirencoderanddecoderhaveamirroredarchitecture
+additionalstage,likeAudioDec[76]andLSCodec[29].These
+to perform down and up-samplings. In SoundStream, the
+works are denoted as “VQ-VAE+GAN” in Table S-I.
+encoder and decoder are purely constructed by convolutional
+neural networks (CNNs) while EnCodec augments them with 2) Diffusion: Different from VQ-GAN which uses GAN
+an LSTM. The CNN encoder down-samples the waveform to to generate waveforms or frequency features, some codecs
+a high-dimensional embedding sequence, whose frame rate also use denoising diffusion [79], [80] or flow matching
+is determined by the sampling rate, CNN kernel sizes and models [81] as an alternative. Since diffusion and flow
+stridesatafixedratio.Thecontinuousembeddingsarepassed matching belongs to the same family of generative models,
+through an RVQ quantizer. The resulting quantized vectors we collectively refer to them as “diffusion” throughout this
+are summed and then passed to a CNN decoder to reconstruct paper. These diffusion-based codecs use discretized tokens to
+thewaveform.Thetrainingcriteriaincludereconstructionloss conditionthetransformationofstandardGaussiandistributions
+(in the time and frequency domain), adversarial loss, feature to the distribution of some continuous acoustic features, e.g.
+matching loss, and quantization losses for RVQ layers. To spectrogramfeatures,orthelatentspaceofapretrainedspeech
+allow for a flexible choice of bitrates, structured dropout is autoencoder. The diffusion loss can be propagated back to the
+adopted where the number of codebooks in the RVQ module encoder and quantizer in this design, like [18]. The encoding
+can be randomly chosen [69], such that only a portion of process in such codecs is identical to that of VQ-GAN. In
+quantizers in front are activated during training. The resulting the decoding process, the decoder runs an iterative sampling
+acoustic tokens can consequently reside in variable bitrates process to generate the target acoustic features, which are
+depending on the chosen number of RVQ quantizers. The converted to waveforms by a separate pretrained model.
+
+6
+3) Comparisons: Compared to diffusion, VQ-GAN-based exhibiting strong scalability to large model sizes up to 950M
+codecs are more intuitive in design, and have been a well- parametercount.Italsoexploresaflexiblepost-trainingquan-
+established method. Within this category, different architec- tization level adjustment technique and residual FSQ strategy.
+turesofferdistinctadvantages:CNN-basedmodelsareusually Note that most acoustic tokens require multiple quantizers,
+lightweight and context-invariant because of a limited recep- but single-codebook codecs have also been explored. Single-
+tive field. Transformer-based models are easier to scale and Codec [72] designs an encoder consisting of Conformer and
+believed to have better compression capacity. U-Net-based bidirectional LSTM to better compress mel spectrogram in-
+models offer greater flexibility in quantizer resolutions, but puts. WavTokenizer [90] and BigCodec [91] further explores
+the correlation of tokens from different quantizers may be single-codebook codec modeling with better network designs
+morecomplexfordownstreammodelingcomparedtoadjacent or larger parameter count. TS3-Codec [20] adopts a fully
+quantizers in a single RVQ module. Transformer design that leads to a better single-codebook
+However, VQ-GAN-based codecs rely on sophisticated dis- codec with fewer computation overhead. LSCodec [29] also
+criminators, which is crucial to the performance. In contrast, achieves single-codebook coding with speaker disentangle-
+diffusion-based codecs do not need adversarial training, and ment (Section III-D). These single-codebook codecs with
+thus have a simpler training objective. Inference latency is remarkably low bitrates offer great benefit to downstream
+a major concern of diffusion-based codec models, unless speech generation models on simplicity and efficiency.
+specifically optimized for limited sampling steps. b) Temporal redundancy reduction: Instead of capturing
+alltheinformationthroughVQlayerslikethepreviouslymen-
+B. General-Purpose Acoustic Tokens
+tioned codecs, some researchers have attempted to reduce the
+1) Motivation: In this section, we describe the most com- redundant bitrate of time-varying VQ codes. One reasonable
+montypeofneuralacoustictokens(speechcodecs)thatarede- method is to encode the global information in speech, e.g.
+signedonlywiththeobjectiveofspeechsignalreconstruction. speakertimbreandchanneleffects,byaglobalencoderinstead
+Thoseacoustictokensaredesignedtoachievebetterobjective of the time-varying codes. Disen-TF-Codec [21] is the first
+or perceptual quality at the lowest possible bitrates. to explore VQ-GAN codec models with an additional global
+2) Approaches: encoder that aids the codec decoder. In Disen-TF-Codec, the
+a) Advanced VQ methods and model architectures: global features are designed to be sequential to adapt to
+Based on SoundStream and EnCodec, more codecs with speaker changes during transmission. In TiCodec [22], the
+advanced VQ methods, network structure, or optimization global tokens are time-invariant and vector-quantized instead.
+strategies have been researched with depth. As an exam- They are extracted from different segments of an utterance in
+ple, DAC [19] achieves remarkable reconstruction quality by conjunctionwithtime-varyingtokens.Similarglobalencoders
+adding periodic inductive bias, better discriminators, modi- are also seen in [72], [74], [92], [93]. FreeCodec [94] further
+fied loss functions, and a better VQ mechanism from ViT- incorporates a prosody encoder [95] that compresses the low-
+VQGAN [52] to improve codebook usage. Specifically, it frequency range of mel spectrograms into a low frame rate
+performs L2-normed code lookup in a low-dimensional space VQ sequence to assist in reconstruction.
+(e.g. 8 or 32) instead of a high-dimensional space like 1024. Another typical example of temporal redundancy reduc-
+Other architectural improvements include using frequency- tion is predictive coding, as seen in TF-Codec [55]. This
+domain inputs [72], [82], [83], variance-constrained residual approach captures temporal-varying information in the latent
+blocks [84], multi-filter bank discriminator [84], selective spacebyautoregressiveprediction,whichsignificantlyreduces
+down-sampling back-projection [85], etc. redundancy and entropy in the residual part for quantization.
+Several training tricks are explored, such as not applying LMCodec [96] employs autoregressive prediction from coarse
+VQ with a certain probability and pure adversarial training codes (first RVQ levels) to fine codes (last RVQ levels) [5],
+proposed in Moshi [14]. Also, the training of neural speech enabling the transmission of fewer codes.
+codecs does not need to be end-to-end, i.e. the learning of c) Multi-resolution and variable-bitrate coding: Rather
+VQrepresentationsandsignalreconstructioncanbeseparated. than relying solely on uni-resolution tokens, where all quan-
+[76], [86] adopt a two-stage training process that introduces tizers share the same temporal frequency, it is reasonable to
+adversariallossesandanadditionalvocoderaftertrainingonly design multi-resolution codecs, because speech contains both
+with metric losses, to achieve improved quality. Additional fast and slow information streams. For instance, many vowels
+trainingcriteriaontheVQmoduleareproposedforbetterVQ exhibit slowly changing characteristics, while events such
+utilization. For example, ERVQ [87] introduces a fine-grained as explosive consonants and background noises require fine-
+code-vector replacement strategy, a codebook balancing loss, grained modeling. Therefore, incorporating multiple temporal
+and a similarity loss between consecutive RVQ layers. resolutions in codecs is likely to reduce the necessary bitrate.
+Other VQ methods besides GVQ or RVQ also exist in SNAC [23] is a notable multi-resolution neural speech
+speech codecs. NDVQ [88] improves the capacity of RVQ codec. It follows the DAC [19] architecture, but in each RVQ
+space by changing codebook vectors to parameterized Gaus- layer,residualsaredownsampledbeforecodebooklook-upand
+sian distributions. FSQ has also been introduced to several upsampled afterward. This enables SNAC to have three RVQ
+speech codecs, like SQ-Codec [89] where scalar rounding is streamsataframerateof12,23,47Hzrespectively.Similarly,
+applied to each of its 32-dimensional latent space. Stable- CoFi-Codec [74] achieves multi-resolution tokenization by
+Codec [60] adopts FSQ in a Transformer-based architecture, GVQ quantizers within its U-Net-based architecture. LLM-
+
+7
+Discriminator
+Encoder Quantizer Decoder
+Semantic
+predictor
+Discriminator
+Quantizer
+Encoder Decoder
+(frozen)
+Semantic
+codebook
+Discriminator
+Encoder Quantizer Decoder
+erutaef
+citnameS
+citnames
+dexiF
+serutaef
+citnameS
+ecnadiug
+koobedoc
+stuptuo
+ro
+stupni
+sa
+SSL models aim to capture high-level phonetic or semantic
+informationwithoutexternalsupervision[12],integratingSSL
+features does not impose additional data requirements for
+injectingsemanticinformationintothetrainingprocess.Codec
+models with criteria beyond reconstruction are sometimes
+Semantic referred to as having a “mixed objective” [1]. Given that
+features
+the primary purpose of these models remains acoustic recon-
+struction in these models, we continue to refer to them as
+acoustic tokens. The process of introducing semantic infor-
+mation into acoustic tokens is termed semantic distillation,
+with approaches summarized in Fig. 6.
+2) Approaches:
+a) Semantic feature guidance: The earliest effort in
+semantic distillation is to guide some RVQ layers in codec
+models towards semantic features, which are typically SSL
+features.SinceinformationinRVQnaturallyfollowsacoarse-
+to-fine order, guiding early RVQ layers towards semantic-
+oriented features helps establish and reinforce a semantic-
+Semantic Semantic to-acoustic information hierarchy. For example, SpeechTok-
+features features enizer [13] uses a HuBERT [34] SSL model to guide the
+first RVQ layer in EnCodec. This ensures that the first RVQ
+Fig. 6: Different semantic distillation methods applied to
+layer contains more semantic information, thereby pushing
+acoustic tokens (illustrated with the VQ-GAN architecture).
+acousticdetailstothesubsequentRVQlayers.Thisdistillation
+Codec [25] also adopts this idea to achieve very low frame is implemented either by regressing the first RVQ output to
+rates with semantic distillation (Section III-C). continuous HuBERT embeddings or by classifying it into
+In addition to multiple temporal resolutions, it is also discrete HuBERT tokens. LLM-Codec [25] alternatively uses
+feasible to consider the varying information intensities across Whisper[38]andT5[97]assemanticteachers.Mimi[14]uses
+differentspeechframes.Thisobservationmotivatesthedesign aWavLM[35]teacherandappliesdistillationtoaspecialized
+ofcodecstoallocatedifferentnumbersofquantizersfordiffer- VQmoduleratherthanthefirstRVQlayer.Pairedspeech-text
+ent speech frames. As an example, VRVQ [24] automatically data can also be utilized, like in SecoustiCodec [98] where
+selectsthenumberofRVQquantizersperframebyapredictor aligned phoneme sequences serve as the semantic teacher.
+that is jointly trained with the whole network. Since SSL feature guidance occurs only during the training
+3) Challenges: Despite the emergence of single-codebook stage, it does not incur additional inference costs. It has been
+and low-bitrate codecs [29], [72], [90], [91], achieving ideal reported that language modeling-based TTS trained with such
+reconstructionqualitywithahighlylimitedVQspaceremains acoustic tokens can exhibit better robustness than those with
+a challenging problem. Additionally, as acoustic tokens aim unguided tokens [13].
+to encode all necessary information for signal recovery, they b) Fixed semantic codebook: A more direct approach to
+may become redundant and overly complex for downstream achieve semantic distillation is to integrate semantic knowl-
+modeling. While scaling up the model size or switching edge into the codebook of quantizers. This forces the quanti-
+to non-causal networks has been shown to improve perfor- zationspaceitselftobemoresemantic-related.Thismethodis
+mance[60],[72],[91],theseapproachesmayalsocompromise proposedinLLM-Codec[25]whereallthreeRVQcodebooks
+streamability or efficiency. Furthermore, simply introducing are initiated from the token embedding module of LLaMa-
+global encoders like[21], [22], [74] does notguarantee disen- 2 [99] and remain frozen during training. According to [25],
+tanglement (Section III-D) and may still result in redundancy this approach reduces the bitrate and improves the semantic
+within the time-varying codes. representation ability of LLM-Codec.
+c) Semantic features as inputs or outputs: Semantic
+C. Acoustic Tokens with Semantic Distillation
+features can also be compressed together with the acoustic
+1) Motivation: Acoustictokensareaconvenientchoicefor features. This requires the encoder and quantizer to construct
+spoken language models, as they can be directly converted a shared acoustic and semantic space that balances the two
+back to waveforms without the need for extra vocoders. informationsources.Thefirstattemptinthisdirectionismade
+However,ifreconstructionisthesoleobjectiveofthesetokens, in [100] where Conformer representations from a pretrained
+their representation space may become overly complex and wav2vec2.0[33]arecombinedwithCNNencoderoutputsfor
+overly focused on acoustic details, in contrast to natural quantization. SemantiCodec [18] quantizes AudioMAE [101]
+language tokens that primarily carry semantic information. A SSLfeatureswithoutrelyingonacousticinputs.Thequantized
+naturalimprovementistoincorporatespeechsemanticfeatures SSLfeaturesthenserveasaconditionforacousticreconstruc-
+either from speech self-supervised learning (SSL) models, tion using latent diffusion, which resembles a vocoder that
+supervised models, or even text transcriptions. Since speech transforms semantic inputs into acoustic outputs. Providing
+
+8
+aligned phoneme sequences instead of SSL features to the viaRVQ,andthespeakerbranchistrainedusingacontrastive
+quantizer has also shown benefits on reducing bitrates [71]. loss to produce speaker embeddings. Disentanglement is en-
+Moreover, semantic features can also serve as outputs, forced by a GRL between the speaker embeddings produced
+thereby reinforcing the constraint that semantic information from the speaker branch and the content representations.
+be compressed into the discrete latent space. For instance, Similarly, PromptCodec minimizes an SSIM loss [106] be-
+[26],[92]combinehiddenHuBERTembeddingswithacoustic tween content and speaker representations, with the help of a
+featuresbeforeRVQandjointlyoptimizesacousticandseman- pretrained speaker verification model.
+tic reconstruction objectives. X-Codec 2.0 [102] improves it SuchGRLtechniqueisnotlimitedtodisentanglingspeaker
+by using w2v-BERT 2.0 [103] and FSQ. XY-Tokenizer [104] timbre alone. FACodec [28] employs supervised decoupling
+further replaces the semantic reconstruction objective by an to factorize speech into speaker timbre, content, prosody, and
+LLM-basedASRtask,aimingatstrongeralignmentwithtexts. acoustic detail information. The timbre extractor in FACodec
+3) Challenges: Guiding part of the RVQ layers towards is optimized via a speaker classification loss. For the other
+semanticfeaturesdoesnotguaranteethatacousticinformation components – prosody, content, and acoustic detail – separate
+is only encoded in the remaining layers, as shown by the RVQ modules are applied prior to the supervised decoupling
+degraded VC performance in SpeechTokenizer [13]. It may process. For each component, a supervision signal specific
+impose a greater challenge for the VQ layer to encode both to the desired information is applied, and GRL is employed
+acoustic and semantic information if semantic features serve to other non-related information components. These three
+as inputs as well. Additionally, fixing a semantic codebook quantized features are then combined before applying GRL
+could negatively impact acoustic reconstruction ability, as the with the speaker information. Finally, the decoder integrates
+VQ representation space will become overly restricted. all four information branches to reconstruct the speech signal.
+D. Acoustic Tokens with Disentanglement b) Perturbation: For speaker disentanglement, a more
+straightforward approach is to apply speaker timbre perturba-
+1) Motivation: Another line of mixed-objective acoustic
+tions to speech signals and leverage the strong information
+tokens is disentanglement. A prominent research direction is
+bottleneck created by the discrete VQ module. When the
+the disentanglement of speaker timbre information, as this
+encoder is unable to learn sufficient timbre information, and
+is a global trait among all the speech information aspects.
+the decoder is provided with prominent timbre, the bottleneck
+Encoding speaker information into every token timestep is
+in the middle will naturally prevent timbre from being en-
+redundant; thus, removing the global speaker timbre can
+coded [107]. This idea is adopted in LSCodec [29], which
+make the information in acoustic tokens more compact and
+appliesatimestretching-basedspeakerperturbationalgorithm
+reducethenecessarybitrate.Speaker-decoupledspeechtokens
+to the input waveform. LSCodec then leverages continuous
+can alleviate the modeling burden for downstream tasks.
+WavLM features to represent speaker timbre, and feeds them
+For example, a TTS model using these tokens can achieve
+to a Conformer-based decoder by position-agnostic cross at-
+independent control over prosody and speaker identity. The
+tention [108], [109]. Through this approach, LSCodec reports
+disentanglement of speaker timbre also enables an acoustic
+high-qualityspeechreconstructionandvoiceconversionusing
+token to perform voice conversion (VC), as timbre from
+only a single codebook with highly limited bitrates.
+the target speaker can be easily combined with the speaker-
+c) Sourceseparation: Apartfromthedisentanglementof
+agnostic content tokens from the source speech.
+speakertimbre,sourceseparationhasalsobeenexploredinthe
+Note that in Section III, it is mentioned that some codecs
+context of acoustic tokens. SD-Codec [30] and DeCodec [31]
+introduce a global encoder to reduce the necessary bitrate of
+proposetodecoupledifferentaudiosourcesintheneuralcodec
+time-variant tokens [21], [22], [72], [94]. They have already
+byencodingtheminseparateRVQmodules.DeCodecalsoim-
+demonstrated some ability to decouple global speaker timbre
+proves separability by enforcing an orthogonality loss. These
+and local contents, albeit in an implicit manner through the
+approaches allow for more efficient and targeted processing
+natural information bottleneck from VQ. In this section, we
+of each audio component, and are also related to the broader
+elaborateonexplicitmethods,whichinvolvespecializedtrain-
+scope of universal audio coding.
+ing techniques and criteria to achieve disentanglement. Also,
+3) Challenges: The GRL technique for disentanglement
+disentanglementisnotexclusivewithsemanticdistillation,and
+inherentlycarriestheriskofamorecomplexoptimizationtra-
+many codecs incorporate techniques for both objectives.
+2) Approaches: jectory. Additionally, some disentanglement methods require
+a) Gradient reversal layer (GRL): The GRL tech- supervised data [28], which imposes a significant constraint.
+nique [105] is commonly used for disentanglement. Suppose Due to the intricate nature of speech informatics, current
+speaker information needs to be disentangled, and a classifier efforts are still suboptimal compared to semantic tokens,
+(or speaker verifier, etc.) s (·) receives some latent feature particularly in terms of VC performance [29].
+µ
+h from the codec model to perform speaker discriminative
+tasks. GRL operates by negating the gradient sign before
+IV. SPEECHTOKENIZATIONMETHODS:SEMANTIC
+s (·), thereby forcing h to fool the speaker classifier while
+TOKENS
+µ
+the classifier itself improves, similar to adversarial training. Semantic tokens refer to discrete speech representations
+SSVC[27]isoneofthepioneeringeffortsinthisdirection. from discriminative or self-supervised learning (SSL) models.
+SSVC attempts to decouple content and speaker representa- While we use the term semantic tokens to maintain consis-
+tions from WavLM features. The content branch is quantized tency with prior works, some researchers recently argue that
+
+9
+CNN
+Transformer
+Clustering
+or
+VQ-VAE
+SSL
+Continuous Discrete Semantic features speech tokens
+Tokens Transformer
+Discrete
+speech tokens
+CNN
+CNN
+Quantizer
+Quantizer
+Transformer
+Decoder
+Task-Specific
+The
+quick
+fox
+…
+Supervised
+Semantic
+Tokens
+Discrete
+speech tokens
+Quantizer
+Transformer layer with a portion of training data [4],
+[129]. It is also feasible to perform clustering on multiple
+External
+Quantization layers [130], [131], or train a VQ-VAE on the SSL hidden
+embeddings [132], [133].
+• Internal quantization: when an SSL model contains an
+inner quantizer that is trained together with other network
+modules, its outputs can also be regarded as semantic
+Internal tokens. Many SSL models involve quantizers to produce
+Quantization
+targetsfortheirtrainingobjectives[32],[33],[134],[135].
+This approach provides an efficient and effective way of
+extracting semantic tokens.
+Note that for SSL models with an inner quantizer, it is still
+practical to perform external quantization on its continuous
+embeddings, like wav2vec 2.0 [33]. However, these two
+methods – internal and external quantization – may result
+in different patterns of information exhibition, which we will
+Fig. 7: Representatives in different kinds of semantic tokens. investigate in Section VI.
+Dotted box means the module is optional. Forgeneral-purposeSSLmodels,therearedifferentdesigns
+onthepretexttask[12].TableIIIprovidesasummaryofwell-
+known semantic tokens.
+SSL features are more accurately described as phonetic than
+a) Contrastive models: This type of speech SSL models
+semantic [110] in nature. Hence to clarify, in this review,
+aimstolearnrepresentationsbydistinguishingatargetsample
+semantic tokens should be more accurately defined as the
+(positives) from distractors (negatives) given an anchor [12].
+complementary set of acoustic tokens, such that they are not
+They minimize the latent space similarity of negative pairs
+primarily aimed at reconstruction purposes. In practice, the
+and maximize that of the positive pairs. For semantic tokens,
+vast majority of these tokens are designed for discriminative
+vq-wav2vec [32] and wav2vec 2.0 [33] are two representative
+tasks and are believed to have a strong correlation with
+contrastive SSL models. They involve a quantizer to produce
+phonetic and semantic information [12], [111]–[113].
+localized features that is contrastively compared to contextu-
+alized continuous features. Vq-wav2vec [32] uses pure CNN
+A. Semantic Tokens from SSL Models
+blocks while wav2vec 2.0 [33] adopts a Transformer for
+1) Motivation: When fine-tuned, speech SSL models have
+stronger modeling capacity. Both use GVQ quantizers to
+shown strong performance on various tasks, often surpassing
+expand the VQ space. Wav2vec 2.0 has also been extended
+traditional methods [12], [114]. Their potential has been
+to massively multilingual versions [124], [136], [137].
+extensively mined in discriminative tasks such as automatic b) Predictive models: This type of speech SSL models
+speech recognition (ASR) [32], [34], [115], [116], automatic
+incorporates an external target for prediction, either from sig-
+speaker verification (ASV) [35], [117], [118], speech emotion
+nal processing features or another teacher network. A popular
+recognition (SER) [35], [119]–[121] and speech translation
+line of work is HuBERT [34]. It takes raw waveforms as
+(ST)[122]–[124].DiscretizedSSLtokensareinitiallyfavored
+inputs, applies random masks on the hidden representations
+for reducing computation costs and improving robustness
+before Transformer contextual blocks, and then predicts k-
+against irrelevant information for ASR [125]. Driven by the
+means quantized targets from MFCC or another HuBERT
+success of language models, these SSL tokens have been
+teacher.WavLM[35]improvesHuBERTbyadditionalspeaker
+further explored in generative tasks such as TTS [15], [126],
+and noise augmentations to achieve superior performance in
+[127] and SLM [4], [5], [128]. This is because they can be
+moreparalinguistic-relatedtasks.Therearenoinnerquantizers
+consideredhigh-levelabstractionsofspeechsemanticsthatare
+in both models, so external quantization like k-means cluster-
+largely independent of acoustic details.
+ing is necessary to obtain semantic tokens. BEST-RQ [134]
+2) Approaches: SSLmodelsinitiatethelearningprocessby changes the prediction target to the output of a random
+definingapretexttaskwhichenablesthemodeltolearnmean- projection quantizer. The next-token prediction criterion from
+ingful representations directly from the data itself. Typical language models (LMs) have also been adopted into speech
+speech SSL models employ CNNs and Transformer encoders SSL[138],[139],eitherwithorwithoutapretrainedtextLM.
+to extract deep contextual embeddings. When it comes to Thismethodemphasizestheautoregressivepredictionproperty
+semantic tokens, there are mainly two ways to extract those oflearnedtokensthatmaybebettersuitedfortheLMusecase.
+discrete tokens from an SSL model (see upper part of Fig.7): c) Perturbation-invariantmodels: AsSSLtokensfeature
+• External quantization, like clustering or training a VQ- semantic or phonetic information, a major concern is to
+VAE.Thisreferstoextractingcontinuousembeddingsfrom improvetheresistanceagainstperturbationsintheinputsignal.
+acertainlayerormultiplelayersinapretrainedSSLmodel, This invariance includes noise and speaker aspects that don’t
+and performing quantization manually. For example, a affect the contents of speech. Specifically, speaker-invariant
+common semantic token is the HuBERT+kmeans units, SSL tokens aims to remove speaker information, similar to
+where k-means clustering is performed on a HuBERT speaker-disentangled acoustic tokens. In the training process
+
+10
+of perturbation-invariant SSL models, noise [37], [140]–[142] its supervised tokenizer trained on Chinese and English can
+orspeaker[36],[143]–[145]augmentationsareoftenexplicitly also work in Japanese and Korean, it remains unclear how
+introduced. Special training losses are then incorporated, like well these supervised tokenizers generalize to more unseen
+contrastive losses [36], [141], [142], [145] that distinguish languages.
+the same spoken content among perturbed distractors, and
+distribution-basedmetrics[37],[143],[144]thatminimizethe C. Speech Token Vocoders
+distance of latent features caused by perturbations. Acoustic tokens are naturally coupled with a decoder that
+3) Challenges: Firstly, SSL models typically require large outputswaveformsorspectrogramsgiventokens,butsemantic
+amount of data to train, as indicated in Table S-II. For SSL tokens do not inherently require a vocoder, particularly for
+models without a built-in quantizer during pretraining, k- speech understanding tasks. However, when semantic tokens
+means clustering is a prevalent approach to obtain discrete are used for speech generation, a speech token vocoder
+units. However, given that most SSL models operate in high- (also known as speech resynthesis model) becomes necessary.
+dimensional spaces (e.g., with 768 or 1024 dimensions), the Unlike traditional spectrogram-based vocoders [153], speech
+space and time complexity of k-means clustering are substan- tokenvocodersusuallyneedtocompensatethelossofacoustic
+tial. The clustering results can sometimes be unreliable due details in semantic tokens by introducing additional inputs.
+to the curse of dimensionality in Euclidean space. Moreover, Polyak et al. [146] first explores speech resynthesis from
+it is often reported, and will also be shown by experiments discrete speech units by a HifiGAN [153] augmented with
+in Section VI, that discretized SSL units lose much acoustic discretized pitch units and speaker embedding inputs. The
+detailsafterquantization[112],[146],[147].Differentcluster- vec2wav vocoder in VQTTS [126] improves this vocoder by
+ingsettings,suchasthechosenlayerandvocabularysize,can aConformer[73]frontendmodulebeforeHifiGANgenerator.
+leadtodifferentoutcomeswithinasinglemodel.Finally,since Later,CTX-vec2wav[108]proposesaposition-agnosticcross-
+most SSL models utilize Transformer blocks, their causality attentionmechanismthateffectivelyintegratestimbreinforma-
+and streaming ability are compromised. tion from surrounding acoustic contexts without the need for
+While perturbation-invariant SSL models have emerged as pretrained speaker embeddings. This makes it more timbre-
+promising approaches for semantic tokens, they currently rely controllable and suitable for zero-shot TTS and VC [109].
+on content-preserving augmentations that are typically hand- Upon it, vec2wav 2.0 [154] introduces SSL timbre features
+crafted. Most methods in this type have only been evaluated and adaptive activations to improve timbre controllability, and
+on small-scale data and models. It also remains unclear how reports competitive VC performance.
+these methods will generally benefit generative tasks such as It is also feasible to apply diffusion or flow matching
+speech generation and spoken language modeling. algorithms in token vocoders [39], [155], [156]. There, the
+discrete tokens are treated as a condition for diffusion or flow
+matching to generate mel-spectrograms, and further converted
+B. Semantic Tokens from Supervised Models
+to waveform by a pretrained mel vocoder. Compared to train-
+As representing semantic or phonetic information is the ing a token-to-wav vocoder in an end-to-end fashion, training
+major purpose of semantic tokens, a more direct way to a token-to-mel model is more convenient and does not need
+achieve this is through supervised learning. Supervised se- adversarial training. To better control timbre, a mask strategy
+mantic tokenizers are typically trained on the ASR task. A is introduced into the training process where the model only
+famous example shown at the bottom of Fig.7 is the S3 computes loss on the un-masked part of spectrograms [39].
+Tokenizer from CosyVoice [39]. It places a single-codebook Duringinference,spectrogramfromspeakerpromptconditions
+VQ layer between two Transformer encoder modules and the generative process, which can be regarded as a form
+optimizesthenetworkusingacross-entropyASRloss,similar of “in-context learning”. However, this requires tokens to
+to Whisper [38]. The same method is adopted in [148], [149] be extracted from reference prompts before synthesis. Also,
+where the frame rate is further reduced to 12.5Hz. CosyVoice inferenceefficiencymaybecompromisedforbettergeneration
+2 [150] improves S3 Tokenizer by replacing plain VQ with quality with multiple inference steps, and this method is only
+FSQ for better codebook utilization. Note that in this kind validated on massive amount of data currently.
+of supervised semantic tokens, it is the output of the VQ
+layer that serves as tokens. This allows for more preservation V. LENGTHREDUCTIONANDVARIABLE-RATE
+of paralinguistic information than directly transcribing speech TOKENIZATION
+into text. CosyVoice 3 [151] extends supervised tokens to In most cases, the frame rate of discrete speech tokens
+more tasks involving language, emotion, speaker and audio ranges from 25 to 100Hz. This leads to a huge discrepancy
+analysis. These supervised tokenizers are trained on massive in lengths between speech representations and the underlying
+paired speech-text data, and have demonstrated rich speech text modality. This discrepancy has been a critical issue
+content understanding capabilities [39], [152]. in building decoder-only TTS and other LM-based speech
+However, training these models is highly costly due to generationtasks[157],sincelongersequencesresultinharder
+the heavy data demands. Training with only the ASR task training and more unstable inference. Therefore, researchers
+may still result in the loss of some prosody information, and have proposed different ways to mitigate this issue, either
+training with multiple tasks poses a higher demand for data by post-processing on tokens, or learning-based variable-rate
+and task balancing. Although [150] has demonstrated that tokenization.
+
+11
+A. Length Reduction by Deduplication and Acoustic BPE
+85 Post-training length reduction methods for speech tokens
+80
+are inspired by language processing techniques. A common 75
+approach to reduce token sequence lengths is deduplica-
+70 tion[125],[158],i.e.removingtherepeatedconsecutivetokens 65
+inasequence.Sincetheencodedcontinuousfeaturesareoften 60
+closeinconsecutiveframeswherethespeechdynamicsdonot 55
+changerapidly,theyarelikelytobequantizedtothesameunit. 50 Therefore, removing these redundant tokens can yield a more 45
+phonetic representation. When the deduplicated tokens are 40
+used for generative modeling, a unit-to-speech model (similar 35
+to TTS) should be employed to upsample the tokens and 30
+convert them back to acoustic signals [4]. 25
+Another popular approach is acoustic byte-pair encoding 20
+0 2000 4000 6000 8000 10000 12000
+(BPE)4 or so-called subword modeling [125], [159]–[162]. BPE size
+Similar to text BPE [163], acoustic BPE iteratively merges
+thetwomostfrequentconsecutivetokensandaddsthemerged
+token to the vocabulary. After training on a corpus, a deter-
+ministic BPE mapping is established between original token
+combinations and the new vocabulary. This mapping enables
+a lossless compression algorithm, allowing tokens to be per-
+fectly reconstructed after BPE decoding. This operation can
+identifycertainmorphologicalpatternsintokensequences,and
+offersapowerfulwaytoremoveredundanttokens.Inpractice,
+acousticBPEsonHuBERTsemantictokenshasdemonstrated
+significant speed and performance gains in ASR [125], [158],
+spokenlanguagemodeling[161],[162]andTTS[127],[164].
+Although deduplication is a simple and training-free
+method,acousticBPEoffersseveraluniqueadvantagesoverit.
+First,acousticBPEcanidentifyredundantpatternsthatarenot
+simply repetitions, whereas deduplication only removes exact
+duplicates. Second, deduplication discards the duration infor-
+mation of every token in the resulting sequence. This could
+be problematic for downstream tasks, as important rhythmic
+informationmayresideintherepetitionsoftokens.Incontrast,
+acoustic BPE preserves duration information by encoding
+repetitions of varying lengths into distinct new tokens. Third,
+acoustic BPE is more flexible than deduplication in terms of
+target vocabulary size, which can be adjusted based on the
+desired length reduction ratio and downstream performance.
+WevisualizethelengthreductioneffectofBPEondifferent
+speechtokensinFig.8,includingacousticandsemantictokens
+all with a single codebook. From Fig.8, it is evident that
+differenttypesoftokensexhibitverydistinctpatterns.Seman-
+tic tokens generally show significant length reduction when
+applying BPE. For single-codebook acoustic tokens, speaker-
+decoupledLSCodectokensshowmorereductionthangeneral-
+purpose WavTokenizer and BigCodec. This suggests that the
+effect of BPE is negatively correlated with the information
+densityinthespeechtokens:thelessinformationtheycontain,
+the more length reduction is achieved by BPE.
+B. Variable Frame Rate Tokens and Unit Discovery
+Informationinspeechisnotuniformlydistributedalongthe
+time axis [165]. In segments such as silence or long vowels,
+4The term “acoustic” here is used to distinguish it from traditional BPE
+appliedtotexttokens,ratherthanreferringto“acoustictokens”.
+)zH(
+etar
+emarf
+.gvA
+0.976x0.965x 50 0.994x 48
+46 0.991x 0.983x 0.979x
+44
+LSCodec (50Hz) 42 LSCodec (25Hz) 40
+WavTokenizer (small-75Hz)
+WavTokenizer (small-40Hz) 38
+BigCodec 36 SecoustiCodec (21.5Hz) SecoustiCodec (86Hz) 34
+0.928x 32 0.871x 30
+0.814x 0.995x 0.986x 0.983x 28
+0.752x 26
+0.686x0.667x 24
+22
+0.960x0.929x 0.891x 0.879x 20
+0.987x0.979x 18
+2000 4000 6000 8000 10000 12000
+BPE size
+Single-codebook Acoustic Tokens
+)zH(
+etar
+emarf
+.gvA
+S3 Tokenizer (25Hz) S3 Tokenizer
+(50Hz)
+ContentVec-500 (L12+km2048)
+HuBERT-Large
+0.833x (L24+km2048) WavLM-Large (L24+km2048)
+0.732x
+0.704x 0.681x 0.666x
+0.662x 0.629x 0.613x
+0.603x 0.535x
+0.516x0.506x 0.487x
+0.500x
+0.866x 0.469x
+0.766x 0.739x
+Single-codebook Semantic Tokens
+Fig.8:BPEeffectcomparisonofmultipletokens.Thestarting
+point of each line represents the original vocabulary size.
+informationdensityislow,whereasinsegmentswithexplosive
+consonants, speech events occur much more frequently. This
+inherentnon-uniformitysuggeststhatitmightbemorenatural
+toallocatemoretokenizedbitstoregionswithdenseinforma-
+tion and higher variance, and fewer bits to regions with less
+uncertainty. This kind of discrete speech tokens is referred to
+as variable frame rate (VFR) tokens in this review. Note that
+while multi-resolution and variable-bitrate tokens have been
+introduced previously, the concept of VFR is still distinct. In
+multi-resolution tokens [23], [74], each quantizer operates at
+a fixed frame rate. In variable-bitrate tokens [24], the frame
+rate remains fixed, while the variability lies in the number
+of quantizers per frame. Instead, VFR tokens should directly
+allocate different granularities on the temporal axis.
+VFRtokensarecloselyrelatedtoacousticunitdiscovery.As
+speech lacks a natural boundary of phonetic units [12], there
+are much research efforts to find and locate the underlying
+acoustic units behind speech utterances in an unsupervised
+manner [166]–[169]. This is particularly of interest for low-
+resourcelanguages.Thediscoveredunitscanguidethebound-
+ary segmentation of VFR tokens. To this end, VFR tokens are
+interesting not only because they might reduce the necessary
+bitrate, but also because they can introduce a strong inductive
+bias that linguistic knowledge is encoded [165].
+A recent direction of VFR tokens is to discover acoustic
+units from an SSL model. Sylber [170] and SyllableLM [43]
+take similar approaches that first heuristically locate acoustic
+boundaries from existing HuBERT models, and then train
+another HuBERT student with segment-level pooled targets
+between boundaries. The final HuBERT embeddings undergo
+the same segment-level pooling and kmeans clustering proce-
+duretoproducetokensataverylowframerate(≈5Hz).Such
+tokens are reported to align well with syllables [43], [170].
+Boundary prediction can be involved to achieve frame rate
+variability in the training process, where a specific model
+predicts frame-level boundaries and is trained together with
+other network modules. The training techniques of such mod-
+els include reinforcement learning [171], soft pooling [145],
+
+12
+and slowness constraint [165]. tokens. ESPnet-Codec [180] integrates multiple codecs into
+For VFR acoustic tokens, heuristic downsampling methods a unified training and evaluation framework VERSA [181]
+have been explored recently. TFC [172] incorporates a frame- and extends evaluation to some generative tasks such as TTS
+rate selection strategy based on entropy values, assigning and SVS. DASB [147] performs more downstream probing
+differentdownsamplingratestosegmentswithvaryingentropy tasks,andincludesgenerativetasksaswellassemantictokens.
+levels under a shared quantizer. CodecSlime [173] adopts a STAB [182] takes a different perspective that measures the
+dynamic programming-based downsampling strategy driven invariance,robustness,compressibility,andvocabularyutiliza-
+by pairwise latent embedding distances, and further intro- tion of speech tokens. This emphasizes the application in
+duces a specialized training method to adapt fixed frame-rate spoken language models instead of reconstruction.
+codecmodelstodynamicframerates.Bothapproachesenable
+flexible frame-rate allocation within a single model, and are
+orthogonal to the codec architecture. However, the study of B. Existing Analyses
+VFR acoustic tokens remains generally insufficient.
+Similar to supervised semantic tokens, explicit linguistic There are several theoretical or experimental analyses of
+boundaries can also be incorporated into VFR design. Kara- the advantages of discrete speech tokens. Nguyen et al. [183]
+piperisetal.[174]andTASTE[175]areaninitialexplorations demonstrates by an encoder-only language model that seman-
+in this direction, where the tokens are aligned with the frame tic SSL tokens are favorable for spoken language modeling,
+rate of phonemes or text BPE units, resulting in variable due to their removal of linguistically irrelevant information.
+temporal spans. Karapiperis et al. [174] is an acoustic token Sicherman et al. [112] supports this claim by showing that
+that directly performs phoneme-level downsampling before semantic units have a strong correlation with phonemes, but
+quantization. In contrast, TASTE aggregates information from a weaker correlation with speakers. Abdullah et al. [184]
+a whole spoken utterance onto each text BPE unit by cross- refines the correlation between semantic SSL tokens and
+attention. The BPE-level aggregated speech embeddings are linguistic content to the “sub-phonemic” level instead of
+then quantized and optimized using a TTS-style objective, high-level phonemes due to contextual variability. Chang et
+These works redefine the notion of tokens: rather than en- al. [125] explores the use of WavLM tokens for end-to-end
+coding spoken information by themselves, they serve as an ASR together with deduplication and BPE. Although these
+additional acoustic layer conditioned on explicit text content. tokens underperform continuous SSL features, they still show
+competitive performance. Similar findings are reported on
+VI. ANALYSISOFDISCRETESPEECHTOKENS
+contextual ASR [185], multilingual ASR [186], end-to-end
+A. Metrics and Existing Benchmarks speechtranslation,understanding[158],andmoreLLM-based
+Discrete speech tokens can be evaluated from various as- semantic-related tasks with discrete units as inputs [187].
+pects besides bitrate and codebook utilization: Expresso [188] evaluates the resynthesis quality of HuBERT
+• Signal-level reconstruction metrics: For reconstruc- and EnCodec tokens on an expressive dataset, finding that
+tion evaluations, signal-level metrics like PESQ [176], HuBERT struggles to preserve source speech expressivity
+STOI[177],meldistance,GPE[178],etc.areoftenused. while EnCodec performs better.
+• Perceptual reconstruction metrics: Apart from signal- The downside of speech tokens is also studied. Yeh et
+level metrics, there can also be perceptual evaluations of al. [113] suggests that VQ on HuBERT embeddings can-
+reconstruction performance. This includes intelligibility not achieve perfect disentanglement of speaker and phonetic
+(oftenmeasuredbyword,character,orphoneerrorrates), content. EMO-Codec [189] shows that codec reconstruction
+speaker similarity, subjective listening tests, etc. still sometimes degrades the emotion information. O’Reilly et
+• Performance on downstream tasks: Probing tasks can al. [190] shows that neural audio codecs often lack stability
+be used to measure the preservation or prominence of after repeated encoding and decoding, i.e. not idempotent.
+certain information in tokens, like ASR, ASV, emotion ERSB[191]revealsspeechcodecsstillstruggleundercomplex
+recognition, and spoken language modeling [169]. Note acoustic environments, in terms of both reconstruction and
+that this is different from perceptual reconstruction met- downstream task consistency.
+rics since it operates directly on tokens. Performance in Therefore, the reconstruction quality of acoustic tokens
+generative tasks like TTS and VC can also be evaluated. and the performance on discriminative downstream tasks of
+• Semantic/phonetic relevance: If the tokens are ex- both acoustic and semantic tokens have been benchmarked.
+pected to align with texts (e.g. for semantic tokens and However, the reconstruction performance of semantic tokens
+semantic-distilled acoustic tokens), metrics like phone still requires a more thorough comparison. Hence, we adopt
+discrminability [169], phone purity [34], and phone- a reconstruction approach to compare different types of to-
+normalized mutual information [34] can be computed. kens. Specifically, we use a timbre-controllable speech token
+• Invariance and robustness: If the tokens are expected vocoder to resynthesize semantic tokens into waveforms and
+to be invariant to perturbations, unit edit distance [140] measurethepreservationofcontent,prosody,speakeridentity,
+can be considered as a measurement. andacousticdetails,respectively.WealsofollowDASB[147]
+There are several existing benchmarks on discrete speech toconductsemanticmodelingprobingtasksonvarioustokens.
+tokens. Codec-SUPERB [179] evaluates both signal-level re- The detailed setups of these experiments can be found in the
+constructionmetricsanddownstreamperformancesofacoustic appendix.
+
+13
+TABLEI:Reconstruction,voiceconversion,anddownstreamsemanticmodelingcomparisonsoftokensindifferentcategories.
+For reconstruction and voice conversion, we train a specific CTX-vec2wavα vocoder [29] on LibriTTS [192] for all semantic
+tokens. Settings in parentheses denote model versions. Semantic modeling tasks, ASR and IC (intent classification), follow the
+DASB[147]setupwhichusestokenindicestotrainasimpleLSTMnetwork.“L”meansacertainlayerintheSSLTransformer
+block,“km”meansmanualk-meansclustering,and“NC”isshortfor“notconverged”.Pleaserefertotheappendixforevaluation
+details.
+Token Bitrate↓ Reconstruction VoiceConversion SemanticModeling
+TokenType
+Model(version) (kbps)
+WER↓ GPE↓ PESQ↑ STOI↑ WER↓ SECS↑ P.Corr↑ ASRWER↓ ICACC↑
+GroundTruthRecording - 1.16 0.00 4.50 1.000 - - - - -
+ContinuousBaselines
+Mel+BigVGAN(100band) - 1.18 0.88 4.30 0.995 - - - 17.4 50.1
+EnCodec(Q=8) 6.00 1.53 1.33 2.83 0.946 - - - 19.4 34.8
+DAC(24kHz,Q=8) 6.00 1.34 0.93 3.52 0.958 - - - 26.1 18.3
+Acoustic TiCodec(Q=2) 1.50 3.31 1.51 2.00 0.898 2.62 0.642 0.886 26.4 41.7
+(General-Purpose) SNAC(24kHz) 0.98 2.25 1.48 2.23 0.914 - - - 35.4 16.7
+WavTokenizer(Small,F=75Hz) 0.90 2.45 1.63 2.47 0.925 - - - 37.2 15.5
+Stable-Codec(2residualFSQ) 0.70 4.94 1.73 2.16 0.917 - - - NC 14.0
+SpeechTokenizer 4.00 1.47 1.20 2.60 0.930 - - - 19.3 57.3
+X-Codec(HuBERTLibriSpeech) 4.00 1.27 1.49 2.82 0.905 - - - 9.8 69.6
+Acoustic
+Mimi 1.10 2.44 1.68 2.27 0.917 - - - 26.8 50.9
+(SemanticDistillation)
+LLM-Codec 0.85 6.25 1.86 1.82 0.879 - - - NC 16.2
+SemantiCodec(F=25Hz,V=213+215) 0.70 3.44 2.28 1.75 0.866 - - - NC 26.8
+Acoustic FACodec(withdetailcodes) 4.80 1.37 1.02 2.91 0.954 1.57 0.773 0.583 14.6 51.1
+(Disentanglement) LSCodec(F=50Hz) 0.45 3.33 2.42 1.77 0.688 4.04 0.852 0.697 25.3 49.8
+vq-wav2vec(k-means) 1.80 2.81 2.73 1.49 0.795 3.27 0.857 0.718 16.9 58.7
+wav2vec2.0(Large,innerquantizer) 0.90 3.24 2.92 1.52 0.680 4.40 0.814 0.759 22.0 51.9
+wav2vec2.0(Large,L14+km2048) 0.55 2.51 9.57 1.20 0.630 2.81 0.880 0.492 5.8 69.5
+Semantic(SSL)
+HuBERT(Large,L24+km2048) 0.55 1.86 15.65 1.17 0.625 1.97 0.876 0.375 6.1 67.2
+WavLM(Large,L24+km2048) 0.55 1.67 17.94 1.16 0.621 1.92 0.872 0.374 6.1 74.2
+ContentVec(L12+km2048) 0.55 2.09 18.88 1.15 0.613 2.21 0.869 0.348 5.5 72.0
+Semantic(Supervised) S3Tokenizer(F=50Hz) 0.60 2.12 4.25 1.37 0.673 2.52 0.868 0.687 17.5 67.2
+C. Reconstruction Analysis Wetake representativeworksineach tokencategory.When
+there are multiple feasible configurations for a model, we
+To enable a fair comparison between acoustic and semantic
+choose one typical configuration that balances bitrate and
+tokens from a reconstruction perspective, we train a CTX-
+performance. Note that different variants (especially on frame
+vec2wavα vocoder [29] for different semantic tokens on
+rateandnumberofquantizers)withinthesamemodelcanlead
+LibriTTS [192]. This vocoder supplements the insufficient
+to significant differences in reported metrics. For SSL models
+speaker timbre information in semantic tokens using continu-
+like wav2vec 2.0, HuBERT and WavLM, we take the official
+ous WavLM features extracted from the reference prompts.
+“Large” model variant. For wav2vec 2.0, we experiment with
+This approach enables semantic tokens to perform voice
+both its inner quantizer before the Transformer blocks and k-
+conversion(VC)byswitchingreferencepromptsconveniently.
+means clustering results on a specific Transformer layer.
+The training details follow [108]. We compute several metrics
+The results are shown in Table I. It is evident that acous-
+for reconstruction ability:
+tic tokens designed only for reconstruction can achieve de-
+• WER (word error rate, in percentage) measures the con- cent speech quality, but still far from the state-of-the-art
+tentintelligibilityofreconstructedspeech.Itiscomputed spectrogram-based vocoders because of higher compression
+between ground truth texts and ASR-decoded transcrip- rates. Retaining good speech intelligibility (i.e. low WER)
+tions. We use NeMo-ASR5 here. becomes particularly challenging when the frame rate is low.
+• GPE (gross pitch error, in percentage) measures the Acoustic tokens with semantic distillation can also achieve
+relative error percentage of pitch contours of the recon- strong reconstruction quality. Explicitly disentangled acoustic
+structed speech compared to ground truth. tokensmaysacrificesomereconstructionperformancemetrics
+• PESQ (perceptual evaluation of speech quality) and when the bitrate is extremely low. Semantic tokens generally
+STOI (short-time objective intelligibility) measure the struggle to achieve the same level of acoustic reconstruction
+speech quality from a signal perspective. as acoustic tokens, as evidenced by lower GPE, PESQ, and
+WeuseLibriTTStestset-B [108]asthetestsetforevaluations. STOI scores. Notably, most semantic tokens included exhibit
+It contains 500 utterances from unseen speakers that sum up significant information loss in prosody as reflected by their
+to about 1 hour. We use the original utterance to provide GPE scores. However, their WER scores remain comparable
+timbreinformationwhennecessary,i.e.forTiCodec,FACodec, to acoustic tokens, despite having much lower bitrates. This
+LSCodec and all semantic tokens. All evaluation metrics highlights the property that semantic tokens primarily retain
+are computed on 16kHz waveform for a fair comparison, content-related information rather than acoustic details.
+and reconstructed waveforms with higher sampling rates are
+downsampled before evaluation. D. Voice Conversion Analysis
+Despite the loss of acoustic information, a prominent ad-
+5https://huggingface.co/nvidia/stt en fastconformer transducer large vantage of semantic tokens over most acoustic tokens is their
+
+14
+inherenttimbrecontrollability.Someacoustictokensalsohave 18 target classes and accuracy (ACC) as the metric. For ASR,
+this ability, such as those with a global encoder like TiCodec we use LibriSpeech [195] 960h to train the probing network
+and disentangled acoustic tokens, also possess this ability To and report WER on test-clean split.
+compare this ability across different tokens, we conduct voice TheresultscanbefoundatthelasttwocolumnsofTableI.
+conversion(VC)experimentsusingthesetokensasthecontent General-purposeacoustictokensshowrelativelyworseseman-
+from the source speech. We use the same source utterances in ticmodelingabilitiesthanothersunderasmallprobingmodel,
+Section VI-C, but assign a different target speaker for each although some acoustic tokens have excellent reconstruction
+source utterance as the prompt. quality. Semantic distillation can enhance such downstream
+Then, we perform VC experiments on the 500 VC pairs. In performance, especially X-Codec which uses SSL features
+additiontoWER,wealsomeasureSECS(speakerembedding both as input and outputs. Meanwhile, semantic tokens gen-
+cosine similarity) [193] as the metric for speaker similarity, erally achieve significantly better results in such tasks, with
+and P.Corr [154] as an objective metric for prosody preser- predictive SSL tokens being the best. For semantic tokens,
+vation. SECS requires a speaker verification model6 to output downstream ASR performance appears to be negatively cor-
+speaker embeddings. P.Corr calculates the Pearson correlation related with prosody preservation: tokens that better preserve
+coefficient between the pitch contours of the converted and prosodyoftenyieldworseASRresults.Thistrendisobserved
+sourceutterances.NotethatP.Corrwillbemeaninglesslyhigh in vq-wav2vec, wav2vec 2.0, and even the supervised S3
+if the VC similarity is low, i.e., when the source timbre is Tokenizer, all of which employ an internal quantizer. In
+barely changed. As the source utterances are the same as summary, these experiments reveal a trade-off between how
+Section VI-C, the WER numbers are directly comparable to strongly semantic information is emphasized in the tokens,
+those in the reconstruction experiments. and how comprehensively it is preserved.
+The results presented in Table I indicate that semantic
+tokens often achieve much higher VC similarity compared
+VII. DISCRETESPEECHTOKEN-BASEDAPPLICATION
+to acoustic tokens. However, due to the substantial loss of
+PARADIGMS
+prosody information, semantic tokens tend to have lower
+A. Spoken Language Understanding
+P.Corr scores than acoustic tokens. Among the acoustic to-
+kens capable of performing VC, explicit disentanglement 1) Motivation: Spoken language understanding (SLU)
+methods, such as FACodec and LSCodec, outperform the tasks, including automatic speech recognition (ASR), speech
+implicit criterion employed in TiCodec. It is also noteworthy translation, intent classification and others, aim to extract
+that different tokenization settings in wav2vec 2.0 lead to meaningful domain-specific information from speech. Most
+drasticallydifferentoutcomes.Tokensgeneratedfromitsinner SLU tasks follow a speech-in text-out pipeline, except S2ST
+quantizer preserve prosody well but also retain much speaker which also involves speech generation. The adoption of dis-
+information, whereas clusters derived from its Transformer cretetokensinSLUofferssomebenefits.Discretetokensmay
+hidden embeddings exhibit the opposite characteristics. naturally exhibit some invariance against noise and speaker
+Supervised semantic tokens from S3 Tokenizer also exhibit information, particularly semantic tokens, which can make
+good intelligibility and VC ability. Unlike HuBERT-style SSL downstream models to focus more effectively on content-
+models, this supervised tokenizer demonstrates better preser- related information in some tasks. On a broader scale, dis-
+vation of prosody both in reconstruction and VC settings. crete tokens provide a promising approach to unifying speech
+Given that prosody and intonation are a crucial factors for understanding and generation in spoken language models.
+ASR, it is reasonable to assume that the tokenizer’s VQ AsanalternativeinputtoanSLUmodelinsteadofcontinu-
+module encodes some prosody information. In contrast, while ous features, discrete speech tokens are typically deduplicated
+HuBERT-style SSL models do contain rich prosody informa- or BPE-encoded before subsequent modules. Semantic tokens
+tion in their continuous features (e.g., as evidenced by good have been better explored than acoustic ones in this context.
+emotion recognition results [114]), phonetic information is 2) Speech Translation: Among the various SLU tasks, dis-
+likely the primary component. Therefore, offline clustering is crete speech tokens are mostly adopted in speech translation,
+prone to discard these prosody characteristics. including speech-to-text translation (S2TT) and speech-to-
+speech translation (S2ST). Since semantic tokens correlate
+E. Downstream Semantic Modeling Analysis well with phonetics, they can serve as universal pseudo-labels
+for untranscribed languages, useful for S2TT in low-resource
+Besides reconstruction and voice conversion which mainly
+settings [196]. Direct S2ST using discrete tokens has gar-
+coveracousticaspects,wealsoexplorethesemanticmodeling
+nered more attention on the generation side (Section VII-B).
+abilitiesinthetokens.Tothisend,wefollowtheDASB[147]
+Early approaches primarily rely on extracting discrete tokens
+setup and considers two representative downstream semantic
+using VQ-VAEs, particularly for unwritten languages [197],
+modeling tasks: ASR and intent classification (IC). In both
+[198]. Recent researches in this area include employing se-
+tasks, we train a small LSTM-based probing network to
+mantic tokens [199]–[201], acoustic tokens [202]–[204], two-
+process the discrete speech tokens and produce outputs. IC
+pass architectures [205], [206], and non-autoregressive frame-
+is a classification task to determine the spoken intents from
+works[207].Theseeffortscollectivelycontributetoadvancing
+speech directly, where we use the SLURP [194] dataset with
+the performance and applicability of discrete token-based
+6https://github.com/resemble-ai/Resemblyzer speech translation systems.
+
+15
+3) Unified Speech Understanding: Discrete tokens provide 2) Autoregressive TTS: Autoregressively predicting the
+opportunity to construct unified and adaptable spoken lan- next VQ index of discrete speech tokens is first proposed in
+guagemodelswithvariousSLUfunctionalities.Effortsinclude VQTTS [126], which uses an LSTM conditioned on Trans-
+task identifies [7], prompt tuning [201], [208]–[210], shared former representations to generate vq-wav2vec [32] seman-
+audio and text vocabulary [211], and combining continuous tic tokens. A discrete token vocoder converts the tokens to
+and discrete representations [212]. These efforts highlight the waveformswiththeassistanceofhandcraftedprosodyfeatures.
+potential of discrete tokens in enhancing the performance and VQTTSachievesstate-of-the-artTTSqualityatthattime,and
+versatility of universal SLU models. showspromisingperformanceinspeaker-adaptiveTTS[224]–
+4) Limitations: Despite the advantages and growing pop- [226] and expressive TTS [227].
+ularity in S2ST tasks, discrete tokens still underperform in Subsequently, decoder-only TTS models using neural au-
+many SLU tasks. Lots of SLU studies [158], [185], [186], dio codecs have made tremendous success in zero-shot TTS
+[213], [214] only verify that discrete tokens can surpass startingfromVALL-E[6].VALL-Econtainsanautoregressive
+traditional frequency-domain features in certain tasks such (AR) model and non-autoregressive (NAR) model, both of
+as ASR. Continuous SSL features continue to have superior which generate EnCodec [70] RVQ tokens. The AR model
+performance [187]. The majority of current LLM-based SLU performs next-token prediction on the first RVQ layer condi-
+models rely predominantly on continuous inputs, such as tioned on text. The NAR model predicts the n+1-th RVQ
+Whisper features [215]–[220]. Moreover, the performance of tokens given the text, all EnCodec tokens from the speaker
+discrete tokens in speaker-related tasks is generally much in- reference, and the previous n RVQ layers. VALL-E employs
+feriortothatofcontinuousfeatures[147],[213].Asignificant aconcisedesigninwhichtextandspeakerreferencesserveas
+limitation of discrete tokens for SLU is the inevitable infor- “prompts” for a language model. It achieves remarkable zero-
+mation loss during the quantization process. Mitigating such shot TTS performance when trained on 60k hours of speech.
+loss with more VQ codebooks may hinder the accessibility of Later, methods have been proposed to improve generation
+semantic information crucial for SLU as well. Therefore, the robustness [228]–[233], efficiency [234], style control [235]–
+full potential of leveraging discrete tokens for SLU remains [237], and to incorporate LLMs [238], [239].
+largely untapped and warrants further exploration. Besides using an NAR model to predict the rest RVQ
+layers,alternatemodelingstrategieshavebeenproposed,such
+as hierarchical modeling [240] and token interleaving pat-
+B. Speech Generation terns [241], [242]. Semantic tokens are also introduced to
+cooperatewithacousticcodecs[15],[127],[239],[243],which
+1) Motivation: Discrete tokens have catalyzed a paradigm
+might decrease the modeling difficulty since they bridge the
+shift in speech generation, with TTS being the most represen-
+gap between texts and acoustics and usually require only
+tative application. In TTS systems, discrete tokens are usually
+a single token stream. Numerous industry-level large-scale
+used as intermediate features that bridge the acoustic model
+TTS systems have been produced in this autoregressive TTS
+(text-to-token) and the vocoder or codec decoder (token-to-
+paradigm, such as XTTS [244], BASE-TTS [245], Seed-
+wav). There are two major advantages of applying discrete
+TTS [156], CosyVoice [39], [150], Fish-Speech [246], etc.
+tokens in TTS:
+3) Non-AutoregressiveTTS: Whileautoregressivemodeling
+• Easier training objectives. Discrete tokens replace the is the current mainstream of TTS with discrete tokens, non-
+original spectrogram-based regression task with a clas-
+autoregressive models also exist. These models either treat
+sification task [126], which can be much easier. This
+the code-vectors as continuous features [247], or directly
+also offers a better balance between acoustic models and
+generate discrete tokens by masked prediction [133] or dis-
+vocoders, since texts are closer to discrete speech tokens
+crete diffusion models [28], [108]. These non-autoregressive
+than frequency-domain features.
+methodsarenaturallymorerobustthanautoregressivemethods
+• Better use of decoder-only language models. Decoder- in inference, and also supports speech editing.
+only language models have shown remarkable success in
+4) Unified Speech Generation: The language modeling
+natural language generation. After discretization, speech
+approachofdiscretetokensallowsaunifiedgenerationframe-
+can also be autoregressively generated under the same
+work for multiple tasks. It suffices to use a task identifier
+paradigm. This offers huge potential in leveraging the
+to condition the unified language model. For example, [248],
+in-context learning and scaling capabilities of language
+[249]extendsVALL-Ewithmoretaskslikecross-lingualTTS,
+models to achieve zero-shot high-fidelity TTS [6].
+S2ST,speechediting,etc.UniAudio[240]supports11speech
+Other generative tasks, such as singing voice synthesis and and audio generation tasks within a single hierarchical Trans-
+speech editing, can similarly benefit from the advantages of former model. Prompt tuning upon a spoken language model
+discrete tokens observed in TTS. For voice conversion (VC), has also been explored in [201] for efficient, transferable and
+using discrete tokens as content representations can simplify versatilegeneration.Theseeffortsdemonstratethepotentialof
+theprocesstoatokenvocoder[154],whentimbreinformation a large-scale foundation model for generation.
+is effectively removed from the tokens. Tasks like speech to 5) Limitations: In contrast to discrete tokens, another
+speech translation [198], [199], speech enhancement [221], emergingframeworkforspeechgenerationisdiffusionorflow
+[222]andtargetspeakerextraction[223]canalsobeenhanced matching-based models, including non-autoregressive mod-
+through language modeling on discrete tokens. els [250]–[253] or autoregressive models [254]–[258]. They
+
+16
+generate continuous features, and some even eliminate the researches,especiallyfollowingworklikeOpenAI’sGPT-4o7,
+need for forced alignments in non-autoregressive generation. have focused on SLMs that combine three key capabilities:
+Owingtothestrongcapabilityofdiffusionandflowmatching strongunderstandingofspeechsemantics,high-qualityspeech
+algorithms, they also have remarkable generation fidelity, output, and low latency [14], [149], [152], [266]–[278]. We
+diversity and controllability. They can have a higher upper refer to them as text-guided spoken language models (TG-
+bound for speech quality and intelligibility, as they inherently SLMs). Unlike TF-SLMs, while TG-SLMs utilize a unified
+avoid quantization errors. Incomparison, discrete token-based LLM for seamless processing of user’s speech input and
+speech generation models usually fall short in generation system’s speech output, they internally decompose the end-
+robustness. Therefore, there is an ongoing debate between to-end speech dialogue process into two well-established sub-
+discrete and continuous representations for speech generation. procedures: SLU powered by LLMs, and real-time TTS. The
+two sub-procedures are connected via text as an intermediary
+C. Text-Free Spoken Language Models to stabilize the semantic coherency of the final output. The
+LLMfirstgeneratesatextualresponsetotheaudioinput,then
+1) Motivation: End-to-end spoken language and dialogue
+synthesizes the speech token sequence in a streaming fashion.
+modeling is one of the most ultimate goals in speech technol-
+InaTG-SLM,theSLUsub-procedureusuallyusescontinuous
+ogy. Discrete tokens are a core component of existing spoken
+speech features as input since they preserve more acoustic
+language models, as they enable the language modeling tech-
+details for understanding, while the TTS sub-procedure typi-
+nique to be applied directly on speech. The models discussed
+cally uses discrete speech tokens as output to better fit LLM
+in this subsection are text-free spoken language models (TF-
+autoregressive generation.
+SLMs). We anticipate that a well-trained TF-SLM will be
+2) Speech Generation in TG-SLMs: To reduce modeling
+capable of generating semantically coherent speech without
+complexity and better align with the autoregressive gener-
+the need for text transcription guidance.
+ation paradigm of LLMs, TG-SLMs favor single-layer dis-
+2) ExistingEfforts: EversinceGSLM[4]andAudioLM[5]
+crete speech tokens as direct LLM outputs. Existing works
+proposed the vision of TF-SLMs, building such models re-
+make use of either the first layer of an RVQ codec [266],
+mains a significant challenge even till today. This difficulty
+single-codebook codec [276], or single-codebook supervised
+primarily arises from the lower language modeling efficiency
+semantic token [149], [277]. Specific designs are introduced
+of speech token sequences compared to text, due to their
+corresponding to the tokens, such as chain-of-modality [266],
+lower semantic information density, longer sequence lengths,
+token interleaving to lower latency [149], two-stage decoding
+and the presence of paralinguistic information [157]. Current
+process [276], etc. To better rebuild the speech information
+advancementsinTF-SLMsmainlyfocusontwostrategies:(1)
+withthehelpofpretrainedLLMs,severalTG-SLMsusemulti-
+reducing token frame rates, and (2) aligning speech with text.
+layerspeechtokensasLLMoutput,suchas[14],[268],[269].
+The first approach aims to shorten speech sequences and
+They often employ different techniques to generate the text
+enhance semantic density by lowering frame rates [4], [128],
+tokensandmulti-layerspeechtokensinparallelreducelatency.
+[161] to even ≈5Hz [43], [170]. While mitigating sequence
+MainstreamTG-SLMswithdiscretetokensasLLMoutputs
+length issues to different degrees, they still encounter scala-
+need an additional decoder to synthesize continuous speech
+bilitylimitations[259]andcompromisereconstructionquality.
+signals, either using the codec decoder or a separately-trained
+Thesecondstrategyinvolvesaligningspeechwithtextthrough
+vocoder. There are also efforts to streamingly synthesize
+methodslikeinitializingpre-trainingwithtextLLMs[128],re-
+speech signals directly based on the LLM hidden embed-
+inforcementlearningusingASRandtextLLMfeedback[260],
+ding [270], [278], eliminating the need for discrete tokens,
+text-speech token interleaving [261], adopting novel architec-
+additionaldecoders,orevenexplicittexttokens,hencefurther
+turesappliedintextlanguagemodeling[262],etc[263],[264].
+improving the real-time ability.
+Meanwhile, full duplex modeling has been proposed [265]
+3) Limitations: Overall, TG-SLMs’ task decomposition is
+to allow users to interrupt and start new dialogues at will.
+effective and flexible. The SLU sub-procedure can handle
+However, despite many efforts, these models still struggle to
+both continuous and discrete representations, and single-layer
+generate semantically reliable long speech during inference
+discrete tokens simplify the training and inference of the
+due to the lack of explicit transcription guidance.
+TTS sub-procedure. However, unlike TF-SLMs, TG-SLMs
+3) Limitations: Although these methods show promise,
+rely heavily on text as an intermediary in the TTS sub-
+achieving semantic coherence is still a challenging goal,
+procedure, which may overlook paralinguistic information
+leavingsignificantprogresstobemadetowardthegoaloftruly
+suchasemotion,prosody,andenvironmentalcontextfromthe
+end-to-endspokenlanguagemodeling.Improvingthesemantic
+previousinput,resultinginlesscoherentandnaturalresponse.
+density and expressiveness of discrete speech representations,
+Additionally,thelackofhigh-qualityannotatedconversational
+making it easier to align text and speech during TF-SLM
+dataandconcernsoversecurityposesignificantchallengesfor
+training, is a promising direction for future exploration.
+the future development of TG-SLMs.
+VIII. CHALLENGESANDFUTUREDIRECTIONS
+D. Text-Guided Spoken Language Models
+Current discrete speech tokens still exhibit certain limita-
+1) Motivation: Since TF-SLM remains an open problem,
+tionsandchallengesthatneedtobeaddressed.Inthissection,
+the prevalent successful speech dialogue systems settle for an
+alternative choice that uses text as explicit guidance. Recent 7https://openai.com/index/hello-gpt-4o/
+
+17
+we summarize the existing challenges in this field and outline 5) Combining Acoustic and Semantic Tokens: Given the
+the corresponding future directions. distinct properties of acoustic and semantic tokens, a natural
+questionarises:Canarepresentationspacecontainrichspeech
+1) Low-Bitrate Tokens: For bitrates of tokens, factors Q
+understanding capabilities while also reconstructing acoustic
+(number of quantizers) and F (frame rate) play a more
+details at a decent level? Incorporating semantic information
+important role than V (vocabulary size). Using only a sin-
+fromSSLmodelshasproventoenhancethereconstructionand
+gle codebook is very beneficial for language modeling and
+downstream modeling performance of acoustic tokens [13],
+generation since it frees the need for additional designs for
+[18], [26]. Recently, explicit text supervision has also sparked
+multi-codebook tokens. A critical problem lies in how to
+remarkable progress in acoustic tokens [98], [104], [279]. We
+better utilize the highly-compact discrete VQ representation
+anticipate more promising results in this direction.
+space. For F, the frame rates of most tokens are still much
+greater than text sequences, which can significantly influence 6) ParalinguisticsinSemanticTokens: Whilespeakerinfor-
+the syntactic and semantic modeling capability of language mationisgenerallyconsideredirrelevantforsemanticcontent,
+models [157]. However, there is usually noticeable perfor- prosody serves as a crucial component of paralinguistic in-
+mance and intelligibility degradation for tokens with single formation. Semantic tokens derived through simple clustering
+codebook and small F. A lower V is also desirable for methods are likely to discard both speaker information and
+language modeling and length reduction by BPE. prosody, harming downstream models’ ability to handle rich
+Itremainsanopenproblemwhatthelowerboundofbitrate emotions, tones, singing voices, and non-verbal vocalizations
+and the frame rate F are, and how to reach them. More that convey semantic meaning. This problem can be partially
+powerful network architectures or advanced VQ strategies mitigated by certain VQ approaches that encode more in-
+should be helpful, and reducing temporal redundancy by formation from SSL features [130]–[132], but at a cost of
+disentangling global information is also a promising solution. more codebooks and higher bitrates. Supervised tokenization
+could also be considered for directly guiding tokens toward
+2) StreamingAbilityandEfficiency: Real-timeapplications
+paralinguistic information in the future.
+require tokens to be stream-able both in encoding and decod-
+ing. For most CNN-based acoustic tokens, achieving this is 7) Noise Preservation vs. Noise Robustness: Similar to
+easyduetotheirfixedreceptivefields.Foracoustictokenswith disentanglement in acoustic tokens, the inclusion or exclusion
+Transformer blocks, an attention mask is necessary. However, of background noise and channel effects in the tokens also
+most SSL models employ a non-causal Transformer architec- depends on the specific application. Most acoustic tokens are
+ture,whichmakessemantictokensderivedfromthesemodels designedtocapturenoise,buttheirperformanceacrossvarious
+unsuitable for real-time tokenization. It remains unclear how types of noise and channel effects remains unclear. This issue
+muchperformancedegradationwouldresultfromtransitioning extends beyond speech and relates to the broader scope of
+tocausalarchitecturesinbothSSLmodelsandtokenvocoders. neuralaudiocodecs.Ontheotherhand,denoising[69]isalso
+Streaming ability also poses a requirement for model effi- an interesting application of acoustic tokens that leverages the
+ciency.Currently,largeracoustictokenmodelsarereportedto limitedVQspace.Ifnoiseisconsideredundesirableintokens,
+achieve better performance with lower bitrates [60], [91], but such as semantic tokens, then the robustness against various
+at a cost of efficiency. In addition to reducing the bitrate of types of signal perturbations needs to be investigated.
+the tokenized codes, the efficiency of tokenizers must also be 8) Timbre Control in Token Vocoders: For semantic tokens
+balanced for real-time applications. andspeaker-decoupledacoustictokens,tokenvocodersshould
+3) Disentanglement in Acoustic Tokens: Whether disentan- be responsible for controlling speaker timbre. Currently, both
+glement should be incorporated into acoustic tokens depends GAN-based token-to-wav vocoders [154] and flow matching-
+on the specific application. If reconstruction is the major basedtoken-to-melmodels[39]havedemonstratedstrongtim-
+objective, disentanglement may not be necessary. However, bre control capabilities. It remains an open question whether
+disentanglement can help reduce the bitrate in time-varying the upper bound of the former method can be improved by
+tokens, ensure anonymity during transmission, reduce down- trainingonlarge-scaledatasets,asisdonewiththelatter.Also,
+stream modeling complexity, and achieve independent control thetimbrecontrollabilityofin-the-wildreferencepromptswith
+ofdifferencevoiceproperties.Therearecurrentlyonlylimited various acoustic conditions should be further investigated.
+effortsondecoupledacoustictokens,andthedecouplingeffect
+IX. CONCLUSION
+is still suboptimal or causing a negative impact on recon-
+struction quality. More advanced techniques for information Recently, discrete speech tokens have emerged as a rapidly
+decoupling should be considered in the future. evolvingfieldandacoreresearchdirectioninthespeechLLM
+era.Thesetokensencodeacousticorsemanticinformationinto
+4) Variable Frame Rate Tokens: As mentioned in Section
+a compact discrete representation space, catalyzing the fusion
+V-B, the variable-rate nature of linguistic units can offer an
+of LLMs and speech processing. In this review, we provide
+important insight for further reducing the bitrate of tokens,
+a comprehensive introduction to representative categories of
+and more importantly, closing the gap between speech tokens
+discrete speech tokens, summarizing their motivations and
+and natural language units for downstream tasks. More explo-
+limitations. We conduct a unified analysis of reconstruction,
+rationsneedtobetakenonvariableframerateacoustictokens
+voice conversion, and downstream semantic modeling across
+and the benefit of these variable frame rate tokens in practice.
+different token types to highlight their unique characteristics.
+
+18
+We also review popular applications of discrete tokens in [24] Y. Chae, W. Choi, Y. Takida et al., “Variable bitrate residual vector
+speech processing tasks, including understanding, generation quantizationforaudiocoding,”inProc.IEEEICASSP,2025.
+[25] D. Yang, H. Guo, Y. Wang et al., “UniAudio 1.5: Large Language
+and language modeling of speech. Finally, we explore future
+Model-Driven Audio Codec is A Few-Shot Audio Task Learner,” in
+directions for discrete speech tokenization methods. We hope Proc.NeurIPS,2024.
+thisreviewlaysasolidfoundationforfutureresearchinspeech [26] Z.Ye,P.Sun,J.Leietal.,“Codecdoesmatter:Exploringthesemantic
+shortcoming of codec for audio language model,” in Proc. AAAI,
+technology.
+vol.39,no.24,2025,pp.25697–25705.
+[27] A´.Mart´ın-Cortinas,D.Sa´ez-Trigueros,I.Valle´s-Pe´rezetal.,“Enhanc-
+ACKNOWLEDGMENTS
+ingthestabilityofLLM-basedspeechgenerationsystemsthroughself-
+We thank Haoran Wang, Jingyu Zhou, and Shuai Wang for supervisedrepresentations,”arXivpreprintarXiv:2402.03407,2024.
+[28] Z. Ju, Y. Wang, K. Shen et al., “NaturalSpeech 3: Zero-Shot Speech
+their contribution in a tutorial related to this review paper.
+Synthesis with Factorized Codec and Diffusion Models,” in Proc.
+ICML,2024.
+REFERENCES
+[29] Y.Guo,Z.Li,C.Du,H.Wang,X.Chen,andK.Yu,“LSCodec:Low-
+BitrateandSpeaker-DecoupledDiscreteSpeechCodec,”inProc.ISCA
+[1] W. Cui, D. Yu, X. Jiao et al., “Recent advances in speech language
+Interspeech,2025,pp.5018–5022.
+models:Asurvey,”inProc.ACL,Jul.2025,pp.13943–13970.
+[30] X.Bie,X.Liu,andG.Richard,“Learningsourcedisentanglementin
+[2] S.Ji,Y.Chen,M.Fangetal.,“WavChat:ASurveyofSpokenDialogue
+neuralaudiocodec,”inProc.IEEEICASSP,2025.
+Models,”arXivpreprintarXiv:2411.13577,2024.
+[3] A.Vaswani,N.Shazeer,N.Parmaretal.,“AttentionIsAllYouNeed,” [31] X.Luo,J.Huang,R.Yangetal.,“DeCodec:Rethinkingaudiocodecs
+inProc.NeurIPS,2017,p.6000–6010. as universal disentangled representation learners,” arXiv preprint
+[4] K.Lakhotia,E.Kharitonov,W.-N.Hsuetal.,“OnGenerativeSpoken
+arXiv:2509.09201,2025.
+LanguageModelingfromRawAudio,”Trans.ACL,vol.9,pp.1336– [32] A.Baevski,S.Schneider,andM.Auli,“vq-wav2vec:Self-Supervised
+1354,2021. LearningofDiscreteSpeechRepresentations,”inProc.ICLR,2020.
+[5] Z. Borsos, R. Marinier, D. Vincent et al., “AudioLM: A Language [33] A. Baevski, Y. Zhou, A. Mohamed et al., “wav2vec 2.0: A Frame-
+Modeling Approach to Audio Generation,” IEEE/ACM Trans. ASLP., workforSelf-SupervisedLearningofSpeechRepresentations,”Proc.
+vol.31,pp.2523–2533,2023. NeurIPS,vol.33,pp.12449–12460,2020.
+[6] S. Chen, C. Wang, Y. Wu et al., “Neural codec language models [34] W.-N.Hsu,B.Bolte,Y.-H.H.Tsaietal.,“HuBERT:Self-Supervised
+are zero-shot text to speech synthesizers,” IEEE/ACM Trans. ASLP., Speech Representation Learning by Masked Prediction of Hidden
+vol.33,pp.705–718,2025. Units,”IEEE/ACMTrans.ASLP.,vol.29,pp.3451–3460,2021.
+[7] T. Wang, L. Zhou, Z. Zhang et al., “VioLA: Conditional Lan- [35] S. Chen, C. Wang, Z. Chen et al., “WavLM: Large-Scale Self-
+guage Models for Speech Recognition, Synthesis, and Translation,” Supervised Pre-Training for Full Stack Speech Processing,” IEEE
+IEEE/ACMTrans.ASLP.,2024. JSTSP,vol.16,no.6,pp.1505–1518,2022.
+[8] H.Wu,X.Chen,Y.-C.Linetal.,“TowardsAudioLanguageModelling: [36] K. Qian, Y. Zhang, H. Gao et al., “ContentVec: An Improved Self-
+AnOverview,”arXivpreprintarXiv:2402.13236,2024. SupervisedSpeechRepresentationbyDisentanglingSpeakers,”inProc.
+[9] M.KimandJ.Skoglund,“NeuralSpeechandAudioCoding:Modern ICML. PMLR,2022,pp.18003–18017.
+AI Technology Meets Traditional Codecs,” IEEE Signal Processing [37] S. Messica and Y. Adi, “NAST: Noise Aware Speech Tokenization
+Magazine,vol.41,no.6,pp.85–93,2024. for Speech Language Models,” in Proc. ISCA Interspeech, 2024, pp.
+[10] M.Anees,“SpeechCodingTechniquesandChallenges:AComprehen- 4169–4173.
+sive Literature Survey,” Multimedia Tools and Applications, vol. 83, [38] A.Radford,J.W.Kim,T.Xuetal.,“RobustSpeechRecognitionvia
+no.10,pp.29859–29879,2024. Large-Scale Weak Supervision,” in Proc. ICML. PMLR, 2023, pp.
+[11] J.Du,X.Chen,H.Wuetal.,“CodecFake-Omni:ALarge-ScaleCodec- 28492–28518.
+based Deepfake Speech Dataset,” arXiv preprint arXiv:2501.08238, [39] Z.Du,Q.Chen,S.Zhangetal.,“CosyVoice:AScalableMultilingual
+2025. Zero-Shot Text-to-Speech Synthesizer Based on Supervised Semantic
+[12] A. Mohamed, H.-y. Lee, L. Borgholt et al., “Self-Supervised Speech Tokens,”arXivpreprintarXiv:2407.05407,2024.
+RepresentationLearning:AReview,”IEEEJSTSP,vol.16,no.6,pp. [40] A. M. Ikotun, A. E. Ezugwu, L. Abualigah et al., “K-Means Clus-
+1179–1210,2022. tering Algorithms: A Comprehensive Review, Variants Analysis, and
+[13] X. Zhang, D. Zhang, S. Li et al., “SpeechTokenizer: Unified Speech AdvancesintheEraofBigData,”InformationSciences,vol.622,pp.
+TokenizerforSpeechLanguageModels,”inProc.ICLR,2024. 178–210,2023.
+[14] A. De´fossez, L. Mazare´, M. Orsini et al., “Moshi: A Speech- [41] D. Arthur and S. Vassilvitskii, “K-Means++: The Advantages of
+Text Foundation Model for Real-Time Dialogue,” arXiv preprint CarefulSeeding,”inProc.SODA. SIAM,2007,pp.1027–1035.
+arXiv:2410.00037,2024.
+[42] C.J.Cho,A.Mohamed,S.-W.Lietal.,“SD-HuBERT:Sentence-Level
+[15] E.Kharitonov,D.Vincent,Z.Borsosetal.,“Speak,ReadandPrompt: Self-DistillationInducesSyllabicOrganizationinHuBERT,”inProc.
+High-FidelityText-to-SpeechwithMinimalSupervision,”Trans.ACL,
+IEEEICASSP,2024,pp.12076–12080.
+vol.11,pp.1703–1718,2023.
+[43] A. Baade, P. Peng, and D. Harwath, “SyllableLM: Learning Coarse
+[16] Y. Yang, F. Shen, C. Du et al., “Towards Universal Speech Discrete
+SemanticUnitsforSpeechLanguageModels,”inProc.ICLR,2025.
+Tokens: A Case Study for ASR and TTS,” in Proc. IEEE ICASSP,
+[44] R. Gray, “Vector Quantization,” IEEE Assp Magazine, vol. 1, no. 2,
+2024,pp.10401–10405.
+pp.4–29,1984.
+[17] H.Yang,I.Jang,andM.Kim,“GenerativeDe-QuantizationforNeural
+[45] A.VanDenOord,O.Vinyalsetal.,“NeuralDiscreteRepresentation
+SpeechCodecViaLatentDiffusion,”inProc.IEEEICASSP,2024,pp.
+Learning,”Proc.NeurIPS,vol.30,2017.
+1251–1255.
+[46] Y.Bengio,N.Le´onard,andA.Courville,“EstimatingorPropagating
+[18] H.Liu,X.Xu,Y.Yuanetal.,“SemantiCodec:AnUltraLowBitrate
+GradientsThroughStochasticNeuronsforConditionalComputation,”
+Semantic Audio Codec for General Sound,” IEEE JSTSP, pp. 1–14,
+arXivpreprintarXiv:1308.3432,2013.
+2024.
+[19] R. Kumar, P. Seetharaman, A. Luebs et al., “High-Fidelity Audio [47] A. Razavi, A. Van den Oord, and O. Vinyals, “Generating Diverse
+CompressionwithImprovedRVQGAN,”Proc.NeurIPS,vol.36,2024. High-FidelityImageswithVQ-VAE-2,”Proc.NeurIPS,vol.32,2019.
+[20] H. Wu, N. Kanda, S. E. Eskimez et al., “TS3-Codec: [48] A. Łan´cucki, J. Chorowski, G. Sanchez et al., “Robust Training of
+Transformer-Based Simple Streaming Single Codec,” arXiv preprint VectorQuantizedBottleneckModels,”inProc.IJCNN,2020,pp.1–7.
+arXiv:2411.18803,2024. [49] P. Dhariwal, H. Jun, C. Payne et al., “Jukebox: A Generative Model
+[21] X.Jiang,X.Peng,Y.Zhangetal.,“DisentangledFeatureLearningfor forMusic,”arXivpreprintarXiv:2005.00341,2020.
+Real-TimeNeuralSpeechCoding,”inProc.IEEEICASSP,2023. [50] H. Chang, H. Zhang, L. Jiang et al., “MaskGIT: Masked Generative
+[22] Y. Ren, T. Wang, J. Yi et al., “Fewer-Token Neural Speech Codec ImageTransformer,”inProc.CVPR,2022,pp.11315–11325.
+withTime-InvariantCodes,”inProc.IEEEICASSP,2024,pp.12737– [51] L.Yu,J.Lezama,N.B.Gundavarapuetal.,“LanguageModelBeats
+12741. Diffusion:TokenizerIsKeytoVisualGeneration,”inProc.ICLR,2024.
+[23] H.Siuzdak,F.Gro¨tschla,andL.A.Lanzendo¨rfer,“SNAC:Multi-scale [52] J.Yu,X.Li,J.Y.Kohetal.,“Vector-QuantizedImageModelingwith
+neuralaudiocodec,”inNeurIPS2024Workshop,2024. ImprovedVQGAN,”inProc.ICLR,2022.
+
+19
+[53] Y. Zhu, B. Li, Y. Xin et al., “Addressing Representation Collapse in [81] Y.Lipman,R.T.Chen,H.Ben-Hamu,M.Nickel,andM.Le,“Flow
+VectorQuantizedModelswithOneLinearLayer,”inProc.IEEE/CVF matchingforgenerativemodeling,”inProc.ICLR,2023.
+ICCV,2025. [82] Y.Ai,X.Jiang,Y.Lu,H.Du,andZ.Ling,“APCodec:ANeuralAudio
+[54] E. Jang, S. Gu, and B. Poole, “Categorical Reparameterization with Codec With Parallel Amplitude and Phase Spectrum Encoding and
+Gumbel-Softmax,”inProc.ICLR,2017. Decoding,”IEEE/ACMTrans.ASLP.,vol.32,pp.3256–3269,2024.
+[55] X. Jiang, X. Peng, H. Xue et al., “Latent-Domain Predictive Neural [83] Y.Ai,Y.-X.Lu,X.-H.Jiangetal.,“Alow-bitrateneuralaudiocodec
+Speech Coding,” IEEE/ACM Trans. ASLP., vol. 31, pp. 2111–2123, frameworkwithbandwidthreductionandrecoveryforhigh-sampling-
+2023. ratewaveforms,”inProc.ISCAInterspeech,2024,pp.1765–1769.
+[56] F.Mentzer,D.Minnen,E.Agustssonetal.,“FiniteScalarQuantization: [84] S. Ahn, B. J. Woo, M. H. Han et al., “HILCodec: High-Fidelity and
+VQ-VAEMadeSimple,”inProc.ICLR,2024. LightweightNeuralAudioCodec,”IEEEJSTSP,pp.1–14,2024.
+[57] H.Je´gou,M.Douze,andC.Schmid,“ProductQuantizationforNearest [85] Y.Zheng,W.Tu,L.Xiaoetal.,“SuperCodec:ANeuralSpeechCodec
+NeighborSearch,”IEEETPAMI,vol.33,no.1,pp.117–128,2011. withSelectiveBack-ProjectionNetwork,”inProc.IEEEICASSP,2024,
+[58] B.-H. Juang and A. Gray, “Multiple Stage Vector Quantization for pp.566–570.
+SpeechCoding,”inProc.IEEEICASSP,vol.7,1982,pp.597–600. [86] H.-P.Du,Y.Ai,R.-C.Zhengetal.,“APCodec+:ASpectrum-Coding-
+[59] D. Yang, S. Liu, R. Huang et al., “HiFi-Codec: Group-Residual BasedHigh-FidelityandHigh-Compression-RateNeuralAudioCodec
+Vector Quantization for High Fidelity Audio Codec,” arXiv preprint withStagedTrainingParadigm,”inProc.ISCSLP,2024.
+arXiv:2305.02765,2023. [87] R.-C.Zheng,H.-P.Du,X.-H.Jiangetal.,“ERVQ:Enhancedresidual
+[60] J. D. Parker, A. Smirnov, J. Pons et al., “Scaling Transformers for vectorquantizationwithintra-and-inter-codebookoptimizationforneu-
+Low-BitrateHigh-QualitySpeechCoding,”inProc.ICLR,2025. ral audio codecs,” IEEE/ACM Trans. ASLP., vol. 33, pp. 2539–2550,
+[61] O. Rippel, M. Gelbart, and R. Adams, “Learning Ordered Represen- 2025.
+tations with Nested Dropout,” in Proc. ICML. PMLR, 2014, pp. [88] Z.Niu,S.Chen,L.Zhouetal.,“NDVQ:RobustNeuralAudioCodec
+1746–1754. WithNormalDistribution-BasedVectorQuantization,”inProc.IEEE
+[62] R. Shah, M. Yan, M. C. Mozer, and D. Liu, “Improving discrete
+SLT,2024,pp.705–710.
+optimisation via decoupled straight-through gumbel-softmax,” arXiv [89] D. Yang, D. Wang, H. Guo et al., “SimpleSpeech: Towards Simple
+preprintarXiv:2410.13331,2024. andEfficientText-to-SpeechwithScalarLatentTransformerDiffusion
+Models,”inProc.ISCAInterspeech,2024,pp.4398–4402.
+[63] D. R. Finlayson, “A More Loss-Tolerant RTP Payload Format
+[90] S.Ji,Z.Jiang,W.Wangetal.,“WavTokenizer:anEfficientAcoustic
+for MP3 Audio,” RFC 5219, Feb. 2008. [Online]. Available:
+Discrete Codec Tokenizer for Audio Language Modeling,” in Proc.
+https://www.rfc-editor.org/info/rfc5219
+ICLR,2025.
+[64] J.-M. Valin, K. Vos, and T. B. Terriberry, “Definition of the Opus
+[91] D.Xin,X.Tan,S.Takamichietal.,“BigCodec:PushingtheLimitsof
+AudioCodec,”RFC,vol.6716,pp.1–326,2012.[Online].Available:
+Low-BitrateNeuralSpeechCodec,”arXivpreprintarXiv:2409.05377,
+https://api.semanticscholar.org/CorpusID:30715761
+2024.
+[65] M. Dietz, M. Multrus, V. Eksler et al., “Overview of the EVS codec
+[92] H.Guo,F.Xie,K.Xieetal.,“SoCodec:ASemantic-OrderedMulti-
+architecture,”inProc.IEEEICASSP,2015,pp.5698–5702.
+Stream Speech Codec for Efficient Language Model Based Text-to-
+[66] P.Esser,R.Rombach,andB.Ommer,“TamingTransformersforHigh-
+SpeechSynthesis,”inProc.IEEESLT,2024.
+Resolution Image Synthesis,” in Proc. IEEE/CVF ICCV, 2021, pp.
+[93] X.Wang,M.Jiang,Z.Maetal.,“Spark-TTS:AnefficientLLM-based
+12873–12883.
+text-to-speech model with single-stream decoupled speech tokens,”
+[67] K. Kumar, R. Kumar, T. De Boissiere et al., “MelGAN: Generative
+arXivpreprintarXiv:2503.01710,2025.
+Adversarial Networks for Conditional Waveform Synthesis,” Proc.
+[94] Y. Zheng, W. Tu, Y. Kang et al., “FreeCodec: A disentangled neural
+NeurIPS,vol.32,2019.
+speechcodecwithfewertokens,”inProc.ISCAInterspeech,2025,pp.
+[68] W. Jang, D. Lim, J. Yoon et al., “UnivNet: A Neural Vocoder
+4878–4882.
+with Multi-Resolution Spectrogram Discriminators for High-Fidelity
+[95] Y. Ren, M. Lei, Z. Huang et al., “ProsoSpeech: Enhancing Prosody
+Waveform Generation,” in Proc. ISCA Interspeech, 2021, pp. 2207–
+withQuantizedVectorPre-TraininginText-to-Speech,”inProc.IEEE
+2211.
+ICASSP,2022,pp.7577–7581.
+[69] N. Zeghidour, A. Luebs, A. Omran et al., “SoundStream: An End-
+[96] T. Jenrungrot, M. Chinen, W. B. Kleijn et al., “LMCodec: A Low
+to-End Neural Audio Codec,” IEEE/ACM Trans. ASLP., vol. 30, pp.
+BitrateSpeechCodecwithCausalTransformerModels,”inProc.IEEE
+495–507,2021.
+ICASSP,2023.
+[70] A.De´fossez,J.Copet,G.Synnaeveetal.,“HighFidelityNeuralAudio
+[97] C. Raffel, N. Shazeer, A. Roberts et al., “Exploring the Limits of
+Compression,”TMLR,2023.
+Transfer Learning with a Unified Text-to-Text Transformer,” JMLR,
+[71] Z. Du, S. Zhang, K. Hu et al., “FunCodec: A Fundamental, Repro- vol.21,no.140,pp.1–67,2020.
+ducibleandIntegrableOpen-SourceToolkitforNeuralSpeechCodec,” [98] C. Qiang, H. Wang, C. Gong et al., “SecoustiCodec: Cross-modal
+inProc.IEEEICASSP,2024,pp.591–595. aligned streaming single-codebook speech codec,” arXiv preprint
+[72] H.Li,L.Xue,H.Guoetal.,“Single-Codec:Single-CodebookSpeech arXiv:2508.02849,2025.
+CodectowardsHigh-PerformanceSpeechGeneration,”inProc.ISCA [99] H.Touvron,L.Martin,K.Stoneetal.,“LLaMa2:OpenFoundation
+Interspeech,2024,pp.3390–3394. andFine-TunedChatModels,”arXivpreprintarXiv:2307.09288,2023.
+[73] A. Gulati, J. Qin, C.-C. Chiu et al., “Conformer: Convolution- [100] A.Siahkoohi,M.Chinen,T.Dentonetal.,“Ultra-Low-BitrateSpeech
+augmented Transformer for Speech Recognition,” in Proc. ISCA In- Coding with Pretrained Transformers,” in Proc. ISCA Interspeech,
+terspeech,2020,pp.5036–5040. 2022,pp.4421–4425.
+[74] H. Guo, F. Xie, D. Yang et al., “Speaking from coarse to fine: [101] P.-Y.Huang,H.Xu,J.Lietal.,“MaskedAutoencodersThatListen,”
+Improvingneuralcodeclanguagemodelviamulti-scalespeechcoding Proc.NeurIPS,vol.35,pp.28708–28720,2022.
+andgeneration,”inProc.IEEEICASSP,2025. [102] Z. Ye, X. Zhu, C.-M. Chan et al., “Llasa: Scaling Train-Time and
+[75] Y.GuandD.Enmao,“ESC:EfficientSpeechCodingwithCross-Scale Inference-Time Compute for Llama-based Speech Synthesis,” arXiv
+ResidualVectorQuantizedTransformers,”inProc.EMNLP,2024. preprintarXiv:2502.04128,2025.
+[76] Y.-C. Wu, I. D. Gebru, D. Markovic´ et al., “AudioDec: An Open- [103] L. Barrault, Y.-A. Chung, M. C. Meglioli et al., “Seamless: Multi-
+SourceStreamingHigh-FidelityNeuralAudioCodec,”inProc.IEEE lingualExpressiveandStreamingSpeechTranslation,”arXivpreprint
+ICASSP,2023. arXiv:2312.05187,2023.
+[77] R. San Roman, Y. Adi, A. Deleforge et al., “From Discrete Tokens [104] Y. Gong, L. Jin, R. Deng et al., “XY-Tokenizer: Mitigating the
+to High-Fidelity Audio Using Multi-Band Diffusion,” Proc. NeurIPS, semantic-acousticconflictinlow-bitratespeechcodecs,”arXivpreprint
+vol.36,pp.1526–1538,2023. arXiv:2506.23325,2025.
+[78] H. Siuzdak, “Vocos: Closing the Gap Between Time-Domain and [105] Y. Ganin and V. Lempitsky, “Unsupervised Domain Adaptation by
+Fourier-BasedNeuralVocodersforHigh-QualityAudioSynthesis,”in Backpropagation,”inProc.ICML. PMLR,2015,pp.1180–1189.
+Proc.ICLR,2024. [106] Z.Wang,A.C.Bovik,H.R.Sheikhetal.,“ImageQualityAssessment:
+[79] J. Ho, A. Jain, and P. Abbeel, “Denoising Diffusion Probabilistic FromErrorVisibilitytoStructuralSimilarity,”IEEETrans.onImage
+Models,”Proc.NeurIPS,vol.33,pp.6840–6851,2020. Processing,vol.13,no.4,pp.600–612,2004.
+[80] Y. Song, J. Sohl-Dickstein, D. P. Kingma et al., “Score-Based Gen- [107] K.Qian,Y.Zhang,S.Changetal.,“AutoVC:Zero-ShotVoiceStyle
+erative Modeling through Stochastic Differential Equations,” in Proc. TransferwithOnlyAutoencoderLoss,”inProc.ICML. PMLR,2019,
+ICLR,2021. pp.5210–5219.
+
+20
+[108] C. Du, Y. Guo, F. Shen et al., “UniCATS: A Unified Context- [134] C.-C. Chiu, J. Qin, Y. Zhang et al., “Self-Supervised Learning with
+Aware Text-to-Speech Framework with Contextual VQ-Diffusion and Random-ProjectionQuantizerforSpeechRecognition,”inProc.ICML.
+Vocoding,”inProc.AAAI,vol.38,no.16,2024,pp.17924–17932. PMLR,2022,pp.3915–3924.
+[109] J.Li,Y.Guo,X.Chenetal.,“SEF-VC:SpeakerEmbeddingFreeZero- [135] H.Zhu,Y.Zhou,H.Chenetal.,“MuQ:Self-SupervisedMusicRep-
+ShotVoiceConversionwithCrossAttention,”inProc.IEEEICASSP, resentation Learning with Mel Residual Vector Quantization,” arXiv
+2024,pp.12296–12300. preprintarXiv:2501.01108,2025.
+[110] K. Choi, A. Pasad, T. Nakamura et al., “Self-Supervised Speech [136] A. Conneau, A. Baevski, R. Collobert et al., “Unsupervised Cross-
+Representations are More Phonetic than Semantic,” in Proc. ISCA Lingual Representation Learning for Speech Recognition,” in Proc.
+Interspeech,2024,pp.4578–4582. ISCAInterspeech,2021,pp.2426–2430.
+[111] D. Wells, H. Tang, and K. Richmond, “Phonetic Analysis of Self- [137] V. Pratap, A. Tjandra, B. Shi et al., “Scaling Speech Technology to
+supervised Representations of English Speech,” in Proc. ISCA Inter- 1,000+Languages,”JMLR,vol.25,no.97,pp.1–52,2024.
+speech,2022,pp.3583–3587. [138] A. Turetzky and Y. Adi, “LAST: Language Model Aware Speech
+[112] A.SichermanandY.Adi,“AnalysingDiscreteSelf-SupervisedSpeech Tokenization,”arXivpreprintarXiv:2409.03701,2024.
+Representation for Spoken Language Modelling,” in Proc. IEEE [139] M. Han, Y. Bai, C. Shen et al., “NEST-RQ: Next Token Pre-
+ICASSP,2023. diction for Speech Self-Supervised Pre-Training,” arXiv preprint
+[113] S.-L. Yeh and H. Tang, “Estimating the Completeness of Discrete arXiv:2409.08680,2024.
+SpeechUnits,”inProc.IEEESLT,2024,pp.415–422. [140] I.Gat,F.Kreuk,T.A.Nguyenetal.,“AugmentationInvariantDiscrete
+[114] S. wen Yang, P.-H. Chi, Y.-S. Chuang et al., “SUPERB: Speech Representation for Generative Spoken Language Modeling,” in Proc.
+ProcessingUniversalPERformanceBenchmark,”inProc.ISCAInter- IWSLT@ACL,2023,pp.465–477.
+speech,2021,pp.1194–1198. [141] V. S. Lodagala, S. Ghosh, and S. Umesh, “CCC-wav2vec 2.0: Clus-
+[115] S.Schneider,A.Baevski,R.Collobertetal.,“wav2vec:Unsupervised tering aided Cross Contrastive Self-Supervised Learning of Speech
+Pre-TrainingforSpeechRecognition,”inProc.ISCAInterspeech,2019, Representations,”inProc.IEEESLT,2023,pp.1–8.
+pp.3465–3469. [142] W. Huang, Z. Zhang, Y. T. Yeung et al., “SPIRAL: Self-
+[116] Y. Zhang, J. Qin, D. S. Park et al., “Pushing the Limits of supervised Perturbation-Invariant Representation Learning for Speech
+Semi-SupervisedLearningforAutomaticSpeechRecognition,”arXiv Pre-Training,”inProc.ICLR,2022.
+preprintarXiv:2010.10504,2020. [143] H.-J.Chang,A.H.Liu,andJ.Glass,“Self-SupervisedFine-Tuningfor
+ImprovedContentRepresentationsbySpeaker-InvariantClustering,”in
+[117] J. weon Jung, W. Zhang, J. Shi et al., “ESPnet-SPK: Full
+Proc.ISCAInterspeech,2023,pp.2983–2987.
+PipelineSpeakerEmbeddingToolkitwithReproducibleRecipes,Self-
+[144] H.-J.Chang,H.Gong,C.Wangetal.,“DC-Spin:ASpeaker-invariant
+Supervised Front-Ends, and Off-the-Shelf Models,” in Proc. ISCA
+Speech Tokenizer for Spoken Language Models,” arXiv preprint
+Interspeech,2024,pp.4278–4282.
+arXiv:2410.24177,2024.
+[118] V.Miara,T.Lepage,andR.Dehak,“TowardsSupervisedPerformance
+[145] I. Hwang and K. Lee, “Removing Speaker Information from Speech
+onSpeakerVerificationwithSelf-SupervisedLearningbyLeveraging
+Representation using Variable-Length Soft Pooling,” arXiv preprint
+Large-ScaleASRModels,”inProc.ISCAInterspeech,2024,pp.2660–
+arXiv:2404.00856,2024.
+2664.
+[146] A.Polyak,Y.Adi,J.Copetetal.,“SpeechResynthesisfromDiscrete
+[119] E. Morais, R. Hoory, W. Zhu et al., “Speech Emotion Recognition
+Disentangled Self-Supervised Representations,” in Proc. ISCA Inter-
+Using Self-Supervised Features,” in Proc. IEEE ICASSP, 2022, pp.
+speech,2021,pp.3615–3619.
+6922–6926.
+[147] P. Mousavi, L. Della Libera, J. Duret et al., “DASB–Discrete Audio
+[120] S.Madanian,T.Chen,O.Adeleyeetal.,“SpeechEmotionRecognition
+andSpeechBenchmark,”arXivpreprintarXiv:2406.14294,2024.
+UsingMachineLearning-ASystematicReview,”IntelligentSystems
+[148] A.Zeng,Z.Du,M.Liuetal.,“Scalingspeech-textpre-trainingwith
+withApplications,vol.20,p.200266,2023.
+syntheticinterleaveddata,”inProc.ICLR,2025.
+[121] Z. Ma, Z. Zheng, J. Ye et al., “emotion2vec: Self-Supervised Pre-
+[149] ——,“GLM-4-Voice:TowardsIntelligentandHuman-LikeEnd-to-End
+TrainingforSpeechEmotionRepresentation,”inFindingsofACL,Aug.
+SpokenChatbot,”arXivpreprintarXiv:2412.02612,2024.
+2024,pp.15747–15760.
+[150] Z. Du, Y. Wang, Q. Chen et al., “CosyVoice 2: Scalable Stream-
+[122] A. Wu, C. Wang, J. Pino et al., “Self-Supervised Representations
+ing Speech Synthesis with Large Language Models,” arXiv preprint
+Improve End-to-End Speech Translation,” in Proc. ISCA Interspeech,
+arXiv:2412.10117,2024.
+2020,pp.1491–1495.
+[151] Z. Du, C. Gao, Y. Wang et al., “CosyVoice 3: Towards in-the-wild
+[123] H. Nguyen, F. Bougares, N. Tomashenko et al., “Investigating Self-
+speech generation via scaling-up and post-training,” arXiv preprint
+SupervisedPre-TrainingforEnd-to-EndSpeechTranslation,”inProc.
+arXiv:2505.17589,2025.
+ISCAInterspeech,2020,pp.1466–1470.
+[152] Q. Fang, S. Guo, Y. Zhou et al., “LLaMA-Omni: Seamless
+[124] A.Babu,C.Wang,A.Tjandraetal.,“XLS-R:Self-SupervisedCross-
+Speech Interaction with Large Language Models,” arXiv preprint
+Lingual Speech Representation Learning at Scale,” in Proc. ISCA
+arXiv:2409.06666,2024.
+Interspeech,2022,pp.2278–2282.
+[153] J. Kong, J. Kim, and J. Bae, “Hifi-GAN: Generative Adversarial
+[125] X.Chang,B.Yan,Y.Fujitaetal.,“ExplorationofEfficientEnd-to-End Networks for Efficient and High Fidelity Speech Synthesis,” Proc.
+ASRusingDiscretizedInputfromSelf-SupervisedLearning,”inProc. NeurIPS,vol.33,pp.17022–17033,2020.
+ISCAInterspeech,2023,pp.1399–1403. [154] Y.Guo,Z.Li,J.Lietal.,“vec2wav2.0:AdvancingVoiceConversion
+[126] C.Du,Y.Guo,X.Chenetal.,“VQTTS:High-FidelityText-to-Speech viaDiscreteTokenVocoders,”arXivpreprintarXiv:2409.01995,2024.
+Synthesis with Self-Supervised VQ Acoustic Feature,” in Proc. ISCA [155] J. Betker, “Better Speech Synthesis through Scaling,” arXiv preprint
+Interspeech,2022,pp.1596–1600. arXiv:2305.07243,2023.
+[127] X.Zhu,Y.Lv,Y.Leietal.,“Vec-TokSpeech:Speechvectorizationand [156] P. Anastassiou, J. Chen, J. Chen et al., “Seed-TTS: A Family of
+tokenization for neural speech generation,” IEEE/ACM Trans. ASLP., High-Quality Versatile Speech Generation Models,” arXiv preprint
+vol.33,pp.1243–1254,2025. arXiv:2406.02430,2024.
+[128] M.Hassid,T.Remez,T.A.Nguyenetal.,“TextuallyPretrainedSpeech [157] H.Wang,H.Wang,Y.Guoetal.,“WhyDoSpeechLanguageModels
+LanguageModels,”Proc.NeurIPS,vol.36,2024. FailtoGenerateSemanticallyCoherentOutputs?AModalityEvolving
+[129] E. Kharitonov, A. Lee, A. Polyak et al., “Text-Free Prosody-Aware Perspective,”arXivpreprintarXiv:2412.17048,2024.
+Generative Spoken Language Modeling,” in Proc. ACL, May 2022, [158] X. Chang, B. Yan, K. Choi et al., “Exploring Speech Recognition,
+pp.8666–8681. Translation, and Understanding with Discrete Speech Units: A Com-
+[130] J.Shi,X.Ma,H.Inagumaetal.,“MMM:Multi-LayerMulti-Residual parativeStudy,”inProc.IEEEICASSP,2024,pp.11481–11485.
+Multi-Stream Discrete Speech Representation from Self-supervised [159] T.HayashiandS.Watanabe,“DiscreTalk:Text-to-SpeechasaMachine
+LearningModel,”inProc.ISCAInterspeech,2024,pp.2569–2573. TranslationProblem,”arXivpreprintarXiv:2005.05525,2020.
+[131] P. Mousavi, J. Duret, S. Zaiem et al., “How Should We Extract [160] S.Ren,S.Liu,Y.Wuetal.,“SpeechPre-trainingwithAcousticPiece,”
+DiscreteAudioTokensfromSelf-SupervisedModels?”inProc.ISCA inProc.ISCAInterspeech,2022,pp.2648–2652.
+Interspeech,2024,pp.2554–2558. [161] F. Shen, Y. Guo, C. Du et al., “Acoustic BPE for speech generation
+[132] Z.Huang,C.Meng,andT.Ko,“RepCodec:ASpeechRepresentation withdiscretetokens,”inProc.IEEEICASSP,2024,pp.11746–11750.
+CodecforSpeechTokenization,”inProc.ACL,2024,pp.5777–5790. [162] A.DekelandR.Fernandez,“ExploringtheBenefitsofTokenizationof
+[133] Y.Wang,H.Zhan,L.Liuetal.,“MaskGCT:Zero-ShotText-to-Speech DiscreteAcousticUnits,”inProc.ISCAInterspeech,2024,pp.2780–
+withMaskedGenerativeCodecTransformer,”inProc.ICLR,2025. 2784.
+
+21
+[163] P. Gage, “A New Algorithm for Data Compression,” The C Users [190] P. O’Reilly, P. Seetharaman, J. Su et al., “Code drift: Towards idem-
+Journal archive, vol. 12, pp. 23–38, 1994. [Online]. Available: potentneuralaudiocodecs,”inProc.IEEEICASSP,2025.
+https://api.semanticscholar.org/CorpusID:59804030 [191] H. Wang, G. Chen, B. Li et al., “Towards general discrete speech
+[164] B.Li,F.Shen,Y.Guoetal.,“OntheEffectivenessofAcousticBPEin codec for complex acoustic environments: A study of reconstruction
+Decoder-OnlyTTS,”inProc.ISCAInterspeech,2024,pp.4134–4138. anddownstreamtaskconsistency,”inProc.IEEEASRU,2025.
+[165] S.Dieleman,C.Nash,J.Engeletal.,“Variable-RateDiscreteRepre- [192] H.Zen,V.Dang,R.Clarketal.,“LibriTTS:ACorpusDerivedfrom
+sentationLearning,”arXivpreprintarXiv:2103.06089,2021. LibriSpeechforText-to-Speech,”inProc.ISCAInterspeech,2019,pp.
+[166] R.Eloff,A.Nortje,B.vanNiekerketal.,“UnsupervisedAcousticUnit 1526–1530.
+DiscoveryforSpeechSynthesisUsingDiscreteLatent-VariableNeural [193] E. Casanova, J. Weber, C. D. Shulby et al., “YourTTS: Towards
+Networks,”inProc.ISCAInterspeech,2019,pp.1103–1107. Zero-Shot Multi-Speaker TTS and Zero-Shot Voice Conversion for
+[167] E.Dunbar,J.Karadayi,M.Bernardetal.,“TheZeroResourceSpeech Everyone,”inProc.ICML. PMLR,2022,pp.2709–2720.
+Challenge 2020: Discovering Discrete Subword and Word Units,” in [194] E. Bastianelli, A. Vanzo, P. Swietojanski, and V. Rieser, “SLURP: A
+Proc.ISCAInterspeech,2020,pp.4831–4835. spoken language understanding resource package,” in Proc. EMNLP.
+[168] B.vanNiekerk,L.Nortje,andH.Kamper,“Vector-QuantizedNeural AssociationforComputationalLinguistics,Nov.2020,pp.7252–7262.
+NetworksforAcousticUnitDiscoveryintheZeroSpeech2020Chal- [195] V. Panayotov, G. Chen, D. Povey, and S. Khudanpur, “LibriSpeech:
+lenge,”inProc.ISCAInterspeech,2020,pp.4836–4840. an asr corpus based on public domain audio books,” in Proc. IEEE
+[169] T. A. Nguyen, M. de Seyssel, P. Roze´ et al., “The Zero Resource ICASSP. IEEE,2015,pp.5206–5210.
+Speech Benchmark 2021: Metrics and Baselines for Unsupervised [196] D. Zhang, R. Ye, T. Ko et al., “DUB: Discrete Unit Back-translation
+SpokenLanguageModelling,”inNeurIPSWorkshop,2020. forSpeechTranslation,”inFindingsofACL,Jul.2023,pp.7147–7164.
+[170] C. J. Cho, N. Lee, A. Gupta et al., “Sylber: Syllabic Embedding [197] A.Tjandra,S.Sakti,andS.Nakamura,“Speech-to-SpeechTranslation
+RepresentationofSpeechfromRawAudio,”inProc.ICLR,2025. Between Untranscribed Unknown Languages,” in Proc. IEEE ASRU,
+[171] S.Cuervo,A.Lancucki,R.Marxeretal.,“Variable-RateHierarchical 2019,pp.593–600.
+CPC Leads to Acoustic Unit Discovery in Speech,” Proc. NeurIPS, [198] C. Zhang, X. Tan, Y. Ren et al., “UWSpeech: Speech-to-Speech
+vol.35,pp.34995–35006,2022. TranslationforUnwrittenLanguages,”inProc.AAAI,vol.35,no.16,
+[172] H.Zhang,Y.Guo,Z.Lietal.,“UnlockingTemporalFlexibility:Neural 2021,pp.14319–14327.
+SpeechCodecwithVariableFrameRate,”inProc.ISCAInterspeech,
+[199] A.Lee,P.-J.Chen,C.Wangetal.,“DirectSpeech-to-SpeechTransla-
+2025,pp.5003–5007. tionWithDiscreteUnits,”inProc.ACL,2022,pp.3327–3339.
+[173] H.Wang,Y.Guo,C.Shaoetal.,“CodecSlime:Temporalredundancy
+[200] A. Lee, H. Gong, P.-A. Duquenne et al., “Textless Speech-to-Speech
+compression of neural speech codec via dynamic frame rate,” arXiv
+TranslationonRealData,”inProc.NAACL,Jul.2022,pp.860–872.
+preprintarXiv:2506.21074,2025.
+[201] H.Wu,K.-W.Chang,Y.-K.Wu,andH.-y.Lee,“SpeechGen:Unlocking
+[174] S.Karapiperis,N.Ellinas,A.Vionietal.,“Investigatingdisentangle-
+the Generative Power of Speech Language Models with Prompts,”
+mentinaphoneme-levelspeechcodecforprosodymodeling,”inProc.
+arXivpreprintarXiv:2306.02207,2023.
+IEEESLT,2024,pp.668–674.
+[202] Y. Peng, I. Kulikov, Y. Yang et al., “MSLM-S2ST: A Multitask
+[175] L.-H. Tseng, Y.-C. Chen, K.-Y. Lee, D.-S. Shiu, and H.-y. Lee,
+Speech Language Model for Textless Speech-to-Speech Translation
+“TASTE:Text-alignedspeechtokenizationandembeddingforspoken
+with Speaker Style Preservation,” arXiv preprint arXiv:2403.12408,
+languagemodeling,”arXivpreprintarXiv:2504.07053,2025.
+2024.
+[176] A.W.Rix,J.G.Beerends,M.P.Hollier,andA.P.Hekstra,“Perceptual
+[203] Y.Wang,B.Jionghao,R.Huangetal.,“Speech-to-SpeechTranslation
+evaluationofspeechquality(PESQ)-anewmethodforspeechquality
+withDiscrete-Unit-BasedStyleTransfer,”inProc.ACL(Vol4:Student
+assessmentoftelephonenetworksandcodecs,”inProc.IEEEICASSP,
+ResearchWorkshop),Aug.2024,pp.34–41.
+vol.2,2001,pp.749–752.
+[204] H. Gong and B. Veluri, “SeamlessExpressiveLM: Speech Language
+[177] C.H.Taal,R.C.Hendriks,R.Heusdens,andJ.Jensen,“Analgorithm
+Model for Expressive Speech-to-Speech Translation with Chain-of-
+forintelligibilitypredictionoftime–frequencyweightednoisyspeech,”
+Thought,”arXivpreprintarXiv:2405.20410,2024.
+IEEE/ACMTrans.ASLP.,vol.19,no.7,pp.2125–2136,2011.
+[205] P.-J.Chen,K.Tran,Y.Yangetal.,“Speech-to-SpeechTranslationfor
+[178] P.C.Bagshaw,S.M.Hiller,andM.A.Jack,“Enhancedpitchtracking
+aReal-WorldUnwrittenLanguage,”inFindingsofACL,Jul.2023,pp.
+and the processing of F0 contours for computer aided intonation
+4969–4983.
+teaching,”inEUROSPEECH. ISCA,1993,pp.1003–1006.
+[206] H. Inaguma, S. Popuri, I. Kulikov et al., “UnitY: Two-pass Direct
+[179] H.Wu,H.-L.Chung,Y.-C.Linetal.,“Codec-SUPERB:Anin-depth
+Speech-to-speechTranslationwithDiscreteUnits,”inProc.ACL,Jul.
+analysisofsoundcodecmodels,”inFindingsofACL,Aug.2024,pp.
+2023,pp.15655–15680.
+10330–10348.
+[180] J.Shi,J.Tian,Y.Wuetal.,“ESPnet-Codec:ComprehensiveTraining [207] R. Huang, J. Liu, H. Liu et al., “TranSpeech: Speech-to-Speech
+andEvaluationofNeuralCodecsforAudio,Music,andSpeech,”arXiv
+TranslationWithBilateralPerturbation,”inProc.ICLR,2023.
+preprintarXiv:2409.15897,2024. [208] K.-W.Chang,W.-C.Tseng,S.-W.Lietal.,“AnExplorationofPrompt
+[181] J.Shi,H.-j.Shim,J.Tianetal.,“VERSA:Aversatileevaluationtoolkit TuningonGenerativeSpokenLanguageModelforSpeechProcessing
+for speech, audio, and music,” in NAACL-HLT 2025, Demo Track. Tasks,”inProc.ISCAInterspeech,2022,pp.5005–5009.
+AssociationforComputationalLinguistics,2025,pp.191–209. [209] K.-W. Chang, Y.-K. Wang, H. Shen et al., “SpeechPrompt v2:
+[182] S.Vashishth,H.Singh,S.Bharadwajetal.,“STAB:SpeechTokenizer Prompt Tuning for Speech Classification Tasks,” arXiv preprint
+AssessmentBenchmark,”arXivpreprintarXiv:2409.02384,2024. arXiv:2303.00733,2023.
+[183] T.A.Nguyen,B.Sagot,andE.Dupoux,“AreDiscreteUnitsNecessary [210] K.-W. Chang, H. Wu, Y.-K. Wang et al., “SpeechPrompt: Prompting
+for Spoken Language Modelling?” IEEE JSTSP, vol. 16, no. 6, pp. Speech Language Models for Speech Processing Tasks,” IEEE/ACM
+1415–1423,2022. Trans.ASLP.,vol.32,p.3730–3744,Aug.2024.
+[184] B. M. Abdullah, M. M. Shaik, B. Mo¨bius et al., “An Information- [211] P. K. Rubenstein, C. Asawaroengchai, D. D. Nguyen et al., “Au-
+Theoretic Analysis of Self-supervised Discrete Representations of dioPaLM:ALargeLanguageModelThatCanSpeakandListen,”arXiv
+Speech,”inProc.ISCAInterspeech,2023,pp.2883–2887. preprintarXiv:2306.12925,2023.
+[185] M. Cui, Y. Yang, J. Deng et al., “Exploring SSL Discrete [212] Q.Chen,Y.Chu,Z.Gaoetal.,“LauraGPT:Listen,Attend,Understand,
+SpeechFeaturesforZipformer-basedContextualASR,”arXivpreprint and Regenerate Audio with GPT,” arXiv preprint arXiv:2310.04673,
+arXiv:2409.08797,2024. 2023.
+[186] M. Cui, D. Tan, Y. Yang et al., “Exploring SSL Discrete Tokens for [213] K. C. Puvvada, N. R. Koluguri, K. Dhawan et al., “Discrete Audio
+MultilingualASR,”arXivpreprintarXiv:2409.08805,2024. RepresentationasanAlternativetoMel-SpectrogramsforSpeakerand
+[187] D.Wang, M.Cui,D. Yangetal., “AComparativeStudy ofDiscrete SpeechRecognition,”inProc.IEEEICASSP,2024,pp.12111–12115.
+Speech Tokens for Semantic-Related Tasks with Large Language [214] S.Shon,K.Kim,Y.-T.Hsuetal.,“DiscreteSLU:ALargeLanguage
+Models,”arXivpreprintarXiv:2411.08742,2024. Model with Self-Supervised Discrete Speech Units for Spoken Lan-
+[188] T.A.Nguyen,W.-N.Hsu,A.D’Avirroetal.,“Expresso:ABenchmark guageUnderstanding,”arXivpreprintarXiv:2406.09345,2024.
+and Analysis of Discrete Expressive Speech Resynthesis,” in Proc. [215] Y. Gong, A. H. Liu, H. Luo et al., “Joint Audio and Speech Under-
+ISCAInterspeech,2023,pp.4823–4827. standing,”inProc.IEEEASRU,2023,pp.1–8.
+[189] W.Ren,Y.-C.Lin,H.-C.Chouetal.,“EMO-Codec:Anin-depthlook [216] Y.Chu,J.Xu,X.Zhouetal.,“Qwen-Audio:AdvancingUniversalAu-
+at emotion preservation capacity of legacy and neural codec models dioUnderstandingviaUnifiedLarge-ScaleAudio-LanguageModels,”
+withsubjectiveandobjectiveevaluations,”inAPSIPAASC,2024. arXivpreprintarXiv:2311.07919,2023.
+
+22
+[217] C.Tang,W.Yu,G.Sunetal.,“SALMONN:TowardsGenericHearing [244] E. Casanova, K. Davis, E. Go¨lge et al., “XTTS: A Mas-
+AbilitiesforLargeLanguageModels,”inProc.ICLR,2024. sively Multilingual Zero-Shot Text-to-Speech Model,” arXiv preprint
+[218] S.Hu,L.Zhou,S.Liuetal.,“WavLLM:TowardsRobustandAdaptive arXiv:2406.04904,2024.
+Speech Large Language Model,” in Findings of EMNLP, 2024, pp. [245] M. Łajszczak, G. Ca´mbara, Y. Li et al., “BASE TTS: Lessons from
+4552–4572. BuildingaBillion-ParameterText-to-SpeechModelon100KHoursof
+[219] Z.Ma,G.Yang,Y.Yangetal.,“AnEmbarrassinglySimpleApproach Data,”arXivpreprintarXiv:2402.08093,2024.
+forLLMwithStrongASRCapacity,”arXivpreprintarXiv:2402.08846, [246] S. Liao, Y. Wang, T. Li et al., “Fish-Speech: Leveraging Large Lan-
+2024. guage Models for Advanced Multilingual Text-to-Speech Synthesis,”
+[220] Y. Bai, J. Chen, J. Chen et al., “Seed-ASR: Understanding Diverse arXivpreprintarXiv:2411.01156,2024.
+Speech and Contexts with LLM-Based Speech Recognition,” arXiv [247] K. Shen, Z. Ju, X. Tan et al., “NaturalSpeech 2: Latent Diffusion
+preprintarXiv:2407.04675,2024. ModelsareNaturalandZero-ShotSpeechandSingingSynthesizers,”
+[221] Z.Wang,X.Zhu,Z.Zhangetal.,“SELM:SpeechEnhancementUsing inProc.ICLR,2024.
+DiscreteTokensandLanguageModels,”inProc.IEEEICASSP,2024, [248] Z. Zhang, L. Zhou, C. Wang et al., “Speak Foreign Languages with
+pp.11561–11565. YourOwnVoice:Cross-LingualNeuralCodecLanguageModelling,”
+[222] X.Liu,X.Li,J.Serra` etal.,“JointSemanticKnowledgeDistillation arXivpreprintarXiv:2303.03926,2023.
+andMaskedAcousticModelingforFull-bandSpeechRestorationwith [249] X. Wang, M. Thakker, Z. Chen et al., “SpeechX: Neural Codec
+ImprovedIntelligibility,”arXivpreprintarXiv:2409.09357,2024. LanguageModelasaVersatileSpeechTransformer,”IEEE/ACMTrans.
+[223] B. Tang, B. Zeng, and M. Li, “TSELM: Target Speaker Extrac- ASLP.,2024.
+tion using Discrete Tokens and Language Models,” arXiv preprint [250] S.-H. Lee, H.-Y. Choi, S.-B. Kim et al., “HierSpeech++: Bridging
+arXiv:2409.07841,2024. the Gap Between Semantic and Acoustic Representation of Speech
+[224] C.Du,Y.Guo,X.Chenetal.,“SpeakerAdaptiveText-to-SpeechWith byHierarchicalVariationalInferenceforZero-ShotSpeechSynthesis,”
+Timbre-Normalized Vector-Quantized Feature,” IEEE/ACM Trans. arXivpreprintarXiv:2311.12454,2023.
+ASLP.,vol.31,pp.3446–3456,2023. [251] M. Le, A. Vyas, B. Shi et al., “Voicebox: Text-Guided Multilingual
+[225] S.Liu,Y.Guo,C.Duetal.,“DSE-TTS:DualSpeakerEmbeddingfor UniversalSpeechGenerationatScale,”Proc.NeurIPS,vol.36,2024.
+Cross-Lingual Text-to-Speech,” in Proc. ISCA Interspeech, 2023, pp. [252] Z. Liu, S. Wang, P. Zhu et al., “E1 TTS: Simple and fast non-
+616–620. autoregressiveTTS,”inProc.IEEEICASSP,2025.
+[226] C.Du,Y.Guo,F.Shenetal.,“Multi-SpeakerMulti-LingualVQTTS [253] Y.Chen,Z.Niu,Z.Maetal.,“F5-TTS:Afairytalerthatfakesfluent
+SystemforLIMMITS2023Challenge,”inProc.IEEEICASSP,2023. andfaithfulspeechwithflowmatching,”inProc.ACL,Jul.2025,pp.
+[227] S.Liu,Y.Guo,X.Chenetal.,“StoryTTS:AHighlyExpressiveText- 6255–6271.
+to-Speech Dataset with Rich Textual Expressiveness Annotations,” in
+[254] L. Meng, L. Zhou, S. Liu et al., “Autoregressive speech synthesis
+Proc.IEEEICASSP,2024,pp.11521–11525.
+withoutvectorquantization,”inProc.ACL,Jul.2025,pp.1287–1300.
+[228] Y. Song, Z. Chen, X. Wang et al., “ELLA-V: Stable Neural Codec
+[255] Z.Liu,S.Wang,S.Inoueetal.,“AutoregressiveDiffusionTransformer
+Language Modelling with Alignment-Guided Sequence Reordering,”
+forText-to-SpeechSynthesis,”arXivpreprintarXiv:2406.05551,2024.
+Proc.AAAI,2025.
+[256] X. Zhu, W. Tian, and L. Xie, “Autoregressive Speech Synthesis with
+[229] D. Xin, X. Tan, K. Shen et al., “RALL-E: Robust Codec Language
+Next-DistributionPrediction,”arXivpreprintarXiv:2412.16846,2024.
+ModellingwithChain-of-ThoughtPromptingforText-to-SpeechSyn-
+[257] A. Turetzky, N. Shabtay, S. Shechtman et al., “Continuous
+thesis,”arXivpreprintarXiv:2404.03204,2024.
+Speech Synthesis Using Per-Token Latent Diffusion,” arXiv preprint
+[230] B. Han, L. Zhou, S. Liu et al., “VALL-E R: Robust and Efficient
+arXiv:2410.16048,2024.
+Zero-ShotText-to-SpeechSynthesisviaMonotonicAlignment,”arXiv
+[258] D. Jia, Z. Chen, J. Chen, C. Du, J. Wu, J. Cong, X. Zhuang,
+preprintarXiv:2406.07855,2024.
+C.Li,Z.Wei,Y.Wang,andY.Wang,“DiTAR:Diffusiontransformer
+[231] C. Du, Y. Guo, H. Wang et al., “VALL-T: Decoder-Only Generative
+autoregressivemodelingforspeechgeneration,”inProc.ICML,2025.
+TransducerforRobustandDecoding-ControllableText-to-Speech,”in
+[259] S. Cuervo and R. Marxer, “Scaling Properties of Speech Language
+Proc.IEEEICASSP,2025.
+Models,”inProc.EMNLP,Nov.2024,pp.351–361.
+[232] H.Wang,C.Du,Y.Guoetal.,“Attention-ConstrainedInferenceFor
+[260] G.-T. Lin, P. G. Shivakumar, A. Gourav et al., “Align-SLM: Textless
+Robust Decoder-Only Text-to-Speech,” in Proc. IEEE SLT, 2024, pp.
+spoken language models with reinforcement learning from AI feed-
+630–637.
+back,”inProc.ACL,Jul.2025,pp.20395–20411.
+[233] S.Chen,S.Liu,L.Zhouetal.,“VALL-E2:NeuralCodecLanguage
+[261] T.A.Nguyen,B.Muller,B.Yuetal.,“SpiRit-LM:Interleavedspoken
+Models are Human Parity Zero-Shot Text to Speech Synthesizers,”
+andwrittenlanguagemodel,”Trans.ACL,vol.13,pp.30–52,012025.
+arXivpreprintarXiv:2406.05370,2024.
+[234] Y.Song,Z.Chen,X.Wangetal.,“TacoLM:GaTedAttentionEquipped [262] S.J.Park,J.Salazar,A.Jansenetal.,“Long-FormSpeechGeneration
+Codec Language Model are Efficient Zero-Shot Text to Speech Syn- with Spoken Language Models,” arXiv preprint arXiv:2412.18603,
+thesizers,”inProc.ISCAInterspeech,2024,pp.4433–4437. 2024.
+[235] D. Kim, S. Hong, and Y.-H. Choi, “SC VALL-E: Style- [263] B.Veluri,B.N.Peloquin,B.Yuetal.,“BeyondTurn-BasedInterfaces:
+Controllable Zero-Shot Text to Speech Synthesizer,” arXiv preprint Synchronous LLMs as Full-Duplex Dialogue Agents,” arXiv preprint
+arXiv:2307.10550,2023. arXiv:2409.15594,2024.
+[236] D. Lyth and S. King, “Natural Language Guidance of High- [264] X. Zhang, X. Lyu, Z. Du et al., “IntrinsicVoice: Empowering LLMs
+Fidelity Text-to-Speech with Synthetic Annotations,” arXiv preprint with Intrinsic Real-Time Voice Interaction Abilities,” arXiv preprint
+arXiv:2402.01912,2024. arXiv:2410.08035,2024.
+[237] S. Ji, J. Zuo, M. Fang et al., “TextrolSpeech: A Text Style Control [265] Z. Ma, Y. Song, C. Du et al., “Language Model Can Listen While
+SpeechCorpuswithCodecLanguageText-to-SpeechModels,”inProc. Speaking,”arXivpreprintarXiv:2408.02622,2024.
+IEEEICASSP,2024,pp.10301–10305. [266] D.Zhang,X.Zhang,J.Zhanetal.,“SpeechGPT-Gen:ScalingChain-
+[238] H. Hao, L. Zhou, S. Liu et al., “Boosting large language model for of-InformationSpeechGeneration,”arXivpreprintarXiv:2401.13527,
+speechsynthesis:Anempiricalstudy,”inProc.IEEEICASSP,2025. 2024.
+[239] M.Shen,S.Zhang,J.Wuetal.,“Getlargelanguagemodelsreadyto [267] C.Fu,H.Lin,Z.Longetal.,“Vita:TowardsOpen-SourceInteractive
+speak: A late-fusion approach for speech generation,” in Proc. IEEE OmniMultimodalLLM,”arXivpreprintarXiv:2408.05211,2024.
+ICASSP,2025. [268] Z. Xie and C. Wu, “Mini-Omni: Language Models Can Hear, Talk
+[240] D.Yang,J.Tian,X.Tanetal.,“UniAudio:TowardsUniversalAudio WhileThinkinginStreaming,”arXivpreprintarXiv:2408.16725,2024.
+GenerationwithLargeLanguageModels,”inProc.ICML,2024. [269] ——, “Mini-Omni2: Towards Open-Source GPT-4o with Vision,
+[241] J. Copet, F. Kreuk, I. Gat et al., “Simple and Controllable Music Speech and Duplex Capabilities,” arXiv preprint arXiv:2410.11190,
+Generation,”Proc.NeurIPS,vol.36,2024. 2024.
+[242] P. Peng, P.-Y. Huang, S.-W. Li et al., “VoiceCraft: Zero-Shot Speech [270] W. Yu, S. Wang, X. Yang et al., “SALMONN-omni: A Codec-Free
+EditingandText-to-SpeechintheWild,”inProc.ACL,Aug.2024,pp. LLM for Full-Duplex Speech Understanding and Generation,” arXiv
+12442–12462. preprintarXiv:2411.18138,2024.
+[243] Y. Yang, Z. Ma, S. Liu et al., “Interleaved Speech-Text Language [271] Z. Zhong, C. Wang, Y. Liu et al., “Lyra: An Efficient and
+Models are Simple Streaming Text to Speech Synthesizers,” arXiv Speech-Centric Framework for Omni-Cognition,” arXiv preprint
+preprintarXiv:2412.16102,2024. arXiv:2412.09501,2024.
+
+23
+[272] W. Chen, Z. Ma, R. Yan et al., “SLAM-Omni: Timbre-controllable
+voiceinteractionsystemwithsingle-stagetraining,”inFindingsofACL.
+AssociationforComputationalLinguistics,Jul.2025,pp.2262–2282.
+[273] K.Chen,Y.Gou,R.Huangetal.,“EMOVA:EmpoweringLanguage
+ModelstoSee,HearandSpeakwithVividEmotions,”arXivpreprint
+arXiv:2409.18042,2024.
+[274] X.Wang,Y.Li,C.Fuetal.,“Freeze-omni:aSmartandLowLatency
+Speech-To-SpeechDialogueModelwithFrozenLLM,”arXivpreprint
+arXiv:2411.00774,2024.
+[275] P.Zhang,X.Dong,Y.Caoetal.,“InternLM-XComposer2.5-OmniLive:
+AComprehensiveMultimodalSystemforLong-TermStreamingVideo
+andAudioInteractions,”arXivpreprintarXiv:2412.09596,2024.
+[276] C.Fu,H.Lin,X.Wangetal.,“VITA-1.5:TowardsGPT-4oLevelReal-
+TimeVisionandSpeechInteraction,”arXivpreprintarXiv:2501.01957,
+2025.
+[277] R.Luo,T.-E.Lin,H.Zhangetal.,“OpenOmni:Largelanguagemodels
+pivot zero-shot omnimodal alignment across language with real-time
+self-awareemotionalspeechsynthesis,”inProc.NeurIPS,2025.
+[278] Q. Chen, Y. Chen, Y. Chen et al., “MinMo: A Multimodal Large
+Language Model for Seamless Voice Interaction,” arXiv preprint
+arXiv:2501.06282,2025.
+[279] Y. Wang, D. Chen, X. Zhang et al., “TaDiCodec: Text-aware diffu-
+sion speech tokenizer for speech language modeling,” arXiv preprint
+arXiv:2508.16790,2025.
+[280] Y. Zheng, W. Tu, L. Xiao et al., “SRCodec: Split-Residual Vector
+QuantizationforNeuralSpeechCodec,”inProc.IEEEICASSP,2024,
+pp.451–455.
+[281] E.Casanova,R.Langman,P.Neekharaetal.,“LowFrame-RateSpeech
+Codec:aCodecDesignedforFastHigh-qualitySpeechLLMTraining
+andInference,”arXivpreprintarXiv:2409.12117,2024.
+[282] L. Della Libera, F. Paissan, C. Subakan, and M. Ravanelli, “Focal-
+Codec: Low-bitrate speech coding via focal modulation networks,”
+arXivpreprintarXiv:2502.04465,2025.
+[283] D. Yang, S. Liu, H. Guo et al., “ALMTokenizer: A low-bitrate and
+semantic-richaudiocodectokenizerforaudiolanguagemodeling,”in
+Proc.ICML,2025.
+[284] J. Li, X. Lin, Z. Li et al., “DualCodec: A Low-Frame-Rate,
+Semantically-Enhanced Neural Audio Codec for Speech Generation,”
+inProc.ISCAInterspeech,2025,pp.4883–4887.
+[285] Y. Pan, L. Ma, and J. Zhao, “PromptCodec: High-Fidelity Neu-
+ral Speech Codec using Disentangled Representation Learning
+based Adaptive Feature-aware Prompt Encoders,” arXiv preprint
+arXiv:2404.02702,2024.
+[286] Y.-A.Chung,Y.Zhang,W.Hanetal.,“W2v-BERT:CombiningCon-
+trastiveLearningandMaskedLanguageModellingforSelf-Supervised
+SpeechPre-Training,”inProc.IEEEASRU,2021,pp.244–250.
+[287] A.H.Liu,H.-J.Chang,M.Aulietal.,“DinoSR:Self-Distillationand
+Online Clustering for Self-Supervised Speech Representation Learn-
+ing,”Proc.NeurIPS,vol.36,2024.
+[288] M.Baas,B.vanNiekerk,andH.Kamper,“VoiceConversionWithJust
+NearestNeighbors,”inProc.ISCAInterspeech,2023,pp.2053–2057.
+[289] A. Graves, S. Ferna´ndez, F. Gomez et al., “Connectionist Temporal
+Classification:LabellingUnsegmentedSequenceDatawithRecurrent
+NeuralNetworks,”inProc.ICML,2006,p.369–376.
+[290] I.LoshchilovandF.Hutter,“Decoupledweightdecayregularization,”
+inProc.ICLR,2019.
+[291] D.P.KingmaandJ.Ba,“Adam:Amethodforstochasticoptimization,”
+inProc.ICLR,2015.
+
+24
+APPENDIXI. LISTOFWIDELY-USEDDISCRETESPEECH • For WER, we transcribe the synthesized speech using
+TOKENS NeMo-ASR9, normalize the text using Whisper normal-
+izer10, and use jiwer11 to measure the total WER.
+To give a high-level overview of existing discrete speech • For GPE and P.Corr, we use the YIN algorithm in
+tokens,wesummarizethewidely-useddiscreteacoustictokens PyWorld12 to extract pitch contours. Pitch errors and
+in Table II, and semantic tokens in Table III. correlation are only computed on frames where both the
+reference and the synthesized waveforms are voiced.
+• For PESQ, we compute wide-band PESQ using this
+tool13. For STOI, we use this tool14.
+APPENDIXII. EXPERIMENTALDETAILS
+• For SECS, we use Resemblyzer15 to extract embeddings
+for both the reference waveform and the synthesized
+A. Vocoder for Reconstruction and Voice Conversion
+waveform. Then, SECS is computed as the cosine simi-
+larity between the two embeddings.
+In the experiments of reconstruction and voice conver-
+sion, we train a speech token vocoder for each of the The test metadata for reconstruction and voice conversion
+semantic tokens. This speech token vocoder is chosen as can be found here16 and here17, respectively.
+CTX-vec2wavα [29] as the improved version of CTX-
+vec2wav [108]. This vocoder is a timbre-controllable speech
+B. Downstream Semantic Modeling
+token vocoder. The input speech tokens are converted to
+their corresponding code-vectors first, where code-vectors 1) Motivation: Giventhatalargebranchofdiscretespeech
+are concatenated along channel dimension when there are tokens is semantic tokens, it is also important to measure the
+multiple codebooks. Then, these code-vectors are passed to semantic modeling abilities of speech tokens in downstream
+a Conformer [73] frontend before a HifiGAN [153] generator tasks, without relying on a codec decoder or vocoder to
+module. The timbre information is provided to the vocoder reconstruct into waveforms. There are mainly two approaches
+model from a reference waveform. This reference is passed to to probe the semantic modeling abilities in discrete speech
+aWavLM-Large[35]modeltoextractstrongtimbre-dependent tokens:
+embeddings. These embeddings are extracted from the 6-th
+• Index-based: Like DASB [147], discrete indices are di-
+layer of this WavLM model, following previous work [288].
+rectly used as inputs and passed to a set of learnable
+Then, they are fed to the Conformer frontend via position-
+embedding lookup modules before subsequent networks.
+agnostic cross-attention mechanism [108].
+Whentherearemultiplecodestreams(forexample,when
+The training of these CTX-vec2wavα vocoders follows the using GVQ or RVQ), a learnable attention weight will
+GAN-based vocoder paradigm where a set of discriminators aggregate the embeddings from different code streams.
+are employed. We follow the detailed training setup in this • Vector-based: The code-vectors corresponding to the dis-
+repository8. The generator of this vocoder consists of ≈32M crete indices are considered as inputs to the probing
+parameters.Wetrainthevocoderforeachtokenupto1million network. This is a direct extension to the SUPERB [114]
+stepson4GPUs,withadynamicbatchsizeof≈36sofspeech benchmark that mainly considers continuous speech rep-
+per GPU. The training data is all LibriTTS training splits, resentations.
+which amount to about 585 hours.
+The vector-based approach, in other words, probes the infor-
+After obtaining a vocoder for each semantic token, we can
+mation from the established latent space where speech tok-
+perform reconstruction comparisons on all tokens, and voice
+enizers perform quantization on. Meanwhile, the index-based
+conversioncomparisonsonsemantictokensandsomeacoustic
+approach concentrates on the abstract discrete indices and
+tokens.Forreconstruction,weprovidetheoriginalutteranceas
+anticipates that indices themselves carry important semantic
+thesourceoftimbreinformation.Onemayarguethatthissetup
+informationratherthantheunderlyinghigh-dimensionalspace.
+carriesariskofinformationleakage,sincecontentinformation
+Since the most of the discrete token-based speech generation
+may also be implicitly encoded in timbre representations. An
+models use token indices instead of code-vectors as modeling
+alternative strategy is to use another reference prompt from
+targets,weopttousetheindex-based approachinthissurvey.
+the same speaker to supply timbre information. However,
+To better align with the results in previous works, we use
+this essentially becomes a “same-speaker conversion” task the DASB [147] framework and its official implementation18.
+rather than reconstruction, and the resulting metrics are not
+strictly comparable to those of ordinary acoustic tokens that
+9https://huggingface.co/nvidia/stt en fastconformer transducer large
+do not require additional speaker inputs. Given that the CTX- 10https://github.com/openai/whisper/tree/main/whisper/normalizers
+vec2wavα vocoderhasneverbeentrainedoncaseswheretim- 11https://github.com/jitsi/jiwer
+brerepresentationsandcontenttokensoriginatefromthesame
+12https://github.com/JeremyCCHsu/Python-Wrapper-for-World-Vocoder
+13https://github.com/ludlows/PESQ
+segment, we consider this strategy to still provide sufficiently
+14https://github.com/mpariente/pystoi
+fair comparisons. 15https://github.com/resemble-ai/Resemblyzer
+The details in evaluation metrics include: 16https://cpdu.github.io/unicats/resources/testsetB utt2prompt
+17https://cantabile-kwok.github.io/LSCodec/audio ready/VC/utt2prompt
+18https://github.com/speechbrain/benchmarks/tree/DASB/benchmarks/
+8https://github.com/cantabile-kwok/vec2wav2.0 DASB
+
+25
+TABLE II: A summary of widely-used acoustic speech tokens (neural speech codecs). Note that some codecs in this list are
+also applicable to general audio. Italic “C,T,U” denote CNN, Transformer or U-Net-based generator architecture. Symbols ‘/’
+and ‘-’ denote “or” and “to” for different model versions, “+” means different configurations in different VQ streams in a
+single model, and “≈” means the average value. Q,F,V mean number of quantizers, frame rate and vocabulary size of each
+quantizer respectively. For example, “Q = 2, V=8192+(4096-32768)” in SemantiCodec means one of the two VQ streams
+has 8192 possible codes, and the other can vary from 4096 to 32768 in different configurations. For FSQ, V is presented
+as Ld where L is the quantization levels for each dimension, and d is the number of dimensions. When L is different for
+each dimension, like LFSC, we use L ×L ×··· to represent each dimension. “Dynamic” means the number for each token
+1 2
+frame is variable, like in variable-bitrate and variable frame rate setups. Bitrates are computed by 1 (cid:80)Q F ⌈log V ⌉ kbps,
+1000 i=1 i 2 i
+without entropy coding.
+Sampling Quantization
+AcousticSpeechTokens ModelFramework Q F (Hz) V Bitrate(kbps)
+Rate(kHz) Method
+General-purposeacoustictokens
+SoundStream[69] VQ-GAN(C) 24 RVQ max24 75 1024 max18.00
+EnCodec[70] VQ-GAN(C) 24 RVQ max32 75 1024 max24.00
+TF-Codec[55] VQ-GAN(C) 16 GVQ 3-32 25 512/1024 0.68-8.00
+Disen-TF-Codec[21] VQ-GAN(C) 16 GVQ 2/6 25 256/1024 0.40/1.50
+AudioDec[76] VQ-VAE(C)+GAN 48 RVQ 8 160 1024 12.80
+HiFi-Codec[59] VQ-GAN(C) 16/24 GRVQ 4 50-100 1024 2.00-4.00
+DAC[19] VQ-GAN(C) 44.1 RVQ 9 86 1024 7.74
+LaDiffCodec[17] Diffusion 16 RVQ 3/6 50 1024 1.50/3.00
+FreqCodec[71] VQ-GAN(C) 16 RVQ max32 50 1024 max16.00
+TiCodec[22] VQ-GAN(C) 24 RVQ,GVQ 1-4 75 1024 0.75-3.00
+APCodec[82] VQ-GAN(C) 48 RVQ 4 150 1024 6.00
+SRCodec[280] VQ-GAN(C) 16 GRVQ 2-8 50 512+1024 0.95-3.80
+SQ-Codec[89] VQ-GAN(C) 16 FSQ 1 50 1932 8.00
+Single-Codec[72] VQ-GAN(T+C) 24 VQ 1 23 8192 0.30
+ESC[75] VQ-GAN(U) 16 GVQ max18 50 1024 max9.00
+CoFi-Codec[74] VQ-GAN(U) 16 GVQ 3 8.33+25+50 16384 1.17
+HILCodec[84] VQ-GAN(C) 24 RVQ 2-12 75 1024 1.50-9.00
+SuperCodec[85] VQ-GAN(C) 16 RVQ 2-12 50 1024 1.00-6.00
+SNAC[23] VQ-GAN(C) 24 RVQ 3 12+23+47 4096 0.98
+WavTokenizer[90] VQ-GAN(C) 24 VQ 1 40/75 4096 0.48/0.90
+BigCodec[91] VQ-GAN(C) 16 VQ 1 80 8192 1.04
+LFSC[281] VQ-GAN(C) 22.05 FSQ 8 21.5 8×7×6×6 1.89
+NDVQ[88] VQ-GAN(C) 24 RVQ max32 75 1024 max24.00
+VRVQ[24] VQ-GAN(C) 44.1 RVQ dynamic,max.8 86 1024 0.26+max6.89
+TS3-Codec[20] VQ-GAN(T) 16 VQ 1 40/50 65536/131072 0.64-0.85
+Stable-Codec[60] VQ-GAN(T) 16 FSQ 1/2 25 56/66 0.40/0.70
+FreeCodec[94] VQ-GAN(C+T) 16 VQ 1+1 50+7 256 0.45
+FocalCodec[282] VQ-GAN(T+C) 16 FSQ 1 12.5/25/50 213 0.16/0.33/0.65
+ALMTokenizer[283] VQ-GAN(T) 24 RVQ 3 12.5 2048 0.41
+TFC[172] VQ-GAN(C) 24 RVQ 8 dynamic,18.75-75 1024 1.50-6.00
+CodecSlime[173] VQ-GAN(C) 16 FSQ 1 dynamic,≈40 52×36 0.08+(≈0.60)
+Mixed-objectiveacoustictokens:semanticdistillation
+Siahkoohietal.[100] VQ-GAN(C) 16 RVQ 2+1/2+2/6 25+50 64 0.60/0.90/1.80
+SpeechTokenizer[13] VQ-GAN(C) 16 RVQ 8 50 1024 4.00
+SemantiCodec[18] Diffusion 16 VQ 2 12.5-50 8192+(4096-32768) 0.31-1.40
+LLM-Codec[25] VQ-GAN(C) 16 RVQ 3 8.33+16.67+33.33 3248+32000+32000 0.85
+X-Codec[26] VQ-GAN(C) 16 RVQ max8 50 1024 max4.00
+SoCodec[92] VQ-GAN(C) 16 GVQ 1/4/8 25/8.3/4.2 16384 0.35/0.47
+Mimi[14] VQ-GAN(C+T) 24 RVQ 8 12.5 2048 1.10
+X-Codec2.0[102] VQ-GAN(C+T) 16 FSQ 1 50 48 0.80
+BiCodec[93] VQ-GAN(C) 16 VQ 1 50 8192 0.65
+DualCodec[284] VQ-GAN(C) 24 RVQ 3/6 12.5/25 (1024/16384)+(1024/4096) 0.75-0.93
+XY-Tokenizer[104] VQ-GAN(T) 16 RVQ 8 12.5 1024 1.00
+TaDiCodec[279] Diffusion 24 FSQ 1 6.25 214 0.0875
+Mixed-objectiveacoustictokens:disentanglement
+SSVC[27] VQ-GAN(C) 24 RVQ 4 50 512 1.80
+PromptCodec[285] VQ-GAN(C) 24 GRVQ 1-4 75 1024 0.75-3.00
+FACodec[28] VQ-GAN(C) 16 RVQ 1+2+3 80 1024 4.80
+LSCodec[29] VQ-VAE(C+T)+GAN 24 VQ 1 25/50 1024/300 0.25/0.45
+SD-Codec[30] VQ-GAN(C) 16 RVQ 12 50 1024 6.00
+DeCodec[31] VQ-GAN(C) 16 RVQ 8+8 50 1024 8.00
+
+26
+TABLE III: A high-level summary of widely-used semantic speech tokens. Notations follow Table.II. Symbol ‘/’ denotes
+differentversions.“InnerQuantizer”referstowhetherthemodelhasaquantizer,orexternalquantization(e.g.clustering)must
+be performed. F denotes frame rate. In case there are inner quantizers, Q,V denote number of quantizers and vocabulary size
+for each quantizer, respectively. “NR.” means not reported.
+SemanticSpeechTokens Criterion/Objective TrainingData(h) F (Hz) InnerQuantizer
+Fromself-supervisedlearning(SSL)models
+vq-wav2vec[32] Contrastive 0.96k 100 GVQ,Q=2,V =320
+wav2vec2.0[33] Contrastive 60k 50 GVQ,Q=2,V =320
+XLSR-53[136] Contrastive 50k 50 GVQ,Q=2,V =320
+HuBERT[34] Predictive 60k 50 No
+WavLM[35] Predictive 94k 50 No
+BEST-RQ[134] Predictive 60k 25 No
+w2v-BERT[286] Predictive+Contrastive 60k 50 VQ,Q=1,V =1024
+w2v-BERT2.0[103] Predictive+Contrastive 4500k 50 GVQ,Q=2,V =320
+DinoSR[287] Predictive 0.96k 50 VQ,Q=8,V =256
+NEST-RQ[139] Predictive 300k 25 No
+LAST[138] Predictive NR. 50 VQ,Q=1,V =500
+Gatetal.[140] NoiseInvariance 0.10k 50 VQ,G=1,V =50-500
+ContentVec[36] SpeakerInvariance 0.96k 50 No
+SPIRAL[142] NoiseInvariance 60k 12.5Hz No
+CCC-wav2vec2.0[141] NoiseInvariance 0.36k 50 GVQ,G=2,V =320
+Spin[143] SpeakerInvariance 0.10k 50 VQ,Q=1,V =128-2048
+NAST[37] NoiseInvariance 0.96k 50 VQ,Q=1,V =50-200
+DC-Spin[144] SpeakerInvariance 0.96k 50 VQ,Q=2,V =(50-500)+4096
+Supervisedsemantictokens
+S3 Tokenizer[39] SupervisedASR 172k 25/50 VQ,Q=1,V =4096
+Zengetal.[148] SupervisedASR 90k 12.5 VQ,Q=1,Q=16384
+Duetal.(CosyVoice2)[150] SupervisedASR 200k 12.5 FSQ,Q=1,V =38
+Duetal.(CosyVoice3)[151] SupervisedMulti-Task 530k 25 FSQ,DetailsNR.
+2) TasksandDatasets: Weconsidertwoofthemostrepre- around 43M parameters.
+sentative speech semantic tasks: automatic speech recognition It is important to note that some speech tokens have a low
+(ASR) and intent classification (IC). In ASR, we use the framerate,suchas12.5HzforMimi[14].Asthecharacterrate
+characters as text units for simplicity, and the connectionist is about 14Hz, the original low frame rates make these tokens
+temporal classification (CTC) [289] criterion for training. We not suitable for character-based CTC ASR. Hence, when the
+useallthe960hoursinLibriSpeech[195]asthetrainingdata, tokenframerateislessthan50Hz,wealwaysrepeattheinput
+dev-clean split as the validation set, and test-clean as the test tokens to at least 50Hz for ASR task. For the IC task, no
+set. IC is the process of understanding the underlying goal or repeating is performed.
+purposeofauser’sspokenutterance.WeuseSLURP[194]for 4) Training and Decoding: For the ASR task, we use
+the IC task, which includes 18 classification categories, such AdamW [290] optimizer with initial learning rate 10−4 and
+aseventname,date,etc.Weusethetrain-realsplitfortraining weight decay 5×10−4. For the IC task, we use Adam [291]
+and the official dev and test sets, which contains about 40, 7 optimizerwithinitiallearningrate2×10−4.Forbothtasks,the
+and 10 hours of speech data, respectively. learning rate is reduced to 80% of its original value whenever
+All the original waveforms are in 16kHz. If a speech tok- the improvement in validation loss after an epoch is less
+enizerrequiresinputatadifferentsamplingrate,weresample than 0.25% relative to the previous epoch. For each token,
+the waveform before feeding them accordingly. training is conducted for 20 epochs on a single GPU, and
+the checkpoint with the lowest validation loss is selected for
+3) Model: FollowingDASB,weuseLSTM-basednetworks
+testing.
+for both tasks. For each token, the input layer consists of Q
+In ASR task, we use beam search decoding with beam
+embedding lookup tables of shape V × 1024, where Q is
+size100.Otherhyperparametersallremainconsistentwiththe
+the number of codebooks and V is the vocabulary size of
+DASBofficialconfiguration.Forsometokens,trainingsuffers
+each codebook. For each frame, the Q embeddings are fed
+fromcollapse,leadingtorepetitiveandmeaninglesscharacters
+into an multi-layer perceptron (MLP) with a hidden layer of
+in decoding. This is usually observed when the token has a
+1024dimensions,toproducesoftmaxprobabilitiesthatweight-
+large vocabulary size (like 2 groups of 15625 FSQ indices
+sum the Q embeddings. Then, an bidirectional LSTM with 2
+for StableCodec [60], and 2 groups of 32000 VQ indices for
+layersand1024hiddenneuronstakestheembeddingsequence
+LLM-Codec[25]).FollowingDASB,wedenotethesecasesas
+as input, and produces 2048-dimensional outputs. For the
+“not converged” (NC), since the metrics are not meaningful
+ASR task, another linear layer is applied to produce emission
+there.
+probabilities on the 31 text units (26 English characters and
+special tokens). For the IC task, mean pooling over the
+sequenceaxisisappliedbeforealinearprojectiontothelogits
+on18outputclasses.Besidestheinputembeddinglayerwhich
+isdependentonthespecifictokenconfiguration,themodelhas
