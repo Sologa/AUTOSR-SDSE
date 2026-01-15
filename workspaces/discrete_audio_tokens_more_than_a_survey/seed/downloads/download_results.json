@@ -21,17 +21,17 @@
   "raw_query": null,
   "max_results": 25,
   "download_top_k": 5,
-  "downloaded_at": "2026-01-13T14:58:11.681623+00:00",
+  "downloaded_at": "2026-01-14T23:21:12.543412+00:00",
   "downloads": {
     "arxiv": [],
     "semantic_scholar": [],
     "dblp": []
   },
   "rewrite_attempts": 10,
-  "rewrite_query": "discrete audio tokens",
+  "rewrite_query": "discrete audio tokenization",
   "rewrite_queries": [
-    "discrete audio tokens",
     "discrete audio tokenization",
-    "discrete acoustic tokens"
+    "discrete audio token sequences",
+    "discrete audio token representations"
   ]
 }
