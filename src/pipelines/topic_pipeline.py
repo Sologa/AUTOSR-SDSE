@@ -1418,27 +1418,85 @@ def _parse_decision_payload(content: str) -> Dict[str, object]:
     return {"decision": decision, "reason": reason, "confidence": confidence}
 
 
-def _parse_seed_rewrite_phrase(content: str, *, max_phrases: int = 3) -> List[str]:
-    """Validate and normalize seed rewrite output into up to N phrases."""
+def _parse_seed_rewrite_candidates(
+    content: str,
+    *,
+    max_candidates: int = 12,
+    max_phrases_per_candidate: int = 3,
+) -> List[List[str]]:
+    """Validate and normalize seed rewrite output into multiple candidate groups."""
     raw = (content or "").splitlines()
     lines = [line.strip() for line in raw if line.strip()]
     if not lines:
         raise ValueError("Seed rewrite output must contain at least one non-empty line")
-    if len(lines) > max_phrases:
-        raise ValueError("Seed rewrite output must contain no more than three lines")
-    phrases: List[str] = []
-    seen: set[str] = set()
+    if len(lines) > max_candidates:
+        raise ValueError("Seed rewrite output must contain no more than the max candidate count")
+
+    candidates: List[List[str]] = []
+    seen_candidates: set[str] = set()
     for line in lines:
-        phrase = line.strip().lower()
-        if not phrase:
+        parts = [part.strip().lower() for part in line.split("|")]
+        parts = [part for part in parts if part]
+        if not parts:
             continue
-        if phrase in seen:
+        if len(parts) > max_phrases_per_candidate:
+            raise ValueError("Seed rewrite candidate must contain no more than three phrases")
+        deduped: List[str] = []
+        seen_parts: set[str] = set()
+        for part in parts:
+            if part in seen_parts:
+                continue
+            seen_parts.add(part)
+            deduped.append(part)
+        if not deduped:
             continue
-        seen.add(phrase)
-        phrases.append(phrase)
-    if not phrases:
-        raise ValueError("Seed rewrite output must contain at least one non-empty line")
-    return phrases
+        canonical = " | ".join(deduped)
+        if canonical in seen_candidates:
+            continue
+        seen_candidates.add(canonical)
+        candidates.append(deduped)
+    if not candidates:
+        raise ValueError("Seed rewrite output must contain at least one candidate")
+    return candidates
+
+
+def _format_seed_rewrite_history(
+    history: Sequence[Dict[str, object]],
+    *,
+    max_entries: int = 8,
+) -> str:
+    """Format rewrite history into a prompt-ready summary."""
+    if not history:
+        return "not available"
+    lines: List[str] = []
+    for entry in history[-max_entries:]:
+        phrases = entry.get("phrases") or []
+        if isinstance(phrases, list):
+            phrase_text = ", ".join(str(item) for item in phrases if item)
+        else:
+            phrase_text = str(phrases)
+        lines.append(
+            " - attempt {attempt} ({label}): phrases={phrases}; records_total={records_total}; "
+            "records_after_title_filter={records_after_title_filter}; records_after_filter={records_after_filter}; "
+            "downloads={downloads}".format(
+                attempt=entry.get("attempt"),
+                label=entry.get("label", "n/a"),
+                phrases=phrase_text or "n/a",
+                records_total=entry.get("records_total", 0),
+                records_after_title_filter=entry.get("records_after_title_filter", 0),
+                records_after_filter=entry.get("records_after_filter", 0),
+                downloads=entry.get("downloads", 0),
+            )
+        )
+    return "\n".join(lines)
+
+
+def _score_seed_rewrite_candidate(selection_report: Dict[str, object]) -> Tuple[int, int, int]:
+    """Score a candidate rewrite based on metadata-only selection stats."""
+    records_after_filter = int(selection_report.get("records_after_filter") or 0)
+    records_after_title_filter = int(selection_report.get("records_after_title_filter") or 0)
+    records_total = int(selection_report.get("records_total") or 0)
+    return (records_after_filter, records_after_title_filter, records_total)
 
 
 def _build_seed_rewrite_prompt(
@@ -1447,6 +1505,7 @@ def _build_seed_rewrite_prompt(
     cutoff_reason: str,
     cutoff_candidate_title: str,
     original_seed_query: str,
+    history: str,
     template_path: Optional[Path] = None,
 ) -> str:
     """Render the seed rewrite prompt template with runtime values."""
@@ -1457,6 +1516,7 @@ def _build_seed_rewrite_prompt(
         "<<cutoff_reason>>": cutoff_reason.strip() if cutoff_reason else "not available",
         "<<cutoff_candidate_title>>": cutoff_candidate_title.strip() if cutoff_candidate_title else "not available",
         "<<original_seed_query>>": original_seed_query.strip() if original_seed_query else "not available",
+        "<<history>>": history.strip() if history else "not available",
     }
     text = template
     for marker, value in replacements.items():
@@ -1466,7 +1526,7 @@ def _build_seed_rewrite_prompt(
 
 @dataclass
 class SeedQueryRewriteAgent:
-    """Generate a single-phrase rewrite for seed queries."""
+    """Generate multi-candidate rewrites for seed queries."""
 
     provider: str = "openai"
     model: str = "gpt-5.2"
@@ -1475,22 +1535,25 @@ class SeedQueryRewriteAgent:
     reasoning_effort: Optional[str] = "low"
     template_path: Optional[Path] = None
 
-    def rewrite_query(
+    def rewrite_candidates(
         self,
         *,
         topic: str,
         cutoff_reason: str,
         cutoff_candidate_title: str,
         original_seed_query: str,
+        history: str,
         attempt: int,
-    ) -> Tuple[List[str], str]:
-        """Call the LLM to rewrite a seed query into up to three phrases."""
+        max_candidates: int = 12,
+    ) -> Tuple[List[List[str]], str]:
+        """Call the LLM to rewrite a seed query into multiple candidates."""
         load_env_file()
         prompt = _build_seed_rewrite_prompt(
             topic=topic,
             cutoff_reason=cutoff_reason,
             cutoff_candidate_title=cutoff_candidate_title,
             original_seed_query=original_seed_query,
+            history=history,
             template_path=self.template_path,
         )
         svc = LLMService()
@@ -1510,8 +1573,8 @@ class SeedQueryRewriteAgent:
         )
         if not isinstance(result, LLMResult):
             raise ProviderCallError("Provider did not return an LLMResult")
-        phrases = _parse_seed_rewrite_phrase(result.content)
-        return phrases, result.content
+        candidates = _parse_seed_rewrite_candidates(result.content, max_candidates=max_candidates)
+        return candidates, result.content
 
 
 def _build_filter_seed_prompt(
@@ -1811,6 +1874,8 @@ def seed_surveys_from_arxiv(
             query_mode: str,
             raw_query: Optional[str],
             reuse_cache: bool,
+            write_artifacts: bool = True,
+            download_pdfs: bool = True,
         ) -> Tuple[Dict[str, object], Dict[str, object], str]:
             search_query = None
             effective_query_mode = query_mode
@@ -1848,7 +1913,8 @@ def seed_surveys_from_arxiv(
                     query=search_query or "",
                     max_results=max_results,
                 )
-                _write_json(records_path, records)
+                if write_artifacts:
+                    _write_json(records_path, records)
 
             selected, selection_report = _select_seed_arxiv_records(
                 records,
@@ -1863,8 +1929,16 @@ def seed_surveys_from_arxiv(
             selection_report["scope"] = scope
             selection_report["boolean_operator"] = boolean_operator
             selection_report["raw_query"] = raw_query
-            _write_json(queries_dir / "seed_selection.json", selection_report)
-            downloads = download_records_to_pdfs({"arxiv": selected}, workspace.seed_downloads_dir, session=session)
+            if write_artifacts:
+                _write_json(queries_dir / "seed_selection.json", selection_report)
+            if download_pdfs:
+                downloads = download_records_to_pdfs(
+                    {"arxiv": selected},
+                    workspace.seed_downloads_dir,
+                    session=session,
+                )
+            else:
+                downloads = {"arxiv": []}
 
             download_manifest: Dict[str, object] = {
                 "topic": workspace.topic,
@@ -1891,8 +1965,29 @@ def seed_surveys_from_arxiv(
                     for source, results in downloads.items()
                 },
             }
-            _write_json(workspace.seed_downloads_dir / "download_results.json", download_manifest)
+            if write_artifacts:
+                _write_json(workspace.seed_downloads_dir / "download_results.json", download_manifest)
             return selection_report, download_manifest, search_query or ""
+
+        def _build_rewrite_history_entry(
+            *,
+            attempt: int,
+            label: str,
+            phrases: Sequence[str],
+            search_query: str,
+            selection_report: Dict[str, object],
+            downloads_count: int,
+        ) -> Dict[str, object]:
+            return {
+                "attempt": attempt,
+                "label": label,
+                "phrases": list(phrases),
+                "search_query": search_query,
+                "records_total": int(selection_report.get("records_total") or 0),
+                "records_after_title_filter": int(selection_report.get("records_after_title_filter") or 0),
+                "records_after_filter": int(selection_report.get("records_after_filter") or 0),
+                "downloads": downloads_count,
+            }
 
         selection_report, download_manifest, search_query = _run_seed_attempt(
             attempt_anchors=anchors,
@@ -1907,6 +2002,16 @@ def seed_surveys_from_arxiv(
         original_selection_report = json.loads(json.dumps(selection_report))
         original_download_manifest = json.loads(json.dumps(download_manifest))
         original_pdfs = _collect_downloaded_pdfs(download_manifest)
+        rewrite_history: List[Dict[str, object]] = [
+            _build_rewrite_history_entry(
+                attempt=0,
+                label="initial",
+                phrases=anchors,
+                search_query=search_query,
+                selection_report=selection_report,
+                downloads_count=len(original_pdfs),
+            )
+        ]
 
         trigger_rewrite, trigger_reason = _should_trigger_seed_rewrite(selection_report, download_manifest)
         rewrite_payload: Optional[Dict[str, object]] = None
@@ -1931,27 +2036,30 @@ def seed_surveys_from_arxiv(
             rewrite_attempts: List[Dict[str, object]] = []
 
             for attempt in range(1, seed_rewrite_max_attempts + 1):
+                history_summary = _format_seed_rewrite_history(rewrite_history)
                 attempt_record: Dict[str, object] = {
                     "attempt": attempt,
                     "model": agent.model,
                     "provider": agent.provider,
                     "raw_output": None,
-                    "parsed_phrases": None,
-                    "parsed_phrase": None,
+                    "parsed_candidates": None,
+                    "candidate_stats": None,
+                    "selected_candidate": None,
+                    "selected_score": None,
                     "status": None,
                     "error": None,
                 }
                 try:
-                    phrases, raw_output = agent.rewrite_query(
+                    candidates, raw_output = agent.rewrite_candidates(
                         topic=workspace.topic,
                         cutoff_reason=str(selection_report.get("cutoff_reason") or ""),
                         cutoff_candidate_title=cutoff_candidate_title,
                         original_seed_query=search_query or "",
+                        history=history_summary,
                         attempt=attempt,
                     )
                     attempt_record["raw_output"] = raw_output
-                    attempt_record["parsed_phrases"] = phrases
-                    attempt_record["parsed_phrase"] = phrases[0] if phrases else None
+                    attempt_record["parsed_candidates"] = candidates
                     attempt_record["status"] = "ok"
                 except Exception as exc:  # noqa: BLE001
                     attempt_record["status"] = "error"
@@ -1960,18 +2068,85 @@ def seed_surveys_from_arxiv(
                     continue
 
                 rewrite_attempts.append(attempt_record)
-                selected_queries = phrases
 
                 if seed_rewrite_preview:
+                    if candidates:
+                        selected_queries = list(candidates[0])
+                        attempt_record["selected_candidate"] = selected_queries
+                        attempt_record["status"] = "preview"
                     break
 
-                attempt_selection, attempt_manifest, _ = _run_seed_attempt(
-                    attempt_anchors=phrases,
+                history_keys = {
+                    " | ".join(entry.get("phrases", []))
+                    for entry in rewrite_history
+                    if isinstance(entry.get("phrases"), list)
+                }
+                filtered_candidates = [
+                    candidate
+                    for candidate in candidates
+                    if " | ".join(candidate) not in history_keys
+                ]
+                if not filtered_candidates:
+                    filtered_candidates = candidates
+
+                candidate_stats: List[Dict[str, object]] = []
+                best_candidate: Optional[List[str]] = None
+                best_score: Optional[Tuple[int, int, int]] = None
+                for candidate in filtered_candidates:
+                    attempt_selection, attempt_manifest, candidate_query = _run_seed_attempt(
+                        attempt_anchors=candidate,
+                        query_mode="phrase",
+                        raw_query=None,
+                        reuse_cache=False,
+                        write_artifacts=False,
+                        download_pdfs=False,
+                    )
+                    score = _score_seed_rewrite_candidate(attempt_selection)
+                    candidate_stats.append(
+                        {
+                            "phrases": list(candidate),
+                            "search_query": candidate_query,
+                            "records_total": int(attempt_selection.get("records_total") or 0),
+                            "records_after_title_filter": int(
+                                attempt_selection.get("records_after_title_filter") or 0
+                            ),
+                            "records_after_filter": int(attempt_selection.get("records_after_filter") or 0),
+                            "score": list(score),
+                        }
+                    )
+                    if best_score is None or score > best_score:
+                        best_score = score
+                        best_candidate = candidate
+
+                attempt_record["candidate_stats"] = candidate_stats
+                attempt_record["selected_candidate"] = best_candidate
+                attempt_record["selected_score"] = list(best_score) if best_score else None
+
+                if not best_candidate:
+                    attempt_record["status"] = "no_candidate"
+                    continue
+
+                selected_queries = list(best_candidate)
+
+                attempt_selection, attempt_manifest, attempt_query = _run_seed_attempt(
+                    attempt_anchors=best_candidate,
                     query_mode="phrase",
                     raw_query=None,
                     reuse_cache=False,
+                    write_artifacts=True,
+                    download_pdfs=True,
                 )
                 attempt_pdfs = _collect_downloaded_pdfs(attempt_manifest)
+                rewrite_history.append(
+                    _build_rewrite_history_entry(
+                        attempt=attempt,
+                        label="rewrite",
+                        phrases=best_candidate,
+                        search_query=attempt_query,
+                        selection_report=attempt_selection,
+                        downloads_count=len(attempt_pdfs),
+                    )
+                )
                 if attempt_pdfs:
                     final_selection_report = attempt_selection
                     final_download_manifest = attempt_manifest
@@ -1983,6 +2158,7 @@ def seed_surveys_from_arxiv(
                 "trigger_reason": trigger_reason,
                 "attempts": rewrite_attempts,
                 "selected_queries": selected_queries,
+                "history": rewrite_history,
                 "original_seed_query": search_query or "",
                 "cutoff_reason": str(selection_report.get("cutoff_reason") or ""),
                 "cutoff_candidate_title": cutoff_candidate_title,

@@ -1,10 +1,9 @@
 {
   "topic": "Discrete Audio Tokens: More Than a Survey!",
   "anchors": [
-    "Discrete Audio Tokens: More Than a Survey!",
-    "discrete audio tokens: more than a survey",
-    "Discrete Audio Tokens",
-    "discrete audio tokens: more than a surveys"
+    "discrete speech tokens",
+    "speech discrete token units",
+    "discrete token speech representation"
   ],
   "survey_terms": [
     "survey",
@@ -17,21 +16,64 @@
     "tutorial"
   ],
   "anchor_mode": "phrase",
-  "search_query": "(all:\"Discrete Audio Tokens: More Than a Survey!\" OR all:\"discrete audio tokens: more than a survey\" OR all:\"Discrete Audio Tokens\" OR all:\"discrete audio tokens: more than a surveys\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "search_query": "(all:\"discrete speech tokens\" OR all:\"speech discrete token units\" OR all:\"discrete token speech representation\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
   "raw_query": null,
   "max_results": 25,
   "download_top_k": 5,
-  "downloaded_at": "2026-01-14T23:21:12.543412+00:00",
+  "downloaded_at": "2026-01-15T17:54:50.592240+00:00",
   "downloads": {
-    "arxiv": [],
+    "arxiv": [
+      {
+        "source": "arxiv",
+        "identifier": "2502.06490",
+        "metadata": {
+          "arxiv_id": "2502.06490",
+          "title": "Recent Advances in Discrete Speech Tokens: A Review",
+          "summary": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+          "authors": [
+            "Yiwei Guo",
+            "Zhihan Li",
+            "Hankun Wang",
+            "Bohan Li",
+            "Chongtian Shao",
+            "Hanglei Zhang",
+            "Chenpeng Du",
+            "Xie Chen",
+            "Shujie Liu",
+            "Kai Yu"
+          ],
+          "published": "2025-02-10T14:08:25Z",
+          "updated": "2025-12-12T05:18:11Z",
+          "categories": [
+            "eess.AS",
+            "cs.AI",
+            "cs.MM",
+            "cs.SD",
+            "eess.SP"
+          ],
+          "pdf_url": "https://arxiv.org/pdf/2502.06490v4",
+          "landing_url": "https://arxiv.org/abs/2502.06490v4",
+          "doi": "https://doi.org/10.48550/arXiv.2502.06490"
+        },
+        "pdf_path": "workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf",
+        "bibtex_path": null,
+        "issues": [
+          {
+            "asset": "bibtex",
+            "reason": "missing",
+            "url": "https://arxiv.org/bibtex/2502.06490"
+          }
+        ]
+      }
+    ],
     "semantic_scholar": [],
     "dblp": []
   },
-  "rewrite_attempts": 10,
-  "rewrite_query": "discrete audio tokenization",
+  "rewrite_attempts": 1,
+  "rewrite_query": "discrete speech tokens",
   "rewrite_queries": [
-    "discrete audio tokenization",
-    "discrete audio token sequences",
-    "discrete audio token representations"
+    "discrete speech tokens",
+    "speech discrete token units",
+    "discrete token speech representation"
   ]
 }
