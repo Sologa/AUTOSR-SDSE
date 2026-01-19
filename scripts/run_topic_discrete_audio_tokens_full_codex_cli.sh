@@ -5,21 +5,38 @@ source sdse-uv/.venv/bin/activate || source sdse-uv/bin/activate
 
 
 TOPIC='Discrete Audio Tokens: More Than a Survey!'
+SEED_ANCHOR_MODE="${SEED_ANCHOR_MODE:-core_token_or}"
 
 # Repo-local Codex config (recommended)
-export CODEX_HOME="${CODEX_HOME:-$PWD/.codex}"
+CODEX_HOME="${CODEX_HOME:-$PWD/.codex}"
+export CODEX_DISABLE_PROJECT_DOC=1
+CODEX_EXEC_WORKDIR="${CODEX_EXEC_WORKDIR:-/tmp/codex_exec_clean_outside}"
+export CODEX_EXEC_WORKDIR
+echo $CODEX_HOME
 
 # Optional explicit CLI path
 # export CODEX_BIN=/opt/homebrew/bin/codex
 
 python scripts/topic_pipeline.py seed --topic "$TOPIC" \
+  --anchor-mode "$SEED_ANCHOR_MODE" \
   --seed-rewrite \
-  --seed-rewrite-max-attempts 10 \
-  --seed-rewrite-model gpt-5.2 \
+  --seed-rewrite-max-attempts 1 \
+  --seed-rewrite-provider codex-cli \
+  --seed-rewrite-model gpt-5.2-codex \
   --seed-rewrite-reasoning-effort xhigh \
+  --seed-rewrite-codex-home "$CODEX_HOME" \
+  --seed-rewrite-codex-extra-arg=--cd \
+  --seed-rewrite-codex-extra-arg="$CODEX_EXEC_WORKDIR" \
+  --seed-rewrite-codex-extra-arg=--skip-git-repo-check \
   --no-cache
 
-# python scripts/topic_pipeline.py filter-seed --topic "$TOPIC"
+python scripts/topic_pipeline.py filter-seed --topic "$TOPIC" \
+  --provider codex-cli \
+  --model gpt-5.2-codex \
+  --codex-home "$CODEX_HOME" \
+  --codex-extra-arg=--cd \
+  --codex-extra-arg="$CODEX_EXEC_WORKDIR" \
+  --codex-extra-arg=--skip-git-repo-check
 
 # python scripts/topic_pipeline.py keywords \
 #   --topic "$TOPIC" \
@@ -33,13 +50,16 @@ python scripts/topic_pipeline.py seed --topic "$TOPIC" \
 
 # python scripts/topic_pipeline.py criteria \
 #   --topic "$TOPIC" \
-#   --mode pdf+web \
+#   --mode web \
+#   --provider codex-cli \
 #   --search-model gpt-5.2 \
 #   --formatter-model gpt-5.2 \
 #   --pdf-model gpt-5.2 \
 #   --search-reasoning-effort medium \
 #   --formatter-reasoning-effort medium \
 #   --pdf-reasoning-effort medium \
+#   --codex-home "$CODEX_HOME" \
+#   --codex-allow-web-search \
 #   --force
 
 # python scripts/topic_pipeline.py review \

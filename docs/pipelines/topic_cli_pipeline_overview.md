@@ -30,12 +30,12 @@
 
 ### A. Seed Surveys
 - **輸入**：topic（可被視為研究領域或論文標題）
-- **輸出**：seed PDFs（綜述/回顧/overview 類型）
-- **分歧**：可用既定查詢或自訂查詢；若找不到符合條件的 seed，後續無法進入 keyword 抽取。
+- **輸出**：seed metadata（綜述/回顧/overview 類型候選）
+- **分歧**：可用既定查詢或自訂查詢；若找不到符合條件的 seed，後續無法進入 keyword 抽取。若不跑 filter-seed 但仍需 PDFs，需在 seed 階段明確下載。
 
 ### A.5 Filter-Seed（可選）
-- **輸入**：seed PDFs 的 title + abstract
-- **輸出**：只保留「明確為 survey/review/overview 且主題高度相關」的 PDFs
+- **輸入**：seed metadata 的 title + abstract
+- **輸出**：只保留「明確為 survey/review/overview 且主題高度相關」的 PDFs（於此階段下載）
 - **分歧**：未啟用時直接跳過；啟用後會以 LLM 進行 yes/no 篩選。
 
 ### B. Keywords

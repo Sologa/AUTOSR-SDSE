@@ -1,11 +1,11 @@
 # Seed Query 改寫機制（實作版）
 
 ## 目的
-在 **同名 cutoff 必開** 的前提下，當 seed 查詢結果因為過度精準或 cutoff 而「完全沒有可用 PDF」時，啟動 seed query 改寫機制並重試，避免 pipeline 在 keywords 前中止。
+在 **同名 cutoff 必開** 的前提下，當 seed 查詢結果因為過度精準或 cutoff 而「完全沒有可用候選」時，啟動 seed query 改寫機制並重試，避免 pipeline 在 keywords 前中止。若啟用 PDF 下載，仍可能因下載為空而觸發。
 
 ## 觸發條件（任一成立即觸發）
 - `seed_selection.json.records_after_filter == 0`
-- `download_results.json` 中無任何 `pdf_path`
+- 若啟用下載：`download_results.json` 中無任何 `pdf_path`
 - `seed_selection.json.cutoff_reason == "cutoff_removed_all_candidates"`
 
 > 同名 cutoff 規則強制啟用，`--no-cutoff-by-similar-title` 會被忽略。
@@ -36,8 +36,11 @@
 ## 介面 / 參數
 - `--seed-rewrite`：啟用改寫（預設關閉）
 - `--seed-rewrite-max-attempts N`：最大嘗試次數（預設 2）
+- `--seed-rewrite-provider`：`openai` 或 `codex-cli`（預設 `openai`）
 - `--seed-rewrite-model`：改寫 LLM 模型（預設 `gpt-5.2`）
 - `--seed-rewrite-reasoning-effort`：改寫 LLM 的 reasoning effort（預設 `low`）
+- `--seed-rewrite-codex-home`：指定 `CODEX_HOME`（建議 repo-local `.codex`）
+- `--seed-rewrite-codex-extra-arg`：附加到 `codex exec` 的旗標（可重複）
 - `--seed-rewrite-preview`：只產生改寫結果、不重跑 seed
 
 ## 輸出
@@ -57,7 +60,7 @@
 
 ## 行為重點
 - 只要觸發條件成立且 `--seed-rewrite` 開啟，就會進入改寫流程。
-- 若改寫後仍無 PDF，會 **明確報錯並停止**（不隱性吞錯）。
+- 若啟用下載且改寫後仍無 PDF，會 **明確報錯並停止**（不隱性吞錯）。
 - `--seed-rewrite-preview` 只輸出改寫結果，不重跑 seed；其餘 seed 輸出維持原狀。
 
 ## 已知限制

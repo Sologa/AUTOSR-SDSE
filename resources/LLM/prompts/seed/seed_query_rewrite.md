@@ -9,6 +9,10 @@ goals
 - keep each phrase specific enough to avoid drifting into overly broad, generic umbrella terms.
 - avoid repeating phrases already present in the history.
 
+note
+- if available, use the scientific-brainstorming skill internally for ideation.
+- do not output questions or explanations; the final output must still follow the strict format.
+
 how to rewrite
 1) extract anchors
 - identify the smallest set of distinctive technical terms from the topic that uniquely identify the concept.

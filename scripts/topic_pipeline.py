@@ -76,24 +76,32 @@ def build_parser() -> argparse.ArgumentParser:
     def add_subparser(name: str, **kwargs: object) -> argparse.ArgumentParser:
         return subparsers.add_parser(name, parents=[common], **kwargs)
 
-    seed = add_subparser("seed", help="搜尋並下載 seed surveys (arXiv)")
+    seed = add_subparser("seed", help="搜尋 seed surveys metadata (arXiv)")
     seed.add_argument("--max-results", type=_positive_int, default=25)
     seed.add_argument("--download-top-k", type=int, default=5)
+    seed.add_argument(
+        "--download-pdfs",
+        action="store_true",
+        help="在 seed 階段下載 PDFs（未使用 filter-seed 時才需要）",
+    )
     seed.add_argument("--scope", default="all", choices=["all", "ti", "abs"])
     seed.add_argument("--boolean-operator", default="AND", choices=["AND", "OR"])
+    seed.add_argument(
+        "--anchor-operator",
+        default="OR",
+        choices=["AND", "OR"],
+        help="anchor terms 彼此的布林運算子（預設 OR；僅影響 anchors 組合）",
+    )
     seed.add_argument("--no-cache", action="store_true", help="忽略已存在的 seed query cache")
-    seed.add_argument("--anchor", action="append", default=None, help="額外 anchor term（可重複）")
-    seed.add_argument("--survey-term", action="append", default=None, help="自訂 survey modifier（可重複）")
     seed.add_argument(
         "--anchor-mode",
         default="phrase",
-        choices=["phrase", "token_and"],
-        help="anchor 組合方式：phrase=完整片語；token_and=同一 anchor 內 token 以 AND 結合",
-    )
-    seed.add_argument(
-        "--arxiv-raw-query",
-        default=None,
-        help="直接指定 arXiv search_query（會忽略 anchors/survey_terms/scope/boolean_operator）",
+        choices=["phrase", "token_and", "token_or", "core_phrase", "core_token_or"],
+        help=(
+            "anchor 組合方式：phrase=完整片語；token_and=同一 anchor 內 token 以 AND 結合；"
+            "token_or=同一 anchor 內 token 以 OR 結合；"
+            "core_phrase/core_token_or=僅使用主題核心片語"
+        ),
     )
     seed.add_argument(
         "--cutoff-by-similar-title",
@@ -107,10 +115,28 @@ def build_parser() -> argparse.ArgumentParser:
         default=0.8,
         help="判定「標題高度相似」的相似度門檻（0~1）",
     )
-    seed.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
+    seed.add_argument(
+        "--seed-rewrite",
+        action="store_true",
+        help="seed 無有效候選或 cutoff 全移除時改寫 query 後重試",
+    )
     seed.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
+    seed.add_argument("--seed-rewrite-provider", default="openai", choices=["openai", "codex-cli"])
     seed.add_argument("--seed-rewrite-model", default="gpt-5.2")
     seed.add_argument("--seed-rewrite-reasoning-effort", default="low")
+    seed.add_argument("--seed-rewrite-codex-bin", default=None, help="Codex CLI 執行檔路徑")
+    seed.add_argument("--seed-rewrite-codex-home", type=Path, default=None, help="CODEX_HOME（repo-local .codex 建議）")
+    seed.add_argument(
+        "--seed-rewrite-codex-extra-arg",
+        action="append",
+        default=None,
+        help="附加在 `codex exec` 之前的旗標（可重複）。",
+    )
+    seed.add_argument(
+        "--seed-rewrite-codex-allow-web-search",
+        action="store_true",
+        help="允許 Codex web search（預設關閉）",
+    )
     seed.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
 
     keywords = add_subparser("keywords", help="從 seed PDFs 抽取 anchor/search terms")
@@ -173,6 +199,7 @@ def build_parser() -> argparse.ArgumentParser:
     criteria = add_subparser("criteria", help="（選用）產生 structured criteria JSON")
     criteria.add_argument("--recency-hint", default="過去3年")
     criteria.add_argument("--mode", default="web", choices=["web", "pdf+web"])
+    criteria.add_argument("--provider", default="openai", choices=["openai", "codex-cli"])
     criteria.add_argument("--pdf-dir", type=Path, default=None)
     criteria.add_argument("--max-pdfs", type=_positive_int, default=5)
     criteria.add_argument("--search-model", default="gpt-5.2-chat-latest")
@@ -181,6 +208,19 @@ def build_parser() -> argparse.ArgumentParser:
     criteria.add_argument("--search-reasoning-effort", default=None)
     criteria.add_argument("--formatter-reasoning-effort", default=None)
     criteria.add_argument("--pdf-reasoning-effort", default=None)
+    criteria.add_argument("--codex-bin", default=None, help="Codex CLI 執行檔路徑")
+    criteria.add_argument("--codex-home", type=Path, default=None, help="CODEX_HOME（repo-local .codex 建議）")
+    criteria.add_argument(
+        "--codex-extra-arg",
+        action="append",
+        default=None,
+        help="附加在 `codex exec` 之前的旗標（可重複）。",
+    )
+    criteria.add_argument(
+        "--codex-allow-web-search",
+        action="store_true",
+        help="允許 Codex web search（預設關閉）",
+    )
     criteria.add_argument("--force", action="store_true")
 
     review = add_subparser("review", help="（選用）跑 Title/Abstract 初篩")
@@ -261,8 +301,12 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--seed-download-top-k", type=int, default=5)
     run.add_argument("--seed-scope", default="all", choices=["all", "ti", "abs"])
     run.add_argument("--seed-boolean-operator", default="AND", choices=["AND", "OR"])
-    run.add_argument("--seed-anchor-mode", default="phrase", choices=["phrase", "token_and"])
-    run.add_argument("--seed-arxiv-raw-query", default=None)
+    run.add_argument("--seed-anchor-operator", default="OR", choices=["AND", "OR"])
+    run.add_argument(
+        "--seed-anchor-mode",
+        default="phrase",
+        choices=["phrase", "token_and", "token_or", "core_phrase", "core_token_or"],
+    )
     run.add_argument(
         "--seed-cutoff-by-similar-title",
         action=argparse.BooleanOptionalAction,
@@ -277,8 +321,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     run.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
     run.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
+    run.add_argument("--seed-rewrite-provider", default="openai", choices=["openai", "codex-cli"])
     run.add_argument("--seed-rewrite-model", default="gpt-5.2")
     run.add_argument("--seed-rewrite-reasoning-effort", default="low")
+    run.add_argument("--seed-rewrite-codex-bin", default=None)
+    run.add_argument("--seed-rewrite-codex-home", type=Path, default=None)
+    run.add_argument("--seed-rewrite-codex-extra-arg", action="append", default=None)
+    run.add_argument("--seed-rewrite-codex-allow-web-search", action="store_true")
     run.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
 
     run.add_argument("--max-pdfs", type=_positive_int, default=3)
@@ -293,6 +342,11 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--no-require-accessible-pdf", action="store_true")
 
     run.add_argument("--recency-hint", default="過去3年")
+    run.add_argument("--criteria-provider", default="openai", choices=["openai", "codex-cli"])
+    run.add_argument("--criteria-codex-bin", default=None)
+    run.add_argument("--criteria-codex-home", type=Path, default=None)
+    run.add_argument("--criteria-codex-extra-arg", action="append", default=None)
+    run.add_argument("--criteria-codex-allow-web-search", action="store_true")
     run.add_argument("--force", action="store_true", help="覆寫主要輸出（keywords/arxiv/criteria）")
 
     filter_seed = add_subparser("filter-seed", help="（可選）LLM 審核 seed papers（title+abstract yes/no）")
@@ -302,6 +356,19 @@ def build_parser() -> argparse.ArgumentParser:
     filter_seed.add_argument("--max-output-tokens", type=_positive_int, default=400)
     filter_seed.add_argument("--reasoning-effort", default="low")
     filter_seed.add_argument("--include-keyword", action="append", default=None)
+    filter_seed.add_argument("--codex-bin", default=None, help="Codex CLI 執行檔路徑")
+    filter_seed.add_argument("--codex-home", type=Path, default=None, help="CODEX_HOME（repo-local .codex 建議）")
+    filter_seed.add_argument(
+        "--codex-extra-arg",
+        action="append",
+        default=None,
+        help="附加在 `codex exec` 之前的旗標（可重複）。",
+    )
+    filter_seed.add_argument(
+        "--codex-allow-web-search",
+        action="store_true",
+        help="允許 Codex web search（預設關閉）",
+    )
     filter_seed.add_argument("--force", action="store_true", help="覆寫 LLM 篩選輸出")
 
     return parser
@@ -320,21 +387,25 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.command == "seed":
         result = seed_surveys_from_arxiv(
             ws,
-            anchor_terms=args.anchor,
-            survey_terms=args.survey_term,
             max_results=args.max_results,
             download_top_k=args.download_top_k,
             scope=args.scope,
             boolean_operator=args.boolean_operator,
+            anchor_operator=args.anchor_operator,
+            download_pdfs=args.download_pdfs,
             reuse_cached_queries=not args.no_cache,
             cutoff_by_similar_title=True,
             similarity_threshold=args.similarity_threshold,
             anchor_mode=args.anchor_mode,
-            arxiv_raw_query=args.arxiv_raw_query,
             seed_rewrite=args.seed_rewrite,
             seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
+            seed_rewrite_provider=args.seed_rewrite_provider,
             seed_rewrite_model=args.seed_rewrite_model,
             seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
+            seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
+            seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
+            seed_rewrite_codex_home=args.seed_rewrite_codex_home,
+            seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
             seed_rewrite_preview=args.seed_rewrite_preview,
         )
         print(result)
@@ -371,6 +442,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             max_output_tokens=args.max_output_tokens,
             reasoning_effort=args.reasoning_effort,
             include_keywords=args.include_keyword,
+            codex_bin=args.codex_bin,
+            codex_extra_args=args.codex_extra_arg,
+            codex_home=args.codex_home,
+            codex_allow_web_search=args.codex_allow_web_search,
             force=args.force,
         )
         print(result)
@@ -420,6 +495,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             ws,
             recency_hint=args.recency_hint,
             mode=args.mode,
+            provider=args.provider,
             pdf_dir=args.pdf_dir,
             max_pdfs=args.max_pdfs,
             search_model=args.search_model,
@@ -428,6 +504,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             search_reasoning_effort=args.search_reasoning_effort,
             formatter_reasoning_effort=args.formatter_reasoning_effort,
             pdf_reasoning_effort=args.pdf_reasoning_effort,
+            codex_bin=args.codex_bin,
+            codex_extra_args=args.codex_extra_arg,
+            codex_home=args.codex_home,
+            codex_allow_web_search=args.codex_allow_web_search,
             force=args.force,
         )
         print(result)
@@ -505,15 +585,20 @@ def main(argv: Optional[List[str]] = None) -> int:
             download_top_k=args.seed_download_top_k,
             scope=args.seed_scope,
             boolean_operator=args.seed_boolean_operator,
+            anchor_operator=args.seed_anchor_operator,
             reuse_cached_queries=True,
             cutoff_by_similar_title=True,
             similarity_threshold=args.seed_similarity_threshold,
             anchor_mode=args.seed_anchor_mode,
-            arxiv_raw_query=args.seed_arxiv_raw_query,
             seed_rewrite=args.seed_rewrite,
             seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
+            seed_rewrite_provider=args.seed_rewrite_provider,
             seed_rewrite_model=args.seed_rewrite_model,
             seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
+            seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
+            seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
+            seed_rewrite_codex_home=args.seed_rewrite_codex_home,
+            seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
             seed_rewrite_preview=args.seed_rewrite_preview,
         )
         extract_keywords_from_seed_pdfs(
@@ -538,6 +623,11 @@ def main(argv: Optional[List[str]] = None) -> int:
                 ws,
                 recency_hint=args.recency_hint,
                 mode=args.criteria_mode,
+                provider=args.criteria_provider,
+                codex_bin=args.criteria_codex_bin,
+                codex_extra_args=args.criteria_codex_extra_arg,
+                codex_home=args.criteria_codex_home,
+                codex_allow_web_search=args.criteria_codex_allow_web_search,
                 force=args.force,
             )
         if args.with_review:

@@ -36,12 +36,14 @@
 ## 1) 現行 LLM 呼叫盤點（依實作）
 
 ### 1.1 Seed rewrite
-- `src/pipelines/topic_pipeline.py: SeedQueryRewriteAgent.rewrite_query()`
-- 使用 `LLMService().chat(...)`，輸入由 `resources/LLM/prompts/seed/seed_query_rewrite.md` 組裝。
+- `src/pipelines/topic_pipeline.py: SeedQueryRewriteAgent.rewrite_candidates()`
+- 依 `provider` 切換：`openai` 走 `LLMService().chat(...)`；`codex-cli` 走 `codex exec`。
+- Prompt 仍由 `resources/LLM/prompts/seed/seed_query_rewrite.md` 組裝。
 
 ### 1.2 Filter-seed
 - `src/pipelines/topic_pipeline.py: filter_seed_papers_with_llm()`
-- 使用 `LLMService().chat(...)`，輸入由 `resources/LLM/prompts/filter_seed/llm_screening.md` 組裝；必要時用 fallback prompt。
+- 依 `provider` 切換：`openai` 走 `LLMService().chat(...)`；`codex-cli` 走 `codex exec`。
+- Prompt 仍由 `resources/LLM/prompts/filter_seed/llm_screening.md` 組裝；必要時用 fallback prompt。
 
 ### 1.3 Keywords（含 PDF）
 - 入口：`src/pipelines/topic_pipeline.py: extract_keywords_from_seed_pdfs()`
@@ -51,9 +53,8 @@
 
 ### 1.4 Criteria（web / pdf+web）
 - 入口：`src/pipelines/topic_pipeline.py: generate_structured_criteria()`
-- Web path：`src/utils/structured_web_search_pipeline.py` -> `openai_web_search` provider
-- PDF background：`LLMService.read_pdfs(...)` 讀 PDF
-- Formatter：`LLMService.chat(...)` 產 JSON
+- OpenAI path：`structured_web_search_pipeline` + `openai_web_search`（web）；`LLMService.read_pdfs(...)`（pdf+web）+ formatter。
+- Codex CLI path：`codex exec` 執行 web notes + formatter（**僅 web 模式**）。
 
 ### 1.5 LatteReview
 - 入口：`src/pipelines/topic_pipeline.py: run_latte_review()`
@@ -101,32 +102,26 @@
 
 ## 5) 實作細節（逐步驟）
 
-### 5.1 Seed rewrite（可替換）
+### 5.1 Seed rewrite（已導入 codex-cli）
 
-**現況**：`SeedQueryRewriteAgent.rewrite_query()` 使用 `LLMService.chat()`。
+**現況**：
+- `provider=openai`：`LLMService.chat()`。
+- `provider=codex-cli`：`codex exec` 讀 stdin。
+- Prompt 仍由 `_build_seed_rewrite_prompt()` 組裝。
+- 解析改用 `_parse_seed_rewrite_candidates()`，輸出 `seed_rewrite.json` 結構不變。
 
-**建議做法**：
-- 在 `src/pipelines/topic_pipeline.py` 內新增 `use_codex_cli` 或 `provider="codex-cli"` 分支。
-- 實作 `codex_exec(prompt, *, model, output_schema_path=None, codex_extra_args=None)` wrapper（新檔案，例如 `src/utils/codex_cli.py`，可參考 `docs/codex/test-shared/codex_cli_utils.py`）。
-- 使用既有 `_build_seed_rewrite_prompt()` 產生 prompt，然後 `codex exec -` 讀 stdin。
-- 仍使用既有 `_parse_seed_rewrite_phrase()` 解析結果，確保規格一致。
+**CLI 介面**：
+- `--seed-rewrite-provider`、`--seed-rewrite-codex-home`、`--seed-rewrite-codex-extra-arg`。
 
-**預期輸出**：不改 `seed_rewrite.json` 結構。
+### 5.2 Filter‑seed（已導入 codex-cli）
 
-### 5.2 Filter‑seed（可替換）
+**現況**：
+- `provider=openai`：`LLMService.chat()`。
+- `provider=codex-cli`：`codex exec` + `_parse_decision_payload()`。
+- Prompt 仍為 `resources/LLM/prompts/filter_seed/llm_screening.md`，維持 JSON 規格。
 
-**現況**：`filter_seed_papers_with_llm()` 使用 `LLMService.chat()` 回傳 JSON，再由 `_parse_decision_payload()` 驗證。
-
-**建議做法**：
-- 在 `filter_seed_papers_with_llm()` 中新增 `provider == "codex-cli"` 分支。
-- 使用 `--output-schema` 強制輸出（需新增 schema 檔案）：
-  ```json
-  {"decision": "yes|no", "reason": "string", "confidence": 0~1}
-  ```
-- 從 stdout 解析 JSON，再用 `_parse_decision_payload()` 驗證。
-- fallback prompt 同樣可走 codex exec。
-
-**注意**：不得新增 offline fallback；失敗時應直接報錯（符合專案規則）。
+**CLI 介面**：
+- `--provider codex-cli`、`--codex-home`、`--codex-extra-arg`。
 
 ### 5.3 Keywords（含 PDF，已導入 pipeline）
 
@@ -148,10 +143,10 @@
 
 ### 5.4 Criteria（web / pdf+web）
 
-**web-only 方案（可評估）**
-- 可新增 `--criteria-provider codex-cli`，並確保 `features.web_search_request` 允許 web search。
-- 需要自行維持兩階段（notes -> formatter）與 JSON schema 一致性。
-- `allowed_domains` / `tool_type` 等目前無 CLI 對應參數，需在 prompt 中補強規則（屬推論與風險）。
+**web-only 方案（已導入）**
+- `--provider codex-cli` 可用，需搭配 `--mode web`。
+- 必須啟用 `--codex-allow-web-search` 讓 CLI 使用 web search。
+- 維持兩階段（notes -> formatter）與 JSON schema 一致性。
 
 **pdf+web 方案（暫不替換）**
 - 目前依賴 `LLMService.read_pdfs()`（OpenAI Responses API）。
@@ -178,32 +173,44 @@
 
 ### 6.2 修改檔案（已落地）
 - `src/pipelines/topic_pipeline.py`
+  - seed rewrite / filter-seed / criteria 新增 `codex-cli` 分支。
   - keywords 增加 `codex-cli` provider 分支。
   - 新增 `run_cli_review()`（codex exec + gemini）。
-  - criteria 增加 reasoning effort 參數（search/formatter/pdf）。
+  - criteria 增加 reasoning effort 參數（search/formatter/pdf），codex-cli 支援 web-only。
 - `scripts/topic_pipeline.py`
-  - keywords/review 增加 codex-cli 相關旗標。
-  - criteria 增加 reasoning effort 旗標。
+  - seed rewrite / filter-seed / criteria / keywords / review 增加 codex-cli 相關旗標。
+  - criteria 增加 provider 切換與 codex 參數。
 - `scripts/snowball_iterate.py`
   - review provider / model / reasoning effort 旗標。
 
 ## 7) 執行指令模板（建議）
 
-> 以下示例對齊 `docs/codex/test-shared/codex_cli_utils.py` 的最小介面；其餘旗標請以 `codex exec --help` 為準。
-
-### 7.1 Seed rewrite
+### 7.1 Seed rewrite（codex-cli）
 ```bash
-codex exec - \
-  --model gpt-5.2
+python scripts/topic_pipeline.py seed --topic "<topic>" \
+  --seed-rewrite \
+  --seed-rewrite-provider codex-cli \
+  --seed-rewrite-model gpt-5.2 \
+  --seed-rewrite-codex-home "$CODEX_HOME"
 ```
 
-### 7.2 Filter‑seed（JSON schema，待評估）
-- `resources/schemas/filter_seed.schema.json` 尚未導入；此段保留作為後續評估用。
-
-### 7.3 Criteria（web-only）
+### 7.2 Filter‑seed（codex-cli）
 ```bash
-codex exec - \
-  --model gpt-5.2-chat-latest
+python scripts/topic_pipeline.py filter-seed --topic "<topic>" \
+  --provider codex-cli \
+  --model gpt-5-mini \
+  --codex-home "$CODEX_HOME"
+```
+
+### 7.3 Criteria（codex-cli, web-only）
+```bash
+python scripts/topic_pipeline.py criteria --topic "<topic>" \
+  --mode web \
+  --provider codex-cli \
+  --search-model gpt-5.2-chat-latest \
+  --formatter-model gpt-5.2 \
+  --codex-home "$CODEX_HOME" \
+  --codex-allow-web-search
 ```
 
 ## 8) 測試與驗證
@@ -226,11 +233,7 @@ codex exec - \
 
 ## 10) 推進順序（建議）
 
-1) **Seed rewrite / filter-seed** 先行（低風險，易回退）。
-2) **LatteReview** 新 provider（中風險，需控制併發）。
-3) **Criteria web-only** 嘗試（高風險，需補足 domain 控制與規則驗證）。
+1) **Seed rewrite / filter-seed** 已落地（可回滾）。
+2) **Criteria web-only** 已落地（需注意來源品質與規則驗證）。
+3) **LatteReview** CLI 版已落地（需控制併發）。
 4) **Keywords / pdf+web** 暫不替換（高成本）。
-
----
-
-> 若你要我直接落地實作，請指定優先順序與允許修改的檔案清單（特別是受保護檔案是否放行）。

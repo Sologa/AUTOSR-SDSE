@@ -4,7 +4,7 @@
 提供一份可直接交給 ChatGPT 的「完整上下文」，讓其在**不暴露特定論文標題或具體字串**的前提下，重新設計 `seed_query_rewrite.md` 的 prompt。
 
 ## 背景與前因後果
-- Seed rewrite 的目標是**在 seed 無 PDF 或僅命中同名論文時**，把「標題式 query」改寫成更寬的**核心領域片語**，以避免 pipeline 在 keywords 前中止。
+- Seed rewrite 的目標是**在 seed 候選為空或 cutoff 移除全部候選時**，把「標題式 query」改寫成更寬的**核心領域片語**，以避免 pipeline 在 keywords 前中止。若啟用 PDF 下載，仍可能因下載為空而觸發。
 - 近期調整重點：
   - Prompt 必須**全程 generic**，不可出現任何可被視為特定論文標題的字串或例子。
   - 不可在 prompt 中暴露 `cutoff_reason`、`cutoff_candidate_title`、`original_seed_query` 等上下文。
@@ -22,7 +22,7 @@
 ### 觸發條件
 Seed rewrite 會在以下任一情況成立時觸發（僅列行為，不列任何具體樣本）：
 - seed selection 為空或被 cutoff 移除
-- 下載結果沒有任何 PDF
+- 若啟用下載且下載結果為空
 
 ### LLM 改寫流程
 1) `SeedQueryRewriteAgent` 讀取 `resources/LLM/prompts/seed/seed_query_rewrite.md`。
@@ -64,7 +64,7 @@ Seed rewrite 會在以下任一情況成立時觸發（僅列行為，不列任�
 - 同義替換必須由 LLM 自行決定，程式端不可硬編規則。
 
 ## 已知限制
-- 改寫不保證一定提高召回；若主題本身過於狹窄，仍可能無 PDF。
+- 改寫不保證一定提高召回；若主題本身過於狹窄，仍可能無有效候選。
 - Seed rewrite 不讀 PDF，僅依賴 LLM prompt。
 
 ## 相關檔案

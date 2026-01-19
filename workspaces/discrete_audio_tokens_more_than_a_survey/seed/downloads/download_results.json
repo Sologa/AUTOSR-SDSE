@@ -1,9 +1,8 @@
 {
   "topic": "Discrete Audio Tokens: More Than a Survey!",
   "anchors": [
-    "discrete speech tokens",
-    "speech discrete token units",
-    "discrete token speech representation"
+    "discrete audio tokenization",
+    "quantized audio tokens"
   ],
   "survey_terms": [
     "survey",
@@ -15,53 +14,64 @@
     "mapping study",
     "tutorial"
   ],
-  "anchor_mode": "phrase",
-  "search_query": "(all:\"discrete speech tokens\" OR all:\"speech discrete token units\" OR all:\"discrete token speech representation\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-  "raw_query": null,
+  "anchor_mode": "core_phrase",
+  "anchor_query_mode": "phrase",
+  "search_query": "(all:\"discrete audio tokenization\" OR all:\"quantized audio tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
+  "download_pdfs": true,
   "max_results": 25,
   "download_top_k": 5,
-  "downloaded_at": "2026-01-15T17:54:50.592240+00:00",
+  "downloaded_at": "2026-01-19T06:17:15.529778+00:00",
   "downloads": {
     "arxiv": [
       {
         "source": "arxiv",
-        "identifier": "2502.06490",
+        "identifier": "2506.10274",
         "metadata": {
-          "arxiv_id": "2502.06490",
-          "title": "Recent Advances in Discrete Speech Tokens: A Review",
-          "summary": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+          "arxiv_id": "2506.10274",
+          "title": "Discrete Audio Tokens: More Than a Survey!",
+          "summary": "Discrete audio tokens are compact representations that aim to preserve perceptual quality, phonetic content, and speaker characteristics while enabling efficient storage and inference, as well as competitive performance across diverse downstream tasks. They provide a practical alternative to continuous features, enabling the integration of speech and audio into modern large language models (LLMs). As interest in token-based audio processing grows, various tokenization methods have emerged, and several surveys have reviewed the latest progress in the field. However, existing studies often focus on specific domains or tasks and lack a unified comparison across various benchmarks. This paper presents a systematic review and benchmark of discrete audio tokenizers, covering three domains: speech, music, and general audio. We propose a taxonomy of tokenization approaches based on encoder-decoder, quantization techniques, training paradigm, streamability, and application domains. We evaluate tokenizers on multiple benchmarks for reconstruction, downstream performance, and acoustic language modeling, and analyze trade-offs through controlled ablation studies. Our findings highlight key limitations, practical considerations, and open challenges, providing insight and guidance for future research in this rapidly evolving area. For more information, including our main results and tokenizer database, please refer to our website: https://poonehmousavi.github.io/dates-website/.",
           "authors": [
-            "Yiwei Guo",
-            "Zhihan Li",
-            "Hankun Wang",
-            "Bohan Li",
-            "Chongtian Shao",
-            "Hanglei Zhang",
-            "Chenpeng Du",
-            "Xie Chen",
-            "Shujie Liu",
-            "Kai Yu"
+            "Pooneh Mousavi",
+            "Gallil Maimon",
+            "Adel Moumen",
+            "Darius Petermann",
+            "Jiatong Shi",
+            "Haibin Wu",
+            "Haici Yang",
+            "Anastasia Kuznetsova",
+            "Artem Ploujnikov",
+            "Ricard Marxer",
+            "Bhuvana Ramabhadran",
+            "Benjamin Elizalde",
+            "Loren Lugosch",
+            "Jinyu Li",
+            "Cem Subakan",
+            "Phil Woodland",
+            "Minje Kim",
+            "Hung-yi Lee",
+            "Shinji Watanabe",
+            "Yossi Adi",
+            "Mirco Ravanelli"
           ],
-          "published": "2025-02-10T14:08:25Z",
-          "updated": "2025-12-12T05:18:11Z",
+          "published": "2025-06-12T01:35:43Z",
+          "updated": "2025-09-27T12:26:57Z",
           "categories": [
-            "eess.AS",
-            "cs.AI",
-            "cs.MM",
             "cs.SD",
-            "eess.SP"
+            "cs.AI",
+            "cs.CL",
+            "eess.AS"
           ],
-          "pdf_url": "https://arxiv.org/pdf/2502.06490v4",
-          "landing_url": "https://arxiv.org/abs/2502.06490v4",
-          "doi": "https://doi.org/10.48550/arXiv.2502.06490"
+          "pdf_url": "https://arxiv.org/pdf/2506.10274v3",
+          "landing_url": "https://arxiv.org/abs/2506.10274v3",
+          "doi": "https://doi.org/10.48550/arXiv.2506.10274"
         },
-        "pdf_path": "workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf",
+        "pdf_path": "workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2506.10274.pdf",
         "bibtex_path": null,
         "issues": [
           {
             "asset": "bibtex",
             "reason": "missing",
-            "url": "https://arxiv.org/bibtex/2502.06490"
+            "url": "https://arxiv.org/bibtex/2506.10274"
           }
         ]
       }
@@ -70,10 +80,10 @@
     "dblp": []
   },
   "rewrite_attempts": 1,
-  "rewrite_query": "discrete speech tokens",
+  "rewrite_query": "discrete audio tokenization",
   "rewrite_queries": [
-    "discrete speech tokens",
-    "speech discrete token units",
-    "discrete token speech representation"
-  ]
+    "discrete audio tokenization",
+    "quantized audio tokens"
+  ],
+  "download_stage": "filter-seed"
 }

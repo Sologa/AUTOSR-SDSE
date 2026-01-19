@@ -22,16 +22,17 @@
 
 ## 2) 各階段輸入 / 輸出 / 分歧條件
 
-### A) seed（主題搜尋與下載 survey）
+### A) seed（主題搜尋與候選挑選）
 - 入口：`python scripts/topic_pipeline.py seed --topic "<topic>"`
 - 輸出：`workspaces/<topic_slug>/seed/`
 - 分歧：
-  - 可直接指定 `--arxiv-raw-query` 走 raw query
-  - 或用 anchors + survey modifiers 組合查詢
+  - 用 anchors + survey modifiers 組合查詢
+  - `anchor_mode` 可用 `core_phrase` / `core_token_or` 切換核心片語與 token OR
 - 輸出/資料夾（重點）：
   - `seed/queries/arxiv.json`
-  - `seed/downloads/arxiv/*.pdf`
-  - `seed/downloads/arxiv_raw/*.pdf`（若有 filter-seed）
+  - `seed/downloads/download_results.json`（未下載時 downloads 可能為空）
+  - `seed/downloads/arxiv/*.pdf`（若使用 `--download-pdfs`）
+  - `seed/downloads/arxiv_raw/*.pdf`（既有 PDF 快取，非必定存在）
 
 ### B) filter-seed（可選；LLM 以 title+abstract 篩選）
 - 入口：`python scripts/topic_pipeline.py filter-seed --topic "<topic>"`
@@ -39,8 +40,9 @@
 - 輸出：
   - `seed/filters/llm_screening.json`
   - `seed/filters/selected_ids.json`
-  - 保留的 PDF 仍在 `seed/downloads/arxiv/`
-  - 原始下載保留於 `seed/downloads/arxiv_raw/`
+  - 通過的 PDF 下載至 `seed/downloads/arxiv/`
+  - 若有既有 PDF，會先搬移到 `seed/downloads/arxiv_raw/` 作為快取
+  - 若 `seed_selection.json` 有 `cutoff_candidate`，Filter-Seed 會排除該篇
 
 ### C) keywords（從 seed PDFs 抽 anchor/search terms）
 - 入口：`python scripts/topic_pipeline.py keywords --topic "<topic>"`
@@ -84,7 +86,7 @@
 
 1) **新增 filter-seed**：
    - LLM 以 title+abstract 判斷是否為 survey/review/overview 且主題直接相關。
-   - 為維持 keywords 介面不變，採「原始 PDF 轉移到 arxiv_raw；保留通過的在 arxiv」方案。
+   - 為維持 keywords 介面不變，Filter-Seed 會在篩選後下載通過的 PDFs 到 `seed/downloads/arxiv/`；若已有 PDFs，先移到 `arxiv_raw/` 作為快取。
 
 2) **keywords 的 anchor 修正**：
    - 問題：當 topic 為論文標題時，LLM 會直接抄題名與亂造縮寫 → harvest 失真。
@@ -116,8 +118,8 @@
    - 每輪輸出 `snowball_rounds/round_XX/*`，並更新全歷史 `review_registry.json`。
 
 8) **新增 seed query 改寫機制**：
-   - 觸發條件：seed 無 PDF 或 `cutoff_removed_all_candidates`。
-   - 使用 `SeedQueryRewriteAgent`（`gpt-5.2`）產生單一片語並重試 seed。
+   - 觸發條件：`records_after_filter == 0` 或 `cutoff_removed_all_candidates`。
+   - 使用 `SeedQueryRewriteAgent` 產生多個候選片語組並重試 seed（可切換 `openai` / `codex-cli`）。
    - 輸出 `seed/queries/seed_rewrite.json`，`download_results.json` 會補上 `rewrite_attempts` / `rewrite_query`。
    - 同名 cutoff 固定啟用（`--no-cutoff-by-similar-title` 會被忽略）。
 
@@ -145,7 +147,7 @@
 【Repo 現況摘要】
 - Topic CLI pipeline：seed →（可選）filter-seed → keywords → harvest →（可選）harvest-other →（可選）criteria →（可選）review →（可選）snowball（迭代式，每輪含 LatteReview）
 - 所有產物寫入 workspaces/<topic_slug>/
-- filter-seed：LLM 以 title+abstract 篩選；只保留 survey/review/overview 且主題直接相關；保留 PDF 於 seed/downloads/arxiv/，原始下載保留於 arxiv_raw/。
+- filter-seed：LLM 以 title+abstract 篩選；只保留 survey/review/overview 且主題直接相關；通過者下載至 seed/downloads/arxiv/，既有 PDF 先移到 arxiv_raw/ 作為快取。
 - keywords：模型固定 gpt-5.2，temperature 固定 1.0；不再用 topic 變體強制覆寫 anchor；新增 anchor 清理（去掉 topic/標點/亂縮寫），anchor 從 PDF/metadata 與 search_terms 中產出。
 - keywords prompt 已加入 topic 類型判斷（研究領域 vs 論文標題）；若是論文標題禁止抄題與縮寫。
 - harvest：用 (anchor) AND (term) 查 arXiv；search_terms 太泛仍會造成噪音。

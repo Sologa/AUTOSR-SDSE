@@ -94,6 +94,16 @@ def _build_codex_env(codex_home: Optional[Path]) -> Dict[str, str]:
     return env
 
 
+def _resolve_codex_exec_cwd() -> Optional[Path]:
+    env_path = os.getenv("CODEX_EXEC_WORKDIR")
+    if env_path and env_path.strip():
+        target = Path(env_path).expanduser()
+    else:
+        target = Path.cwd() / "test" / ".tmp" / "codex_exec_clean"
+    target.mkdir(parents=True, exist_ok=True)
+    return target
+
+
 def run_codex_exec(
     prompt: str,
     model: str,
@@ -112,7 +122,8 @@ def run_codex_exec(
     cmd.append("-")
     cmd.extend(["--model", model])
     if schema_path:
-        cmd.extend(["--output-schema", str(schema_path)])
+        cmd.extend(["--output-schema", str(schema_path.resolve())])
+    exec_cwd = _resolve_codex_exec_cwd()
 
     try:
         result = subprocess.run(
@@ -122,6 +133,7 @@ def run_codex_exec(
             capture_output=True,
             check=False,
             env=_build_codex_env(codex_home),
+            cwd=str(exec_cwd) if exec_cwd else None,
         )
     except FileNotFoundError:
         return None, "", "codex CLI not found", cmd
@@ -137,6 +149,43 @@ def run_codex_exec(
     if not isinstance(parsed, dict):
         return None, raw, "codex output JSON must be an object", cmd
     return parsed, raw, None, cmd
+
+
+def run_codex_exec_text(
+    prompt: str,
+    model: str,
+    *,
+    codex_bin: Optional[str] = None,
+    codex_extra_args: Optional[Sequence[str]] = None,
+    codex_home: Optional[Path] = None,
+) -> Tuple[str, Optional[str], List[str]]:
+    """Invoke `codex exec` and return raw stdout text."""
+    load_env_file()
+
+    cmd: List[str] = [resolve_codex_bin(codex_bin), "exec"]
+    if codex_extra_args:
+        cmd.extend(list(codex_extra_args))
+    cmd.append("-")
+    cmd.extend(["--model", model])
+    exec_cwd = _resolve_codex_exec_cwd()
+
+    try:
+        result = subprocess.run(
+            cmd,
+            input=prompt,
+            text=True,
+            capture_output=True,
+            check=False,
+            env=_build_codex_env(codex_home),
+            cwd=str(exec_cwd) if exec_cwd else None,
+        )
+    except FileNotFoundError:
+        return "", "codex CLI not found", cmd
+
+    if result.returncode != 0:
+        return "", result.stderr.strip() or "codex exec failed", cmd
+
+    return result.stdout.strip(), None, cmd
 
 
 def parse_json_snippet(response_text: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
@@ -167,5 +216,6 @@ __all__ = [
     "resolve_codex_home",
     "resolve_codex_bin",
     "run_codex_exec",
+    "run_codex_exec_text",
     "temporary_codex_config",
 ]
