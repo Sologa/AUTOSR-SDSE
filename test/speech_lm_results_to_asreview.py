@@ -22,6 +22,9 @@ except ImportError:  # pragma: no cover - fallback when langdetect is unavailabl
     detect = None
 import requests
 import urllib3
+ASREVIEW_DATATOOLS_ROOT = Path(__file__).resolve().parents[1] / "resources" / "asreview-datatools"
+if ASREVIEW_DATATOOLS_ROOT.exists():
+    sys.path.insert(0, str(ASREVIEW_DATATOOLS_ROOT))
 from asreviewcontrib.datatools import snowball as datatools_snowball
 from pyalex import config as pyalex_config
 

@@ -5,7 +5,7 @@
 
 ## Prerequisites
 
-- 已建立 seed PDFs（位於 `workspaces/<topic_slug>/seed/downloads/arxiv/`）
+- 已建立 seed PDFs（位於 `workspaces/<topic_slug>/seed/downloads/ta_filtered/`）
 - `codex` CLI 可用（僅 codex-cli 路徑需要，建議設定 `CODEX_BIN`）
 - `gemini` CLI 可用（review/snowball）
 - `pdfplumber` 已可用於 PDF→text

@@ -45,12 +45,12 @@ docs/codex/test-keywords/
 
 2. **Select Test Topic & PDFs (Gemini)**
    - 固定 topic：`discrete audio tokens more than a survey`。
-   - PDF 範例集合：`workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf`。
+   - PDF 範例集合：`workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/ta_filtered/2502.06490.pdf`。
    - 先執行 Gemini CLI 的 PDF 讀取實測，記錄工具使用結果。
 
 ## Phase 1: Design & Contracts
 1. **Input Source Design**
-   - 預設 PDF 來源：`workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/*.pdf`。
+   - 預設 PDF 來源：`workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/ta_filtered/*.pdf`。
    - 允許限制筆數與指定 pdf dir。
    - PDF→text 產出保存於 `docs/codex/test-keywords/outputs/<run_id>/`，每個 PDF 一個文字檔，檔名沿用 PDF 檔名，範圍為全文。
 

@@ -43,8 +43,8 @@ workspaces/speech_language_model/
       seed_selection.json
     downloads/
       download_results.json
-      arxiv_raw/*.pdf                  # 既有 PDF 快取（可選）
-      arxiv/*.pdf                      # filter-seed 後下載或 --download-pdfs 產生
+      ta_filtered/*.pdf                # filter-seed 後下載（title+abstract）
+      pdf_filtered/*.pdf               # 下載後複審（目前不寫入）
     filters/                           # filter-seed 才會有
       llm_screening.json
       selected_ids.json
@@ -85,9 +85,9 @@ flowchart TD
   B --> C[Seed 搜尋（anchors + survey modifiers）]
   C --> D[選擇 seed papers（metadata）]
   D --> E{啟用 filter-seed?}
-  E -- 否 --> F[下載 seed PDFs（未經 filter）]
+  E -- 否 --> F[不下載（seed 不產生 PDFs）]
   E -- 是 --> E1[LLM 以 title+abstract 篩選]
-  E1 --> E2[下載 yes → seed/downloads/arxiv]
+  E1 --> E2[下載 yes → seed/downloads/ta_filtered]
   F --> G{keywords.json 已存在且未 --force?}
   E2 --> G
   G -- 是 --> H[跳過 keywords]
@@ -123,13 +123,11 @@ flowchart TD
 
 ### Stage A：Seed Surveys（arXiv）
 
-目的：先找到「綜述/回顧」類 metadata，供後續 filter-seed 或下載 PDFs 使用。
+目的：先找到「綜述/回顧」類 metadata，供後續 filter-seed 使用。
 
-- API：`paper_workflows.search_arxiv_for_topic`（必要時才會呼叫 `download_records_to_pdfs`）
+- API：`paper_workflows.search_arxiv_for_topic`
   - CLI：
     - `python scripts/topic_pipeline.py seed --topic "<topic>"`
-    - 若不跑 filter-seed 但需要 PDFs：
-      - `python scripts/topic_pipeline.py seed --topic "<topic>" --download-pdfs`
     - 若要對齊「title token AND」的查詢邏輯，可用：
       - `python scripts/topic_pipeline.py seed --topic "<topic>" --scope ti --anchor-mode token_and`
     - 若要指定 anchor terms 之間的布林運算子（預設 OR）：
@@ -145,7 +143,7 @@ flowchart TD
   - `seed/queries/arxiv.json`
   - `seed/queries/seed_selection.json`（cutoff candidate、cutoff date、候選清單）
   - `seed/queries/seed_rewrite.json`（若啟用改寫且觸發）
-  - `seed/downloads/download_results.json`（若未下載，downloads 可能為空）
+  - `seed/downloads/download_results.json`（由 filter-seed 產生）
 - 分歧/特殊情況：
   - 既有 `seed/queries/arxiv.json` 且未加 `--no-cache` → 直接重用 cache，不重新查詢。
   - `anchor_terms` 或 `survey_terms` 為空 → 直接報錯。
@@ -165,7 +163,7 @@ flowchart TD
 ### Stage A.5（可選）：Filter-Seed（LLM 審核）
 
 目的：在進入 keyword extraction 前，讓 LLM 根據 **title + abstract** 判斷是否保留該 seed paper。  
-（採用方案 A：**整理 `seed/downloads/arxiv/`，不改 keywords 介面**）
+（整理 `seed/downloads/ta_filtered/`，keywords 預設讀取該目錄）
 
 - CLI：
   - `python scripts/topic_pipeline.py filter-seed --topic "<topic>"`
@@ -173,19 +171,19 @@ flowchart TD
 - 輸入：
   - `seed/queries/arxiv.json`
   - `seed/queries/seed_selection.json`
-  - `seed/downloads/arxiv_raw/*.pdf`（可選快取，若存在會重用但不參與篩選）
+  - 既有 `seed/downloads/ta_filtered/*.pdf`（可重用；不影響篩選結果）
   - `--include-keyword`（可重複）作為提示詞的加權關鍵字
 - 產物：
   - `seed/filters/llm_screening.json`
   - `seed/filters/selected_ids.json`
-  - `seed/downloads/arxiv/*.pdf`（僅保留 LLM 判定 yes，必要時現場下載）
-  - `seed/downloads/arxiv_raw/*.pdf`（若有既有 PDF，會先搬移保留）
+  - `seed/downloads/ta_filtered/*.pdf`（僅保留 LLM 判定 yes，必要時現場下載）
+  - `seed/downloads/pdf_filtered/*.pdf`（保留給下載後複審；目前不寫入）
 - 分歧/特殊情況：
   - 若 `llm_screening.json` 與 `selected_ids.json` 已存在且未 `--force` → 直接跳過。
-  - 若 `arxiv_raw/` 為空但 `arxiv/` 有 PDF → 先把 `arxiv/*.pdf` 移到 `arxiv_raw/` 再進行篩選。
+  - 若已有 `ta_filtered/` PDFs，會先保留符合 `selected` 的檔案，移除未選取的檔案。
   - 只使用 title + abstract：**必須明確是 survey/review/overview** 才可保留；若不確定必須回覆 `no`；且必須與主題高度相關。
   - 若 `seed_selection.json` 有 `cutoff_candidate`，Filter-Seed 會排除該篇。
-  - 完成後會清空 `seed/downloads/arxiv/`，只保留通過的 PDFs（複製快取或重新下載）。
+  - 完成後會整理 `seed/downloads/ta_filtered/`，只保留通過的 PDFs（重用或重新下載）。
 
 ### Stage B：Keyword Extraction（從 surveys 抽取 anchor/search terms）
 
@@ -213,7 +211,7 @@ flowchart TD
     - 若 `seed_anchors` 有值 → `anchor_terms` 直接改用其去重結果。
     - 否則會排除 topic 變體、去除標點、限制 1–3 詞，並**優先要求出現在 title/abstract corpus**；最多 4 個。
     - 若仍無結果，才會依序放寬條件或最終回退到 `topic`。
-  - 若找不到任何 PDF（`seed/downloads/arxiv/` 為空）→ 直接報錯。
+  - 若找不到任何 PDF（`seed/downloads/ta_filtered/` 為空）→ 直接報錯。
 
 ### Stage C：Metadata Harvest（arXiv）
 
@@ -272,7 +270,7 @@ flowchart TD
   - 若 search 使用 `gpt-5-search-api`，會切換 web search 工具版本為 `web_search_2025_08_26`。
   - 若 `criteria.json` 已存在且未 `--force` → 直接跳過（回傳 `skipped`）。
   - `mode=web`：只產出 web notes + structured JSON。
-  - `mode=pdf+web`：會讀取 PDFs（預設 `seed/downloads/arxiv/`，可用 `--pdf-dir` 指定），最多 `max_pdfs`。
+  - `mode=pdf+web`：會讀取 PDFs（預設 `seed/downloads/ta_filtered/`，可用 `--pdf-dir` 指定），最多 `max_pdfs`。
   - 即使沒有任何 PDF，仍會組合 web notes 並進行 formatter（`pdf_background.txt` 會是空字串）。
   - `provider=codex-cli` 僅支援 `mode=web`，且需 `--codex-allow-web-search`。
 - 若 seed 選擇結果偵測到與 topic 同標題的 cutoff candidate，criteria 會自動加入「排除同標題論文」。時間限制不寫入 criteria 條款，僅由程式端做 discard。
@@ -297,6 +295,7 @@ flowchart TD
   - 若 `OPENAI_API_KEY` 未設定 → 直接報錯。
   - 若 metadata 檔不存在 → 直接報錯。
   - 會略過 title/abstract 缺失者，或 title 含 `skip_titles_containing`（預設 "***"）。
+  - Gemini CLI 若回 429（Too Many Requests）會自動節流（最小 5 秒間隔）並退避重試（上限 60 秒），最長重試 8 小時。
   - 若已執行 filter-seed 且 `seed/filters/selected_ids.json` 存在，對應的 seed 論文會被**強制 include**（不送 LLM），並標記 `review_skipped=true`、`force_include_reason=seed_filter_selected`。
   - 若 criteria 內含 `exclude_title` 或 `cutoff_before_date`，會在審查前直接標記為 `discard`，不送 LLM；仍會出現在結果中，並標註 `review_skipped=true`、`discard_reason`。
   - 若過濾後無可審核條目但有 discard → 仍輸出結果（僅包含 discard）。
@@ -348,7 +347,6 @@ flowchart TD
 source sdse-uv/.venv/bin/activate
 python scripts/topic_pipeline.py run --topic "speech language model" \
   --seed-max-results 25 \
-  --seed-download-top-k 5 \
   --max-pdfs 3 \
   --max-terms-per-category 3 \
   --top-k-per-query 100 \

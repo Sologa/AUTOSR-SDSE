@@ -1,0 +1,92 @@
+[
+  {
+    "dblp_key": "conf/icassp/ShenGD0024",
+    "title": "Acoustic BPE for Speech Generation with Discrete Tokens.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2310.14580"
+    ],
+    "query": "ti:\"Acoustic BPE for Speech Generation with Discrete Tokens.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2310-14580",
+    "title": "Acoustic BPE for Speech Generation with Discrete Tokens.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/corr/abs-2411-08742",
+    "title": "A Comparative Study of Discrete Speech Tokens for Semantic-Related Tasks with Large Language Models.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2411.08742"
+    ],
+    "query": "ti:\"A Comparative Study of Discrete Speech Tokens for Semantic-Related Tasks with Large Language Models.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2509-09631",
+    "title": "DiFlow-TTS: Discrete Flow Matching with Factorized Speech Tokens for Low-Latency Zero-Shot Text-To-Speech.",
+    "status": "no_match",
+    "query": "ti:\"DiFlow-TTS: Discrete Flow Matching with Factorized Speech Tokens for Low-Latency Zero-Shot Text-To-Speech.\""
+  },
+  {
+    "dblp_key": "conf/interspeech/LeeJKLCK24",
+    "title": "High Fidelity Text-to-Speech Via Discrete Tokens Using Token Transducer and Group Masked Language Model.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2406.17310"
+    ],
+    "query": "ti:\"High Fidelity Text-to-Speech Via Discrete Tokens Using Token Transducer and Group Masked Language Model.\""
+  },
+  {
+    "dblp_key": "conf/slt/LiWWQZLYLTXLCZLWZ24",
+    "title": "Investigating Neural Audio Codecs For Speech Language Model-Based Speech Generation.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2409.04016"
+    ],
+    "query": "ti:\"Investigating Neural Audio Codecs For Speech Language Model-Based Speech Generation.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2409-04016",
+    "title": "Investigating Neural Audio Codecs for Speech Language Model-Based Speech Generation.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/icassp/JeonYIHRMB24",
+    "title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2311.02772"
+    ],
+    "query": "ti:\"Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2311-02772",
+    "title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/corr/abs-2101-00387",
+    "title": "What all do audio transformer models hear? Probing Acoustic Representations for Language Delivery and its Structure.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2101.00387"
+    ],
+    "query": "ti:\"What all do audio transformer models hear? Probing Acoustic Representations for Language Delivery and its Structure.\""
+  },
+  {
+    "dblp_key": "journals/taslp/XueDGL24",
+    "title": "Auffusion: Leveraging the Power of Diffusion and Large Language Models for Text-to-Audio Generation.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2401.01044"
+    ],
+    "query": "ti:\"Auffusion: Leveraging the Power of Diffusion and Large Language Models for Text-to-Audio Generation.\""
+  },
+  {
+    "dblp_key": "journals/taslp/LiuLW21",
+    "title": "Addressing Extraction and Generation Separately: Keyphrase Prediction With Pre-Trained Language Models.",
+    "status": "no_match",
+    "query": "ti:\"Addressing Extraction and Generation Separately: Keyphrase Prediction With Pre-Trained Language Models.\""
+  }
+]

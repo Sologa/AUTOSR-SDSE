@@ -1,0 +1,39 @@
+### Topic Definition
+離散音訊 token（Discrete Audio Tokens）指把連續的語音/音樂/一般音訊訊號，透過「編碼器—解碼器」與「量化（quantization）」等機制，轉換為可用有限詞彙表表示的離散序列（tokens/units/codes），在盡量保留可感知音質、語音內容與說話人等特徵的前提下，支援更有效率的儲存、傳輸、推論與以語言模型方式進行建模與生成。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1)
+
+本主題聚焦於「如何產生/學習離散音訊 token（tokenizer/codec/semantic unit）」、「其分類與設計取捨（例如：神經音訊 codec tokens vs. 自監督表徵量化得到的語意 tokens）」，以及「在重建品質、下游任務與（音訊）語言模型建模上的評測、基準與限制」。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1,S2,S3)
+
+### Summary
+離散音訊 token 正從「壓縮/編碼」走向「通用音訊序列建模介面」，使音訊能以類文字的序列形式被（大型）語言模型或自回歸模型處理。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S4)
+
+研究亮點集中在：tokenizer 的分類與可比性基準、codec tokens 的高保真與即時性，以及把語意 token 與高保真 codec token 混合以同時兼顧長程結構與音質的生成框架。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S2,S3,S4)
+
+### Summary Topics
+S1: 定義、範疇與分類（codec/semantic/hybrid tokens）
+S2: Tokenizer/Codec 設計與訓練（量化、codebook、串流、損失）
+S3: 評測與基準（重建品質、下游任務、acoustic LM、取捨）
+S4: 與生成/LLM 的整合與應用（語音、音樂、一般音訊）
+
+### Inclusion Criteria (Required)
+- 主題定義：離散音訊 token（Discrete Audio Tokens）指把連續的語音/音樂/一般音訊訊號，透過「編碼器—解碼器」與「量化（quantization）」等機制，轉換為可用有限詞彙表表示的離散序列（tokens/units/codes），在盡量保留可感知音質、語音內容與說話人等特徵的前提下，支援更有效率的儲存、傳輸、推論與以語言模型方式進行建模與生成。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1)
+- 提供英文可評估性：至少具備英文標題與英文摘要（或英文全文）以利篩選與資料萃取。 (source: internal, topic ids: S1)
+
+### Inclusion Criteria (Any-of Groups)
+- Group 技術路線（Tokenizer 類型）
+* Option: 以神經音訊 codec 產生離散 codes（例如 residual vector quantization、多 codebook、可變碼率/可串流），並用於重建或下游/生成。 (source: https://export.arxiv.org/api/query?id_list=2107.03312v1, topic ids: S2,S3)
+* Option: 以高保真神經音訊壓縮/codec 產生離散 tokens（含主觀評測如 MUSHRA 或跨域評測），並討論設計選擇與取捨。 (source: https://export.arxiv.org/api/query?id_list=2210.13438v1, topic ids: S2,S3)
+* Option: 從自監督音訊表徵（SSL）進行量化以取得語意離散 tokens，並在辨識/生成等任務分析配置或層選擇。 (source: https://export.arxiv.org/api/query?id_list=2406.10735v1, topic ids: S2,S3)
+* Option: 使用（或提出）混合式 tokenization：結合語意 token 與 codec token，以支援長程一致性與高音質的音訊生成/續寫。 (source: https://export.arxiv.org/api/query?id_list=2209.03143v2, topic ids: S4,S2)
+
+### Exclusion Criteria
+- 僅使用連續特徵（如 mel-spectrogram/連續 latent）且未形成「有限詞彙表的離散 token 序列」作為核心表徵/研究對象者排除。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1)
+- 研究對象非音訊 token（例如純文字 token、純影像 token），或離散序列並非由音訊訊號/音訊表徵所導出者排除。 (source: internal, topic ids: S1)
+- 僅做一般音訊生成/辨識，但未使用或未評估離散音訊 token/tokenizer（例如不涉及 token 設計、量化、codebook、或 token 層級建模/比較）者排除。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S3,S4)
+- 僅討論單一實作細節或工程應用，缺乏可重現的 token 定義（例如詞彙表大小/量化方式/codebook 設計）與基本評測資訊者排除。 (source: internal, topic ids: S2,S3)
+
+### Sources
+https://export.arxiv.org/api/query?id_list=2506.10274v3
+https://export.arxiv.org/api/query?id_list=2107.03312v1
+https://export.arxiv.org/api/query?id_list=2210.13438v1
+https://export.arxiv.org/api/query?id_list=2406.10735v1
+https://export.arxiv.org/api/query?id_list=2209.03143v2

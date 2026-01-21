@@ -157,16 +157,16 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 }
 ```
 
-### 與 Keywords 的檔案對接（採用方案 A）
-為了不改動 keywords 介面，Filter-Seed 會在篩選後補齊 seed PDF 目錄：
+### 與 Keywords 的檔案對接
+Filter-Seed 會在篩選後下載並整理 seed PDF 目錄：
 
-- **經 LLM 篩選後的 PDF（供下游使用）**：`seed/downloads/arxiv/`
-- 若 `seed/downloads/arxiv/` 先前已有 PDF，會先移到 `seed/downloads/arxiv_raw/` 作為快取保留（不參與篩選）
+- **經 LLM 篩選後的 PDF（供下游使用）**：`seed/downloads/ta_filtered/`
+- **保留給「下載後複審」的目錄**：`seed/downloads/pdf_filtered/`（目前不寫入）
 
 行為規則：
-- Filter-Seed 完成後，`seed/downloads/arxiv/` 只保留 `decision == yes` 的 PDFs（必要時現場下載）。
-- `seed/downloads/arxiv_raw/` 僅在存在既有 PDF 時建立，用於保留與重用，不作為篩選輸入。
-- keywords 依舊讀 `seed/downloads/arxiv/`（介面不變）。
+- Filter-Seed 完成後，`seed/downloads/ta_filtered/` 只保留 `decision == yes` 的 PDFs（必要時現場下載）。
+- 若重新執行，會重用已存在的 PDFs，並移除不在本次 `selected` 的檔案。
+- keywords 預設讀 `seed/downloads/ta_filtered/`。
 
 ---
 
@@ -208,8 +208,8 @@ workspaces/<topic_slug>/seed/filters/selected_ids.json
 
 ## 13) 與 Keywords 的整合策略
 
-採用「方案 A」：Filter-Seed 會整理 `seed/downloads/arxiv/`，因此 **keywords 介面不需修改**。  
-若未執行 Filter-Seed，keywords 仍會使用原本的 seed PDFs（或由使用者自行準備）。
+採用單一路徑：Filter-Seed 會整理 `seed/downloads/ta_filtered/`，keywords 預設讀取該目錄。  
+`seed/downloads/pdf_filtered/` 保留給後續「下載後複審」流程。
 
 ---
 

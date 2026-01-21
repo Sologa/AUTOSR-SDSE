@@ -44,6 +44,7 @@ from src.pipelines.topic_pipeline import (
     run_snowball_asreview,
     run_snowball_iterative,
     seed_surveys_from_arxiv,
+    seed_surveys_from_arxiv_cutoff_first,
 )
 
 
@@ -77,28 +78,47 @@ def build_parser() -> argparse.ArgumentParser:
         return subparsers.add_parser(name, parents=[common], **kwargs)
 
     seed = add_subparser("seed", help="搜尋 seed surveys metadata (arXiv)")
-    seed.add_argument("--max-results", type=_positive_int, default=25)
-    seed.add_argument("--download-top-k", type=int, default=5)
     seed.add_argument(
-        "--download-pdfs",
-        action="store_true",
-        help="在 seed 階段下載 PDFs（未使用 filter-seed 時才需要）",
+        "--seed-mode",
+        default="legacy",
+        choices=["legacy", "cutoff-first"],
+        help="seed 流程模式（legacy=舊版；cutoff-first=one-pass）",
     )
-    seed.add_argument("--scope", default="all", choices=["all", "ti", "abs"])
-    seed.add_argument("--boolean-operator", default="AND", choices=["AND", "OR"])
+    seed.add_argument("--max-results", type=_positive_int, default=25, help="legacy 模式：arXiv 查詢上限")
+    seed.add_argument(
+        "--download-top-k",
+        type=int,
+        default=5,
+        help="legacy 模式：seed 選取上限（不下載）",
+    )
+    seed.add_argument("--cutoff-arxiv-id", default=None, help="cutoff-first：指定 cutoff arXiv id")
+    seed.add_argument("--cutoff-title-override", default=None, help="cutoff-first：指定 cutoff title")
+    seed.add_argument(
+        "--cutoff-date-field",
+        default="published",
+        choices=["published", "updated", "submitted"],
+        help="cutoff-first：cutoff 日期欄位（submitted 會映射到 published）",
+    )
+    seed.add_argument("--scope", default="all", choices=["all", "ti", "abs"], help="legacy 模式：查詢欄位")
+    seed.add_argument(
+        "--boolean-operator",
+        default="AND",
+        choices=["AND", "OR"],
+        help="legacy 模式：anchor 與 survey modifiers 的布林運算子",
+    )
     seed.add_argument(
         "--anchor-operator",
         default="OR",
         choices=["AND", "OR"],
-        help="anchor terms 彼此的布林運算子（預設 OR；僅影響 anchors 組合）",
+        help="legacy 模式：anchor terms 彼此的布林運算子（預設 OR；僅影響 anchors 組合）",
     )
-    seed.add_argument("--no-cache", action="store_true", help="忽略已存在的 seed query cache")
+    seed.add_argument("--no-cache", action="store_true", help="legacy 模式：忽略已存在的 seed query cache")
     seed.add_argument(
         "--anchor-mode",
         default="phrase",
         choices=["phrase", "token_and", "token_or", "core_phrase", "core_token_or"],
         help=(
-            "anchor 組合方式：phrase=完整片語；token_and=同一 anchor 內 token 以 AND 結合；"
+            "legacy 模式：anchor 組合方式：phrase=完整片語；token_and=同一 anchor 內 token 以 AND 結合；"
             "token_or=同一 anchor 內 token 以 OR 結合；"
             "core_phrase/core_token_or=僅使用主題核心片語"
         ),
@@ -107,18 +127,18 @@ def build_parser() -> argparse.ArgumentParser:
         "--cutoff-by-similar-title",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="固定啟用：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
+        help="legacy 模式：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
     )
     seed.add_argument(
         "--similarity-threshold",
         type=float,
         default=0.8,
-        help="判定「標題高度相似」的相似度門檻（0~1）",
+        help="legacy 模式：判定「標題高度相似」的相似度門檻（0~1）",
     )
     seed.add_argument(
         "--seed-rewrite",
         action="store_true",
-        help="seed 無有效候選或 cutoff 全移除時改寫 query 後重試",
+        help="legacy 模式：seed 無有效候選或 cutoff 全移除時改寫 query 後重試",
     )
     seed.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
     seed.add_argument("--seed-rewrite-provider", default="openai", choices=["openai", "codex-cli"])
@@ -138,6 +158,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="允許 Codex web search（預設關閉）",
     )
     seed.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
+    seed.add_argument("--seed-rewrite-n", type=_positive_int, default=5, help="cutoff-first：改寫片語數量上限")
+    seed.add_argument(
+        "--seed-blacklist-mode",
+        default="clean",
+        choices=["clean", "fail"],
+        help="cutoff-first：黑名單處理模式（clean=清理；fail=直接失敗）",
+    )
+    seed.add_argument(
+        "--seed-arxiv-max-results-per-query",
+        type=_positive_int,
+        default=50,
+        help="cutoff-first：每個 phrase 查詢的 arXiv 最大回傳數",
+    )
+    seed.add_argument(
+        "--seed-max-merged-results",
+        type=_positive_int,
+        default=200,
+        help="cutoff-first：合併後最大保留筆數",
+    )
 
     keywords = add_subparser("keywords", help="從 seed PDFs 抽取 anchor/search terms")
     keywords.add_argument("--pdf-dir", type=Path, default=None, help="PDF 來源目錄（預設 seed downloads/arxiv）")
@@ -297,29 +336,41 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--snowball-bootstrap-review", type=Path, default=None)
     run.add_argument("--snowball-force", action="store_true")
 
-    run.add_argument("--seed-max-results", type=_positive_int, default=25)
-    run.add_argument("--seed-download-top-k", type=int, default=5)
-    run.add_argument("--seed-scope", default="all", choices=["all", "ti", "abs"])
-    run.add_argument("--seed-boolean-operator", default="AND", choices=["AND", "OR"])
-    run.add_argument("--seed-anchor-operator", default="OR", choices=["AND", "OR"])
+    run.add_argument(
+        "--seed-mode",
+        default="legacy",
+        choices=["legacy", "cutoff-first"],
+        help="seed 流程模式（legacy=舊版；cutoff-first=one-pass）",
+    )
+    run.add_argument("--seed-max-results", type=_positive_int, default=25, help="legacy 模式：arXiv 查詢上限")
+    run.add_argument("--seed-download-top-k", type=int, default=5, help="legacy 模式：seed 選取上限（不下載）")
+    run.add_argument("--seed-scope", default="all", choices=["all", "ti", "abs"], help="legacy 模式：查詢欄位")
+    run.add_argument(
+        "--seed-boolean-operator",
+        default="AND",
+        choices=["AND", "OR"],
+        help="legacy 模式：anchor 與 survey modifiers 的布林運算子",
+    )
+    run.add_argument("--seed-anchor-operator", default="OR", choices=["AND", "OR"], help="legacy 模式")
     run.add_argument(
         "--seed-anchor-mode",
         default="phrase",
         choices=["phrase", "token_and", "token_or", "core_phrase", "core_token_or"],
+        help="legacy 模式",
     )
     run.add_argument(
         "--seed-cutoff-by-similar-title",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="seed 階段固定啟用：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
+        help="legacy 模式：若偵測到與 topic 標題高度相似的 survey，則排除該篇並只使用更早的 surveys",
     )
     run.add_argument(
         "--seed-similarity-threshold",
         type=float,
         default=0.8,
-        help="seed 階段：相似度門檻（0~1）",
+        help="legacy 模式：相似度門檻（0~1）",
     )
-    run.add_argument("--seed-rewrite", action="store_true", help="seed 無 PDF 時改寫 query 後重試")
+    run.add_argument("--seed-rewrite", action="store_true", help="legacy 模式：seed 無 PDF 時改寫 query 後重試")
     run.add_argument("--seed-rewrite-max-attempts", type=_positive_int, default=2)
     run.add_argument("--seed-rewrite-provider", default="openai", choices=["openai", "codex-cli"])
     run.add_argument("--seed-rewrite-model", default="gpt-5.2")
@@ -329,6 +380,33 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--seed-rewrite-codex-extra-arg", action="append", default=None)
     run.add_argument("--seed-rewrite-codex-allow-web-search", action="store_true")
     run.add_argument("--seed-rewrite-preview", action="store_true", help="只輸出改寫結果，不重跑 seed")
+    run.add_argument("--seed-cutoff-arxiv-id", default=None, help="cutoff-first：指定 cutoff arXiv id")
+    run.add_argument("--seed-cutoff-title-override", default=None, help="cutoff-first：指定 cutoff title")
+    run.add_argument(
+        "--seed-cutoff-date-field",
+        default="published",
+        choices=["published", "updated", "submitted"],
+        help="cutoff-first：cutoff 日期欄位（submitted 會映射到 published）",
+    )
+    run.add_argument("--seed-rewrite-n", type=_positive_int, default=5, help="cutoff-first：改寫片語數量上限")
+    run.add_argument(
+        "--seed-blacklist-mode",
+        default="clean",
+        choices=["clean", "fail"],
+        help="cutoff-first：黑名單處理模式（clean=清理；fail=直接失敗）",
+    )
+    run.add_argument(
+        "--seed-arxiv-max-results-per-query",
+        type=_positive_int,
+        default=50,
+        help="cutoff-first：每個 phrase 查詢的 arXiv 最大回傳數",
+    )
+    run.add_argument(
+        "--seed-max-merged-results",
+        type=_positive_int,
+        default=200,
+        help="cutoff-first：合併後最大保留筆數",
+    )
 
     run.add_argument("--max-pdfs", type=_positive_int, default=3)
     run.add_argument("--extract-model", default="gpt-5")
@@ -385,29 +463,47 @@ def main(argv: Optional[List[str]] = None) -> int:
     ws = resolve_workspace(topic=args.topic, workspace_root=workspace_root)
 
     if args.command == "seed":
-        result = seed_surveys_from_arxiv(
-            ws,
-            max_results=args.max_results,
-            download_top_k=args.download_top_k,
-            scope=args.scope,
-            boolean_operator=args.boolean_operator,
-            anchor_operator=args.anchor_operator,
-            download_pdfs=args.download_pdfs,
-            reuse_cached_queries=not args.no_cache,
-            cutoff_by_similar_title=True,
-            similarity_threshold=args.similarity_threshold,
-            anchor_mode=args.anchor_mode,
-            seed_rewrite=args.seed_rewrite,
-            seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
-            seed_rewrite_provider=args.seed_rewrite_provider,
-            seed_rewrite_model=args.seed_rewrite_model,
-            seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
-            seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
-            seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
-            seed_rewrite_codex_home=args.seed_rewrite_codex_home,
-            seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
-            seed_rewrite_preview=args.seed_rewrite_preview,
-        )
+        if args.seed_mode == "cutoff-first":
+            result = seed_surveys_from_arxiv_cutoff_first(
+                ws,
+                seed_rewrite_n=args.seed_rewrite_n,
+                seed_blacklist_mode=args.seed_blacklist_mode,
+                seed_arxiv_max_results_per_query=args.seed_arxiv_max_results_per_query,
+                seed_max_merged_results=args.seed_max_merged_results,
+                cutoff_arxiv_id=args.cutoff_arxiv_id,
+                cutoff_title_override=args.cutoff_title_override,
+                cutoff_date_field=args.cutoff_date_field,
+                seed_rewrite_provider=args.seed_rewrite_provider,
+                seed_rewrite_model=args.seed_rewrite_model,
+                seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
+                seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
+                seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
+                seed_rewrite_codex_home=args.seed_rewrite_codex_home,
+                seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
+            )
+        else:
+            result = seed_surveys_from_arxiv(
+                ws,
+                max_results=args.max_results,
+                download_top_k=args.download_top_k,
+                scope=args.scope,
+                boolean_operator=args.boolean_operator,
+                anchor_operator=args.anchor_operator,
+                reuse_cached_queries=not args.no_cache,
+                cutoff_by_similar_title=True,
+                similarity_threshold=args.similarity_threshold,
+                anchor_mode=args.anchor_mode,
+                seed_rewrite=args.seed_rewrite,
+                seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
+                seed_rewrite_provider=args.seed_rewrite_provider,
+                seed_rewrite_model=args.seed_rewrite_model,
+                seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
+                seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
+                seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
+                seed_rewrite_codex_home=args.seed_rewrite_codex_home,
+                seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
+                seed_rewrite_preview=args.seed_rewrite_preview,
+            )
         print(result)
         return 0
 
@@ -579,28 +675,47 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
 
     if args.command == "run":
-        seed_surveys_from_arxiv(
-            ws,
-            max_results=args.seed_max_results,
-            download_top_k=args.seed_download_top_k,
-            scope=args.seed_scope,
-            boolean_operator=args.seed_boolean_operator,
-            anchor_operator=args.seed_anchor_operator,
-            reuse_cached_queries=True,
-            cutoff_by_similar_title=True,
-            similarity_threshold=args.seed_similarity_threshold,
-            anchor_mode=args.seed_anchor_mode,
-            seed_rewrite=args.seed_rewrite,
-            seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
-            seed_rewrite_provider=args.seed_rewrite_provider,
-            seed_rewrite_model=args.seed_rewrite_model,
-            seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
-            seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
-            seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
-            seed_rewrite_codex_home=args.seed_rewrite_codex_home,
-            seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
-            seed_rewrite_preview=args.seed_rewrite_preview,
-        )
+        if args.seed_mode == "cutoff-first":
+            seed_surveys_from_arxiv_cutoff_first(
+                ws,
+                seed_rewrite_n=args.seed_rewrite_n,
+                seed_blacklist_mode=args.seed_blacklist_mode,
+                seed_arxiv_max_results_per_query=args.seed_arxiv_max_results_per_query,
+                seed_max_merged_results=args.seed_max_merged_results,
+                cutoff_arxiv_id=args.seed_cutoff_arxiv_id,
+                cutoff_title_override=args.seed_cutoff_title_override,
+                cutoff_date_field=args.seed_cutoff_date_field,
+                seed_rewrite_provider=args.seed_rewrite_provider,
+                seed_rewrite_model=args.seed_rewrite_model,
+                seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
+                seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
+                seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
+                seed_rewrite_codex_home=args.seed_rewrite_codex_home,
+                seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
+            )
+        else:
+            seed_surveys_from_arxiv(
+                ws,
+                max_results=args.seed_max_results,
+                download_top_k=args.seed_download_top_k,
+                scope=args.seed_scope,
+                boolean_operator=args.seed_boolean_operator,
+                anchor_operator=args.seed_anchor_operator,
+                reuse_cached_queries=True,
+                cutoff_by_similar_title=True,
+                similarity_threshold=args.seed_similarity_threshold,
+                anchor_mode=args.seed_anchor_mode,
+                seed_rewrite=args.seed_rewrite,
+                seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
+                seed_rewrite_provider=args.seed_rewrite_provider,
+                seed_rewrite_model=args.seed_rewrite_model,
+                seed_rewrite_reasoning_effort=args.seed_rewrite_reasoning_effort,
+                seed_rewrite_codex_bin=args.seed_rewrite_codex_bin,
+                seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
+                seed_rewrite_codex_home=args.seed_rewrite_codex_home,
+                seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
+                seed_rewrite_preview=args.seed_rewrite_preview,
+            )
         extract_keywords_from_seed_pdfs(
             ws,
             max_pdfs=args.max_pdfs,

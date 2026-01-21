@@ -23,9 +23,9 @@ python scripts/topic_pipeline.py filter-seed --topic "<topic>" \
 - Prompt stays at `resources/LLM/prompts/filter_seed/llm_screening.md` (strict JSON required).
 - Output is parsed by `_parse_decision_payload()`; schema is unchanged.
 - No OpenAI API calls; failures from `codex exec` surface as errors.
-- Screening uses title/abstract only, then downloads selected PDFs into `seed/downloads/arxiv/`.
+- Screening uses title/abstract only, then downloads selected PDFs into `seed/downloads/ta_filtered/`.
 
 ## Outputs
 - `seed/filters/llm_screening.json`
 - `seed/filters/selected_ids.json`
-- `seed/downloads/arxiv/*.pdf`
+- `seed/downloads/ta_filtered/*.pdf`

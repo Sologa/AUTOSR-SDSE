@@ -1,0 +1,470 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "generated_at": "2026-01-20T11:50:36.179331+00:00",
+  "anchors": [
+    "discrete speech tokens",
+    "neural audio codecs",
+    "audio language models"
+  ],
+  "search_terms": [
+    "acoustic tokens",
+    "semantic tokens",
+    "discrete codes",
+    "vector quantization",
+    "residual vector quantization",
+    "rvq",
+    "encoder decoder",
+    "transformer",
+    "decoder only",
+    "reconstruction loss",
+    "adversarial loss",
+    "entropy coding",
+    "speech generation",
+    "spoken language modeling",
+    "text to speech",
+    "sequence length",
+    "frame rate",
+    "bitrate"
+  ],
+  "scope": "all",
+  "boolean_operator": "OR",
+  "top_k_per_query": 100,
+  "start_date": "2022-06-12",
+  "end_date": "2025-06-11",
+  "cutoff_date": "2025-06-12",
+  "queries_run": 54,
+  "queries": [
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"acoustic tokens\")",
+      "records_returned": 100,
+      "records_added": 62,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 35,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "discrete codes",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"discrete codes\")",
+      "records_returned": 100,
+      "records_added": 31,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 43,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "residual vector quantization",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"residual vector quantization\")",
+      "records_returned": 100,
+      "records_added": 27,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "rvq",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"rvq\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 41,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "transformer",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"transformer\")",
+      "records_returned": 100,
+      "records_added": 57,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "decoder only",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"decoder only\")",
+      "records_returned": 100,
+      "records_added": 46,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "reconstruction loss",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"reconstruction loss\")",
+      "records_returned": 100,
+      "records_added": 28,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "adversarial loss",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"adversarial loss\")",
+      "records_returned": 100,
+      "records_added": 21,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "entropy coding",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"entropy coding\")",
+      "records_returned": 100,
+      "records_added": 26,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "speech generation",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"speech generation\")",
+      "records_returned": 100,
+      "records_added": 45,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "spoken language modeling",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"spoken language modeling\")",
+      "records_returned": 100,
+      "records_added": 34,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "text to speech",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"text to speech\")",
+      "records_returned": 100,
+      "records_added": 44,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "sequence length",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"sequence length\")",
+      "records_returned": 100,
+      "records_added": 30,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "frame rate",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"frame rate\")",
+      "records_returned": 100,
+      "records_added": 25,
+      "error": null
+    },
+    {
+      "anchor": "discrete speech tokens",
+      "search_term": "bitrate",
+      "search_query": "(all:\"discrete speech tokens\") OR (all:\"bitrate\")",
+      "records_returned": 100,
+      "records_added": 45,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"acoustic tokens\")",
+      "records_returned": 100,
+      "records_added": 36,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "discrete codes",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"discrete codes\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "residual vector quantization",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"residual vector quantization\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "rvq",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"rvq\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "transformer",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"transformer\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "decoder only",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"decoder only\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "reconstruction loss",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"reconstruction loss\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "adversarial loss",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"adversarial loss\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "entropy coding",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"entropy coding\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "speech generation",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"speech generation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "spoken language modeling",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"spoken language modeling\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "text to speech",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"text to speech\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "sequence length",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"sequence length\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "frame rate",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"frame rate\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "neural audio codecs",
+      "search_term": "bitrate",
+      "search_query": "(all:\"neural audio codecs\") OR (all:\"bitrate\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "acoustic tokens",
+      "search_query": "(all:\"audio language models\") OR (all:\"acoustic tokens\")",
+      "records_returned": 100,
+      "records_added": 40,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "semantic tokens",
+      "search_query": "(all:\"audio language models\") OR (all:\"semantic tokens\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "discrete codes",
+      "search_query": "(all:\"audio language models\") OR (all:\"discrete codes\")",
+      "records_returned": 100,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "vector quantization",
+      "search_query": "(all:\"audio language models\") OR (all:\"vector quantization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "residual vector quantization",
+      "search_query": "(all:\"audio language models\") OR (all:\"residual vector quantization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "rvq",
+      "search_query": "(all:\"audio language models\") OR (all:\"rvq\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"audio language models\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "transformer",
+      "search_query": "(all:\"audio language models\") OR (all:\"transformer\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "decoder only",
+      "search_query": "(all:\"audio language models\") OR (all:\"decoder only\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "reconstruction loss",
+      "search_query": "(all:\"audio language models\") OR (all:\"reconstruction loss\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "adversarial loss",
+      "search_query": "(all:\"audio language models\") OR (all:\"adversarial loss\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "entropy coding",
+      "search_query": "(all:\"audio language models\") OR (all:\"entropy coding\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "speech generation",
+      "search_query": "(all:\"audio language models\") OR (all:\"speech generation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "spoken language modeling",
+      "search_query": "(all:\"audio language models\") OR (all:\"spoken language modeling\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "text to speech",
+      "search_query": "(all:\"audio language models\") OR (all:\"text to speech\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "sequence length",
+      "search_query": "(all:\"audio language models\") OR (all:\"sequence length\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "frame rate",
+      "search_query": "(all:\"audio language models\") OR (all:\"frame rate\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "audio language models",
+      "search_term": "bitrate",
+      "search_query": "(all:\"audio language models\") OR (all:\"bitrate\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    }
+  ]
+}

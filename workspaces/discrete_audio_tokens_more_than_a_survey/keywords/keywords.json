@@ -1,0 +1,308 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "anchor_terms": [
+    "discrete speech tokens",
+    "neural audio codecs",
+    "audio language models"
+  ],
+  "search_terms": {
+    "token_types": [
+      "acoustic tokens",
+      "semantic tokens",
+      "discrete codes",
+      "codec codes",
+      "speech tokens",
+      "audio tokens",
+      "context codes",
+      "codebook"
+    ],
+    "quantization_methods": [
+      "vector quantization",
+      "residual vector quantization",
+      "rvq",
+      "grouped vq",
+      "k means clustering",
+      "gumbel vq",
+      "finite scalar quantization",
+      "quantizer dropout"
+    ],
+    "model_architectures": [
+      "encoder decoder",
+      "transformer",
+      "decoder only",
+      "cnn",
+      "conformer",
+      "vq gan",
+      "diffusion models",
+      "language model"
+    ],
+    "training_objectives": [
+      "reconstruction loss",
+      "adversarial loss",
+      "entropy coding",
+      "feature matching",
+      "straight through estimator",
+      "commitment loss",
+      "codebook collapse",
+      "masked prediction"
+    ],
+    "downstream_tasks": [
+      "speech generation",
+      "spoken language modeling",
+      "text to speech",
+      "speech translation",
+      "voice conversion",
+      "speech recognition",
+      "speech enhancement",
+      "audio generation"
+    ],
+    "sequence_efficiency": [
+      "sequence length",
+      "frame rate",
+      "bitrate",
+      "low bitrate",
+      "length reduction",
+      "deduplication",
+      "acoustic bpe",
+      "variable frame rate"
+    ]
+  },
+  "papers": [
+    {
+      "id": "wu_audio_language_modeling_overview_2024",
+      "source_id": "arXiv:2402.13236",
+      "title": "Towards audio language modeling -- an overview",
+      "abstract": "Neural audio codecs are initially introduced to compress audio data into compact codes to reduce transmission latency. Researchers recently discovered the potential of codecs as suitable tokenizers for converting continuous audio into discrete codes, which can be employed to develop audio language models (LMs). Numerous high-performance neural audio codecs and codec-based LMs have been developed. The paper aims to provide a thorough and systematic overview of the neural audio codec models and codec-based LMs.",
+      "year": "2024",
+      "source_url": "https://arxiv.org/abs/2402.13236v1",
+      "detected_keywords": [
+        {
+          "term": "neural audio codecs",
+          "category": "token_types",
+          "evidence": {
+            "quote": "Neural audio codecs are initially introduced to compress audio data into compact codes to reduce transmission latency.",
+            "page": "1"
+          },
+          "confidence": 0.85
+        },
+        {
+          "term": "discrete codes",
+          "category": "token_types",
+          "evidence": {
+            "quote": "suitable tokenizers for converting continuous audio into discrete codes, which can be employed to develop audio language models",
+            "page": "1"
+          },
+          "confidence": 0.8
+        },
+        {
+          "term": "audio language models",
+          "category": "downstream_tasks",
+          "evidence": {
+            "quote": "discrete codes, which can be employed to develop audio language models (LMs).",
+            "page": "1"
+          },
+          "confidence": 0.85
+        },
+        {
+          "term": "residual vector quantization",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "Residual Vector Quantization (RVQ)",
+            "page": "1"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "Transformer",
+          "category": "model_architectures",
+          "evidence": {
+            "quote": "a Transformer-based language model",
+            "page": "1"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "reconstruction loss",
+          "category": "training_objectives",
+          "evidence": {
+            "quote": "the model parameters are optimized using a combination of reconstruction and adversarial loss.",
+            "page": "1"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "adversarial loss",
+          "category": "training_objectives",
+          "evidence": {
+            "quote": "the model parameters are optimized using a combination of reconstruction and adversarial loss.",
+            "page": "1"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "entropy coding",
+          "category": "training_objectives",
+          "evidence": {
+            "quote": "additional small transformer model for entropy coding over the quantized units",
+            "page": "3"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "bit rate",
+          "category": "sequence_efficiency",
+          "evidence": {
+            "quote": "consequently achieving an impressively low bit rate per second (BPS).",
+            "page": "2"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "sequence lengths",
+          "category": "sequence_efficiency",
+          "evidence": {
+            "quote": "resulting in reduced sequence lengths.",
+            "page": "2"
+          },
+          "confidence": 0.6
+        }
+      ]
+    },
+    {
+      "id": "guo_discrete_speech_tokens_review_2025",
+      "source_id": "arXiv:2502.06490",
+      "title": "Recent Advances in Discrete Speech Tokens: A Review",
+      "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+      "year": "2025",
+      "source_url": "https://arxiv.org/abs/2502.06490v4",
+      "detected_keywords": [
+        {
+          "term": "discrete speech tokens",
+          "category": "token_types",
+          "evidence": {
+            "quote": "established discrete speech tokens as a foundational paradigm for speech representation.",
+            "page": "1"
+          },
+          "confidence": 0.9
+        },
+        {
+          "term": "acoustic tokens",
+          "category": "token_types",
+          "evidence": {
+            "quote": "two types of speech tokens: acoustic tokens and semantic tokens.",
+            "page": "1"
+          },
+          "confidence": 0.85
+        },
+        {
+          "term": "semantic tokens",
+          "category": "token_types",
+          "evidence": {
+            "quote": "two types of speech tokens: acoustic tokens and semantic tokens.",
+            "page": "1"
+          },
+          "confidence": 0.85
+        },
+        {
+          "term": "speech tokenization",
+          "category": "token_types",
+          "evidence": {
+            "quote": "recent innovations in discrete speech tokenization",
+            "page": "1"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "k means clustering",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "The most frequently used clustering method for discrete speech tokens is k-means clustering",
+            "page": "2"
+          },
+          "confidence": 0.8
+        },
+        {
+          "term": "vector quantization",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "Vector Quantization",
+            "page": "2"
+          },
+          "confidence": 0.85
+        },
+        {
+          "term": "VQ VAE",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "Autoencoders with a VQ module is termed VQ-VAE",
+            "page": "2"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "straight through estimator",
+          "category": "training_objectives",
+          "evidence": {
+            "quote": "straight-through estimators (STEs)",
+            "page": "2"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "finite scalar quantization",
+          "category": "quantization_methods",
+          "evidence": {
+            "quote": "Finite Scalar Quantization (FSQ)",
+            "page": "3"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "codebook collapse",
+          "category": "training_objectives",
+          "evidence": {
+            "quote": "VQ in high-dimensional spaces is known to suffer from codebook collapse",
+            "page": "2"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "deduplication",
+          "category": "sequence_efficiency",
+          "evidence": {
+            "quote": "A common approach to reduce token sequence lengths is deduplication",
+            "page": "11"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "acoustic BPE",
+          "category": "sequence_efficiency",
+          "evidence": {
+            "quote": "Another popular approach is acoustic byte-pair encoding (BPE)",
+            "page": "11"
+          },
+          "confidence": 0.75
+        },
+        {
+          "term": "variable frame rate",
+          "category": "sequence_efficiency",
+          "evidence": {
+            "quote": "This kind of discrete speech tokens is referred to as variable frame rate (VFR) tokens in this review.",
+            "page": "12"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "decoder only",
+          "category": "model_architectures",
+          "evidence": {
+            "quote": "speech being tokenized and modeled using decoder-only Transformers",
+            "page": "1"
+          },
+          "confidence": 0.65
+        }
+      ]
+    }
+  ]
+}

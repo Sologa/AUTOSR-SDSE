@@ -23,7 +23,7 @@ class KeywordsWorkspace(Protocol):
     topic: str
     keywords_path: Path
     keywords_dir: Path
-    seed_arxiv_pdf_dir: Path
+    seed_ta_filtered_dir: Path
 
 
 @dataclass
@@ -290,7 +290,7 @@ def run_codex_cli_keywords(
             pdf_count=0,
         )
 
-    root = Path(pdf_dir) if pdf_dir else workspace.seed_arxiv_pdf_dir
+    root = Path(pdf_dir) if pdf_dir else workspace.seed_ta_filtered_dir
     pdf_paths = load_pdf_paths(root, max_pdfs)
 
     prompt_path = prompt_path or Path("resources/LLM/prompts/keyword_extractor/generate_search_terms.md")

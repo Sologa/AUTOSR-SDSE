@@ -1,0 +1,118 @@
+{
+  "topic_definition": "離散音訊 token（Discrete Audio Tokens）指把連續的語音／音樂／一般音訊訊號，透過「編碼器—解碼器」架構與量化（quantization）等機制，轉換為可由有限詞彙表表示的離散序列（tokens／units／codes），並在盡量保留可感知音質、語音內容與說話人等關鍵特徵的前提下，支援更有效率的儲存、傳輸、推論，以及以（音訊）語言模型方式進行建模與生成。\n\n本主題聚焦於：離散 token 的產生／學習方法（tokenizer／codec／semantic unit）、不同離散化路線的分類與設計取捨（例如神經音訊 codec tokens 與自監督表徵量化得到的語意 tokens，以及混合式設計），並涵蓋其在重建品質、下游任務與音訊語言模型建模上的評測、基準與限制。",
+  "summary": "離散音訊 token 正從傳統的壓縮／編碼目標，擴展為通用的音訊序列建模介面，使音訊可被自回歸模型或（大型）語言模型以類文字序列方式處理。相關研究通常圍繞 tokenizer/codec 的設計取捨、可比性評測基準，以及語意與高保真 token 的整合以兼顧長程結構與音質。",
+  "summary_topics": [
+    {
+      "id": "S1",
+      "description": "定義、範疇與分類（codec／semantic／hybrid tokens）"
+    },
+    {
+      "id": "S2",
+      "description": "Tokenizer／Codec 設計與訓練（量化、codebook、串流、損失）"
+    },
+    {
+      "id": "S3",
+      "description": "評測與基準（重建品質、下游任務、acoustic LM、取捨）"
+    },
+    {
+      "id": "S4",
+      "description": "與生成／LLM 的整合與應用（語音、音樂、一般音訊）"
+    }
+  ],
+  "inclusion_criteria": {
+    "required": [
+      {
+        "criterion": "主題定義：離散音訊 token（Discrete Audio Tokens）指把連續的語音／音樂／一般音訊訊號，透過「編碼器—解碼器」架構與量化（quantization）等機制，轉換為可由有限詞彙表表示的離散序列（tokens／units／codes），並在盡量保留可感知音質、語音內容與說話人等關鍵特徵的前提下，支援更有效率的儲存、傳輸、推論，以及以（音訊）語言模型方式進行建模與生成。\n\n本主題聚焦於：離散 token 的產生／學習方法（tokenizer／codec／semantic unit）、不同離散化路線的分類與設計取捨（例如神經音訊 codec tokens 與自監督表徵量化得到的語意 tokens，以及混合式設計），並涵蓋其在重建品質、下游任務與音訊語言模型建模上的評測、基準與限制。—收錄以「音訊訊號（或音訊表徵）→有限詞彙表的離散 token 序列」為核心研究對象，並對 token/量化/詞彙表/解碼重建或 token 級建模與比較提供明確定義或方法描述之研究。",
+        "topic_ids": [
+          "S1"
+        ],
+        "source": "https://arxiv.org/abs/2506.10274v3"
+      },
+      {
+        "criterion": "提供英文可評估性：至少具備英文標題與英文摘要（或英文全文），以支援一致的篩選、資料萃取與比對。",
+        "topic_ids": [
+          "S1"
+        ],
+        "source": "internal"
+      }
+    ],
+    "any_of": [
+      {
+        "label": "技術覆蓋需求（滿足任一離散化路線即可）",
+        "options": [
+          {
+            "criterion": "研究提出或使用神經音訊 codec 產生離散 codes（例如 RVQ、多 codebook、可變碼率或可串流設計），並用於重建、下游任務或生成建模之任一目的。",
+            "topic_ids": [
+              "S2",
+              "S3"
+            ],
+            "source": "https://arxiv.org/abs/2107.03312v1"
+          },
+          {
+            "criterion": "研究提出或使用高保真神經音訊壓縮／codec 的離散 tokens，並提供至少一種可解讀的品質或效能評測（例如主觀聆聽測試如 MUSHRA、客觀指標或跨域評測）以討論設計選擇與取捨。",
+            "topic_ids": [
+              "S2",
+              "S3"
+            ],
+            "source": "https://arxiv.org/abs/2210.13438v1"
+          },
+          {
+            "criterion": "研究以自監督音訊表徵（SSL）進行量化以取得語意離散 tokens（semantic units），並在辨識、生成或相關下游任務中分析 token 配置、層選擇或表徵取捨。",
+            "topic_ids": [
+              "S2",
+              "S3"
+            ],
+            "source": "https://arxiv.org/abs/2406.10735v1"
+          },
+          {
+            "criterion": "研究使用或提出混合式 tokenization（結合語意 token 與 codec token），以支援長程一致性與高音質的音訊生成、續寫或與（音訊）語言模型整合。",
+            "topic_ids": [
+              "S4",
+              "S2"
+            ],
+            "source": "https://arxiv.org/abs/2209.03143v2"
+          }
+        ]
+      }
+    ]
+  },
+  "exclusion_criteria": [
+    {
+      "criterion": "研究核心表徵為連續特徵（例如 mel-spectrogram 或連續 latent），且其方法與實驗主要以連續表徵進行而未將「有限詞彙表的離散 token 序列」作為主要研究對象之情境予以排除。",
+      "topic_ids": [
+        "S1"
+      ],
+      "source": "https://arxiv.org/abs/2506.10274v3"
+    },
+    {
+      "criterion": "研究對象為非音訊來源所導出的離散序列（例如純文字 token、純影像 token），且與音訊 token/tokenizer 的定義、設計或評測無直接對應之情境予以排除。",
+      "topic_ids": [
+        "S1"
+      ],
+      "source": "internal"
+    },
+    {
+      "criterion": "研究僅以一般音訊生成或辨識為目標，但未呈現可判讀的離散音訊 token/tokenizer（例如未提供 token 定義、詞彙表或量化機制描述，且未在 token 層級進行任何評估或比較）之情境予以排除。",
+      "topic_ids": [
+        "S3",
+        "S4"
+      ],
+      "source": "https://arxiv.org/abs/2506.10274v3"
+    },
+    {
+      "criterion": "研究主要聚焦單一工程實作或部署細節，且缺乏可重現的 token 規格資訊（例如詞彙表大小、量化方式或 codebook 設計）與最低限度的品質/效能評測資訊之情境予以排除。",
+      "topic_ids": [
+        "S2",
+        "S3"
+      ],
+      "source": "internal"
+    }
+  ],
+  "sources": [
+    "https://arxiv.org/abs/2506.10274v3",
+    "https://arxiv.org/abs/2107.03312v1",
+    "https://arxiv.org/abs/2210.13438v1",
+    "https://arxiv.org/abs/2406.10735v1",
+    "https://arxiv.org/abs/2209.03143v2"
+  ]
+}

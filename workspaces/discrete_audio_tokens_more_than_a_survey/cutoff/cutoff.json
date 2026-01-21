@@ -1,18 +1,66 @@
 {
-  "topic_title": "Discrete Audio Tokens: More Than a Survey!",
-  "topic_title_normalized": "discrete audio tokens more than a survey",
+  "schema_version": "cutoff.v2",
+  "topic_input": "Discrete Audio Tokens: More Than a Survey!",
+  "topic_normalized": "discrete audio tokens more than a survey",
+  "date_field": "published",
+  "tie_break": [
+    "published_asc",
+    "arxiv_id_asc"
+  ],
+  "cutoff": {
+    "arxiv_id": "2506.10274",
+    "title": "Discrete Audio Tokens: More Than a Survey!",
+    "title_normalized": "discrete audio tokens more than a survey",
+    "published": "2025-06-12T01:35:43Z",
+    "updated": "2025-09-27T12:26:57Z",
+    "primary_category": "cs.SD",
+    "authors": [
+      "Pooneh Mousavi",
+      "Gallil Maimon",
+      "Adel Moumen",
+      "Darius Petermann",
+      "Jiatong Shi",
+      "Haibin Wu",
+      "Haici Yang",
+      "Anastasia Kuznetsova",
+      "Artem Ploujnikov",
+      "Ricard Marxer",
+      "Bhuvana Ramabhadran",
+      "Benjamin Elizalde",
+      "Loren Lugosch",
+      "Jinyu Li",
+      "Cem Subakan",
+      "Phil Woodland",
+      "Minje Kim",
+      "Hung-yi Lee",
+      "Shinji Watanabe",
+      "Yossi Adi",
+      "Mirco Ravanelli"
+    ],
+    "url_abs": "https://arxiv.org/abs/2506.10274v3"
+  },
+  "candidates_same_title": [
+    {
+      "arxiv_id": "2506.10274",
+      "published": "2025-06-12T01:35:43Z",
+      "updated": "2025-09-27T12:26:57Z",
+      "date_field": "published",
+      "date_raw": "2025-06-12T01:35:43Z"
+    }
+  ],
+  "errors": [],
   "target_paper": {
     "source": "arxiv",
     "id": "2506.10274",
     "title": "Discrete Audio Tokens: More Than a Survey!",
-    "published_date": "2025-06-12",
-    "published_raw": "2025-06-12"
+    "published_date": "2025-06-12T01:35:43Z",
+    "published_raw": "2025-06-12T01:35:43Z"
   },
-  "cutoff_date": "2025-06-12",
+  "cutoff_date": "2025-06-12T01:35:43Z",
   "policy": {
     "exclude_same_title": true,
     "exclude_on_or_after_cutoff_date": true
   },
-  "derived_from": "seed_selection",
-  "generated_at": "2026-01-19T06:09:26.231214+00:00"
+  "derived_from": "cutoff_first",
+  "generated_at": "2026-01-20T10:12:25.741276+00:00"
 }

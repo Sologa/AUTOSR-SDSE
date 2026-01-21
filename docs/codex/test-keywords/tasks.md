@@ -34,7 +34,7 @@
 
 ## Phase 3.3: Decision Gates
 - [x] **T007** 確認 PDF→text 前處理依賴採用 `pdfplumber`
-- [x] **T008** 指定 Gemini CLI PDF 讀取實測的 topic 與 PDF 範例集合（topic: `workspaces/discrete_audio_tokens_more_than_a_survey/`, PDFs: `workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf`）
+- [x] **T008** 指定 Gemini CLI PDF 讀取實測的 topic 與 PDF 範例集合（topic: `workspaces/discrete_audio_tokens_more_than_a_survey/`, PDFs: `workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/ta_filtered/2502.06490.pdf`）
 - [x] **T011** 確認 PDF→text 保存檔名與子目錄規則（檔名沿用 PDF 檔名）
 
 ## Phase 3.4: Manual Validation

@@ -1,8 +1,1786 @@
-[
-  {
-    "id": "http://arxiv.org/abs/2506.10274v3",
-    "title": "Discrete Audio Tokens: More Than a Survey!",
-    "summary": "Discrete audio tokens are compact representations that aim to preserve perceptual quality, phonetic content, and speaker characteristics while enabling efficient storage and inference, as well as competitive performance across diverse downstream tasks. They provide a practical alternative to continuous features, enabling the integration of speech and audio into modern large language models (LLMs). As interest in token-based audio processing grows, various tokenization methods have emerged, and several surveys have reviewed the latest progress in the field. However, existing studies often focus on specific domains or tasks and lack a unified comparison across various benchmarks. This paper presents a systematic review and benchmark of discrete audio tokenizers, covering three domains: speech, music, and general audio. We propose a taxonomy of tokenization approaches based on encoder-decoder, quantization techniques, training paradigm, streamability, and application domains. We evaluate tokenizers on multiple benchmarks for reconstruction, downstream performance, and acoustic language modeling, and analyze trade-offs through controlled ablation studies. Our findings highlight key limitations, practical considerations, and open challenges, providing insight and guidance for future research in this rapidly evolving area. For more information, including our main results and tokenizer database, please refer to our website: https://poonehmousavi.github.io/dates-website/.",
-    "published": "2025-06-12T01:35:43Z"
-  }
-]
+{
+  "schema_version": "seed_arxiv_queries.v2",
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "cutoff_ref": {
+    "arxiv_id": "2506.10274",
+    "date_field": "published",
+    "cutoff_date": "2025-06-12T01:35:43Z"
+  },
+  "queries": [
+    {
+      "phrase": "discrete audio tokens",
+      "tokens": [
+        "discrete",
+        "audio",
+        "tokens"
+      ],
+      "tokenization": {
+        "dropped_tokens": [],
+        "truncated": false,
+        "max_tokens": 32
+      },
+      "query": "(discrete OR audio OR tokens) AND (survey OR review OR overview)",
+      "requested_max_results": 100,
+      "raw_results_count": 100,
+      "filtered": {
+        "excluded_cutoff_id": 1,
+        "excluded_after_cutoff": 21,
+        "excluded_missing_date": 0,
+        "kept": 78
+      },
+      "results_kept": [
+        {
+          "arxiv_id": "2308.12792",
+          "title": "Sparks of Large Audio Models: A Survey and Outlook",
+          "published": "2023-08-24T13:47:16Z",
+          "updated": "2023-09-22T01:44:46Z",
+          "url_abs": "http://arxiv.org/abs/2308.12792v3"
+        },
+        {
+          "arxiv_id": "2101.00132",
+          "title": "Audio Content Analysis",
+          "published": "2021-01-01T01:22:22Z",
+          "updated": "2021-01-01T01:22:22Z",
+          "url_abs": "http://arxiv.org/abs/2101.00132v1"
+        },
+        {
+          "arxiv_id": "2111.14203",
+          "title": "How Deep Are the Fakes? Focusing on Audio Deepfake: A Survey",
+          "published": "2021-11-28T18:28:30Z",
+          "updated": "2021-11-28T18:28:30Z",
+          "url_abs": "http://arxiv.org/abs/2111.14203v1"
+        },
+        {
+          "arxiv_id": "2205.05949",
+          "title": "Automated Audio Captioning: An Overview of Recent Progress and New Challenges",
+          "published": "2022-05-12T08:36:35Z",
+          "updated": "2022-09-27T01:24:25Z",
+          "url_abs": "http://arxiv.org/abs/2205.05949v2"
+        },
+        {
+          "arxiv_id": "2408.10330",
+          "title": "Meta-Learning in Audio and Speech Processing: An End to End Comprehensive Review",
+          "published": "2024-08-19T18:11:59Z",
+          "updated": "2024-08-19T18:11:59Z",
+          "url_abs": "http://arxiv.org/abs/2408.10330v1"
+        },
+        {
+          "arxiv_id": "2208.09579",
+          "title": "Learning in Audio-visual Context: A Review, Analysis, and New Perspective",
+          "published": "2022-08-20T02:15:44Z",
+          "updated": "2022-08-20T02:15:44Z",
+          "url_abs": "http://arxiv.org/abs/2208.09579v1"
+        },
+        {
+          "arxiv_id": "2402.13236",
+          "title": "Towards audio language modeling -- an overview",
+          "published": "2024-02-20T18:50:25Z",
+          "updated": "2024-02-20T18:50:25Z",
+          "url_abs": "http://arxiv.org/abs/2402.13236v1"
+        },
+        {
+          "arxiv_id": "2207.08759",
+          "title": "Style Transfer of Audio Effects with Differentiable Signal Processing",
+          "published": "2022-07-18T17:06:19Z",
+          "updated": "2022-07-18T17:06:19Z",
+          "url_abs": "http://arxiv.org/abs/2207.08759v1"
+        },
+        {
+          "arxiv_id": "2103.01498",
+          "title": "A Survey On Universal Adversarial Attack",
+          "published": "2021-03-02T06:35:09Z",
+          "updated": "2022-01-04T09:52:21Z",
+          "url_abs": "http://arxiv.org/abs/2103.01498v2"
+        },
+        {
+          "arxiv_id": "2505.01369",
+          "title": "Binamix -- A Python Library for Generating Binaural Audio Datasets",
+          "published": "2025-05-02T16:17:00Z",
+          "updated": "2025-05-02T16:17:00Z",
+          "url_abs": "http://arxiv.org/abs/2505.01369v1"
+        },
+        {
+          "arxiv_id": "2505.15957",
+          "title": "Towards Holistic Evaluation of Large Audio-Language Models: A Comprehensive Survey",
+          "published": "2025-05-21T19:17:29Z",
+          "updated": "2025-10-01T16:02:37Z",
+          "url_abs": "http://arxiv.org/abs/2505.15957v3"
+        },
+        {
+          "arxiv_id": "2409.07858",
+          "title": "Audio Decoding by Inverse Problem Solving",
+          "published": "2024-09-12T09:05:18Z",
+          "updated": "2024-09-12T09:05:18Z",
+          "url_abs": "http://arxiv.org/abs/2409.07858v1"
+        },
+        {
+          "arxiv_id": "2111.03895",
+          "title": "Digital Audio Processing Tools for Music Corpus Studies",
+          "published": "2021-11-06T14:40:09Z",
+          "updated": "2021-11-09T16:48:55Z",
+          "url_abs": "http://arxiv.org/abs/2111.03895v2"
+        },
+        {
+          "arxiv_id": "2108.00443",
+          "title": "A Survey on Audio Synthesis and Audio-Visual Multimodal Processing",
+          "published": "2021-08-01T12:35:16Z",
+          "updated": "2021-08-01T12:35:16Z",
+          "url_abs": "http://arxiv.org/abs/2108.00443v1"
+        },
+        {
+          "arxiv_id": "2011.02034",
+          "title": "The Role of Time, Weather and Google Trends in Understanding and Predicting Web Survey Response",
+          "published": "2020-10-30T14:04:28Z",
+          "updated": "2022-01-21T13:43:08Z",
+          "url_abs": "http://arxiv.org/abs/2011.02034v2"
+        },
+        {
+          "arxiv_id": "2308.14970",
+          "title": "Audio Deepfake Detection: A Survey",
+          "published": "2023-08-29T01:50:01Z",
+          "updated": "2023-08-29T01:50:01Z",
+          "url_abs": "http://arxiv.org/abs/2308.14970v1"
+        },
+        {
+          "arxiv_id": "2204.07402",
+          "title": "BYOL for Audio: Exploring Pre-trained General-purpose Audio Representations",
+          "published": "2022-04-15T09:44:10Z",
+          "updated": "2022-06-16T05:25:12Z",
+          "url_abs": "http://arxiv.org/abs/2204.07402v2"
+        },
+        {
+          "arxiv_id": "2506.09487",
+          "title": "BemaGANv2: A Tutorial and Comparative Survey of GAN-based Vocoders for Long-Term Audio Generation",
+          "published": "2025-06-11T07:57:05Z",
+          "updated": "2025-11-22T03:34:54Z",
+          "url_abs": "http://arxiv.org/abs/2506.09487v2"
+        },
+        {
+          "arxiv_id": "2502.12448",
+          "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+          "published": "2025-02-18T02:29:51Z",
+          "updated": "2025-02-18T02:29:51Z",
+          "url_abs": "http://arxiv.org/abs/2502.12448v1"
+        },
+        {
+          "arxiv_id": "2110.11438",
+          "title": "Objective Measures of Perceptual Audio Quality Reviewed: An Evaluation of Their Application Domain Dependence",
+          "published": "2021-10-21T19:15:36Z",
+          "updated": "2021-10-21T19:15:36Z",
+          "url_abs": "http://arxiv.org/abs/2110.11438v1"
+        },
+        {
+          "arxiv_id": "2501.15177",
+          "title": "Audio-Language Models for Audio-Centric Tasks: A survey",
+          "published": "2025-01-25T11:15:06Z",
+          "updated": "2025-01-25T11:15:06Z",
+          "url_abs": "http://arxiv.org/abs/2501.15177v1"
+        },
+        {
+          "arxiv_id": "2502.06490",
+          "title": "Recent Advances in Discrete Speech Tokens: A Review",
+          "published": "2025-02-10T14:08:25Z",
+          "updated": "2025-12-12T05:18:11Z",
+          "url_abs": "http://arxiv.org/abs/2502.06490v4"
+        },
+        {
+          "arxiv_id": "2204.12260",
+          "title": "Masked Spectrogram Modeling using Masked Autoencoders for Learning General-purpose Audio Representation",
+          "published": "2022-04-26T12:32:10Z",
+          "updated": "2022-04-26T12:32:10Z",
+          "url_abs": "http://arxiv.org/abs/2204.12260v1"
+        },
+        {
+          "arxiv_id": "2008.09586",
+          "title": "An Overview of Deep-Learning-Based Audio-Visual Speech Enhancement and Separation",
+          "published": "2020-08-21T17:24:09Z",
+          "updated": "2021-03-12T22:27:01Z",
+          "url_abs": "http://arxiv.org/abs/2008.09586v2"
+        },
+        {
+          "arxiv_id": "2502.15056",
+          "title": "Fundamental Survey on Neuromorphic Based Audio Classification",
+          "published": "2025-02-20T21:34:32Z",
+          "updated": "2025-02-20T21:34:32Z",
+          "url_abs": "http://arxiv.org/abs/2502.15056v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "A Non-Coprehensive Survey Of Integration Methods In Discrete Geometry",
+          "published": "2010-01-27T16:18:26Z",
+          "updated": "2014-04-27T15:19:06Z",
+          "url_abs": "http://arxiv.org/abs/1001.4968v16"
+        },
+        {
+          "arxiv_id": "2101.00240",
+          "title": "A Survey on Deep Reinforcement Learning for Audio-Based Applications",
+          "published": "2021-01-01T14:15:20Z",
+          "updated": "2021-01-01T14:15:20Z",
+          "url_abs": "http://arxiv.org/abs/2101.00240v1"
+        },
+        {
+          "arxiv_id": "2407.17430",
+          "title": "A Comprehensive Review and Taxonomy of Audio-Visual Synchronization Techniques for Realistic Speech Animation",
+          "published": "2024-07-24T17:05:46Z",
+          "updated": "2024-08-28T13:27:51Z",
+          "url_abs": "http://arxiv.org/abs/2407.17430v2"
+        },
+        {
+          "arxiv_id": "2407.06947",
+          "title": "Audio-Language Datasets of Scenes and Events: A Survey",
+          "published": "2024-07-09T15:23:35Z",
+          "updated": "2025-01-08T15:54:39Z",
+          "url_abs": "http://arxiv.org/abs/2407.06947v2"
+        },
+        {
+          "arxiv_id": "2412.00571",
+          "title": "From Audio Deepfake Detection to AI-Generated Music Detection -- A Pathway and Overview",
+          "published": "2024-11-30T19:53:23Z",
+          "updated": "2024-12-10T10:23:54Z",
+          "url_abs": "http://arxiv.org/abs/2412.00571v2"
+        },
+        {
+          "arxiv_id": "2011.14445",
+          "title": "Audio, Speech, Language, & Signal Processing for COVID-19: A Comprehensive Overview",
+          "published": "2020-11-29T21:33:59Z",
+          "updated": "2020-11-29T21:33:59Z",
+          "url_abs": "http://arxiv.org/abs/2011.14445v1"
+        },
+        {
+          "arxiv_id": "2307.05527",
+          "title": "The Ethical Implications of Generative Audio Models: A Systematic Literature Review",
+          "published": "2023-07-07T22:00:32Z",
+          "updated": "2023-07-07T22:00:32Z",
+          "url_abs": "http://arxiv.org/abs/2307.05527v1"
+        },
+        {
+          "arxiv_id": "2001.02877",
+          "title": "Short-Range Audio Channels Security: Survey of Mechanisms, Applications, and Research Challenges",
+          "published": "2020-01-09T08:07:55Z",
+          "updated": "2020-01-28T13:44:43Z",
+          "url_abs": "http://arxiv.org/abs/2001.02877v2"
+        },
+        {
+          "arxiv_id": "2206.02639",
+          "title": "Continuous-Time Analog Filters for Audio Edge Intelligence: Review on Circuit Designs",
+          "published": "2022-06-06T14:22:58Z",
+          "updated": "2023-04-21T10:33:08Z",
+          "url_abs": "http://arxiv.org/abs/2206.02639v2"
+        },
+        {
+          "arxiv_id": "2005.08579",
+          "title": "An Overview on Audio, Signal, Speech, & Language Processing for COVID-19",
+          "published": "2020-05-18T10:46:30Z",
+          "updated": "2020-05-18T10:46:30Z",
+          "url_abs": "http://arxiv.org/abs/2005.08579v1"
+        },
+        {
+          "arxiv_id": "2405.09589",
+          "title": "A Comprehensive Survey of Hallucination in Large Language, Image, Video and Audio Foundation Models",
+          "published": "2024-05-15T10:16:25Z",
+          "updated": "2024-10-03T09:00:35Z",
+          "url_abs": "http://arxiv.org/abs/2405.09589v4"
+        },
+        {
+          "arxiv_id": "2203.01205",
+          "title": "Audio Self-supervised Learning: A Survey",
+          "published": "2022-03-02T15:58:29Z",
+          "updated": "2022-03-02T15:58:29Z",
+          "url_abs": "http://arxiv.org/abs/2203.01205v1"
+        },
+        {
+          "arxiv_id": "2412.00049",
+          "title": "A Survey of Recent Advances and Challenges in Deep Audio-Visual Correlation Learning",
+          "published": "2024-11-24T03:26:34Z",
+          "updated": "2024-11-24T03:26:34Z",
+          "url_abs": "http://arxiv.org/abs/2412.00049v1"
+        },
+        {
+          "arxiv_id": "2206.13390",
+          "title": "A Comprehensive Survey on Video Saliency Detection with Auditory Information: the Audio-visual Consistency Perceptual is the Key!",
+          "published": "2022-06-20T07:25:13Z",
+          "updated": "2022-06-20T07:25:13Z",
+          "url_abs": "http://arxiv.org/abs/2206.13390v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Application of the Weil representation: diagonalization of the discrete Fourier transform",
+          "published": "2009-02-04T08:12:20Z",
+          "updated": "2009-02-04T08:12:20Z",
+          "url_abs": "http://arxiv.org/abs/0902.0668v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "From Discrete Time Quantum Walk to Continuous Time Quantum Walk in Limit Distribution",
+          "published": "2013-07-12T09:16:23Z",
+          "updated": "2013-07-12T09:16:23Z",
+          "url_abs": "http://arxiv.org/abs/1307.3384v1"
+        },
+        {
+          "arxiv_id": "1502.06811",
+          "title": "A Review of Audio Features and Statistical Models Exploited for Voice Pattern Design",
+          "published": "2015-02-24T13:47:45Z",
+          "updated": "2015-02-24T13:47:45Z",
+          "url_abs": "http://arxiv.org/abs/1502.06811v1"
+        },
+        {
+          "arxiv_id": "2007.07663",
+          "title": "A survey and an extensive evaluation of popular audio declipping methods",
+          "published": "2020-07-15T12:43:29Z",
+          "updated": "2021-01-04T13:43:42Z",
+          "url_abs": "http://arxiv.org/abs/2007.07663v2"
+        },
+        {
+          "arxiv_id": "2303.13336",
+          "title": "A Survey on Audio Diffusion Models: Text To Speech Synthesis and Enhancement in Generative AI",
+          "published": "2023-03-23T15:17:15Z",
+          "updated": "2023-04-02T09:27:20Z",
+          "url_abs": "http://arxiv.org/abs/2303.13336v2"
+        },
+        {
+          "arxiv_id": "1607.01092",
+          "title": "Incorporating prior knowledge in medical image segmentation: a survey",
+          "published": "2016-07-05T02:19:57Z",
+          "updated": "2016-07-05T02:19:57Z",
+          "url_abs": "http://arxiv.org/abs/1607.01092v1"
+        },
+        {
+          "arxiv_id": "2503.21254",
+          "title": "Vision-to-Music Generation: A Survey",
+          "published": "2025-03-27T08:21:54Z",
+          "updated": "2025-03-27T08:21:54Z",
+          "url_abs": "http://arxiv.org/abs/2503.21254v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "A Survey of Lagrangian Mechanics and Control on Lie algebroids and groupoids",
+          "published": "2005-11-03T08:50:12Z",
+          "updated": "2005-11-03T08:50:12Z",
+          "url_abs": "http://arxiv.org/abs/math-ph/0511009v1"
+        },
+        {
+          "arxiv_id": "2409.18991",
+          "title": "Surveying the MLLM Landscape: A Meta-Review of Current Surveys",
+          "published": "2024-09-17T14:35:38Z",
+          "updated": "2025-12-08T04:48:16Z",
+          "url_abs": "http://arxiv.org/abs/2409.18991v2"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Audio Surveillance: a Systematic Review",
+          "published": "2014-09-27T09:47:16Z",
+          "updated": "2014-09-27T09:47:16Z",
+          "url_abs": "http://arxiv.org/abs/1409.7787v1"
+        },
+        {
+          "arxiv_id": "2005.08848",
+          "title": "Surfboard: Audio Feature Extraction for Modern Machine Learning",
+          "published": "2020-05-18T16:20:20Z",
+          "updated": "2020-05-18T16:20:20Z",
+          "url_abs": "http://arxiv.org/abs/2005.08848v1"
+        },
+        {
+          "arxiv_id": "2506.08457",
+          "title": "Audio Generation Through Score-Based Generative Modeling: Design Principles and Implementation",
+          "published": "2025-06-10T05:24:00Z",
+          "updated": "2026-01-14T21:30:52Z",
+          "url_abs": "http://arxiv.org/abs/2506.08457v2"
+        },
+        {
+          "arxiv_id": "1606.05670",
+          "title": "Discrete trigonometric and hyperbolic systems: An overview",
+          "published": "2016-06-17T20:33:40Z",
+          "updated": "2016-08-22T18:45:59Z",
+          "url_abs": "http://arxiv.org/abs/1606.05670v2"
+        },
+        {
+          "arxiv_id": "2205.05357",
+          "title": "Beyond the Status Quo: A Contemporary Survey of Advances and Challenges in Audio Captioning",
+          "published": "2022-05-11T09:09:15Z",
+          "updated": "2023-11-16T00:04:01Z",
+          "url_abs": "http://arxiv.org/abs/2205.05357v2"
+        },
+        {
+          "arxiv_id": "1701.05611",
+          "title": "Comprehensive Review of Audio Steganalysis Methods",
+          "published": "2017-01-19T21:43:07Z",
+          "updated": "2018-04-02T18:58:29Z",
+          "url_abs": "http://arxiv.org/abs/1701.05611v3"
+        },
+        {
+          "arxiv_id": "2409.11564",
+          "title": "Preference Tuning with Human Feedback on Language, Speech, and Vision Tasks: A Survey",
+          "published": "2024-09-17T21:28:51Z",
+          "updated": "2024-11-03T01:51:57Z",
+          "url_abs": "http://arxiv.org/abs/2409.11564v2"
+        },
+        {
+          "arxiv_id": "2406.00146",
+          "title": "A Survey of Deep Learning Audio Generation Methods",
+          "published": "2024-05-31T19:20:27Z",
+          "updated": "2024-05-31T19:20:27Z",
+          "url_abs": "http://arxiv.org/abs/2406.00146v1"
+        },
+        {
+          "arxiv_id": "2201.02490",
+          "title": "Audio representations for deep learning in sound synthesis: A review",
+          "published": "2022-01-07T15:08:47Z",
+          "updated": "2022-01-07T15:08:47Z",
+          "url_abs": "http://arxiv.org/abs/2201.02490v1"
+        },
+        {
+          "arxiv_id": "2008.00345",
+          "title": "Overview of CLEF 2019 Lab ProtestNews: Extracting Protests from News in a Cross-context Setting",
+          "published": "2020-08-01T21:39:54Z",
+          "updated": "2020-08-01T21:39:54Z",
+          "url_abs": "http://arxiv.org/abs/2008.00345v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Symmetries of Discrete Systems",
+          "published": "2003-09-22T20:33:12Z",
+          "updated": "2003-09-22T20:33:12Z",
+          "url_abs": "http://arxiv.org/abs/nlin/0309058v1"
+        },
+        {
+          "arxiv_id": "2505.10975",
+          "title": "Survey of End-to-End Multi-Speaker Automatic Speech Recognition for Monaural Audio",
+          "published": "2025-05-16T08:21:59Z",
+          "updated": "2026-01-13T19:02:15Z",
+          "url_abs": "http://arxiv.org/abs/2505.10975v2"
+        },
+        {
+          "arxiv_id": "2309.09950",
+          "title": "Investigating End-to-End ASR Architectures for Long Form Audio Transcription",
+          "published": "2023-09-18T17:13:50Z",
+          "updated": "2023-09-20T18:39:20Z",
+          "url_abs": "http://arxiv.org/abs/2309.09950v2"
+        },
+        {
+          "arxiv_id": "2001.04758",
+          "title": "Deep Audio-Visual Learning: A Survey",
+          "published": "2020-01-14T13:11:21Z",
+          "updated": "2020-01-14T13:11:21Z",
+          "url_abs": "http://arxiv.org/abs/2001.04758v1"
+        },
+        {
+          "arxiv_id": "2504.16223",
+          "title": "Perceptual Audio Coding: A 40-Year Historical Perspective",
+          "published": "2025-04-22T19:32:35Z",
+          "updated": "2025-04-22T19:32:35Z",
+          "url_abs": "http://arxiv.org/abs/2504.16223v1"
+        },
+        {
+          "arxiv_id": "2502.08826",
+          "title": "Ask in Any Modality: A Comprehensive Survey on Multimodal Retrieval-Augmented Generation",
+          "published": "2025-02-12T22:33:41Z",
+          "updated": "2025-06-02T17:15:08Z",
+          "url_abs": "http://arxiv.org/abs/2502.08826v3"
+        },
+        {
+          "arxiv_id": "1909.11549",
+          "title": "MPEG-H Audio for Improving Accessibility in Broadcasting and Streaming",
+          "published": "2019-09-25T15:22:20Z",
+          "updated": "2019-09-25T15:22:20Z",
+          "url_abs": "http://arxiv.org/abs/1909.11549v1"
+        },
+        {
+          "arxiv_id": "2208.04836",
+          "title": "Non-Fungible Tokens in Business and Management -- A Review",
+          "published": "2022-08-09T15:20:29Z",
+          "updated": "2022-08-09T15:20:29Z",
+          "url_abs": "http://arxiv.org/abs/2208.04836v1"
+        },
+        {
+          "arxiv_id": "2310.16481",
+          "title": "A Novel Approach for Object Based Audio Broadcasting",
+          "published": "2023-10-25T09:05:48Z",
+          "updated": "2023-10-25T09:05:48Z",
+          "url_abs": "http://arxiv.org/abs/2310.16481v1"
+        },
+        {
+          "arxiv_id": "2307.04292",
+          "title": "A Demand-Driven Perspective on Generative Audio AI",
+          "published": "2023-07-10T00:58:28Z",
+          "updated": "2023-07-10T00:58:28Z",
+          "url_abs": "http://arxiv.org/abs/2307.04292v1"
+        },
+        {
+          "arxiv_id": "2310.14778",
+          "title": "Audio-Visual Speaker Tracking: Progress, Challenges, and Future Directions",
+          "published": "2023-10-23T10:29:33Z",
+          "updated": "2025-04-13T08:28:06Z",
+          "url_abs": "http://arxiv.org/abs/2310.14778v5"
+        },
+        {
+          "arxiv_id": "2402.09245",
+          "title": "Overview of the L3DAS23 Challenge on Audio-Visual Extended Reality",
+          "published": "2024-02-14T15:34:28Z",
+          "updated": "2024-02-14T15:34:28Z",
+          "url_abs": "http://arxiv.org/abs/2402.09245v1"
+        },
+        {
+          "arxiv_id": "1501.06499",
+          "title": "The origin of discrete symmetries in F-theory models",
+          "published": "2015-01-26T17:59:06Z",
+          "updated": "2015-01-27T19:55:59Z",
+          "url_abs": "http://arxiv.org/abs/1501.06499v2"
+        },
+        {
+          "arxiv_id": "2410.18882",
+          "title": "A Survey of Multimodal Sarcasm Detection",
+          "published": "2024-10-24T16:17:47Z",
+          "updated": "2024-10-24T16:17:47Z",
+          "url_abs": "http://arxiv.org/abs/2410.18882v1"
+        },
+        {
+          "arxiv_id": "2410.13114",
+          "title": "Sound Check: Auditing Audio Datasets",
+          "published": "2024-10-17T00:51:27Z",
+          "updated": "2024-10-17T00:51:27Z",
+          "url_abs": "http://arxiv.org/abs/2410.13114v1"
+        },
+        {
+          "arxiv_id": "2110.01515",
+          "title": "A Review of the Gumbel-max Trick and its Extensions for Discrete Stochasticity in Machine Learning",
+          "published": "2021-10-04T15:34:13Z",
+          "updated": "2022-03-08T11:45:53Z",
+          "url_abs": "http://arxiv.org/abs/2110.01515v2"
+        },
+        {
+          "arxiv_id": "1808.06152",
+          "title": "On Design of Problem Token Questions in Quality of Experience Surveys",
+          "published": "2018-08-19T02:16:40Z",
+          "updated": "2018-08-19T02:16:40Z",
+          "url_abs": "http://arxiv.org/abs/1808.06152v1"
+        },
+        {
+          "arxiv_id": "2309.07314",
+          "title": "AudioSR: Versatile Audio Super-resolution at Scale",
+          "published": "2023-09-13T21:00:09Z",
+          "updated": "2023-09-13T21:00:09Z",
+          "url_abs": "http://arxiv.org/abs/2309.07314v1"
+        },
+        {
+          "arxiv_id": "1904.10990",
+          "title": "A Robust Approach for Securing Audio Classification Against Adversarial Attacks",
+          "published": "2019-04-24T18:07:52Z",
+          "updated": "2019-11-25T17:32:06Z",
+          "url_abs": "http://arxiv.org/abs/1904.10990v2"
+        },
+        {
+          "arxiv_id": "2006.00877",
+          "title": "High-Fidelity Audio Generation and Representation Learning with Guided Adversarial Autoencoder",
+          "published": "2020-06-01T12:19:32Z",
+          "updated": "2020-10-17T12:53:36Z",
+          "url_abs": "http://arxiv.org/abs/2006.00877v2"
+        }
+      ]
+    },
+    {
+      "phrase": "discrete audio token representation",
+      "tokens": [
+        "discrete",
+        "audio",
+        "token",
+        "representation"
+      ],
+      "tokenization": {
+        "dropped_tokens": [],
+        "truncated": false,
+        "max_tokens": 32
+      },
+      "query": "(discrete OR audio OR token OR representation) AND (survey OR review OR overview)",
+      "requested_max_results": 100,
+      "raw_results_count": 100,
+      "filtered": {
+        "excluded_cutoff_id": 1,
+        "excluded_after_cutoff": 12,
+        "excluded_missing_date": 0,
+        "kept": 87
+      },
+      "results_kept": [
+        {
+          "arxiv_id": "2308.12792",
+          "title": "Sparks of Large Audio Models: A Survey and Outlook",
+          "published": "2023-08-24T13:47:16Z",
+          "updated": "2023-09-22T01:44:46Z",
+          "url_abs": "http://arxiv.org/abs/2308.12792v3"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Application of the Weil representation: diagonalization of the discrete Fourier transform",
+          "published": "2009-02-04T08:12:20Z",
+          "updated": "2009-02-04T08:12:20Z",
+          "url_abs": "http://arxiv.org/abs/0902.0668v1"
+        },
+        {
+          "arxiv_id": "2101.00132",
+          "title": "Audio Content Analysis",
+          "published": "2021-01-01T01:22:22Z",
+          "updated": "2021-01-01T01:22:22Z",
+          "url_abs": "http://arxiv.org/abs/2101.00132v1"
+        },
+        {
+          "arxiv_id": "2407.00783",
+          "title": "Diffusion Models and Representation Learning: A Survey",
+          "published": "2024-06-30T17:59:58Z",
+          "updated": "2024-06-30T17:59:58Z",
+          "url_abs": "http://arxiv.org/abs/2407.00783v1"
+        },
+        {
+          "arxiv_id": "2111.14203",
+          "title": "How Deep Are the Fakes? Focusing on Audio Deepfake: A Survey",
+          "published": "2021-11-28T18:28:30Z",
+          "updated": "2021-11-28T18:28:30Z",
+          "url_abs": "http://arxiv.org/abs/2111.14203v1"
+        },
+        {
+          "arxiv_id": "2205.05949",
+          "title": "Automated Audio Captioning: An Overview of Recent Progress and New Challenges",
+          "published": "2022-05-12T08:36:35Z",
+          "updated": "2022-09-27T01:24:25Z",
+          "url_abs": "http://arxiv.org/abs/2205.05949v2"
+        },
+        {
+          "arxiv_id": "2204.08226",
+          "title": "Empirical Evaluation and Theoretical Analysis for Representation Learning: A Survey",
+          "published": "2022-04-18T09:18:47Z",
+          "updated": "2022-04-18T09:18:47Z",
+          "url_abs": "http://arxiv.org/abs/2204.08226v1"
+        },
+        {
+          "arxiv_id": "2408.10330",
+          "title": "Meta-Learning in Audio and Speech Processing: An End to End Comprehensive Review",
+          "published": "2024-08-19T18:11:59Z",
+          "updated": "2024-08-19T18:11:59Z",
+          "url_abs": "http://arxiv.org/abs/2408.10330v1"
+        },
+        {
+          "arxiv_id": "2208.09579",
+          "title": "Learning in Audio-visual Context: A Review, Analysis, and New Perspective",
+          "published": "2022-08-20T02:15:44Z",
+          "updated": "2022-08-20T02:15:44Z",
+          "url_abs": "http://arxiv.org/abs/2208.09579v1"
+        },
+        {
+          "arxiv_id": "2204.07402",
+          "title": "BYOL for Audio: Exploring Pre-trained General-purpose Audio Representations",
+          "published": "2022-04-15T09:44:10Z",
+          "updated": "2022-06-16T05:25:12Z",
+          "url_abs": "http://arxiv.org/abs/2204.07402v2"
+        },
+        {
+          "arxiv_id": "2402.13236",
+          "title": "Towards audio language modeling -- an overview",
+          "published": "2024-02-20T18:50:25Z",
+          "updated": "2024-02-20T18:50:25Z",
+          "url_abs": "http://arxiv.org/abs/2402.13236v1"
+        },
+        {
+          "arxiv_id": "2207.08759",
+          "title": "Style Transfer of Audio Effects with Differentiable Signal Processing",
+          "published": "2022-07-18T17:06:19Z",
+          "updated": "2022-07-18T17:06:19Z",
+          "url_abs": "http://arxiv.org/abs/2207.08759v1"
+        },
+        {
+          "arxiv_id": "2204.12260",
+          "title": "Masked Spectrogram Modeling using Masked Autoencoders for Learning General-purpose Audio Representation",
+          "published": "2022-04-26T12:32:10Z",
+          "updated": "2022-04-26T12:32:10Z",
+          "url_abs": "http://arxiv.org/abs/2204.12260v1"
+        },
+        {
+          "arxiv_id": "2103.01498",
+          "title": "A Survey On Universal Adversarial Attack",
+          "published": "2021-03-02T06:35:09Z",
+          "updated": "2022-01-04T09:52:21Z",
+          "url_abs": "http://arxiv.org/abs/2103.01498v2"
+        },
+        {
+          "arxiv_id": "2505.01369",
+          "title": "Binamix -- A Python Library for Generating Binaural Audio Datasets",
+          "published": "2025-05-02T16:17:00Z",
+          "updated": "2025-05-02T16:17:00Z",
+          "url_abs": "http://arxiv.org/abs/2505.01369v1"
+        },
+        {
+          "arxiv_id": "2401.04971",
+          "title": "A Survey on Cross-Domain Sequential Recommendation",
+          "published": "2024-01-10T07:31:26Z",
+          "updated": "2024-05-17T11:24:01Z",
+          "url_abs": "http://arxiv.org/abs/2401.04971v4"
+        },
+        {
+          "arxiv_id": "2412.18619",
+          "title": "Next Token Prediction Towards Multimodal Intelligence: A Comprehensive Survey",
+          "published": "2024-12-16T05:02:25Z",
+          "updated": "2024-12-30T03:00:30Z",
+          "url_abs": "http://arxiv.org/abs/2412.18619v2"
+        },
+        {
+          "arxiv_id": "2505.15957",
+          "title": "Towards Holistic Evaluation of Large Audio-Language Models: A Comprehensive Survey",
+          "published": "2025-05-21T19:17:29Z",
+          "updated": "2025-10-01T16:02:37Z",
+          "url_abs": "http://arxiv.org/abs/2505.15957v3"
+        },
+        {
+          "arxiv_id": "2409.07858",
+          "title": "Audio Decoding by Inverse Problem Solving",
+          "published": "2024-09-12T09:05:18Z",
+          "updated": "2024-09-12T09:05:18Z",
+          "url_abs": "http://arxiv.org/abs/2409.07858v1"
+        },
+        {
+          "arxiv_id": "2111.03895",
+          "title": "Digital Audio Processing Tools for Music Corpus Studies",
+          "published": "2021-11-06T14:40:09Z",
+          "updated": "2021-11-09T16:48:55Z",
+          "url_abs": "http://arxiv.org/abs/2111.03895v2"
+        },
+        {
+          "arxiv_id": "2108.00443",
+          "title": "A Survey on Audio Synthesis and Audio-Visual Multimodal Processing",
+          "published": "2021-08-01T12:35:16Z",
+          "updated": "2021-08-01T12:35:16Z",
+          "url_abs": "http://arxiv.org/abs/2108.00443v1"
+        },
+        {
+          "arxiv_id": "2011.02034",
+          "title": "The Role of Time, Weather and Google Trends in Understanding and Predicting Web Survey Response",
+          "published": "2020-10-30T14:04:28Z",
+          "updated": "2022-01-21T13:43:08Z",
+          "url_abs": "http://arxiv.org/abs/2011.02034v2"
+        },
+        {
+          "arxiv_id": "2308.14970",
+          "title": "Audio Deepfake Detection: A Survey",
+          "published": "2023-08-29T01:50:01Z",
+          "updated": "2023-08-29T01:50:01Z",
+          "url_abs": "http://arxiv.org/abs/2308.14970v1"
+        },
+        {
+          "arxiv_id": "1912.10235",
+          "title": "An overview of the history of projective representations (spin representations) of groups",
+          "published": "2019-12-21T10:00:57Z",
+          "updated": "2019-12-21T10:00:57Z",
+          "url_abs": "http://arxiv.org/abs/1912.10235v1"
+        },
+        {
+          "arxiv_id": "2007.15840",
+          "title": "A Survey on Concept Factorization: From Shallow to Deep Representation Learning",
+          "published": "2020-07-31T04:19:14Z",
+          "updated": "2021-01-31T08:45:58Z",
+          "url_abs": "http://arxiv.org/abs/2007.15840v3"
+        },
+        {
+          "arxiv_id": "2506.09487",
+          "title": "BemaGANv2: A Tutorial and Comparative Survey of GAN-based Vocoders for Long-Term Audio Generation",
+          "published": "2025-06-11T07:57:05Z",
+          "updated": "2025-11-22T03:34:54Z",
+          "url_abs": "http://arxiv.org/abs/2506.09487v2"
+        },
+        {
+          "arxiv_id": "2201.02490",
+          "title": "Audio representations for deep learning in sound synthesis: A review",
+          "published": "2022-01-07T15:08:47Z",
+          "updated": "2022-01-07T15:08:47Z",
+          "url_abs": "http://arxiv.org/abs/2201.02490v1"
+        },
+        {
+          "arxiv_id": "2110.11438",
+          "title": "Objective Measures of Perceptual Audio Quality Reviewed: An Evaluation of Their Application Domain Dependence",
+          "published": "2021-10-21T19:15:36Z",
+          "updated": "2021-10-21T19:15:36Z",
+          "url_abs": "http://arxiv.org/abs/2110.11438v1"
+        },
+        {
+          "arxiv_id": "2501.15177",
+          "title": "Audio-Language Models for Audio-Centric Tasks: A survey",
+          "published": "2025-01-25T11:15:06Z",
+          "updated": "2025-01-25T11:15:06Z",
+          "url_abs": "http://arxiv.org/abs/2501.15177v1"
+        },
+        {
+          "arxiv_id": "2502.06490",
+          "title": "Recent Advances in Discrete Speech Tokens: A Review",
+          "published": "2025-02-10T14:08:25Z",
+          "updated": "2025-12-12T05:18:11Z",
+          "url_abs": "http://arxiv.org/abs/2502.06490v4"
+        },
+        {
+          "arxiv_id": "2006.00877",
+          "title": "High-Fidelity Audio Generation and Representation Learning with Guided Adversarial Autoencoder",
+          "published": "2020-06-01T12:19:32Z",
+          "updated": "2020-10-17T12:53:36Z",
+          "url_abs": "http://arxiv.org/abs/2006.00877v2"
+        },
+        {
+          "arxiv_id": "2006.00115",
+          "title": "Overview of Scanner Invariant Representations",
+          "published": "2020-05-29T22:56:47Z",
+          "updated": "2020-05-29T22:56:47Z",
+          "url_abs": "http://arxiv.org/abs/2006.00115v1"
+        },
+        {
+          "arxiv_id": "2008.09586",
+          "title": "An Overview of Deep-Learning-Based Audio-Visual Speech Enhancement and Separation",
+          "published": "2020-08-21T17:24:09Z",
+          "updated": "2021-03-12T22:27:01Z",
+          "url_abs": "http://arxiv.org/abs/2008.09586v2"
+        },
+        {
+          "arxiv_id": "2502.12448",
+          "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+          "published": "2025-02-18T02:29:51Z",
+          "updated": "2025-02-18T02:29:51Z",
+          "url_abs": "http://arxiv.org/abs/2502.12448v1"
+        },
+        {
+          "arxiv_id": "2502.15056",
+          "title": "Fundamental Survey on Neuromorphic Based Audio Classification",
+          "published": "2025-02-20T21:34:32Z",
+          "updated": "2025-02-20T21:34:32Z",
+          "url_abs": "http://arxiv.org/abs/2502.15056v1"
+        },
+        {
+          "arxiv_id": "2301.10079",
+          "title": "Reformulation Techniques for Automated Planning: A Systematic Review",
+          "published": "2023-01-24T15:33:37Z",
+          "updated": "2023-01-30T10:04:02Z",
+          "url_abs": "http://arxiv.org/abs/2301.10079v2"
+        },
+        {
+          "arxiv_id": "",
+          "title": "A Non-Coprehensive Survey Of Integration Methods In Discrete Geometry",
+          "published": "2010-01-27T16:18:26Z",
+          "updated": "2014-04-27T15:19:06Z",
+          "url_abs": "http://arxiv.org/abs/1001.4968v16"
+        },
+        {
+          "arxiv_id": "2101.00240",
+          "title": "A Survey on Deep Reinforcement Learning for Audio-Based Applications",
+          "published": "2021-01-01T14:15:20Z",
+          "updated": "2021-01-01T14:15:20Z",
+          "url_abs": "http://arxiv.org/abs/2101.00240v1"
+        },
+        {
+          "arxiv_id": "2407.17430",
+          "title": "A Comprehensive Review and Taxonomy of Audio-Visual Synchronization Techniques for Realistic Speech Animation",
+          "published": "2024-07-24T17:05:46Z",
+          "updated": "2024-08-28T13:27:51Z",
+          "url_abs": "http://arxiv.org/abs/2407.17430v2"
+        },
+        {
+          "arxiv_id": "1611.10000",
+          "title": "Introduction to quiver varieties -- for ring and representation theoriests",
+          "published": "2016-11-30T04:59:00Z",
+          "updated": "2016-11-30T04:59:00Z",
+          "url_abs": "http://arxiv.org/abs/1611.10000v1"
+        },
+        {
+          "arxiv_id": "2407.06947",
+          "title": "Audio-Language Datasets of Scenes and Events: A Survey",
+          "published": "2024-07-09T15:23:35Z",
+          "updated": "2025-01-08T15:54:39Z",
+          "url_abs": "http://arxiv.org/abs/2407.06947v2"
+        },
+        {
+          "arxiv_id": "2409.11729",
+          "title": "DETECLAP: Enhancing Audio-Visual Representation Learning with Object Information",
+          "published": "2024-09-18T06:38:48Z",
+          "updated": "2024-09-18T06:38:48Z",
+          "url_abs": "http://arxiv.org/abs/2409.11729v1"
+        },
+        {
+          "arxiv_id": "2409.15131",
+          "title": "Spaces of Bridgeland stability conditions in representation theory",
+          "published": "2024-09-23T15:37:47Z",
+          "updated": "2024-10-31T21:10:29Z",
+          "url_abs": "http://arxiv.org/abs/2409.15131v2"
+        },
+        {
+          "arxiv_id": "2412.00571",
+          "title": "From Audio Deepfake Detection to AI-Generated Music Detection -- A Pathway and Overview",
+          "published": "2024-11-30T19:53:23Z",
+          "updated": "2024-12-10T10:23:54Z",
+          "url_abs": "http://arxiv.org/abs/2412.00571v2"
+        },
+        {
+          "arxiv_id": "2310.07598",
+          "title": "Survey on Imbalanced Data, Representation Learning and SEP Forecasting",
+          "published": "2023-10-11T15:38:53Z",
+          "updated": "2023-10-11T15:38:53Z",
+          "url_abs": "http://arxiv.org/abs/2310.07598v1"
+        },
+        {
+          "arxiv_id": "2011.14445",
+          "title": "Audio, Speech, Language, & Signal Processing for COVID-19: A Comprehensive Overview",
+          "published": "2020-11-29T21:33:59Z",
+          "updated": "2020-11-29T21:33:59Z",
+          "url_abs": "http://arxiv.org/abs/2011.14445v1"
+        },
+        {
+          "arxiv_id": "1812.00608",
+          "title": "Macdonald trees and determinants of representations for finite Coxeter groups",
+          "published": "2018-12-03T08:57:21Z",
+          "updated": "2018-12-03T08:57:21Z",
+          "url_abs": "http://arxiv.org/abs/1812.00608v1"
+        },
+        {
+          "arxiv_id": "2307.05527",
+          "title": "The Ethical Implications of Generative Audio Models: A Systematic Literature Review",
+          "published": "2023-07-07T22:00:32Z",
+          "updated": "2023-07-07T22:00:32Z",
+          "url_abs": "http://arxiv.org/abs/2307.05527v1"
+        },
+        {
+          "arxiv_id": "2203.01205",
+          "title": "Audio Self-supervised Learning: A Survey",
+          "published": "2022-03-02T15:58:29Z",
+          "updated": "2022-03-02T15:58:29Z",
+          "url_abs": "http://arxiv.org/abs/2203.01205v1"
+        },
+        {
+          "arxiv_id": "2001.02877",
+          "title": "Short-Range Audio Channels Security: Survey of Mechanisms, Applications, and Research Challenges",
+          "published": "2020-01-09T08:07:55Z",
+          "updated": "2020-01-28T13:44:43Z",
+          "url_abs": "http://arxiv.org/abs/2001.02877v2"
+        },
+        {
+          "arxiv_id": "1511.02145",
+          "title": "Low-dimensional topology, low-dimensional field theory and representation theory",
+          "published": "2015-11-06T16:38:53Z",
+          "updated": "2015-11-06T16:38:53Z",
+          "url_abs": "http://arxiv.org/abs/1511.02145v1"
+        },
+        {
+          "arxiv_id": "2309.11895",
+          "title": "Audio Contrastive-based Fine-tuning: Decoupling Representation Learning and Classification",
+          "published": "2023-09-21T08:59:13Z",
+          "updated": "2025-09-22T01:22:54Z",
+          "url_abs": "http://arxiv.org/abs/2309.11895v4"
+        },
+        {
+          "arxiv_id": "2206.02639",
+          "title": "Continuous-Time Analog Filters for Audio Edge Intelligence: Review on Circuit Designs",
+          "published": "2022-06-06T14:22:58Z",
+          "updated": "2023-04-21T10:33:08Z",
+          "url_abs": "http://arxiv.org/abs/2206.02639v2"
+        },
+        {
+          "arxiv_id": "2005.08579",
+          "title": "An Overview on Audio, Signal, Speech, & Language Processing for COVID-19",
+          "published": "2020-05-18T10:46:30Z",
+          "updated": "2020-05-18T10:46:30Z",
+          "url_abs": "http://arxiv.org/abs/2005.08579v1"
+        },
+        {
+          "arxiv_id": "2405.09589",
+          "title": "A Comprehensive Survey of Hallucination in Large Language, Image, Video and Audio Foundation Models",
+          "published": "2024-05-15T10:16:25Z",
+          "updated": "2024-10-03T09:00:35Z",
+          "url_abs": "http://arxiv.org/abs/2405.09589v4"
+        },
+        {
+          "arxiv_id": "2302.02241",
+          "title": "Feature Representation Learning for Click-through Rate Prediction: A Review and New Perspectives",
+          "published": "2023-02-04T21:03:49Z",
+          "updated": "2023-02-04T21:03:49Z",
+          "url_abs": "http://arxiv.org/abs/2302.02241v1"
+        },
+        {
+          "arxiv_id": "2412.00049",
+          "title": "A Survey of Recent Advances and Challenges in Deep Audio-Visual Correlation Learning",
+          "published": "2024-11-24T03:26:34Z",
+          "updated": "2024-11-24T03:26:34Z",
+          "url_abs": "http://arxiv.org/abs/2412.00049v1"
+        },
+        {
+          "arxiv_id": "2506.00934",
+          "title": "GRAM: Spatial general-purpose audio representation models for real-world applications",
+          "published": "2025-06-01T09:56:33Z",
+          "updated": "2025-11-10T10:58:32Z",
+          "url_abs": "http://arxiv.org/abs/2506.00934v4"
+        },
+        {
+          "arxiv_id": "2206.13390",
+          "title": "A Comprehensive Survey on Video Saliency Detection with Auditory Information: the Audio-visual Consistency Perceptual is the Key!",
+          "published": "2022-06-20T07:25:13Z",
+          "updated": "2022-06-20T07:25:13Z",
+          "url_abs": "http://arxiv.org/abs/2206.13390v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "From Discrete Time Quantum Walk to Continuous Time Quantum Walk in Limit Distribution",
+          "published": "2013-07-12T09:16:23Z",
+          "updated": "2013-07-12T09:16:23Z",
+          "url_abs": "http://arxiv.org/abs/1307.3384v1"
+        },
+        {
+          "arxiv_id": "1502.06811",
+          "title": "A Review of Audio Features and Statistical Models Exploited for Voice Pattern Design",
+          "published": "2015-02-24T13:47:45Z",
+          "updated": "2015-02-24T13:47:45Z",
+          "url_abs": "http://arxiv.org/abs/1502.06811v1"
+        },
+        {
+          "arxiv_id": "2007.07663",
+          "title": "A survey and an extensive evaluation of popular audio declipping methods",
+          "published": "2020-07-15T12:43:29Z",
+          "updated": "2021-01-04T13:43:42Z",
+          "url_abs": "http://arxiv.org/abs/2007.07663v2"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Finite-dimensional representation theory of loop algebras: a survey",
+          "published": "2009-05-30T18:09:41Z",
+          "updated": "2009-08-20T22:32:01Z",
+          "url_abs": "http://arxiv.org/abs/0906.0099v2"
+        },
+        {
+          "arxiv_id": "2303.13336",
+          "title": "A Survey on Audio Diffusion Models: Text To Speech Synthesis and Enhancement in Generative AI",
+          "published": "2023-03-23T15:17:15Z",
+          "updated": "2023-04-02T09:27:20Z",
+          "url_abs": "http://arxiv.org/abs/2303.13336v2"
+        },
+        {
+          "arxiv_id": "1603.05230",
+          "title": "Restricted rational Cherednik algebras",
+          "published": "2016-03-16T19:30:28Z",
+          "updated": "2016-03-16T19:30:28Z",
+          "url_abs": "http://arxiv.org/abs/1603.05230v1"
+        },
+        {
+          "arxiv_id": "1607.01092",
+          "title": "Incorporating prior knowledge in medical image segmentation: a survey",
+          "published": "2016-07-05T02:19:57Z",
+          "updated": "2016-07-05T02:19:57Z",
+          "url_abs": "http://arxiv.org/abs/1607.01092v1"
+        },
+        {
+          "arxiv_id": "2503.21254",
+          "title": "Vision-to-Music Generation: A Survey",
+          "published": "2025-03-27T08:21:54Z",
+          "updated": "2025-03-27T08:21:54Z",
+          "url_abs": "http://arxiv.org/abs/2503.21254v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "A Survey of Lagrangian Mechanics and Control on Lie algebroids and groupoids",
+          "published": "2005-11-03T08:50:12Z",
+          "updated": "2005-11-03T08:50:12Z",
+          "url_abs": "http://arxiv.org/abs/math-ph/0511009v1"
+        },
+        {
+          "arxiv_id": "2409.18991",
+          "title": "Surveying the MLLM Landscape: A Meta-Review of Current Surveys",
+          "published": "2024-09-17T14:35:38Z",
+          "updated": "2025-12-08T04:48:16Z",
+          "url_abs": "http://arxiv.org/abs/2409.18991v2"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Audio Surveillance: a Systematic Review",
+          "published": "2014-09-27T09:47:16Z",
+          "updated": "2014-09-27T09:47:16Z",
+          "url_abs": "http://arxiv.org/abs/1409.7787v1"
+        },
+        {
+          "arxiv_id": "2001.04758",
+          "title": "Deep Audio-Visual Learning: A Survey",
+          "published": "2020-01-14T13:11:21Z",
+          "updated": "2020-01-14T13:11:21Z",
+          "url_abs": "http://arxiv.org/abs/2001.04758v1"
+        },
+        {
+          "arxiv_id": "2110.12102",
+          "title": "The Quantum Revolution in Philosophy (Book Review)",
+          "published": "2021-10-23T00:30:38Z",
+          "updated": "2021-10-23T00:30:38Z",
+          "url_abs": "http://arxiv.org/abs/2110.12102v1"
+        },
+        {
+          "arxiv_id": "2005.08848",
+          "title": "Surfboard: Audio Feature Extraction for Modern Machine Learning",
+          "published": "2020-05-18T16:20:20Z",
+          "updated": "2020-05-18T16:20:20Z",
+          "url_abs": "http://arxiv.org/abs/2005.08848v1"
+        },
+        {
+          "arxiv_id": "2406.00146",
+          "title": "A Survey of Deep Learning Audio Generation Methods",
+          "published": "2024-05-31T19:20:27Z",
+          "updated": "2024-05-31T19:20:27Z",
+          "url_abs": "http://arxiv.org/abs/2406.00146v1"
+        },
+        {
+          "arxiv_id": "2406.03430",
+          "title": "Computation-Efficient Era: A Comprehensive Survey of State Space Models in Medical Image Analysis",
+          "published": "2024-06-05T16:29:03Z",
+          "updated": "2024-06-05T16:29:03Z",
+          "url_abs": "http://arxiv.org/abs/2406.03430v1"
+        },
+        {
+          "arxiv_id": "2008.00345",
+          "title": "Overview of CLEF 2019 Lab ProtestNews: Extracting Protests from News in a Cross-context Setting",
+          "published": "2020-08-01T21:39:54Z",
+          "updated": "2020-08-01T21:39:54Z",
+          "url_abs": "http://arxiv.org/abs/2008.00345v1"
+        },
+        {
+          "arxiv_id": "2506.08457",
+          "title": "Audio Generation Through Score-Based Generative Modeling: Design Principles and Implementation",
+          "published": "2025-06-10T05:24:00Z",
+          "updated": "2026-01-14T21:30:52Z",
+          "url_abs": "http://arxiv.org/abs/2506.08457v2"
+        },
+        {
+          "arxiv_id": "1606.05670",
+          "title": "Discrete trigonometric and hyperbolic systems: An overview",
+          "published": "2016-06-17T20:33:40Z",
+          "updated": "2016-08-22T18:45:59Z",
+          "url_abs": "http://arxiv.org/abs/1606.05670v2"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Perverse sheaves and modular representation theory",
+          "published": "2009-01-21T17:28:26Z",
+          "updated": "2009-01-21T17:28:26Z",
+          "url_abs": "http://arxiv.org/abs/0901.3322v1"
+        },
+        {
+          "arxiv_id": "2210.16484",
+          "title": "A Systematic Survey of Chemical Pre-trained Models",
+          "published": "2022-10-29T03:53:11Z",
+          "updated": "2023-04-27T03:30:37Z",
+          "url_abs": "http://arxiv.org/abs/2210.16484v3"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Representation theory of Mackey Lie algebras and their dense subalgebras",
+          "published": "2013-11-20T20:58:16Z",
+          "updated": "2015-07-12T07:45:01Z",
+          "url_abs": "http://arxiv.org/abs/1311.5217v2"
+        },
+        {
+          "arxiv_id": "2205.05357",
+          "title": "Beyond the Status Quo: A Contemporary Survey of Advances and Challenges in Audio Captioning",
+          "published": "2022-05-11T09:09:15Z",
+          "updated": "2023-11-16T00:04:01Z",
+          "url_abs": "http://arxiv.org/abs/2205.05357v2"
+        },
+        {
+          "arxiv_id": "2112.10372",
+          "title": "A Comprehensive Analytical Survey on Unsupervised and Semi-Supervised Graph Representation Learning Methods",
+          "published": "2021-12-20T07:50:26Z",
+          "updated": "2021-12-20T07:50:26Z",
+          "url_abs": "http://arxiv.org/abs/2112.10372v1"
+        },
+        {
+          "arxiv_id": "1701.05611",
+          "title": "Comprehensive Review of Audio Steganalysis Methods",
+          "published": "2017-01-19T21:43:07Z",
+          "updated": "2018-04-02T18:58:29Z",
+          "url_abs": "http://arxiv.org/abs/1701.05611v3"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Moduli of linear representations, symmetric products and the non commutative Hilbert scheme",
+          "published": "2009-08-12T10:59:52Z",
+          "updated": "2009-08-12T10:59:52Z",
+          "url_abs": "http://arxiv.org/abs/0908.1670v1"
+        },
+        {
+          "arxiv_id": "2309.09950",
+          "title": "Investigating End-to-End ASR Architectures for Long Form Audio Transcription",
+          "published": "2023-09-18T17:13:50Z",
+          "updated": "2023-09-20T18:39:20Z",
+          "url_abs": "http://arxiv.org/abs/2309.09950v2"
+        },
+        {
+          "arxiv_id": "2409.11564",
+          "title": "Preference Tuning with Human Feedback on Language, Speech, and Vision Tasks: A Survey",
+          "published": "2024-09-17T21:28:51Z",
+          "updated": "2024-11-03T01:51:57Z",
+          "url_abs": "http://arxiv.org/abs/2409.11564v2"
+        }
+      ]
+    },
+    {
+      "phrase": "discrete audio tokenization",
+      "tokens": [
+        "discrete",
+        "audio",
+        "tokenization"
+      ],
+      "tokenization": {
+        "dropped_tokens": [],
+        "truncated": false,
+        "max_tokens": 32
+      },
+      "query": "(discrete OR audio OR tokenization) AND (survey OR review OR overview)",
+      "requested_max_results": 100,
+      "raw_results_count": 100,
+      "filtered": {
+        "excluded_cutoff_id": 1,
+        "excluded_after_cutoff": 21,
+        "excluded_missing_date": 0,
+        "kept": 78
+      },
+      "results_kept": [
+        {
+          "arxiv_id": "2308.12792",
+          "title": "Sparks of Large Audio Models: A Survey and Outlook",
+          "published": "2023-08-24T13:47:16Z",
+          "updated": "2023-09-22T01:44:46Z",
+          "url_abs": "http://arxiv.org/abs/2308.12792v3"
+        },
+        {
+          "arxiv_id": "2101.00132",
+          "title": "Audio Content Analysis",
+          "published": "2021-01-01T01:22:22Z",
+          "updated": "2021-01-01T01:22:22Z",
+          "url_abs": "http://arxiv.org/abs/2101.00132v1"
+        },
+        {
+          "arxiv_id": "2111.14203",
+          "title": "How Deep Are the Fakes? Focusing on Audio Deepfake: A Survey",
+          "published": "2021-11-28T18:28:30Z",
+          "updated": "2021-11-28T18:28:30Z",
+          "url_abs": "http://arxiv.org/abs/2111.14203v1"
+        },
+        {
+          "arxiv_id": "2205.05949",
+          "title": "Automated Audio Captioning: An Overview of Recent Progress and New Challenges",
+          "published": "2022-05-12T08:36:35Z",
+          "updated": "2022-09-27T01:24:25Z",
+          "url_abs": "http://arxiv.org/abs/2205.05949v2"
+        },
+        {
+          "arxiv_id": "2408.10330",
+          "title": "Meta-Learning in Audio and Speech Processing: An End to End Comprehensive Review",
+          "published": "2024-08-19T18:11:59Z",
+          "updated": "2024-08-19T18:11:59Z",
+          "url_abs": "http://arxiv.org/abs/2408.10330v1"
+        },
+        {
+          "arxiv_id": "2208.09579",
+          "title": "Learning in Audio-visual Context: A Review, Analysis, and New Perspective",
+          "published": "2022-08-20T02:15:44Z",
+          "updated": "2022-08-20T02:15:44Z",
+          "url_abs": "http://arxiv.org/abs/2208.09579v1"
+        },
+        {
+          "arxiv_id": "2402.13236",
+          "title": "Towards audio language modeling -- an overview",
+          "published": "2024-02-20T18:50:25Z",
+          "updated": "2024-02-20T18:50:25Z",
+          "url_abs": "http://arxiv.org/abs/2402.13236v1"
+        },
+        {
+          "arxiv_id": "2207.08759",
+          "title": "Style Transfer of Audio Effects with Differentiable Signal Processing",
+          "published": "2022-07-18T17:06:19Z",
+          "updated": "2022-07-18T17:06:19Z",
+          "url_abs": "http://arxiv.org/abs/2207.08759v1"
+        },
+        {
+          "arxiv_id": "2103.01498",
+          "title": "A Survey On Universal Adversarial Attack",
+          "published": "2021-03-02T06:35:09Z",
+          "updated": "2022-01-04T09:52:21Z",
+          "url_abs": "http://arxiv.org/abs/2103.01498v2"
+        },
+        {
+          "arxiv_id": "2505.01369",
+          "title": "Binamix -- A Python Library for Generating Binaural Audio Datasets",
+          "published": "2025-05-02T16:17:00Z",
+          "updated": "2025-05-02T16:17:00Z",
+          "url_abs": "http://arxiv.org/abs/2505.01369v1"
+        },
+        {
+          "arxiv_id": "2505.15957",
+          "title": "Towards Holistic Evaluation of Large Audio-Language Models: A Comprehensive Survey",
+          "published": "2025-05-21T19:17:29Z",
+          "updated": "2025-10-01T16:02:37Z",
+          "url_abs": "http://arxiv.org/abs/2505.15957v3"
+        },
+        {
+          "arxiv_id": "2409.07858",
+          "title": "Audio Decoding by Inverse Problem Solving",
+          "published": "2024-09-12T09:05:18Z",
+          "updated": "2024-09-12T09:05:18Z",
+          "url_abs": "http://arxiv.org/abs/2409.07858v1"
+        },
+        {
+          "arxiv_id": "2111.03895",
+          "title": "Digital Audio Processing Tools for Music Corpus Studies",
+          "published": "2021-11-06T14:40:09Z",
+          "updated": "2021-11-09T16:48:55Z",
+          "url_abs": "http://arxiv.org/abs/2111.03895v2"
+        },
+        {
+          "arxiv_id": "2108.00443",
+          "title": "A Survey on Audio Synthesis and Audio-Visual Multimodal Processing",
+          "published": "2021-08-01T12:35:16Z",
+          "updated": "2021-08-01T12:35:16Z",
+          "url_abs": "http://arxiv.org/abs/2108.00443v1"
+        },
+        {
+          "arxiv_id": "2011.02034",
+          "title": "The Role of Time, Weather and Google Trends in Understanding and Predicting Web Survey Response",
+          "published": "2020-10-30T14:04:28Z",
+          "updated": "2022-01-21T13:43:08Z",
+          "url_abs": "http://arxiv.org/abs/2011.02034v2"
+        },
+        {
+          "arxiv_id": "2308.14970",
+          "title": "Audio Deepfake Detection: A Survey",
+          "published": "2023-08-29T01:50:01Z",
+          "updated": "2023-08-29T01:50:01Z",
+          "url_abs": "http://arxiv.org/abs/2308.14970v1"
+        },
+        {
+          "arxiv_id": "2204.07402",
+          "title": "BYOL for Audio: Exploring Pre-trained General-purpose Audio Representations",
+          "published": "2022-04-15T09:44:10Z",
+          "updated": "2022-06-16T05:25:12Z",
+          "url_abs": "http://arxiv.org/abs/2204.07402v2"
+        },
+        {
+          "arxiv_id": "2506.09487",
+          "title": "BemaGANv2: A Tutorial and Comparative Survey of GAN-based Vocoders for Long-Term Audio Generation",
+          "published": "2025-06-11T07:57:05Z",
+          "updated": "2025-11-22T03:34:54Z",
+          "url_abs": "http://arxiv.org/abs/2506.09487v2"
+        },
+        {
+          "arxiv_id": "2110.11438",
+          "title": "Objective Measures of Perceptual Audio Quality Reviewed: An Evaluation of Their Application Domain Dependence",
+          "published": "2021-10-21T19:15:36Z",
+          "updated": "2021-10-21T19:15:36Z",
+          "url_abs": "http://arxiv.org/abs/2110.11438v1"
+        },
+        {
+          "arxiv_id": "2501.15177",
+          "title": "Audio-Language Models for Audio-Centric Tasks: A survey",
+          "published": "2025-01-25T11:15:06Z",
+          "updated": "2025-01-25T11:15:06Z",
+          "url_abs": "http://arxiv.org/abs/2501.15177v1"
+        },
+        {
+          "arxiv_id": "2204.12260",
+          "title": "Masked Spectrogram Modeling using Masked Autoencoders for Learning General-purpose Audio Representation",
+          "published": "2022-04-26T12:32:10Z",
+          "updated": "2022-04-26T12:32:10Z",
+          "url_abs": "http://arxiv.org/abs/2204.12260v1"
+        },
+        {
+          "arxiv_id": "2008.09586",
+          "title": "An Overview of Deep-Learning-Based Audio-Visual Speech Enhancement and Separation",
+          "published": "2020-08-21T17:24:09Z",
+          "updated": "2021-03-12T22:27:01Z",
+          "url_abs": "http://arxiv.org/abs/2008.09586v2"
+        },
+        {
+          "arxiv_id": "2502.12448",
+          "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
+          "published": "2025-02-18T02:29:51Z",
+          "updated": "2025-02-18T02:29:51Z",
+          "url_abs": "http://arxiv.org/abs/2502.12448v1"
+        },
+        {
+          "arxiv_id": "2502.15056",
+          "title": "Fundamental Survey on Neuromorphic Based Audio Classification",
+          "published": "2025-02-20T21:34:32Z",
+          "updated": "2025-02-20T21:34:32Z",
+          "url_abs": "http://arxiv.org/abs/2502.15056v1"
+        },
+        {
+          "arxiv_id": "2502.06490",
+          "title": "Recent Advances in Discrete Speech Tokens: A Review",
+          "published": "2025-02-10T14:08:25Z",
+          "updated": "2025-12-12T05:18:11Z",
+          "url_abs": "http://arxiv.org/abs/2502.06490v4"
+        },
+        {
+          "arxiv_id": "",
+          "title": "A Non-Coprehensive Survey Of Integration Methods In Discrete Geometry",
+          "published": "2010-01-27T16:18:26Z",
+          "updated": "2014-04-27T15:19:06Z",
+          "url_abs": "http://arxiv.org/abs/1001.4968v16"
+        },
+        {
+          "arxiv_id": "2101.00240",
+          "title": "A Survey on Deep Reinforcement Learning for Audio-Based Applications",
+          "published": "2021-01-01T14:15:20Z",
+          "updated": "2021-01-01T14:15:20Z",
+          "url_abs": "http://arxiv.org/abs/2101.00240v1"
+        },
+        {
+          "arxiv_id": "2407.17430",
+          "title": "A Comprehensive Review and Taxonomy of Audio-Visual Synchronization Techniques for Realistic Speech Animation",
+          "published": "2024-07-24T17:05:46Z",
+          "updated": "2024-08-28T13:27:51Z",
+          "url_abs": "http://arxiv.org/abs/2407.17430v2"
+        },
+        {
+          "arxiv_id": "2407.06947",
+          "title": "Audio-Language Datasets of Scenes and Events: A Survey",
+          "published": "2024-07-09T15:23:35Z",
+          "updated": "2025-01-08T15:54:39Z",
+          "url_abs": "http://arxiv.org/abs/2407.06947v2"
+        },
+        {
+          "arxiv_id": "2412.00571",
+          "title": "From Audio Deepfake Detection to AI-Generated Music Detection -- A Pathway and Overview",
+          "published": "2024-11-30T19:53:23Z",
+          "updated": "2024-12-10T10:23:54Z",
+          "url_abs": "http://arxiv.org/abs/2412.00571v2"
+        },
+        {
+          "arxiv_id": "2011.14445",
+          "title": "Audio, Speech, Language, & Signal Processing for COVID-19: A Comprehensive Overview",
+          "published": "2020-11-29T21:33:59Z",
+          "updated": "2020-11-29T21:33:59Z",
+          "url_abs": "http://arxiv.org/abs/2011.14445v1"
+        },
+        {
+          "arxiv_id": "2307.05527",
+          "title": "The Ethical Implications of Generative Audio Models: A Systematic Literature Review",
+          "published": "2023-07-07T22:00:32Z",
+          "updated": "2023-07-07T22:00:32Z",
+          "url_abs": "http://arxiv.org/abs/2307.05527v1"
+        },
+        {
+          "arxiv_id": "2001.02877",
+          "title": "Short-Range Audio Channels Security: Survey of Mechanisms, Applications, and Research Challenges",
+          "published": "2020-01-09T08:07:55Z",
+          "updated": "2020-01-28T13:44:43Z",
+          "url_abs": "http://arxiv.org/abs/2001.02877v2"
+        },
+        {
+          "arxiv_id": "2206.02639",
+          "title": "Continuous-Time Analog Filters for Audio Edge Intelligence: Review on Circuit Designs",
+          "published": "2022-06-06T14:22:58Z",
+          "updated": "2023-04-21T10:33:08Z",
+          "url_abs": "http://arxiv.org/abs/2206.02639v2"
+        },
+        {
+          "arxiv_id": "2005.08579",
+          "title": "An Overview on Audio, Signal, Speech, & Language Processing for COVID-19",
+          "published": "2020-05-18T10:46:30Z",
+          "updated": "2020-05-18T10:46:30Z",
+          "url_abs": "http://arxiv.org/abs/2005.08579v1"
+        },
+        {
+          "arxiv_id": "2405.09589",
+          "title": "A Comprehensive Survey of Hallucination in Large Language, Image, Video and Audio Foundation Models",
+          "published": "2024-05-15T10:16:25Z",
+          "updated": "2024-10-03T09:00:35Z",
+          "url_abs": "http://arxiv.org/abs/2405.09589v4"
+        },
+        {
+          "arxiv_id": "2203.01205",
+          "title": "Audio Self-supervised Learning: A Survey",
+          "published": "2022-03-02T15:58:29Z",
+          "updated": "2022-03-02T15:58:29Z",
+          "url_abs": "http://arxiv.org/abs/2203.01205v1"
+        },
+        {
+          "arxiv_id": "2412.00049",
+          "title": "A Survey of Recent Advances and Challenges in Deep Audio-Visual Correlation Learning",
+          "published": "2024-11-24T03:26:34Z",
+          "updated": "2024-11-24T03:26:34Z",
+          "url_abs": "http://arxiv.org/abs/2412.00049v1"
+        },
+        {
+          "arxiv_id": "2206.13390",
+          "title": "A Comprehensive Survey on Video Saliency Detection with Auditory Information: the Audio-visual Consistency Perceptual is the Key!",
+          "published": "2022-06-20T07:25:13Z",
+          "updated": "2022-06-20T07:25:13Z",
+          "url_abs": "http://arxiv.org/abs/2206.13390v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Application of the Weil representation: diagonalization of the discrete Fourier transform",
+          "published": "2009-02-04T08:12:20Z",
+          "updated": "2009-02-04T08:12:20Z",
+          "url_abs": "http://arxiv.org/abs/0902.0668v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "From Discrete Time Quantum Walk to Continuous Time Quantum Walk in Limit Distribution",
+          "published": "2013-07-12T09:16:23Z",
+          "updated": "2013-07-12T09:16:23Z",
+          "url_abs": "http://arxiv.org/abs/1307.3384v1"
+        },
+        {
+          "arxiv_id": "1502.06811",
+          "title": "A Review of Audio Features and Statistical Models Exploited for Voice Pattern Design",
+          "published": "2015-02-24T13:47:45Z",
+          "updated": "2015-02-24T13:47:45Z",
+          "url_abs": "http://arxiv.org/abs/1502.06811v1"
+        },
+        {
+          "arxiv_id": "2007.07663",
+          "title": "A survey and an extensive evaluation of popular audio declipping methods",
+          "published": "2020-07-15T12:43:29Z",
+          "updated": "2021-01-04T13:43:42Z",
+          "url_abs": "http://arxiv.org/abs/2007.07663v2"
+        },
+        {
+          "arxiv_id": "2303.13336",
+          "title": "A Survey on Audio Diffusion Models: Text To Speech Synthesis and Enhancement in Generative AI",
+          "published": "2023-03-23T15:17:15Z",
+          "updated": "2023-04-02T09:27:20Z",
+          "url_abs": "http://arxiv.org/abs/2303.13336v2"
+        },
+        {
+          "arxiv_id": "1607.01092",
+          "title": "Incorporating prior knowledge in medical image segmentation: a survey",
+          "published": "2016-07-05T02:19:57Z",
+          "updated": "2016-07-05T02:19:57Z",
+          "url_abs": "http://arxiv.org/abs/1607.01092v1"
+        },
+        {
+          "arxiv_id": "2503.21254",
+          "title": "Vision-to-Music Generation: A Survey",
+          "published": "2025-03-27T08:21:54Z",
+          "updated": "2025-03-27T08:21:54Z",
+          "url_abs": "http://arxiv.org/abs/2503.21254v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "A Survey of Lagrangian Mechanics and Control on Lie algebroids and groupoids",
+          "published": "2005-11-03T08:50:12Z",
+          "updated": "2005-11-03T08:50:12Z",
+          "url_abs": "http://arxiv.org/abs/math-ph/0511009v1"
+        },
+        {
+          "arxiv_id": "2409.18991",
+          "title": "Surveying the MLLM Landscape: A Meta-Review of Current Surveys",
+          "published": "2024-09-17T14:35:38Z",
+          "updated": "2025-12-08T04:48:16Z",
+          "url_abs": "http://arxiv.org/abs/2409.18991v2"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Audio Surveillance: a Systematic Review",
+          "published": "2014-09-27T09:47:16Z",
+          "updated": "2014-09-27T09:47:16Z",
+          "url_abs": "http://arxiv.org/abs/1409.7787v1"
+        },
+        {
+          "arxiv_id": "2005.08848",
+          "title": "Surfboard: Audio Feature Extraction for Modern Machine Learning",
+          "published": "2020-05-18T16:20:20Z",
+          "updated": "2020-05-18T16:20:20Z",
+          "url_abs": "http://arxiv.org/abs/2005.08848v1"
+        },
+        {
+          "arxiv_id": "2506.08457",
+          "title": "Audio Generation Through Score-Based Generative Modeling: Design Principles and Implementation",
+          "published": "2025-06-10T05:24:00Z",
+          "updated": "2026-01-14T21:30:52Z",
+          "url_abs": "http://arxiv.org/abs/2506.08457v2"
+        },
+        {
+          "arxiv_id": "1606.05670",
+          "title": "Discrete trigonometric and hyperbolic systems: An overview",
+          "published": "2016-06-17T20:33:40Z",
+          "updated": "2016-08-22T18:45:59Z",
+          "url_abs": "http://arxiv.org/abs/1606.05670v2"
+        },
+        {
+          "arxiv_id": "2205.05357",
+          "title": "Beyond the Status Quo: A Contemporary Survey of Advances and Challenges in Audio Captioning",
+          "published": "2022-05-11T09:09:15Z",
+          "updated": "2023-11-16T00:04:01Z",
+          "url_abs": "http://arxiv.org/abs/2205.05357v2"
+        },
+        {
+          "arxiv_id": "1701.05611",
+          "title": "Comprehensive Review of Audio Steganalysis Methods",
+          "published": "2017-01-19T21:43:07Z",
+          "updated": "2018-04-02T18:58:29Z",
+          "url_abs": "http://arxiv.org/abs/1701.05611v3"
+        },
+        {
+          "arxiv_id": "2409.11564",
+          "title": "Preference Tuning with Human Feedback on Language, Speech, and Vision Tasks: A Survey",
+          "published": "2024-09-17T21:28:51Z",
+          "updated": "2024-11-03T01:51:57Z",
+          "url_abs": "http://arxiv.org/abs/2409.11564v2"
+        },
+        {
+          "arxiv_id": "2406.00146",
+          "title": "A Survey of Deep Learning Audio Generation Methods",
+          "published": "2024-05-31T19:20:27Z",
+          "updated": "2024-05-31T19:20:27Z",
+          "url_abs": "http://arxiv.org/abs/2406.00146v1"
+        },
+        {
+          "arxiv_id": "2201.02490",
+          "title": "Audio representations for deep learning in sound synthesis: A review",
+          "published": "2022-01-07T15:08:47Z",
+          "updated": "2022-01-07T15:08:47Z",
+          "url_abs": "http://arxiv.org/abs/2201.02490v1"
+        },
+        {
+          "arxiv_id": "2008.00345",
+          "title": "Overview of CLEF 2019 Lab ProtestNews: Extracting Protests from News in a Cross-context Setting",
+          "published": "2020-08-01T21:39:54Z",
+          "updated": "2020-08-01T21:39:54Z",
+          "url_abs": "http://arxiv.org/abs/2008.00345v1"
+        },
+        {
+          "arxiv_id": "",
+          "title": "Symmetries of Discrete Systems",
+          "published": "2003-09-22T20:33:12Z",
+          "updated": "2003-09-22T20:33:12Z",
+          "url_abs": "http://arxiv.org/abs/nlin/0309058v1"
+        },
+        {
+          "arxiv_id": "2505.10975",
+          "title": "Survey of End-to-End Multi-Speaker Automatic Speech Recognition for Monaural Audio",
+          "published": "2025-05-16T08:21:59Z",
+          "updated": "2026-01-13T19:02:15Z",
+          "url_abs": "http://arxiv.org/abs/2505.10975v2"
+        },
+        {
+          "arxiv_id": "2309.09950",
+          "title": "Investigating End-to-End ASR Architectures for Long Form Audio Transcription",
+          "published": "2023-09-18T17:13:50Z",
+          "updated": "2023-09-20T18:39:20Z",
+          "url_abs": "http://arxiv.org/abs/2309.09950v2"
+        },
+        {
+          "arxiv_id": "2001.04758",
+          "title": "Deep Audio-Visual Learning: A Survey",
+          "published": "2020-01-14T13:11:21Z",
+          "updated": "2020-01-14T13:11:21Z",
+          "url_abs": "http://arxiv.org/abs/2001.04758v1"
+        },
+        {
+          "arxiv_id": "2504.16223",
+          "title": "Perceptual Audio Coding: A 40-Year Historical Perspective",
+          "published": "2025-04-22T19:32:35Z",
+          "updated": "2025-04-22T19:32:35Z",
+          "url_abs": "http://arxiv.org/abs/2504.16223v1"
+        },
+        {
+          "arxiv_id": "2502.08826",
+          "title": "Ask in Any Modality: A Comprehensive Survey on Multimodal Retrieval-Augmented Generation",
+          "published": "2025-02-12T22:33:41Z",
+          "updated": "2025-06-02T17:15:08Z",
+          "url_abs": "http://arxiv.org/abs/2502.08826v3"
+        },
+        {
+          "arxiv_id": "1909.11549",
+          "title": "MPEG-H Audio for Improving Accessibility in Broadcasting and Streaming",
+          "published": "2019-09-25T15:22:20Z",
+          "updated": "2019-09-25T15:22:20Z",
+          "url_abs": "http://arxiv.org/abs/1909.11549v1"
+        },
+        {
+          "arxiv_id": "2310.16481",
+          "title": "A Novel Approach for Object Based Audio Broadcasting",
+          "published": "2023-10-25T09:05:48Z",
+          "updated": "2023-10-25T09:05:48Z",
+          "url_abs": "http://arxiv.org/abs/2310.16481v1"
+        },
+        {
+          "arxiv_id": "2307.04292",
+          "title": "A Demand-Driven Perspective on Generative Audio AI",
+          "published": "2023-07-10T00:58:28Z",
+          "updated": "2023-07-10T00:58:28Z",
+          "url_abs": "http://arxiv.org/abs/2307.04292v1"
+        },
+        {
+          "arxiv_id": "2310.14778",
+          "title": "Audio-Visual Speaker Tracking: Progress, Challenges, and Future Directions",
+          "published": "2023-10-23T10:29:33Z",
+          "updated": "2025-04-13T08:28:06Z",
+          "url_abs": "http://arxiv.org/abs/2310.14778v5"
+        },
+        {
+          "arxiv_id": "2402.09245",
+          "title": "Overview of the L3DAS23 Challenge on Audio-Visual Extended Reality",
+          "published": "2024-02-14T15:34:28Z",
+          "updated": "2024-02-14T15:34:28Z",
+          "url_abs": "http://arxiv.org/abs/2402.09245v1"
+        },
+        {
+          "arxiv_id": "1501.06499",
+          "title": "The origin of discrete symmetries in F-theory models",
+          "published": "2015-01-26T17:59:06Z",
+          "updated": "2015-01-27T19:55:59Z",
+          "url_abs": "http://arxiv.org/abs/1501.06499v2"
+        },
+        {
+          "arxiv_id": "2410.18882",
+          "title": "A Survey of Multimodal Sarcasm Detection",
+          "published": "2024-10-24T16:17:47Z",
+          "updated": "2024-10-24T16:17:47Z",
+          "url_abs": "http://arxiv.org/abs/2410.18882v1"
+        },
+        {
+          "arxiv_id": "2410.13114",
+          "title": "Sound Check: Auditing Audio Datasets",
+          "published": "2024-10-17T00:51:27Z",
+          "updated": "2024-10-17T00:51:27Z",
+          "url_abs": "http://arxiv.org/abs/2410.13114v1"
+        },
+        {
+          "arxiv_id": "2110.01515",
+          "title": "A Review of the Gumbel-max Trick and its Extensions for Discrete Stochasticity in Machine Learning",
+          "published": "2021-10-04T15:34:13Z",
+          "updated": "2022-03-08T11:45:53Z",
+          "url_abs": "http://arxiv.org/abs/2110.01515v2"
+        },
+        {
+          "arxiv_id": "2309.07314",
+          "title": "AudioSR: Versatile Audio Super-resolution at Scale",
+          "published": "2023-09-13T21:00:09Z",
+          "updated": "2023-09-13T21:00:09Z",
+          "url_abs": "http://arxiv.org/abs/2309.07314v1"
+        },
+        {
+          "arxiv_id": "1904.10990",
+          "title": "A Robust Approach for Securing Audio Classification Against Adversarial Attacks",
+          "published": "2019-04-24T18:07:52Z",
+          "updated": "2019-11-25T17:32:06Z",
+          "url_abs": "http://arxiv.org/abs/1904.10990v2"
+        },
+        {
+          "arxiv_id": "2006.00877",
+          "title": "High-Fidelity Audio Generation and Representation Learning with Guided Adversarial Autoencoder",
+          "published": "2020-06-01T12:19:32Z",
+          "updated": "2020-10-17T12:53:36Z",
+          "url_abs": "http://arxiv.org/abs/2006.00877v2"
+        },
+        {
+          "arxiv_id": "2001.09847",
+          "title": "Source coding of audio signals with a generative model",
+          "published": "2020-01-27T15:09:58Z",
+          "updated": "2020-01-27T15:09:58Z",
+          "url_abs": "http://arxiv.org/abs/2001.09847v1"
+        },
+        {
+          "arxiv_id": "2306.06814",
+          "title": "HiddenSinger: High-Quality Singing Voice Synthesis via Neural Audio Codec and Latent Diffusion Models",
+          "published": "2023-06-12T01:21:41Z",
+          "updated": "2023-06-12T01:21:41Z",
+          "url_abs": "http://arxiv.org/abs/2306.06814v1"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

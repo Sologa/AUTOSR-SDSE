@@ -21,7 +21,7 @@ python scripts/topic_pipeline.py keywords --topic "<topic>"
 
 ### 主要參數
 - `--topic`：主題字串（寫入輸出）
-- `--pdf-dir`：指定 PDF 來源目錄（預設 `seed/downloads/arxiv/`）
+- `--pdf-dir`：指定 PDF 來源目錄（預設 `seed/downloads/ta_filtered/`）
 - `--max-pdfs`：最多讀取幾篇 PDF（預設 3）
 - `--provider` / `--model`：LLM 供應商與模型（**固定使用 gpt-5.2**）
 - `--temperature`：抽詞溫度（**固定 1.0**）

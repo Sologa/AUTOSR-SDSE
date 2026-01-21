@@ -1,253 +1,45 @@
 {
-  "topic": "Discrete Audio Tokens: More Than a Survey!",
-  "trigger_reason": "cutoff_removed_all_candidates",
-  "attempts": [
-    {
-      "attempt": 1,
-      "model": "gpt-5.2-codex",
-      "provider": "codex-cli",
-      "raw_output": "discrete audio tokenization | quantized audio tokens\ndiscretized audio tokens | discrete tokenized audio\nquantized audio tokenization | discretized audio tokenization\naudio tokens discrete | discrete audio token sequences\nquantized audio token sequences | discretized audio token sequences\ndiscrete audio token stream | quantized audio token stream\ndiscrete audio token units | quantized audio token units\ndiscretized tokenized audio | quantized tokenized audio\ndiscrete audio token set | discretized audio token set\nquantized audio token representations | discretized audio token representations",
-      "parsed_candidates": [
-        [
-          "discrete audio tokenization",
-          "quantized audio tokens"
-        ],
-        [
-          "discretized audio tokens",
-          "discrete tokenized audio"
-        ],
-        [
-          "quantized audio tokenization",
-          "discretized audio tokenization"
-        ],
-        [
-          "audio tokens discrete",
-          "discrete audio token sequences"
-        ],
-        [
-          "quantized audio token sequences",
-          "discretized audio token sequences"
-        ],
-        [
-          "discrete audio token stream",
-          "quantized audio token stream"
-        ],
-        [
-          "discrete audio token units",
-          "quantized audio token units"
-        ],
-        [
-          "discretized tokenized audio",
-          "quantized tokenized audio"
-        ],
-        [
-          "discrete audio token set",
-          "discretized audio token set"
-        ],
-        [
-          "quantized audio token representations",
-          "discretized audio token representations"
-        ]
-      ],
-      "candidate_stats": [
-        {
-          "phrases": [
-            "discrete audio tokenization",
-            "quantized audio tokens"
-          ],
-          "search_query": "(all:\"discrete audio tokenization\" OR all:\"quantized audio tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 1,
-          "records_after_title_filter": 1,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            1,
-            1
-          ]
-        },
-        {
-          "phrases": [
-            "discretized audio tokens",
-            "discrete tokenized audio"
-          ],
-          "search_query": "(all:\"discretized audio tokens\" OR all:\"discrete tokenized audio\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 1,
-          "records_after_title_filter": 1,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            1,
-            1
-          ]
-        },
-        {
-          "phrases": [
-            "quantized audio tokenization",
-            "discretized audio tokenization"
-          ],
-          "search_query": "(all:\"quantized audio tokenization\" OR all:\"discretized audio tokenization\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 1,
-          "records_after_title_filter": 1,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            1,
-            1
-          ]
-        },
-        {
-          "phrases": [
-            "audio tokens discrete",
-            "discrete audio token sequences"
-          ],
-          "search_query": "(all:\"audio tokens discrete\" OR all:\"discrete audio token sequences\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
-          "phrases": [
-            "quantized audio token sequences",
-            "discretized audio token sequences"
-          ],
-          "search_query": "(all:\"quantized audio token sequences\" OR all:\"discretized audio token sequences\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
-          "phrases": [
-            "discrete audio token stream",
-            "quantized audio token stream"
-          ],
-          "search_query": "(all:\"discrete audio token stream\" OR all:\"quantized audio token stream\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
-          "phrases": [
-            "discrete audio token units",
-            "quantized audio token units"
-          ],
-          "search_query": "(all:\"discrete audio token units\" OR all:\"quantized audio token units\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
-          "phrases": [
-            "discretized tokenized audio",
-            "quantized tokenized audio"
-          ],
-          "search_query": "(all:\"discretized tokenized audio\" OR all:\"quantized tokenized audio\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
-          "phrases": [
-            "discrete audio token set",
-            "discretized audio token set"
-          ],
-          "search_query": "(all:\"discrete audio token set\" OR all:\"discretized audio token set\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        },
-        {
-          "phrases": [
-            "quantized audio token representations",
-            "discretized audio token representations"
-          ],
-          "search_query": "(all:\"quantized audio token representations\" OR all:\"discretized audio token representations\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-          "records_total": 0,
-          "records_after_title_filter": 0,
-          "records_after_filter": 0,
-          "score": [
-            0,
-            0,
-            0
-          ]
-        }
-      ],
-      "selected_candidate": [
-        "discrete audio tokenization",
-        "quantized audio tokens"
-      ],
-      "selected_score": [
-        0,
-        1,
-        1
-      ],
-      "status": "ok",
-      "error": null
-    }
+  "schema_version": "seed_rewrite.v2",
+  "topic_input": "Discrete Audio Tokens: More Than a Survey!",
+  "provider": "codex-cli",
+  "model": "gpt-5.2",
+  "n_requested": 3,
+  "phrases_raw": [
+    "discrete audio tokens",
+    "discrete audio token representation",
+    "discrete audio tokenization"
   ],
-  "selected_queries": [
-    "discrete audio tokenization",
-    "quantized audio tokens"
+  "english_only": {
+    "enabled": true,
+    "dropped": []
+  },
+  "blacklist": {
+    "mode": "clean",
+    "patterns": [
+      "\\bsurvey(?:s|ing|ed)?\\b",
+      "\\breview(?:s|ing|ed)?\\b",
+      "\\boverview(?:s)?\\b",
+      "\\btutorial(?:s)?\\b",
+      "\\bstate[\\s-]+of[\\s-]+the[\\s-]+art\\b",
+      "\\bsota\\b",
+      "\\b(?:literature|systematic|scoping)[\\s-]+review\\b",
+      "\\bmeta[\\s-]+analysis\\b",
+      "\\bmeta[\\s-]+analytic\\b",
+      "\\btaxonom(?:y|ies)\\b",
+      "\\broad[\\s-]*map\\b",
+      "\\bprimer\\b",
+      "\\bperspective\\b",
+      "\\brevisit(?:ing)?\\b",
+      "\\bcomprehensive\\b",
+      "\\b(?:a|an)\\s+(?:survey|overview|review)\\s+of\\b"
+    ],
+    "hits": []
+  },
+  "phrases_clean": [
+    "discrete audio tokens",
+    "discrete audio token representation",
+    "discrete audio tokenization"
   ],
-  "history": [
-    {
-      "attempt": 0,
-      "label": "initial",
-      "phrases": [
-        "discrete audio tokens"
-      ],
-      "search_query": "(all:\"discrete audio tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-      "records_total": 1,
-      "records_after_title_filter": 1,
-      "records_after_filter": 0,
-      "downloads": 0
-    },
-    {
-      "attempt": 1,
-      "label": "rewrite",
-      "phrases": [
-        "discrete audio tokenization",
-        "quantized audio tokens"
-      ],
-      "search_query": "(all:\"discrete audio tokenization\" OR all:\"quantized audio tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-      "records_total": 1,
-      "records_after_title_filter": 1,
-      "records_after_filter": 0,
-      "downloads": 0
-    }
-  ],
-  "original_seed_query": "(all:\"discrete audio tokens\") AND (all:\"survey\" OR all:\"review\" OR all:\"overview\" OR all:\"systematic review\" OR all:\"systematic literature review\" OR all:\"scoping review\" OR all:\"mapping study\" OR all:\"tutorial\")",
-  "cutoff_reason": "cutoff_removed_all_candidates",
-  "cutoff_candidate_title": "Discrete Audio Tokens: More Than a Survey!",
-  "generated_at": "2026-01-19T06:16:47.324548+00:00",
-  "preview_only": false
+  "errors": [],
+  "raw_output": "{\"phrases\":[\"discrete audio tokens\",\"discrete audio token representation\",\"discrete audio tokenization\"]}"
 }

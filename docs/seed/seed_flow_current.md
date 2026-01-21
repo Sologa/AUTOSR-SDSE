@@ -1,130 +1,131 @@
-# Seed 流程完整復盤（現行實作）
+# Seed 流程完整復盤（Cutoff-first 為主）
 
-本文件以 **現行程式碼** 為準，完整描述 seed 階段的輸入、流程、分歧與產物，並附上流程圖（Mermaid）。
+本文件以 **現行程式碼（含 cutoff-first 與 legacy 兩種模式）** 為準，描述 seed 階段的輸入、流程與產物。
 
-> 範圍：`python scripts/topic_pipeline.py seed`（以及後續可選的 `filter-seed`）。  
+> 範圍：`python scripts/topic_pipeline.py seed`（以及後續可選的 `filter-seed`）。
 > 來源：`src/pipelines/topic_pipeline.py`、`scripts/topic_pipeline.py`。
 
 ---
 
 ## 1) 輸入與核心參數
 
-- `topic`：主題字串（唯一必要輸入）
-- `--anchor-mode`：`phrase | token_and | token_or | core_phrase | core_token_or`
-- `--anchor-operator`：`AND | OR`（只作用在 anchors 之間）
-- `--boolean-operator`：`AND | OR`（連接 anchors 與 survey modifiers）
-- `--scope`：`all | ti | abs`（查詢欄位）
-- `--max-results`：arXiv 查詢上限（預設 25）
-- `--download-top-k`：下載上限（預設 5）
-- `--download-pdfs`：seed 階段是否下載 PDF（預設不下載）
-- `--seed-rewrite` 與相關旗標：啟用 seed query 改寫（預設關閉）
-- `--no-cache`：忽略 `seed/queries/arxiv.json`（預設重用）
+### 1.1 cutoff-first 模式（one-pass，預設建議）
+- `--seed-mode cutoff-first`
+- `--cutoff-arxiv-id`：手動指定 cutoff paper id
+- `--cutoff-title-override`：用指定 title 取代 topic 進行 exact-title match
+- `--cutoff-date-field`：`published|updated|submitted`（submitted 會映射到 published）
+- `--seed-rewrite-n`：LLM 產生片語數量上限
+- `--seed-blacklist-mode`：`clean|fail`
+- `--seed-arxiv-max-results-per-query`：每個 phrase 的 arXiv 查詢上限
+- `--seed-max-merged-results`：合併後保留筆數上限
+- `--seed-rewrite-provider / --seed-rewrite-model / --seed-rewrite-reasoning-effort`：改寫 LLM 設定
+- `--seed-rewrite-codex-*`：Codex CLI 參數（選用）
+
+### 1.2 legacy 模式（舊流程，保留回滾）
+- `--seed-mode legacy`
+- `--max-results / --scope / --boolean-operator / --anchor-operator / --anchor-mode`
+- `--cutoff-by-similar-title / --similarity-threshold`
+- `--seed-rewrite / --seed-rewrite-max-attempts / --seed-rewrite-preview`（迭代式 rewrite）
+- `--no-cache`（重用或忽略 `seed/queries/arxiv.json`）
 
 ---
 
 ## 2) 核心輸出與檔案
 
-- `workspaces/<topic_slug>/seed/queries/arxiv.json`：arXiv 搜尋回傳（Atom 轉 dict）
-- `workspaces/<topic_slug>/seed/queries/seed_selection.json`：候選與 cutoff 結果
-- `workspaces/<topic_slug>/seed/queries/seed_rewrite.json`：改寫過程（若觸發）
-- `workspaces/<topic_slug>/seed/downloads/download_results.json`：下載結果（可能為空）
-- `workspaces/<topic_slug>/seed/downloads/arxiv/*.pdf`：seed PDF（`--download-pdfs` 或 filter-seed 才會產生）
-- `workspaces/<topic_slug>/cutoff/cutoff.json`：由 seed_selection 推導出的 cutoff（若有）
+- `workspaces/<topic_slug>/seed/queries/arxiv.json`：每個 phrase 的 arXiv 查詢結果（v2，含 per-query filtered 統計）
+- `workspaces/<topic_slug>/seed/queries/seed_rewrite.json`：rewrite 產物（v2，JSON phrases + blacklist + English-only 記錄）
+- `workspaces/<topic_slug>/seed/queries/seed_selection.json`：合併後候選（v2，cutoff_ref 可為 null）
+- `workspaces/<topic_slug>/cutoff/cutoff.json`：cutoff metadata（v2；僅在找到 cutoff 時寫入）
+- `workspaces/<topic_slug>/seed/downloads/download_results.json`：下載結果（由 filter-seed 產生；seed 不下載）
+- `workspaces/<topic_slug>/seed/downloads/ta_filtered/*.pdf`：title+abstract 篩選後下載（filter-seed）
+- `workspaces/<topic_slug>/seed/downloads/pdf_filtered/`：保留給下載後複審（目前不寫入）
+- `workspaces/<topic_slug>/seed/filters/llm_screening.json` / `selected_ids.json`：filter-seed 產物（選用）
 
 ---
 
-## 3) 現行流程（逐步）
+## 3) cutoff-first 流程（one-pass）
 
-1) **建立 anchors / modifiers**
-   - `anchors`：預設 `default_topic_variants(topic)`；`core_*` 模式改用核心片語。
-   - `survey modifiers`：預設 `survey/review/overview/systematic review/systematic literature review/scoping review/mapping study/tutorial`。
+1) **CutoffFinder**
+   - `topic` 先做 arXiv exact-title match（normalize equality）。
+   - 多筆同名：最早日期 + arXiv id lexicographic tie-break。
+   - 找不到同名：不產生 `cutoff.json`，後續流程不套用 cutoff。
+   - 找到 cutoff：產出 `cutoff/cutoff.json`（v2，含 `date_field`）。
 
-2) **組 query**
-   - `anchor_clause`：依 `anchor_mode` 決定 phrase / token_and / token_or。
-   - `anchor_operator`：決定 anchors 之間如何用 AND/OR 串接。
-   - `search_clause`：survey modifiers 以 phrase clause 串接。
-   - `search_query = (anchor_clause) <boolean_operator> (search_clause)`。
+2) **One-shot rewrite（JSON phrases）**
+   - LLM 產生英文 phrases（只做一次；不可重跑）。
+   - blacklist（survey/review/overview 等）清理或 fail（視 `--seed-blacklist-mode`）。
+   - 非 ASCII phrases 丟棄並記錄；若最終為空 → fail。
+   - 產出 `seed/queries/seed_rewrite.json`（v2）。
 
-3) **查詢 arXiv（可重用 cache）**
-   - 若未加 `--no-cache` 且 `seed/queries/arxiv.json` 存在 → 直接重用。
-   - 否則呼叫 arXiv API，並寫入 `seed/queries/arxiv.json`。
+3) **Per-phrase query builder**
+   - 每個 phrase 拆 token → `(w1 OR ... OR wk) AND (survey OR review OR overview)`。
+   - 每個 query_i 單獨查 arXiv。
 
-4) **Seed selection（含 cutoff）**
-   - Title filter：只保留標題含 `survey/review/overview` 的紀錄。
-   - Similarity cutoff：
-     - 先找 **與 topic 同標題** 的 survey。
-     - 若無，找相似度 ≥ 門檻（預設 0.8）者作為 cutoff candidate。
-   - 依 cutoff_date 篩出較早的候選；若全部被 cutoff 移除，記錄 `cutoff_removed_all_candidates`。
-   - 產出 `seed_selection.json`（含 `candidates` / `download_selected` / `cutoff_candidate` / `cutoff_reason`）。
-   - 若能推導 cutoff → 寫入 `cutoff/cutoff.json`。
+4) **Hard filter（cutoff-first）**
+   - 排除 cutoff 本身。
+   - 排除 `paper_date > cutoff_date`（只保留 `<= cutoff_date`）。
+   - 缺日期 → 排除並記錄（僅在有 cutoff 時）。
 
-5) **Seed 下載（選用）**
-   - 若有 `--download-pdfs`：
-     - 下載 `download_top_k` 篇到 `seed/downloads/arxiv/`。
-   - 不下載時：
-     - `download_results.json` 仍會生成，但 downloads 可能為空。
+5) **Merge → seed_selection.json（v2）**
+   - union 去重（key=arxiv_id）。
+   - sort：`date_field desc` + `arxiv_id asc`。
+   - cap：`--seed-max-merged-results`。
 
-6) **Seed rewrite（選用）**
-   - 觸發條件：
-     - `records_after_filter == 0` 或 `cutoff_removed_all_candidates`。
-     - 若有下載且 PDF 為空，也會觸發。
-   - 觸發後：
-     - LLM 產生候選片語 → 評分 → 選最佳候選。
-     - 以**最佳候選片語**重新組 query 並再跑一次 seed selection。
-     - 寫入 `seed_rewrite.json`，並更新 `seed_selection.json` / `download_results.json`。
-
-7) **Filter-Seed（可選，獨立 stage）**
-   - 只用 title/abstract 篩選（**不讀 PDF**）。
-   - 讀取 `seed_selection.json` / `arxiv.json` 取得候選。
-   - **若有 `cutoff_candidate`，會排除該篇，避免回流**。
-   - 對通過者下載 PDF 至 `seed/downloads/arxiv/`。
+6) **Filter-Seed（選用，獨立 stage）**
+   - 只用 title/abstract 篩選（不讀 PDF）。
+   - 排除 cutoff paper（避免回流；無 cutoff 時略過）。
+   - 通過者下載到 `seed/downloads/ta_filtered/`。
 
 ---
 
-## 4) 流程圖（Mermaid）
+## 4) cutoff-first ASCII 流程圖
 
-```mermaid
-flowchart TD
-  A["輸入 topic"] --> B["建立 anchors + survey modifiers"]
-  B --> C["組 search_query"]
-  C --> D{"使用 cache?"}
-  D -- 是 --> E["讀取 seed/queries/arxiv.json"]
-  D -- 否 --> F["查詢 arXiv API -> arxiv.json"]
-  E --> G["Seed selection"]
-  F --> G
+```text
+[Input: topic]
+    |
+    v
+[Step 1: CutoffFinder — arXiv exact-title match]
+    |  if found: write
+    v
+(cutoff/cutoff.json)
+    |
+    v
+[Step 2: PhraseRewriter (LLM one-shot + blacklist + English-only)]
+    |  write
+    v
+(seed/queries/seed_rewrite.json)
+    |
+    v
+FOR EACH phrase_i:
+  |
+  v
+  [Step 3: Build query_i = (w1 OR ... OR wk) AND (survey OR review OR overview)]
+        |
+        v
+  [arXiv search(query_i)]
+        |
+        v
+  [Step 4: Hard filter — exclude cutoff_id; exclude date > cutoff_date]
+        |
+        v
+  append/record -> (seed/queries/arxiv.json)
 
-  G --> G1["Title filter: survey/review/overview"]
-  G1 --> G2["Similarity cutoff: exact title or threshold"]
-  G2 --> G3["依 cutoff_date 篩選候選"]
-  G3 --> H["seed_selection.json + cutoff.json (若可推導)"]
-
-  H --> I{"download_pdfs?"}
-  I -- 是 --> J["下載 top-k PDFs -> downloads/arxiv"]
-  I -- 否 --> K["download_results.json (downloads 可能為空)"]
-
-  H --> L{"seed-rewrite 觸發?"}
-  J --> L
-  K --> L
-
-  L -- 否 --> M["Seed 結束"]
-  L -- 是 --> N["LLM 產生候選片語"]
-  N --> O["候選評分 + 選最佳"]
-  O --> P["重跑 seed selection (用最佳片語)"]
-  P --> H
-
-  subgraph FILTER_SEED["Filter-Seed (optional)"]
-    FS1["讀 seed_selection.json / arxiv.json"] --> FS2["排除 cutoff_candidate"]
-    FS2 --> FS3["LLM 以 title/abstract 判斷 yes/no"]
-    FS3 --> FS4["下載 yes -> downloads/arxiv"]
-  end
-
-  M --> FS1
+    |
+    v
+[Step 5: Merge + deterministic order]
+    |  write
+    v
+(seed/queries/seed_selection.json)
 ```
 
 ---
 
-## 5) 注意事項
+## Appendix A) legacy 模式摘要（保留回滾）
 
-- `cutoff_by_similar_title` 在程式內固定啟用（`--no-cutoff-by-similar-title` 會被忽略）。
-- 改寫後的片語會**覆蓋**原本 anchors，並依 `anchor_mode` 再次組 query。
-- `filter-seed` 只用 metadata；**不依賴 seed 階段是否已下載 PDF**。
+- 先用 topic variants + survey modifiers 產生單一 query。
+- 使用 cache（`seed/queries/arxiv.json`）或重新查詢。
+- Title filter + similarity cutoff（exact title / similarity threshold）。
+- 若候選為空或 cutoff 移除全部 → 進入 LLM rewrite（多輪候選 + scoring + 重跑）。
+- 產物沿用 `seed_selection.json` / `seed_rewrite.json` / `download_results.json`（legacy schema）。
+
+> legacy 模式完整細節請參考舊文件與程式碼註解；cutoff-first 為目前主流程。

@@ -92,7 +92,7 @@
 - 以 **codex exec** 與 **gemini** CLI 產生 `keywords.json` 等價結構，驗證 CLI 在「關鍵詞抽取」流程的可用性。
 
 ### 輸入
-- 來源：`workspaces/<topic_slug>/seed/downloads/arxiv/*.pdf`（與 pipeline 一致）。
+- 來源：`workspaces/<topic_slug>/seed/downloads/ta_filtered/*.pdf`（與 pipeline 一致）。
 - Metadata：沿用 `keyword_extractor` 的 arXiv metadata 匯入邏輯（以檔名推斷 arXiv id）。
 
 ### 輸出（建議）

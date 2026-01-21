@@ -25,7 +25,7 @@
 作為維護者，我要在不修改正式 pipeline 的前提下，以 Codex CLI / Gemini CLI 讀取 seed PDFs 並產生 keywords 結構化輸出，所有結果寫入 `docs/codex/test-keywords/` 以驗證 CLI 可行性與 PDF 讀取能力。本測試固定主題為 `discrete audio tokens more than a survey`，workspace 為 `workspaces/discrete_audio_tokens_more_than_a_survey/`。
 
 ### Acceptance Scenarios
-1. **Given** `workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/2502.06490.pdf` 存在，**When** 執行 Gemini keywords runner，**Then** 在 `docs/codex/test-keywords/outputs/<run_id>/` 產出 `gemini_keywords.json`，包含 `anchor_terms`、`search_terms`、`papers[*].detected_keywords`。
+1. **Given** `workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/ta_filtered/2502.06490.pdf` 存在，**When** 執行 Gemini keywords runner，**Then** 在 `docs/codex/test-keywords/outputs/<run_id>/` 產出 `gemini_keywords.json`，包含 `anchor_terms`、`search_terms`、`papers[*].detected_keywords`。
 2. **Given** 已提供對應 PDF 的純文字輸入（PDF→text），**When** 執行 Codex keywords runner，**Then** 在 `docs/codex/test-keywords/outputs/<run_id>/` 產出 `codex_keywords.json` 且 JSON 符合 schema。
 3. **Given** 未允許或未提供 PDF→text 前處理，**When** 執行 Codex keywords runner，**Then** runner 必須明確報錯並停止。
 4. **Given** 任一 runner 成功執行，**When** 完成輸出，**Then** `run_manifest.json` 必須記錄輸入 PDF、prompt 路徑、CLI 命令與 tool policy。
@@ -44,7 +44,7 @@
 ### Functional Requirements
 - **FR-001**：系統 MUST 提供可手動執行的 keywords 測試入口，且輸出寫入 `docs/codex/test-keywords/outputs/<run_id>/`。
 - **FR-002**：系統 MUST 使用 `resources/LLM/prompts/keyword_extractor/generate_search_terms.md` 作為提示模板。
-- **FR-003**：系統 MUST 以 `workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/arxiv/` 作為預設輸入來源，可限制筆數。
+- **FR-003**：系統 MUST 以 `workspaces/discrete_audio_tokens_more_than_a_survey/seed/downloads/ta_filtered/` 作為預設輸入來源，可限制筆數。
 - **FR-004**：輸出 MUST 包含 `anchor_terms`、分類化 `search_terms`、與 `papers[*].detected_keywords`。
 - **FR-005**：輸出 MUST 保留每篇 paper 的 `title`/`abstract`，且內容需對齊 metadata。
 - **FR-006**：系統 MUST 產出 `keywords_response.schema.json`、`keywords_output.schema.json`、`run_manifest.schema.json`。
