@@ -2,86 +2,113 @@
   "topic": "Discrete Audio Tokens: More Than a Survey!",
   "recency_hint": "過去3年",
   "mode": "web",
-  "generated_at": "2026-01-20T12:07:31.459893+00:00",
+  "generated_at": "2026-01-24T11:28:36.501393+00:00",
   "cutoff_before_date": null,
   "exclude_title": null,
   "source_validation": null,
   "search_prompt": "你是系統性回顧助理。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n主題：Discrete Audio Tokens: More Than a Survey!。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n請先以純文字整理資訊，不要輸出 JSON、Markdown 表格或程式碼區塊。\n依序撰寫下列段落：\n### Topic Definition\n- 以 1–2 段中文精準定義主題，可包含背景脈絡與核心能力描述。\n### Summary\n- 以 2–3 句中文概述趨勢與亮點。\n### Summary Topics\n- 列 3–4 個主題節點，格式為 `S1: 描述`。\n### Inclusion Criteria (Required)\n- 僅保留必須同時滿足的條件：① 主題定義條款（以『主題定義：』+定義原文開頭）、② 提供英文可評估性的條件。\n- 每條附上來源 (source) 與對應 topic id；一般條件需為 https。\n### Inclusion Criteria (Any-of Groups)\n- 針對技術覆蓋或差異化條件建立至少一個群組，格式為 `- Group 名稱` 搭配 `* Option:`，各自附上 source 與 topic ids。\n- 群組語意為 OR：只需滿足任一群組中的任一 option 即可。\n- 若筆記中原本在 Required 段落出現多個技術細節條件，請搬移到任選群組，不要重複留在 Required。\n- 若確實沒有任選條件，再寫 `(none)`。\n### Exclusion Criteria\n- 條列需要排除的情境，同樣附來源與 topic ids；若屬於系統設定（如 exclude_title），可標示 source: internal 或留空。\n- source 必須能直接支持該排除條件；若找不到合適來源，請用 internal。\n### Sources\n- 逐行呈現所有引用來源 (https)，不包含 internal/空白來源。\n- 優先引用一手論文頁（arXiv/期刊/會議/出版社），避免動態排行榜、搜尋結果頁或彙整站作為核心依據。",
   "structured_prompt_template": "你是系統性回顧助理。\n主題：Discrete Audio Tokens: More Than a Survey!。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n僅輸出單一 JSON 物件，鍵為：topic_definition、summary、summary_topics、inclusion_criteria、exclusion_criteria；JSON 外勿輸出其他文字。\ntopic_definition：以中文撰寫，1–2 段清楚定義主題，可補充背景脈絡與核心能力描述。\ntopic_definition 的來源應優先引用一手論文頁（如 arXiv/期刊/會議頁），避免彙整站、排行榜或動態搜尋結果頁。\nsummary：中文、簡潔扼要。\nsummary_topics：列出 3–4 項主題，每項含 id（如 S1、S2）與 description；用詞與 summary 一致。\ninclusion_criteria：每條含 criterion、source、topic_ids（至少 1 個）；僅能使用正向條件（不得寫否定句）。\ninclusion_criteria 的第一條必須以『主題定義：』+ topic_definition 原文開頭，之後接上『—』或『:』與具體條件（需逐字包含 topic_definition）。\ninclusion_criteria 中至少一條需明確要求英文（例如提供英文全文或英文評估語料）。\n若條件之間為 OR 關係，請放入 inclusion_criteria.any_of 的 options。\nany_of 群組語意：只需滿足「任一群組中的任一 option」即可；群組彼此為 OR，而非全部都必須滿足。\ninclusion_criteria 的範圍僅量廣泛，不可限縮在特定的小範圍內。\nexclusion_criteria：列『具體剔除情境』，不可是 inclusion 的鏡像否定（例如僅單一語言或單一應用、與主題無關）；每條同樣含 source、topic_ids。\nsource 規則：一般條件必須是 https；若條件屬於系統設定（例如 exclude_title），可用 source=internal 或留空，且這類來源不要放入 sources 清單。\n來源一致性：source 必須能直接支持該條件，不可使用會與條件相矛盾的來源；若找不到合適來源，請用 source=internal。\n來源選擇：避免動態排行榜、搜尋結果頁或彙整站，優先使用一手論文頁或正式出版頁。\n一致性：每條 criterion 必須對應至少一個 summary topic（以 topic_ids 連結）。",
-  "web_search_notes": "### Topic Definition\n離散音訊 token（Discrete Audio Tokens）指把連續的語音/音樂/一般音訊訊號，透過「編碼器—解碼器」與「量化（quantization）」等機制，轉換為可用有限詞彙表表示的離散序列（tokens/units/codes），在盡量保留可感知音質、語音內容與說話人等特徵的前提下，支援更有效率的儲存、傳輸、推論與以語言模型方式進行建模與生成。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1)\n\n本主題聚焦於「如何產生/學習離散音訊 token（tokenizer/codec/semantic unit）」、「其分類與設計取捨（例如：神經音訊 codec tokens vs. 自監督表徵量化得到的語意 tokens）」，以及「在重建品質、下游任務與（音訊）語言模型建模上的評測、基準與限制」。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1,S2,S3)\n\n### Summary\n離散音訊 token 正從「壓縮/編碼」走向「通用音訊序列建模介面」，使音訊能以類文字的序列形式被（大型）語言模型或自回歸模型處理。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S4)\n\n研究亮點集中在：tokenizer 的分類與可比性基準、codec tokens 的高保真與即時性，以及把語意 token 與高保真 codec token 混合以同時兼顧長程結構與音質的生成框架。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S2,S3,S4)\n\n### Summary Topics\nS1: 定義、範疇與分類（codec/semantic/hybrid tokens）\nS2: Tokenizer/Codec 設計與訓練（量化、codebook、串流、損失）\nS3: 評測與基準（重建品質、下游任務、acoustic LM、取捨）\nS4: 與生成/LLM 的整合與應用（語音、音樂、一般音訊）\n\n### Inclusion Criteria (Required)\n- 主題定義：離散音訊 token（Discrete Audio Tokens）指把連續的語音/音樂/一般音訊訊號，透過「編碼器—解碼器」與「量化（quantization）」等機制，轉換為可用有限詞彙表表示的離散序列（tokens/units/codes），在盡量保留可感知音質、語音內容與說話人等特徵的前提下，支援更有效率的儲存、傳輸、推論與以語言模型方式進行建模與生成。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1)\n- 提供英文可評估性：至少具備英文標題與英文摘要（或英文全文）以利篩選與資料萃取。 (source: internal, topic ids: S1)\n\n### Inclusion Criteria (Any-of Groups)\n- Group 技術路線（Tokenizer 類型）\n* Option: 以神經音訊 codec 產生離散 codes（例如 residual vector quantization、多 codebook、可變碼率/可串流），並用於重建或下游/生成。 (source: https://export.arxiv.org/api/query?id_list=2107.03312v1, topic ids: S2,S3)\n* Option: 以高保真神經音訊壓縮/codec 產生離散 tokens（含主觀評測如 MUSHRA 或跨域評測），並討論設計選擇與取捨。 (source: https://export.arxiv.org/api/query?id_list=2210.13438v1, topic ids: S2,S3)\n* Option: 從自監督音訊表徵（SSL）進行量化以取得語意離散 tokens，並在辨識/生成等任務分析配置或層選擇。 (source: https://export.arxiv.org/api/query?id_list=2406.10735v1, topic ids: S2,S3)\n* Option: 使用（或提出）混合式 tokenization：結合語意 token 與 codec token，以支援長程一致性與高音質的音訊生成/續寫。 (source: https://export.arxiv.org/api/query?id_list=2209.03143v2, topic ids: S4,S2)\n\n### Exclusion Criteria\n- 僅使用連續特徵（如 mel-spectrogram/連續 latent）且未形成「有限詞彙表的離散 token 序列」作為核心表徵/研究對象者排除。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S1)\n- 研究對象非音訊 token（例如純文字 token、純影像 token），或離散序列並非由音訊訊號/音訊表徵所導出者排除。 (source: internal, topic ids: S1)\n- 僅做一般音訊生成/辨識，但未使用或未評估離散音訊 token/tokenizer（例如不涉及 token 設計、量化、codebook、或 token 層級建模/比較）者排除。 (source: https://export.arxiv.org/api/query?id_list=2506.10274v3, topic ids: S3,S4)\n- 僅討論單一實作細節或工程應用，缺乏可重現的 token 定義（例如詞彙表大小/量化方式/codebook 設計）與基本評測資訊者排除。 (source: internal, topic ids: S2,S3)\n\n### Sources\nhttps://export.arxiv.org/api/query?id_list=2506.10274v3\nhttps://export.arxiv.org/api/query?id_list=2107.03312v1\nhttps://export.arxiv.org/api/query?id_list=2210.13438v1\nhttps://export.arxiv.org/api/query?id_list=2406.10735v1\nhttps://export.arxiv.org/api/query?id_list=2209.03143v2",
+  "web_search_notes": "說明：目前此執行環境 `network_access=restricted` 且未提供可用的「內建 web search」工具介面，我無法實際上網檢索與核對「含 YYYY-MM-DD 的 https 來源頁」。因此以下先給可直接使用的篩選規則草案，所有引用暫以 source: internal 標示；你只要提供 3+ 個符合 YYYY-MM-DD 顯示格式的 https 來源頁（或改成可上網的環境），我就能把每條規則補上合格來源並完成最終版。\n\n### Topic Definition\n本主題「Discrete Audio Tokens」指的是：將連續的音訊波形（語音/音樂/環境聲）透過離散化（discretization）映射為有限字彙表中的 token 序列，使音訊可像文字一樣被序列模型（如 Transformer/LLM）建模、生成、對齊或跨模態推理。離散 token 可由神經音訊編碼器（neural audio codec，常見為向量量化）或自監督表徵學習模型產生，並可能具有分層/多碼本（multi-codebook）、多粒度（語義 vs 聲學細節）、或時間下採樣等特性。\n\n「More Than a Survey」的取向意味著不僅盤點方法，也關注：token 的設計選擇如何影響可懂度/音質/可控性/計算成本、在不同任務（TTS、語音生成、音樂生成、音訊-文字/影像對齊、多模態 LLM）中的取捨，以及評估與可重現性（tokenizer 訓練資料、碼率/頻寬、失真指標、下游任務成效）等系統性議題。\n\n### Summary\n離散音訊 token 正把「音訊生成」從波形回歸轉向「token 語言建模」，使得可擴展訓練、長序列建模與跨模態對齊更容易。近期亮點在於：更高保真/更低延遲的 codec token、更語義化的語音 token、以及把音訊 token 直接接到語言模型形成端到端生成與理解的統一框架。核心挑戰則集中在評估一致性、token 失真造成的下游偏差、以及不同 token 設計在任務與資料域間的可移植性。\n\n### Summary Topics\nS1: 離散化方法與 token 類型（codec/VQ、語義 token、分層與多碼本）\nS2: Token 品質與代價（碼率、重建失真、延遲、可壓縮性與序列長度）\nS3: 下游應用（語音/音樂生成、TTS、語音理解、跨模態對齊與多模態 LLM）\nS4: 評估與可重現性（客觀/主觀指標、基準設定、資料與訓練細節揭露）\n\n### Inclusion Criteria (Required)\n- 主題定義：將「連續音訊」轉換為「離散 token 序列」以供後續音訊生成/理解/跨模態建模使用（source: internal；topic ids: S1,S2,S3）\n- 英文可評估性：論文需提供英文標題與英文摘要，且全文為英文或至少有英文方法與實驗段落可用於判定是否符合主題與提取結果（source: internal；topic ids: S4）\n- 英文可評估性：需明確描述離散 token 的產生流程（例如：tokenizer/codec 架構、量化方式、字彙表/碼本設定、時間下採樣或碼率），使審查者能以英文內容判定其為「離散 token」而非僅連續表徵（source: internal；topic ids: S1,S2,S4)\n\n### Inclusion Criteria (Any-of Groups)\n- Group Token 來源/機制\n  * Option: 使用神經音訊編碼器/codec 產生離散 token（例如向量量化、多碼本、殘差量化、分層 token）（source: internal；topic ids: S1,S2,S3）\n  * Option: 使用自監督語音/音訊模型的離散單元（如聚類或量化得到的語義/音素近似單元）作為 token（source: internal；topic ids: S1,S3）\n- Group 研究貢獻型態\n  * Option: 提出新的離散音訊 token 方案或改良（更高保真、更低碼率/更短序列、更穩定的語義單元、更低延遲）（source: internal；topic ids: S1,S2）\n  * Option: 系統性比較/分析不同離散 token 設計對下游任務、可控性或跨模態對齊的影響（source: internal；topic ids: S2,S3,S4）\n  * Option: 將離散音訊 token 用於下游生成/理解系統並提供實證（語音/音樂生成、TTS、語音理解、音訊-文字/影像對齊）（source: internal；topic ids: S3,S4）\n\n### Exclusion Criteria\n- 僅使用「連續」音訊表徵（無離散化、無 token/碼本/字彙表），且不包含任何離散 token 的方法或實驗（source: internal；topic ids: S1）\n- 僅做傳統音訊壓縮/編碼（非神經離散 token、且不面向下游生成/理解/跨模態建模），或僅討論通訊標準編碼（source: internal；topic ids: S2）\n- 僅為音訊事件分類/辨識等判別式任務，且離散 token 不是核心方法或分析對象（例如僅在特徵工程附帶提及）（source: internal；topic ids: S3）\n- 無法以英文內容判定其是否使用離散音訊 token（缺少英文摘要/方法關鍵資訊不足）（source: internal；topic ids: S4）\n- 重複發表：同一工作在不同版本（preprint/會議/期刊）高度重疊時，僅保留資訊最完整且最終版本（source: internal；topic ids: S4）\n\n### Sources\n（目前無法上網檢索與核對符合 YYYY-MM-DD 的 https 來源頁；請提供至少 3 個符合格式的來源 URL 或允許網路存取後我再補齊。）",
   "structured_payload": {
-    "topic_definition": "離散音訊 token（Discrete Audio Tokens）指把連續的語音／音樂／一般音訊訊號，透過「編碼器—解碼器」架構與量化（quantization）等機制，轉換為可由有限詞彙表表示的離散序列（tokens／units／codes），並在盡量保留可感知音質、語音內容與說話人等關鍵特徵的前提下，支援更有效率的儲存、傳輸、推論，以及以（音訊）語言模型方式進行建模與生成。\n\n本主題聚焦於：離散 token 的產生／學習方法（tokenizer／codec／semantic unit）、不同離散化路線的分類與設計取捨（例如神經音訊 codec tokens 與自監督表徵量化得到的語意 tokens，以及混合式設計），並涵蓋其在重建品質、下游任務與音訊語言模型建模上的評測、基準與限制。",
-    "summary": "離散音訊 token 正從傳統的壓縮／編碼目標，擴展為通用的音訊序列建模介面，使音訊可被自回歸模型或（大型）語言模型以類文字序列方式處理。相關研究通常圍繞 tokenizer/codec 的設計取捨、可比性評測基準，以及語意與高保真 token 的整合以兼顧長程結構與音質。",
+    "topic_definition": "本主題「Discrete Audio Tokens」指的是：將連續的音訊波形（語音/音樂/環境聲）透過離散化（discretization）映射為有限字彙表中的 token 序列，使音訊可像文字一樣被序列模型（如 Transformer/LLM）建模、生成、對齊或跨模態推理。離散 token 可由神經音訊編碼器（neural audio codec，常見為向量量化）或自監督表徵學習模型產生，並可能具有分層/多碼本（multi-codebook）、多粒度（語義 vs 聲學細節）、或時間下採樣等特性。\n\n「More Than a Survey」的取向意味著不僅盤點方法，也關注：token 的設計選擇如何影響可懂度/音質/可控性/計算成本、在不同任務（TTS、語音生成、音樂生成、音訊-文字/影像對齊、多模態 LLM）中的取捨，以及評估與可重現性（tokenizer 訓練資料、碼率/頻寬、失真指標、下游任務成效）等系統性議題。",
+    "summary": "離散音訊 token 讓音訊可用「token 序列」方式被語言模型建模，促進可擴展訓練、長序列生成與跨模態對齊。研究重點涵蓋 token 的離散化機制、品質與代價權衡、下游生成/理解與多模態整合，以及一致的評估與可重現性揭露。",
     "summary_topics": [
       {
         "id": "S1",
-        "description": "定義、範疇與分類（codec／semantic／hybrid tokens）"
+        "description": "離散化方法與 token 類型（codec/VQ、語義 token、分層與多碼本）"
       },
       {
         "id": "S2",
-        "description": "Tokenizer／Codec 設計與訓練（量化、codebook、串流、損失）"
+        "description": "Token 品質與代價（碼率、重建失真、延遲、可壓縮性與序列長度）"
       },
       {
         "id": "S3",
-        "description": "評測與基準（重建品質、下游任務、acoustic LM、取捨）"
+        "description": "下游應用（語音/音樂生成、TTS、語音理解、跨模態對齊與多模態 LLM）"
       },
       {
         "id": "S4",
-        "description": "與生成／LLM 的整合與應用（語音、音樂、一般音訊）"
+        "description": "評估與可重現性（客觀/主觀指標、基準設定、資料與訓練細節揭露）"
       }
     ],
     "inclusion_criteria": {
       "required": [
         {
-          "criterion": "主題定義：離散音訊 token（Discrete Audio Tokens）指把連續的語音／音樂／一般音訊訊號，透過「編碼器—解碼器」架構與量化（quantization）等機制，轉換為可由有限詞彙表表示的離散序列（tokens／units／codes），並在盡量保留可感知音質、語音內容與說話人等關鍵特徵的前提下，支援更有效率的儲存、傳輸、推論，以及以（音訊）語言模型方式進行建模與生成。\n\n本主題聚焦於：離散 token 的產生／學習方法（tokenizer／codec／semantic unit）、不同離散化路線的分類與設計取捨（例如神經音訊 codec tokens 與自監督表徵量化得到的語意 tokens，以及混合式設計），並涵蓋其在重建品質、下游任務與音訊語言模型建模上的評測、基準與限制。—收錄以「音訊訊號（或音訊表徵）→有限詞彙表的離散 token 序列」為核心研究對象，並對 token/量化/詞彙表/解碼重建或 token 級建模與比較提供明確定義或方法描述之研究。",
+          "criterion": "主題定義：本主題「Discrete Audio Tokens」指的是：將連續的音訊波形（語音/音樂/環境聲）透過離散化（discretization）映射為有限字彙表中的 token 序列，使音訊可像文字一樣被序列模型（如 Transformer/LLM）建模、生成、對齊或跨模態推理。離散 token 可由神經音訊編碼器（neural audio codec，常見為向量量化）或自監督表徵學習模型產生，並可能具有分層/多碼本（multi-codebook）、多粒度（語義 vs 聲學細節）、或時間下採樣等特性。\n\n「More Than a Survey」的取向意味著不僅盤點方法，也關注：token 的設計選擇如何影響可懂度/音質/可控性/計算成本、在不同任務（TTS、語音生成、音樂生成、音訊-文字/影像對齊、多模態 LLM）中的取捨，以及評估與可重現性（tokenizer 訓練資料、碼率/頻寬、失真指標、下游任務成效）等系統性議題。—收錄以「離散 token 序列」作為核心表徵，用於音訊生成、理解、對齊或跨模態建模/推理之研究。",
           "topic_ids": [
-            "S1"
+            "S1",
+            "S2",
+            "S3",
+            "S4"
           ],
-          "source": "https://arxiv.org/abs/2506.10274v3"
+          "source": "internal"
         },
         {
-          "criterion": "提供英文可評估性：至少具備英文標題與英文摘要（或英文全文），以支援一致的篩選、資料萃取與比對。",
+          "criterion": "英文可評估性：論文需提供英文標題與英文摘要，且全文為英文或至少提供可用於判定與資料擷取的英文方法與實驗內容。",
           "topic_ids": [
-            "S1"
+            "S4"
+          ],
+          "source": "internal"
+        },
+        {
+          "criterion": "英文可評估性：需以英文明確描述離散 token 的產生流程（例如 tokenizer/codec 架構、量化方式、字彙表/碼本設定、時間下採樣或碼率），使審查者能判定其為離散音訊 token 並可支援可重現性評估。",
+          "topic_ids": [
+            "S1",
+            "S2",
+            "S4"
           ],
           "source": "internal"
         }
       ],
       "any_of": [
         {
-          "label": "技術覆蓋需求（滿足任一離散化路線即可）",
+          "label": "Token 來源或機制覆蓋",
           "options": [
             {
-              "criterion": "研究提出或使用神經音訊 codec 產生離散 codes（例如 RVQ、多 codebook、可變碼率或可串流設計），並用於重建、下游任務或生成建模之任一目的。",
+              "criterion": "研究使用神經音訊編碼器/codec 產生離散 token（例如向量量化、多碼本、殘差量化、分層 token），並將其用作後續建模的主要輸入序列。",
               "topic_ids": [
+                "S1",
                 "S2",
                 "S3"
               ],
-              "source": "https://arxiv.org/abs/2107.03312v1"
+              "source": "internal"
             },
             {
-              "criterion": "研究提出或使用高保真神經音訊壓縮／codec 的離散 tokens，並提供至少一種可解讀的品質或效能評測（例如主觀聆聽測試如 MUSHRA、客觀指標或跨域評測）以討論設計選擇與取捨。",
+              "criterion": "研究使用自監督語音/音訊模型導出的離散單元（例如聚類或量化得到的語義/音素近似單元）作為 token，並以此進行建模或分析。",
               "topic_ids": [
-                "S2",
+                "S1",
                 "S3"
               ],
-              "source": "https://arxiv.org/abs/2210.13438v1"
-            },
+              "source": "internal"
+            }
+          ]
+        },
+        {
+          "label": "研究貢獻型態",
+          "options": [
             {
-              "criterion": "研究以自監督音訊表徵（SSL）進行量化以取得語意離散 tokens（semantic units），並在辨識、生成或相關下游任務中分析 token 配置、層選擇或表徵取捨。",
+              "criterion": "研究提出新的離散音訊 token 方案或改良（例如提升保真、降低碼率/縮短序列、提升語義穩定性、降低延遲），並提供可驗證的設計細節或實驗結果。",
               "topic_ids": [
-                "S2",
-                "S3"
-              ],
-              "source": "https://arxiv.org/abs/2406.10735v1"
-            },
-            {
-              "criterion": "研究使用或提出混合式 tokenization（結合語意 token 與 codec token），以支援長程一致性與高音質的音訊生成、續寫或與（音訊）語言模型整合。",
-              "topic_ids": [
-                "S4",
+                "S1",
                 "S2"
               ],
-              "source": "https://arxiv.org/abs/2209.03143v2"
+              "source": "internal"
+            },
+            {
+              "criterion": "研究系統性比較或分析不同離散 token 設計對下游任務表現、可控性、或跨模態對齊的影響，並報告清楚的評估設定與結果。",
+              "topic_ids": [
+                "S2",
+                "S3",
+                "S4"
+              ],
+              "source": "internal"
+            },
+            {
+              "criterion": "研究將離散音訊 token 用於下游生成/理解系統（例如語音/音樂生成、TTS、語音理解、音訊-文字/影像對齊、多模態 LLM）並提供實證評估或案例分析。",
+              "topic_ids": [
+                "S3",
+                "S4"
+              ],
+              "source": "internal"
             }
           ]
         }
@@ -89,42 +116,41 @@
     },
     "exclusion_criteria": [
       {
-        "criterion": "研究核心表徵為連續特徵（例如 mel-spectrogram 或連續 latent），且其方法與實驗主要以連續表徵進行而未將「有限詞彙表的離散 token 序列」作為主要研究對象之情境予以排除。",
-        "topic_ids": [
-          "S1"
-        ],
-        "source": "https://arxiv.org/abs/2506.10274v3"
-      },
-      {
-        "criterion": "研究對象為非音訊來源所導出的離散序列（例如純文字 token、純影像 token），且與音訊 token/tokenizer 的定義、設計或評測無直接對應之情境予以排除。",
+        "criterion": "研究主體為連續音訊表徵建模，且全文未提供任何離散化產生的 token/碼本/字彙表設定，亦未以離散 token 作為核心方法或分析對象。",
         "topic_ids": [
           "S1"
         ],
         "source": "internal"
       },
       {
-        "criterion": "研究僅以一般音訊生成或辨識為目標，但未呈現可判讀的離散音訊 token/tokenizer（例如未提供 token 定義、詞彙表或量化機制描述，且未在 token 層級進行任何評估或比較）之情境予以排除。",
+        "criterion": "研究僅討論傳統音訊壓縮/通訊標準編碼，重點不在神經式離散 token 表徵，且未面向音訊生成、理解或跨模態建模的研究問題。",
         "topic_ids": [
-          "S3",
-          "S4"
+          "S2"
         ],
-        "source": "https://arxiv.org/abs/2506.10274v3"
+        "source": "internal"
       },
       {
-        "criterion": "研究主要聚焦單一工程實作或部署細節，且缺乏可重現的 token 規格資訊（例如詞彙表大小、量化方式或 codebook 設計）與最低限度的品質/效能評測資訊之情境予以排除。",
+        "criterion": "研究主要為判別式任務（例如音訊事件分類/辨識），離散音訊 token 僅作為非核心的附帶特徵或未被分析其設計與影響。",
         "topic_ids": [
-          "S2",
           "S3"
+        ],
+        "source": "internal"
+      },
+      {
+        "criterion": "研究缺乏足夠英文關鍵資訊（例如無英文摘要或方法細節不足），導致無法可靠判定其離散 token 定義、設定或評估流程。",
+        "topic_ids": [
+          "S4"
+        ],
+        "source": "internal"
+      },
+      {
+        "criterion": "同一研究在不同版本（例如 preprint/會議/期刊）高度重疊時，僅保留資訊最完整且最終版本，其餘版本作為重複發表剔除。",
+        "topic_ids": [
+          "S4"
         ],
         "source": "internal"
       }
     ],
-    "sources": [
-      "https://arxiv.org/abs/2107.03312v1",
-      "https://arxiv.org/abs/2209.03143v2",
-      "https://arxiv.org/abs/2210.13438v1",
-      "https://arxiv.org/abs/2406.10735v1",
-      "https://arxiv.org/abs/2506.10274v3"
-    ]
+    "sources": []
   }
 }

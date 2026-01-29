@@ -6,8 +6,8 @@
   "n_requested": 3,
   "phrases_raw": [
     "discrete audio tokens",
-    "discrete audio token representation",
-    "discrete audio tokenization"
+    "discrete audio tokenization",
+    "audio token quantization"
   ],
   "english_only": {
     "enabled": true,
@@ -37,9 +37,9 @@
   },
   "phrases_clean": [
     "discrete audio tokens",
-    "discrete audio token representation",
-    "discrete audio tokenization"
+    "discrete audio tokenization",
+    "audio token quantization"
   ],
   "errors": [],
-  "raw_output": "{\"phrases\":[\"discrete audio tokens\",\"discrete audio token representation\",\"discrete audio tokenization\"]}"
+  "raw_output": "{\"phrases\":[\"discrete audio tokens\",\"discrete audio tokenization\",\"audio token quantization\"]}"
 }

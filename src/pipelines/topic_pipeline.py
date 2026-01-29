@@ -2403,9 +2403,6 @@ def filter_seed_papers_with_llm(
     codex_extra_args: Optional[Sequence[str]] = None,
     codex_home: Optional[Path] = None,
     codex_allow_web_search: bool = False,
-    fallback_min_selected: int = 2,
-    fallback_max_additional: Optional[int] = None,
-    fallback_prompt_path: Optional[Path] = None,
     force: bool = False,
 ) -> Dict[str, object]:
     """Run LLM yes/no screening on seed papers using title + abstract only."""
@@ -2462,15 +2459,6 @@ def filter_seed_papers_with_llm(
             "model": model,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "papers": [],
-            "fallback": {
-                "enabled": fallback_min_selected > 0,
-                "triggered": False,
-                "min_selected": fallback_min_selected,
-                "selected_before": 0,
-                "selected_after": 0,
-                "added": [],
-                "prompt_path": None,
-            },
         }
         _write_json(screening_path, screening_payload)
         _write_json(
@@ -2478,7 +2466,6 @@ def filter_seed_papers_with_llm(
             {
                 "selected": [],
                 "rejected": [],
-                "fallback_added": [],
             },
         )
         return {
@@ -2591,69 +2578,12 @@ def filter_seed_papers_with_llm(
         else:
             rejected_ids.append(arxiv_id)
 
-    fallback_info: Dict[str, object] = {
-        "enabled": fallback_min_selected > 0,
-        "triggered": False,
-        "min_selected": fallback_min_selected,
-        "selected_before": len(selected_ids),
-        "selected_after": len(selected_ids),
-        "added": [],
-        "prompt_path": None,
-    }
-    if fallback_min_selected > 0 and len(selected_ids) < fallback_min_selected and rejected_ids:
-        fallback_prompt = fallback_prompt_path or Path(
-            "resources/LLM/prompts/filter_seed/llm_screening_fallback.md"
-        )
-        fallback_info["prompt_path"] = str(fallback_prompt)
-        fallback_info["triggered"] = True
-
-        fallback_candidates: List[Tuple[str, float]] = []
-        rejected_set = set(rejected_ids)
-        for paper in papers:
-            arxiv_id = str(paper.get("arxiv_id") or "")
-            if not arxiv_id or arxiv_id not in rejected_set:
-                continue
-            title = str(paper.get("title") or "")
-            abstract = str(paper.get("abstract") or "")
-            prompt = _build_filter_seed_prompt(
-                topic=workspace.topic,
-                title=title,
-                abstract=abstract,
-                include_keywords=include_keywords,
-                template_path=fallback_prompt,
-            )
-            metadata_payload = {
-                "mode": "filter_seed_fallback",
-                "topic": workspace.topic[:500],
-                "arxiv_id": arxiv_id,
-            }
-            parsed = _run_filter_decision(prompt, metadata_payload)
-            paper["fallback_decision"] = parsed["decision"]
-            paper["fallback_reason"] = parsed["reason"]
-            paper["fallback_confidence"] = parsed["confidence"]
-            if parsed["decision"] == "yes":
-                fallback_candidates.append((arxiv_id, float(parsed["confidence"])))
-
-        if fallback_candidates:
-            fallback_candidates.sort(key=lambda item: item[1], reverse=True)
-            if fallback_max_additional is not None:
-                fallback_candidates = fallback_candidates[: max(0, fallback_max_additional)]
-            added_ids = []
-            for arxiv_id, _ in fallback_candidates:
-                if arxiv_id not in selected_ids:
-                    selected_ids.append(arxiv_id)
-                    added_ids.append(arxiv_id)
-            rejected_ids = [arxiv_id for arxiv_id in rejected_ids if arxiv_id not in set(added_ids)]
-            fallback_info["added"] = added_ids
-            fallback_info["selected_after"] = len(selected_ids)
-
     filters_dir.mkdir(parents=True, exist_ok=True)
     screening_payload = {
         "topic": workspace.topic,
         "model": model,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "papers": papers,
-        "fallback": fallback_info,
     }
     if cutoff_id:
         screening_payload["excluded_cutoff_candidate"] = cutoff_id
@@ -2663,7 +2593,6 @@ def filter_seed_papers_with_llm(
         {
             "selected": selected_ids,
             "rejected": rejected_ids,
-            "fallback_added": fallback_info.get("added") if fallback_info else [],
         },
     )
 

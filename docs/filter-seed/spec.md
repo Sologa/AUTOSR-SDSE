@@ -174,6 +174,7 @@ Filter-Seed 會在篩選後下載並整理 seed PDF 目錄：
 
 - 若 seed metadata 為空 → 直接輸出空結果（不報錯）
 - 若 LLM 呼叫失敗 → 回報錯誤（遵守 repo 規則，不做 fallback）
+- 不做低樣本 fallback，輸出不包含任何 fallback 欄位
 - 若 **全部為 NO** → 輸出 empty selection（不做額外處理）
 
 ---

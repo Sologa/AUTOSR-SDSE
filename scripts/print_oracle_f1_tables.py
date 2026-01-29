@@ -62,6 +62,7 @@ def compute_metrics(oracle: Set[str], retrieved: Set[str]) -> dict:
     f1 = 0.0
     if precision + recall > 0:
         f1 = 2 * precision * recall / (precision + recall)
+    iou = compute_iou(oracle, retrieved)
     return {
         "oracle": len(oracle),
         "retrieved": len(retrieved),
@@ -69,6 +70,7 @@ def compute_metrics(oracle: Set[str], retrieved: Set[str]) -> dict:
         "precision": precision,
         "recall": recall,
         "f1": f1,
+        "iou": iou,
     }
 
 
@@ -82,18 +84,19 @@ def _format_metric(value: object) -> str:
 
 def format_table(rows: List[dict]) -> List[str]:
     lines = [
-        "| Round | Retrieved | TP | Precision | Recall | F1 | Note |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "| Round | Retrieved | TP | Precision | Recall | F1 | IoU | Note |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         lines.append(
-            "| {round} | {retrieved} | {tp} | {precision} | {recall} | {f1} | {note} |".format(
+            "| {round} | {retrieved} | {tp} | {precision} | {recall} | {f1} | {iou} | {note} |".format(
                 round=row["round"],
                 retrieved=_format_metric(row["retrieved"]),
                 tp=_format_metric(row["tp"]),
                 precision=_format_metric(row.get("precision")),
                 recall=_format_metric(row.get("recall")),
                 f1=_format_metric(row.get("f1")),
+                iou=_format_metric(row.get("iou")),
                 note=row.get("note", ""),
             )
         )
@@ -112,6 +115,7 @@ def collect_round_rows(oracle: Set[str], rounds_dir: Path) -> List[dict]:
                 "precision": None,
                 "recall": None,
                 "f1": None,
+                "iou": None,
                 "note": "no round directories",
             }
         )
@@ -128,6 +132,7 @@ def collect_round_rows(oracle: Set[str], rounds_dir: Path) -> List[dict]:
                     "precision": None,
                     "recall": None,
                     "f1": None,
+                    "iou": None,
                     "note": "missing final_included.json",
                 }
             )
@@ -143,10 +148,18 @@ def collect_round_rows(oracle: Set[str], rounds_dir: Path) -> List[dict]:
                 "precision": metrics["precision"],
                 "recall": metrics["recall"],
                 "f1": metrics["f1"],
+                "iou": metrics["iou"],
                 "note": "",
             }
         )
     return rows
+
+
+def compute_iou(oracle: Set[str], retrieved: Set[str]) -> float:
+    union = oracle | retrieved
+    if not union:
+        return 0.0
+    return len(oracle & retrieved) / len(union)
 
 
 def render_topic(topic: dict) -> List[str]:

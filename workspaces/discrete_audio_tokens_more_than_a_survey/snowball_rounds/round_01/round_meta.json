@@ -1,0 +1,22 @@
+{
+  "round": 1,
+  "seed_review": "workspaces/discrete_audio_tokens_more_than_a_survey/review/latte_review_results.json",
+  "seed_count": 118,
+  "raw_count": 979,
+  "filtered_count": 536,
+  "dedup_removed": 19,
+  "dedup_removed_by": {
+    "openalex_id": 1,
+    "doi": 2,
+    "title": 16
+  },
+  "for_review_count": 517,
+  "review_ran": true,
+  "review_outcome": {
+    "exclude": 479,
+    "include": 35,
+    "other": 3
+  },
+  "included_total": 153,
+  "criteria_hash": "729506d3cfb76000acabe7045f7f724cf627600e4825b13586eef076dc26d334"
+}

@@ -21,7 +21,6 @@
   - docs/pipelines/topic_cli_pipeline_overview.md
   - docs/pipelines/pipeline_handoff.md
   - docs/pipelines/criteria_prompt_alignment.md
-  - docs/pipelines/seed_screening_fallback.md
   - docs/pipelines/harvest_query_plan.md
   - docs/pipelines/cutoff_policy.md
   - docs/pipelines/review_discard_reason.md
@@ -181,4 +180,3 @@ workspaces/<topic>/literature_review/
 2. 需要支援的 citation style（APA/Nature/Vancouver/IEEE）是哪一種？
 3. 是否允許新增 pandoc/xelatex 依賴？
 4. literature-review stage 應插入在 review 之後還是 snowball 完成後？
-

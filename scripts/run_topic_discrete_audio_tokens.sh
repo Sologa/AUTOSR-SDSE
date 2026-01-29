@@ -23,7 +23,7 @@ TOPIC='Discrete Audio Tokens: More Than a Survey!'
 #   --dblp-title-arxiv-max-results 10 \
 #   --force
 
-python scripts/topic_pipeline.py criteria --topic "$TOPIC" --mode pdf+web
+# python scripts/topic_pipeline.py criteria --topic "$TOPIC" --mode pdf+web
 
 python scripts/topic_pipeline.py review --topic "$TOPIC"
 

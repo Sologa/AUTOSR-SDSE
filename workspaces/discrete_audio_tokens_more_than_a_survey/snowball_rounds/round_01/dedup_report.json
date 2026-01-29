@@ -1,0 +1,10 @@
+{
+  "removed_total": 19,
+  "removed_by": {
+    "openalex_id": 1,
+    "doi": 2,
+    "title": 16
+  },
+  "registry_used": true,
+  "active_criteria_hash": "729506d3cfb76000acabe7045f7f724cf627600e4825b13586eef076dc26d334"
+}

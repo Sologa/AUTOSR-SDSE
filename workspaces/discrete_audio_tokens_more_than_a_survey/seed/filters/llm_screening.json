@@ -1,1072 +1,688 @@
 {
   "topic": "Discrete Audio Tokens: More Than a Survey!",
   "model": "gpt-5.2",
-  "generated_at": "2026-01-20T10:26:46.400350+00:00",
+  "generated_at": "2026-01-24T10:29:57.671530+00:00",
   "papers": [
     {
       "arxiv_id": "2506.09487",
       "title": "BemaGANv2: A Tutorial and Comparative Survey of GAN-based Vocoders for Long-Term Audio Generation",
       "abstract": "This paper presents a tutorial-style survey and implementation guide of BemaGANv2, an advanced GANbased vocoder designed for high-fidelity and long-term audio generation. Long-term audio generation is critical for applications in Text-to-Music (TTM) and Text-to-Audio (TTA) systems, where maintaining temporal coherence, prosodic consistency, and harmonic structure over extended durations remains a significant challenge. Built upon the original BemaGAN architecture, BemaGANv2 incorporates major architectural innovations by replacing traditional ResBlocks in the generator with the Anti-aliased Multi-Periodicity composition (AMP) module, which internally applies the Snake activation function to better model periodic structures. In the discriminator framework, we integrate the Multi-Envelope Discriminator (MED), a novel architecture we proposed, to extract rich temporal envelope features crucial for periodicity detection. Coupled with the Multi-Resolution Discriminator (MRD), this combination enables more accurate modeling of long-range dependencies in audio. We systematically evaluate various discriminator configurations, including Multi-Scale Discriminator (MSD) + MED, MSD + MRD, and Multi-Period Discriminator (MPD) + MED + MRD, using objective metrics (Fréchet Audio Distance (FAD), Structural Similarity Index (SSIM), Pearson Correlation Coefficient (PCC), Mel-Cepstral Distortion (MCD)) and subjective evaluations (MOS, SMOS). This paper also provides a comprehensive tutorial on the model architecture, training methodology, and implementation to promote reproducibility. The code and pre-trained models are available at: https://github.com/dinhoitt/BemaGANv2.",
       "decision": "no",
-      "reason": "该文虽为教程式综述但主要聚焦GAN声码器与长音频生成而非离散音频token主题。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦GAN声码器与长音频生成架构评测，未直接涉及离散音频token或token化方法。",
-      "fallback_confidence": 0.84
+      "reason": "论文虽为教程式综述但聚焦GAN声码器与长音频生成，并非直接关于离散音频token。",
+      "confidence": 0.88
     },
     {
       "arxiv_id": "2506.08457",
       "title": "Audio Generation Through Score-Based Generative Modeling: Design Principles and Implementation",
       "abstract": "Diffusion models have emerged as powerful deep generative techniques, producing high-quality and diverse samples in applications in various domains including audio. While existing reviews provide overviews, there remains limited in-depth discussion of these specific design choices. The audio diffusion model literature also lacks principled guidance for the implementation of these design choices and their comparisons for different applications. This survey provides a comprehensive review of diffusion model design with an emphasis on design principles for quality improvement and conditioning for audio applications. We adopt the score modeling perspective as a unifying framework that accommodates various interpretations, including recent approaches like flow matching. We systematically examine the training and sampling procedures of diffusion models, and audio applications through different conditioning mechanisms. To provide an integrated, unified codebase and to promote reproducible research and rapid prototyping, we introduce an open-source codebase (https://github.com/gzhu06/AudioDiffuser) that implements our reviewed framework for various audio applications. We demonstrate its capabilities through three case studies: audio generation, speech enhancement, and text-to-speech synthesis, with benchmark evaluations on standard datasets.",
       "decision": "no",
-      "reason": "该文虽为扩散模型音频生成综述，但主题并非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频扩散/评分生成模型的设计与实现综述而非离散音频token主题。",
-      "fallback_confidence": 0.86
-    },
-    {
-      "arxiv_id": "2506.00934",
-      "title": "GRAM: Spatial general-purpose audio representation models for real-world applications",
-      "abstract": "Although audio foundations models have seen great progress on a wide variety of tasks, their application in real-world acoustic environments with reverberation and noise has been less successful. Moreover, as audio foundation models are typically trained on dry, single-channel audio clips, the inherent spatial nature of real-world sound scenes is overlooked and tasks involving sound localization ruled out. To address these limitations, we propose GRAM: a General-purpose Real-world Audio Model utilizing a multi-channel masked auto-encoder approach to efficiently learn spatial audio representations from high-quality simulated real-world scenes. To evaluate the performance of GRAM and other audio foundation models in real-world sound scenes, we release Nat-HEAR: A naturalistic version of the HEAR benchmark suite comprising a simulated real-world version, as well as two new sound localization tasks. We show that the performance of GRAM surpasses all state-of-the-art self-supervised audio foundation models and speech models on both HEAR and Nat-HEAR, while using only a fraction of the training data. GRAM also showcases state-of-the-art localization performance, surpassing even supervised sound localization approaches, and can be flexibly applied either to a two-channel, binaural sound format or a four-channel, Ambisonics format. Validating GRAM's performance on real-world sound recordings demonstrates robust transfer to real-world scenes. Taken together, GRAM presents a significant advancement towards robust, spatial audio foundation models for real-world applications.",
-      "decision": "no",
-      "reason": "该论文提出并评测空间音频表征模型GRAM而非综述类工作，且不聚焦离散音频token主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦空间音频表征与声源定位的基础模型，并非离散音频token主题的核心方法或术语来源。",
-      "fallback_confidence": 0.77
+      "reason": "该文是音频扩散模型设计原则与实现的综述，未聚焦离散音频token主题。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2505.15957",
       "title": "Towards Holistic Evaluation of Large Audio-Language Models: A Comprehensive Survey",
       "abstract": "With advancements in large audio-language models (LALMs), which enhance large language models (LLMs) with auditory capabilities, these models are expected to demonstrate universal proficiency across various auditory tasks. While numerous benchmarks have emerged to assess LALMs' performance, they remain fragmented and lack a structured taxonomy. To bridge this gap, we conduct a comprehensive survey and propose a systematic taxonomy for LALM evaluations, categorizing them into four dimensions based on their objectives: (1) General Auditory Awareness and Processing, (2) Knowledge and Reasoning, (3) Dialogue-oriented Ability, and (4) Fairness, Safety, and Trustworthiness. We provide detailed overviews within each category and highlight challenges in this field, offering insights into promising future directions. To the best of our knowledge, this is the first survey specifically focused on the evaluations of LALMs, providing clear guidelines for the community. We will release the collection of the surveyed papers and actively maintain it to support ongoing advancements in the field.",
       "decision": "no",
-      "reason": "该文虽为综述但主要讨论大型音频语言模型的评测与分类体系，非聚焦离散音频标记主题。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频语言大模型评测基准与分类体系，未直接讨论离散音频token方法。",
-      "fallback_confidence": 0.86
+      "reason": "论文是关于大规模音频-语言模型评测的综述而非离散音频token主题。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2505.10975",
       "title": "Survey of End-to-End Multi-Speaker Automatic Speech Recognition for Monaural Audio",
       "abstract": "Monaural multi-speaker automatic speech recognition (ASR) remains challenging due to data scarcity and the intrinsic difficulty of recognizing and attributing words to individual speakers, particularly in overlapping speech. Recent advances have driven the shift from cascade systems to end-to-end (E2E) architectures, which reduce error propagation and better exploit the synergy between speech content and speaker identity. Despite rapid progress in E2E multi-speaker ASR, the field lacks a comprehensive review of recent developments. This survey provides a systematic taxonomy of E2E neural approaches for multi-speaker ASR, highlighting recent advances and comparative analysis. Specifically, we analyze: (1) architectural paradigms (SIMO vs.~SISO) for pre-segmented audio, analyzing their distinct characteristics and trade-offs; (2) recent architectural and algorithmic improvements based on these two paradigms; (3) extensions to long-form speech, including segmentation strategy and speaker-consistent hypothesis stitching. Further, we (4) evaluate and compare methods across standard benchmarks. We conclude with a discussion of open challenges and future research directions towards building robust and scalable multi-speaker ASR.",
       "decision": "no",
-      "reason": "该文虽为多说话人端到端ASR综述，但主题与离散音频token并不直接相关。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦单声道多说话人端到端语音识别综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.78
+      "reason": "该文虽为综述但聚焦端到端单通道多说话人ASR，与离散音频token主题不直接相关。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2505.09188",
+      "title": "Zero-shot Quantization: A Comprehensive Survey",
+      "abstract": "Network quantization has proven to be a powerful approach to reduce the memory and computational demands of deep learning models for deployment on resource-constrained devices. However, traditional quantization methods often rely on access to training data, which is impractical in many real-world scenarios due to privacy, security, or regulatory constraints. Zero-shot Quantization (ZSQ) emerges as a promising solution, achieving quantization without requiring any real data. In this paper, we provide a comprehensive overview of ZSQ methods and their recent advancements. First, we provide a formal definition of the ZSQ problem and highlight the key challenges. Then, we categorize the existing ZSQ methods into classes based on data generation strategies, and analyze their motivations, core ideas, and key takeaways. Lastly, we suggest future research directions to address the remaining limitations and advance the field of ZSQ. To the best of our knowledge, this paper is the first in-depth survey on ZSQ.",
+      "decision": "no",
+      "reason": "论文是关于零样本量化的综述而非离散音频令牌主题。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2505.05215",
+      "title": "Diffusion Model Quantization: A Review",
+      "abstract": "Recent success of large text-to-image models has empirically underscored the exceptional performance of diffusion models in generative tasks. To facilitate their efficient deployment on resource-constrained edge devices, model quantization has emerged as a pivotal technique for both compression and acceleration. This survey offers a thorough review of the latest advancements in diffusion model quantization, encapsulating and analyzing the current state of the art in this rapidly advancing domain. First, we provide an overview of the key challenges encountered in the quantization of diffusion models, including those based on U-Net architectures and Diffusion Transformers (DiT). We then present a comprehensive taxonomy of prevalent quantization techniques, engaging in an in-depth discussion of their underlying principles. Subsequently, we perform a meticulous analysis of representative diffusion model quantization schemes from both qualitative and quantitative perspectives. From a quantitative standpoint, we rigorously benchmark a variety of methods using widely recognized datasets, delivering an extensive evaluation of the most recent and impactful research in the field. From a qualitative standpoint, we categorize and synthesize the effects of quantization errors, elucidating these impacts through both visual analysis and trajectory examination. In conclusion, we outline prospective avenues for future research, proposing novel directions for the quantization of generative models in practical applications. The list of related papers, corresponding codes, pre-trained models and comparison results are publicly available at the survey project homepage https://github.com/TaylorJocelyn/Diffusion-Model-Quantization.",
+      "decision": "no",
+      "reason": "该文虽为扩散模型量化综述，但主题并非离散音频tokens，相关性不足。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2505.05530",
+      "title": "Low-bit Model Quantization for Deep Neural Networks: A Survey",
+      "abstract": "With unprecedented rapid development, deep neural networks (DNNs) have deeply influenced almost all fields. However, their heavy computation costs and model sizes are usually unacceptable in real-world deployment. Model quantization, an effective weight-lighting technique, has become an indispensable procedure in the whole deployment pipeline. The essence of quantization acceleration is the conversion from continuous floating-point numbers to discrete integer ones, which significantly speeds up the memory I/O and calculation, i.e., addition and multiplication. However, performance degradation also comes with the conversion because of the loss of precision. Therefore, it has become increasingly popular and critical to investigate how to perform the conversion and how to compensate for the information loss. This article surveys the recent five-year progress towards low-bit quantization on DNNs. We discuss and compare the state-of-the-art quantization methods and classify them into 8 main categories and 24 sub-categories according to their core techniques. Furthermore, we shed light on the potential research opportunities in the field of model quantization. A curated list of model quantization is provided at https://github.com/Kai-Liu001/Awesome-Model-Quantization.",
+      "decision": "no",
+      "reason": "该文虽为量化综述，但主题聚焦低比特模型量化而非离散音频token。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2505.01369",
       "title": "Binamix -- A Python Library for Generating Binaural Audio Datasets",
       "abstract": "The increasing demand for spatial audio in applications such as virtual reality, immersive media, and spatial audio research necessitates robust solutions to generate binaural audio data sets for use in testing and validation. Binamix is an open-source Python library designed to facilitate programmatic binaural mixing using the extensive SADIE II Database, which provides Head Related Impulse Response (HRIR) and Binaural Room Impulse Response (BRIR) data for 20 subjects. The Binamix library provides a flexible and repeatable framework for creating large-scale spatial audio datasets, making it an invaluable resource for codec evaluation, audio quality metric development, and machine learning model training. A range of pre-built example scripts, utility functions, and visualization plots further streamline the process of custom pipeline creation. This paper presents an overview of the library's capabilities, including binaural rendering, impulse response interpolation, and multi-track mixing for various speaker layouts. The tools utilize a modified Delaunay triangulation technique to achieve accurate HRIR/BRIR interpolation where desired angles are not present in the data. By supporting a wide range of parameters such as azimuth, elevation, subject Impulse Responses (IRs), speaker layouts, mixing controls, and more, the library enables researchers to create large binaural datasets for any downstream purpose. Binamix empowers researchers and developers to advance spatial audio applications with reproducible methodologies by offering an open-source solution for binaural rendering and dataset generation. We release the library under the Apache 2.0 License at https://github.com/QxLabIreland/Binamix/",
       "decision": "no",
-      "reason": "该文介绍双耳音频数据集生成Python库的能力概述，并非关于离散音频token的综述类文章。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦双耳空间音频数据集生成工具库而非离散音频token方法与术语体系。",
-      "fallback_confidence": 0.84
+      "reason": "该论文是双耳音频数据集生成库的工具概述，未明确表述为综述且与离散音频token主题不直接相关。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2504.16223",
       "title": "Perceptual Audio Coding: A 40-Year Historical Perspective",
       "abstract": "In the history of audio and acoustic signal processing, perceptual audio coding has certainly excelled as a bright success story by its ubiquitous deployment in virtually all digital media devices, such as computers, tablets, mobile phones, set-top-boxes, and digital radios. From a technology perspective, perceptual audio coding has undergone tremendous development from the first very basic perceptually driven coders (including the popular mp3 format) to today's full-blown integrated coding/rendering systems. This paper provides a historical overview of this research journey by pinpointing the pivotal development steps in the evolution of perceptual audio coding. Finally, it provides thoughts about future directions in this area.",
       "decision": "no",
-      "reason": "论文是关于感知音频编码的历史概述，并非明确聚焦离散音频token主题的综述。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦感知音频编码的历史回顾，与离散音频token主题关联不够直接。",
-      "fallback_confidence": 0.78
+      "reason": "本文是感知音频编码的历史综述而非主要聚焦离散音频token主题。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2503.21254",
       "title": "Vision-to-Music Generation: A Survey",
       "abstract": "Vision-to-music Generation, including video-to-music and image-to-music tasks, is a significant branch of multimodal artificial intelligence demonstrating vast application prospects in fields such as film scoring, short video creation, and dance music synthesis. However, compared to the rapid development of modalities like text and images, research in vision-to-music is still in its preliminary stage due to its complex internal structure and the difficulty of modeling dynamic relationships with video. Existing surveys focus on general music generation without comprehensive discussion on vision-to-music. In this paper, we systematically review the research progress in the field of vision-to-music generation. We first analyze the technical characteristics and core challenges for three input types: general videos, human movement videos, and images, as well as two output types of symbolic music and audio music. We then summarize the existing methodologies on vision-to-music generation from the architecture perspective. A detailed review of common datasets and evaluation metrics is provided. Finally, we discuss current challenges and promising directions for future research. We hope our survey can inspire further innovation in vision-to-music generation and the broader field of multimodal generation in academic research and industrial applications. To follow latest works and foster further innovation in this field, we are continuously maintaining a GitHub repository at https://github.com/wzk1015/Awesome-Vision-to-Music-Generation.",
       "decision": "no",
-      "reason": "该文虽为综述但主题是视觉到音乐生成而非离散音频token。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦视觉到音乐生成综述而非离散音频token方法或术语体系。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为视觉到音乐生成的综述，但与“离散音频标记”主题不直接相关。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2502.15056",
       "title": "Fundamental Survey on Neuromorphic Based Audio Classification",
       "abstract": "Audio classification is paramount in a variety of applications including surveillance, healthcare monitoring, and environmental analysis. Traditional methods frequently depend on intricate signal processing algorithms and manually crafted features, which may fall short in fully capturing the complexities of audio patterns. Neuromorphic computing, inspired by the architecture and functioning of the human brain, presents a promising alternative for audio classification tasks. This survey provides an exhaustive examination of the current state-of-the-art in neuromorphic-based audio classification. It delves into the crucial components of neuromorphic systems, such as Spiking Neural Networks (SNNs), memristors, and neuromorphic hardware platforms, highlighting their advantages in audio classification. Furthermore, the survey explores various methodologies and strategies employed in neuromorphic audio classification, including event-based processing, spike-based learning, and bio-inspired feature extraction. It examines how these approaches address the limitations of traditional audio classification methods, particularly in terms of energy efficiency, real-time processing, and robustness to environmental noise. Additionally, the paper conducts a comparative analysis of different neuromorphic audio classification models and benchmarks, evaluating their performance metrics, computational efficiency, and scalability. By providing a comprehensive guide for researchers, engineers and practitioners, this survey aims to stimulate further innovation and advancements in the evolving field of neuromorphic audio classification.",
       "decision": "no",
-      "reason": "该文虽为神经形态音频分类综述，但与离散音频token主题不直接相关。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦神经形态音频分类而非离散音频token表示与建模。",
-      "fallback_confidence": 0.9
+      "reason": "本文是关于神经形态音频分类的综述，未聚焦离散音频token主题。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2502.12448",
       "title": "From Principles to Applications: A Comprehensive Survey of Discrete Tokenizers in Generation, Comprehension, Recommendation, and Information Retrieval",
       "abstract": "Discrete tokenizers have emerged as indispensable components in modern machine learning systems, particularly within the context of autoregressive modeling and large language models (LLMs). These tokenizers serve as the critical interface that transforms raw, unstructured data from diverse modalities into discrete tokens, enabling LLMs to operate effectively across a wide range of tasks. Despite their central role in generation, comprehension, and recommendation systems, a comprehensive survey dedicated to discrete tokenizers remains conspicuously absent in the literature. This paper addresses this gap by providing a systematic review of the design principles, applications, and challenges of discrete tokenizers. We begin by dissecting the sub-modules of tokenizers and systematically demonstrate their internal mechanisms to provide a comprehensive understanding of their functionality and design. Building on this foundation, we synthesize state-of-the-art methods, categorizing them into multimodal generation and comprehension tasks, and semantic tokens for personalized recommendations. Furthermore, we critically analyze the limitations of existing tokenizers and outline promising directions for future research. By presenting a unified framework for understanding discrete tokenizers, this survey aims to guide researchers and practitioners in addressing open challenges and advancing the field, ultimately contributing to the development of more robust and versatile AI systems.",
       "decision": "no",
-      "reason": "虽为离散分词器综述，但主题涵盖多模态与推荐检索而非主要聚焦离散音频tokens。",
-      "confidence": 0.84,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦通用离散分词器综述而非离散音频token的核心方法与术语体系。",
-      "fallback_confidence": 0.74
+      "reason": "论文虽为离散分词器综述，但未明确聚焦离散音频tokens主题。",
+      "confidence": 0.78
     },
     {
       "arxiv_id": "2502.08826",
       "title": "Ask in Any Modality: A Comprehensive Survey on Multimodal Retrieval-Augmented Generation",
       "abstract": "Large Language Models (LLMs) suffer from hallucinations and outdated knowledge due to their reliance on static training data. Retrieval-Augmented Generation (RAG) mitigates these issues by integrating external dynamic information for improved factual grounding. With advances in multimodal learning, Multimodal RAG extends this approach by incorporating multiple modalities such as text, images, audio, and video to enhance the generated outputs. However, cross-modal alignment and reasoning introduce unique challenges beyond those in unimodal RAG. This survey offers a structured and comprehensive analysis of Multimodal RAG systems, covering datasets, benchmarks, metrics, evaluation, methodologies, and innovations in retrieval, fusion, augmentation, and generation. We review training strategies, robustness enhancements, loss functions, and agent-based approaches, while also exploring the diverse Multimodal RAG scenarios. In addition, we outline open challenges and future directions to guide research in this evolving field. This survey lays the foundation for developing more capable and reliable AI systems that effectively leverage multimodal dynamic external knowledge bases. All resources are publicly available at https://github.com/llm-lab-org/Multimodal-RAG-Survey.",
       "decision": "no",
-      "reason": "该文虽为多模态RAG综述，但主题并非直接聚焦离散音频token。",
-      "confidence": 0.88,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦多模态RAG综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "本文是多模态RAG的综述，未主要聚焦离散音频token主题。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2502.06490",
       "title": "Recent Advances in Discrete Speech Tokens: A Review",
       "abstract": "The rapid advancement of speech generation technologies in the era of large language models (LLMs) has established discrete speech tokens as a foundational paradigm for speech representation. These tokens, characterized by their discrete, compact, and concise nature, are not only advantageous for efficient transmission and storage, but also inherently compatible with the language modeling framework, enabling seamless integration of speech into text-dominated LLM architectures. Current research categorizes discrete speech tokens into two principal classes: acoustic tokens and semantic tokens, each of which has evolved into a rich research domain characterized by unique design philosophies and methodological approaches. This survey systematically synthesizes the existing taxonomy and recent innovations in discrete speech tokenization, conducts a critical examination of the strengths and limitations of each paradigm, and presents systematic experimental comparisons across token types. Furthermore, we identify persistent challenges in the field and propose potential research directions, aiming to offer actionable insights to inspire future advancements in the development and application of discrete speech tokens.",
+      "decision": "yes",
+      "reason": "该文标题与摘要明确为综述并系统总结离散语音token的分类、进展与挑战，主题高度相关。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2502.04708",
+      "title": "Survey on Token-Based Distributed MutualExclusion Algorithms",
+      "abstract": "In large-scale distributed environments, avoiding concurrent access to the same resource by multiple processes becomes a core challenge, commonly termed distributed mutual exclusion (DME). Token-based mechanisms have long been recognized as an effective strategy, wherein a solitary token is handed around among processes as the key that allows access to the critical section. By doing so, they often reduce the messaging overhead compared to alternate methods.\n  This work surveys the significance of mutual exclusion in distributed computing and examines token-based solutions across various network models (including tree-based, ring-based, fully interconnected graphs, mesh structures, and ad hoc networks). We also delve into essential performance measures such as communication costs and strategies for fault tolerance, then branch into specialized variants, such as k-mutual exclusion and self-stabilizing algorithms.\n  Furthermore, a specialized approach that relies on finite projective planes is introduced to highlight how certain protocols can perform efficiently under both best- and worst-case conditions. Lastly, we explore future directions involving machine learning for token predictive routing and blockchain techniques to resist adversarial behavior. This aims to provide a thorough yet accessible overview of token-based DME approaches, together with insights on emerging research trends.",
       "decision": "no",
-      "reason": "论文虽为离散语音token的综述，但主题聚焦speech而非更广泛的audio离散token。",
-      "confidence": 0.66,
-      "fallback_decision": "yes",
-      "fallback_reason": "该综述系统梳理离散语音token的分类、方法与挑战，直接覆盖核心术语与框架。",
-      "fallback_confidence": 0.93
+      "reason": "该文虽为分布式互斥的综述，但主题聚焦于分布式计算的令牌互斥算法而非离散音频令牌。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "2501.15177",
       "title": "Audio-Language Models for Audio-Centric Tasks: A survey",
       "abstract": "Audio-Language Models (ALMs), which are trained on audio-text data, focus on the processing, understanding, and reasoning of sounds. Unlike traditional supervised learning approaches learning from predefined labels, ALMs utilize natural language as a supervision signal, which is more suitable for describing complex real-world audio recordings. ALMs demonstrate strong zero-shot capabilities and can be flexibly adapted to diverse downstream tasks. These strengths not only enhance the accuracy and generalization of audio processing tasks but also promote the development of models that more closely resemble human auditory perception and comprehension. Recent advances in ALMs have positioned them at the forefront of computer audition research, inspiring a surge of efforts to advance ALM technologies. Despite rapid progress in the field of ALMs, there is still a notable lack of systematic surveys that comprehensively organize and analyze developments. In this paper, we present a comprehensive review of ALMs with a focus on general audio tasks, aiming to fill this gap by providing a structured and holistic overview of ALMs. Specifically, we cover: (1) the background of computer audition and audio-language models; (2) the foundational aspects of ALMs, including prevalent network architectures, training objectives, and evaluation methods; (3) foundational pre-training and audio-language pre-training approaches; (4) task-specific fine-tuning, multi-task tuning and agent systems for downstream applications; (5) datasets and benchmarks; and (6) current challenges and future directions. Our review provides a clear technical roadmap for researchers to understand the development and future trends of existing technologies, offering valuable references for implementation in real-world scenarios.",
       "decision": "no",
-      "reason": "该论文虽为ALM综述，但主题聚焦音频-语言模型而非离散音频token。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦音频-语言模型综述而非离散音频token主题。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为综述但主题聚焦音频-语言模型而非离散音频token。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2412.18619",
       "title": "Next Token Prediction Towards Multimodal Intelligence: A Comprehensive Survey",
       "abstract": "Building on the foundations of language modeling in natural language processing, Next Token Prediction (NTP) has evolved into a versatile training objective for machine learning tasks across various modalities, achieving considerable success. As Large Language Models (LLMs) have advanced to unify understanding and generation tasks within the textual modality, recent research has shown that tasks from different modalities can also be effectively encapsulated within the NTP framework, transforming the multimodal information into tokens and predict the next one given the context. This survey introduces a comprehensive taxonomy that unifies both understanding and generation within multimodal learning through the lens of NTP. The proposed taxonomy covers five key aspects: Multimodal tokenization, MMNTP model architectures, unified task representation, datasets \\& evaluation, and open challenges. This new taxonomy aims to aid researchers in their exploration of multimodal intelligence. An associated GitHub repository collecting the latest papers and repos is available at https://github.com/LMM101/Awesome-Multimodal-Next-Token-Prediction",
       "decision": "no",
-      "reason": "虽为综述但主题聚焦多模态下一词预测框架而非离散音频token。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦多模态NTP总体框架与分类，而非离散音频token的核心方法与术语。",
-      "fallback_confidence": 0.78
+      "reason": "该文虽为综述但聚焦多模态下一词预测框架而非离散音频token主题。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2412.00571",
       "title": "From Audio Deepfake Detection to AI-Generated Music Detection -- A Pathway and Overview",
       "abstract": "As Artificial Intelligence (AI) technologies continue to evolve, their use in generating realistic, contextually appropriate content has expanded into various domains. Music, an art form and medium for entertainment, deeply rooted into human culture, is seeing an increased involvement of AI into its production. However, despite the effective application of AI music generation (AIGM) tools, the unregulated use of them raises concerns about potential negative impacts on the music industry, copyright and artistic integrity, underscoring the importance of effective AIGM detection. This paper provides an overview of existing AIGM detection methods. To lay a foundation to the general workings and challenges of AIGM detection, we first review general principles of AIGM, including recent advancements in deepfake audios, as well as multimodal detection techniques. We further propose a potential pathway for leveraging foundation models from audio deepfake detection to AIGM detection. Additionally, we discuss implications of these tools and propose directions for future research to address ongoing challenges in the field.",
       "decision": "no",
-      "reason": "该文虽为概述/综述性质但聚焦AI生成音乐检测而非离散音频token主题。",
-      "confidence": 0.84,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦AI生成音乐与音频深伪检测方法概述，未直接讨论离散音频token核心技术。",
-      "fallback_confidence": 0.78
+      "reason": "该文虽为综述性概览但主要讨论AI生成音乐与深度伪造检测方法，与离散音频token主题不直接相关。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2412.00049",
       "title": "A Survey of Recent Advances and Challenges in Deep Audio-Visual Correlation Learning",
       "abstract": "Audio-visual correlation learning aims to capture and understand natural phenomena between audio and visual data. The rapid growth of Deep Learning propelled the development of proposals that process audio-visual data and can be observed in the number of proposals in the past years. Thus encouraging the development of a comprehensive survey. Besides analyzing the models used in this context, we also discuss some tasks of definition and paradigm applied in AI multimedia. In addition, we investigate objective functions frequently used and discuss how audio-visual data is exploited in the optimization process, i.e., the different methodologies for representing knowledge in the audio-visual domain. In fact, we focus on how human-understandable mechanisms, i.e., structured knowledge that reflects comprehensible knowledge, can guide the learning process. Most importantly, we provide a summarization of the recent progress of Audio-Visual Correlation Learning (AVCL) and discuss the future research directions.",
       "decision": "no",
-      "reason": "该文虽为综述但主题聚焦音视相关学习而非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音视频相关学习综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.83
+      "reason": "论文虽为综述但主题是深度音视频相关学习而非离散音频token。",
+      "confidence": 0.84
     },
     {
       "arxiv_id": "2410.18882",
       "title": "A Survey of Multimodal Sarcasm Detection",
       "abstract": "Sarcasm is a rhetorical device that is used to convey the opposite of the literal meaning of an utterance. Sarcasm is widely used on social media and other forms of computer-mediated communication motivating the use of computational models to identify it automatically. While the clear majority of approaches to sarcasm detection have been carried out on text only, sarcasm detection often requires additional information present in tonality, facial expression, and contextual images. This has led to the introduction of multimodal models, opening the possibility to detect sarcasm in multiple modalities such as audio, images, text, and video. In this paper, we present the first comprehensive survey on multimodal sarcasm detection - henceforth MSD - to date. We survey papers published between 2018 and 2023 on the topic, and discuss the models and datasets used for this task. We also present future research directions in MSD.",
       "decision": "no",
-      "reason": "论文虽为多模态讽刺检测综述，但与离散音频token主题无直接关联。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦多模态讽刺检测，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.93
+      "reason": "该文虽为多模态讽刺检测综述，但主题并非离散音频token。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2410.13114",
       "title": "Sound Check: Auditing Audio Datasets",
       "abstract": "Generative audio models are rapidly advancing in both capabilities and public utilization -- several powerful generative audio models have readily available open weights, and some tech companies have released high quality generative audio products. Yet, while prior work has enumerated many ethical issues stemming from the data on which generative visual and textual models have been trained, we have little understanding of similar issues with generative audio datasets, including those related to bias, toxicity, and intellectual property. To bridge this gap, we conducted a literature review of hundreds of audio datasets and selected seven of the most prominent to audit in more detail. We found that these datasets are biased against women, contain toxic stereotypes about marginalized communities, and contain significant amounts of copyrighted work. To enable artists to see if they are in popular audio datasets and facilitate exploration of the contents of these datasets, we developed a web tool audio datasets exploration tool at https://audio-audit.vercel.app.",
       "decision": "no",
-      "reason": "该论文是对音频数据集进行审计并讨论偏见与版权问题的研究，不是关于离散音频token的综述。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦生成音频数据集的伦理审计而非离散音频token方法与术语。",
-      "fallback_confidence": 0.86
+      "reason": "本文是對生成音訊資料集的倫理與偏見稽核文獻回顧，非聚焦離散音訊token的綜述。",
+      "confidence": 0.9
     },
     {
-      "arxiv_id": "2409.15131",
-      "title": "Spaces of Bridgeland stability conditions in representation theory",
-      "abstract": "The space of Bridgeland stability conditions is a complex manifold that can be attached to a triangulated category, of which it encodes some homological properties. These notes are an introduction to this topic, with a focus on examples from representation theory, and review the example of the Bridgeland-Smith correspondence for some quiver categories from marked surfaces.",
+      "arxiv_id": "2409.11650",
+      "title": "Art and Science of Quantizing Large-Scale Models: A Comprehensive Overview",
+      "abstract": "This paper provides a comprehensive overview of the principles, challenges, and methodologies associated with quantizing large-scale neural network models. As neural networks have evolved towards larger and more complex architectures to address increasingly sophisticated tasks, the computational and energy costs have escalated significantly. We explore the necessity and impact of model size growth, highlighting the performance benefits as well as the computational challenges and environmental considerations. The core focus is on model quantization as a fundamental approach to mitigate these challenges by reducing model size and improving efficiency without substantially compromising accuracy. We delve into various quantization techniques, including both post-training quantization (PTQ) and quantization-aware training (QAT), and analyze several state-of-the-art algorithms such as LLM-QAT, PEQA(L4Q), ZeroQuant, SmoothQuant, and others. Through comparative analysis, we examine how these methods address issues like outliers, importance weighting, and activation quantization, ultimately contributing to more sustainable and accessible deployment of large-scale models.",
       "decision": "no",
-      "reason": "该论文是关于表示论中Bridgeland稳定性条件的介绍性笔记，且未明确表述为综述并与离散音频token主题无关。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "论文内容聚焦于表示论中的Bridgeland稳定性条件，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.96
-    },
-    {
-      "arxiv_id": "2409.11729",
-      "title": "DETECLAP: Enhancing Audio-Visual Representation Learning with Object Information",
-      "abstract": "Current audio-visual representation learning can capture rough object categories (e.g., ``animals'' and ``instruments''), but it lacks the ability to recognize fine-grained details, such as specific categories like ``dogs'' and ``flutes'' within animals and instruments. To address this issue, we introduce DETECLAP, a method to enhance audio-visual representation learning with object information. Our key idea is to introduce an audio-visual label prediction loss to the existing Contrastive Audio-Visual Masked AutoEncoder to enhance its object awareness. To avoid costly manual annotations, we prepare object labels from both audio and visual inputs using state-of-the-art language-audio models and object detectors. We evaluate the method of audio-visual retrieval and classification using the VGGSound and AudioSet20K datasets. Our method achieves improvements in recall@10 of +1.5% and +1.2% for audio-to-visual and visual-to-audio retrieval, respectively, and an improvement in accuracy of +0.6% for audio-visual classification.",
-      "decision": "no",
-      "reason": "该论文提出音视表征学习方法DETECLAP而非综述且与离散音频token主题不直接相关。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦音视频表征学习与目标信息增强，并非离散音频token或其方法体系的核心工作。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为量化大模型的综合概述，但主题与离散音频token无直接关联。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2409.11564",
       "title": "Preference Tuning with Human Feedback on Language, Speech, and Vision Tasks: A Survey",
       "abstract": "Preference tuning is a crucial process for aligning deep generative models with human preferences. This survey offers a thorough overview of recent advancements in preference tuning and the integration of human feedback. The paper is organized into three main sections: 1) introduction and preliminaries: an introduction to reinforcement learning frameworks, preference tuning tasks, models, and datasets across various modalities: language, speech, and vision, as well as different policy approaches, 2) in-depth exploration of each preference tuning approach: a detailed analysis of the methods used in preference tuning, and 3) applications, discussion, and future directions: an exploration of the applications of preference tuning in downstream tasks, including evaluation methods for different modalities, and an outlook on future research directions. Our objective is to present the latest methodologies in preference tuning and model alignment, enhancing the understanding of this field for researchers and practitioners. We hope to encourage further engagement and innovation in this area.",
       "decision": "no",
-      "reason": "该综述主要讨论人类反馈偏好调优与模型对齐，并非离散音频token主题。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦人类反馈偏好对齐与偏好微调综述，未直接讨论离散音频token方法体系。",
-      "fallback_confidence": 0.84
+      "reason": "该文虽为综述但主题是人类反馈偏好调优而非离散音频token。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2409.18991",
       "title": "Surveying the MLLM Landscape: A Meta-Review of Current Surveys",
       "abstract": "The rise of Multimodal Large Language Models (MLLMs) has become a transformative force in the field of artificial intelligence, enabling machines to process and generate content across multiple modalities, such as text, images, audio, and video. These models represent a significant advancement over traditional unimodal systems, opening new frontiers in diverse applications ranging from autonomous agents to medical diagnostics. By integrating multiple modalities, MLLMs achieve a more holistic understanding of information, closely mimicking human perception. As the capabilities of MLLMs expand, the need for comprehensive and accurate performance evaluation has become increasingly critical. This survey aims to provide a systematic review of benchmark tests and evaluation methods for MLLMs, covering key topics such as foundational concepts, applications, evaluation methodologies, ethical concerns, security, efficiency, and domain-specific applications. Through the classification and analysis of existing literature, we summarize the main contributions and methodologies of various surveys, conduct a detailed comparative analysis, and examine their impact within the academic community. Additionally, we identify emerging trends and underexplored areas in MLLM research, proposing potential directions for future studies. This survey is intended to offer researchers and practitioners a comprehensive understanding of the current state of MLLM evaluation, thereby facilitating further progress in this rapidly evolving field.",
       "decision": "no",
-      "reason": "该文是关于多模态大模型评测与相关综述的元综述，未直接聚焦离散音频标记主题。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦多模态大模型评测综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "该文是关于多模态大模型评测综述的元综述，未直接聚焦离散音频token主题。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2409.07858",
       "title": "Audio Decoding by Inverse Problem Solving",
       "abstract": "We consider audio decoding as an inverse problem and solve it through diffusion posterior sampling. Explicit conditioning functions are developed for input signal measurements provided by an example of a transform domain perceptual audio codec. Viability is demonstrated by evaluating arbitrary pairings of a set of bitrates and task-agnostic prior models. For instance, we observe significant improvements on piano while maintaining speech performance when a speech model is replaced by a joint model trained on both speech and piano. With a more general music model, improved decoding compared to legacy methods is obtained for a broad range of content types and bitrates. The noisy mean model, underlying the proposed derivation of conditioning, enables a significant reduction of gradient evaluations for diffusion posterior sampling, compared to methods based on Tweedie's mean. Combining Tweedie's mean with our conditioning functions improves the objective performance. An audio demo is available at https://dpscodec-demo.github.io/.",
       "decision": "no",
-      "reason": "该论文是提出用于音频解码的扩散后验采样方法研究，并非明确的综述且不聚焦离散音频token主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦扩散后验采样用于音频编解码解码逆问题，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.84
+      "reason": "该论文是关于扩散后验采样的音频解码方法研究，并非明确的综述类文章且与离散音频token主题不直接相关。",
+      "confidence": 0.94
     },
     {
       "arxiv_id": "2408.10330",
       "title": "Meta-Learning in Audio and Speech Processing: An End to End Comprehensive Review",
       "abstract": "This survey overviews various meta-learning approaches used in audio and speech processing scenarios. Meta-learning is used where model performance needs to be maximized with minimum annotated samples, making it suitable for low-sample audio processing. Although the field has made some significant contributions, audio meta-learning still lacks the presence of comprehensive survey papers. We present a systematic review of meta-learning methodologies in audio processing. This includes audio-specific discussions on data augmentation, feature extraction, preprocessing techniques, meta-learners, task selection strategies and also presents important datasets in audio, together with crucial real-world use cases. Through this extensive review, we aim to provide valuable insights and identify future research directions in the intersection of meta-learning and audio processing.",
       "decision": "no",
-      "reason": "该综述聚焦音频与语音中的元学习方法而非离散音频标记主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频与语音中的元学习综述，与离散音频tokens主题关联较弱。",
-      "fallback_confidence": 0.85
+      "reason": "该文虽为综述但聚焦音频与语音中的元学习方法，与离散音频token主题不直接相关。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2407.17430",
       "title": "A Comprehensive Review and Taxonomy of Audio-Visual Synchronization Techniques for Realistic Speech Animation",
       "abstract": "In many applications, synchronizing audio with visuals is crucial, such as in creating graphic animations for films or games, translating movie audio into different languages, and developing metaverse applications. This review explores various methodologies for achieving realistic facial animations from audio inputs, highlighting generative and adaptive models. Addressing challenges like model training costs, dataset availability, and silent moment distributions in audio data, it presents innovative solutions to enhance performance and realism. The research also introduces a new taxonomy to categorize audio-visual synchronization methods based on logistical aspects, advancing the capabilities of virtual assistants, gaming, and interactive digital media.",
       "decision": "no",
-      "reason": "该文虽为综述与分类，但主题是音视频同步与语音动画而非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音视频同步与语音驱动面部动画方法，未直接涉及离散音频token表征。",
-      "fallback_confidence": 0.86
+      "reason": "虽为综述但主题聚焦音视频同步与语音动画，非离散音频token方向。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2407.06947",
       "title": "Audio-Language Datasets of Scenes and Events: A Survey",
       "abstract": "Audio-language models (ALMs) generate linguistic descriptions of sound-producing events and scenes. Advances in dataset creation and computational power have led to significant progress in this domain. This paper surveys 69 datasets used to train ALMs, covering research up to September 2024 (https://github.com/GLJS/audio-datasets). It provides a comprehensive analysis of datasets origins, audio and linguistic characteristics, and use cases. Key sources include YouTube-based datasets like AudioSet with over two million samples, and community platforms like Freesound with over 1 million samples. Through principal component analysis of audio and text embeddings, the survey evaluates the acoustic and linguistic variability across datasets. It also analyzes data leakage through CLAP embeddings, and examines sound category distributions to identify imbalances. Finally, the survey identifies key challenges in developing large, diverse datasets to enhance ALM performance, including dataset overlap, biases, accessibility barriers, and the predominance of English-language content, while highlighting opportunities for improvement.",
       "decision": "no",
-      "reason": "该文虽为数据集综述，但主题是音频-语言数据集而非离散音频token。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频-语言数据集综述而非离散音频token方法与术语体系。",
-      "fallback_confidence": 0.86
-    },
-    {
-      "arxiv_id": "2407.00783",
-      "title": "Diffusion Models and Representation Learning: A Survey",
-      "abstract": "Diffusion Models are popular generative modeling methods in various vision tasks, attracting significant attention. They can be considered a unique instance of self-supervised learning methods due to their independence from label annotation. This survey explores the interplay between diffusion models and representation learning. It provides an overview of diffusion models' essential aspects, including mathematical foundations, popular denoising network architectures, and guidance methods. Various approaches related to diffusion models and representation learning are detailed. These include frameworks that leverage representations learned from pre-trained diffusion models for subsequent recognition tasks and methods that utilize advancements in representation and self-supervised learning to enhance diffusion models. This survey aims to offer a comprehensive overview of the taxonomy between diffusion models and representation learning, identifying key areas of existing concerns and potential exploration. Github link: https://github.com/dongzhuoyao/Diffusion-Representation-Learning-Survey-Taxonomy",
-      "decision": "no",
-      "reason": "该文虽为扩散模型与表征学习的综述，但主题并非离散音频token。",
-      "confidence": 0.96,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦视觉扩散模型与表征学习综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.93
-    },
-    {
-      "arxiv_id": "2406.03430",
-      "title": "Computation-Efficient Era: A Comprehensive Survey of State Space Models in Medical Image Analysis",
-      "abstract": "Sequence modeling plays a vital role across various domains, with recurrent neural networks being historically the predominant method of performing these tasks. However, the emergence of transformers has altered this paradigm due to their superior performance. Built upon these advances, transformers have conjoined CNNs as two leading foundational models for learning visual representations. However, transformers are hindered by the $\\mathcal{O}(N^2)$ complexity of their attention mechanisms, while CNNs lack global receptive fields and dynamic weight allocation. State Space Models (SSMs), specifically the \\textit{\\textbf{Mamba}} model with selection mechanisms and hardware-aware architecture, have garnered immense interest lately in sequential modeling and visual representation learning, challenging the dominance of transformers by providing infinite context lengths and offering substantial efficiency maintaining linear complexity in the input sequence. Capitalizing on the advances in computer vision, medical imaging has heralded a new epoch with Mamba models. Intending to help researchers navigate the surge, this survey seeks to offer an encyclopedic review of Mamba models in medical imaging. Specifically, we start with a comprehensive theoretical review forming the basis of SSMs, including Mamba architecture and its alternatives for sequence modeling paradigms in this context. Next, we offer a structured classification of Mamba models in the medical field and introduce a diverse categorization scheme based on their application, imaging modalities, and targeted organs. Finally, we summarize key challenges, discuss different future research directions of the SSMs in the medical domain, and propose several directions to fulfill the demands of this field. In addition, we have compiled the studies discussed in this paper along with their open-source implementations on our GitHub repository.",
-      "decision": "no",
-      "reason": "该文虽为SSM/Mamba在医学图像分析的综述，但与离散音频token主题无直接关联。",
-      "confidence": 0.96,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦医学图像中的状态空间模型综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.94
+      "reason": "该文虽为音频-语言数据集综述，但主题聚焦数据集而非离散音频token。",
+      "confidence": 0.88
     },
     {
       "arxiv_id": "2406.00146",
       "title": "A Survey of Deep Learning Audio Generation Methods",
       "abstract": "This article presents a review of typical techniques used in three distinct aspects of deep learning model development for audio generation. In the first part of the article, we provide an explanation of audio representations, beginning with the fundamental audio waveform. We then progress to the frequency domain, with an emphasis on the attributes of human hearing, and finally introduce a relatively recent development. The main part of the article focuses on explaining basic and extended deep learning architecture variants, along with their practical applications in the field of audio generation. The following architectures are addressed: 1) Autoencoders 2) Generative adversarial networks 3) Normalizing flows 4) Transformer networks 5) Diffusion models. Lastly, we will examine four distinct evaluation metrics that are commonly employed in audio generation. This article aims to offer novice readers and beginners in the field a comprehensive understanding of the current state of the art in audio generation methods as well as relevant studies that can be explored for future research.",
       "decision": "no",
-      "reason": "虽为音频生成方法综述，但未明确聚焦离散音频token主题。",
-      "confidence": 0.83,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦深度学习音频生成综述而非离散音频token的核心方法与术语。",
-      "fallback_confidence": 0.78
+      "reason": "该文虽为音频生成方法综述，但并未主要聚焦离散音频token主题。",
+      "confidence": 0.78
     },
     {
       "arxiv_id": "2405.09589",
       "title": "A Comprehensive Survey of Hallucination in Large Language, Image, Video and Audio Foundation Models",
       "abstract": "The rapid advancement of foundation models (FMs) across language, image, audio, and video domains has shown remarkable capabilities in diverse tasks. However, the proliferation of FMs brings forth a critical challenge: the potential to generate hallucinated outputs, particularly in high-stakes applications. The tendency of foundation models to produce hallucinated content arguably represents the biggest hindrance to their widespread adoption in real-world scenarios, especially in domains where reliability and accuracy are paramount. This survey paper presents a comprehensive overview of recent developments that aim to identify and mitigate the problem of hallucination in FMs, spanning text, image, video, and audio modalities. By synthesizing recent advancements in detecting and mitigating hallucination across various modalities, the paper aims to provide valuable insights for researchers, developers, and practitioners. Essentially, it establishes a clear framework encompassing definition, taxonomy, and detection strategies for addressing hallucination in multimodal foundation models, laying the foundation for future research in this pivotal area.",
       "decision": "no",
-      "reason": "本文是关于多模态基础模型幻觉问题的综述，未直接聚焦离散音频token主题。",
-      "confidence": 0.92,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦多模态基础模型幻觉问题的定义与检测缓解框架，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.9
+      "reason": "该文是多模态基础模型幻觉问题的综述而非离散音频token主题综述。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2405.03110",
+      "title": "Vector Quantization for Recommender Systems: A Review and Outlook",
+      "abstract": "Vector quantization, renowned for its unparalleled feature compression capabilities, has been a prominent topic in signal processing and machine learning research for several decades and remains widely utilized today. With the emergence of large models and generative AI, vector quantization has gained popularity in recommender systems, establishing itself as a preferred solution. This paper starts with a comprehensive review of vector quantization techniques. It then explores systematic taxonomies of vector quantization methods for recommender systems (VQ4Rec), examining their applications from multiple perspectives. Further, it provides a thorough introduction to research efforts in diverse recommendation scenarios, including efficiency-oriented approaches and quality-oriented approaches. Finally, the survey analyzes the remaining challenges and anticipates future trends in VQ4Rec, including the challenges associated with the training of vector quantization, the opportunities presented by large language models, and emerging trends in multimodal recommender systems. We hope this survey can pave the way for future researchers in the recommendation community and accelerate their exploration in this promising field.",
+      "decision": "no",
+      "reason": "该文虽为综述但主题聚焦推荐系统中的向量量化而非离散音频token。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2402.13236",
       "title": "Towards audio language modeling -- an overview",
       "abstract": "Neural audio codecs are initially introduced to compress audio data into compact codes to reduce transmission latency. Researchers recently discovered the potential of codecs as suitable tokenizers for converting continuous audio into discrete codes, which can be employed to develop audio language models (LMs). Numerous high-performance neural audio codecs and codec-based LMs have been developed. The paper aims to provide a thorough and systematic overview of the neural audio codec models and codec-based LMs.",
-      "decision": "yes",
-      "reason": "題目與摘要明確為系統性概述神經音訊編解碼器作為離散碼/離散token及其語言模型，與主題直接相關。",
-      "confidence": 0.78
+      "decision": "no",
+      "reason": "本文是神经音频编解码与音频语言模型的综述概览，未明确以离散音频token为核心主题。",
+      "confidence": 0.62
     },
     {
       "arxiv_id": "2402.09245",
       "title": "Overview of the L3DAS23 Challenge on Audio-Visual Extended Reality",
       "abstract": "The primary goal of the L3DAS23 Signal Processing Grand Challenge at ICASSP 2023 is to promote and support collaborative research on machine learning for 3D audio signal processing, with a specific emphasis on 3D speech enhancement and 3D Sound Event Localization and Detection in Extended Reality applications. As part of our latest competition, we provide a brand-new dataset, which maintains the same general characteristics of the L3DAS21 and L3DAS22 datasets, but with first-order Ambisonics recordings from multiple reverberant simulated environments. Moreover, we start exploring an audio-visual scenario by providing images of these environments, as perceived by the different microphone positions and orientations. We also propose updated baseline models for both tasks that can now support audio-image couples as input and a supporting API to replicate our results. Finally, we present the results of the participants. Further details about the challenge are available at https://www.l3das.com/icassp2023.",
       "decision": "no",
-      "reason": "该文是比赛与数据集/基线介绍而非明确综述，且主题聚焦3D音频与视听XR并非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦3D音频与视听扩展现实挑战赛与数据集，并非离散音频token的核心方法或术语。",
-      "fallback_confidence": 0.83
-    },
-    {
-      "arxiv_id": "2401.04971",
-      "title": "A Survey on Cross-Domain Sequential Recommendation",
-      "abstract": "Cross-domain sequential recommendation (CDSR) shifts the modeling of user preferences from flat to stereoscopic by integrating and learning interaction information from multiple domains at different granularities (ranging from inter-sequence to intra-sequence and from single-domain to cross-domain). In this survey, we first define the CDSR problem using a four-dimensional tensor and then analyze its multi-type input representations under multidirectional dimensionality reductions. Following that, we provide a systematic overview from both macro and micro views. From a macro view, we abstract the multi-level fusion structures of various models across domains and discuss their bridges for fusion. From a micro view, focusing on the existing models, we first discuss the basic technologies and then explain the auxiliary learning technologies. Finally, we exhibit the available public datasets and the representative experimental results as well as provide some insights into future directions for research in CDSR.",
-      "decision": "no",
-      "reason": "该文虽为跨域序列推荐的综述，但主题与离散音频token无直接关联。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦跨域序列推荐综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.96
+      "reason": "本文是L3DAS23竞赛与数据集/基线结果概述，且与离散音频token主题无直接综述关系。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2310.16481",
       "title": "A Novel Approach for Object Based Audio Broadcasting",
       "abstract": "Object Based Audio (OBA) provides a new kind of audio experience, delivered to the audience to personalize and customize their experience of listening and to give them choice of what and how to hear their audio content. OBA can be applied to different platforms such as broadcasting, streaming and cinema sound. This paper presents a novel approach for creating object-based audio on the production side. The approach here presents Sample-by-Sample Object Based Audio (SSOBA) embedding. SSOBA places audio object samples in such a way that allows audiences to easily individualize their chosen audio sources according to their interests and needs. SSOBA is an extra service and not an alternative, so it is also compliant with legacy audio players. The biggest advantage of SSOBA is that it does not require any special additional hardware in the broadcasting chain and it is therefore easy to implement and equip legacy players and decoders with enhanced ability. Input audio objects, number of output channels and sampling rates are three important factors affecting SSOBA performance and specifying it to be lossless or lossy. SSOBA adopts interpolation at the decoder side to compensate for eliminated samples. Both subjective and objective experiments are carried out to evaluate the output results at each step. MUSHRA subjective experiments conducted after the encoding step shows good-quality performance of SSOBA with up to five objects. SNR measurements and objective experiments, performed after decoding and interpolation, show significant successful recovery and separation of audio objects. Experimental results show that a minimum sampling rate of 96 kHz is indicated to encode up to five objects in a Stereo-mode channel to acquire good subjective and objective results simultaneously.",
       "decision": "no",
-      "reason": "该论文提出面向广播的对象音频嵌入新方法，并非明确的综述/调查且与离散音频token主题无直接关联。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦对象化音频广播的采样嵌入与解码插值，与离散音频token主题不直接相关。",
-      "fallback_confidence": 0.86
+      "reason": "该论文是提出面向对象音频广播的新方法而非综述，且主题与离散音频token无直接关联。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2310.14778",
       "title": "Audio-Visual Speaker Tracking: Progress, Challenges, and Future Directions",
       "abstract": "Audio-visual speaker tracking has drawn increasing attention over the past few years due to its academic values and wide applications. Audio and visual modalities can provide complementary information for localization and tracking. With audio and visual information, the Bayesian-based filter and deep learning-based methods can solve the problem of data association, audio-visual fusion and track management. In this paper, we conduct a comprehensive overview of audio-visual speaker tracking. To our knowledge, this is the first extensive survey over the past five years. We introduce the family of Bayesian filters and summarize the methods for obtaining audio-visual measurements. In addition, the existing trackers and their performance on the AV16.3 dataset are summarized. In the past few years, deep learning techniques have thrived, which also boost the development of audio-visual speaker tracking. The influence of deep learning techniques in terms of measurement extraction and state estimation is also discussed. Finally, we discuss the connections between audio-visual speaker tracking and other areas such as speech separation and distributed speaker tracking.",
       "decision": "no",
-      "reason": "该文虽为音视说话人跟踪综述，但主题并非离散音频token。",
-      "confidence": 0.94,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音视频说话人跟踪综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
-    },
-    {
-      "arxiv_id": "2310.07598",
-      "title": "Survey on Imbalanced Data, Representation Learning and SEP Forecasting",
-      "abstract": "Deep Learning methods have significantly advanced various data-driven tasks such as regression, classification, and forecasting. However, much of this progress has been predicated on the strong but often unrealistic assumption that training datasets are balanced with respect to the targets they contain. This misalignment with real-world conditions, where data is frequently imbalanced, hampers the effectiveness of such models in practical applications. Methods that reconsider that assumption and tackle real-world imbalances have begun to emerge and explore avenues to address this challenge. One such promising avenue is representation learning, which enables models to capture complex data characteristics and generalize better to minority classes. By focusing on a richer representation of the feature space, these techniques hold the potential to mitigate the impact of data imbalance. In this survey, we present deep learning works that step away from the balanced-data assumption, employing strategies like representation learning to better approximate real-world imbalances. We also highlight a critical application in SEP forecasting where addressing data imbalance is paramount for success.",
-      "decision": "no",
-      "reason": "本文虽为综述但主题是数据不平衡与表示学习及SEP预测，未直接讨论离散音频token。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦不平衡数据与表征学习及SEP预测综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.95
-    },
-    {
-      "arxiv_id": "2309.11895",
-      "title": "Audio Contrastive-based Fine-tuning: Decoupling Representation Learning and Classification",
-      "abstract": "Standard fine-tuning of pre-trained audio models couples representation learning with classifier training, which can obscure the true quality of the learned representations. In this work, we advocate for a disentangled two-stage framework that separates representation refinement from downstream evaluation. First, we employ a \"contrastive-tuning\" stage to explicitly improve the geometric structure of the model's embedding space. Subsequently, we introduce a dual-probe evaluation protocol to assess the quality of these refined representations from a geometric perspective. This protocol uses a linear probe to measure global linear separability and a k-Nearest Neighbours probe to investigate the local structure of class clusters. Our experiments on a diverse set of audio classification tasks show that our framework provides a better foundation for classification, leading to improved accuracy. Our newly proposed dual-probing framework acts as a powerful analytical lens, demonstrating why contrastive learning is more effective by revealing a superior embedding space. It significantly outperforms vanilla fine-tuning, particularly on single-label datasets with a large number of classes, and also surpasses strong baselines on multi-label tasks using a Jaccard-weighted loss. Our findings demonstrate that decoupling representation refinement from classifier training is a broadly effective strategy for unlocking the full potential of pre-trained audio models. Our code will be publicly available.",
-      "decision": "no",
-      "reason": "该论文是提出音频对比微调方法的研究工作，标题和摘要未表述为综述/调研且并非聚焦离散音频标记主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦音频表征的对比学习微调与分类评估，与离散音频token/量化编码主题关联不强。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为音视融合说话人跟踪综述，但主题并非离散音频token。",
+      "confidence": 0.96
     },
     {
       "arxiv_id": "2309.09950",
       "title": "Investigating End-to-End ASR Architectures for Long Form Audio Transcription",
       "abstract": "This paper presents an overview and evaluation of some of the end-to-end ASR models on long-form audios. We study three categories of Automatic Speech Recognition(ASR) models based on their core architecture: (1) convolutional, (2) convolutional with squeeze-and-excitation and (3) convolutional models with attention. We selected one ASR model from each category and evaluated Word Error Rate, maximum audio length and real-time factor for each model on a variety of long audio benchmarks: Earnings-21 and 22, CORAAL, and TED-LIUM3. The model from the category of self-attention with local attention and global token has the best accuracy comparing to other architectures. We also compared models with CTC and RNNT decoders and showed that CTC-based models are more robust and efficient than RNNT on long form audio.",
       "decision": "no",
-      "reason": "该文虽有概述与评测端到端ASR架构，但并非明确的综述且主题不聚焦离散音频token。",
-      "confidence": 0.88,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦长音频端到端ASR架构评测，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为ASR模型概述与评估，但并未聚焦离散音频token主题且非明确综述离散音频token的工作。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2309.07314",
       "title": "AudioSR: Versatile Audio Super-resolution at Scale",
       "abstract": "Audio super-resolution is a fundamental task that predicts high-frequency components for low-resolution audio, enhancing audio quality in digital applications. Previous methods have limitations such as the limited scope of audio types (e.g., music, speech) and specific bandwidth settings they can handle (e.g., 4kHz to 8kHz). In this paper, we introduce a diffusion-based generative model, AudioSR, that is capable of performing robust audio super-resolution on versatile audio types, including sound effects, music, and speech. Specifically, AudioSR can upsample any input audio signal within the bandwidth range of 2kHz to 16kHz to a high-resolution audio signal at 24kHz bandwidth with a sampling rate of 48kHz. Extensive objective evaluation on various audio super-resolution benchmarks demonstrates the strong result achieved by the proposed model. In addition, our subjective evaluation shows that AudioSR can acts as a plug-and-play module to enhance the generation quality of a wide range of audio generative models, including AudioLDM, Fastspeech2, and MusicGen. Our code and demo are available at https://audioldm.github.io/audiosr.",
       "decision": "no",
-      "reason": "该论文提出音频超分辨率模型AudioSR而非综述类工作，且主题不聚焦离散音频token。",
-      "confidence": 0.94,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦扩散模型的音频超分辨率而非离散音频token方法。",
-      "fallback_confidence": 0.77
+      "reason": "该论文介绍音频超分辨率生成模型AudioSR，并非关于离散音频token的综述或概览。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2308.14970",
       "title": "Audio Deepfake Detection: A Survey",
       "abstract": "Audio deepfake detection is an emerging active topic. A growing number of literatures have aimed to study deepfake detection algorithms and achieved effective performance, the problem of which is far from being solved. Although there are some review literatures, there has been no comprehensive survey that provides researchers with a systematic overview of these developments with a unified evaluation. Accordingly, in this survey paper, we first highlight the key differences across various types of deepfake audio, then outline and analyse competitions, datasets, features, classifications, and evaluation of state-of-the-art approaches. For each aspect, the basic techniques, advanced developments and major challenges are discussed. In addition, we perform a unified comparison of representative features and classifiers on ASVspoof 2021, ADD 2023 and In-the-Wild datasets for audio deepfake detection, respectively. The survey shows that future research should address the lack of large scale datasets in the wild, poor generalization of existing detection methods to unknown fake attacks, as well as interpretability of detection results.",
       "decision": "no",
-      "reason": "该文虽为音频深度伪造检测综述，但与离散音频token主题不直接相关。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦音频深度伪造检测综述，与离散音频token主题不直接相关。",
-      "fallback_confidence": 0.9
+      "reason": "该文虽为综述但主题是音频深度伪造检测而非离散音频标记。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2308.12792",
       "title": "Sparks of Large Audio Models: A Survey and Outlook",
       "abstract": "This survey paper provides a comprehensive overview of the recent advancements and challenges in applying large language models to the field of audio signal processing. Audio processing, with its diverse signal representations and a wide range of sources--from human voices to musical instruments and environmental sounds--poses challenges distinct from those found in traditional Natural Language Processing scenarios. Nevertheless, \\textit{Large Audio Models}, epitomized by transformer-based architectures, have shown marked efficacy in this sphere. By leveraging massive amount of data, these models have demonstrated prowess in a variety of audio tasks, spanning from Automatic Speech Recognition and Text-To-Speech to Music Generation, among others. Notably, recently these Foundational Audio Models, like SeamlessM4T, have started showing abilities to act as universal translators, supporting multiple speech tasks for up to 100 languages without any reliance on separate task-specific systems. This paper presents an in-depth analysis of state-of-the-art methodologies regarding \\textit{Foundational Large Audio Models}, their performance benchmarks, and their applicability to real-world scenarios. We also highlight current limitations and provide insights into potential future research directions in the realm of \\textit{Large Audio Models} with the intent to spark further discussion, thereby fostering innovation in the next generation of audio-processing systems. Furthermore, to cope with the rapid development in this area, we will consistently update the relevant repository with relevant recent articles and their open-source implementations at https://github.com/EmulationAI/awesome-large-audio-models.",
       "decision": "no",
-      "reason": "虽然标题与摘要明确为综述，但主题聚焦“大型音频模型”而非离散音频token本身。",
-      "confidence": 0.78,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦大型音频模型综述与展望，未直接涉及离散音频token方法或术语体系。",
-      "fallback_confidence": 0.72
+      "reason": "本文虽为综述但聚焦大音频模型整体进展，未明确以离散音频token为核心主题。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2307.04292",
       "title": "A Demand-Driven Perspective on Generative Audio AI",
       "abstract": "To achieve successful deployment of AI research, it is crucial to understand the demands of the industry. In this paper, we present the results of a survey conducted with professional audio engineers, in order to determine research priorities and define various research tasks. We also summarize the current challenges in audio quality and controllability based on the survey. Our analysis emphasizes that the availability of datasets is currently the main bottleneck for achieving high-quality audio generation. Finally, we suggest potential solutions for some revealed issues with empirical evidence.",
       "decision": "no",
-      "reason": "该文虽包含对音频工程师的问卷调查，但主题聚焦生成式音频AI的产业需求与挑战而非离散音频token综述。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦生成音频AI的产业需求与数据集瓶颈，未直接讨论离散音频token方法与术语体系。",
-      "fallback_confidence": 0.77
+      "reason": "该文虽包含对工程师的问卷调查，但主题是生成式音频AI的产业需求而非离散音频token综述。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2307.05527",
       "title": "The Ethical Implications of Generative Audio Models: A Systematic Literature Review",
       "abstract": "Generative audio models typically focus their applications in music and speech generation, with recent models having human-like quality in their audio output. This paper conducts a systematic literature review of 884 papers in the area of generative audio models in order to both quantify the degree to which researchers in the field are considering potential negative impacts and identify the types of ethical implications researchers in this area need to consider. Though 65% of generative audio research papers note positive potential impacts of their work, less than 10% discuss any negative impacts. This jarringly small percentage of papers considering negative impact is particularly worrying because the issues brought to light by the few papers doing so are raising serious ethical implications and concerns relevant to the broader field such as the potential for fraud, deep-fakes, and copyright infringement. By quantifying this lack of ethical consideration in generative audio research and identifying key areas of potential harm, this paper lays the groundwork for future work in the field at a critical point in time in order to guide more conscientious research as this field progresses.",
       "decision": "no",
-      "reason": "该文虽为系统综述但聚焦生成音频模型的伦理影响而非离散音频token主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦生成音频模型的伦理风险综述而非离散音频token方法与术语。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为系统综述但聚焦生成式音频模型的伦理影响而非离散音频token主题。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2306.06814",
       "title": "HiddenSinger: High-Quality Singing Voice Synthesis via Neural Audio Codec and Latent Diffusion Models",
       "abstract": "Recently, denoising diffusion models have demonstrated remarkable performance among generative models in various domains. However, in the speech domain, the application of diffusion models for synthesizing time-varying audio faces limitations in terms of complexity and controllability, as speech synthesis requires very high-dimensional samples with long-term acoustic features. To alleviate the challenges posed by model complexity in singing voice synthesis, we propose HiddenSinger, a high-quality singing voice synthesis system using a neural audio codec and latent diffusion models. To ensure high-fidelity audio, we introduce an audio autoencoder that can encode audio into an audio codec as a compressed representation and reconstruct the high-fidelity audio from the low-dimensional compressed latent vector. Subsequently, we use the latent diffusion models to sample a latent representation from a musical score. In addition, our proposed model is extended to an unsupervised singing voice learning framework, HiddenSinger-U, to train the model using an unlabeled singing voice dataset. Experimental results demonstrate that our model outperforms previous models in terms of audio quality. Furthermore, the HiddenSinger-U can synthesize high-quality singing voices of speakers trained solely on unlabeled data.",
       "decision": "no",
-      "reason": "该论文是歌声合成方法论文，并非标题或摘要明确表述的综述/调查工作且主题非离散音频token综述。",
-      "confidence": 0.92,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦歌声合成与扩散模型，离“离散音频token”主题不够直接。",
-      "fallback_confidence": 0.72
+      "reason": "该论文是提出歌声合成模型的方法论文，并未明确为离散音频token综述或调查且主题不直接聚焦该话题。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2303.13336",
       "title": "A Survey on Audio Diffusion Models: Text To Speech Synthesis and Enhancement in Generative AI",
       "abstract": "Generative AI has demonstrated impressive performance in various fields, among which speech synthesis is an interesting direction. With the diffusion model as the most popular generative model, numerous works have attempted two active tasks: text to speech and speech enhancement. This work conducts a survey on audio diffusion model, which is complementary to existing surveys that either lack the recent progress of diffusion-based speech synthesis or highlight an overall picture of applying diffusion model in multiple fields. Specifically, this work first briefly introduces the background of audio and diffusion model. As for the text-to-speech task, we divide the methods into three categories based on the stage where diffusion model is adopted: acoustic model, vocoder and end-to-end framework. Moreover, we categorize various speech enhancement tasks by either certain signals are removed or added into the input speech. Comparisons of experimental results and discussions are also covered in this survey.",
       "decision": "no",
-      "reason": "该文虽为综述但聚焦音频扩散模型而非离散音频token主题。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频扩散模型用于TTS与增强，未直接讨论离散音频token方法与术语。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为音频扩散模型综述，但主题聚焦TTS与增强而非离散音频token。",
+      "confidence": 0.93
     },
     {
-      "arxiv_id": "2302.02241",
-      "title": "Feature Representation Learning for Click-through Rate Prediction: A Review and New Perspectives",
-      "abstract": "Representation learning has been a critical topic in machine learning. In Click-through Rate Prediction, most features are represented as embedding vectors and learned simultaneously with other parameters in the model. With the development of CTR models, feature representation learning has become a trending topic and has been extensively studied by both industrial and academic researchers in recent years. This survey aims at summarizing the feature representation learning in a broader picture and pave the way for future research. To achieve such a goal, we first present a taxonomy of current research methods on feature representation learning following two main issues: (i) which feature to represent and (ii) how to represent these features. Then we give a detailed description of each method regarding these two issues. Finally, the review concludes with a discussion on the future directions of this field.",
+      "arxiv_id": "2303.01505",
+      "title": "Ternary Quantization: A Survey",
+      "abstract": "Inference time, model size, and accuracy are critical for deploying deep neural network models. Numerous research efforts have been made to compress neural network models with faster inference and higher accuracy. Pruning and quantization are mainstream methods to this end. During model quantization, converting individual float values of layer weights to low-precision ones can substantially reduce the computational overhead and improve the inference speed. Many quantization methods have been studied, for example, vector quantization, low-bit quantization, and binary/ternary quantization. This survey focuses on ternary quantization. We review the evolution of ternary quantization and investigate the relationships among existing ternary quantization methods from the perspective of projection function and optimization methods.",
       "decision": "no",
-      "reason": "该文虽为CTR特征表征学习综述，但与离散音频tokens主题无直接关联。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦CTR预测中的特征表示学习综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.96
-    },
-    {
-      "arxiv_id": "2301.10079",
-      "title": "Reformulation Techniques for Automated Planning: A Systematic Review",
-      "abstract": "Automated planning is a prominent area of Artificial Intelligence, and an important component for intelligent autonomous agents. A cornerstone of domain-independent planning is the separation between planning logic, i.e. the automated reasoning side, and the knowledge model, that encodes a formal representation of domain knowledge needed to reason upon a given problem to synthesise a solution plan. Such a separation enables the use of reformulation techniques, which transform how a model is represented in order to improve the efficiency of plan generation. Over the past decades, significant research effort has been devoted to the design of reformulation techniques. In this paper, we present a systematic review of the large body of work on reformulation techniques for classical planning, aiming to provide a holistic view of the field and to foster future research in the area. As a tangible outcome, we provide a qualitative comparison of the existing classes of techniques, that can help researchers gain an overview of their strengths and weaknesses.",
-      "decision": "no",
-      "reason": "论文虽为系统综述但主题是自动规划重构技术，与离散音频token主题无关。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦自动规划重构技术综述，与离散音频token主题无关。",
-      "fallback_confidence": 0.97
-    },
-    {
-      "arxiv_id": "2210.16484",
-      "title": "A Systematic Survey of Chemical Pre-trained Models",
-      "abstract": "Deep learning has achieved remarkable success in learning representations for molecules, which is crucial for various biochemical applications, ranging from property prediction to drug design. However, training Deep Neural Networks (DNNs) from scratch often requires abundant labeled molecules, which are expensive to acquire in the real world. To alleviate this issue, tremendous efforts have been devoted to Molecular Pre-trained Models (CPMs), where DNNs are pre-trained using large-scale unlabeled molecular databases and then fine-tuned over specific downstream tasks. Despite the prosperity, there lacks a systematic review of this fast-growing field. In this paper, we present the first survey that summarizes the current progress of CPMs. We first highlight the limitations of training molecular representation models from scratch to motivate CPM studies. Next, we systematically review recent advances on this topic from several key perspectives, including molecular descriptors, encoder architectures, pre-training strategies, and applications. We also highlight the challenges and promising avenues for future research, providing a useful resource for both machine learning and scientific communities.",
-      "decision": "no",
-      "reason": "该文是化学预训练模型的系统综述，与离散音频token主题无直接关系。",
-      "confidence": 0.97,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦化学分子预训练模型综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.97
+      "reason": "该文是关于神经网络三值量化的综述而非离散音频token主题。",
+      "confidence": 0.97
     },
     {
       "arxiv_id": "2208.09579",
       "title": "Learning in Audio-visual Context: A Review, Analysis, and New Perspective",
       "abstract": "Sight and hearing are two senses that play a vital role in human communication and scene understanding. To mimic human perception ability, audio-visual learning, aimed at developing computational approaches to learn from both audio and visual modalities, has been a flourishing field in recent years. A comprehensive survey that can systematically organize and analyze studies of the audio-visual field is expected. Starting from the analysis of audio-visual cognition foundations, we introduce several key findings that have inspired our computational studies. Then, we systematically review the recent audio-visual learning studies and divide them into three categories: audio-visual boosting, cross-modal perception and audio-visual collaboration. Through our analysis, we discover that, the consistency of audio-visual data across semantic, spatial and temporal support the above studies. To revisit the current development of the audio-visual learning field from a more macro view, we further propose a new perspective on audio-visual scene understanding, then discuss and analyze the feasible future direction of the audio-visual learning area. Overall, this survey reviews and outlooks the current audio-visual learning field from different aspects. We hope it can provide researchers with a better understanding of this area. A website including constantly-updated survey is released: \\url{https://gewu-lab.github.io/audio-visual-learning/}.",
       "decision": "no",
-      "reason": "该文虽为音频-视觉学习综述，但并非直接聚焦离散音频token主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频-视觉多模态学习综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.78
+      "reason": "该文虽为音频-视觉学习综述，但并非主要讨论离散音频token主题。",
+      "confidence": 0.91
     },
     {
       "arxiv_id": "2208.04836",
       "title": "Non-Fungible Tokens in Business and Management -- A Review",
       "abstract": "Non-Fungible Tokens (NFTs) are a new development in blockchain technology. News around NFTs is surrounded by skepticism because unrealistically high prices are being paid online for these NFTs which are in the form of apparently simple digital arts and photographs. It is not clear if this is a trend, a hype, a bubble, or a legitimate novel way of holding and trading value. A literature review of peer-reviewed scholarly studies, performed in the context of business and management, is presented here. Moreover, we also discuss open issues, and challenges, and present future research directions. Analysis of these studies reveal that schools of thoughts are divided on the validity of this form of digital tokens. On one hand, there is a lot of criticism but on the other hand, we can find novel business models and applications of NFTs especially the feature of smart contracts. It can, therefore, be concluded that NFTs, even if not in their current form, are here to stay and may promise new ways of protecting digital assets in an immutable and easily traceable form.",
       "decision": "no",
-      "reason": "本文虽为NFT商业管理领域综述，但与离散音频token主题无直接关联。",
-      "confidence": 0.96,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦区块链NFT在商业管理领域的综述，与离散音频标记主题无直接关联。",
-      "fallback_confidence": 0.94
+      "reason": "该文虽为NFT领域综述但主题与离散音频token无直接关联。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "2207.08759",
       "title": "Style Transfer of Audio Effects with Differentiable Signal Processing",
       "abstract": "We present a framework that can impose the audio effects and production style from one recording to another by example with the goal of simplifying the audio production process. We train a deep neural network to analyze an input recording and a style reference recording, and predict the control parameters of audio effects used to render the output. In contrast to past work, we integrate audio effects as differentiable operators in our framework, perform backpropagation through audio effects, and optimize end-to-end using an audio-domain loss. We use a self-supervised training strategy enabling automatic control of audio effects without the use of any labeled or paired training data. We survey a range of existing and new approaches for differentiable signal processing, showing how each can be integrated into our framework while discussing their trade-offs. We evaluate our approach on both speech and music tasks, demonstrating that our approach generalizes both to unseen recordings and even to sample rates different than those seen during training. Our approach produces convincing production style transfer results with the ability to transform input recordings to produced recordings, yielding audio effect control parameters that enable interpretability and user interaction.",
       "decision": "no",
-      "reason": "论文主要提出音频效果风格迁移框架而非明确的综述/调查且与离散音频token主题不直接相关。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦可微分音频效果风格迁移与信号处理，并非离散音频token的核心方法或术语体系。",
-      "fallback_confidence": 0.86
+      "reason": "该论文主要研究音频效果风格迁移与可微信号处理框架，且并非明确的综述/概述工作也不聚焦离散音频token主题。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2206.13390",
       "title": "A Comprehensive Survey on Video Saliency Detection with Auditory Information: the Audio-visual Consistency Perceptual is the Key!",
       "abstract": "Video saliency detection (VSD) aims at fast locating the most attractive objects/things/patterns in a given video clip. Existing VSD-related works have mainly relied on the visual system but paid less attention to the audio aspect, while, actually, our audio system is the most vital complementary part to our visual system. Also, audio-visual saliency detection (AVSD), one of the most representative research topics for mimicking human perceptual mechanisms, is currently in its infancy, and none of the existing survey papers have touched on it, especially from the perspective of saliency detection. Thus, the ultimate goal of this paper is to provide an extensive review to bridge the gap between audio-visual fusion and saliency detection. In addition, as another highlight of this review, we have provided a deep insight into key factors which could directly determine the performances of AVSD deep models, and we claim that the audio-visual consistency degree (AVC) -- a long-overlooked issue, can directly influence the effectiveness of using audio to benefit its visual counterpart when performing saliency detection. Moreover, in order to make the AVC issue more practical and valuable for future followers, we have newly equipped almost all existing publicly available AVSD datasets with additional frame-wise AVC labels. Based on these upgraded datasets, we have conducted extensive quantitative evaluations to ground our claim on the importance of AVC in the AVSD task. In a word, both our ideas and new sets serve as a convenient platform with preliminaries and guidelines, all of which are very potential to facilitate future works in promoting state-of-the-art (SOTA) performance further.",
       "decision": "no",
-      "reason": "该文虽为综述但聚焦音频辅助的视频显著性检测而非离散音频token主题。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频辅助的视频显著性检测综述，与离散音频标记主题无直接关联。",
-      "fallback_confidence": 0.92
+      "reason": "该文虽为综述但主题聚焦音频辅助的视频显著性检测而非离散音频token。",
+      "confidence": 0.96
     },
     {
       "arxiv_id": "2206.02639",
       "title": "Continuous-Time Analog Filters for Audio Edge Intelligence: Review on Circuit Designs",
       "abstract": "Edge audio devices can reduce data bandwidth requirements by pre-processing input speech on the device before transmission to the cloud. As edge devices are required to ensure always-on operation, their stringent power constraints pose several design challenges and force IC designers to look for solutions that use low standby power. One promising bio-inspired approach is to combine the continuous-time analog filter channels with a small memory footprint deep neural network that is trained on edge tasks such as keyword spotting, thereby allowing all blocks to be embedded in an IC. This paper reviews the historical background of the continuous-time analog filter circuits that have been used as feature extractors for current edge audio devices. Starting from the interpretation of a basic biquad filter as a two-integrator-loop topology, we introduce the progression in the design of second-order low-pass and band-pass filters ranging from OTA-based to source-follower-based architectures. We also derive and analyze the small-signal transfer function and discuss their usage in edge audio applications.",
       "decision": "no",
-      "reason": "该文虽为综述但聚焦连续时间模拟滤波器电路设计与边缘音频应用，非离散音频标记主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦连续时间模拟滤波器电路用于边缘音频特征提取，与离散音频token主题不直接相关。",
-      "fallback_confidence": 0.83
+      "reason": "虽然是综述但主题聚焦连续时间模拟滤波电路用于音频边缘智能，与离散音频token不直接相关。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2205.05949",
       "title": "Automated Audio Captioning: An Overview of Recent Progress and New Challenges",
       "abstract": "Automated audio captioning is a cross-modal translation task that aims to generate natural language descriptions for given audio clips. This task has received increasing attention with the release of freely available datasets in recent years. The problem has been addressed predominantly with deep learning techniques. Numerous approaches have been proposed, such as investigating different neural network architectures, exploiting auxiliary information such as keywords or sentence information to guide caption generation, and employing different training strategies, which have greatly facilitated the development of this field. In this paper, we present a comprehensive review of the published contributions in automated audio captioning, from a variety of existing approaches to evaluation metrics and datasets. We also discuss open challenges and envisage possible future research directions.",
       "decision": "no",
-      "reason": "论文是关于自动音频描述生成的综述而非离散音频token主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦自动音频字幕生成综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为综述但主题聚焦自动音频描述生成而非离散音频token。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2205.05357",
       "title": "Beyond the Status Quo: A Contemporary Survey of Advances and Challenges in Audio Captioning",
       "abstract": "Automated audio captioning (AAC), a task that mimics human perception as well as innovatively links audio processing and natural language processing, has overseen much progress over the last few years. AAC requires recognizing contents such as the environment, sound events and the temporal relationships between sound events and describing these elements with a fluent sentence. Currently, an encoder-decoder-based deep learning framework is the standard approach to tackle this problem. Plenty of works have proposed novel network architectures and training schemes, including extra guidance, reinforcement learning, audio-text self-supervised learning and diverse or controllable captioning. Effective data augmentation techniques, especially based on large language models are explored. Benchmark datasets and AAC-oriented evaluation metrics also accelerate the improvement of this field. This paper situates itself as a comprehensive survey covering the comparison between AAC and its related tasks, the existing deep learning techniques, datasets, and the evaluation metrics in AAC, with insights provided to guide potential future research directions.",
       "decision": "no",
-      "reason": "该文虽为音频字幕生成综述，但主题并非离散音频token而是音频描述任务。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦音频描述生成综述而非离散音频token方法与体系。",
-      "fallback_confidence": 0.78
+      "reason": "本文是音频描述生成的综述，未直接聚焦离散音频token主题。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2204.12260",
       "title": "Masked Spectrogram Modeling using Masked Autoencoders for Learning General-purpose Audio Representation",
       "abstract": "Recent general-purpose audio representations show state-of-the-art performance on various audio tasks. These representations are pre-trained by self-supervised learning methods that create training signals from the input. For example, typical audio contrastive learning uses temporal relationships among input sounds to create training signals, whereas some methods use a difference among input views created by data augmentations. However, these training signals do not provide information derived from the intact input sound, which we think is suboptimal for learning representation that describes the input as it is.\n  In this paper, we seek to learn audio representations from the input itself as supervision using a pretext task of auto-encoding of masked spectrogram patches, Masked Spectrogram Modeling (MSM, a variant of Masked Image Modeling applied to audio spectrogram). To implement MSM, we use Masked Autoencoders (MAE), an image self-supervised learning method. MAE learns to efficiently encode the small number of visible patches into latent representations to carry essential information for reconstructing a large number of masked patches. While training, MAE minimizes the reconstruction error, which uses the input as training signal, consequently achieving our goal.\n  We conducted experiments on our MSM using MAE (MSM-MAE) models under the evaluation benchmark of the HEAR 2021 NeurIPS Challenge. Our MSM-MAE models outperformed the HEAR 2021 Challenge results on seven out of 15 tasks (e.g., accuracies of 73.4% on CREMA-D and 85.8% on LibriCount), while showing top performance on other tasks where specialized models perform better. We also investigate how the design choices of MSM-MAE impact the performance and conduct qualitative analysis of visualization outcomes to gain an understanding of learned representations. We make our code available online.",
       "decision": "no",
-      "reason": "題目與摘要顯示這是提出自監督音訊表示學習方法的研究論文，並非明確的綜述或調研且不聚焦離散音訊token主題。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦掩码频谱自编码学习通用音频表征，未直接涉及离散音频token方法与术语。",
-      "fallback_confidence": 0.78
-    },
-    {
-      "arxiv_id": "2204.08226",
-      "title": "Empirical Evaluation and Theoretical Analysis for Representation Learning: A Survey",
-      "abstract": "Representation learning enables us to automatically extract generic feature representations from a dataset to solve another machine learning task. Recently, extracted feature representations by a representation learning algorithm and a simple predictor have exhibited state-of-the-art performance on several machine learning tasks. Despite its remarkable progress, there exist various ways to evaluate representation learning algorithms depending on the application because of the flexibility of representation learning. To understand the current representation learning, we review evaluation methods of representation learning algorithms and theoretical analyses. On the basis of our evaluation survey, we also discuss the future direction of representation learning. Note that this survey is the extended version of Nozawa and Sato (2022).",
-      "decision": "no",
-      "reason": "该文虽为表征学习评测与理论分析的综述，但与离散音频token主题无直接且主要关联。",
-      "confidence": 0.94,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦表徵學習的評估與理論分析，與離散音頻token主題無直接關聯。",
-      "fallback_confidence": 0.93
+      "reason": "该论文是提出音频自监督表示学习方法的研究工作，并非明确的综述/调查且主题不聚焦离散音频token。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2204.07402",
       "title": "BYOL for Audio: Exploring Pre-trained General-purpose Audio Representations",
       "abstract": "Pre-trained models are essential as feature extractors in modern machine learning systems in various domains. In this study, we hypothesize that representations effective for general audio tasks should provide multiple aspects of robust features of the input sound. For recognizing sounds regardless of perturbations such as varying pitch or timbre, features should be robust to these perturbations. For serving the diverse needs of tasks such as recognition of emotions or music genres, representations should provide multiple aspects of information, such as local and global features. To implement our principle, we propose a self-supervised learning method: Bootstrap Your Own Latent (BYOL) for Audio (BYOL-A, pronounced \"viola\"). BYOL-A pre-trains representations of the input sound invariant to audio data augmentations, which makes the learned representations robust to the perturbations of sounds. Whereas the BYOL-A encoder combines local and global features and calculates their statistics to make the representation provide multi-aspect information. As a result, the learned representations should provide robust and multi-aspect information to serve various needs of diverse tasks. We evaluated the general audio task performance of BYOL-A compared to previous state-of-the-art methods, and BYOL-A demonstrated generalizability with the best average result of 72.4% and the best VoxCeleb1 result of 57.6%. Extensive ablation experiments revealed that the BYOL-A encoder architecture contributes to most performance, and the final critical portion resorts to the BYOL framework and BYOL-A augmentations. Our code is available online at https://github.com/nttcslab/byol-a for future studies.",
       "decision": "no",
-      "reason": "该文是提出BYOL-A自监督预训练方法的研究论文而非综述，且不聚焦离散音频token主题。",
-      "confidence": 0.96,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦自监督音频表征学习（BYOL-A），未涉及离散音频token或相关方法体系。",
-      "fallback_confidence": 0.86
+      "reason": "该论文是提出BYOL-A自监督音频表征方法的研究工作，非综述且与离散音频token主题不直接相关。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2203.01205",
       "title": "Audio Self-supervised Learning: A Survey",
       "abstract": "Inspired by the humans' cognitive ability to generalise knowledge and skills, Self-Supervised Learning (SSL) targets at discovering general representations from large-scale data without requiring human annotations, which is an expensive and time consuming task. Its success in the fields of computer vision and natural language processing have prompted its recent adoption into the field of audio and speech processing. Comprehensive reviews summarising the knowledge in audio SSL are currently missing. To fill this gap, in the present work, we provide an overview of the SSL methods used for audio and speech processing applications. Herein, we also summarise the empirical works that exploit the audio modality in multi-modal SSL frameworks, and the existing suitable benchmarks to evaluate the power of SSL in the computer audition domain. Finally, we discuss some open problems and point out the future directions on the development of audio SSL.",
       "decision": "no",
-      "reason": "该文虽为音频自监督学习综述，但主题并非离散音频token而是更广泛的SSL方法。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频自监督学习综述而非离散音频token的核心方法与术语。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为音频自监督学习综述，但主题并非离散音频token，相关性不直接。",
+      "confidence": 0.78
     },
     {
       "arxiv_id": "2201.02490",
       "title": "Audio representations for deep learning in sound synthesis: A review",
       "abstract": "The rise of deep learning algorithms has led many researchers to withdraw from using classic signal processing methods for sound generation. Deep learning models have achieved expressive voice synthesis, realistic sound textures, and musical notes from virtual instruments. However, the most suitable deep learning architecture is still under investigation. The choice of architecture is tightly coupled to the audio representations. A sound's original waveform can be too dense and rich for deep learning models to deal with efficiently - and complexity increases training time and computational cost. Also, it does not represent sound in the manner in which it is perceived. Therefore, in many cases, the raw audio has been transformed into a compressed and more meaningful form using upsampling, feature-extraction, or even by adopting a higher level illustration of the waveform. Furthermore, conditional on the form chosen, additional conditioning representations, different model architectures, and numerous metrics for evaluating the reconstructed sound have been investigated. This paper provides an overview of audio representations applied to sound synthesis using deep learning. Additionally, it presents the most significant methods for developing and evaluating a sound synthesis architecture using deep learning models, always depending on the audio representation.",
       "decision": "no",
-      "reason": "该文虽为关于深度学习声音合成音频表征的综述，但与离散音频token主题不直接且不聚焦。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦深度学习声音合成的音频表征综述，而非离散音频token这一核心主题。",
-      "fallback_confidence": 0.72
+      "reason": "该文虽为综述但聚焦深度学习声音合成中的音频表示，并非主要讨论离散音频token主题。",
+      "confidence": 0.84
     },
     {
-      "arxiv_id": "2112.10372",
-      "title": "A Comprehensive Analytical Survey on Unsupervised and Semi-Supervised Graph Representation Learning Methods",
-      "abstract": "Graph representation learning is a fast-growing field where one of the main objectives is to generate meaningful representations of graphs in lower-dimensional spaces. The learned embeddings have been successfully applied to perform various prediction tasks, such as link prediction, node classification, clustering, and visualization. The collective effort of the graph learning community has delivered hundreds of methods, but no single method excels under all evaluation metrics such as prediction accuracy, running time, scalability, etc. This survey aims to evaluate all major classes of graph embedding methods by considering algorithmic variations, parameter selections, scalability, hardware and software platforms, downstream ML tasks, and diverse datasets. We organized graph embedding techniques using a taxonomy that includes methods from manual feature engineering, matrix factorization, shallow neural networks, and deep graph convolutional networks. We evaluated these classes of algorithms for node classification, link prediction, clustering, and visualization tasks using widely used benchmark graphs. We designed our experiments on top of PyTorch Geometric and DGL libraries and run experiments on different multicore CPU and GPU platforms. We rigorously scrutinize the performance of embedding methods under various performance metrics and summarize the results. Thus, this paper may serve as a comparative guide to help users select methods that are most suitable for their tasks.",
+      "arxiv_id": "2112.06126",
+      "title": "Neural Network Quantization for Efficient Inference: A Survey",
+      "abstract": "As neural networks have become more powerful, there has been a rising desire to deploy them in the real world; however, the power and accuracy of neural networks is largely due to their depth and complexity, making them difficult to deploy, especially in resource-constrained devices. Neural network quantization has recently arisen to meet this demand of reducing the size and complexity of neural networks by reducing the precision of a network. With smaller and simpler networks, it becomes possible to run neural networks within the constraints of their target hardware. This paper surveys the many neural network quantization techniques that have been developed in the last decade. Based on this survey and comparison of neural network quantization techniques, we propose future directions of research in the area.",
       "decision": "no",
-      "reason": "论文是关于图表示学习方法的综述评测，与离散音频token主题无直接关联。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦无监督/半监督图表示学习综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.95
+      "reason": "该文虽为量化推理综述，但主题是神经网络量化而非离散音频token。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2111.14203",
       "title": "How Deep Are the Fakes? Focusing on Audio Deepfake: A Survey",
       "abstract": "Deepfake is content or material that is synthetically generated or manipulated using artificial intelligence (AI) methods, to be passed off as real and can include audio, video, image, and text synthesis. This survey has been conducted with a different perspective compared to existing survey papers, that mostly focus on just video and image deepfakes. This survey not only evaluates generation and detection methods in the different deepfake categories, but mainly focuses on audio deepfakes that are overlooked in most of the existing surveys. This paper critically analyzes and provides a unique source of audio deepfake research, mostly ranging from 2016 to 2020. To the best of our knowledge, this is the first survey focusing on audio deepfakes in English. This survey provides readers with a summary of 1) different deepfake categories 2) how they could be created and detected 3) the most recent trends in this domain and shortcomings in detection methods 4) audio deepfakes, how they are created and detected in more detail which is the main focus of this paper. We found that Generative Adversarial Networks(GAN), Convolutional Neural Networks (CNN), and Deep Neural Networks (DNN) are common ways of creating and detecting deepfakes. In our evaluation of over 140 methods we found that the majority of the focus is on video deepfakes and in particular in the generation of video deepfakes. We found that for text deepfakes there are more generation methods but very few robust methods for detection, including fake news detection, which has become a controversial area of research because of the potential of heavy overlaps with human generation of fake content. This paper is an abbreviated version of the full survey and reveals a clear need to research audio deepfakes and particularly detection of audio deepfakes.",
       "decision": "no",
-      "reason": "该文虽为音频深度伪造综述，但主题并非离散音频token。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音频深度伪造生成与检测综述，与离散音频token主题不直接相关。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为音频深度伪造综述，但主题不直接聚焦离散音频token。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2111.03895",
       "title": "Digital Audio Processing Tools for Music Corpus Studies",
       "abstract": "Digital audio processing tools offer music researchers the opportunity to examine both non-notated music and music as performance. This chapter summarises the types of information that can be extracted from audio as well as currently available audio tools for music corpus studies. The survey of extraction methods includes both a primer on signal processing and background theory on audio feature extraction. The survey of audio tools focuses on widely used tools, including both those with a graphical user interface, namely Audacity and Sonic Visualiser, and code-based tools written in the C/C++, Java, MATLAB, and Python computer programming languages.",
       "decision": "no",
-      "reason": "本文综述的是音乐语料研究的音频处理与特征提取工具，而非离散音频token主题综述。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文主要综述音乐语料研究中的音频特征提取与工具，并非离散音频token方法的核心内容。",
-      "fallback_confidence": 0.72
-    },
-    {
-      "arxiv_id": "2110.12102",
-      "title": "The Quantum Revolution in Philosophy (Book Review)",
-      "abstract": "In this thought-provoking book, Richard Healey proposes a new interpretation of quantum theory inspired by pragmatist philosophy. Healey puts forward the interpretation as an alternative to realist quantum theories on the one hand such as Bohmian mechanics, spontaneous collapse theories, and many-worlds interpretations, which are different proposals for describing what the quantum world is like and what the basic laws of physics are, and non-realist interpretations on the other hand such as quantum Bayesianism, which proposes to understand quantum theory as describing agents' subjective epistemic states. The central idea of Healey's proposal is to understand quantum theory as providing not a description of the physical world but a set of authoritative and objectively correct prescriptions about how agents should act. The book provides a detailed development and defense of that idea, and it contains interesting discussions about a wide range of philosophical issues such as representation, probability, explanation, causation, objectivity, meaning, and fundamentality. Healey's project is at the intersection of physics and philosophy. The book is divided into two parts. Part I of the book discusses the foundational questions in quantum theory from the perspective of the prescriptive interpretation. In Part II, Healey discusses the philosophical implications of the view. Both parts are written in a way that is largely accessible to non-specialists. In this brief book review, I will focus on two questions: (1) How does Healey's idea work? (2) What reasons are there to believe in it?",
-      "decision": "no",
-      "reason": "该文为量子哲学书评且未明确为综述类工作，内容与离散音频tokens主题无关。",
-      "confidence": 0.99,
-      "fallback_decision": "no",
-      "fallback_reason": "该文是量子哲学书评与量子理论诠释讨论，和离散音频token主题无直接关联。",
-      "fallback_confidence": 0.99
+      "reason": "虽为综述性章节但主题是音乐语料研究的音频处理工具与特征提取，并非离散音频标记。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2110.11438",
       "title": "Objective Measures of Perceptual Audio Quality Reviewed: An Evaluation of Their Application Domain Dependence",
       "abstract": "Over the past few decades, computational methods have been developed to estimate perceptual audio quality. These methods, also referred to as objective quality measures, are usually developed and intended for a specific application domain. Because of their convenience, they are often used outside their original intended domain, even if it is unclear whether they provide reliable quality estimates in this case. This work studies the correlation of well-known state-of-the-art objective measures with human perceptual scores in two different domains: audio coding and source separation. The following objective measures are considered: fwSNRseg, dLLR, PESQ, PEAQ, POLQA, PEMO-Q, ViSQOLAudio, (SI-)BSSEval, PEASS, LKR-PI, 2f-model, and HAAQI. Additionally, a novel measure (SI-SA2f) is presented, based on the 2f-model and a BSSEval-based signal decomposition. We use perceptual scores from 7 listening tests about audio coding and 7 listening tests about source separation as ground-truth data for the correlation analysis. The results show that one method (2f-model) performs significantly better than the others on both domains and indicate that the dataset for training the method and a robust underlying auditory model are crucial factors towards a universal, domain-independent objective measure.",
       "decision": "no",
-      "reason": "该文虽含“Reviewed”但主要是评估客观音质指标在音频编码与源分离中的相关性研究，非直接关于离散音频tokens的综述。",
-      "confidence": 0.94,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦音频感知质量客观评价指标，与离散音频token核心方法不直接相关。",
-      "fallback_confidence": 0.86
+      "reason": "虽含“Reviewed”但主要是跨领域相关性实证评估并提出新指标，且与离散音频token主题无直接关系。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2110.01515",
       "title": "A Review of the Gumbel-max Trick and its Extensions for Discrete Stochasticity in Machine Learning",
       "abstract": "The Gumbel-max trick is a method to draw a sample from a categorical distribution, given by its unnormalized (log-)probabilities. Over the past years, the machine learning community has proposed several extensions of this trick to facilitate, e.g., drawing multiple samples, sampling from structured domains, or gradient estimation for error backpropagation in neural network optimization. The goal of this survey article is to present background about the Gumbel-max trick, and to provide a structured overview of its extensions to ease algorithm selection. Moreover, it presents a comprehensive outline of (machine learning) literature in which Gumbel-based algorithms have been leveraged, reviews commonly-made design choices, and sketches a future perspective.",
       "decision": "no",
-      "reason": "该文虽为综述但聚焦Gumbel-max及离散随机性方法而非离散音频token主题。",
-      "confidence": 0.9,
-      "fallback_decision": "no",
-      "fallback_reason": "该文主要综述Gumbel-max及离散采样扩展，未直接聚焦离散音频token方法与体系。",
-      "fallback_confidence": 0.72
+      "reason": "本文虽为Gumbel-max技巧的综述，但主题聚焦离散采样与梯度估计方法而非离散音频token。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2108.07489",
+      "title": "A Brief Overview of Results about Uniqueness of the Quantization in Cosmology",
+      "abstract": "The purpose of this review is to provide a brief overview of some recent conceptual developments about possible criteria to guarantee the uniqueness of the quantization in a variety of situations that are found in cosmological systems. These criteria impose some conditions on the representation of a group of physically relevant linear transformations. Generally, this group contains any existing symmetry of the spatial sections. These symmetries may or may not be sufficient for the purpose of uniqueness and may have to be complemented with other remaining symmetries that affect the time direction, or with dynamical transformations that in fact are not symmetries. We discuss the extent to which a unitary implementation of the resulting group suffices to fix the quantization, a demand that can be seen as a weaker version of the requirement of invariance. In particular, a strict invariance under certain transformations may eliminate some physically interesting possibilities in the passage to the quantum theory. This is the first review in which this unified perspective is adopted to discuss otherwise rather different uniqueness criteria proposed either in homogeneous loop quantum cosmology or in the Fock quantization of inhomogeneous cosmologies.",
+      "decision": "no",
+      "reason": "虽然是综述但主题是宇宙学量子化唯一性，与离散音频token无直接关系。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "2108.00443",
       "title": "A Survey on Audio Synthesis and Audio-Visual Multimodal Processing",
       "abstract": "With the development of deep learning and artificial intelligence, audio synthesis has a pivotal role in the area of machine learning and shows strong applicability in the industry. Meanwhile, significant efforts have been dedicated by researchers to handle multimodal tasks at present such as audio-visual multimodal processing. In this paper, we conduct a survey on audio synthesis and audio-visual multimodal processing, which helps understand current research and future trends. This review focuses on text to speech(TTS), music generation and some tasks that combine visual and acoustic information. The corresponding technical methods are comprehensively classified and introduced, and their future development trends are prospected. This survey can provide some guidance for researchers who are interested in the areas like audio synthesis and audio-visual multimodal processing.",
       "decision": "no",
-      "reason": "该文虽为综述但主题是音频合成与音视多模态处理，并非主要讨论离散音频token。",
-      "confidence": 0.84,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦音频合成与视听多模态综述，未直接涉及离散音频token表示方法。",
-      "fallback_confidence": 0.78
+      "reason": "该文虽为音频合成与音视多模态处理综述，但并非主要聚焦离散音频标记主题。",
+      "confidence": 0.86
+    },
+    {
+      "arxiv_id": "2105.07447",
+      "title": "Non-Fungible Token (NFT): Overview, Evaluation, Opportunities and Challenges",
+      "abstract": "The Non-Fungible Token (NFT) market is mushrooming in recent years. The concept of NFT originally comes from a token standard of Ethereum, aiming to distinguish each token with distinguishable signs. This type of token can be bound with virtual/digital properties as their unique identifications. With NFTs, all marked properties can be freely traded with customized values according to their ages, rarity, liquidity, etc. It has greatly stimulated the prosperity of the decentralized application (DApp) market. At the time of writing (May 2021), the total money used on completed NFT sales has reached $34,530,649.86$ USD. The thousandfold return on its increasing market draws huge attention worldwide. However, the development of the NFT ecosystem is still in its early stage, and the technologies of NFTs are pre-mature. Newcomers may get lost in their frenetic evolution due to the lack of systematic summaries. In this technical report, we explore the NFT ecosystems in several aspects. We start with an overview of state-of-the-art NFT solutions, then provide their technical components, protocols, standards, and desired proprieties. Afterward, we give a security evolution, with discussions on the perspectives of their design models, opportunities, and challenges. To the best of our knowledge, this is the first systematic study on the current NFT ecosystems.",
+      "decision": "no",
+      "reason": "该文是对NFT生态的综述性技术报告，与离散音频token主题无直接关联。",
+      "confidence": 0.97
     },
     {
       "arxiv_id": "2103.01498",
       "title": "A Survey On Universal Adversarial Attack",
       "abstract": "The intriguing phenomenon of adversarial examples has attracted significant attention in machine learning and what might be more surprising to the community is the existence of universal adversarial perturbations (UAPs), i.e. a single perturbation to fool the target DNN for most images. With the focus on UAP against deep classifiers, this survey summarizes the recent progress on universal adversarial attacks, discussing the challenges from both the attack and defense sides, as well as the reason for the existence of UAP. We aim to extend this work as a dynamic survey that will regularly update its content to follow new works regarding UAP or universal attack in a wide range of domains, such as image, audio, video, text, etc. Relevant updates will be discussed at: https://bit.ly/2SbQlLG. We welcome authors of future works in this field to contact us for including your new finding.",
       "decision": "no",
-      "reason": "该论文虽为通用对抗攻击综述，但主题与离散音频token无直接关联。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦通用对抗攻击综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为对通用对抗攻击的综述，但主题与离散音频token无直接关联。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2101.00132",
       "title": "Audio Content Analysis",
       "abstract": "Preprint for a book chapter introducing Audio Content Analysis. With a focus on Music Information Retrieval systems, this chapter defines musical audio content, introduces the general process of audio content analysis, and surveys basic approaches to audio content analysis. The various tasks in Audio Content Analysis are categorized into three classes: music transcription, music performance analysis, and music identification and categorization. The examples for music transcription systems include music key detection, fundamental frequency detection, and music structure detection. Music performance analysis systems feature an overview of beat and tempo detection approaches as well as music performance assessment. The covered music classification systems are audio fingerprinting, music genre classification, and music emotion recognition. The chapter concludes with a discussion and current challenges in the field and a speculation on future perspectives.",
       "decision": "no",
-      "reason": "论文虽综述音频内容分析方法但与离散音频token主题无直接关联。",
-      "confidence": 0.92,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音乐信息检索与音频内容分析任务，并未直接涉及离散音频token表示方法。",
-      "fallback_confidence": 0.86
+      "reason": "该文综述的是音乐信息检索中的音频内容分析方法与任务，并非以离散音频token为核心主题。",
+      "confidence": 0.89
     },
     {
       "arxiv_id": "2101.00240",
       "title": "A Survey on Deep Reinforcement Learning for Audio-Based Applications",
       "abstract": "Deep reinforcement learning (DRL) is poised to revolutionise the field of artificial intelligence (AI) by endowing autonomous systems with high levels of understanding of the real world. Currently, deep learning (DL) is enabling DRL to effectively solve various intractable problems in various fields. Most importantly, DRL algorithms are also being employed in audio signal processing to learn directly from speech, music and other sound signals in order to create audio-based autonomous systems that have many promising application in the real world. In this article, we conduct a comprehensive survey on the progress of DRL in the audio domain by bringing together the research studies across different speech and music-related areas. We begin with an introduction to the general field of DL and reinforcement learning (RL), then progress to the main DRL methods and their applications in the audio domain. We conclude by presenting challenges faced by audio-based DRL agents and highlighting open areas for future research and investigation.",
       "decision": "no",
-      "reason": "该文虽为音频领域DRL综述，但主题并非离散音频token。",
-      "confidence": 0.86,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦音频领域的深度强化学习综述，与离散音频tokens主题不直接相关。",
-      "fallback_confidence": 0.83
+      "reason": "该文虽为音频领域深度强化学习的综述，但主题不聚焦于离散音频token。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2011.14445",
       "title": "Audio, Speech, Language, & Signal Processing for COVID-19: A Comprehensive Overview",
       "abstract": "The Coronavirus (COVID-19) pandemic has been the research focus world-wide in the year 2020. Several efforts, from collection of COVID-19 patients' data to screening them for the virus's detection are taken with rigour. A major portion of COVID-19 symptoms are related to the functioning of the respiratory system, which in-turn critically influences the human speech production system. This drives the research focus towards identifying the markers of COVID-19 in speech and other human generated audio signals. In this paper, we give an overview of the speech and other audio signal, language and general signal processing-based work done using Artificial Intelligence techniques to screen, diagnose, monitor, and spread the awareness aboutCOVID-19. We also briefly describe the research related to detect accord-ing COVID-19 symptoms carried out so far. We aspire that this collective information will be useful in developing automated systems, which can help in the context of COVID-19 using non-obtrusive and easy to use modalities such as audio, speech, and language.",
       "decision": "no",
-      "reason": "本文虽为综述概览，但主题聚焦COVID-19相关音频语音信号处理而非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦COVID-19语音与音频信号检测综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.93
+      "reason": "该文虽为COVID-19相关音频与语音处理综述，但与“离散音频token”主题不直接相关。",
+      "confidence": 0.92
     },
     {
       "arxiv_id": "2011.02034",
       "title": "The Role of Time, Weather and Google Trends in Understanding and Predicting Web Survey Response",
       "abstract": "In the literature about web survey methodology, significant efforts have been made to understand the role of time-invariant factors (e.g. gender, education and marital status) in (non-)response mechanisms. Time-invariant factors alone, however, cannot account for most variations in (non-)responses, especially fluctuations of response rates over time. This observation inspires us to investigate the counterpart of time-invariant factors, namely time-varying factors and the potential role they play in web survey (non-)response. Specifically, we study the effects of time, weather and societal trends (derived from Google Trends data) on the daily (non-)response patterns of the 2016 and 2017 Dutch Health Surveys. Using discrete-time survival analysis, we find, among others, that weekends, holidays, pleasant weather, disease outbreaks and terrorism salience are associated with fewer responses. Furthermore, we show that using these variables alone achieves satisfactory prediction accuracy of both daily and cumulative response rates when the trained model is applied to future unseen data. This approach has the further benefit of requiring only non-personal contextual information and thus involving no privacy issues. We discuss the implications of the study for survey research and data collection.",
       "decision": "no",
-      "reason": "该论文是关于网络调查响应预测的实证研究，既非综述也与离散音频标记主题无直接关联。",
-      "confidence": 0.99,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文研究网页调查响应预测因素，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.97
+      "reason": "该论文研究网页调查回应的时间与天气等因素预测，并非关于离散音频token且也未明确为综述。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "2008.09586",
       "title": "An Overview of Deep-Learning-Based Audio-Visual Speech Enhancement and Separation",
       "abstract": "Speech enhancement and speech separation are two related tasks, whose purpose is to extract either one or more target speech signals, respectively, from a mixture of sounds generated by several sources. Traditionally, these tasks have been tackled using signal processing and machine learning techniques applied to the available acoustic signals. Since the visual aspect of speech is essentially unaffected by the acoustic environment, visual information from the target speakers, such as lip movements and facial expressions, has also been used for speech enhancement and speech separation systems. In order to efficiently fuse acoustic and visual information, researchers have exploited the flexibility of data-driven approaches, specifically deep learning, achieving strong performance. The ceaseless proposal of a large number of techniques to extract features and fuse multimodal information has highlighted the need for an overview that comprehensively describes and discusses audio-visual speech enhancement and separation based on deep learning. In this paper, we provide a systematic survey of this research topic, focusing on the main elements that characterise the systems in the literature: acoustic features; visual features; deep learning methods; fusion techniques; training targets and objective functions. In addition, we review deep-learning-based methods for speech reconstruction from silent videos and audio-visual sound source separation for non-speech signals, since these methods can be more or less directly applied to audio-visual speech enhancement and separation. Finally, we survey commonly employed audio-visual speech datasets, given their central role in the development of data-driven approaches, and evaluation methods, because they are generally used to compare different systems and determine their performance.",
       "decision": "no",
-      "reason": "该文虽为系统综述但主题是音视语音增强与分离而非离散音频tokens。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦音视频语音增强与分离综述，与离散音频tokens主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "该文虽为系统综述但主题是音视语音增强与分离，并非离散音频token相关综述。",
+      "confidence": 0.9
     },
     {
       "arxiv_id": "2008.00345",
       "title": "Overview of CLEF 2019 Lab ProtestNews: Extracting Protests from News in a Cross-context Setting",
       "abstract": "We present an overview of the CLEF-2019 Lab ProtestNews on Extracting Protests from News in the context of generalizable natural language processing. The lab consists of document, sentence, and token level information classification and extraction tasks that were referred as task 1, task 2, and task 3 respectively in the scope of this lab. The tasks required the participants to identify protest relevant information from English local news at one or more aforementioned levels in a cross-context setting, which is cross-country in the scope of this lab. The training and development data were collected from India and test data was collected from India and China. The lab attracted 58 teams to participate in the lab. 12 and 9 of these teams submitted results and working notes respectively. We have observed neural networks yield the best results and the performance drops significantly for majority of the submissions in the cross-country setting, which is China.",
       "decision": "no",
-      "reason": "该文是关于CLEF抗议信息抽取任务的概述，既非离散音频token主题也未明确表述为综述论文。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦跨国新闻文本中的抗议信息抽取任务，与离散音频标记主题无直接关联。",
-      "fallback_confidence": 0.95
-    },
-    {
-      "arxiv_id": "2007.15840",
-      "title": "A Survey on Concept Factorization: From Shallow to Deep Representation Learning",
-      "abstract": "The quality of learned features by representation learning determines the performance of learning algorithms and the related application tasks (such as high-dimensional data clustering). As a relatively new paradigm for representation learning, Concept Factorization (CF) has attracted a great deal of interests in the areas of machine learning and data mining for over a decade. Lots of effective CF based methods have been proposed based on different perspectives and properties, but note that it still remains not easy to grasp the essential connections and figure out the underlying explanatory factors from exiting studies. In this paper, we therefore survey the recent advances on CF methodologies and the potential benchmarks by categorizing and summarizing the current methods. Specifically, we first re-view the root CF method, and then explore the advancement of CF-based representation learning ranging from shallow to deep/multilayer cases. We also introduce the potential application areas of CF-based methods. Finally, we point out some future directions for studying the CF-based representation learning. Overall, this survey provides an insightful overview of both theoretical basis and current developments in the field of CF, which can also help the interested researchers to understand the current trends of CF and find the most appropriate CF techniques to deal with particular applications.",
-      "decision": "no",
-      "reason": "该文虽为概念分解的综述，但主题与离散音频token无直接关联。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦概念因子分解表征学习，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.93
+      "reason": "该文是CLEF抗议新闻抽取任务的概述，与离散音频token主题无直接关联且非音频综述。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "2007.07663",
       "title": "A survey and an extensive evaluation of popular audio declipping methods",
       "abstract": "Dynamic range limitations in signal processing often lead to clipping, or saturation, in signals. The task of audio declipping is estimating the original audio signal, given its clipped measurements, and has attracted much interest in recent years. Audio declipping algorithms often make assumptions about the underlying signal, such as sparsity or low-rankness, and about the measurement system. In this paper, we provide an extensive review of audio declipping algorithms proposed in the literature. For each algorithm, we present assumptions that are made about the audio signal, the modeling domain, and the optimization algorithm. Furthermore, we provide an extensive numerical evaluation of popular declipping algorithms, on real audio data. We evaluate each algorithm in terms of the Signal-to-Distortion Ratio, and also using perceptual metrics of sound quality. The article is accompanied by a repository containing the evaluated methods.",
       "decision": "no",
-      "reason": "该文虽为音频去削波方法综述与评测，但主题与离散音频token无直接关联。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦音频去削波算法综述与评测，与离散音频token主题关联不直接。",
-      "fallback_confidence": 0.91
+      "reason": "本文虽为音频去削波方法的综述与评测，但主题与离散音频token无直接关联。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2006.00877",
       "title": "High-Fidelity Audio Generation and Representation Learning with Guided Adversarial Autoencoder",
       "abstract": "Unsupervised disentangled representation learning from the unlabelled audio data, and high fidelity audio generation have become two linchpins in the machine learning research fields. However, the representation learned from an unsupervised setting does not guarantee its' usability for any downstream task at hand, which can be a wastage of the resources, if the training was conducted for that particular posterior job. Also, during the representation learning, if the model is highly biased towards the downstream task, it losses its generalisation capability which directly benefits the downstream job but the ability to scale it to other related task is lost. Therefore, to fill this gap, we propose a new autoencoder based model named \"Guided Adversarial Autoencoder (GAAE)\", which can learn both post-task-specific representations and the general representation capturing the factors of variation in the training data leveraging a small percentage of labelled samples; thus, makes it suitable for future related tasks. Furthermore, our proposed model can generate audio with superior quality, which is indistinguishable from the real audio samples. Hence, with the extensive experimental results, we have demonstrated that by harnessing the power of the high-fidelity audio generation, the proposed GAAE model can learn powerful representation from unlabelled dataset leveraging a fewer percentage of labelled data as supervision/guidance.",
       "decision": "no",
-      "reason": "该论文提出音频生成与表征学习模型而非综述/调查，且未聚焦离散音频token主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文聚焦音频自编码器生成与表征学习，未涉及离散音频token或量化token化方法。",
-      "fallback_confidence": 0.78
-    },
-    {
-      "arxiv_id": "2006.00115",
-      "title": "Overview of Scanner Invariant Representations",
-      "abstract": "Pooled imaging data from multiple sources is subject to bias from each source. Studies that do not correct for these scanner/site biases at best lose statistical power, and at worst leave spurious correlations in their data. Estimation of the bias effects is non-trivial due to the paucity of data with correspondence across sites, so called \"traveling phantom\" data, which is expensive to collect. Nevertheless, numerous solutions leveraging direct correspondence have been proposed. In contrast to this, Moyer et al. (2019) proposes an unsupervised solution using invariant representations, one which does not require correspondence and thus does not require paired images. By leveraging the data processing inequality, an invariant representation can then be used to create an image reconstruction that is uninformative of its original source, yet still faithful to the underlying structure. In the present abstract we provide an overview of this method.",
-      "decision": "no",
-      "reason": "本文概述的是医学影像跨扫描仪偏差校正方法而非离散音频token综述。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦於醫學影像掃描儀偏差校正的表徵學習，與離散音訊token主題無直接關聯。",
-      "fallback_confidence": 0.93
+      "reason": "该论文是提出音频生成与表示学习模型的方法研究，并非明确的综述/调查文章且与离散音频tokens主题不直接相关。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2005.08579",
       "title": "An Overview on Audio, Signal, Speech, & Language Processing for COVID-19",
       "abstract": "Recently, there has been an increased attention towards innovating, enhancing, building, and deploying applications of speech signal processing for providing assistance and relief to human mankind from the Coronavirus (COVID-19) pandemic. Many AI with speech initiatives are taken to combat with the present situation and also to create a safe and secure environment for the future. This paper summarises all these efforts taken by the re-search community towards helping the individuals and the society in the fight against COVID-19 over the past 3-4 months using speech signal processing. We also summarise the deep techniques used in this direction to come up with capable solutions in a short span of time. This paper further gives an overview of the contributions from non-speech modalities that may complement or serve as inspiration for audio and speech analysis. In addition, we discuss our observations with respect to solution usability, challenges, and the significant technology achievements.",
       "decision": "no",
-      "reason": "该文虽为COVID-19语音处理综述/概览，但主题并非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦COVID-19相关语音与信号处理应用综述，与离散音频token主题不直接相关。",
-      "fallback_confidence": 0.9
+      "reason": "该论文虽为概述类工作但聚焦COVID-19语音信号处理而非离散音频token主题。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2005.08848",
       "title": "Surfboard: Audio Feature Extraction for Modern Machine Learning",
       "abstract": "We introduce Surfboard, an open-source Python library for extracting audio features with application to the medical domain. Surfboard is written with the aim of addressing pain points of existing libraries and facilitating joint use with modern machine learning frameworks. The package can be accessed both programmatically in Python and via its command line interface, allowing it to be easily integrated within machine learning workflows. It builds on state-of-the-art audio analysis packages and offers multiprocessing support for processing large workloads. We review similar frameworks and describe Surfboard's architecture, including the clinical motivation for its features. Using the mPower dataset, we illustrate Surfboard's application to a Parkinson's disease classification task, highlighting common pitfalls in existing research. The source code is opened up to the research community to facilitate future audio research in the clinical domain.",
       "decision": "no",
-      "reason": "该论文主要介绍音频特征提取库Surfboard及其应用，并非明确的离散音频token综述或概览。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文主要介绍通用音频特征提取库及其医学应用，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "本文介紹音訊特徵擷取工具庫而非明確的離散音訊token綜述，且主題不直接聚焦於離散音訊token。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "2001.09847",
       "title": "Source coding of audio signals with a generative model",
       "abstract": "We consider source coding of audio signals with the help of a generative model. We use a construction where a waveform is first quantized, yielding a finite bitrate representation. The waveform is then reconstructed by random sampling from a model conditioned on the quantized waveform. The proposed coding scheme is theoretically analyzed. Using SampleRNN as the generative model, we demonstrate that the proposed coding structure provides performance competitive with state-of-the-art source coding tools for specific categories of audio signals.",
       "decision": "no",
-      "reason": "该文是生成模型辅助的音频源编码研究，未明确表述为综述且不以离散音频token为主题。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦生成模型輔助音訊源編碼與壓縮，與離散音訊token主題僅間接相關。",
-      "fallback_confidence": 0.78
+      "reason": "该论文是关于生成模型辅助音频源编码的方法研究，并非明确的综述/调查且与离散音频令牌主题不直接对应。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "2001.04758",
       "title": "Deep Audio-Visual Learning: A Survey",
       "abstract": "Audio-visual learning, aimed at exploiting the relationship between audio and visual modalities, has drawn considerable attention since deep learning started to be used successfully. Researchers tend to leverage these two modalities either to improve the performance of previously considered single-modality tasks or to address new challenging problems. In this paper, we provide a comprehensive survey of recent audio-visual learning development. We divide the current audio-visual learning tasks into four different subfields: audio-visual separation and localization, audio-visual correspondence learning, audio-visual generation, and audio-visual representation learning. State-of-the-art methods as well as the remaining challenges of each subfield are further discussed. Finally, we summarize the commonly used datasets and performance metrics.",
       "decision": "no",
-      "reason": "论文虽为综述但主题聚焦音频-视觉学习而非离散音频token。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦深度音视学习综述而非离散音频token主题，相关性偏弱。",
-      "fallback_confidence": 0.86
+      "reason": "本文是深度音频视觉学习综述，未明确聚焦离散音频token主题。",
+      "confidence": 0.86
     },
     {
       "arxiv_id": "2001.02877",
       "title": "Short-Range Audio Channels Security: Survey of Mechanisms, Applications, and Research Challenges",
       "abstract": "Short-range audio channels have a few distinguishing characteristics: ease of use, low deployment costs, and easy to tune frequencies, to cite a few. Moreover, thanks to their seamless adaptability to the security context, many techniques and tools based on audio signals have been recently proposed. However, while the most promising solutions are turning into valuable commercial products, acoustic channels are increasingly used also to launch attacks against systems and devices, leading to security concerns that could thwart their adoption. To provide a rigorous, scientific, security-oriented review of the field, in this paper we survey and classify methods, applications, and use-cases rooted on short-range audio channels for the provisioning of security services---including Two-Factor Authentication techniques, pairing solutions, device authorization strategies, defense methodologies, and attack schemes. Moreover, we also point out the strengths and weaknesses deriving from the use of short-range audio channels. Finally, we provide open research issues in the context of short-range audio channels security, calling for contributions from both academia and industry.",
       "decision": "no",
-      "reason": "该文虽为短程音频信道安全的综述，但主题与离散音频token无直接对应关系。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦短距音频通道安全机制与应用综述，和离散音频令牌主题关联较弱。",
-      "fallback_confidence": 0.78
-    },
-    {
-      "arxiv_id": "1912.10235",
-      "title": "An overview of the history of projective representations (spin representations) of groups",
-      "abstract": "An overview of the history of projective representations (= spin representations) of groups, preceded by the prehistory of studies on the theory of quaternion due to Rodrigues and Hamilton. Beginning with Schur, we cover many mathematicians until today, and also physicists Pauli and Dirac. This is a self translation of Appendix A of my book \"Introduction to the theory of projective representations of groups\" in Japanese, 2018, Sugakushobo, and may serve as an introduction to our paper arXiv: 1804.06063 [math.RT] which will appear in Kyoto J. Math.",
-      "decision": "no",
-      "reason": "该文虽为概述但主题是群的射影表示历史，与离散音频token无直接关联。",
-      "confidence": 0.99,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文讨论群的射影表示历史，与离散音频token主题无关。",
-      "fallback_confidence": 0.99
+      "reason": "该文虽为短程音频信道安全综述，但主题并非离散音频token。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "1909.11549",
       "title": "MPEG-H Audio for Improving Accessibility in Broadcasting and Streaming",
       "abstract": "Broadcasting and streaming services still suffer from various levels of accessibility barriers for a significant portion of the population, limiting the access to information and culture, and in the most severe cases limiting the empowerment of people. This paper provides a brief overview of some of the most common accessibility barriers encountered. It then gives a short introduction to object-based audio (OBA) production and transport, focusing on the aspects relevant for lowering accessibility barriers. MPEG-H Audio is used as a concrete example of an OBA system already deployed. Two example cases (dialog enhancement and audio description) are used to demonstrate in detail the simplicity of producing MPEG-H Audio content providing improved accessibility. Several other possibilities are outlined briefly. We show that using OBA for broadcasting and streaming content allows offering several accessibility features in a flexible manner, requiring only small changes to the existing production workflow, assuming the receiver supports the functionality.",
       "decision": "no",
-      "reason": "该文是关于MPEG-H与无障碍广播的概述性介绍，并非明确的离散音频token综述文章。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦MPEG-H对象化音频与无障碍应用，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.9
+      "reason": "该文虽提到“brief overview”，但主要讨论MPEG-H与广播无障碍音频，并非离散音频token主题的明确综述。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "1904.10990",
       "title": "A Robust Approach for Securing Audio Classification Against Adversarial Attacks",
       "abstract": "Adversarial audio attacks can be considered as a small perturbation unperceptive to human ears that is intentionally added to the audio signal and causes a machine learning model to make mistakes. This poses a security concern about the safety of machine learning models since the adversarial attacks can fool such models toward the wrong predictions. In this paper we first review some strong adversarial attacks that may affect both audio signals and their 2D representations and evaluate the resiliency of the most common machine learning model, namely deep learning models and support vector machines (SVM) trained on 2D audio representations such as short time Fourier transform (STFT), discrete wavelet transform (DWT) and cross recurrent plot (CRP) against several state-of-the-art adversarial attacks. Next, we propose a novel approach based on pre-processed DWT representation of audio signals and SVM to secure audio systems against adversarial attacks. The proposed architecture has several preprocessing modules for generating and enhancing spectrograms including dimension reduction and smoothing. We extract features from small patches of the spectrograms using speeded up robust feature (SURF) algorithm which are further used to generate a codebook using the K-Means++ algorithm. Finally, codewords are used to train a SVM on the codebook of the SURF-generated vectors. All these steps yield to a novel approach for audio classification that provides a good trade-off between accuracy and resilience. Experimental results on three environmental sound datasets show the competitive performance of proposed approach compared to the deep neural networks both in terms of accuracy and robustness against strong adversarial attacks.",
       "decision": "no",
-      "reason": "该文主要提出防御音频对抗攻击的方法，仅简要回顾相关攻击而非明确的综述工作，且与离散音频token主题不直接相关。",
-      "confidence": 0.93,
-      "fallback_decision": "no",
-      "fallback_reason": "本文聚焦音频分类对抗攻击防御而非离散音频token表示与方法体系。",
-      "fallback_confidence": 0.84
-    },
-    {
-      "arxiv_id": "1812.00608",
-      "title": "Macdonald trees and determinants of representations for finite Coxeter groups",
-      "abstract": "Every irreducible odd dimensional representation of the $n$'th symmetric or hyperoctahedral group, when restricted to the $(n-1)$'th, has a unique irreducible odd-dimensional constituent. Furthermore, the subgraph induced by odd-dimensional representations in the Bratteli diagram of symmetric and hyperoctahedral groups is a binary tree with a simple recursive description. We survey the description of this tree, known as the Macdonald tree, for symmetric groups, from our earlier work. We describe analogous results for hyperoctahedral groups.\n  A partition $λ$ of $n$ is said to be chiral if the corresponding irreducible representation $V_λ$ of $S_n$ has non-trivial determinant. We review our previous results on the structure and enumeration of chiral partitions, and subsequent extension to all Coxeter groups by Ghosh and Spallone. Finally we show that the numbers of odd and chiral partitions track each other closely.",
-      "decision": "no",
-      "reason": "该文虽自称综述但主题为有限Coxeter群表示论，与离散音频token无关。",
-      "confidence": 0.99,
-      "fallback_decision": "no",
-      "fallback_reason": "论文讨论有限Coxeter群表示与Macdonald树等组合表示论内容，与离散音频token主题无关。",
-      "fallback_confidence": 0.99
+      "reason": "该文主要研究音频分类对抗攻击防御且仅简要回顾攻击方法，并非围绕离散音频token的综述工作。",
+      "confidence": 0.95
     },
     {
       "arxiv_id": "1808.06152",
       "title": "On Design of Problem Token Questions in Quality of Experience Surveys",
       "abstract": "User surveys for Quality of Experience (QoE) are a critical source of information. In addition to the common \"star rating\" used to estimate Mean Opinion Score (MOS), more detailed survey questions (problem tokens) about specific areas provide valuable insight into the factors impacting QoE. This paper explores two aspects of the problem token questionnaire design. First, we study the bias introduced by fixed question order, and second, we study the challenge of selecting a subset of questions to keep the token set small. Based on 900,000 calls gathered using a randomized controlled experiment from a live system, we find that the order bias can be significantly reduced by randomizing the display order of tokens. The difference in response rate varies based on token position and display design. It is worth noting that the users respond to the randomized-order variant at levels that are comparable to the fixed-order variant. The effective selection of a subset of token questions is achieved by extracting tokens that provide the highest information gain over user ratings. This selection is known to be in the class of NP-hard problems. We apply a well-known greedy submodular maximization method on our dataset to capture 94% of the information using just 30% of the questions.",
       "decision": "no",
-      "reason": "该论文是关于QoE问卷问题设计的研究且未明确为综述，和离散音频token主题不直接相关。",
-      "confidence": 0.95,
-      "fallback_decision": "no",
-      "fallback_reason": "该论文讨论QoE问卷中的问题token设计与信息增益选取，和离散音频token主题无直接关联。",
-      "fallback_confidence": 0.92
+      "reason": "该论文是QoE用户调查问题设计研究，并非关于离散音频标记且未明确为综述类文章。",
+      "confidence": 0.97
     },
     {
       "arxiv_id": "1701.05611",
       "title": "Comprehensive Review of Audio Steganalysis Methods",
       "abstract": "Recently, merging signal processing techniques with information security services has found a lot of attention. Steganography and steganalysis are among those trends. Like their counterparts in cryptology, steganography and steganalysis are in a constant battle. Steganography methods try to hide the presence of covert messages in innocuous-looking data, whereas steganalysis methods try to reveal existence of such messages and to break steganography methods. The stream nature of audio signals, their popularity, and their wide spread usage make them very suitable media for steganography. This has led to a very rich literature on both steganography and steganalysis of audio signals. This paper intends to conduct a comprehensive review of audio steganalysis methods aggregated over near fifteen years. Furthermore, we implement some of the most recent audio steganalysis methods and conduct a comparative analysis on their performances. Finally, the paper provides some possible directions for future researches on audio steganalysis.",
       "decision": "no",
-      "reason": "本文是音频隐写分析方法综述，与离散音频token主题无直接关联。",
-      "confidence": 0.96,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦音频隐写分析综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.93
-    },
-    {
-      "arxiv_id": "1611.10000",
-      "title": "Introduction to quiver varieties -- for ring and representation theoriests",
-      "abstract": "We review the definition of quiver varieties and their relation to representation theory of Kac-Moody Lie algebras. Target readers are ring and representation theorists. We emphasize important roles of first extension groups of the preprojective algebra associated with a quiver.",
-      "decision": "no",
-      "reason": "该文虽为综述性介绍，但主题是箭图簇与表示论，与离散音频标记无直接关联。",
-      "confidence": 0.97,
-      "fallback_decision": "no",
-      "fallback_reason": "论文讨论箭图簇与表示论，与离散音频token主题无关。",
-      "fallback_confidence": 0.98
+      "reason": "本文虽为音频隐写分析综述，但主题与离散音频tokens无直接关联。",
+      "confidence": 0.91
     },
     {
       "arxiv_id": "1607.01092",
       "title": "Incorporating prior knowledge in medical image segmentation: a survey",
       "abstract": "Medical image segmentation, the task of partitioning an image into meaningful parts, is an important step toward automating medical image analysis and is at the crux of a variety of medical imaging applications, such as computer aided diagnosis, therapy planning and delivery, and computer aided interventions. However, the existence of noise, low contrast and objects' complexity in medical images are critical obstacles that stand in the way of achieving an ideal segmentation system. Incorporating prior knowledge into image segmentation algorithms has proven useful for obtaining more accurate and plausible results. This paper surveys the different types of prior knowledge that have been utilized in different segmentation frameworks. We focus our survey on optimization-based methods that incorporate prior information into their frameworks. We review and compare these methods in terms of the types of prior employed, the domain of formulation (continuous vs. discrete), and the optimization techniques (global vs. local). We also created an interactive online database of existing works and categorized them based on the type of prior knowledge they use. Our website is interactive so that researchers can contribute to keep the database up to date. We conclude the survey by discussing different aspects of designing an energy functional for image segmentation, open problems, and future perspectives.",
       "decision": "no",
-      "reason": "该文虽为医学图像分割先验知识综述，但与离散音频token主题无直接关联。",
-      "confidence": 0.97,
-      "fallback_decision": "no",
-      "fallback_reason": "该文聚焦医学图像分割中的先验知识综述，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.95
+      "reason": "该文虽为医学图像分割的综述，但与离散音频token主题无直接关联。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "1606.05670",
       "title": "Discrete trigonometric and hyperbolic systems: An overview",
       "abstract": "In this paper we present an overview of results for discrete trigonometric and hyperbolic systems. These systems are discrete analogues of trigonometric and hyperbolic linear Hamiltonian systems. We show results which can be viewed as discrete n-dimensional extensions of scalar continuous trigonometric and hyperbolic formulas",
       "decision": "no",
-      "reason": "虽然是概述性论文，但内容关于离散三角与双曲系统，与离散音频token主题无直接关联。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "论文讨论离散三角与双曲Hamilton系统综述，与离散音频token主题无关。",
-      "fallback_confidence": 0.98
-    },
-    {
-      "arxiv_id": "1603.05230",
-      "title": "Restricted rational Cherednik algebras",
-      "abstract": "We give an overview of the representation theory of restricted rational Cherednik algebras. These are certain finite-dimensional quotients of rational Cherednik algebras at t=0. Their representation theory is connected to the geometry of the Calogero-Moser space, and there is a lot of evidence that they contain certain information about Hecke algebras even though the precise connection is so far unclear. We outline the basic theory along with some open problems and conjectures, and give explicit results in the cyclic and dihedral cases.",
-      "decision": "no",
-      "reason": "文章虽为概述但主题是受限有理Cherednik代数，与离散音频token无直接关联。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "论文讨论的是代数表示论与Cherednik代数，与离散音频token主题无直接关联。",
-      "fallback_confidence": 0.98
-    },
-    {
-      "arxiv_id": "1511.02145",
-      "title": "Low-dimensional topology, low-dimensional field theory and representation theory",
-      "abstract": "Structures in low-dimensional topology and low-dimensional geometry -- often combined with ideas from (quantum) field theory -- can explain and inspire concepts in algebra and in representation theory and their categorified versions. We present a personal view on some of these instances which have appeared within the Research Priority Programme SPP 1388 ``Representation theory''.",
-      "decision": "no",
-      "reason": "題目與摘要未明確表述為綜述且內容聚焦於低維拓撲與表徵論，與離散音訊token主題無關。",
-      "confidence": 0.97,
-      "fallback_decision": "no",
-      "fallback_reason": "论文讨论低维拓扑与量子场论及表示论的联系，与离散音频token主题无关。",
-      "fallback_confidence": 0.96
+      "reason": "论文概述的是离散三角与双曲系统，与离散音频token主题无直接关系。",
+      "confidence": 0.98
     },
     {
       "arxiv_id": "1502.06811",
       "title": "A Review of Audio Features and Statistical Models Exploited for Voice Pattern Design",
       "abstract": "Audio fingerprinting, also named as audio hashing, has been well-known as a powerful technique to perform audio identification and synchronization. It basically involves two major steps: fingerprint (voice pattern) design and matching search. While the first step concerns the derivation of a robust and compact audio signature, the second step usually requires knowledge about database and quick-search algorithms. Though this technique offers a wide range of real-world applications, to the best of the authors' knowledge, a comprehensive survey of existing algorithms appeared more than eight years ago. Thus, in this paper, we present a more up-to-date review and, for emphasizing on the audio signal processing aspect, we focus our state-of-the-art survey on the fingerprint design step for which various audio features and their tractable statistical models are discussed.",
       "decision": "no",
-      "reason": "该文虽为音频指纹设计的综述，但主题并非离散音频token。",
-      "confidence": 0.92,
-      "fallback_decision": "no",
-      "fallback_reason": "论文聚焦音频指纹特征与统计模型综述，与离散音频token主题关联较弱。",
-      "fallback_confidence": 0.86
+      "reason": "本文是关于音频指纹特征与统计模型的综述，未主要讨论离散音频token主题。",
+      "confidence": 0.93
     },
     {
       "arxiv_id": "1501.06499",
       "title": "The origin of discrete symmetries in F-theory models",
       "abstract": "While non-abelian groups are undoubtedly the cornerstone of Grand Unified Theories (GUTs), phenomenology shows that the role of abelian and discrete symmetries is equally important in model building. The latter are the appropriate tool to suppress undesired proton decay operators and various flavour violating interactions, to generate a hierarchical fermion mass spectrum, etc. In F-theory, GUT symmetries are linked to the singularities of the elliptically fibred K3 manifolds; they are of ADE type and have been extensively discussed in recent literature. In this context, abelian and discrete symmetries usually arise either as a subgroup of the non-abelian symmetry or from a non-trivial Mordell-Weil group associated to rational sections of the elliptic fibration. In this note we give a short overview of the current status and focus in models with rank-one Mordell-Weil group.",
       "decision": "no",
-      "reason": "论文虽有简短概述但主题是F理论离散对称性起源，且非明确综述且与离散音频token无关。",
-      "confidence": 0.98,
-      "fallback_decision": "no",
-      "fallback_reason": "论文讨论F理论模型中的离散对称性起源，与离散音频token主题无关。",
-      "fallback_confidence": 0.98
+      "reason": "论文虽提到“short overview”但主题是F-theory离散对称性起源，与离散音频tokens无关。",
+      "confidence": 0.98
     }
   ],
-  "fallback": {
-    "enabled": true,
-    "triggered": true,
-    "min_selected": 2,
-    "selected_before": 1,
-    "selected_after": 2,
-    "added": [
-      "2502.06490"
-    ],
-    "prompt_path": "resources/LLM/prompts/filter_seed/llm_screening_fallback.md"
-  },
   "excluded_cutoff_candidate": "2506.10274"
 }
