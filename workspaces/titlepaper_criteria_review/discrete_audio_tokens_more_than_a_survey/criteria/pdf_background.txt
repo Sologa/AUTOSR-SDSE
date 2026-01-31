@@ -1,0 +1,35 @@
+### PDF Topic Definition
+本系統性回顧聚焦於「離散音訊標記（Discrete Audio Tokens）」的技術與應用。離散音訊標記是一種將連續音訊訊號壓縮為可分類、低維度的離散單元（token），目標在於同時保留知覺品質、語音內容與說話者特徵，並提升儲存、傳輸與推論效率。該主題涵蓋語音、音樂與一般音訊三大領域，並從編碼-解碼架構、量化技術、訓練範式、串流能力與應用場域等面向，進行分類與評估。評估重點包括重建品質、下游任務表現（如語音辨識、語者驗證、情感辨識、音樂生成等），以及作為音訊語言模型（Acoustic LLM）基礎的能力。
+
+### PDF Key Trends
+- 神經編碼器（Neural Codec）逐漸取代傳統編碼器，並以離散標記作為核心中介。
+- 量化技術多元化（如RVQ、SVQ、FSQ、K-means等），並出現多層次、多尺度設計。
+- 訓練範式從後訓練（post-training）逐步轉向端到端聯合訓練（joint training），並大量引入自監督學習（SSL）與語意蒸餾（semantic distillation）。
+- 評估標準趨向多元，包括信號重建（Codec-SUPERB, VERSA）、下游任務（DASB）、語音語言模型（SALMon, Zero-resource）等綜合指標。
+- 音訊標記已成為多模態大型語言模型（LLM）整合語音/音樂/音訊的關鍵橋樑，並廣泛應用於語音合成、語音轉換、音樂生成等新興任務。
+- 研究資料來源橫跨公開語音語料庫（LibriSpeech, VoxCeleb, CommonVoice）、音樂資料集（MUSDB, FMA）及音訊事件集（AudioSet, ESC-50）等。
+
+### PDF Capability Highlights
+- 能夠將連續音訊訊號有效轉換為緊湊、可分類的離散標記。
+- 支援多種量化策略（RVQ, SVQ, FSQ, K-means等）並可靈活調整位元率與碼本結構。
+- 提供端到端訓練流程，並可結合語音、音樂及一般音訊多域資料。
+- 具備串流（streaming）處理能力，適用於低延遲應用。
+- 能與大型語言模型（LLM）無縫整合，支援多模態生成與理解任務。
+
+### PDF Inclusion Signals
+- 關鍵詞：「discrete audio token」、「neural codec」、「vector quantization」、「semantic distillation」、「audio language model」
+- 涉及多域應用（speech, music, audio）之離散標記技術（見 Table 1, Table 2）
+- 具體量化方法討論（RVQ, SVQ, FSQ, K-means等，見 Section 2.2）
+- 涉及下游任務或語音/音樂/音訊生成、辨識、分離等應用（見 Section 3.2, 3.3）
+- 評估指標涵蓋重建品質、語音/音樂/音訊下游任務、語音語言模型（見 Section 3）
+
+### PDF Exclusion Signals
+- 僅討論傳統連續特徵（continuous features）或未涉及離散標記化的音訊處理技術。
+- 只聚焦於單一領域（如僅語音壓縮，無跨域比較或多任務應用）。
+- 未涉及量化技術、離散標記產生流程或相關架構設計。
+- 僅為語音合成/辨識/分離等應用介紹，未與離散標記技術結合。
+- 缺乏對下游任務、生成任務或語音語言模型的實證評估。
+
+### PDF Notes
+- Discrete_Audio_Tokens_More_Than_a_Survey.pdf: 
+  - 提供離散音訊標記領域最全面的分類、技術回顧與多維度基準評測，涵蓋語音、音樂及一般音訊，並深入探討量化技術、訓練範式、串流能力與跨域應用；同時提出統一的分類法與開放基準，對未來研究趨勢、挑戰與設計原則給出具體建議。

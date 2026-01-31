@@ -1,0 +1,215 @@
+{
+  "topic": "Discrete Audio Tokens: More Than a Survey!",
+  "recency_hint": "過去3年",
+  "mode": "pdf+web",
+  "generated_at": "2026-01-29T11:47:07.357544+00:00",
+  "cutoff_before_date": null,
+  "exclude_title": null,
+  "source_validation": null,
+  "search_prompt": "你是系統性回顧助理。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n主題：Discrete Audio Tokens: More Than a Survey!。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n請先以純文字整理資訊，不要輸出 JSON、Markdown 表格或程式碼區塊。\n依序撰寫下列段落：\n### Topic Definition\n- 以 1–2 段中文精準定義主題，可包含背景脈絡與核心能力描述。\n### Summary\n- 以 2–3 句中文概述趨勢與亮點。\n### Summary Topics\n- 列 3–4 個主題節點，格式為 `S1: 描述`。\n### Inclusion Criteria (Required)\n- 僅保留必須同時滿足的條件：① 主題定義條款（以『主題定義：』+定義原文開頭）、② 提供英文可評估性的條件。\n- 每條附上來源 (source) 與對應 topic id；一般條件需為 https。\n### Inclusion Criteria (Any-of Groups)\n- 針對技術覆蓋或差異化條件建立至少一個群組，格式為 `- Group 名稱` 搭配 `* Option:`，各自附上 source 與 topic ids。\n- 群組語意為 OR：只需滿足任一群組中的任一 option 即可。\n- 若筆記中原本在 Required 段落出現多個技術細節條件，請搬移到任選群組，不要重複留在 Required。\n- 若確實沒有任選條件，再寫 `(none)`。\n### Exclusion Criteria\n- 條列需要排除的情境，同樣附來源與 topic ids；若屬於系統設定（如 exclude_title），可標示 source: internal 或留空。\n- source 必須能直接支持該排除條件；若找不到合適來源，請用 internal。\n### Sources\n- 逐行呈現所有引用來源 (https)，不包含 internal/空白來源。\n- 優先引用一手論文頁（arXiv/期刊/會議/出版社），避免動態排行榜、搜尋結果頁或彙整站作為核心依據。",
+  "structured_prompt_template": "你是系統性回顧助理。\n主題：Discrete Audio Tokens: More Than a Survey!。\n我們正準備撰寫與該主題相關的 survey/systematic review，需產出可直接用於收錄/排除的篩選 paper 規則。\n請使用內建 web search，且至少引用 3 個 https 來源。\n輸出語言：全部以中文撰寫。\n來源頁面需提供明確年月日（YYYY-MM-DD）；僅有年份或年月者視為不合格來源。\n僅輸出單一 JSON 物件，鍵為：topic_definition、summary、summary_topics、inclusion_criteria、exclusion_criteria；JSON 外勿輸出其他文字。\ntopic_definition：以中文撰寫，1–2 段清楚定義主題，可補充背景脈絡與核心能力描述。\ntopic_definition 的來源應優先引用一手論文頁（如 arXiv/期刊/會議頁），避免彙整站、排行榜或動態搜尋結果頁。\nsummary：中文、簡潔扼要。\nsummary_topics：列出 3–4 項主題，每項含 id（如 S1、S2）與 description；用詞與 summary 一致。\ninclusion_criteria：每條含 criterion、source、topic_ids（至少 1 個）；僅能使用正向條件（不得寫否定句）。\ninclusion_criteria 的第一條必須以『主題定義：』+ topic_definition 原文開頭，之後接上『—』或『:』與具體條件（需逐字包含 topic_definition）。\ninclusion_criteria 中至少一條需明確要求英文（例如提供英文全文或英文評估語料）。\n若條件之間為 OR 關係，請放入 inclusion_criteria.any_of 的 options。\nany_of 群組語意：只需滿足「任一群組中的任一 option」即可；群組彼此為 OR，而非全部都必須滿足。\ninclusion_criteria 的範圍僅量廣泛，不可限縮在特定的小範圍內。\nexclusion_criteria：列『具體剔除情境』，不可是 inclusion 的鏡像否定（例如僅單一語言或單一應用、與主題無關）；每條同樣含 source、topic_ids。\nsource 規則：一般條件必須是 https；若條件屬於系統設定（例如 exclude_title），可用 source=internal 或留空，且這類來源不要放入 sources 清單。\n來源一致性：source 必須能直接支持該條件，不可使用會與條件相矛盾的來源；若找不到合適來源，請用 source=internal。\n來源選擇：避免動態排行榜、搜尋結果頁或彙整站，優先使用一手論文頁或正式出版頁。\n一致性：每條 criterion 必須對應至少一個 summary topic（以 topic_ids 連結）。",
+  "web_search_notes": "以下內容依照你的指示整理，可直接用於系統性回顧（systematic review）之前期的 paper 篩選規則設計，並以「Discrete Audio Tokens: More Than a Survey!」為核心主題進行擴展與操作化定義。\n\n---\n\n### Topic Definition\n\n離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號（如波形或頻譜特徵）透過量化與編碼模型，轉換為有限字彙表中的離散符號序列之方法。此類方法通常建立於編碼器–解碼器架構之上，並結合向量量化（如 VQ、RVQ、FSQ 等）或聚類技術，使音訊得以像文字一樣被語言模型處理。其核心目標是在可控的位元率與標記長度下，盡可能保留語音內容、語義資訊、說話者特徵與感知品質。\n\n在近年大型語言模型與多模態模型快速發展的背景下，離散音訊標記被視為連結音訊與文字世界的關鍵中介表示。相較於連續特徵，離散標記更適合自回歸建模、跨模態對齊與大規模訓練，因此被廣泛應用於語音生成、音樂生成、語音辨識、語音理解與音訊語言模型等任務，並逐漸形成一個跨語音、音樂與一般聲音的研究體系。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n---\n\n### Summary\n\n整體趨勢顯示，離散音訊標記已從早期的壓縮導向設計，演進為服務於生成式與語言導向任務的通用表徵。近期研究特別關注不同量化策略、語義與聲學標記的取捨，以及在統一基準下的可比較性。系統化的分類與基準評測逐漸成為該領域的重要研究基礎。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n---\n\n### Summary Topics\n\nS1: 離散音訊標記的編碼器–解碼器與量化設計  \nS2: 語義標記（semantic tokens）與聲學標記（acoustic tokens）的區分  \nS3: 離散音訊標記在生成式與判別式任務中的效能評估  \nS4: 跨語音、音樂與一般音訊的統一基準與比較方法  \n\n---\n\n### Inclusion Criteria (Required)\n\n1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊表示轉換為可索引、有限集合的離散符號序列，並可用於下游音訊或語言相關任務之方法。  \n   英文可評估性條件：論文需明確使用 “discrete audio tokens”, “audio tokenization”, “acoustic tokens” 或等價英文術語描述其方法或研究問題。  \n   source: https://arxiv.org/abs/2506.10274 ，topic ids: S1, S2  \n\n2. 研究內容需以音訊（語音、音樂或一般聲音）為主要處理對象，而非僅為影像或純文字離散化方法的延伸應用。  \n   英文可評估性條件：摘要或方法段落中需明確出現 “speech”, “audio”, “music” 等作為主要資料模態。  \n   source: https://arxiv.org/abs/2406.14294 ，topic ids: S3, S4  \n\n3. 論文需為可公開取得之英文學術文獻（如 arXiv、期刊或會議論文），並包含明確的方法描述與實驗或分析。  \n   英文可評估性條件：全文以英文撰寫，且包含 “method”, “experiment”, 或 “evaluation” 等結構化章節。  \n   source: https://arxiv.org/abs/2506.10274 ，topic ids: S4  \n\n---\n\n### Inclusion Criteria (Any-of Groups)\n\n- Group A：量化與標記生成技術  \n  * Option: 使用向量量化（如 VQ-VAE、RVQ、FSQ、或其變體）來生成離散音訊標記。  \n    source: https://arxiv.org/abs/2506.10274 ，topic ids: S1  \n\n- Group B：任務導向或評測導向研究  \n  * Option: 將離散音訊標記系統性地評估於一個或多個下游任務（如語音辨識、語音生成、音訊字幕、TTS 等）。  \n    source: https://arxiv.org/abs/2505.14989 ，topic ids: S3  \n\n- Group C：基準或比較性研究  \n  * Option: 提供多種離散音訊標記方法的統一比較、排行榜或基準資料集。  \n    source: https://arxiv.org/abs/2406.14294 ，topic ids: S4  \n\n---\n\n### Exclusion Criteria\n\n- 僅討論連續音訊表示（continuous representations）且明確排除離散化設計之研究。  \n  source: https://blog.yueqianlin.com/daily-publication/250910/ ，topic ids: S1  \n\n- 僅將離散化作為輔助步驟，且研究重心不在音訊標記設計、分析或評估（例如僅聚焦文字或影像 token）。  \n  source: internal ，topic ids: S1  \n\n- 非學術性文章（如僅為部落格、論壇貼文，且無完整方法與實驗）。  \n  source: internal ，topic ids: S4  \n\n---\n\n### Sources\n\nhttps://arxiv.org/abs/2506.10274  \nhttps://arxiv.org/abs/2406.14294  \nhttps://arxiv.org/abs/2505.14989  \nhttps://blog.yueqianlin.com/daily-publication/250910/",
+  "structured_payload": {
+    "topic": {
+      "title": "Discrete Audio Tokens: More Than a Survey!",
+      "topic_definition": "離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號（如波形或頻譜特徵）透過編碼器–解碼器與量化/聚類等機制，轉換為有限字彙表中的離散符號序列（tokens），以在可控位元率與序列長度下，盡可能保留知覺品質、語音內容/語義資訊與說話者特徵，並提升儲存、傳輸與推論效率；此表示可作為音訊語言模型或多模態模型的中介表徵，並用於語音、音樂與一般音訊的生成式與判別式下游任務之方法與評估。",
+      "scope_notes": [
+        "涵蓋語音、音樂、一般音訊（audio events/sounds）之離散化表示。",
+        "關注：編碼-解碼架構、量化策略（RVQ/SVQ/FSQ/K-means 等）、訓練範式（端到端/聯合訓練、SSL、semantic distillation）、串流/低延遲能力、以及基準與評測（重建品質、下游任務、作為音訊語言模型基礎）。"
+      ],
+      "summary_topics": [
+        {
+          "id": "S1",
+          "name": "編碼器–解碼器與量化/標記生成設計"
+        },
+        {
+          "id": "S2",
+          "name": "語義標記（semantic tokens）與聲學標記（acoustic tokens）的區分與取捨"
+        },
+        {
+          "id": "S3",
+          "name": "生成式與判別式下游任務的效能評估"
+        },
+        {
+          "id": "S4",
+          "name": "跨語音/音樂/一般音訊的統一基準與可比較性"
+        }
+      ]
+    },
+    "inclusion_criteria": {
+      "required": [
+        {
+          "id": "R1",
+          "clause": "主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊表示轉換為可索引、有限集合的離散符號序列，並可用於下游音訊或語言相關任務之方法。",
+          "english_screening_clause": "論文需明確使用 “discrete audio tokens”, “audio tokenization”, “acoustic tokens” 或等價英文術語描述其方法或研究問題。",
+          "source": "https://arxiv.org/abs/2506.10274",
+          "topic_ids": [
+            "S1",
+            "S2"
+          ]
+        },
+        {
+          "id": "R2",
+          "clause": "研究內容需以音訊（語音、音樂或一般聲音）為主要處理對象，而非僅為影像或純文字離散化方法的延伸應用。",
+          "english_screening_clause": "摘要或方法段落中需明確出現 “speech”, “audio”, “music” 等作為主要資料模態。",
+          "source": "https://arxiv.org/abs/2406.14294",
+          "topic_ids": [
+            "S3",
+            "S4"
+          ]
+        },
+        {
+          "id": "R3",
+          "clause": "論文需為可公開取得之英文學術文獻（如 arXiv、期刊或會議論文），並包含明確的方法描述與實驗或分析。",
+          "english_screening_clause": "全文以英文撰寫，且包含 “method”, “experiment”, 或 “evaluation” 等結構化章節。",
+          "source": "https://arxiv.org/abs/2506.10274",
+          "topic_ids": [
+            "S4"
+          ]
+        }
+      ],
+      "any_of_groups": [
+        {
+          "group_id": "A",
+          "group_name": "量化與標記生成技術",
+          "options": [
+            {
+              "id": "A1",
+              "criterion": "使用向量量化或聚類式離散化（例如 VQ-VAE、RVQ、SVQ、FSQ、K-means 或其變體）來生成離散音訊標記，並描述碼本/位元率/層級或多尺度設計等關鍵設定。",
+              "source": "https://arxiv.org/abs/2506.10274",
+              "topic_ids": [
+                "S1"
+              ]
+            }
+          ]
+        },
+        {
+          "group_id": "B",
+          "group_name": "任務導向或評測導向研究",
+          "options": [
+            {
+              "id": "B1",
+              "criterion": "將離散音訊標記方法以實證方式評估於一個或多個下游任務（例如 ASR、語音/音樂生成、TTS/VC、音訊字幕、語者/情感/事件辨識、分離等），或作為音訊語言模型/多模態模型之中介表示進行評估。",
+              "source": "https://arxiv.org/abs/2505.14989",
+              "topic_ids": [
+                "S3"
+              ]
+            }
+          ]
+        },
+        {
+          "group_id": "C",
+          "group_name": "基準或比較性研究",
+          "options": [
+            {
+              "id": "C1",
+              "criterion": "提供多種離散音訊標記方法的統一比較（同一資料/指標/協定下）、排行榜或基準資源（例如跨語音/音樂/一般音訊或跨任務的評測套件），並報告重建與/或下游任務表現。",
+              "source": "https://arxiv.org/abs/2406.14294",
+              "topic_ids": [
+                "S4"
+              ]
+            }
+          ]
+        }
+      ],
+      "logic_note": "納入需同時滿足所有 required 條款，並且至少符合任一 any_of_groups 之 option（A/B/C 任一）。"
+    },
+    "exclusion_criteria": [
+      {
+        "id": "E1",
+        "criterion": "僅討論連續音訊表示（continuous representations），且研究貢獻不包含將音訊離散化為可索引 tokens 的設計、分析或評估。",
+        "source": "https://blog.yueqianlin.com/daily-publication/250910/",
+        "topic_ids": [
+          "S1"
+        ]
+      },
+      {
+        "id": "E2",
+        "criterion": "離散化僅作為次要輔助步驟，研究重心不在音訊標記（token）設計、訓練、分析或系統性評估；主要貢獻在文字或影像 token，音訊僅為附帶應用或示例。",
+        "source": "https://arxiv.org/abs/2506.10274",
+        "topic_ids": [
+          "S1"
+        ]
+      },
+      {
+        "id": "E3",
+        "criterion": "非英文或不可公開取得之學術文獻，或缺乏可檢核的方法描述與實驗/評估（例如僅意見性文章、未提供實驗或分析）。",
+        "source": "https://arxiv.org/abs/2506.10274",
+        "topic_ids": [
+          "S4"
+        ]
+      }
+    ],
+    "data_extraction_fields": {
+      "bibliography": [
+        "title",
+        "authors",
+        "year",
+        "venue_or_platform",
+        "url",
+        "version"
+      ],
+      "study_characteristics": [
+        "audio_domain (speech/music/general audio)",
+        "primary_task_type (tokenization/codec/benchmark/ALM integration/downstream evaluation)",
+        "model_architecture (encoder/decoder, autoregressive/non-AR, streaming-capable)",
+        "token_type (acoustic/semantic/hybrid)",
+        "training_paradigm (post-training/joint training/SSL/semantic distillation)",
+        "quantization_or_discretization_method (VQ/RVQ/SVQ/FSQ/K-means/other)",
+        "codebook_structure (size, levels, multi-codebook, hierarchical/multi-scale)",
+        "bitrate_or_token_rate",
+        "latency_or_streaming_constraints"
+      ],
+      "datasets": [
+        "dataset_names",
+        "dataset_domain",
+        "dataset_size_or_hours (if reported)",
+        "licenses_or_availability (if reported)"
+      ],
+      "evaluation": [
+        "reconstruction_metrics (e.g., MOS, PESQ, SI-SDR, etc., as reported)",
+        "benchmark_suites (e.g., Codec-SUPERB/VERSA/DASB/etc., as reported)",
+        "downstream_tasks_and_metrics",
+        "comparators_or_ablation",
+        "compute_reporting (params/FLOPs/training time, if reported)"
+      ],
+      "outcomes_for_synthesis": [
+        "key_findings",
+        "tradeoffs (quality vs bitrate; semantic vs acoustic; latency vs quality)",
+        "generalization (cross-domain/cross-speaker/cross-dataset)",
+        "limitations"
+      ]
+    },
+    "sources_used": [
+      {
+        "type": "web",
+        "url": "https://arxiv.org/abs/2506.10274"
+      },
+      {
+        "type": "web",
+        "url": "https://arxiv.org/abs/2406.14294"
+      },
+      {
+        "type": "web",
+        "url": "https://arxiv.org/abs/2505.14989"
+      },
+      {
+        "type": "web",
+        "url": "https://blog.yueqianlin.com/daily-publication/250910/"
+      }
+    ]
+  },
+  "pdf_background": "### PDF Topic Definition\n本系統性回顧聚焦於「離散音訊標記（Discrete Audio Tokens）」的技術與應用。離散音訊標記是一種將連續音訊訊號壓縮為可分類、低維度的離散單元（token），目標在於同時保留知覺品質、語音內容與說話者特徵，並提升儲存、傳輸與推論效率。該主題涵蓋語音、音樂與一般音訊三大領域，並從編碼-解碼架構、量化技術、訓練範式、串流能力與應用場域等面向，進行分類與評估。評估重點包括重建品質、下游任務表現（如語音辨識、語者驗證、情感辨識、音樂生成等），以及作為音訊語言模型（Acoustic LLM）基礎的能力。\n\n### PDF Key Trends\n- 神經編碼器（Neural Codec）逐漸取代傳統編碼器，並以離散標記作為核心中介。\n- 量化技術多元化（如RVQ、SVQ、FSQ、K-means等），並出現多層次、多尺度設計。\n- 訓練範式從後訓練（post-training）逐步轉向端到端聯合訓練（joint training），並大量引入自監督學習（SSL）與語意蒸餾（semantic distillation）。\n- 評估標準趨向多元，包括信號重建（Codec-SUPERB, VERSA）、下游任務（DASB）、語音語言模型（SALMon, Zero-resource）等綜合指標。\n- 音訊標記已成為多模態大型語言模型（LLM）整合語音/音樂/音訊的關鍵橋樑，並廣泛應用於語音合成、語音轉換、音樂生成等新興任務。\n- 研究資料來源橫跨公開語音語料庫（LibriSpeech, VoxCeleb, CommonVoice）、音樂資料集（MUSDB, FMA）及音訊事件集（AudioSet, ESC-50）等。\n\n### PDF Capability Highlights\n- 能夠將連續音訊訊號有效轉換為緊湊、可分類的離散標記。\n- 支援多種量化策略（RVQ, SVQ, FSQ, K-means等）並可靈活調整位元率與碼本結構。\n- 提供端到端訓練流程，並可結合語音、音樂及一般音訊多域資料。\n- 具備串流（streaming）處理能力，適用於低延遲應用。\n- 能與大型語言模型（LLM）無縫整合，支援多模態生成與理解任務。\n\n### PDF Inclusion Signals\n- 關鍵詞：「discrete audio token」、「neural codec」、「vector quantization」、「semantic distillation」、「audio language model」\n- 涉及多域應用（speech, music, audio）之離散標記技術（見 Table 1, Table 2）\n- 具體量化方法討論（RVQ, SVQ, FSQ, K-means等，見 Section 2.2）\n- 涉及下游任務或語音/音樂/音訊生成、辨識、分離等應用（見 Section 3.2, 3.3）\n- 評估指標涵蓋重建品質、語音/音樂/音訊下游任務、語音語言模型（見 Section 3）\n\n### PDF Exclusion Signals\n- 僅討論傳統連續特徵（continuous features）或未涉及離散標記化的音訊處理技術。\n- 只聚焦於單一領域（如僅語音壓縮，無跨域比較或多任務應用）。\n- 未涉及量化技術、離散標記產生流程或相關架構設計。\n- 僅為語音合成/辨識/分離等應用介紹，未與離散標記技術結合。\n- 缺乏對下游任務、生成任務或語音語言模型的實證評估。\n\n### PDF Notes\n- Discrete_Audio_Tokens_More_Than_a_Survey.pdf: \n  - 提供離散音訊標記領域最全面的分類、技術回顧與多維度基準評測，涵蓋語音、音樂及一般音訊，並深入探討量化技術、訓練範式、串流能力與跨域應用；同時提出統一的分類法與開放基準，對未來研究趨勢、挑戰與設計原則給出具體建議。\n",
+  "combined_notes": "### PDF Background (Survey Summaries)\n### PDF Topic Definition\n本系統性回顧聚焦於「離散音訊標記（Discrete Audio Tokens）」的技術與應用。離散音訊標記是一種將連續音訊訊號壓縮為可分類、低維度的離散單元（token），目標在於同時保留知覺品質、語音內容與說話者特徵，並提升儲存、傳輸與推論效率。該主題涵蓋語音、音樂與一般音訊三大領域，並從編碼-解碼架構、量化技術、訓練範式、串流能力與應用場域等面向，進行分類與評估。評估重點包括重建品質、下游任務表現（如語音辨識、語者驗證、情感辨識、音樂生成等），以及作為音訊語言模型（Acoustic LLM）基礎的能力。\n\n### PDF Key Trends\n- 神經編碼器（Neural Codec）逐漸取代傳統編碼器，並以離散標記作為核心中介。\n- 量化技術多元化（如RVQ、SVQ、FSQ、K-means等），並出現多層次、多尺度設計。\n- 訓練範式從後訓練（post-training）逐步轉向端到端聯合訓練（joint training），並大量引入自監督學習（SSL）與語意蒸餾（semantic distillation）。\n- 評估標準趨向多元，包括信號重建（Codec-SUPERB, VERSA）、下游任務（DASB）、語音語言模型（SALMon, Zero-resource）等綜合指標。\n- 音訊標記已成為多模態大型語言模型（LLM）整合語音/音樂/音訊的關鍵橋樑，並廣泛應用於語音合成、語音轉換、音樂生成等新興任務。\n- 研究資料來源橫跨公開語音語料庫（LibriSpeech, VoxCeleb, CommonVoice）、音樂資料集（MUSDB, FMA）及音訊事件集（AudioSet, ESC-50）等。\n\n### PDF Capability Highlights\n- 能夠將連續音訊訊號有效轉換為緊湊、可分類的離散標記。\n- 支援多種量化策略（RVQ, SVQ, FSQ, K-means等）並可靈活調整位元率與碼本結構。\n- 提供端到端訓練流程，並可結合語音、音樂及一般音訊多域資料。\n- 具備串流（streaming）處理能力，適用於低延遲應用。\n- 能與大型語言模型（LLM）無縫整合，支援多模態生成與理解任務。\n\n### PDF Inclusion Signals\n- 關鍵詞：「discrete audio token」、「neural codec」、「vector quantization」、「semantic distillation」、「audio language model」\n- 涉及多域應用（speech, music, audio）之離散標記技術（見 Table 1, Table 2）\n- 具體量化方法討論（RVQ, SVQ, FSQ, K-means等，見 Section 2.2）\n- 涉及下游任務或語音/音樂/音訊生成、辨識、分離等應用（見 Section 3.2, 3.3）\n- 評估指標涵蓋重建品質、語音/音樂/音訊下游任務、語音語言模型（見 Section 3）\n\n### PDF Exclusion Signals\n- 僅討論傳統連續特徵（continuous features）或未涉及離散標記化的音訊處理技術。\n- 只聚焦於單一領域（如僅語音壓縮，無跨域比較或多任務應用）。\n- 未涉及量化技術、離散標記產生流程或相關架構設計。\n- 僅為語音合成/辨識/分離等應用介紹，未與離散標記技術結合。\n- 缺乏對下游任務、生成任務或語音語言模型的實證評估。\n\n### PDF Notes\n- Discrete_Audio_Tokens_More_Than_a_Survey.pdf: \n  - 提供離散音訊標記領域最全面的分類、技術回顧與多維度基準評測，涵蓋語音、音樂及一般音訊，並深入探討量化技術、訓練範式、串流能力與跨域應用；同時提出統一的分類法與開放基準，對未來研究趨勢、挑戰與設計原則給出具體建議。\n### Web Search Notes\n以下內容依照你的指示整理，可直接用於系統性回顧（systematic review）之前期的 paper 篩選規則設計，並以「Discrete Audio Tokens: More Than a Survey!」為核心主題進行擴展與操作化定義。\n\n---\n\n### Topic Definition\n\n離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號（如波形或頻譜特徵）透過量化與編碼模型，轉換為有限字彙表中的離散符號序列之方法。此類方法通常建立於編碼器–解碼器架構之上，並結合向量量化（如 VQ、RVQ、FSQ 等）或聚類技術，使音訊得以像文字一樣被語言模型處理。其核心目標是在可控的位元率與標記長度下，盡可能保留語音內容、語義資訊、說話者特徵與感知品質。\n\n在近年大型語言模型與多模態模型快速發展的背景下，離散音訊標記被視為連結音訊與文字世界的關鍵中介表示。相較於連續特徵，離散標記更適合自回歸建模、跨模態對齊與大規模訓練，因此被廣泛應用於語音生成、音樂生成、語音辨識、語音理解與音訊語言模型等任務，並逐漸形成一個跨語音、音樂與一般聲音的研究體系。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n---\n\n### Summary\n\n整體趨勢顯示，離散音訊標記已從早期的壓縮導向設計，演進為服務於生成式與語言導向任務的通用表徵。近期研究特別關注不同量化策略、語義與聲學標記的取捨，以及在統一基準下的可比較性。系統化的分類與基準評測逐漸成為該領域的重要研究基礎。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n---\n\n### Summary Topics\n\nS1: 離散音訊標記的編碼器–解碼器與量化設計  \nS2: 語義標記（semantic tokens）與聲學標記（acoustic tokens）的區分  \nS3: 離散音訊標記在生成式與判別式任務中的效能評估  \nS4: 跨語音、音樂與一般音訊的統一基準與比較方法  \n\n---\n\n### Inclusion Criteria (Required)\n\n1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊表示轉換為可索引、有限集合的離散符號序列，並可用於下游音訊或語言相關任務之方法。  \n   英文可評估性條件：論文需明確使用 “discrete audio tokens”, “audio tokenization”, “acoustic tokens” 或等價英文術語描述其方法或研究問題。  \n   source: https://arxiv.org/abs/2506.10274 ，topic ids: S1, S2  \n\n2. 研究內容需以音訊（語音、音樂或一般聲音）為主要處理對象，而非僅為影像或純文字離散化方法的延伸應用。  \n   英文可評估性條件：摘要或方法段落中需明確出現 “speech”, “audio”, “music” 等作為主要資料模態。  \n   source: https://arxiv.org/abs/2406.14294 ，topic ids: S3, S4  \n\n3. 論文需為可公開取得之英文學術文獻（如 arXiv、期刊或會議論文），並包含明確的方法描述與實驗或分析。  \n   英文可評估性條件：全文以英文撰寫，且包含 “method”, “experiment”, 或 “evaluation” 等結構化章節。  \n   source: https://arxiv.org/abs/2506.10274 ，topic ids: S4  \n\n---\n\n### Inclusion Criteria (Any-of Groups)\n\n- Group A：量化與標記生成技術  \n  * Option: 使用向量量化（如 VQ-VAE、RVQ、FSQ、或其變體）來生成離散音訊標記。  \n    source: https://arxiv.org/abs/2506.10274 ，topic ids: S1  \n\n- Group B：任務導向或評測導向研究  \n  * Option: 將離散音訊標記系統性地評估於一個或多個下游任務（如語音辨識、語音生成、音訊字幕、TTS 等）。  \n    source: https://arxiv.org/abs/2505.14989 ，topic ids: S3  \n\n- Group C：基準或比較性研究  \n  * Option: 提供多種離散音訊標記方法的統一比較、排行榜或基準資料集。  \n    source: https://arxiv.org/abs/2406.14294 ，topic ids: S4  \n\n---\n\n### Exclusion Criteria\n\n- 僅討論連續音訊表示（continuous representations）且明確排除離散化設計之研究。  \n  source: https://blog.yueqianlin.com/daily-publication/250910/ ，topic ids: S1  \n\n- 僅將離散化作為輔助步驟，且研究重心不在音訊標記設計、分析或評估（例如僅聚焦文字或影像 token）。  \n  source: internal ，topic ids: S1  \n\n- 非學術性文章（如僅為部落格、論壇貼文，且無完整方法與實驗）。  \n  source: internal ，topic ids: S4  \n\n---\n\n### Sources\n\nhttps://arxiv.org/abs/2506.10274  \nhttps://arxiv.org/abs/2406.14294  \nhttps://arxiv.org/abs/2505.14989  \nhttps://blog.yueqianlin.com/daily-publication/250910/",
+  "augmented_formatter_messages": [
+    {
+      "role": "system",
+      "content": "你是系統性回顧的資料整理助理，需將研究助理的筆記轉為結構化 JSON。\n僅能輸出單一 JSON 物件，勿加入額外敘述或 Markdown。"
+    },
+    {
+      "role": "user",
+      "content": "以下內容結合了兩種來源：\n1) PDF Background (Survey Summaries)：模型閱讀本地 PDF 後的背景整理，僅供提供更準確的主題定義與條件靈感，來源欄請勿引用非 https 連結。\n2) Web Search Notes：OpenAI Web Search 所產出的即時筆記與來源。\n請輸出最終 JSON，並確保所有 source 欄位皆為 https URL。\n主題：Discrete Audio Tokens: More Than a Survey!。\ninclusion_criteria.required 段落僅能包含主題定義逐字條款與英文可評估性條款；其餘條件請歸入 any_of 群組。\n不得要求標題/摘要必須包含特定字串或關鍵字；避免任何硬字串匹配條款。\n將以下筆記整合後再輸出：\n---\n### PDF Background (Survey Summaries)\n### PDF Topic Definition\n本系統性回顧聚焦於「離散音訊標記（Discrete Audio Tokens）」的技術與應用。離散音訊標記是一種將連續音訊訊號壓縮為可分類、低維度的離散單元（token），目標在於同時保留知覺品質、語音內容與說話者特徵，並提升儲存、傳輸與推論效率。該主題涵蓋語音、音樂與一般音訊三大領域，並從編碼-解碼架構、量化技術、訓練範式、串流能力與應用場域等面向，進行分類與評估。評估重點包括重建品質、下游任務表現（如語音辨識、語者驗證、情感辨識、音樂生成等），以及作為音訊語言模型（Acoustic LLM）基礎的能力。\n\n### PDF Key Trends\n- 神經編碼器（Neural Codec）逐漸取代傳統編碼器，並以離散標記作為核心中介。\n- 量化技術多元化（如RVQ、SVQ、FSQ、K-means等），並出現多層次、多尺度設計。\n- 訓練範式從後訓練（post-training）逐步轉向端到端聯合訓練（joint training），並大量引入自監督學習（SSL）與語意蒸餾（semantic distillation）。\n- 評估標準趨向多元，包括信號重建（Codec-SUPERB, VERSA）、下游任務（DASB）、語音語言模型（SALMon, Zero-resource）等綜合指標。\n- 音訊標記已成為多模態大型語言模型（LLM）整合語音/音樂/音訊的關鍵橋樑，並廣泛應用於語音合成、語音轉換、音樂生成等新興任務。\n- 研究資料來源橫跨公開語音語料庫（LibriSpeech, VoxCeleb, CommonVoice）、音樂資料集（MUSDB, FMA）及音訊事件集（AudioSet, ESC-50）等。\n\n### PDF Capability Highlights\n- 能夠將連續音訊訊號有效轉換為緊湊、可分類的離散標記。\n- 支援多種量化策略（RVQ, SVQ, FSQ, K-means等）並可靈活調整位元率與碼本結構。\n- 提供端到端訓練流程，並可結合語音、音樂及一般音訊多域資料。\n- 具備串流（streaming）處理能力，適用於低延遲應用。\n- 能與大型語言模型（LLM）無縫整合，支援多模態生成與理解任務。\n\n### PDF Inclusion Signals\n- 關鍵詞：「discrete audio token」、「neural codec」、「vector quantization」、「semantic distillation」、「audio language model」\n- 涉及多域應用（speech, music, audio）之離散標記技術（見 Table 1, Table 2）\n- 具體量化方法討論（RVQ, SVQ, FSQ, K-means等，見 Section 2.2）\n- 涉及下游任務或語音/音樂/音訊生成、辨識、分離等應用（見 Section 3.2, 3.3）\n- 評估指標涵蓋重建品質、語音/音樂/音訊下游任務、語音語言模型（見 Section 3）\n\n### PDF Exclusion Signals\n- 僅討論傳統連續特徵（continuous features）或未涉及離散標記化的音訊處理技術。\n- 只聚焦於單一領域（如僅語音壓縮，無跨域比較或多任務應用）。\n- 未涉及量化技術、離散標記產生流程或相關架構設計。\n- 僅為語音合成/辨識/分離等應用介紹，未與離散標記技術結合。\n- 缺乏對下游任務、生成任務或語音語言模型的實證評估。\n\n### PDF Notes\n- Discrete_Audio_Tokens_More_Than_a_Survey.pdf: \n  - 提供離散音訊標記領域最全面的分類、技術回顧與多維度基準評測，涵蓋語音、音樂及一般音訊，並深入探討量化技術、訓練範式、串流能力與跨域應用；同時提出統一的分類法與開放基準，對未來研究趨勢、挑戰與設計原則給出具體建議。\n### Web Search Notes\n以下內容依照你的指示整理，可直接用於系統性回顧（systematic review）之前期的 paper 篩選規則設計，並以「Discrete Audio Tokens: More Than a Survey!」為核心主題進行擴展與操作化定義。\n\n---\n\n### Topic Definition\n\n離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號（如波形或頻譜特徵）透過量化與編碼模型，轉換為有限字彙表中的離散符號序列之方法。此類方法通常建立於編碼器–解碼器架構之上，並結合向量量化（如 VQ、RVQ、FSQ 等）或聚類技術，使音訊得以像文字一樣被語言模型處理。其核心目標是在可控的位元率與標記長度下，盡可能保留語音內容、語義資訊、說話者特徵與感知品質。\n\n在近年大型語言模型與多模態模型快速發展的背景下，離散音訊標記被視為連結音訊與文字世界的關鍵中介表示。相較於連續特徵，離散標記更適合自回歸建模、跨模態對齊與大規模訓練，因此被廣泛應用於語音生成、音樂生成、語音辨識、語音理解與音訊語言模型等任務，並逐漸形成一個跨語音、音樂與一般聲音的研究體系。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n---\n\n### Summary\n\n整體趨勢顯示，離散音訊標記已從早期的壓縮導向設計，演進為服務於生成式與語言導向任務的通用表徵。近期研究特別關注不同量化策略、語義與聲學標記的取捨，以及在統一基準下的可比較性。系統化的分類與基準評測逐漸成為該領域的重要研究基礎。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))\n\n---\n\n### Summary Topics\n\nS1: 離散音訊標記的編碼器–解碼器與量化設計  \nS2: 語義標記（semantic tokens）與聲學標記（acoustic tokens）的區分  \nS3: 離散音訊標記在生成式與判別式任務中的效能評估  \nS4: 跨語音、音樂與一般音訊的統一基準與比較方法  \n\n---\n\n### Inclusion Criteria (Required)\n\n1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊表示轉換為可索引、有限集合的離散符號序列，並可用於下游音訊或語言相關任務之方法。  \n   英文可評估性條件：論文需明確使用 “discrete audio tokens”, “audio tokenization”, “acoustic tokens” 或等價英文術語描述其方法或研究問題。  \n   source: https://arxiv.org/abs/2506.10274 ，topic ids: S1, S2  \n\n2. 研究內容需以音訊（語音、音樂或一般聲音）為主要處理對象，而非僅為影像或純文字離散化方法的延伸應用。  \n   英文可評估性條件：摘要或方法段落中需明確出現 “speech”, “audio”, “music” 等作為主要資料模態。  \n   source: https://arxiv.org/abs/2406.14294 ，topic ids: S3, S4  \n\n3. 論文需為可公開取得之英文學術文獻（如 arXiv、期刊或會議論文），並包含明確的方法描述與實驗或分析。  \n   英文可評估性條件：全文以英文撰寫，且包含 “method”, “experiment”, 或 “evaluation” 等結構化章節。  \n   source: https://arxiv.org/abs/2506.10274 ，topic ids: S4  \n\n---\n\n### Inclusion Criteria (Any-of Groups)\n\n- Group A：量化與標記生成技術  \n  * Option: 使用向量量化（如 VQ-VAE、RVQ、FSQ、或其變體）來生成離散音訊標記。  \n    source: https://arxiv.org/abs/2506.10274 ，topic ids: S1  \n\n- Group B：任務導向或評測導向研究  \n  * Option: 將離散音訊標記系統性地評估於一個或多個下游任務（如語音辨識、語音生成、音訊字幕、TTS 等）。  \n    source: https://arxiv.org/abs/2505.14989 ，topic ids: S3  \n\n- Group C：基準或比較性研究  \n  * Option: 提供多種離散音訊標記方法的統一比較、排行榜或基準資料集。  \n    source: https://arxiv.org/abs/2406.14294 ，topic ids: S4  \n\n---\n\n### Exclusion Criteria\n\n- 僅討論連續音訊表示（continuous representations）且明確排除離散化設計之研究。  \n  source: https://blog.yueqianlin.com/daily-publication/250910/ ，topic ids: S1  \n\n- 僅將離散化作為輔助步驟，且研究重心不在音訊標記設計、分析或評估（例如僅聚焦文字或影像 token）。  \n  source: internal ，topic ids: S1  \n\n- 非學術性文章（如僅為部落格、論壇貼文，且無完整方法與實驗）。  \n  source: internal ，topic ids: S4  \n\n---\n\n### Sources\n\nhttps://arxiv.org/abs/2506.10274  \nhttps://arxiv.org/abs/2406.14294  \nhttps://arxiv.org/abs/2505.14989  \nhttps://blog.yueqianlin.com/daily-publication/250910/\n---"
+    }
+  ],
+  "formatter_raw": "{\n  \"topic\": {\n    \"title\": \"Discrete Audio Tokens: More Than a Survey!\",\n    \"topic_definition\": \"離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號（如波形或頻譜特徵）透過編碼器–解碼器與量化/聚類等機制，轉換為有限字彙表中的離散符號序列（tokens），以在可控位元率與序列長度下，盡可能保留知覺品質、語音內容/語義資訊與說話者特徵，並提升儲存、傳輸與推論效率；此表示可作為音訊語言模型或多模態模型的中介表徵，並用於語音、音樂與一般音訊的生成式與判別式下游任務之方法與評估。\",\n    \"scope_notes\": [\n      \"涵蓋語音、音樂、一般音訊（audio events/sounds）之離散化表示。\",\n      \"關注：編碼-解碼架構、量化策略（RVQ/SVQ/FSQ/K-means 等）、訓練範式（端到端/聯合訓練、SSL、semantic distillation）、串流/低延遲能力、以及基準與評測（重建品質、下游任務、作為音訊語言模型基礎）。\"\n    ],\n    \"summary_topics\": [\n      {\n        \"id\": \"S1\",\n        \"name\": \"編碼器–解碼器與量化/標記生成設計\"\n      },\n      {\n        \"id\": \"S2\",\n        \"name\": \"語義標記（semantic tokens）與聲學標記（acoustic tokens）的區分與取捨\"\n      },\n      {\n        \"id\": \"S3\",\n        \"name\": \"生成式與判別式下游任務的效能評估\"\n      },\n      {\n        \"id\": \"S4\",\n        \"name\": \"跨語音/音樂/一般音訊的統一基準與可比較性\"\n      }\n    ]\n  },\n  \"inclusion_criteria\": {\n    \"required\": [\n      {\n        \"id\": \"R1\",\n        \"clause\": \"主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊表示轉換為可索引、有限集合的離散符號序列，並可用於下游音訊或語言相關任務之方法。\",\n        \"english_screening_clause\": \"論文需明確使用 “discrete audio tokens”, “audio tokenization”, “acoustic tokens” 或等價英文術語描述其方法或研究問題。\",\n        \"source\": \"https://arxiv.org/abs/2506.10274\",\n        \"topic_ids\": [\n          \"S1\",\n          \"S2\"\n        ]\n      },\n      {\n        \"id\": \"R2\",\n        \"clause\": \"研究內容需以音訊（語音、音樂或一般聲音）為主要處理對象，而非僅為影像或純文字離散化方法的延伸應用。\",\n        \"english_screening_clause\": \"摘要或方法段落中需明確出現 “speech”, “audio”, “music” 等作為主要資料模態。\",\n        \"source\": \"https://arxiv.org/abs/2406.14294\",\n        \"topic_ids\": [\n          \"S3\",\n          \"S4\"\n        ]\n      },\n      {\n        \"id\": \"R3\",\n        \"clause\": \"論文需為可公開取得之英文學術文獻（如 arXiv、期刊或會議論文），並包含明確的方法描述與實驗或分析。\",\n        \"english_screening_clause\": \"全文以英文撰寫，且包含 “method”, “experiment”, 或 “evaluation” 等結構化章節。\",\n        \"source\": \"https://arxiv.org/abs/2506.10274\",\n        \"topic_ids\": [\n          \"S4\"\n        ]\n      }\n    ],\n    \"any_of_groups\": [\n      {\n        \"group_id\": \"A\",\n        \"group_name\": \"量化與標記生成技術\",\n        \"options\": [\n          {\n            \"id\": \"A1\",\n            \"criterion\": \"使用向量量化或聚類式離散化（例如 VQ-VAE、RVQ、SVQ、FSQ、K-means 或其變體）來生成離散音訊標記，並描述碼本/位元率/層級或多尺度設計等關鍵設定。\",\n            \"source\": \"https://arxiv.org/abs/2506.10274\",\n            \"topic_ids\": [\n              \"S1\"\n            ]\n          }\n        ]\n      },\n      {\n        \"group_id\": \"B\",\n        \"group_name\": \"任務導向或評測導向研究\",\n        \"options\": [\n          {\n            \"id\": \"B1\",\n            \"criterion\": \"將離散音訊標記方法以實證方式評估於一個或多個下游任務（例如 ASR、語音/音樂生成、TTS/VC、音訊字幕、語者/情感/事件辨識、分離等），或作為音訊語言模型/多模態模型之中介表示進行評估。\",\n            \"source\": \"https://arxiv.org/abs/2505.14989\",\n            \"topic_ids\": [\n              \"S3\"\n            ]\n          }\n        ]\n      },\n      {\n        \"group_id\": \"C\",\n        \"group_name\": \"基準或比較性研究\",\n        \"options\": [\n          {\n            \"id\": \"C1\",\n            \"criterion\": \"提供多種離散音訊標記方法的統一比較（同一資料/指標/協定下）、排行榜或基準資源（例如跨語音/音樂/一般音訊或跨任務的評測套件），並報告重建與/或下游任務表現。\",\n            \"source\": \"https://arxiv.org/abs/2406.14294\",\n            \"topic_ids\": [\n              \"S4\"\n            ]\n          }\n        ]\n      }\n    ],\n    \"logic_note\": \"納入需同時滿足所有 required 條款，並且至少符合任一 any_of_groups 之 option（A/B/C 任一）。\"\n  },\n  \"exclusion_criteria\": [\n    {\n      \"id\": \"E1\",\n      \"criterion\": \"僅討論連續音訊表示（continuous representations），且研究貢獻不包含將音訊離散化為可索引 tokens 的設計、分析或評估。\",\n      \"source\": \"https://blog.yueqianlin.com/daily-publication/250910/\",\n      \"topic_ids\": [\n        \"S1\"\n      ]\n    },\n    {\n      \"id\": \"E2\",\n      \"criterion\": \"離散化僅作為次要輔助步驟，研究重心不在音訊標記（token）設計、訓練、分析或系統性評估；主要貢獻在文字或影像 token，音訊僅為附帶應用或示例。\",\n      \"source\": \"https://arxiv.org/abs/2506.10274\",\n      \"topic_ids\": [\n        \"S1\"\n      ]\n    },\n    {\n      \"id\": \"E3\",\n      \"criterion\": \"非英文或不可公開取得之學術文獻，或缺乏可檢核的方法描述與實驗/評估（例如僅意見性文章、未提供實驗或分析）。\",\n      \"source\": \"https://arxiv.org/abs/2506.10274\",\n      \"topic_ids\": [\n        \"S4\"\n      ]\n    }\n  ],\n  \"data_extraction_fields\": {\n    \"bibliography\": [\n      \"title\",\n      \"authors\",\n      \"year\",\n      \"venue_or_platform\",\n      \"url\",\n      \"version\"\n    ],\n    \"study_characteristics\": [\n      \"audio_domain (speech/music/general audio)\",\n      \"primary_task_type (tokenization/codec/benchmark/ALM integration/downstream evaluation)\",\n      \"model_architecture (encoder/decoder, autoregressive/non-AR, streaming-capable)\",\n      \"token_type (acoustic/semantic/hybrid)\",\n      \"training_paradigm (post-training/joint training/SSL/semantic distillation)\",\n      \"quantization_or_discretization_method (VQ/RVQ/SVQ/FSQ/K-means/other)\",\n      \"codebook_structure (size, levels, multi-codebook, hierarchical/multi-scale)\",\n      \"bitrate_or_token_rate\",\n      \"latency_or_streaming_constraints\"\n    ],\n    \"datasets\": [\n      \"dataset_names\",\n      \"dataset_domain\",\n      \"dataset_size_or_hours (if reported)\",\n      \"licenses_or_availability (if reported)\"\n    ],\n    \"evaluation\": [\n      \"reconstruction_metrics (e.g., MOS, PESQ, SI-SDR, etc., as reported)\",\n      \"benchmark_suites (e.g., Codec-SUPERB/VERSA/DASB/etc., as reported)\",\n      \"downstream_tasks_and_metrics\",\n      \"comparators_or_ablation\",\n      \"compute_reporting (params/FLOPs/training time, if reported)\"\n    ],\n    \"outcomes_for_synthesis\": [\n      \"key_findings\",\n      \"tradeoffs (quality vs bitrate; semantic vs acoustic; latency vs quality)\",\n      \"generalization (cross-domain/cross-speaker/cross-dataset)\",\n      \"limitations\"\n    ]\n  },\n  \"sources_used\": [\n    {\n      \"type\": \"web\",\n      \"url\": \"https://arxiv.org/abs/2506.10274\"\n    },\n    {\n      \"type\": \"web\",\n      \"url\": \"https://arxiv.org/abs/2406.14294\"\n    },\n    {\n      \"type\": \"web\",\n      \"url\": \"https://arxiv.org/abs/2505.14989\"\n    },\n    {\n      \"type\": \"web\",\n      \"url\": \"https://blog.yueqianlin.com/daily-publication/250910/\"\n    }\n  ]\n}"
+}

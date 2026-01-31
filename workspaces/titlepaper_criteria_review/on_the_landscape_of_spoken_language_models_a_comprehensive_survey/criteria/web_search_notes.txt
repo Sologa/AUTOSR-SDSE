@@ -1,0 +1,73 @@
+以下內容依照你的指示撰寫，並以可直接用於系統性回顧（systematic review / survey）之收錄與排除規則為目標。
+
+---
+
+### Topic Definition
+本主題聚焦於「Spoken Language Models（SLMs）」的整體研究版圖，涵蓋能直接以語音為核心建模單位、並支援語音理解、生成或推理的通用模型。相較於傳統以語音辨識（ASR）或語音合成（TTS）為主的模組化管線，SLMs 嘗試將語音視為一級語言表示，類似文字領域中大型語言模型（LLMs）的發展脈絡。
+
+在技術內涵上，Spoken Language Models 包含純語音語言模型（直接對離散或連續語音 token 建模），以及語音與文字深度整合的模型（例如以語音編碼器結合文字 LLM，或以音訊 token 作為跨模態表示）。研究重點涵蓋模型架構、訓練策略、資料與評估設定，以及其在通用語音理解與互動上的潛力。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))
+
+---
+
+### Summary
+近年研究顯示，語音處理正從任務導向、級聯式系統，轉向可重用、可泛化的 Spoken Language Models。此趨勢與文字 LLM 的發展相呼應，並促進語音與語言之間更緊密的表示共享。整體亮點在於跨模態整合方法的多樣化，以及對通用評估與基準仍未成熟的共識。([arxiv.org](https://arxiv.org/abs/2504.08528?utm_source=openai))
+
+---
+
+### Summary Topics
+S1: Spoken Language Models 的定義與發展脈絡  
+S2: 模型架構與語音表示方式（連續、離散、音訊 token）  
+S3: 語音與大型語言模型（LLMs）的整合策略  
+S4: 訓練資料、評估任務與未來挑戰  
+
+---
+
+### Inclusion Criteria (Required)
+- 必須同時滿足以下所有條件：
+
+1. 主題定義：研究內容必須符合「Spoken Language Models 為以語音作為核心建模對象，並具備通用語音理解、生成或跨模態語言能力之模型」的定義，且明確討論模型層級（非僅單一應用系統）。  
+   source: https://arxiv.org/abs/2504.08528  
+   topic ids: S1, S2
+
+2. 論文需以英文撰寫，並提供可評估的技術描述（如模型架構、訓練方式或實驗設計），以利一致性審查。  
+   source: https://arxiv.org/abs/2504.08528  
+   topic ids: S1
+
+---
+
+### Inclusion Criteria (Any-of Groups)
+- Group 技術取向與模型差異
+  * Option: 探討「純語音語言模型」或以離散／連續語音 token 為核心表示的研究。  
+    source: https://arxiv.org/abs/2504.08528  
+    topic ids: S2
+
+  * Option: 探討語音與大型語言模型（LLMs）之整合方法（如文字介面式、潛在表示式或音訊 token 式整合）。  
+    source: https://arxiv.org/abs/2502.19548  
+    topic ids: S3
+
+  * Option: 提出或系統性分析具跨模態（語音–文字–其他模態）能力的語言模型架構。  
+    source: https://arxiv.org/abs/2305.11000  
+    topic ids: S3, S4
+
+---
+
+### Exclusion Criteria
+- 僅聚焦於單一傳統任務（如 ASR、TTS），且未討論通用語音語言建模或語言層級能力者，予以排除。  
+  source: https://arxiv.org/abs/2504.08528  
+  topic ids: S1
+
+- 僅為資料集介紹、評測基準或應用系統展示，未提出或分析 Spoken Language Model 架構與訓練原則者，予以排除。  
+  source: https://arxiv.org/abs/2104.13225  
+  topic ids: S4
+
+- 非研究論文（如教學投影片、部落格文章、未經審查之簡報），或缺乏完整技術細節者，予以排除。  
+  source: internal  
+  topic ids: S1
+
+---
+
+### Sources
+https://arxiv.org/abs/2504.08528  
+https://arxiv.org/abs/2502.19548  
+https://arxiv.org/abs/2104.13225  
+https://arxiv.org/abs/2305.11000

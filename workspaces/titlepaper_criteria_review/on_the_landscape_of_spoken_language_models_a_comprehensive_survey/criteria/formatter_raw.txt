@@ -1,0 +1,152 @@
+{
+  "topic": {
+    "title": "On The Landscape of Spoken Language Models: A Comprehensive Survey",
+    "topic_definition": "本主題聚焦於口語語言模型（Spoken Language Models, SLMs）的研究版圖：以語音作為核心建模對象，涵蓋純語音語言模型（對離散/連續語音 token 建模）、語音+文字模型、語音感知文字模型，以及其架構設計、訓練策略、資料來源、評估方法與作為通用、可指令化語音處理系統（可做語音理解/生成/推理、跨任務泛化、語音-文字對齊、即時/全雙工對話、信任性評估等）的潛力與限制。",
+    "scope_notes": [
+      "涵蓋：SLM 架構（語音編碼器/解碼器、tokenization、跨模態融合、序列建模）、訓練（自監督預訓練、多階段對齊、instruction tuning）、資料（未標註語音、語音-文字配對、合成語音對話等）、評估（生成品質、泛化、對齊、對話能力、信任性如幻覺/偏見/deepfake）。",
+      "強調：從單一任務導向（ASR/TTS 等）走向可重用、通用、可指令化的語音模型與系統。"
+    ],
+    "concept_clusters": [
+      {
+        "id": "S1",
+        "name": "SLM 定義與發展脈絡",
+        "description": "SLM 作為以語音為一級語言表示、朝通用與可指令化能力發展的模型範式。"
+      },
+      {
+        "id": "S2",
+        "name": "語音表示與模型架構",
+        "description": "連續/離散語音表示、音訊 token、純語音 LM、speech+text LM、speech-aware text LM 與其組件與整體設計。"
+      },
+      {
+        "id": "S3",
+        "name": "語音與文字 LLM 的整合策略",
+        "description": "語音編碼器接文字 LLM、共享/對齊表示、音訊 token 介面、跨模態融合與指令化交互。"
+      },
+      {
+        "id": "S4",
+        "name": "訓練資料、評估與挑戰",
+        "description": "資料規模與來源、基準與評測方法、LLM-as-judge、信任性與安全議題、全雙工與即時對話等。"
+      }
+    ]
+  },
+  "inclusion_criteria": {
+    "required": [
+      {
+        "criterion": "研究內容必須符合「Spoken Language Models 為以語音作為核心建模對象，並具備通用語音理解、生成或跨模態語言能力之模型」的定義，且明確討論模型層級（非僅單一應用系統）。",
+        "topic_ids": ["S1", "S2"],
+        "sources": ["https://arxiv.org/abs/2504.08528"]
+      },
+      {
+        "criterion": "論文需以英文撰寫，並提供可評估的技術描述（如模型架構、訓練方式或實驗設計），以利一致性審查。",
+        "topic_ids": ["S1"],
+        "sources": ["https://arxiv.org/abs/2504.08528"]
+      }
+    ],
+    "any_of_groups": [
+      {
+        "group_name": "技術取向與模型差異（至少符合其一）",
+        "options": [
+          {
+            "option": "探討「純語音語言模型」或以離散／連續語音 token 為核心表示的研究。",
+            "topic_ids": ["S2"],
+            "sources": ["https://arxiv.org/abs/2504.08528"]
+          },
+          {
+            "option": "探討語音與大型語言模型（LLMs）之整合方法（如文字介面式、潛在表示式或音訊 token 式整合）。",
+            "topic_ids": ["S3"],
+            "sources": ["https://arxiv.org/abs/2502.19548"]
+          },
+          {
+            "option": "提出或系統性分析具跨模態（語音–文字–其他模態）能力的語言模型架構。",
+            "topic_ids": ["S3", "S4"],
+            "sources": ["https://arxiv.org/abs/2305.11000"]
+          }
+        ]
+      },
+      {
+        "group_name": "通用化能力與評估面向（至少符合其一）",
+        "options": [
+          {
+            "option": "討論多任務/跨任務泛化、自然語言指令化（instruction tuning 或等價的指令追隨訓練設定）以支援多種語音任務。",
+            "topic_ids": ["S1", "S4"],
+            "sources": ["https://arxiv.org/abs/2504.08528"]
+          },
+          {
+            "option": "涵蓋語音-文字對齊/融合（cross-modal alignment、speech-text alignment）或語音感知文字建模等跨模態對齊議題。",
+            "topic_ids": ["S2", "S3"],
+            "sources": ["https://arxiv.org/abs/2504.08528"]
+          },
+          {
+            "option": "涵蓋互動式語音能力（如即時對話或全雙工/低延遲語音對話）之模型設計、訓練或評估討論。",
+            "topic_ids": ["S4"],
+            "sources": ["https://arxiv.org/abs/2504.08528"]
+          },
+          {
+            "option": "討論 SLM 的評估方法或基準設計，且評估超出單一傳統 ASR/TTS 指標（例如多維度能力、生成品質、泛化、信任性/安全）。",
+            "topic_ids": ["S4"],
+            "sources": ["https://arxiv.org/abs/2504.08528"]
+          }
+        ]
+      }
+    ]
+  },
+  "exclusion_criteria": [
+    {
+      "criterion": "僅聚焦於單一傳統語音任務（如 ASR、TTS、SID 等），且未討論通用語音語言建模、跨任務泛化或可指令化語言層級能力者。",
+      "topic_ids": ["S1", "S2"],
+      "sources": ["https://arxiv.org/abs/2504.08528"]
+    },
+    {
+      "criterion": "研究主體為非語音的音訊（如音樂、環境聲）建模，且未與語音語言理解/生成之模型能力與設定緊密結合者。",
+      "topic_ids": ["S1"],
+      "sources": ["https://arxiv.org/abs/2504.08528"]
+    },
+    {
+      "criterion": "僅介紹資料集、評測基準或應用系統展示，未提出或分析 Spoken Language Model 的模型架構、訓練策略或可泛化能力者。",
+      "topic_ids": ["S4"],
+      "sources": ["https://arxiv.org/abs/2104.13225"]
+    },
+    {
+      "criterion": "僅討論單一組件技術（如僅 tokenizer、僅語音編碼器或僅語音解碼器）而未置於完整 SLM 架構/端到端設定或未連結到通用 SLM 能力分析者。",
+      "topic_ids": ["S2"],
+      "sources": ["https://arxiv.org/abs/2504.08528"]
+    },
+    {
+      "criterion": "非學術研究論文或缺乏可評估的技術細節（例如無足夠的模型/訓練/實驗描述，導致無法進行一致性資料萃取與偏差評估）者。",
+      "topic_ids": ["S1"],
+      "sources": ["https://arxiv.org/abs/2504.08528"]
+    }
+  ],
+  "screening_hints": {
+    "include_signals": [
+      "研究主張或實作以語音 token（離散或連續）進行語言建模，或將語音作為主要序列建模單位。",
+      "明確把語音與文字 LLM 深度整合，用於語音理解/生成/對話/推理等多能力設定。",
+      "描述多階段訓練（自監督語音表徵 + 跨模態對齊 + 指令化微調）或等價流程。",
+      "提供超越單一任務的能力評估（多基準、多維度、人評/LLM-as-judge、信任性測試等）。"
+    ],
+    "exclude_signals": [
+      "僅是 ASR 或 TTS 的單點改良（例如只提升 WER 或 MOS）且沒有通用化/跨任務/指令化討論。",
+      "僅為傳統規則式/模組化對話系統而無現代 SLM/LLM 架構整合。",
+      "只做非語音音訊生成/分類且與語音語言能力無關。"
+    ]
+  },
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2504.08528",
+      "relation": "primary_topic_anchor"
+    },
+    {
+      "url": "https://arxiv.org/abs/2502.19548",
+      "relation": "integration_with_llms_any_of_support"
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.11000",
+      "relation": "multimodal_architecture_any_of_support"
+    },
+    {
+      "url": "https://arxiv.org/abs/2104.13225",
+      "relation": "benchmark_or_dataset_exclusion_support"
+    }
+  ],
+  "json_schema_version": "1.0"
+}

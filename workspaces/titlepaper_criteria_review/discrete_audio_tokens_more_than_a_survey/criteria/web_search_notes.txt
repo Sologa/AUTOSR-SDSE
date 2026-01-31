@@ -1,0 +1,78 @@
+以下內容依照你的指示整理，可直接用於系統性回顧（systematic review）之前期的 paper 篩選規則設計，並以「Discrete Audio Tokens: More Than a Survey!」為核心主題進行擴展與操作化定義。
+
+---
+
+### Topic Definition
+
+離散音訊標記（Discrete Audio Tokens）是指將連續音訊訊號（如波形或頻譜特徵）透過量化與編碼模型，轉換為有限字彙表中的離散符號序列之方法。此類方法通常建立於編碼器–解碼器架構之上，並結合向量量化（如 VQ、RVQ、FSQ 等）或聚類技術，使音訊得以像文字一樣被語言模型處理。其核心目標是在可控的位元率與標記長度下，盡可能保留語音內容、語義資訊、說話者特徵與感知品質。
+
+在近年大型語言模型與多模態模型快速發展的背景下，離散音訊標記被視為連結音訊與文字世界的關鍵中介表示。相較於連續特徵，離散標記更適合自回歸建模、跨模態對齊與大規模訓練，因此被廣泛應用於語音生成、音樂生成、語音辨識、語音理解與音訊語言模型等任務，並逐漸形成一個跨語音、音樂與一般聲音的研究體系。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))
+
+---
+
+### Summary
+
+整體趨勢顯示，離散音訊標記已從早期的壓縮導向設計，演進為服務於生成式與語言導向任務的通用表徵。近期研究特別關注不同量化策略、語義與聲學標記的取捨，以及在統一基準下的可比較性。系統化的分類與基準評測逐漸成為該領域的重要研究基礎。([arxiv.org](https://arxiv.org/abs/2506.10274?utm_source=openai))
+
+---
+
+### Summary Topics
+
+S1: 離散音訊標記的編碼器–解碼器與量化設計  
+S2: 語義標記（semantic tokens）與聲學標記（acoustic tokens）的區分  
+S3: 離散音訊標記在生成式與判別式任務中的效能評估  
+S4: 跨語音、音樂與一般音訊的統一基準與比較方法  
+
+---
+
+### Inclusion Criteria (Required)
+
+1. 主題定義：離散音訊標記（Discrete Audio Tokens）是指將連續音訊表示轉換為可索引、有限集合的離散符號序列，並可用於下游音訊或語言相關任務之方法。  
+   英文可評估性條件：論文需明確使用 “discrete audio tokens”, “audio tokenization”, “acoustic tokens” 或等價英文術語描述其方法或研究問題。  
+   source: https://arxiv.org/abs/2506.10274 ，topic ids: S1, S2  
+
+2. 研究內容需以音訊（語音、音樂或一般聲音）為主要處理對象，而非僅為影像或純文字離散化方法的延伸應用。  
+   英文可評估性條件：摘要或方法段落中需明確出現 “speech”, “audio”, “music” 等作為主要資料模態。  
+   source: https://arxiv.org/abs/2406.14294 ，topic ids: S3, S4  
+
+3. 論文需為可公開取得之英文學術文獻（如 arXiv、期刊或會議論文），並包含明確的方法描述與實驗或分析。  
+   英文可評估性條件：全文以英文撰寫，且包含 “method”, “experiment”, 或 “evaluation” 等結構化章節。  
+   source: https://arxiv.org/abs/2506.10274 ，topic ids: S4  
+
+---
+
+### Inclusion Criteria (Any-of Groups)
+
+- Group A：量化與標記生成技術  
+  * Option: 使用向量量化（如 VQ-VAE、RVQ、FSQ、或其變體）來生成離散音訊標記。  
+    source: https://arxiv.org/abs/2506.10274 ，topic ids: S1  
+
+- Group B：任務導向或評測導向研究  
+  * Option: 將離散音訊標記系統性地評估於一個或多個下游任務（如語音辨識、語音生成、音訊字幕、TTS 等）。  
+    source: https://arxiv.org/abs/2505.14989 ，topic ids: S3  
+
+- Group C：基準或比較性研究  
+  * Option: 提供多種離散音訊標記方法的統一比較、排行榜或基準資料集。  
+    source: https://arxiv.org/abs/2406.14294 ，topic ids: S4  
+
+---
+
+### Exclusion Criteria
+
+- 僅討論連續音訊表示（continuous representations）且明確排除離散化設計之研究。  
+  source: https://blog.yueqianlin.com/daily-publication/250910/ ，topic ids: S1  
+
+- 僅將離散化作為輔助步驟，且研究重心不在音訊標記設計、分析或評估（例如僅聚焦文字或影像 token）。  
+  source: internal ，topic ids: S1  
+
+- 非學術性文章（如僅為部落格、論壇貼文，且無完整方法與實驗）。  
+  source: internal ，topic ids: S4  
+
+---
+
+### Sources
+
+https://arxiv.org/abs/2506.10274  
+https://arxiv.org/abs/2406.14294  
+https://arxiv.org/abs/2505.14989  
+https://blog.yueqianlin.com/daily-publication/250910/

@@ -1,0 +1,194 @@
+{"key": "agostinelli2023musiclm", "lookup_steps": ["arxiv:match"]}
+{"key": "algayres2022speech", "lookup_steps": ["arxiv:match"]}
+{"key": "tGSLM", "lookup_steps": ["arxiv:match"]}
+{"key": "an2024funaudiollm", "lookup_steps": ["arxiv:match"]}
+{"key": "ao2024sd", "lookup_steps": ["arxiv:match"]}
+{"key": "arora2023universlu", "lookup_steps": ["arxiv:match"]}
+{"key": "wav2vec2", "lookup_steps": ["arxiv:match"]}
+{"key": "bai2023qwen", "lookup_steps": ["arxiv:match"]}
+{"key": "berant2013semantic", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "audiolm", "lookup_steps": ["arxiv:match"]}
+{"key": "borsos2023soundstorm", "lookup_steps": ["arxiv:match"]}
+{"key": "brown2020language", "lookup_steps": ["arxiv:match"]}
+{"key": "chan2016listen", "lookup_steps": ["arxiv:match"]}
+{"key": "chang2022maskgit", "lookup_steps": ["arxiv:match"]}
+{"key": "chang2024speechprompt", "lookup_steps": ["arxiv:match"]}
+{"key": "chen2023x", "lookup_steps": ["arxiv:match"]}
+{"key": "chen2024next", "lookup_steps": ["arxiv:match"]}
+{"key": "chen2025minmo", "lookup_steps": ["arxiv:match"]}
+{"key": "wavlm", "lookup_steps": ["arxiv:match"]}
+{"key": "wang2023neural", "lookup_steps": ["arxiv:match"]}
+{"key": "chen2024slam", "lookup_steps": ["arxiv:match"]}
+{"key": "chen2024voicebench", "lookup_steps": ["arxiv:match"]}
+{"key": "chen2024salm", "lookup_steps": ["arxiv:match"]}
+{"key": "bestow2024chen", "lookup_steps": ["arxiv:match"]}
+{"key": "chou2023toward", "lookup_steps": ["arxiv:match"]}
+{"key": "chu2023qwen", "lookup_steps": ["arxiv:match"]}
+{"key": "chu2024qwen2audio", "lookup_steps": ["arxiv:match"]}
+{"key": "copet2024simple", "lookup_steps": ["arxiv:match"]}
+{"key": "scaling-slms", "lookup_steps": ["arxiv:match"]}
+{"key": "cui2024recentadvancesspeechlanguage", "lookup_steps": ["arxiv:match"]}
+{"key": "das2024speechverse", "lookup_steps": ["arxiv:match"]}
+{"key": "de2023prosaudit", "lookup_steps": ["arxiv:match"]}
+{"key": "encodec", "lookup_steps": ["arxiv:match"]}
+{"key": "defossezmoshi", "lookup_steps": ["arxiv:match"]}
+{"key": "wav2prompt", "lookup_steps": ["arxiv:match"]}
+{"key": "bert", "lookup_steps": ["arxiv:match"]}
+{"key": "usm-lite", "lookup_steps": ["arxiv:match"]}
+{"key": "du2025codecfake", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:match", "openalex:no_match", "crossref:error_HTTPError", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "du2024cosyvoice", "lookup_steps": ["arxiv:match"]}
+{"key": "dunbar2021zero", "lookup_steps": ["arxiv:match"]}
+{"key": "ekstedt-skantze-2020-turngpt", "lookup_steps": ["arxiv:match"]}
+{"key": "fan2024alignformer", "lookup_steps": ["arxiv:match"]}
+{"key": "fang2024llama", "lookup_steps": ["arxiv:error_ReadTimeout", "semantic_scholar:match"]}
+{"key": "audiochatllama", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "bpe", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "gaido2021ctc", "lookup_steps": ["arxiv:error_ReadTimeout", "semantic_scholar:match"]}
+{"key": "gao2022wavprompt", "lookup_steps": ["arxiv:match"]}
+{"key": "geminiteam2024gemini15unlockingmultimodal", "lookup_steps": ["arxiv:match"]}
+{"key": "team2024gemma", "lookup_steps": ["arxiv:match"]}
+{"key": "gong2023whisperat", "lookup_steps": ["arxiv:match"]}
+{"key": "gong2023joint", "lookup_steps": ["arxiv:match"]}
+{"key": "gong2023listen", "lookup_steps": ["arxiv:match"]}
+{"key": "llama3", "lookup_steps": ["arxiv:match"]}
+{"key": "graves2006connectionist", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "VQ", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "gu2021efficiently", "lookup_steps": ["arxiv:match"]}
+{"key": "guo2025recent", "lookup_steps": ["arxiv:match"]}
+{"key": "twist", "lookup_steps": ["arxiv:match"]}
+{"key": "diva", "lookup_steps": ["arxiv:match"]}
+{"key": "hernandez2018ted", "lookup_steps": ["arxiv:match"]}
+{"key": "holtzman2020the", "lookup_steps": ["arxiv:match"]}
+{"key": "houlsby2019parameter", "lookup_steps": ["arxiv:match"]}
+{"key": "hubert", "lookup_steps": ["arxiv:match"]}
+{"key": "lora", "lookup_steps": ["arxiv:match"]}
+{"key": "hu2024chain", "lookup_steps": ["arxiv:match"]}
+{"key": "wavllm", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "huang2024dynamic", "lookup_steps": ["arxiv:match"]}
+{"key": "huang2025dynamicsuperb", "lookup_steps": ["arxiv:match"]}
+{"key": "huang2001spoken", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:match"]}
+{"key": "ji2024wavchat", "lookup_steps": ["arxiv:match"]}
+{"key": "jimenez2023swe", "lookup_steps": ["arxiv:match"]}
+{"key": "joshi2017triviaqa", "lookup_steps": ["arxiv:match"]}
+{"key": "ke2023continual", "lookup_steps": ["arxiv:match"]}
+{"key": "keuleers2010wuggy", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "kharitonov2022textless", "lookup_steps": ["arxiv:match"]}
+{"key": "pGSLM", "lookup_steps": ["arxiv:match"]}
+{"key": "kharitonov2023speak", "lookup_steps": ["arxiv:match"]}
+{"key": "Kirkpatrick2017overcoming", "lookup_steps": ["arxiv:match"]}
+{"key": "koizumi2022wavefit", "lookup_steps": ["arxiv:match"]}
+{"key": "kong2020hifi", "lookup_steps": ["arxiv:match"]}
+{"key": "kreuk2022textless", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "kuan2024largeaudiolanguagemodelstruly", "lookup_steps": ["arxiv:match"]}
+{"key": "kuan2024audiohallucination", "lookup_steps": ["arxiv:match"]}
+{"key": "parp", "lookup_steps": ["arxiv:match"]}
+{"key": "lai2023instruction", "lookup_steps": ["arxiv:match"]}
+{"key": "GSLM", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "latif2023sparks", "lookup_steps": ["arxiv:match"]}
+{"key": "the2024large", "lookup_steps": ["arxiv:match"]}
+{"key": "le2024voicebox", "lookup_steps": ["arxiv:match"]}
+{"key": "lee2022direct", "lookup_steps": ["arxiv:match"]}
+{"key": "lee2022textless", "lookup_steps": ["arxiv:match"]}
+{"key": "lee2022autoregressive", "lookup_steps": ["arxiv:match"]}
+{"key": "q-former", "lookup_steps": ["arxiv:match"]}
+{"key": "lin2024advancing", "lookup_steps": ["arxiv:match"]}
+{"key": "lin2024alignslmtextlessspokenlanguage", "lookup_steps": ["arxiv:match"]}
+{"key": "biasspeechSLT24", "lookup_steps": ["arxiv:match"]}
+{"key": "biascontentSLT24", "lookup_steps": ["arxiv:match"]}
+{"key": "prompt1", "lookup_steps": ["arxiv:match"]}
+{"key": "lo2019mosnet", "lookup_steps": ["arxiv:match"]}
+{"key": "desta", "lookup_steps": ["arxiv:match"]}
+{"key": "desta2", "lookup_steps": ["arxiv:match"]}
+{"key": "ma2024languagemodellistenspeaking", "lookup_steps": ["arxiv:error_ReadTimeout", "semantic_scholar:error_ReadTimeout", "dblp:match", "openalex:match"]}
+{"key": "maimon2023speaking", "lookup_steps": ["arxiv:match"]}
+{"key": "maimon2024suite", "lookup_steps": ["arxiv:match"]}
+{"key": "maimon2025slamming", "lookup_steps": ["arxiv:match"]}
+{"key": "maiti2024voxtlm", "lookup_steps": ["arxiv:match"]}
+{"key": "masumura-etal-2018-neural", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "MEENA2014903", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "Parrot2024", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "messica2024nast", "lookup_steps": ["arxiv:match"]}
+{"key": "phi4mini", "lookup_steps": ["arxiv:match"]}
+{"key": "mohamed2022self", "lookup_steps": ["arxiv:match"]}
+{"key": "mostafazadeh2016corpus", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "mousavi2024dasb", "lookup_steps": ["arxiv:match"]}
+{"key": "mousavi2024should", "lookup_steps": ["arxiv:match"]}
+{"key": "nachmani2023spoken", "lookup_steps": ["arxiv:match"]}
+{"key": "dGSLM", "lookup_steps": ["arxiv:match"]}
+{"key": "nguyen2024spirit", "lookup_steps": ["arxiv:match"]}
+{"key": "gpt4osafety", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "gpt4", "lookup_steps": ["arxiv:match"]}
+{"key": "ouyang2022training", "lookup_steps": ["arxiv:match"]}
+{"key": "pan2023cosmic", "lookup_steps": ["arxiv:match"]}
+{"key": "park2024long", "lookup_steps": ["arxiv:match"]}
+{"key": "pasad2023comparative", "lookup_steps": ["arxiv:match"]}
+{"key": "peng2024surveyspeechlargelanguage", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "dphubert", "lookup_steps": ["arxiv:match"]}
+{"key": "owsm", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "peng2024voicetextblenderaugmentinglargelanguage", "lookup_steps": ["arxiv:match"]}
+{"key": "owsm-ctc", "lookup_steps": ["arxiv:match"]}
+{"key": "polyak21_interspeech", "lookup_steps": ["arxiv:match"]}
+{"key": "puvvada2024less", "lookup_steps": ["arxiv:match"]}
+{"key": "radford2019language", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "whisper", "lookup_steps": ["arxiv:match"]}
+{"key": "rafailov2023direct", "lookup_steps": ["arxiv:match"]}
+{"key": "turntakeingIS18", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "sakshi2024mmau", "lookup_steps": ["arxiv:match"]}
+{"key": "schatz2013evaluating", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "aBPE", "lookup_steps": ["arxiv:match"]}
+{"key": "shen2018natural", "lookup_steps": ["arxiv:match"]}
+{"key": "shi2024espnet", "lookup_steps": ["arxiv:match"]}
+{"key": "shon2022slue", "lookup_steps": ["arxiv:match"]}
+{"key": "shon2024discreteslu", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "shu2023llasm", "lookup_steps": ["arxiv:match"]}
+{"key": "sicherman2023analysing", "lookup_steps": ["arxiv:match"]}
+{"key": "siuzdak2024snac", "lookup_steps": ["arxiv:match"]}
+{"key": "skantze-2017-towards", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "bigbench", "lookup_steps": ["arxiv:match"]}
+{"key": "tang2023salmonn", "lookup_steps": ["arxiv:match"]}
+{"key": "tian2025espnet", "lookup_steps": ["arxiv:match"]}
+{"key": "touvron2023llama", "lookup_steps": ["arxiv:match"]}
+{"key": "touvron2023llama2", "lookup_steps": ["arxiv:match"]}
+{"key": "tsunoo24_interspeech", "lookup_steps": ["arxiv:match"]}
+{"key": "turetzky2024last", "lookup_steps": ["arxiv:match"]}
+{"key": "van2017neural", "lookup_steps": ["arxiv:match"]}
+{"key": "veluri2024turnbasedinterfacessynchronousllms", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "wang2024audiobench", "lookup_steps": ["arxiv:match"]}
+{"key": "blsp", "lookup_steps": ["arxiv:match"]}
+{"key": "wang2023slm", "lookup_steps": ["arxiv:match"]}
+{"key": "duplextimeNuerIPS24", "lookup_steps": ["arxiv:match"]}
+{"key": "wang2024freezeomnismartlowlatency", "lookup_steps": ["arxiv:match"]}
+{"key": "warstadt2020blimp", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:match"]}
+{"key": "FLAN", "lookup_steps": ["arxiv:match"]}
+{"key": "CoT", "lookup_steps": ["arxiv:match"]}
+{"key": "WhisperSpeech", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "wav2seq", "lookup_steps": ["arxiv:match"]}
+{"key": "wu2024towards", "lookup_steps": ["arxiv:match"]}
+{"key": "wu2024codec", "lookup_steps": ["arxiv:match"]}
+{"key": "wu-etal-2024-codec", "lookup_steps": ["arxiv:match"]}
+{"key": "wu2024ts3", "lookup_steps": ["arxiv:match"]}
+{"key": "wu2024codecfake", "lookup_steps": ["arxiv:match"]}
+{"key": "wu2023decoder", "lookup_steps": ["arxiv:match"]}
+{"key": "xie2024mini", "lookup_steps": ["arxiv:match"]}
+{"key": "xie2024mini2", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "xin2024bigcodec", "lookup_steps": ["arxiv:match"]}
+{"key": "xu2024enablingrealtimeconversationsminimal", "lookup_steps": ["arxiv:match"]}
+{"key": "xue2024chat", "lookup_steps": ["arxiv:match"]}
+{"key": "yang2023uniaudio", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "airbench", "lookup_steps": ["arxiv:match"]}
+{"key": "yu2023megabyte", "lookup_steps": ["arxiv:match"]}
+{"key": "yu2024connecting", "lookup_steps": ["arxiv:match"]}
+{"key": "Flow-Omni", "lookup_steps": ["arxiv:match"]}
+{"key": "soundstream", "lookup_steps": ["arxiv:match"]}
+{"key": "zellers2019hellaswag", "lookup_steps": ["arxiv:match"]}
+{"key": "zeng2024glm", "lookup_steps": ["arxiv:match"]}
+{"key": "zeng2024scaling", "lookup_steps": ["arxiv:match"]}
+{"key": "anygpt", "lookup_steps": ["arxiv:match"]}
+{"key": "zhang2023speechgpt", "lookup_steps": ["arxiv:match"]}
+{"key": "zhang2024mm", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "zhang2025omniflattenendtoendgptmodel", "lookup_steps": ["arxiv:match"]}
+{"key": "zhang2022opt", "lookup_steps": ["arxiv:match"]}
+{"key": "speechtokenizer", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "zhang2024turnbasedgameenablingrealtime", "lookup_steps": ["arxiv:match"]}
+{"key": "usm", "lookup_steps": ["arxiv:match"]}
+{"key": "zheng2023judging", "lookup_steps": ["arxiv:match"]}
