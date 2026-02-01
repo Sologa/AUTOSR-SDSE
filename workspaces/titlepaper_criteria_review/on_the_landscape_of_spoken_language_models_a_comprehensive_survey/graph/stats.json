@@ -1,0 +1,14 @@
+{
+  "api_calls": 0,
+  "cache_hits": 364,
+  "n_edges_by_match_type": {
+    "arxiv": 1572,
+    "paperId": 121,
+    "doi": 2,
+    "title_exact": 1
+  },
+  "n_nodes": 182,
+  "n_edges": 1696,
+  "n_papers_resolved": 181,
+  "n_papers_unresolved": 1
+}

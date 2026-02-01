@@ -1,0 +1,183 @@
+key,title,label,source,source_id,arxiv_id,doi,s2_paper_id
+agostinelli2023musiclm,MusicLM: Generating Music From Text,U,arxiv,2301.11325v1,2301.11325,,428854d9e75f94f0e61f37c6887c77800437d516
+algayres2022speech,Speech Sequence Embeddings using Nearest Neighbors Contrastive Learning,U,arxiv,2204.05148v2,2204.05148,,fbb74ee838dbe83cb58cd8751e671c5ff6466dea
+tGSLM,Generative Spoken Language Model based on continuous word-sized audio tokens,U,arxiv,2310.05224v1,2310.05224,,2d5ef1d6b631ac7ee0ae87e480381407c11b9fb2
+an2024funaudiollm,FunAudioLLM: Voice Understanding and Generation Foundation Models for Natural Interaction Between Humans and LLMs,U,arxiv,2407.04051v3,2407.04051,,be44334ac2345ff0d39fd79adde74d45123832ca
+ao2024sd,SD-Eval: A Benchmark Dataset for Spoken Dialogue Understanding Beyond Words,U,arxiv,2406.13340v2,2406.13340,,2fddf16c0a5092f0c8f804fdeb0038996766c385
+arora2023universlu,UniverSLU: Universal Spoken Language Understanding for Diverse Tasks with Natural Language Instructions,U,arxiv,2310.02973v2,2310.02973,,90b3d99afa310548d6a2d9c9ab1cacd09097404c
+wav2vec2,wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations,U,arxiv,2006.11477v3,2006.11477,,49a049dc85e2380dde80501a984878341dd8efdf
+bai2023qwen,Qwen Technical Report,U,arxiv,2309.16609v1,2309.16609,,5fc1a3a49e8f1d106118b69d1d6be3b6caa23da0
+berant2013semantic,Semantic Parsing on Freebase from Question-Answer Pairs,U,semantic_scholar,b29447ba499507a259ae9d8f685d60cc1597d7d3,,,b29447ba499507a259ae9d8f685d60cc1597d7d3
+audiolm,AudioLM: a Language Modeling Approach to Audio Generation,U,arxiv,2209.03143v2,2209.03143,,8c870bef01a4fbb20f60722ffc2f6bee3870b18b
+borsos2023soundstorm,SoundStorm: Efficient Parallel Audio Generation,U,arxiv,2305.09636v1,2305.09636,,2183c88e9056e931b07d48f1dc44360785952073
+brown2020language,Language Models are Few-Shot Learners,U,arxiv,2005.14165v4,2005.14165,,90abbc2cf38462b954ae1b772fac9532e2ccd8b0
+chan2016listen,"Listen, Attend and Spell",U,arxiv,1508.01211v2,1508.01211,,3056add22b20e3361c38c0472d294a79d4031cb4
+chang2022maskgit,MaskGIT: Masked Generative Image Transformer,U,arxiv,2202.04200v1,2202.04200,,7c597874535c1537d7ddff3b3723015b4dc79d30
+chang2024speechprompt,SpeechPrompt: Prompting Speech Language Models for Speech Processing Tasks,U,arxiv,2408.13040v1,2408.13040,,c62ec2d7020f1028c5eefde3d27e2fff0722a600
+chen2023x,X-LLM: Bootstrapping Advanced Large Language Models by Treating Multi-Modalities as Foreign Languages,U,arxiv,2305.04160v3,2305.04160,,43e6e8d6663d83f1b74cf5a2be7b040b0928f867
+chen2024next,Next Token Prediction Towards Multimodal Intelligence: A Comprehensive Survey,U,arxiv,2412.18619v2,2412.18619,,fa1e50a8bcc0bd771d5b8f0ac7366dbbea7b282b
+chen2025minmo,MinMo: A Multimodal Large Language Model for Seamless Voice Interaction,U,arxiv,2501.06282v1,2501.06282,,f2b130da01072d67d3f0a87a7f185acc36d5d4e4
+wavlm,WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing,U,arxiv,2110.13900v5,2110.13900,,416dab850fda842b13a4f28164514d98f836fff7
+wang2023neural,Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers,U,arxiv,2301.02111v1,2301.02111,,c2f91f35df893714418cc29096083dce0b441229
+chen2024slam,SLAM-Omni: Timbre-Controllable Voice Interaction System with Single-Stage Training,U,arxiv,2412.15649v1,2412.15649,,b20842d05f3319790b49dc73d002911fec41cc7f
+chen2024voicebench,VoiceBench: Benchmarking LLM-Based Voice Assistants,U,arxiv,2410.17196v3,2410.17196,,fea901c4c075dc268fb3f3124dec01443ae2cc2a
+chen2024salm,SALM: Speech-augmented Language Model with In-context Learning for Speech Recognition and Translation,U,arxiv,2310.09424v1,2310.09424,,1533c2cbfa402f7f6caf0d126be7864795afbe9d
+bestow2024chen,BESTOW: Efficient and Streamable Speech Language Model with the Best of Two Worlds in GPT and T5,U,arxiv,2406.19954v1,2406.19954,,635deabb5d38f199c6fa8c7ec2e0f5610f4df436
+chou2023toward,Toward Joint Language Modeling for Speech Units and Text,U,arxiv,2310.08715v1,2310.08715,,d194527e6169af0598f00c0724b30f8d363d39fa
+chu2023qwen,Qwen-Audio: Advancing Universal Audio Understanding via Unified Large-Scale Audio-Language Models,U,arxiv,2311.07919v2,2311.07919,,f90595f99a0c66d2bb6d0f230f17c7cd8c58f44d
+chu2024qwen2audio,Qwen2-Audio Technical Report,U,arxiv,2407.10759v1,2407.10759,,8ca1fdca69d780881f905ef9a4612e62f49a1014
+copet2024simple,Simple and Controllable Music Generation,U,arxiv,2306.05284v3,2306.05284,,4cc8e18f5eece0b0d8e1abcb8ee10fb33680fbb2
+scaling-slms,Scaling Properties of Speech Language Models,U,arxiv,2404.00685v2,2404.00685,,a7eeee0df79da5662e7329d9710e97da032c3108
+cui2024recentadvancesspeechlanguage,Recent Advances in Speech Language Models: A Survey,U,arxiv,2410.03751v4,2410.03751,,4d77e3192d1246d6247dc62d418a5d17b95a1f73
+das2024speechverse,SpeechVerse: A Large-scale Generalizable Audio Language Model,U,arxiv,2405.08295v3,2405.08295,,2d60ebb118d966391b275b5c285bab5dc80bfa8f
+de2023prosaudit,"ProsAudit, a prosodic benchmark for self-supervised speech models",U,arxiv,2302.12057v3,2302.12057,,75ef5877acbd3fff7bce0af51dadfa42f6e4c9c0
+encodec,High Fidelity Neural Audio Compression,U,arxiv,2210.13438v1,2210.13438,,cdcfeb447fa8554c131c0a13a7ffcba30c0381e1
+defossezmoshi,Moshi: a speech-text foundation model for real-time dialogue,U,arxiv,2410.00037v2,2410.00037,,ae4aa7b0c5a327dae63ad20e00b58bcc6176b3b8
+wav2prompt,Wav2Prompt: End-to-End Speech Prompt Generation and Tuning For LLM in Zero and Few-shot Learning,U,arxiv,2406.00522v1,2406.00522,,18851818721bf358cfea2731abf3fcac84c13ac4
+bert,BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding,U,arxiv,1810.04805v2,1810.04805,,df2b0e26d0599ce3e70df8a9da02e51594e0e992
+usm-lite,USM-Lite: Quantization and Sparsity Aware Fine-tuning for Speech Recognition with Universal Speech Models,U,arxiv,2312.08553v3,2312.08553,,d8799a2d06e4ecd3df91ff1d5c997a64a748d0a1
+du2024cosyvoice,CosyVoice: A Scalable Multilingual Zero-shot Text-to-speech Synthesizer based on Supervised Semantic Tokens,U,arxiv,2407.05407v2,2407.05407,,09042877c369a9224d094c37b403735a23368316
+dunbar2021zero,The Zero Resource Speech Challenge 2021: Spoken language modelling,U,arxiv,2104.14700v2,2104.14700,,2a500dae25af18424997733df2e1600250293f40
+ekstedt-skantze-2020-turngpt,TurnGPT: a Transformer-based Language Model for Predicting Turn-taking in Spoken Dialog,U,arxiv,2010.10874v1,2010.10874,,97b0689d937a622c37726a10b911a60a89f146d8
+fan2024alignformer,AlignFormer: Modality Matching Can Achieve Better Zero-shot Instruction-Following Speech-LLM,U,arxiv,2412.01145v2,2412.01145,,4b974bbe649adccdaec4c69e0788990ef3a1cd43
+fang2024llama,LLaMA-Omni: Seamless Speech Interaction with Large Language Models,U,semantic_scholar,218ddd5ca9e959c91ad6b48a379397e4cb0d47d8,,,218ddd5ca9e959c91ad6b48a379397e4cb0d47d8
+audiochatllama,AudioChatLlama: Towards General-Purpose Speech Abilities for LLMs,U,semantic_scholar,e4a9a026a40a58cee4d6509d2ef817a86a11a760,,,e4a9a026a40a58cee4d6509d2ef817a86a11a760
+gaido2021ctc,CTC-based Compression for Direct Speech Translation,U,semantic_scholar,62316c538d3d9dcb6ae8a3567433f7417eab1f32,,,62316c538d3d9dcb6ae8a3567433f7417eab1f32
+gao2022wavprompt,WAVPROMPT: Towards Few-Shot Spoken Language Understanding with Frozen Language Models,U,arxiv,2203.15863v2,2203.15863,,f8cf6c42d48326ff7ae172c5e555178d440bf7cb
+geminiteam2024gemini15unlockingmultimodal,Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context,U,arxiv,2403.05530v5,2403.05530,,c811bedbe8f4c21d0cba9f9175f7c2eb203284a7
+team2024gemma,Gemma: Open Models Based on Gemini Research and Technology,U,arxiv,2403.08295v4,2403.08295,,b842b83a7ff5dff8e3b83915d8c15423b6085728
+gong2023whisperat,Whisper-AT: Noise-Robust Automatic Speech Recognizers are Also Strong General Audio Event Taggers,U,arxiv,2307.03183v1,2307.03183,,98bd673440c579bcca2d434bca86f97c9b40c74c
+gong2023joint,Joint Audio and Speech Understanding,U,arxiv,2309.14405v3,2309.14405,,c14db8b4c1bd65a18a604236cdbc3549ee75f3bd
+gong2023listen,"Listen, Think, and Understand",U,arxiv,2305.10790v3,2305.10790,,4bb0b12803791764d641a4cef1e0ce39cf049542
+llama3,The Llama 3 Herd of Models,U,arxiv,2407.21783v3,2407.21783,,40e8af970329135ec95057d73e239dab805ad128
+gu2021efficiently,Efficiently Modeling Long Sequences with Structured State Spaces,U,arxiv,2111.00396v3,2111.00396,,ac2618b2ce5cdcf86f9371bcca98bc5e37e46f51
+guo2025recent,Recent Advances in Discrete Speech Tokens: A Review,U,arxiv,2502.06490v4,2502.06490,,4f02bdf2229fd96afdf382b23dace98485fd7d7f
+twist,Textually Pretrained Speech Language Models,U,arxiv,2305.13009v3,2305.13009,,4a7855ec905faedfa68235b6f3966d8269f03d18
+diva,Distilling an End-to-End Voice Assistant Without Instruction Training Data,U,arxiv,2410.02678v1,2410.02678,,e0b943a7caa0604879417cd0181888930ede8947
+hernandez2018ted,TED-LIUM 3: twice as much data and corpus repartition for experiments on speaker adaptation,U,arxiv,1805.04699v4,1805.04699,,c1f39fe16ca72d73170e74fe6920cb553d580766
+holtzman2020the,The Curious Case of Neural Text Degeneration,U,arxiv,1904.09751v2,1904.09751,,cf4aa38ae31b43fd07abe13b4ffdb265babb7be1
+houlsby2019parameter,Parameter-Efficient Transfer Learning for NLP,U,arxiv,1902.00751v2,1902.00751,,29ddc1f43f28af7c846515e32cc167bc66886d0c
+hubert,HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units,U,arxiv,2106.07447v1,2106.07447,,4fffa5245d3972077c83614c2a08a47cb578631e
+lora,LoRA: Low-Rank Adaptation of Large Language Models,U,arxiv,2106.09685v2,2106.09685,,a8ca46b171467ceb2d7652fbfb67fe701ad86092
+hu2024chain,Chain-of-Thought Prompting for Speech Translation,U,arxiv,2409.11538v2,2409.11538,,fa72137091c80280e8c9dec1015beaea8aa0abb8
+wavllm,WavLLM: Towards Robust and Adaptive Speech Large Language Model,U,semantic_scholar,1a41d449f2ed4051ac4c763fb8b1b07357eaf5f4,,,1a41d449f2ed4051ac4c763fb8b1b07357eaf5f4
+huang2024dynamic,"Dynamic-SUPERB: Towards A Dynamic, Collaborative, and Comprehensive Instruction-Tuning Benchmark for Speech",U,arxiv,2309.09510v2,2309.09510,,786294f4008732a5dac9895a8507bc4c80450075
+huang2025dynamicsuperb,Dynamic-SUPERB Phase-2: A Collaboratively Expanding Benchmark for Measuring the Capabilities of Spoken Language Models with 180 Tasks,U,arxiv,2411.05361v2,2411.05361,,125858649920909590356c7f9586ad9a5c3163f1
+huang2001spoken,"Spoken Language Processing: A Guide to Theory, Algorithm, and System Development",U,openalex,https://openalex.org/W1578856370,,,28bb28488c30e26b047916cbc3276bee213c7ab9
+ji2024wavchat,WavChat: A Survey of Spoken Dialogue Models,U,arxiv,2411.13577v2,2411.13577,,3c14dff308d93796db63e7fef99126aa810ec098
+jimenez2023swe,SWE-bench: Can Language Models Resolve Real-World GitHub Issues?,U,arxiv,2310.06770v3,2310.06770,,94a5f96308729e31c1ffbc0f0618db87795092fe
+joshi2017triviaqa,TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension,U,arxiv,1705.03551v2,1705.03551,,f010affab57b5fcf1cd6be23df79d8ec98c7289c
+ke2023continual,Continual Pre-training of Language Models,U,arxiv,2302.03241v4,2302.03241,,e3ec55e9e6720194a0ed5d4033d93a941c8a4f99
+kharitonov2022textless,textless-lib: a Library for Textless Spoken Language Processing,U,arxiv,2202.07359v1,2202.07359,,08ba36fe521389f4692357496091c8b1a71ede00
+pGSLM,Text-Free Prosody-Aware Generative Spoken Language Modeling,U,arxiv,2109.03264v2,2109.03264,,65b20b3e6f81f6567e41e353a47a2380c6cc4b77
+kharitonov2023speak,"Speak, Read and Prompt: High-Fidelity Text-to-Speech with Minimal Supervision",U,arxiv,2302.03540v1,2302.03540,,071d021ef9dcd83686d7b12bec2e13283b2f048f
+Kirkpatrick2017overcoming,Overcoming catastrophic forgetting in neural networks,U,arxiv,1612.00796v2,1612.00796,,2e55ba6c97ce5eb55abd959909403fe8da7e9fe9
+koizumi2022wavefit,WaveFit: An Iterative and Non-autoregressive Neural Vocoder based on Fixed-Point Iteration,U,arxiv,2210.01029v1,2210.01029,,1620c9a484bf826fa33fd22d7bc35760a69467b8
+kong2020hifi,HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis,U,arxiv,2010.05646v2,2010.05646,,4e468d3da1797d791db8d514d695b183acb027ee
+kreuk2022textless,Textless Speech Emotion Conversion using Discrete & Decomposed Representations,U,semantic_scholar,44ff1432414805bbbff7b7c814c758989d3028c9,,,44ff1432414805bbbff7b7c814c758989d3028c9
+kuan2024largeaudiolanguagemodelstruly,Can Large Audio-Language Models Truly Hear? Tackling Hallucinations with Multi-Task Assessment and Stepwise Audio Reasoning,U,arxiv,2410.16130v2,2410.16130,,2a1cb14f40dba897a98988c6744233b5d4350697
+kuan2024audiohallucination,"Understanding Sounds, Missing the Questions: The Challenge of Object Hallucination in Large Audio-Language Models",U,arxiv,2406.08402v1,2406.08402,,576023f7cc3da5a36ac0cfda402af859cc90be10
+parp,"PARP: Prune, Adjust and Re-Prune for Self-Supervised Speech Recognition",U,arxiv,2106.05933v2,2106.05933,,362635eb7cd72d4ca7414cb257dadbced12fbe8f
+lai2023instruction,Instruction-Following Speech Recognition,U,arxiv,2309.09843v1,2309.09843,,c87f1f7ec6fd6b93d6f7626bebf6de2bf0b8c8e8
+GSLM,On Generative Spoken Language Modeling from Raw Audio,U,semantic_scholar,7c39adb2049e79951dd6b92c970abaa4d81819b1,,,7c39adb2049e79951dd6b92c970abaa4d81819b1
+latif2023sparks,Sparks of Large Audio Models: A Survey and Outlook,U,arxiv,2308.12792v3,2308.12792,,374ebdc8240a35820cb7ab8bfca37e180e21b605
+the2024large,Large Concept Models: Language Modeling in a Sentence Representation Space,U,arxiv,2412.08821v2,2412.08821,,ec81cfb3c35321a7aa1e4c0dfd1bbcf7c4b97ded
+le2024voicebox,Voicebox: Text-Guided Multilingual Universal Speech Generation at Scale,U,arxiv,2306.15687v2,2306.15687,,a9e00c216ce69325a15fd139da0624978e54058a
+lee2022direct,Direct speech-to-speech translation with discrete units,U,arxiv,2107.05604v2,2107.05604,,48d5e267ab336a0b4caf2e1909d7860b02c6a736
+lee2022textless,Textless Speech-to-Speech Translation on Real Data,U,arxiv,2112.08352v2,2112.08352,,7001e4e66cac41b7164a8a6b78cc70f181037bdf
+lee2022autoregressive,Autoregressive Image Generation using Residual Quantization,U,arxiv,2203.01941v2,2203.01941,,8fbc2d349d3d0945efa5e92fd3713734ce63d19e
+q-former,BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models,U,arxiv,2301.12597v3,2301.12597,,3f5b31c4f7350dc88002c121aecbdc82f86eb5bb
+lin2024advancing,Advancing Large Language Models to Capture Varied Speaking Styles and Respond Properly in Spoken Conversations,U,arxiv,2402.12786v2,2402.12786,,e1ffbf6e1b93d5ac3466d6d7ef3638a399083f05
+lin2024alignslmtextlessspokenlanguage,Align-SLM: Textless Spoken Language Models with Reinforcement Learning from AI Feedback,U,arxiv,2411.01834v2,2411.01834,,208bc55d3e31502f86ee695885555a1b92124c78
+biasspeechSLT24,Spoken Stereoset: On Evaluating Social Bias Toward Speaker in Speech Large Language Models,U,arxiv,2408.07665v1,2408.07665,,f2af266a35ce57f798e89a613e848e3365484314
+biascontentSLT24,Listen and Speak Fairly: A Study on Semantic Gender Bias in Speech Integrated Large Language Models,U,arxiv,2407.06957v1,2407.06957,,5c2ff8d9dab2548bd00fe7bde9afcf706e4eb0fa
+prompt1,"Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing",U,arxiv,2107.13586v1,2107.13586,,28692beece311a90f5fa1ca2ec9d0c2ce293d069
+lo2019mosnet,MOSNet: Deep Learning based Objective Assessment for Voice Conversion,U,arxiv,1904.08352v3,1904.08352,,f45b6ecb84bcae0aec420f7491578f6297fbc81a
+desta,DeSTA: Enhancing Speech Language Models through Descriptive Speech-Text Alignment,U,arxiv,2406.18871v1,2406.18871,,32179fd10f2c13c5566f09f1691bc15963f2289f
+desta2,DeSTA2: Developing Instruction-Following Speech Language Model Without Speech Instruction-Tuning Data,U,arxiv,2409.20007v2,2409.20007,,83bd40afb5c8531fe7edcf827328103c80982c2d
+ma2024languagemodellistenspeaking,Language Model Can Listen While Speaking,U,openalex,https://openalex.org/W4409348167,,,a375c53f7110d0e7d6d9228b63a3faff40f91599
+maimon2023speaking,Speaking Style Conversion in the Waveform Domain Using Discrete Self-Supervised Units,U,arxiv,2212.09730v2,2212.09730,,6e97c068d7756d4eb6e98c8e85e891a6c8436147
+maimon2024suite,Salmon: A Suite for Acoustic Language Model Evaluation,U,arxiv,2409.07437v3,2409.07437,,85c4badd3e854796757e9ae704bc0315df859276
+maimon2025slamming,Slamming: Training a Speech Language Model on One GPU in a Day,U,arxiv,2502.15814v2,2502.15814,,fea2e5accecdf2e5518bb19128b89d8edb8eb8a1
+maiti2024voxtlm,Voxtlm: unified decoder-only models for consolidating speech recognition/synthesis and speech/text continuation tasks,U,arxiv,2309.07937v3,2309.07937,,91a06713cbccbfb1b5e1b9f7b62a1fba348616c3
+masumura-etal-2018-neural,Neural Dialogue Context Online End-of-Turn Detection,U,semantic_scholar,31e63d59c8b86c2b153b7e57711efc4da2e06913,,,31e63d59c8b86c2b153b7e57711efc4da2e06913
+messica2024nast,NAST: Noise Aware Speech Tokenization for Speech Language Models,U,arxiv,2406.11037v1,2406.11037,,d2d36ba44417e86e1b8324ba5f40189f71e23b39
+phi4mini,Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs,U,arxiv,2503.01743v2,2503.01743,,f6e39cee044a03747fbb4b20e335b640b43b884c
+mohamed2022self,Self-Supervised Speech Representation Learning: A Review,U,arxiv,2205.10643v3,2205.10643,,f76a5b176f3435214eb87dd105f730f0b53672c3
+mostafazadeh2016corpus,A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories,U,semantic_scholar,85b68477a6e031d88b963833e15a4b4fc6855264,,,85b68477a6e031d88b963833e15a4b4fc6855264
+mousavi2024dasb,DASB - Discrete Audio and Speech Benchmark,U,arxiv,2406.14294v2,2406.14294,,1d3b4bd9b04c83c8ff7e75bc951b98d263f05bd1
+mousavi2024should,How Should We Extract Discrete Audio Tokens from Self-Supervised Models?,U,arxiv,2406.10735v1,2406.10735,,40875b1e950fe6636ef277df4ed6d501f4933307
+nachmani2023spoken,Spoken Question Answering and Speech Continuation Using Spectrogram-Powered LLM,U,arxiv,2305.15255v4,2305.15255,,d154833ad5b4b1853cfa3681a291e201b82a0c2e
+dGSLM,Generative Spoken Dialogue Language Modeling,U,arxiv,2203.16502v2,2203.16502,,5a29401272d58c20bcd95728f646c186f62b6c48
+nguyen2024spirit,Spirit LM: Interleaved Spoken and Written Language Model,U,arxiv,2402.05755v2,2402.05755,,7547e30ba98a0217f07a6bb9fc393902bbc89269
+gpt4,GPT-4 Technical Report,U,arxiv,2303.08774v6,2303.08774,,163b4d6a79a5b19af88b8585456363340d9efd04
+ouyang2022training,Training language models to follow instructions with human feedback,U,arxiv,2203.02155v1,2203.02155,,d766bffc357127e0dc86dd69561d5aeb520d6f4c
+pan2023cosmic,COSMIC: Data Efficient Instruction-tuning For Speech In-Context Learning,U,arxiv,2311.02248v2,2311.02248,,a884d6284f330a38fbdb3ecc147d48482da28867
+park2024long,Long-Form Speech Generation with Spoken Language Models,U,arxiv,2412.18603v2,2412.18603,,b70f44b066d7adcf89cdd0870a81e3266afdcb6d
+pasad2023comparative,Comparative layer-wise analysis of self-supervised speech models,U,arxiv,2211.03929v3,2211.03929,,901e2c286da05e34669c2aef50ed9b4b54d81451
+dphubert,DPHuBERT: Joint Distillation and Pruning of Self-Supervised Speech Models,U,arxiv,2305.17651v1,2305.17651,,e4f2d75856ce149b994f079ae50fd33ca47245d3
+owsm,Reproducing Whisper-Style Training Using An Open-Source Toolkit And Publicly Available Data,U,semantic_scholar,d43338451cd8676548811e1ff8f9c92ea987c5bd,,,d43338451cd8676548811e1ff8f9c92ea987c5bd
+peng2024voicetextblenderaugmentinglargelanguage,VoiceTextBlender: Augmenting Large Language Models with Speech Capabilities via Single-Stage Joint Speech-Text Supervised Fine-Tuning,U,arxiv,2410.17485v2,2410.17485,,2c35f51ee8a78437b68e7b557f64f5adb59a329f
+owsm-ctc,"OWSM-CTC: An Open Encoder-Only Speech Foundation Model for Speech Recognition, Translation, and Language Identification",U,arxiv,2402.12654v3,2402.12654,,7d289ac336ef671e13909060a1cfa88065cba25e
+polyak21_interspeech,Speech Resynthesis from Discrete Disentangled Self-Supervised Representations,U,arxiv,2104.00355v3,2104.00355,,51a79a45e2577bffca0a50992a852c73d7a13ffa
+puvvada2024less,Less is More: Accurate Speech Recognition & Translation without Web-Scale Data,U,arxiv,2406.19674v1,2406.19674,,
+whisper,Robust Speech Recognition via Large-Scale Weak Supervision,U,arxiv,2212.04356v1,2212.04356,,a02fbaf22237a1aedacb1320b6007cd70c1fe6ec
+rafailov2023direct,Direct Preference Optimization: Your Language Model is Secretly a Reward Model,U,arxiv,2305.18290v3,2305.18290,,0d1c76d45afa012ded7ab741194baf142117c495
+turntakeingIS18,Investigating Speech Features for Continuous Turn-Taking Prediction Using LSTMs,U,semantic_scholar,ede28e0b075c294c5d66a75711c960c84f2fd234,,,ede28e0b075c294c5d66a75711c960c84f2fd234
+sakshi2024mmau,MMAU: A Massive Multi-Task Audio Understanding and Reasoning Benchmark,U,arxiv,2410.19168v1,2410.19168,,c0605c96870e59b4caf2247a98c6bd3aad25882f
+schatz2013evaluating,Evaluating speech features with the minimal-pair ABX task: analysis of the classical MFC/PLP pipeline,U,openalex,https://openalex.org/W2395899413,,,6d683f57a1498676090965141b8962b1e7b0fb4a
+aBPE,Acoustic BPE for Speech Generation with Discrete Tokens,U,arxiv,2310.14580v4,2310.14580,,2b359335921a43972f53d6897c5060c577b416ac
+shen2018natural,Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions,U,arxiv,1712.05884v2,1712.05884,,1a2599e467e855f845dcbf9282f8bdbd97b85708
+shi2024espnet,"ESPnet-Codec: Comprehensive Training and Evaluation of Neural Codecs for Audio, Music, and Speech",U,arxiv,2409.15897v2,2409.15897,,a70673e7e99383b22149a5aed45223da45274709
+shon2022slue,SLUE: New Benchmark Tasks for Spoken Language Understanding Evaluation on Natural Speech,U,arxiv,2111.10367v3,2111.10367,,638e198424f81570441a91bafda16d96f53d3c72
+shon2024discreteslu,DiscreteSLU: A Large Language Model with Self-Supervised Discrete Speech Units for Spoken Language Understanding,U,semantic_scholar,4626971b4b3a7ae5cdae61ca81ff97e06fc365eb,,,4626971b4b3a7ae5cdae61ca81ff97e06fc365eb
+shu2023llasm,LLaSM: Large Language and Speech Model,U,arxiv,2308.15930v3,2308.15930,,7b22ecd9f1ced58c1704ac6191e029b98054e330
+sicherman2023analysing,Analysing Discrete Self Supervised Speech Representation for Spoken Language Modeling,U,arxiv,2301.00591v3,2301.00591,,646da9e8e41fe58f9ee226499fda1b7fcdc1a58f
+siuzdak2024snac,SNAC: Multi-Scale Neural Audio Codec,U,arxiv,2410.14411v1,2410.14411,,8f33eafe5972bf2f8dda26b3a80f9a1cf200e7a1
+skantze-2017-towards,"Towards a General, Continuous Model of Turn-taking in Spoken Dialogue using LSTM Recurrent Neural Networks",U,semantic_scholar,04af90e58c35798bf7c0f80c9f5457bb06fe01f5,,,04af90e58c35798bf7c0f80c9f5457bb06fe01f5
+bigbench,Beyond the Imitation Game: Quantifying and extrapolating the capabilities of language models,U,arxiv,2206.04615v3,2206.04615,,bd1331b233e84bab7eba503abc60b31ac08e7881
+tang2023salmonn,SALMONN: Towards Generic Hearing Abilities for Large Language Models,U,arxiv,2310.13289v2,2310.13289,,f72be31de9f9a09d4410fd38bc717efe43444827
+tian2025espnet,ESPnet-SpeechLM: An Open Speech Language Model Toolkit,U,arxiv,2502.15218v2,2502.15218,,6245784c904ca849d4ac5b92de4878ee633997dd
+touvron2023llama,LLaMA: Open and Efficient Foundation Language Models,U,arxiv,2302.13971v1,2302.13971,,57e849d0de13ed5f91d086936296721d4ff75a75
+touvron2023llama2,Llama 2: Open Foundation and Fine-Tuned Chat Models,U,arxiv,2307.09288v2,2307.09288,,104b0bb1da562d53cbda87aec79ef6a2827d191a
+tsunoo24_interspeech,Decoder-only Architecture for Streaming End-to-end Speech Recognition,U,arxiv,2406.16107v2,2406.16107,,de85edfefac135d0ae08ea826ad78f9e649f73bc
+turetzky2024last,LAST: Language Model Aware Speech Tokenization,U,arxiv,2409.03701v2,2409.03701,,b6272e96c7e6228b0ecbf4d7f0aeb3f4bc789376
+van2017neural,Neural Discrete Representation Learning,U,arxiv,1711.00937v2,1711.00937,,f466157848d1a7772fb6d02cdac9a7a5e7ef982e
+veluri2024turnbasedinterfacessynchronousllms,Beyond Turn-Based Interfaces: Synchronous LLMs as Full-Duplex Dialogue Agents,U,semantic_scholar,77c12b7565774bc18e420f91336d02ba5bd6309f,,,77c12b7565774bc18e420f91336d02ba5bd6309f
+wang2024audiobench,AudioBench: A Universal Benchmark for Audio Large Language Models,U,arxiv,2406.16020v5,2406.16020,,f747f4df988be3cc36f660b13221959ace63b770
+blsp,BLSP: Bootstrapping Language-Speech Pre-training via Behavior Alignment of Continuation Writing,U,arxiv,2309.00916v2,2309.00916,,204fd6c5e247c477d607f507ee01d94a8dbd408f
+wang2023slm,SLM: Bridge the thin gap between speech and text foundation models,U,arxiv,2310.00230v1,2310.00230,,e188f083af29299a2deb1fab1091a8ad32743b0f
+duplextimeNuerIPS24,A Full-duplex Speech Dialogue Scheme Based On Large Language Models,U,arxiv,2405.19487v2,2405.19487,,45b11ebadc9eef2c0868853368b03e08eb14e5fc
+wang2024freezeomnismartlowlatency,Freeze-Omni: A Smart and Low Latency Speech-to-speech Dialogue Model with Frozen LLM,U,arxiv,2411.00774v5,2411.00774,,45b53401717decd82cea2068fa8b1c4947b70594
+warstadt2020blimp,BLiMP: The Benchmark of Linguistic Minimal Pairs for English,U,crossref,10.1162/tacl_a_00321,,10.1162/tacl_a_00321,5a2263092f49540fd0e049050a96882ff29b00c3
+FLAN,Finetuned Language Models Are Zero-Shot Learners,U,arxiv,2109.01652v5,2109.01652,,ff0b2681d7b05e16c46dfb71d980cc2f605907cd
+CoT,Chain-of-Thought Prompting Elicits Reasoning in Large Language Models,U,arxiv,2201.11903v6,2201.11903,,1b6e810ce0afd0dd093f789d2b2742d047e316d5
+wav2seq,Wav2Seq: Pre-training Speech-to-Text Encoder-Decoder Models Using Pseudo Languages,U,arxiv,2205.01086v1,2205.01086,,708f52050bf9dc134124e8b9e4dbc1ecc65f0401
+wu2024towards,Towards audio language modeling -- an overview,U,arxiv,2402.13236v1,2402.13236,,53b6995fd82b4f14fcc198d519843bc0f4cb7c1f
+wu2024codec,Codec-SUPERB @ SLT 2024: A lightweight benchmark for neural audio codec models,U,arxiv,2409.14085v1,2409.14085,,158cd404a60a284d06dc791c100ac2c0b9121d0a
+wu-etal-2024-codec,Codec-SUPERB: An In-Depth Analysis of Sound Codec Models,U,arxiv,2402.13071v3,2402.13071,,5bde820a55815dc30bf4e871444d763680ba7e2e
+wu2024ts3,TS3-Codec: Transformer-Based Simple Streaming Single Codec,U,arxiv,2411.18803v2,2411.18803,,e3ec2c742acbdc06398f1f0aae21f2675db1d358
+wu2024codecfake,CodecFake: Enhancing Anti-Spoofing Models Against Deepfake Audios from Codec-Based Speech Synthesis Systems,U,arxiv,2406.07237v1,2406.07237,,57a82c09c32d44d5582103adee8c6723bd5edabf
+wu2023decoder,On decoder-only architecture for speech-to-text and large language model integration,U,arxiv,2307.03917v3,2307.03917,,8e1868f84091272544cb4209c4ccaad7cc88af27
+xie2024mini,"Mini-Omni: Language Models Can Hear, Talk While Thinking in Streaming",U,arxiv,2408.16725v3,2408.16725,,8625ab06f76caf36ab138bac20a3116ba5b298e6
+xie2024mini2,"Mini-Omni2: Towards Open-source GPT-4o with Vision, Speech and Duplex Capabilities",U,semantic_scholar,b4c98b8c624f288db2f1dba8a71e4c4962bff192,,,b4c98b8c624f288db2f1dba8a71e4c4962bff192
+xin2024bigcodec,BigCodec: Pushing the Limits of Low-Bitrate Neural Speech Codec,U,arxiv,2409.05377v1,2409.05377,,18118403b611ac0fa2ed91f5cf9408111f8683c2
+xu2024enablingrealtimeconversationsminimal,Enabling Real-Time Conversations with Minimal Training Costs,U,arxiv,2409.11727v1,2409.11727,,239d6038947fa9e6e88a74e0e46117d1188d5c09
+xue2024chat,E-chat: Emotion-sensitive Spoken Dialogue System with Large Language Models,U,arxiv,2401.00475v3,2401.00475,,356cc7533e562b4cc56fad93fade0e77e829d6c4
+airbench,AIR-Bench: Benchmarking Large Audio-Language Models via Generative Comprehension,U,arxiv,2402.07729v2,2402.07729,,57a16e741016638dfd5b5f4c8a839c65ef83b817
+yu2023megabyte,MEGABYTE: Predicting Million-byte Sequences with Multiscale Transformers,U,arxiv,2305.07185v2,2305.07185,,412e266cddfd87c79087a88ba1e4d11b89a45a13
+yu2024connecting,Connecting Speech Encoder and Large Language Model for ASR,U,arxiv,2309.13963v2,2309.13963,,5596bd3e26ec2207666ec1ff3db4415d212f14b9
+Flow-Omni,Continuous Speech Tokens Makes LLMs Robust Multi-Modality Learners,U,arxiv,2412.04917v1,2412.04917,,0e0ac1881c96ae53b0dd047cb2afe2c254889415
+soundstream,SoundStream: An End-to-End Neural Audio Codec,U,arxiv,2107.03312v1,2107.03312,,59a0ef2d3bccebb544a2df4ad0453d49cc8e731f
+zellers2019hellaswag,HellaSwag: Can a Machine Really Finish Your Sentence?,U,arxiv,1905.07830v1,1905.07830,,8b0f27bb594b1eaaf493eaf1e2ee723a2b0a19ad
+zeng2024glm,GLM-4-Voice: Towards Intelligent and Human-Like End-to-End Spoken Chatbot,U,arxiv,2412.02612v1,2412.02612,,164e9a9ab16ecf675d1a82325282ef0aaa29d3b7
+zeng2024scaling,Scaling Speech-Text Pre-training with Synthetic Interleaved Data,U,arxiv,2411.17607v2,2411.17607,,dded8092b92e41a2201a45d3b9912463d5bc7a84
+anygpt,AnyGPT: Unified Multimodal LLM with Discrete Sequence Modeling,U,arxiv,2402.12226v5,2402.12226,,14191e9f12913ad8c7ac6e1188682afac04aad09
+zhang2023speechgpt,SpeechGPT: Empowering Large Language Models with Intrinsic Cross-Modal Conversational Abilities,U,arxiv,2305.11000v2,2305.11000,,5cac6430bd379c9d2fe13137dfd6ae7721a2679f
+zhang2024mm,MM-LLMs: Recent Advances in MultiModal Large Language Models,U,semantic_scholar,a050c9b0c321839e4427ab9defa3463be7825ac4,,,a050c9b0c321839e4427ab9defa3463be7825ac4
+zhang2025omniflattenendtoendgptmodel,OmniFlatten: An End-to-end GPT Model for Seamless Voice Conversation,U,arxiv,2410.17799v2,2410.17799,,ff0e3b8902121832e8b9518745c394b2c1d1efad
+zhang2022opt,OPT: Open Pre-trained Transformer Language Models,U,arxiv,2205.01068v4,2205.01068,,13a0d8bb38f739990c8cd65a44061c6534f17221
+speechtokenizer,SpeechTokenizer: Unified Speech Tokenizer for Speech Large Language Models,U,semantic_scholar,5fc1a1f79ea4d1a1c6e8da1a40ae08022a6d7308,,,5fc1a1f79ea4d1a1c6e8da1a40ae08022a6d7308
+zhang2024turnbasedgameenablingrealtime,Beyond the Turn-Based Game: Enabling Real-Time Conversations with Duplex Models,U,arxiv,2406.15718v2,2406.15718,,125ff68732c441e143cf33587bebd2ab01372e49
+usm,Google USM: Scaling Automatic Speech Recognition Beyond 100 Languages,U,arxiv,2303.01037v3,2303.01037,,777317e5af8742b30408e98778fa067750e69f78
+zheng2023judging,Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena,U,arxiv,2306.05685v4,2306.05685,,a0a79dad89857a96f8f71b14238e5237cbfc4787
