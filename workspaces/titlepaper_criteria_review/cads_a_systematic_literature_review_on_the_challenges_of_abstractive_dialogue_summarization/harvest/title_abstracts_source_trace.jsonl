@@ -1,0 +1,253 @@
+{"key": "XuZZ22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "FeigenblatGSJ21", "lookup_steps": ["arxiv:match"]}
+{"key": "LinZXZ22", "lookup_steps": ["arxiv:match"]}
+{"key": "NairSK23", "lookup_steps": ["arxiv:match"]}
+{"key": "ChenLCZ21a", "lookup_steps": ["arxiv:match"]}
+{"key": "ManuvinakurikeSCN21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "GliwaMBW19a", "lookup_steps": ["arxiv:match"]}
+{"key": "JonesRR04", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "ManeKHP24", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "RavautJC22", "lookup_steps": ["arxiv:match"]}
+{"key": "IbrahimAltmamiE22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "KryscinskiKMX19", "lookup_steps": ["arxiv:match"]}
+{"key": "SacksSJ74", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:match"]}
+{"key": "JiaRLZ22", "lookup_steps": ["arxiv:match"]}
+{"key": "FengFQ22", "lookup_steps": ["arxiv:match"]}
+{"key": "LewisLGG20", "lookup_steps": ["arxiv:match"]}
+{"key": "RaffelSRL20", "lookup_steps": ["arxiv:match"]}
+{"key": "LaskarFCB23", "lookup_steps": ["arxiv:match"]}
+{"key": "RennardSHV23", "lookup_steps": ["arxiv:match"]}
+{"key": "LeeYPS21", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "FangZCD22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "Lin04", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:match"]}
+{"key": "ZhangKWW20", "lookup_steps": ["arxiv:match"]}
+{"key": "ScialomDLP21", "lookup_steps": ["arxiv:match"]}
+{"key": "TuggenerMDC21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "WaltonK95", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "GuTL22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ZhuXZH20a", "lookup_steps": ["arxiv:match"]}
+{"key": "GaoW22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "RRMR23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "DengCSZ23", "lookup_steps": ["arxiv:match"]}
+{"key": "PageMBB21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "Fagan17", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "FoltynekMG19", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:match", "openalex:no_match", "crossref:match"]}
+{"key": "SpindeHHR24", "lookup_steps": ["arxiv:match"]}
+{"key": "ParkS23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "IbrahimS23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "Kitchenham04", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "BreretonKBT07a", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "XiongLCL18", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "Hannousse21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "WangY21", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "NguyenJCD21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "DongLGC22", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhouXTZ22", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhangZSL20", "lookup_steps": ["arxiv:match"]}
+{"key": "KhalifaBM21", "lookup_steps": ["arxiv:match"]}
+{"key": "CohanDKB18", "lookup_steps": ["arxiv:match"]}
+{"key": "Zechner02", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "LiuWXL19", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "KirsteinWRG24", "lookup_steps": ["arxiv:match"]}
+{"key": "ZouZHG21", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhouLCL23", "lookup_steps": ["arxiv:match"]}
+{"key": "LyuPLB24", "lookup_steps": ["arxiv:match"]}
+{"key": "JiaLTZ22", "lookup_steps": ["arxiv:match"]}
+{"key": "BertschNG22", "lookup_steps": ["arxiv:match"]}
+{"key": "GaneshD19", "lookup_steps": ["arxiv:match"]}
+{"key": "LeeKHU21", "lookup_steps": ["arxiv:match"]}
+{"key": "PeysakhovichL23", "lookup_steps": ["arxiv:match"]}
+{"key": "XuJK24", "lookup_steps": ["arxiv:match"]}
+{"key": "FengFQQ21", "lookup_steps": ["arxiv:match"]}
+{"key": "LeeYCJ21", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuZZC21", "lookup_steps": ["arxiv:match"]}
+{"key": "YangWTW22", "lookup_steps": ["arxiv:match"]}
+{"key": "Li22", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "LeiZYH21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "GaoCLC23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "HuaDM23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "HuaDX22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "ReimersG19a", "lookup_steps": ["arxiv:match"]}
+{"key": "LiangWCB23a", "lookup_steps": ["arxiv:match"]}
+{"key": "zotero-18877", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "GanZKY21", "lookup_steps": ["arxiv:match"]}
+{"key": "QiLFL21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "AsiWEG22", "lookup_steps": ["arxiv:match"]}
+{"key": "NarakiSH22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "LeiYZH21", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "LiuSC21", "lookup_steps": ["arxiv:match"]}
+{"key": "JoshiCLW20a", "lookup_steps": ["arxiv:match"]}
+{"key": "LeeLWL21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "LiuC22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "PagnoniFKW23", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhangLYF23", "lookup_steps": ["arxiv:match"]}
+{"key": "ChauhanRDG22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "LiuZXL22a", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "10.1016/j.eswa.2021.116292", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "LiXYW21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ChenDY23", "lookup_steps": ["arxiv:match"]}
+{"key": "HuangSMX23", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuC21", "lookup_steps": ["arxiv:match"]}
+{"key": "JungSJC23", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "TangNWW22", "lookup_steps": ["arxiv:match"]}
+{"key": "WuLLS21", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhaoZXG21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ZhaoZHZ21", "lookup_steps": ["arxiv:match"]}
+{"key": "FuZWL21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "LiWGS23", "lookup_steps": ["arxiv:match"]}
+{"key": "KoayRDB20d", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhangNYZ21a", "lookup_steps": ["arxiv:match"]}
+{"key": "KumarK22", "lookup_steps": ["arxiv:match"]}
+{"key": "AntonyASK23", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "ChenY20", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuZXL22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "MaZGW23", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhangZ21", "lookup_steps": ["arxiv:match"]}
+{"key": "ShindeGSB22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "LiHXA23a", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuS04", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "AsthanaHHH24", "lookup_steps": ["arxiv:match"]}
+{"key": "MullickBRK24", "lookup_steps": ["arxiv:match"]}
+{"key": "SharmaFJ23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ZhangNMW21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ZhangHZJ19", "lookup_steps": ["arxiv:match"]}
+{"key": "RaiC20", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "WanLDS21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "FazlyCS09", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "BeltagyPC20", "lookup_steps": ["arxiv:match"]}
+{"key": "BeckageHSM21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "XieHZL22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "GengZYQ22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "Meskill93", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "VajjalaB22", "lookup_steps": ["arxiv:match"]}
+{"key": "WangTZL22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "Pakhale23", "lookup_steps": ["arxiv:match"]}
+{"key": "QuanXWH19", "lookup_steps": ["arxiv:match"]}
+{"key": "IoannidesJSN23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "DuanZYZ19", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "Zhou23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ZouSTF23", "lookup_steps": ["arxiv:match"]}
+{"key": "TanWSZ23", "lookup_steps": ["arxiv:match"]}
+{"key": "WangZZC22a", "lookup_steps": ["arxiv:match"]}
+{"key": "HossainHPB20", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "LiSSL17b", "lookup_steps": ["arxiv:match"]}
+{"key": "SunYCY19a", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "CuiWLZ20a", "lookup_steps": ["arxiv:match"]}
+{"key": "BhatiaBM14", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "RameshkumarB20", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "CarlettaABF06b", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "JaninBEE03c", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhongYYZ21", "lookup_steps": ["arxiv:match"]}
+{"key": "NedoluzhkoSHG22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "HuGDD23", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhuLMZ21", "lookup_steps": ["arxiv:match"]}
+{"key": "MajumderLNM20", "lookup_steps": ["arxiv:match"]}
+{"key": "ChenCWG22", "lookup_steps": ["arxiv:match"]}
+{"key": "BudzianowskiWTC18a", "lookup_steps": ["arxiv:match"]}
+{"key": "AbachaYFL23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "MoramarcoJSF21", "lookup_steps": ["arxiv:match"]}
+{"key": "MisraAFW15", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "WalkerAAT12", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "FabbriRRW21", "lookup_steps": ["arxiv:match"]}
+{"key": "zotero-18720", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "DongYWW19a", "lookup_steps": ["arxiv:match"]}
+{"key": "FangPZS", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "DasKGS17", "lookup_steps": ["arxiv:match"]}
+{"key": "LinMBB15", "lookup_steps": ["arxiv:match"]}
+{"key": "SznajderGLJ22", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuMSN22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "wahle-etal-2022-large", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "WahleGR23", "lookup_steps": ["arxiv:match"]}
+{"key": "ChenY21", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "ParkSL22", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhuQL23", "lookup_steps": ["arxiv:match"]}
+{"key": "ChintaguntaKAK21", "lookup_steps": ["arxiv:match"]}
+{"key": "ProdanP22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "XieYWW23", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhaoZZH22", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "LiXCZ23", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "ChenLXY23", "lookup_steps": ["arxiv:match"]}
+{"key": "SuriMSS23", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhuYWZ23", "lookup_steps": ["arxiv:match"]}
+{"key": "YuanNL21", "lookup_steps": ["arxiv:match"]}
+{"key": "DeutschBR21", "lookup_steps": ["arxiv:match"]}
+{"key": "GattK18", "lookup_steps": ["arxiv:match"]}
+{"key": "NetoFK02", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "WilliamsTS14", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "SeeLM17c", "lookup_steps": ["arxiv:match"]}
+{"key": "CarbonellG98", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:match"]}
+{"key": "BiswasI22", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "YangLSZ20", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "KingSSW23", "lookup_steps": ["arxiv:match"]}
+{"key": "PapineniRWZ02", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "JelinekMBB77", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "SaiMK22", "lookup_steps": ["arxiv:match"]}
+{"key": "YangDYC20", "lookup_steps": ["arxiv:match"]}
+{"key": "VaibhavSSN19", "lookup_steps": ["arxiv:match"]}
+{"key": "NgA15", "lookup_steps": ["arxiv:match"]}
+{"key": "BanerjeeL05", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:match"]}
+{"key": "Popovic17", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "Popovic15", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "VedantamZP15a", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "LiL21a", "lookup_steps": ["arxiv:match"]}
+{"key": "FabbriKMX21a", "lookup_steps": ["arxiv:match"]}
+{"key": "LuWWJ22", "lookup_steps": ["arxiv:match"]}
+{"key": "SellamDP20", "lookup_steps": ["arxiv:match"]}
+{"key": "JiLFY23a", "lookup_steps": ["arxiv:match"]}
+{"key": "DevlinCLT19a", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhaoPLG19", "lookup_steps": ["arxiv:match"]}
+{"key": "KusnerSKW15", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match_no_abstract", "openalex:match"]}
+{"key": "RubnerTG00", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:error_HTTPError"]}
+{"key": "VasilyevDB20a", "lookup_steps": ["arxiv:match"]}
+{"key": "KryscinskiMXS20a", "lookup_steps": ["arxiv:match"]}
+{"key": "DurmusHD20a", "lookup_steps": ["arxiv:match"]}
+{"key": "ScialomLPS19", "lookup_steps": ["arxiv:match"]}
+{"key": "Likert32a", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "QaderJPL18", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "DouFKS22a", "lookup_steps": ["arxiv:match"]}
+{"key": "ElderGOL18", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "LiuSLS21", "lookup_steps": ["arxiv:match"]}
+{"key": "FinnL92", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:match"]}
+{"key": "RotheNS20a", "lookup_steps": ["arxiv:match"]}
+{"key": "KiritchenkoM17a", "lookup_steps": ["arxiv:match"]}
+{"key": "Krippendorff70", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:match"]}
+{"key": "Cohen60", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "Fleiss71a", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:no_match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "LiuZA23", "lookup_steps": ["arxiv:match"]}
+{"key": "GloeckleIRL24", "lookup_steps": ["arxiv:match"]}
+{"key": "ZhouRP23a", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match", "crossref:error_HTTPError", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "ZhongLXZ22", "lookup_steps": ["arxiv:match"]}
+{"key": "LyuDXD24", "lookup_steps": ["arxiv:match"]}
+{"key": "WangCPX24", "lookup_steps": ["arxiv:match"]}
+{"key": "VaswaniSPU17", "lookup_steps": ["arxiv:match"]}
+{"key": "DaoFER24", "lookup_steps": ["arxiv:match"]}
+{"key": "Shazeer19", "lookup_steps": ["arxiv:match"]}
+{"key": "AinslieLdO23", "lookup_steps": ["arxiv:match"]}
+{"key": "MaZGT22", "lookup_steps": ["arxiv:match"]}
+{"key": "WangTMR22", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "DangMLG22", "lookup_steps": ["arxiv:match"]}
+{"key": "QinJ22", "lookup_steps": ["arxiv:match"]}
+{"key": "VilaltaD02", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match", "dblp:no_match", "openalex:no_match", "crossref:no_match", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "HospedalesAMS22", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:match"]}
+{"key": "WilsonPF23", "lookup_steps": ["arxiv:match"]}
+{"key": "BakkerCST24", "lookup_steps": ["arxiv:match"]}
+{"key": "TalatNBC22", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "WolfWAL24a", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuMLC23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "KhuranaKKS23", "lookup_steps": ["arxiv:match"]}
+{"key": "McIntoshLSW23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "LuBH21", "lookup_steps": ["arxiv:match"]}
+{"key": "LiuYL23", "lookup_steps": ["arxiv:no_match", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match_or_no_abstract", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "KirsteinRG24c", "lookup_steps": ["arxiv:match"]}
+{"key": "SrivastavaVKS20", "lookup_steps": ["arxiv:no_match", "semantic_scholar:match"]}
+{"key": "BalaguerBCF24a", "lookup_steps": ["arxiv:match"]}
+{"key": "TepperHBR18", "lookup_steps": ["arxiv:no_match_or_no_abstract", "semantic_scholar:no_match_or_no_abstract", "dblp:match", "openalex:no_match", "crossref:no_match_or_no_abstract", "acl_anthology:no_match", "lrec_conf:no_match", "rfc_editor:no_match", "bsi:no_match", "github:no_match", "huggingface:no_match", "keithito:no_match", "zenodo:no_match"]}
+{"key": "BhatnagarKK23", "lookup_steps": ["arxiv:match"]}
+{"key": "KirsteinRKG24", "lookup_steps": ["arxiv:match"]}
+{"key": "LinMZX21", "lookup_steps": ["arxiv:match"]}
+{"key": "WangMAK22b", "lookup_steps": ["arxiv:match"]}
+{"key": "KocmiF23", "lookup_steps": ["arxiv:match"]}
+{"key": "JainKSF23", "lookup_steps": ["arxiv:match"]}
+{"key": "ChiangL23a", "lookup_steps": ["arxiv:match"]}
+{"key": "FuNJL23", "lookup_steps": ["arxiv:match"]}
+{"key": "KirsteinRG24b", "lookup_steps": ["arxiv:match"]}

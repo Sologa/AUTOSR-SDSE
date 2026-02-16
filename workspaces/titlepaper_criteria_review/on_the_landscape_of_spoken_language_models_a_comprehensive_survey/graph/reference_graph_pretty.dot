@@ -1,7 +1,7 @@
 digraph ReferenceGraph {
-  graph [rankdir="TB", concentrate=true, overlap=false, splines=true, nodesep="0.25", ranksep="0.40"];
-  node [shape=circle, style=filled, label=""];
-  edge [color="#888888", penwidth="0.5"];
+  graph [rankdir="TB", concentrate=true, overlap=false, splines=true, nodesep=0.35, ranksep=0.45];
+  node [shape=circle, style=filled, label="", width=0.15, height=0.15, fixedsize=true];
+  edge [color="#888888", penwidth=0.35, arrowsize=0.3, arrowhead=none];
   "agostinelli2023musiclm" [fillcolor="#95a5a6", label="", tooltip="MusicLM: Generating Music From Text (agostinelli2023musiclm)"];
   "algayres2022speech" [fillcolor="#95a5a6", label="", tooltip="Speech Sequence Embeddings using Nearest Neighbors Contrastive Learning (algayres2022speech)"];
   "tGSLM" [fillcolor="#95a5a6", label="", tooltip="Generative Spoken Language Model based on continuous word-sized audio tokens (tGSLM)"];

@@ -52,5 +52,10 @@ docs/local_issue_notes.md
 .specstory/
 workspaces/spoken_language_models/
 
+target_papers/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization
+target_papers/discrete_audio_tokens_more_than_a_survey
+target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey
 
 *.pdf
+
+.codex*

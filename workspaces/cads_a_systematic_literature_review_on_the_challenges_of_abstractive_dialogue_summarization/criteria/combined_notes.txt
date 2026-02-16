@@ -1,0 +1,116 @@
+### PDF Background (Survey Summaries)
+### PDF Topic Definition
+本篇綜述聚焦於「會議摘要（Meeting Summarization）」領域，特別關注多參與者線上會議的自動摘要生成。核心概念涵蓋如何從冗長且多角色的會議對話中，萃取並生成涵蓋關鍵資訊、具可讀性且貼近人類語言風格的摘要。評估面向包括摘要的資訊涵蓋度、語義一致性、事實正確性（factual consistency）、摘要的流暢性與可讀性，以及模型在長文本與多參與者情境下的適應能力。
+
+### PDF Key Trends
+- 會議摘要研究由傳統的抽取式（extractive）方法逐步轉向抽象式（abstractive）方法，強調語言生成與內容融合。
+- 深度學習、特別是Transformer架構與預訓練語言模型（如BART、Longformer、DialoGLM）已成主流，並針對長文本與多輪對話進行架構創新。
+- 多模態（multi-modal）資訊（如視覺焦點、聲學特徵）被引入以提升摘要品質，尤其在會議場景中。
+- 針對長會議文本，分段摘要（sliding window、分層架構）與檢索-生成（retrieve-then-summarize）等策略廣泛應用。
+- 評估方式由傳統ROUGE分數拓展至BERTScore等語意相似度指標，並開始重視事實一致性與人類主觀評分。
+
+### PDF Capability Highlights
+- 能處理多說話者、多角色、長文本的會議對話，並生成結構化或主題導向的摘要。
+- 能融合多種特徵（語言、結構、角色、主題、視覺/聲學）以提升摘要準確度。
+- 具備多階段或分層處理能力，能針對長對話進行分段摘要與融合。
+- 可整合外部知識（如領域術語、常識知識、對話結構）以提升摘要的事實性與可讀性。
+- 支援查詢式（query-based）摘要，能根據用戶需求生成特定面向的摘要。
+
+### PDF Inclusion Signals
+- 關鍵字：Abstractive Meeting Summarization、Dialogue Summarization、Hierarchical/Sliding Window、Multi-modal、Query-based Summarization。
+- 涉及會議語料（如AMI, ICSI, QMSum）或多參與者對話摘要技術。
+- 探討長文本處理、分層/分段摘要、角色建模、主題分割等技術（見 §3.2.3, §3.2.1）。
+- 涉及摘要事實一致性、資訊涵蓋度、摘要流暢性等評估指標。
+- 涉及多模態訊息（視覺、聲學）或結合外部知識進行摘要。
+
+### PDF Exclusion Signals
+- 僅針對單一說話者或單篇文件的摘要，不涉及多方對話或會議情境。
+- 僅討論抽取式摘要，未涵蓋語言生成或內容融合。
+- 只聚焦於聊天、客服、醫療等非會議類對話，且無會議摘要相關討論。
+- 只介紹ASR（自動語音辨識）或語音轉錄技術，未涉及摘要生成。
+- 缺乏對摘要事實性、語義一致性等評估或技術挑戰的討論。
+
+### PDF Notes
+- Meeting Summarization A Survey of the State of the Art.pdf: 系統性梳理會議摘要領域，涵蓋抽取式與抽象式方法、深度學習與多模態技術、長文本處理策略、主流會議語料與評估指標，並對現有挑戰與未來方向提出見解。
+### Web Search Notes
+以下內容係依據近年一手論文來源整理，作為「CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization」之**文獻篩選（inclusion / exclusion）可操作規則**草案，可直接用於 systematic review 或 survey 的第一輪與第二輪篩選。
+
+---
+
+### Topic Definition
+抽象式對話摘要（Abstractive Dialogue Summarization）指的是：將多輪、多說話者、具語用與互動特性的對話內容，轉化為**非逐句擷取、具重組與概括能力**的自然語言摘要。此任務不僅涉及一般文本摘要的語義壓縮，更需處理對話特有的結構鬆散、指代省略、語用含義、說話者角色與資訊顯著性等問題。
+
+本主題聚焦於**抽象式對話摘要所面臨的核心挑戰（challenges）**，包含但不限於：語言與語用理解、對話結構建模、跨說話者資訊整合、事實一致性（faithfulness / factuality）、以及評估指標與資料集侷限。CADS 類型研究的目標在於系統性歸納這些挑戰，並對齊既有方法、模型設計與評估實務。
+
+---
+
+### Summary
+近年研究顯示，儘管 Transformer 與大型語言模型顯著提升了語言流暢度，**理解、事實一致性與顯著性選擇**仍是對話摘要中最困難的瓶頸。系統性回顧指出，現有方法高度集中於 BART 類模型，且評估過度依賴 ROUGE，與人類判斷存在落差。整體趨勢正由「模型效能提升」轉向「挑戰導向的任務理解與評估重設」。
+
+---
+
+### Summary Topics
+S1: 對話特有挑戰（語用、說話者、結構）  
+S2: 抽象式摘要的事實一致性與幻覺問題  
+S3: 模型與訓練策略對挑戰的對應關係  
+S4: 資料集與評估方法的限制與偏誤  
+
+---
+
+### Inclusion Criteria (Required)
+1. **主題定義條款**：  
+   主題定義：研究必須明確以「抽象式對話摘要（abstractive dialogue summarization）」為核心任務，並以「挑戰、限制、問題、困難（challenges / limitations / issues）」作為主要分析或回顧對象。  
+   source: https://arxiv.org/abs/2406.07494 （2024-06-11） ([arxiv.org](https://arxiv.org/abs/2406.07494?utm_source=openai))  
+   topic ids: S1, S2, S3, S4
+
+2. **英文可評估性條件**：  
+   論文需以英文撰寫，且提供完整摘要與方法/討論內容，使第三方研究者可評估其挑戰定義、分類或分析結論。  
+   source: https://arxiv.org/abs/2304.14543 （2023-04-27） ([arxiv.org](https://arxiv.org/abs/2304.14543?utm_source=openai))  
+   topic ids: S1, S4
+
+---
+
+### Inclusion Criteria (Any-of Groups)
+- Group A：挑戰分類或系統性整理  
+  * Option: 以 survey / systematic review 形式，明確整理多篇對話摘要研究中的挑戰類型（如語言、結構、理解、事實性）。  
+    source: https://arxiv.org/abs/2406.07494 （2024-06-11） ([arxiv.org](https://arxiv.org/abs/2406.07494?utm_source=openai))  
+    topic ids: S1, S2, S3, S4
+
+- Group B：聚焦特定關鍵挑戰的深入分析  
+  * Option: 專注於對話摘要中的事實不一致、幻覺或語用失當等核心問題，並提出錯誤類型或分析框架。  
+    source: https://arxiv.org/abs/2112.08713 （2021-12-16） ([arxiv.org](https://arxiv.org/abs/2112.08713?utm_source=openai))  
+    topic ids: S2, S3
+
+- Group C：從模型或計算限制角度討論抽象式摘要困難  
+  * Option: 討論抽象式摘要在模型複雜度、輸入長度、領域轉移等層面的根本挑戰，且論述可延伸至對話場景。  
+    source: https://arxiv.org/abs/2307.00963 （2023-07-03） ([arxiv.org](https://arxiv.org/abs/2307.00963?utm_source=openai))  
+    topic ids: S2, S3
+
+---
+
+### Exclusion Criteria
+- 僅討論**抽取式（extractive）對話摘要**，且未分析抽象式方法的挑戰或限制。  
+  source: internal  
+  topic ids: S1
+
+- 僅提出單一模型或實驗結果，未對「挑戰、限制或問題」進行概念化或討論。  
+  source: internal  
+  topic ids: S3
+
+- 僅為一般文本摘要（非對話），且未明確說明其結論如何適用於多說話者對話情境。  
+  source: https://arxiv.org/abs/2307.00963 （2023-07-03） ([arxiv.org](https://arxiv.org/abs/2307.00963?utm_source=openai))  
+  topic ids: S1
+
+---
+
+### Sources
+https://arxiv.org/abs/2406.07494  
+https://arxiv.org/abs/2112.08713  
+https://arxiv.org/abs/2304.14543  
+https://arxiv.org/abs/2307.00963  
+
+---
+
+若你希望，下一步我可以：  
+- 將上述規則轉為 **PRISMA 風格的實際篩選表述**，或  
+- 直接幫你產出「Title/Abstract Screening」與「Full-text Screening」兩階段版本。

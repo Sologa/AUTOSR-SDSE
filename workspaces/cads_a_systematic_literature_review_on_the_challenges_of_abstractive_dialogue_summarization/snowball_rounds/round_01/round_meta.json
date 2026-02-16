@@ -1,0 +1,18 @@
+{
+  "round": 1,
+  "seed_review": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/review/latte_review_results.json",
+  "seed_count": 27,
+  "raw_count": 271,
+  "filtered_count": 182,
+  "dedup_removed": 182,
+  "dedup_removed_by": {
+    "openalex_id": 155,
+    "doi": 2,
+    "title": 25
+  },
+  "for_review_count": 0,
+  "review_ran": false,
+  "review_outcome": {},
+  "included_total": 43,
+  "criteria_hash": "be9a31b98086d787f618557fa73340d5c94439854b4c0d03b0e2ac7e050db874"
+}

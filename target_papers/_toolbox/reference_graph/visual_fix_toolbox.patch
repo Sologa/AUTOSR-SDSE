@@ -1,0 +1,61 @@
+--- a/target_papers/_toolbox/reference_graph/build_reference_graph.py
++++ b/target_papers/_toolbox/reference_graph/build_reference_graph.py
+@@ -749,13 +749,16 @@
+     path.parent.mkdir(parents=True, exist_ok=True)
+     lines: List[str] = []
+     lines.append("digraph ReferenceGraph {")
+-    lines.append('  graph [rankdir="TB"];')
++    lines.append('  graph [rankdir="TB", concentrate=true, overlap=false, splines=true, nodesep="0.25", ranksep="0.40"];')
+     lines.append('  node [shape=circle, style=filled, label=""];')
+-    lines.append('  edge [color="#888888"];')
++    lines.append('  edge [color="#888888", penwidth="0.5", arrowhead="none"];')
+ 
+     for n in nodes:
+         fill = color_map.get(n.label, color_map.get("U", "#95a5a6"))
+-        label = n.title if show_labels else ""
++        # NOTE: pyvis 會把空字串 label 視為「未提供」，最後在輸出 HTML 時自動回填成 node id（bibkey）
++        # 這會導致：1) 文字顯示出來；2) layout bounding box 變寬，整張圖被擠到一側。
++        # 因此在「不顯示文字」模式下，用 zero-width space 當 label，並把 font size 設為 0。
++        label = n.title if show_labels else "\u200b"
+         tooltip = f"{n.title} ({n.key})"
+         lines.append(
+             f'  "{escape_dot(n.key)}" [fillcolor="{fill}", label="{escape_dot(label)}", tooltip="{escape_dot(tooltip)}"];'
+@@ -813,7 +816,10 @@
+     # node：預設不顯示文字，只靠顏色
+     for n in nodes:
+         color = color_map.get(n.label, color_map.get("U", "#95a5a6"))
+-        label = n.title if show_labels else ""
++        # NOTE: pyvis 會把空字串 label 視為「未提供」，最後在輸出 HTML 時自動回填成 node id（bibkey）
++        # 這會導致：1) 文字顯示出來；2) layout bounding box 變寬，整張圖被擠到一側。
++        # 因此在「不顯示文字」模式下，用 zero-width space 當 label，並把 font size 設為 0。
++        label = n.title if show_labels else "\u200b"
+         title_html = (
+             f"<b>{n.title}</b><br/>"
+             f"<code>{n.key}</code><br/>"
+@@ -828,12 +834,14 @@
+             "shape": "dot",
+             "size": 8,
+         }
++        if not show_labels:
++            node_kwargs["font"] = {"size": 0}
+         if n.key in levels:
+             node_kwargs["level"] = levels[n.key]
+         net.add_node(n.key, **node_kwargs)
+ 
+     for e in edges:
+-        net.add_edge(e.src, e.dst, arrows="to")
++        net.add_edge(e.src, e.dst)
+ 
+     # hierarchical layout：長得像 DAG
+     # 方向：UD = 上到下；LR = 左到右
+@@ -854,8 +862,8 @@
+             "improvedLayout": True,
+         },
+         "physics": {"enabled": False},
+-        "interaction": {"hover": True, "navigationButtons": True, "keyboard": True},
+-        "edges": {"smooth": {"type": "cubicBezier", "forceDirection": force_dir, "roundness": 0.4}},
++        "interaction": {"hover": True, "navigationButtons": True, "keyboard": True, "hideEdgesOnDrag": True, "hideEdgesOnZoom": True, "tooltipDelay": 80},
++        "edges": {"smooth": {"enabled": False}, "color": {"color": "rgba(120,120,120,0.10)", "inherit": False}, "width": 1, "arrows": {"to": {"enabled": False}}},
+     }
+     net.set_options(json.dumps(options))
+     net.write_html(str(path))

@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-02-02T16:10:17.783676+00:00",
+  "records": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "pdf",
+      "input_tokens": 16529,
+      "output_tokens": 3623,
+      "cost": 0.079648,
+      "metadata": {
+        "mode": "per_pdf",
+        "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2107.03175.pdf"
+      }
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "pdf",
+      "input_tokens": 28576,
+      "output_tokens": 3910,
+      "cost": 0.104748,
+      "metadata": {
+        "mode": "per_pdf",
+        "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2208.04163.pdf"
+      }
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "pdf",
+      "input_tokens": 49407,
+      "output_tokens": 4357,
+      "cost": 0.14746,
+      "metadata": {
+        "mode": "per_pdf",
+        "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2210.09894.pdf"
+      }
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.2",
+      "mode": "sync",
+      "input_tokens": 6960,
+      "output_tokens": 16864,
+      "cost": 0.248276,
+      "metadata": {
+        "mode": "aggregation",
+        "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization"
+      }
+    }
+  ],
+  "total": {
+    "input_tokens": 101472,
+    "output_tokens": 28754,
+    "cost": 0.5801320000000001
+  }
+}

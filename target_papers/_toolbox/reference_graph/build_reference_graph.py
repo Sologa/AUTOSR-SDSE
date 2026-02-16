@@ -428,6 +428,41 @@ def load_labels(labels_path: Path) -> Dict[str, str]:
     return out
 
 
+def load_review_labels(review_json: Path) -> Tuple[Dict[str, str], Dict[str, str]]:
+    """
+    從 review json 讀取兩組 labels：
+    - ABC（item["ABC"]）
+    - screening decision（item["criteria_screening"]["decision"]）
+    回傳 (abc_labels, screening_labels)
+    """
+    if not review_json.exists():
+        return {}, {}
+    obj = json.loads(review_json.read_text(encoding="utf-8"))
+    items = obj.get("items") if isinstance(obj, dict) else None
+    if not isinstance(items, list):
+        return {}, {}
+
+    abc_labels: Dict[str, str] = {}
+    screening_labels: Dict[str, str] = {}
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        key = (item.get("key") or "").strip()
+        if not key:
+            continue
+        abc = (item.get("ABC") or "").strip()
+        if abc:
+            abc_labels[key] = abc
+        criteria = item.get("criteria_screening") or {}
+        decision = ""
+        if isinstance(criteria, dict):
+            decision = (criteria.get("decision") or "").strip().lower()
+        if decision:
+            screening_labels[key] = decision
+
+    return abc_labels, screening_labels
+
+
 # -----------------------------
 # Matching：把 S2 ref 映射回你的 node set
 # -----------------------------
@@ -749,9 +784,9 @@ def write_dot(nodes: List[Node], edges: List[Edge], path: Path, *, color_map: Di
     path.parent.mkdir(parents=True, exist_ok=True)
     lines: List[str] = []
     lines.append("digraph ReferenceGraph {")
-    lines.append('  graph [rankdir="TB"];')
+    lines.append('  graph [rankdir="TB", concentrate=true, overlap=false, splines=true, nodesep="0.25", ranksep="0.40"];')
     lines.append('  node [shape=circle, style=filled, label=""];')
-    lines.append('  edge [color="#888888"];')
+    lines.append('  edge [color="#888888", penwidth="0.5"];')
 
     for n in nodes:
         fill = color_map.get(n.label, color_map.get("U", "#95a5a6"))
@@ -797,6 +832,131 @@ def compute_hierarchical_levels(nodes: List[Node], edges: List[Edge]) -> Dict[st
     return {n.key: level.get(mapping.get(n.key, 0), 0) for n in nodes}
 
 
+def inject_label_toggle(
+    html: str,
+    *,
+    label_sets: Dict[str, Dict[str, str]],
+    color_sets: Dict[str, Dict[str, str]],
+    label_names: Dict[str, str],
+    default_set: str,
+) -> str:
+    if not label_sets:
+        return html
+
+    options = []
+    for key in label_sets.keys():
+        name = label_names.get(key, key)
+        selected = " selected" if key == default_set else ""
+        options.append(f'<option value="{key}"{selected}>{name}</option>')
+    options_html = "\n".join(options)
+
+    toggle_html = f"""
+<div id="label-toggle-panel" style="position: fixed; top: 12px; left: 12px; z-index: 9999; background: rgba(255,255,255,0.95); border: 1px solid #ddd; border-radius: 6px; padding: 8px 10px; font-family: Arial, sans-serif; font-size: 12px;">
+  <div style="margin-bottom: 6px; font-weight: 600;">Color by</div>
+  <select id="label-toggle-select" style="width: 180px; font-size: 12px; padding: 2px 4px;">
+    {options_html}
+  </select>
+  <div id="label-legend" style="margin-top: 8px;"></div>
+</div>
+"""
+
+    label_sets_json = json.dumps(label_sets, ensure_ascii=True)
+    color_sets_json = json.dumps(color_sets, ensure_ascii=True)
+    label_names_json = json.dumps(label_names, ensure_ascii=True)
+    default_set_json = json.dumps(default_set, ensure_ascii=True)
+
+    toggle_script = f"""
+<script type="text/javascript">
+(function() {{
+  var labelSets = {label_sets_json};
+  var colorSets = {color_sets_json};
+  var labelNames = {label_names_json};
+  var defaultSet = {default_set_json};
+  var legendLabels = {{
+    "abc": {{"A": "A", "B": "B", "C": "C", "U": "unknown"}},
+    "screening": {{"include": "include", "exclude": "exclude", "uncertain": "uncertain", "U": "unknown"}}
+  }};
+  function renderLegend(name) {{
+    var legend = document.getElementById("label-legend");
+    if (!legend) {{
+      return;
+    }}
+    var labels = legendLabels[name] || {{}};
+    var colors = colorSets[name] || {{}};
+    var keys = Object.keys(labels);
+    if (!keys.length) {{
+      keys = Object.keys(colors);
+    }}
+    var html = "";
+    for (var i = 0; i < keys.length; i++) {{
+      var key = keys[i];
+      var color = colors[key] || colors["U"] || "#95a5a6";
+      var text = labels[key] || key;
+      html += '<div style="display: flex; align-items: center; gap: 6px; margin: 2px 0;">'
+        + '<span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: ' + color + '; border: 1px solid #888;"></span>'
+        + '<span>' + text + '</span></div>';
+    }}
+    legend.innerHTML = html;
+  }}
+  function applyLabelSet(name, retry) {{
+    if (!network) {{
+      var nextRetry = (retry || 0) + 1;
+      if (nextRetry <= 40) {{
+        setTimeout(function() {{ applyLabelSet(name, nextRetry); }}, 50);
+      }}
+      return;
+    }}
+    var labels = labelSets[name] || {{}};
+    var colors = colorSets[name] || {{}};
+    var dataNodes = (network.body && network.body.data && network.body.data.nodes) ? network.body.data.nodes : nodes;
+    if (!dataNodes || typeof dataNodes.getIds !== "function") {{
+      var nextRetryNodes = (retry || 0) + 1;
+      if (nextRetryNodes <= 40) {{
+        setTimeout(function() {{ applyLabelSet(name, nextRetryNodes); }}, 50);
+      }}
+      return;
+    }}
+    var ids = dataNodes.getIds();
+    var updates = [];
+    for (var i = 0; i < ids.length; i++) {{
+      var id = ids[i];
+      var label = labels[id] || "U";
+      var color = colors[label] || colors["U"] || "#95a5a6";
+      updates.push({{id: id, color: {{background: color, border: color}}}});
+    }}
+    try {{
+      dataNodes.update(updates);
+    }} catch (e) {{
+      // ignore and retry via network.setData
+    }}
+    if (typeof network.setData === "function") {{
+      data = {{nodes: dataNodes, edges: edges}};
+      network.setData(data);
+    }}
+    if (typeof network.redraw === "function") {{
+      network.redraw();
+    }}
+    renderLegend(name);
+  }}
+  var select = document.getElementById("label-toggle-select");
+  if (select) {{
+    var handler = function() {{
+      applyLabelSet(this.value);
+    }};
+    select.addEventListener("change", handler);
+    select.addEventListener("input", handler);
+  }}
+  applyLabelSet(defaultSet);
+}})();
+</script>
+"""
+
+    head, sep, tail = html.rpartition("</body>")
+    if not sep:
+        return html + toggle_html + toggle_script
+    return head + toggle_html + toggle_script + sep + tail
+
+
 def write_html_pyvis(
     nodes: List[Node],
     edges: List[Edge],
@@ -805,6 +965,10 @@ def write_html_pyvis(
     color_map: Dict[str, str],
     show_labels: bool,
     hierarchical_direction: str,
+    label_sets: Optional[Dict[str, Dict[str, str]]] = None,
+    color_sets: Optional[Dict[str, Dict[str, str]]] = None,
+    label_names: Optional[Dict[str, str]] = None,
+    default_label_set: str = "",
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     net = Network(height="900px", width="100%", directed=True, notebook=False)
@@ -813,7 +977,8 @@ def write_html_pyvis(
     # node：預設不顯示文字，只靠顏色
     for n in nodes:
         color = color_map.get(n.label, color_map.get("U", "#95a5a6"))
-        label = n.title if show_labels else ""
+        # 空白字串可避免 label 回填成 node id，搭配 font size=0 隱藏文字
+        label = n.title if show_labels else " "
         title_html = (
             f"<b>{n.title}</b><br/>"
             f"<code>{n.key}</code><br/>"
@@ -828,6 +993,8 @@ def write_html_pyvis(
             "shape": "dot",
             "size": 8,
         }
+        if not show_labels:
+            node_kwargs["font"] = {"size": 0}
         if n.key in levels:
             node_kwargs["level"] = levels[n.key]
         net.add_node(n.key, **node_kwargs)
@@ -854,11 +1021,32 @@ def write_html_pyvis(
             "improvedLayout": True,
         },
         "physics": {"enabled": False},
-        "interaction": {"hover": True, "navigationButtons": True, "keyboard": True},
-        "edges": {"smooth": {"type": "cubicBezier", "forceDirection": force_dir, "roundness": 0.4}},
+        "interaction": {
+            "hover": True,
+            "navigationButtons": True,
+            "keyboard": True,
+            "hideEdgesOnDrag": True,
+            "hideEdgesOnZoom": True,
+            "tooltipDelay": 80,
+        },
+        "edges": {
+            "smooth": {"type": "cubicBezier", "forceDirection": force_dir, "roundness": 0.4},
+            "color": {"color": "rgba(120,120,120,0.25)", "inherit": False},
+            "width": 1,
+            "arrows": {"to": {"enabled": True, "scaleFactor": 0.5}},
+        },
     }
     net.set_options(json.dumps(options))
-    net.write_html(str(path))
+    html = net.generate_html()
+    if label_sets and color_sets:
+        html = inject_label_toggle(
+            html,
+            label_sets=label_sets,
+            color_sets=color_sets,
+            label_names=label_names or {},
+            default_set=default_label_set or next(iter(label_sets.keys())),
+        )
+    path.write_text(html, encoding="utf-8")
 
 
 # -----------------------------
@@ -871,6 +1059,13 @@ def build_argparser() -> argparse.ArgumentParser:
     p.add_argument("--metadata_json", default="", help="override input metadata json path")
     p.add_argument("--out_dir", default="", help="override output dir")
     p.add_argument("--labels", default="", help="labels csv/json path (optional)")
+    p.add_argument("--review_json", default="", help="review json path with ABC + criteria_screening (optional)")
+    p.add_argument(
+        "--label_mode",
+        default="auto",
+        choices=["auto", "labels", "abc", "screening", "both"],
+        help="label mode when review_json is provided (auto->both)",
+    )
     p.add_argument("--default_label", default="U", help="default label when labels file not provided")
     p.add_argument("--cache_dir", default="", help="default: target_papers/_toolbox/reference_graph/.cache/semantic_scholar")
     p.add_argument("--overwrite", action="store_true", help="overwrite outputs (default behavior)")
@@ -951,6 +1146,12 @@ def main() -> int:
     # 讀 nodes
     nodes = load_nodes_from_arxiv_metadata(metadata_json, default_label=args.default_label)
 
+    label_sets: Optional[Dict[str, Dict[str, str]]] = None
+    color_sets: Optional[Dict[str, Dict[str, str]]] = None
+    label_names: Optional[Dict[str, str]] = None
+    default_label_set = ""
+    label_mode = args.label_mode
+
     # labels 覆蓋（single-label）
     if args.labels:
         labels_path = Path(args.labels)
@@ -960,6 +1161,35 @@ def main() -> int:
         for n in nodes:
             if n.key in labels:
                 n.label = labels[n.key]
+        if label_mode not in ("auto", "labels"):
+            logger.info("labels 已提供，忽略 --label_mode 與 --review_json")
+        label_mode = "labels"
+    elif args.review_json:
+        review_path = Path(args.review_json)
+        if not review_path.is_absolute():
+            review_path = (repo_root / review_path).resolve()
+        abc_labels, screening_labels = load_review_labels(review_path)
+        if label_mode == "auto":
+            label_mode = "both"
+
+        if label_mode in ("abc", "both"):
+            for n in nodes:
+                if n.key in abc_labels:
+                    n.label = abc_labels[n.key]
+        elif label_mode == "screening":
+            for n in nodes:
+                if n.key in screening_labels:
+                    n.label = screening_labels[n.key]
+        else:
+            label_mode = "both"
+            for n in nodes:
+                if n.key in abc_labels:
+                    n.label = abc_labels[n.key]
+
+        if label_mode == "both":
+            label_sets = {"abc": abc_labels, "screening": screening_labels}
+            label_names = {"abc": "ABC", "screening": "Included/Excluded"}
+            default_label_set = "abc"
 
     if args.limit and args.limit > 0:
         nodes = nodes[: args.limit]
@@ -988,12 +1218,21 @@ def main() -> int:
     stats["n_papers_unresolved"] = sum(1 for n in nodes if not n.s2_paper_id)
 
     # 顏色（可之後再客製）
-    color_map = {
+    color_map_abc = {
         "A": "#e74c3c",
         "B": "#3498db",
         "C": "#2ecc71",
         "U": "#95a5a6",
     }
+    color_map_screening = {
+        "include": "#2ecc71",
+        "exclude": "#e74c3c",
+        "uncertain": "#f1c40f",
+        "U": "#95a5a6",
+    }
+    color_map = color_map_screening if label_mode == "screening" else color_map_abc
+    if label_sets:
+        color_sets = {"abc": color_map_abc, "screening": color_map_screening}
 
     # 輸出
     write_nodes_csv(nodes, out_dir / "nodes.csv")
@@ -1002,7 +1241,18 @@ def main() -> int:
     g = build_nx_graph(nodes, edges)
     write_graphml(g, out_dir / "reference_graph.graphml")
     write_dot(nodes, edges, out_dir / "reference_graph.dot", color_map=color_map, show_labels=args.show_labels)
-    write_html_pyvis(nodes, edges, out_dir / "reference_graph.html", color_map=color_map, show_labels=args.show_labels, hierarchical_direction=args.hier_dir)
+    write_html_pyvis(
+        nodes,
+        edges,
+        out_dir / "reference_graph.html",
+        color_map=color_map,
+        show_labels=args.show_labels,
+        hierarchical_direction=args.hier_dir,
+        label_sets=label_sets,
+        color_sets=color_sets,
+        label_names=label_names,
+        default_label_set=default_label_set,
+    )
 
     (out_dir / "stats.json").write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
 

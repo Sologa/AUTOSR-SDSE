@@ -1,0 +1,329 @@
+key,title,label,source,source_id,arxiv_id,doi,s2_paper_id
+atal1970speech,Speech Analysis and Synthesis by Linear Prediction of the Speech Wave,C,semantic_scholar,d738cfd0354ec9e70849057d5c2f20524a81e55a,,,d738cfd0354ec9e70849057d5c2f20524a81e55a
+schroeder1985code,Code-excited linear prediction(CELP): High-quality speech at very low bit rates,C,semantic_scholar,02876a3eb2ffe88cadfbc9ac779f272ccdc6f91a,,,02876a3eb2ffe88cadfbc9ac779f272ccdc6f91a
+tian2025espnet,ESPnet-SpeechLM: An Open Speech Language Model Toolkit,B,semantic_scholar,6245784c904ca849d4ac5b92de4878ee633997dd,,,6245784c904ca849d4ac5b92de4878ee633997dd
+hayashi2020discretalk,DiscreTalk: Text-to-Speech as a Machine Translation Problem,B,arxiv,2005.05525v1,2005.05525,,8ae392fc9acbada67a4288a6affc2a77f83befcd
+vqvae2017,Neural Discrete Representation Learning,B,arxiv,1711.00937v2,1711.00937,,f466157848d1a7772fb6d02cdac9a7a5e7ef982e
+zeghidour2021soundstream,SoundStream: An End-to-End Neural Audio Codec,A,arxiv,2107.03312v1,2107.03312,,59a0ef2d3bccebb544a2df4ad0453d49cc8e731f
+shi2024versa,"VERSA: A Versatile Evaluation Toolkit for Speech, Audio, and Music",B,arxiv,2412.17667v2,2412.17667,,bb739ecaa5d88a51b1cf61ff77c89942db9bdb26
+wu2024towards,Towards audio language modeling -- an overview,B,arxiv,2402.13236v1,2402.13236,,53b6995fd82b4f14fcc198d519843bc0f4cb7c1f
+jiang2023disentangled,Disentangled Feature Learning for Real-Time Neural Speech Coding,A,arxiv,2211.11960v2,2211.11960,,30bdd61373264b393b2aead1e6c4b18cf6599148
+lakhotia2021generative,On Generative Spoken Language Modeling from Raw Audio,B,semantic_scholar,7c39adb2049e79951dd6b92c970abaa4d81819b1,,,7c39adb2049e79951dd6b92c970abaa4d81819b1
+wu2023speechgen,SpeechGen: Unlocking the Generative Power of Speech Language Models with Prompts,B,arxiv,2306.02207v3,2306.02207,,49f4ce7a3e5f060b4012a165cc4ab416e4b3fd0b
+zhen2020psychoacoustic,Psychoacoustic Calibration of Loss Functions for Efficient End-to-End Neural Audio Coding,A,arxiv,2101.00054v1,2101.00054,,dfdfc301a646b7e98deb31a272e120be3ee5a449
+garbacea2019low,Low Bit-Rate Speech Coding with VQ-VAE and a WaveNet Decoder,A,arxiv,1910.06464v1,1910.06464,,f870e04e2fc3864d6b863446606a2697aba4790c
+jang2024personalized,Personalized Neural Speech Codec,A,arxiv,2404.00791v1,2404.00791,,70620962099ab88d984a2884f6a9d13e57fc8d2f
+Kleijn2018wavenet,Wavenet based low rate speech coding,A,arxiv,1712.01120v1,1712.01120,,d250fc92d4d29923f968ef3b60b2ceb92808712e
+valin2019real,A Real-Time Wideband Neural Vocoder at 1.6 kb/s Using LPCNet,C,arxiv,1903.12087v2,1903.12087,,75b1934626e05bc295e57517a915e40b9908f1ee
+valin2019lpcnet,LPCNET: Improving Neural Speech Synthesis through Linear Prediction,C,semantic_scholar,da7329db3e14cb7301e9ce95a131136bd85e24ba,,,da7329db3e14cb7301e9ce95a131136bd85e24ba
+yang2023neural,Neural Feature Predictor and Discriminative Residual Coding for Low-Bitrate Speech Coding,A,arxiv,2211.02506v1,2211.02506,,9b72a0f3be2062ec141e4dc9f4c983d76f52969b
+Jang2016Gumbel,Categorical Reparameterization with Gumbel-Softmax,B,arxiv,1611.01144v5,1611.01144,,29e944711a354c396fad71936f536e83025b6ce0
+maddison2016concrete,The Concrete Distribution: A Continuous Relaxation of Discrete Random Variables,C,arxiv,1611.00712v3,1611.00712,,515a21e90117941150923e559729c59f5fdade1c
+della2025focalcodec,FocalCodec: Low-Bitrate Speech Coding via Focal Modulation Networks,A,arxiv,2502.04465v2,2502.04465,,80ea7f6207011c0010f5e6ad021e9f1c3f76e9b5
+petermann2021harp,HARP-Net: Hyper-Autoencoded Reconstruction Propagation for Scalable Neural Audio Coding,A,arxiv,2107.10843v2,2107.10843,,9705e445cc705e6a1a4838dcbf8f25eea6c9b0ac
+Jiang2022EndtoEndNS,End-to-End Neural Speech Coding for Real-Time Communications,A,arxiv,2201.09429v3,2201.09429,,b6ad8f4fd436afdf50a688e6c9f7e7db1689a8c6
+wu2024codecslt,Codec-SUPERB @ SLT 2024: A lightweight benchmark for neural audio codec models,B,arxiv,2409.14085v1,2409.14085,,158cd404a60a284d06dc791c100ac2c0b9121d0a
+yang2021source,Source-Aware Neural Speech Coding for Noisy Speech Compression,A,arxiv,2008.12889v2,2008.12889,,007b88ee9416529573fdfa40af436286a7266ee7
+omran2023disentangling,Disentangling speech from surroundings with neural embeddings,B,arxiv,2203.15578v2,2203.15578,,de025df9d534593f3d6df197b021c42ca73c77c4
+Ji2024LanguageCodecRT,Language-Codec: Bridging Discrete Codec Representations and Speech Language Models,B,arxiv,2402.12208,2402.12208,,4dde7ce8b4c35558b81e8f567734af689ffefa7f
+Pan2024PSCodecAS,PSCodec: A Series of High-Fidelity Low-bitrate Neural Speech Codecs Leveraging Prompt Encoders,B,arxiv,2404.02702v3,2404.02702,,cc02b95dacfceb982cb28f44e1689a7422a1973c
+yang24h_interspeech,Genhancer: High-Fidelity Speech Enhancement via Generative Modeling on Discrete Codec Tokens,B,semantic_scholar,ed6b910c45a0ab819c98b5fd4f9b8e4ca2ac7482,,,ed6b910c45a0ab819c98b5fd4f9b8e4ca2ac7482
+xue24lowlatency,Low-latency Speech Enhancement via Speech Token Generation,B,arxiv,2310.08981v3,2310.08981,,a537ac328efbb271a40c5ea65649484c62041837
+Ahn2024HILCodecHA,HILCodec: High-Fidelity and Lightweight Neural Audio Codec,A,arxiv,2405.04752v2,2405.04752,,892cfb5491b051ae42f18f746195a62352cf5769
+Ye2024CodecDM,Codec Does Matter: Exploring the Semantic Shortcoming of Codec for Audio Language Model,B,arxiv,2408.17175v3,2408.17175,,2cf8b1b1e7d4ba9d5f2e68e0a34edb5cc690dcaa
+Guo2024AddressingIC,Addressing Index Collapse of Large-Codebook Speech Tokenizer with Dual-Decoding Product-Quantized Variational Auto-Encoder,A,arxiv,2406.02940v1,2406.02940,,c3e942369fb09fde0c19786c336fb475e90c6e49
+Zhou2024WMCodecEN,WMCodec: End-to-End Neural Speech Codec with Deep Watermarking for Authenticity Verification,A,arxiv,2409.12121v3,2409.12121,,59597f410a2c2a1b28639ef92153c64f71189d6e
+Wu2024TS3CodecTS,TS3-Codec: Transformer-Based Simple Streaming Single Codec,B,arxiv,2411.18803v2,2411.18803,,e3ec2c742acbdc06398f1f0aae21f2675db1d358
+Jiang2024MDCTCodecAL,MDCTCodec: A Lightweight MDCT-based Neural Audio Codec towards High Sampling Rate and Low Bitrate Scenarios,C,arxiv,2411.00464v1,2411.00464,,943114246d3f0853e9403eb7e25fa902a4045340
+Guo2024LSCodecLA,LSCodec: Low-Bitrate and Speaker-Decoupled Discrete Speech Codec,A,arxiv,2410.15764v3,2410.15764,,998886fbbad5b772d6b085609956ca7be2a6f6fd
+zaiem2023icassp,Fine-tuning Strategies for Faster Inference using Speech Self-Supervised Models: A Comparative Study,B,arxiv,2303.06740v1,2303.06740,,81e10b7cc460b76ff093bb348c50e83456b2729c
+yang2021superb,SUPERB: Speech processing Universal PERformance Benchmark,B,arxiv,2105.01051v4,2105.01051,,d8e81e80490113434f7ac338c5f8d5a23f05a3de
+Rabiner:1993dq,Fundamentals of speech recognition,B,semantic_scholar,2392e94df520e707e8b1422311bfdc552954dea9,,,2392e94df520e707e8b1422311bfdc552954dea9
+busso2008iemocap,IEMOCAP: interactive emotional dyadic motion capture database,C,semantic_scholar,5cf0d213f3253cd46673d955209f8463db73cc51,,,5cf0d213f3253cd46673d955209f8463db73cc51
+lecun2015deep,Deep Learning,C,arxiv,1807.07987v2,1807.07987,,950d423dddf28aaadbca7d58d603bbcc8295affd
+GoodBengCour16,Deep Learning,C,arxiv,1807.07987v2,1807.07987,,950d423dddf28aaadbca7d58d603bbcc8295affd
+geminiteam2023gemini,Gemini: A Family of Highly Capable Multimodal Models,B,arxiv,2312.11805v5,2312.11805,,
+wu2025esi,Towards Efficient Speech-Text Jointly Decoding within One Speech Language Model,B,arxiv,2506.04518v2,2506.04518,,90b719e905154a418b7ab30c2da7de617d96d84b
+kumar2023high,High-Fidelity Audio Compression with Improved RVQGAN,A,arxiv,2306.06546v2,2306.06546,,cf8fced1f446c554ca0c5608ae0a1131184212f6
+zhang2023speechtokenizer,SpeechTokenizer: Unified Speech Tokenizer for Speech Large Language Models,A,arxiv,2308.16692v2,2308.16692,,5fc1a1f79ea4d1a1c6e8da1a40ae08022a6d7308
+wu2023audiodec,AudioDec: An Open-source Streaming High-fidelity Neural Audio Codec,A,arxiv,2305.16608v1,2305.16608,,900509527851a4b694ecb873e96b44712a012931
+yang2023hifi,HiFi-Codec: Group-residual Vector quantization for High Fidelity Audio Codec,A,arxiv,2305.02765v2,2305.02765,,90831247f414c50820067ae8c2d4acdbc6c68746
+du2023funcodec,"FunCodec: A Fundamental, Reproducible and Integrable Open-source Toolkit for Neural Speech Codec",B,arxiv,2309.07405v2,2309.07405,,3f9a2af2366f2117dfdd22154a22dd5d9fcc4a48
+borsos2023audiolm,AudioLM: a Language Modeling Approach to Audio Generation,B,arxiv,2209.03143v2,2209.03143,,8c870bef01a4fbb20f60722ffc2f6bee3870b18b
+rubenstein2023audiopalm,AudioPaLM: A Large Language Model That Can Speak and Listen,B,arxiv,2306.12925v1,2306.12925,,3efb81de24eb88017d6dbcf22cb4215084223fd8
+wang2024viola,"VioLA: Conditional Language Models for Speech Recognition, Synthesis, and Translation",B,semantic_scholar,66fd85f42596fcd018d517a4bf6acc75100e59da,,,66fd85f42596fcd018d517a4bf6acc75100e59da
+sicherman2023analysing,Analysing Discrete Self Supervised Speech Representation for Spoken Language Modeling,B,arxiv,2301.00591v3,2301.00591,,646da9e8e41fe58f9ee226499fda1b7fcdc1a58f
+arora2025landscape,On The Landscape of Spoken Language Models: A Comprehensive Survey,B,arxiv,2504.08528v1,2504.08528,,a78c6984a026be130245aecf1ff7574c1c430d86
+chen2023lauragpt,"LauraGPT: Listen, Attend, Understand, and Regenerate Audio with GPT",B,arxiv,2310.04673v4,2310.04673,,ffa05cb5504ba08254f498223f613b3ebcf87692
+borsos2023soundstorm,SoundStorm: Efficient Parallel Audio Generation,B,arxiv,2305.09636v1,2305.09636,,2183c88e9056e931b07d48f1dc44360785952073
+wang2023viola,"VioLA: Unified Codec Language Models for Speech Recognition, Synthesis, and Translation",B,arxiv,2305.16107v1,2305.16107,,42e726e2ea5bbb946001947d1a5b31ccc6b7aef9
+wang2023speechx,SpeechX: Neural Codec Language Model as a Versatile Speech Transformer,B,arxiv,2308.06873v2,2308.06873,,763221f613adcc2f1f306fd76ab1912fcb50255b
+kreuk2022audiogen,AudioGen: Textually Guided Audio Generation,B,arxiv,2209.15352v2,2209.15352,,ebb85974e06c4879b451fdfcb4f472a09471935b
+desplanques2020ecapa,"ECAPA-TDNN: Emphasized Channel Attention, Propagation and Aggregation in TDNN Based Speaker Verification",C,arxiv,2005.07143v3,2005.07143,,9609f4817a7e769f5e3e07084db35e46696e82cd
+ardila2019common,Common Voice: A Massively-Multilingual Speech Corpus,C,arxiv,1912.06670v2,1912.06670,,63a71de0dafc90910e37a2b07169ff486d9b5fe5
+agostinelli2023musiclm,MusicLM: Generating Music From Text,C,arxiv,2301.11325v1,2301.11325,,428854d9e75f94f0e61f37c6887c77800437d516
+yang2023uniaudio,UniAudio: Towards Universal Audio Generation with Large Language Models,B,semantic_scholar,61632c78b26ca366b5a1c8cbf3d0f50981126e8e,,,61632c78b26ca366b5a1c8cbf3d0f50981126e8e
+wells2022phonetic,Phonetic Analysis of Self-supervised Representations of English Speech,B,semantic_scholar,fc5c506887b53d0e132cb6a4fb239c92cd5c9830,,,fc5c506887b53d0e132cb6a4fb239c92cd5c9830
+polyak2021speech,Speech Resynthesis from Discrete Disentangled Self-Supervised Representations,B,arxiv,2104.00355v3,2104.00355,,51a79a45e2577bffca0a50992a852c73d7a13ffa
+du2025codecfake,CodecFake+: A Large-Scale Neural Audio Codec-Based Deepfake Speech Dataset,C,arxiv,2501.08238,2501.08238,,7e01d88bd34eec4ce0214263e44cabb09e545c00
+touvron2023llama,Llama 2: Open Foundation and Fine-Tuned Chat Models,C,arxiv,2307.09288v2,2307.09288,,104b0bb1da562d53cbda87aec79ef6a2827d191a
+defossez2024moshi,Moshi: a speech-text foundation model for real-time dialogue,B,arxiv,2410.00037v2,2410.00037,,ae4aa7b0c5a327dae63ad20e00b58bcc6176b3b8
+kharitonov2021text,Text-Free Prosody-Aware Generative Spoken Language Modeling,C,arxiv,2109.03264v2,2109.03264,,65b20b3e6f81f6567e41e353a47a2380c6cc4b77
+nguyen2023generative,Generative Spoken Dialogue Language Modeling,C,arxiv,2203.16502v2,2203.16502,,5a29401272d58c20bcd95728f646c186f62b6c48
+popuri2022enhanced,Enhanced Direct Speech-to-Speech Translation Using Self-supervised Pre-training and Data Augmentation,B,arxiv,2204.02967v3,2204.02967,,d6572f2250337975fc4a54abfcdf08b4829b2cfc
+inaguma2022unity,UnitY: Two-pass Direct Speech-to-speech Translation with Discrete Units,B,arxiv,2212.08055v2,2212.08055,,7e488d31bcc7453c0f30554f867703bb54925bc8
+chang2022speechprompt,SpeechPrompt: An Exploration of Prompt Tuning on Generative Spoken Language Model for Speech Processing Tasks,B,arxiv,2203.16773v3,2203.16773,,5d1c711c1d5b5f8399938af5e3df904680ce24a7
+chang2023speechprompt,SpeechPrompt v2: Prompt Tuning for Speech Classification Tasks,B,arxiv,2303.00733v1,2303.00733,,b50c27607d7a858297232310bbec9819ade875a8
+hsu2023exploration,An Exploration of In-Context Learning for Speech Language Model,B,semantic_scholar,d628f3c65e0c8c3024d9ff0678d44383fc9fe27c,,,d628f3c65e0c8c3024d9ff0678d44383fc9fe27c
+kuan2023towards,Towards General-Purpose Text-Instruction-Guided Voice Conversion,B,arxiv,2309.14324v2,2309.14324,,278b53e048ce8c52a32192b6096de31335a385d5
+zeng2024glm,GLM-4-Voice: Towards Intelligent and Human-Like End-to-End Spoken Chatbot,B,arxiv,2412.02612,2412.02612,,164e9a9ab16ecf675d1a82325282ef0aaa29d3b7
+huang2023dynamic,"Dynamic-SUPERB: Towards A Dynamic, Collaborative, and Comprehensive Instruction-Tuning Benchmark for Speech",B,arxiv,2309.09510v2,2309.09510,,786294f4008732a5dac9895a8507bc4c80450075
+huang2024dynamic,Dynamic-SUPERB Phase-2: A Collaboratively Expanding Benchmark for Measuring the Capabilities of Spoken Language Models with 180 Tasks,B,arxiv,2411.05361v2,2411.05361,,125858649920909590356c7f9586ad9a5c3163f1
+xu2025qwen2,Qwen2.5-Omni Technical Report,B,arxiv,2503.20215,2503.20215,,2024e5247104cf2261314e813e0bf8d48467ec43
+liu2023pre,"Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing",B,arxiv,2107.13586v1,2107.13586,,28692beece311a90f5fa1ca2ec9d0c2ce293d069
+lester2021power,The Power of Scale for Parameter-Efficient Prompt Tuning,B,arxiv,2104.08691v2,2104.08691,,ffdbd7f0b03b85747b001b4734d5ee31b5229aa4
+chang2023exploring,"Exploring Speech Recognition, Translation, and Understanding with Discrete Speech Units: A Comparative Study",B,arxiv,2309.15800v1,2309.15800,,bb4c59fc93d5be6b3d85dfde9d08e3dab80db9b7
+wang2023selm,SELM: Speech Enhancement Using Discrete Tokens and Language Models,B,arxiv,2312.09747v2,2312.09747,,7eb3b416f4537e431d27bdb5fde2d22b73e5e0cc
+wu2024codec,Codec-SUPERB: An In-Depth Analysis of Sound Codec Models,B,arxiv,2402.13071v3,2402.13071,,5bde820a55815dc30bf4e871444d763680ba7e2e
+zhang2023dub,DUB: Discrete Unit Back-translation for Speech Translation,B,arxiv,2305.11411v1,2305.11411,,9d4254074690c4b2f162c0b9631f36363cbd5c7b
+wu2024toksing,TokSing: Singing Voice Synthesis based on Discrete Tokens,B,arxiv,2406.08416v2,2406.08416,,c86e421a185b7e46d80a03568ad40c39c1899242
+yip2024towards,Towards Audio Codec-based Speech Separation,B,arxiv,2406.12434v2,2406.12434,,455d1f14b2bb4515ed3676e098c2f79748eefc29
+chung2021w2v,W2v-BERT: Combining Contrastive Learning and Masked Language Modeling for Self-Supervised Speech Pre-Training,B,arxiv,2108.06209v2,2108.06209,,ebe259796870ebccf26577044d0087884209b884
+hsu2021hubert,HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units,B,arxiv,2106.07447v1,2106.07447,,4fffa5245d3972077c83614c2a08a47cb578631e
+chen2022wavlm,WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing,B,arxiv,2110.13900v5,2110.13900,,416dab850fda842b13a4f28164514d98f836fff7
+baevski2020wav2vec,wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations,B,arxiv,2006.11477v3,2006.11477,,49a049dc85e2380dde80501a984878341dd8efdf
+chang2023exploration,Exploration of Efficient End-to-End ASR using Discretized Input from Self-Supervised Learning,B,arxiv,2305.18108v1,2305.18108,,47ba7df38e24da9bad9266d2b58abbb2b70db6e5
+pasad2023comparative,Comparative layer-wise analysis of self-supervised speech models,B,arxiv,2211.03929v3,2211.03929,,901e2c286da05e34669c2aef50ed9b4b54d81451
+goodfellow2020generative,Generative Adversarial Networks,C,arxiv,1406.2661v1,,,6296aa7cab06eaf058f7291040b320b5a83c0091
+kong2020hifigan,HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis,B,arxiv,2010.05646v2,2010.05646,,4e468d3da1797d791db8d514d695b183acb027ee
+oord2016wavenet,WaveNet: A Generative Model for Raw Audio,B,arxiv,1609.03499v2,1609.03499,,df0402517a7338ae28bc54acaac400de6b456a46
+prenger2018waveglow,WaveGlow: A Flow-based Generative Network for Speech Synthesis,B,arxiv,1811.00002v1,1811.00002,,220d47d9b2872f0f0c33084fb4425424d91fa0ac
+transformer,Attention Is All You Need,C,arxiv,1706.03762v7,1706.03762,,204e3073870fae3d05bcbc2f6a8e263d9b72e776
+somos,SOMOS: The Samsung Open MOS Dataset for the Evaluation of Neural Text-to-Speech Synthesis,C,arxiv,2204.03040v2,2204.03040,,54815a913d2c41245ac583523f4b36a6bcd34b4e
+yang2023towards,Towards Universal Speech Discrete Tokens: A Case Study for ASR and TTS,B,arxiv,2309.07377v2,2309.07377,,fe3f5c5209557cd93a98de61afeb325db545740e
+wang2021dwer,Sequential Multi-Frame Neural Beamforming for Speech Separation and Enhancement,B,arxiv,1911.07953v3,1911.07953,,72858af574469350ebe64aa5a920e643f37232d9
+wichern2019wham,WHAM!: Extending Speech Separation to Noisy Environments,B,arxiv,1907.01160v1,1907.01160,,a6aca3527e123849b740d63e064051a1a46ecec6
+le2019sdr,SDR - half-baked or well done?,C,arxiv,1811.02508v1,1811.02508,,54feb392b834c56f45d92e2bdbebf74038126faf
+ljspeech17,{The {LJ} Speech Dataset},C,keithito,https://keithito.com/LJ-Speech-Dataset/,,,
+srivastava2014dropout,Dropout: a simple way to prevent neural networks from overfitting,C,semantic_scholar,34f25a8704614163c4095b3ee2fc969b60de4698,,,34f25a8704614163c4095b3ee2fc969b60de4698
+nagrani2017voxceleb,VoxCeleb: a large-scale speaker identification dataset,C,arxiv,1706.08612v2,1706.08612,,8a26431833b0ea8659ef1d24bff3ac9e56dcfcd0
+1360861705599880960,UTMOS: UTokyo-SaruLab System for VoiceMOS Challenge 2022,B,arxiv,2204.02152v2,2204.02152,,3021fa7790631e11e888315d387c0a442ef82ab6
+zaiem2025speech,Speech Self-Supervised Representations Benchmarking: a Case for Larger Probing Heads,B,arxiv,2308.14456v2,2308.14456,,1f039ac1dce594108e074a56d253359bd78bb15d
+defossez2022high,High Fidelity Neural Audio Compression,A,arxiv,2210.13438v1,2210.13438,,cdcfeb447fa8554c131c0a13a7ffcba30c0381e1
+DevlinCLT19,BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding,C,arxiv,1810.04805v2,1810.04805,,df2b0e26d0599ce3e70df8a9da02e51594e0e992
+newell2020useful,How Useful is Self-Supervised Pretraining for Visual Tasks?,B,arxiv,2003.14323v1,2003.14323,,2c7606eef27a9603d0cc94b37b9ad1690c0955dc
+liu2021self,Self-supervised Learning: Generative or Contrastive,B,arxiv,2006.08218v5,2006.08218,,706f756b71f0bf51fc78d98f52c358b1a3aeef8e
+JMLR:v24:22-1144,PaLM: Scaling Language Modeling with Pathways,C,arxiv,2204.02311v5,2204.02311,,094ff971d6a8b8ff870946c9b3ce5aa173617bfb
+liu2023gpt,"GPT Understands, Too",C,arxiv,2103.10385v2,2103.10385,,bc37c6bdb8f39929a58b30464f72d6aa46cddc17
+speechbrain_ravanelli,Open-Source Conversational AI with SpeechBrain 1.0,C,arxiv,2407.00463v5,2407.00463,,65cec875dcacadf6df860853c09125dc966084f4
+wang2024evaluating,Evaluating Text-to-Speech Synthesis from a Large Discrete Token-based Speech Language Model,B,arxiv,2405.09768v1,2405.09768,,18f41334b89014a85c39cef0f9b71be4dcb0f960
+wang2023neural,Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers,B,arxiv,2301.02111v1,2301.02111,,c2f91f35df893714418cc29096083dce0b441229
+kharitonov2023speak,"Speak, Read and Prompt: High-Fidelity Text-to-Speech with Minimal Supervision",B,arxiv,2302.03540v1,2302.03540,,071d021ef9dcd83686d7b12bec2e13283b2f048f
+shi2021discretization,Discretization and Re-synthesis: an alternative method to solve the Cocktail Party Problem,C,arxiv,2112.09382v2,2112.09382,,9b71542ef5d5178041048b9a330309053bb0bcfc
+erdogan2023tokensplit,"TokenSplit: Using Discrete Speech Representations for Direct, Refined, and Transcript-Conditioned Speech Separation and Recognition",B,arxiv,2308.10415v1,2308.10415,,b7bd040a9d9165efe6fc213382a0d0f97128331a
+puvvada2023discrete,Discrete Audio Representation as an Alternative to Mel-Spectrograms for Speaker and Speech Recognition,B,semantic_scholar,c78d2a875f6cfd3a7b70c8d4c03a828894146892,,,c78d2a875f6cfd3a7b70c8d4c03a828894146892
+wu2024codecfake,CodecFake: Enhancing Anti-Spoofing Models Against Deepfake Audios from Codec-Based Speech Synthesis Systems,B,arxiv,2406.07237v1,2406.07237,,57a82c09c32d44d5582103adee8c6723bd5edabf
+ren2024emo,EMO-Codec: An In-Depth Look at Emotion Preservation capacity of Legacy and Neural Codec Models With Subjective and Objective Evaluations,B,arxiv,2407.15458v4,2407.15458,,80355cdd5282a068bc204b66221a24964e0d2d02
+mousavi2024,How Should We Extract Discrete Audio Tokens from Self-Supervised Models?,A,semantic_scholar,40875b1e950fe6636ef277df4ed6d501f4933307,,,40875b1e950fe6636ef277df4ed6d501f4933307
+korvas_2014,"""Free {E}nglish and {C}zech telephone speech corpus shared under the {CC}-{BY}-{SA} 3.0 license""",C,lrec_conf,lrec2014:535,,,
+han2020contextnet,ContextNet: Improving Convolutional Neural Networks for Automatic Speech Recognition with Global Context,B,arxiv,2005.03191v3,2005.03191,,1bd7d2932de819ed1087b6453ef2c0be9f781ac1
+snyder2018x,X-Vectors: Robust DNN Embeddings for Speaker Recognition,B,semantic_scholar,389cd9824428be98a710f5f4de67121a70c15fd3,,,389cd9824428be98a710f5f4de67121a70c15fd3
+wang2018additive,Additive Margin Softmax for Face Verification,C,arxiv,1801.05599v4,1801.05599,,9fc17fa5708584fa848164461f82a69e97f6ed69
+bastianelli2020slurp,SLURP: A Spoken Language Understanding Resource Package,C,arxiv,2011.13205v1,2011.13205,,11aba1be0ccdbe291fc4e469e458b832d5228203
+warden2017speech,Speech Commands: A Dataset for Limited-Vocabulary Speech Recognition,C,arxiv,1804.03209v1,1804.03209,,da6e404d8911b0e5785019a79dc8607e0b313dc4
+tacotron2,Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions,B,arxiv,1712.05884v2,1712.05884,,1a2599e467e855f845dcbf9282f8bdbd97b85708
+guided-attention,Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention,B,arxiv,1710.08969v2,1710.08969,,4ae0aed52bf2d68586f04887cbf98834e01fc782
+levenshtein,"Binary codes capable of correcting deletions, insertions, and reversals",C,semantic_scholar,b2f8876482c97e804bb50a5e2433881ae31d0cdd,,,b2f8876482c97e804bb50a5e2433881ae31d0cdd
+dwer,Sequential Multi-Frame Neural Beamforming for Speech Separation and Enhancement,B,arxiv,1911.07953,1911.07953,,72858af574469350ebe64aa5a920e643f37232d9
+abouelenin2025phi,Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs,B,arxiv,2503.01743v2,2503.01743,,f6e39cee044a03747fbb4b20e335b640b43b884c
+chang2024speechprompt,SpeechPrompt: Prompting Speech Language Models for Speech Processing Tasks,B,arxiv,2408.13040v1,2408.13040,,c62ec2d7020f1028c5eefde3d27e2fff0722a600
+cp-decomposition,The Expression of a Tensor or a Polyadic as a Sum of Products,C,semantic_scholar,5265853dd172f6afe0ff1e820a0cc7bd0e58c765,,,5265853dd172f6afe0ff1e820a0cc7bd0e58c765
+dubey2024icassp,ICASSP 2023 Deep Noise Suppression Challenge,B,arxiv,2303.11510v2,2303.11510,,f9f92c6df5375d6876cf1e8f77c75b94ae30487e
+gemmeke2017audio,Audio Set: An ontology and human-labeled dataset for audio events,C,semantic_scholar,5ba2218b708ca64ab556e39d5997202e012717d5,,,5ba2218b708ca64ab556e39d5997202e012717d5
+fonseca2021fsd50k,FSD50K: An Open Dataset of Human-Labeled Sound Events,C,arxiv,2010.00475v2,2010.00475,,5260c6b7b402ffae46bc53b337c71e7b80239432
+bogdanov2019mtg,The MTG-Jamendo Dataset for Automatic Music Tagging,C,semantic_scholar,23037085b0815455e6d47333089b925c8c0e21d5,,,23037085b0815455e6d47333089b925c8c0e21d5
+mysore2014can,"Can we Automatically Transform Speech Recorded on Common Consumer Devices in Real-World Environments into Professional Production Quality Speech?—A Dataset, Insights, and Challenges",C,semantic_scholar,5aa5d627f4741eaeec41d59efe6589e71a3080c6,,,5aa5d627f4741eaeec41d59efe6589e71a3080c6
+vctk2017,CSTR VCTK Corpus: English Multi-speaker Corpus for CSTR Voice Cloning Toolkit (version 0.92),C,semantic_scholar,df40f83f5420f73b22562f3554e1e3bd4a5c1ef5,,,df40f83f5420f73b22562f3554e1e3bd4a5c1ef5
+reddy2022dnsmos,DNSMOS P.835: A Non-Intrusive Perceptual Objective Speech Quality Metric to Evaluate Noise Suppressors,C,arxiv,2110.01763v4,2110.01763,,d49a6c071dc94c90538592a1067efdb1d193aa69
+valentinibotinhao2016voicebank,Investigating RNN-based speech enhancement methods for noise-robust Text-to-Speech,B,semantic_scholar,0764300b1ba8c29e25e748c1df2851feba8ea1b6,,,0764300b1ba8c29e25e748c1df2851feba8ea1b6
+cosentino2020librimix,LibriMix: An Open-Source Dataset for Generalizable Speech Separation,C,arxiv,2005.11262v1,2005.11262,,8793b3e9b1d2b2b448b343edb9e9a8a8c3553a92
+gulati_conformer,Conformer: Convolution-augmented Transformer for Speech Recognition,B,arxiv,2005.08100v1,2005.08100,,0170fc76e934ee643f869df18fb617d5357e8b4e
+zhan2024anygpt,AnyGPT: Unified Multimodal LLM with Discrete Sequence Modeling,B,arxiv,2402.12226v5,2402.12226,,14191e9f12913ad8c7ac6e1188682afac04aad09
+xin2024bigcodec,BigCodec: Pushing the Limits of Low-Bitrate Neural Speech Codec,A,arxiv,2409.05377v1,2409.05377,,18118403b611ac0fa2ed91f5cf9408111f8683c2
+niu2024ndvq,NDVQ: Robust Neural Audio Codec with Normal Distribution-Based Vector Quantization,A,arxiv,2409.12717v1,2409.12717,,2b4a517485c681d0af82bff7bda491bfb1bc86f8
+siuzdak2024snac,SNAC: Multi-Scale Neural Audio Codec,A,arxiv,2410.14411v1,2410.14411,,8f33eafe5972bf2f8dda26b3a80f9a1cf200e7a1
+chiu2022bestrq,Self-supervised Learning with Random-projection Quantizer for Speech Recognition,B,arxiv,2202.01855v2,2202.01855,,3be6e8af61c3eb022fb07aea2d6aaf8b11be510c
+zhang2023googleusm,Google USM: Scaling Automatic Speech Recognition Beyond 100 Languages,B,arxiv,2303.01037v3,2303.01037,,777317e5af8742b30408e98778fa067750e69f78
+langman2024spectral,Spectral Codecs: Improving Non-Autoregressive Speech Synthesis with Spectrogram-Based Audio Codecs,B,arxiv,2406.05298,2406.05298,,ebd38925932ecf752668bc974038aa8d5618525e
+gu2024esc,ESC: Efficient Speech Coding with Cross-Scale Residual Vector Quantized Transformers,A,arxiv,2404.19441v3,2404.19441,,d6cb9dc51ac532d62e5b0cf514c7c47ba9c1e371
+tang2024singomd,SingOMD: Singing Oriented Multi-resolution Discrete Representation Construction from Speech Models,B,semantic_scholar,b7359944a3a8d9a8a6d4acd83e7a507a4da1094a,,,b7359944a3a8d9a8a6d4acd83e7a507a4da1094a
+shi2024mmm,MMM: Multi-Layer Multi-Residual Multi-Stream Discrete Speech Representation from Self-supervised Learning Model,B,arxiv,2406.09869v1,2406.09869,,b131599d88c0544ff9b1c714b3bc971ee362f45a
+messica2024nast,NAST: Noise Aware Speech Tokenization for Speech Language Models,B,arxiv,2406.11037v1,2406.11037,,d2d36ba44417e86e1b8324ba5f40189f71e23b39
+chen-etal-2024-towards-robust,Towards Robust Speech Representation Learning for Thousands of Languages,B,arxiv,2407.00837v2,2407.00837,,ad63a1e67eae4b404a40b820bfde8f869e9d23bf
+zhang2023speechgpt,SpeechGPT: Empowering Large Language Models with Intrinsic Cross-Modal Conversational Abilities,B,arxiv,2305.11000v2,2305.11000,,5cac6430bd379c9d2fe13137dfd6ae7721a2679f
+valin2012definition,Definition of the Opus Audio Codec.,C,rfc_editor,RFC6716,,,ce6784cb8deaf3a05d3395e2624c02e8796a30e5
+dietz2015overview,Overview of the EVS codec architecture,C,semantic_scholar,d63c953aa3a7327202d7af9baeda6fd0a646d5a5,,,d63c953aa3a7327202d7af9baeda6fd0a646d5a5
+fma_dataset,FMA: A Dataset For Music Analysis,C,arxiv,1612.01840v3,1612.01840,,9a82095be10926f0a52f8f9939deadfe39be2184
+evans2025stable,Stable Audio Open,C,arxiv,2407.14358v2,2407.14358,,5bdd70adec5b1546f2eb917fc5e3c5042d73ccca
+van2022comparison,A Comparison of Discrete and Soft Speech Units for Improved Voice Conversion,B,arxiv,2111.02392v2,2111.02392,,a41cc3d098d8d1539e9f2b608a5d43c433f56d7a
+guo2024socodec,SoCodec: A Semantic-Ordered Multi-Stream Speech Codec for Efficient Language Model Based Text-to-Speech Synthesis,B,arxiv,2409.00933v1,2409.00933,,f28bff4fcadb7252492ab2b3557f3895b617dfb9
+casanova2024lfsc,Low Frame-rate Speech Codec: a Codec Designed for Fast High-quality Speech LLM Training and Inference,A,arxiv,2409.12117v1,2409.12117,,69b4384bf62077504eeaa0185b3079cf1b62e70f
+ren2024ticodec,Fewer-token Neural Speech Codec with Time-invariant Codes,A,arxiv,2310.00014v2,2310.00014,,c57c2b454747021eb11412bfbac6f2d668c9a644
+parker2024scaling,Scaling Transformers for Low-Bitrate High-Quality Speech Coding,A,arxiv,2411.19842v1,2411.19842,,4d46eb61b055a603242cd6ae220c47540ef1be9d
+bai2024dmel,dMel: Speech Tokenization made Simple,A,arxiv,2407.15835,2407.15835,,4393655baf5a41bf365741bf2b6de89a43c35ad0
+ai2024apcodec,APCodec: A Neural Audio Codec with Parallel Amplitude and Phase Spectrum Encoding and Decoding,A,arxiv,2402.10533v2,2402.10533,,1e88ef9ca616aa908511987f26d781027bc44f2f
+kolbaek2017multitalker,Multitalker Speech Separation With Utterance-Level Permutation Invariant Training of Deep Recurrent Neural Networks,B,semantic_scholar,256ad591c6fd5269fc6f88b9715bf379f210f53d,,,256ad591c6fd5269fc6f88b9715bf379f210f53d
+piczak2015esc,ESC: Dataset for Environmental Sound Classification,C,semantic_scholar,99e6f700d374e34c8376f1f43af994b278924f28,,,99e6f700d374e34c8376f1f43af994b278924f28
+tzanetakis2002musical,Musical genre classification of audio signals,B,semantic_scholar,7ab881283270e427b05c6e9469562ff39dd6282a,,,7ab881283270e427b05c6e9469562ff39dd6282a
+li2023mert,MERT: Acoustic Music Understanding Model with Large-Scale Self-supervised Training,B,arxiv,2306.00107v5,2306.00107,,fb08b08916caab4b22c60fa96753f6b9a5886d75
+kong2020panns,PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition,B,arxiv,1912.10211v5,1912.10211,,65d53938a12c77e7920b8eb3a49df249c978ba3f
+wang2022usb,USB: A Unified Semi-supervised Learning Benchmark for Classification,B,arxiv,2208.07204v2,2208.07204,,fdd69dd6ad2be28c6864b7330ccc1311e284cc5c
+mousavi2024dasb,DASB - Discrete Audio and Speech Benchmark,B,arxiv,2406.14294v2,2406.14294,,1d3b4bd9b04c83c8ff7e75bc951b98d263f05bd1
+wang2023lmvc,LM-VC: Zero-shot Voice Conversion via Speech Generation based on Language Models,B,arxiv,2306.10521v2,2306.10521,,df6b38c4f89949891147dd19b059d2b179579ec3
+maimon2023speaking,Speaking Style Conversion in the Waveform Domain Using Discrete Self-Supervised Units,B,arxiv,2212.09730v2,2212.09730,,6e97c068d7756d4eb6e98c8e85e891a6c8436147
+wang2024streamvoice,StreamVoice: Streamable Context-Aware Language Modeling for Real-time Zero-Shot Voice Conversion,B,arxiv,2401.11053v5,2401.11053,,f7fcb8dd8ccfd3d4e718aee5d9aa938f2edc9005
+shi2024espnet,"ESPnet-Codec: Comprehensive Training and Evaluation of Neural Codecs for Audio, Music, and Speech",B,arxiv,2409.15897v2,2409.15897,,a70673e7e99383b22149a5aed45223da45274709
+vashishth2024stab,STAB: Speech Tokenizer Assessment Benchmark,B,arxiv,2409.02384v1,2409.02384,,334578ad65ee70f55cbdd4c9b4bd974873889cea
+zen2019libritts,LibriTTS: A Corpus Derived from LibriSpeech for Text-to-Speech,C,semantic_scholar,2789b6c84ba1422746246685001accba5563e7c1,,,2789b6c84ba1422746246685001accba5563e7c1
+7178964,Librispeech: An ASR corpus based on public domain audio books,C,semantic_scholar,34038d9424ce602d7ac917a4e582d977725d4393,,,34038d9424ce602d7ac917a4e582d977725d4393
+lam2023efficient,Efficient Neural Music Generation,B,arxiv,2305.15719v1,2305.15719,,38b93d01e08ab19ada89a40051a1ed4309fbe834
+rouard2024audio,Audio Conditioning for Music Generation via Discrete Bottleneck Features,B,arxiv,2407.12563v2,2407.12563,,36b15349d94afd5a51eb812f61eec12410720cd2
+chen2024musicldm,MusicLDM: Enhancing Novelty in Text-to-Music Generation Using Beat-Synchronous Mixup Strategies,B,arxiv,2308.01546v1,2308.01546,,464edfd902f652d3ab6a25dbb6d9fa47cc3246a9
+yang2024generative,Generative De-Quantization for Neural Speech Codec via Latent Diffusion,B,arxiv,2311.08330v2,2311.08330,,6e3dac065a85363081a81e1a056f0e853a5d00e7
+li2024single,Single-Codec: Single-Codebook Speech Codec towards High-Performance Speech Generation,B,arxiv,2406.07422v1,2406.07422,,f2ede1390afd4917d1f5e83f70319339998e76f8
+huang2023repcodec,RepCodec: A Speech Representation Codec for Speech Tokenization,A,semantic_scholar,8b6c00246a0ae34f097aa64af7d9cb35b2b43a30,,,8b6c00246a0ae34f097aa64af7d9cb35b2b43a30
+siuzdak2023vocos,Vocos: Closing the gap between time-domain and Fourier-based neural vocoders for high-quality audio synthesis,C,arxiv,2306.00814v3,2306.00814,,9dfd2248d66f7227eb8a2b5d29064acf66174c9a
+kang2024libriheavy,"Libriheavy: a 50,000 hours ASR corpus with punctuation casing and context",C,arxiv,2309.08105v2,2309.08105,,e99b45179686982401d2d6ec919e42b327f04c0b
+maimon2024suite,Salmon: A Suite for Acoustic Language Model Evaluation,B,arxiv,2409.07437v3,2409.07437,,85c4badd3e854796757e9ae704bc0315df859276
+LMCodec,Towards Codec-LM Co-design for Neural Codec Language Models,B,semantic_scholar,9ae0d46500c36c58533ad0b456f517d0b4da17b4,,,9ae0d46500c36c58533ad0b456f517d0b4da17b4
+bie2024learning,Learning Source Disentanglement in Neural Audio Codec,A,arxiv,2409.11228v2,2409.11228,,d14bf4a3baa4e8129052314afb962719bfc707a3
+liu2024semanticodec,SemantiCodec: An Ultra Low Bitrate Semantic Audio Codec for General Sound,A,arxiv,2405.00233v2,2405.00233,,3118e392300426c5ada1309560773a434c1b70b3
+jiang22_interspeech,Cross-Scale Vector Quantization for Scalable Neural Speech Coding,A,arxiv,2207.03067v1,2207.03067,,fa204168971a9e733e74c95e2d62517c4dcce751
+yang2024qwen2,Qwen2 Technical Report,C,arxiv,2407.10671v4,2407.10671,,54fb839f621e3fe787437ab8ca5f37e7e4726bfe
+huang2022mulan,MuLan: A Joint Embedding of Music Audio and Natural Language,B,arxiv,2208.12415v1,2208.12415,,df08b4b9a66dfa849dc8ac7c8fcf2900467f749e
+turetzky_last_2024,LAST: Language Model Aware Speech Tokenization,B,arxiv,2409.03701v2,2409.03701,,b6272e96c7e6228b0ecbf4d7f0aeb3f4bc789376
+nguyen2024spiritlminterleavedspokenwritten,SpiRit-LM: Interleaved Spoken and Written Language Model,B,semantic_scholar,7547e30ba98a0217f07a6bb9fc393902bbc89269,,,7547e30ba98a0217f07a6bb9fc393902bbc89269
+nguyen2020zeroresourcespeechbenchmark,The Zero Resource Speech Benchmark 2021: Metrics and baselines for unsupervised spoken language modeling,B,arxiv,2011.11588v2,2011.11588,,29911d41f88c0f6412ea0b4112bc6c3c37377ba1
+manilow2019cutting,Cutting Music Source Separation Some Slakh: A Dataset to Study the Impact of Training Data Quality and Quantity,C,arxiv,1909.08494v1,1909.08494,,6235de880364a1c4dedd6b446a7dd55f925a95fb
+arnault2020urban,Urban Sound Classification : striving towards a fair comparison,B,arxiv,2010.11805v1,2010.11805,,722afa4dc4acd0b6148bab531cc5e800f0d30c22
+wisdom2021s,What’s all the Fuss about Free Universal Sound Separation Data?,C,semantic_scholar,1932eb0e2ede027909ef42bfa065d9983824e0a9,,,1932eb0e2ede027909ef42bfa065d9983824e0a9
+hershey2016deep,Deep clustering: Discriminative embeddings for segmentation and separation,C,arxiv,1508.04306v1,1508.04306,,3332dc72fbe3907e45e8a500c6a1202ad5092c0f
+liu2024revisiting,Revisiting Self-supervised Learning of Speech Representation from a Mutual Information Perspective,B,arxiv,2401.08833v1,2401.08833,,94d336ff0f1b5d769baa9cd47382c3754dc7ae33
+chung2025kad,KAD: No More FAD! An Effective and Efficient Evaluation Metric for Audio Generation,B,arxiv,2502.15602v2,2502.15602,,f0b0b2c3fe5f9c1b35c83e3b8087e3d51f987736
+fadtk,Adapting Frechet Audio Distance for Generative Music Evaluation,B,arxiv,2311.01616v2,2311.01616,,2bde41144a00389a4efbea7d8e9b00e232f6591d
+koutini2021passt,Efficient Training of Audio Transformers with Patchout,C,arxiv,2110.05069v3,2110.05069,,c397d0e17ced17e72aa3fc0df645eeabcabc32de
+san2023discrete,From Discrete Tokens to High-Fidelity Audio Using Multi-Band Diffusion,B,arxiv,2308.02560v2,2308.02560,,bca9507a2f6bd3379db34ab2ef4295dbdf503a67
+yang2023diffsound,Diffsound: Discrete Diffusion Model for Text-to-sound Generation,B,arxiv,2207.09983v2,2207.09983,,c036f75da24ba64a583e0b6d41c5b792347bffa6
+wu2023large,Large-scale Contrastive Language-Audio Pretraining with Feature Fusion and Keyword-to-Caption Augmentation,B,arxiv,2211.06687v4,2211.06687,,e9bc29cfcfbea4d137652d10715a9c9389349a90
+huang2023make,Make-An-Audio: Text-To-Audio Generation with Prompt-Enhanced Diffusion Models,B,arxiv,2301.12661v1,2301.12661,,6d1433f3342fbee85ad1e2809e62734aec5c3853
+audiocaps,AudioCaps: Generating Captions for Audios in The Wild,B,semantic_scholar,c4798919e74411d87f7745840e45b8bcf61128ff,,,c4798919e74411d87f7745840e45b8bcf61128ff
+macs,Diversity and Bias in Audio Captioning Datasets,C,semantic_scholar,2ee853d36dced58204983c1bb108c14d3310cd2c,,,2ee853d36dced58204983c1bb108c14d3310cd2c
+liu2023audioldm,AudioLDM: Text-to-Audio Generation with Latent Diffusion Models,B,semantic_scholar,fa0f3d8aa20e8987dbc7a516d5399cfa3dc97b1b,,,fa0f3d8aa20e8987dbc7a516d5399cfa3dc97b1b
+liu2024audioldm2,AudioLDM 2: Learning Holistic Audio Generation With Self-Supervised Pretraining,B,semantic_scholar,33de773be1733347a01cb07a5bb1b6cdfa956a47,,,33de773be1733347a01cb07a5bb1b6cdfa956a47
+wang2024v2a,V2A-Mapper: A Lightweight Solution for Vision-to-Audio Generation by Connecting Foundation Models,B,arxiv,2308.09300v4,2308.09300,,f041825c3ac6baa6fe274c5b89daa0635d1ee94d
+pascual2024masked,Masked Generative Video-to-Audio Transformers with Enhanced Synchronicity,B,arxiv,2407.10387v1,2407.10387,,698fb14f45f7406648c2f9658aa952bba475f496
+zhang2024foleycrafter,FoleyCrafter: Bring Silent Videos to Life with Lifelike and Synchronized Sounds,B,arxiv,2407.01494v1,2407.01494,,61c12ca7c8144a381019de74fee32cec6dc047b5
+dong2023clipsonic,CLIPSonic: Text-to-Audio Synthesis with Unlabeled Videos and Pretrained Language-Vision Models,B,arxiv,2306.09635v2,2306.09635,,c70c11d6de5eec2677eaa87fd3112068db6fedfe
+jeong2024read,"Read, Watch and Scream! Sound Generation from Text and Video",B,arxiv,2407.05551v2,2407.05551,,37578d7d4843d52b3e935e3fff32e553ebe35109
+chen2024video,Video-Guided Foley Sound Generation with Multimodal Controls,B,arxiv,2411.17698v4,2411.17698,,f6ced92eefc6a9bc6f0004285f9bffb359ecfa32
+saito2024soundctm,{Sound{CTM}: Uniting Score-based and Consistency Models for Text-to-Sound Generation},B,github,sony/soundctm,,,
+wang2025frieren,Frieren: Efficient Video-to-Audio Generation Network with Rectified Flow Matching,B,arxiv,2406.00320v4,2406.00320,,b117959ad42e7330e8057353ea66e30c06d2f0b9
+luo2023diff,Diff-Foley: Synchronized Video-to-Audio Synthesis with Latent Diffusion Models,B,arxiv,2306.17203v1,2306.17203,,1524253a18f24ecb33b261a0e8701b51cfad3ade
+sheffer2023hear,I Hear Your True Colors: Image Guided Audio Generation,B,arxiv,2211.03089v2,2211.03089,,a070666da8a25c563b4fa1bc00311ed2960bf22f
+raffel2020exploring,Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer,C,arxiv,1910.10683v4,1910.10683,,6c4b76232bb72897685d19b3d264c6ee3005bc2b
+peng2024survey,A Survey on Speech Large Language Models for Understanding,B,arxiv,2410.18908,2410.18908,,aa59be106ca8b32f5cbf639e852a59aa9717632e
+cui2024recent,Recent Advances in Speech Language Models: A Survey,B,arxiv,2410.03751v4,2410.03751,,4d77e3192d1246d6247dc62d418a5d17b95a1f73
+ji2024wavchat,WavChat: A Survey of Spoken Dialogue Models,C,arxiv,2411.13577v2,2411.13577,,3c14dff308d93796db63e7fef99126aa810ec098
+latif2023sparks,Sparks of Large Audio Models: A Survey and Outlook,B,arxiv,2308.12792v3,2308.12792,,374ebdc8240a35820cb7ab8bfca37e180e21b605
+dunbar2021zero,The Zero Resource Speech Challenge 2021: Spoken language modelling,B,arxiv,2104.14700v2,2104.14700,,2a500dae25af18424997733df2e1600250293f40
+lin2024alignslm,Align-SLM: Textless Spoken Language Models with Reinforcement Learning from AI Feedback,B,arxiv,2411.01834v2,2411.01834,,208bc55d3e31502f86ee695885555a1b92124c78
+radford2023robust,Robust Speech Recognition via Large-Scale Weak Supervision,B,arxiv,2212.04356v1,2212.04356,,a02fbaf22237a1aedacb1320b6007cd70c1fe6ec
+mostafazadeh2016corpus,A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories,C,semantic_scholar,85b68477a6e031d88b963833e15a4b4fc6855264,,,85b68477a6e031d88b963833e15a4b4fc6855264
+yang2024uniaudio,UniAudio 1.5: Large Language Model-driven Audio Codec is A Few-shot Audio Task Learner,B,semantic_scholar,33672a1ef7bb4722902a53c77e30ec92b338a94c,,,33672a1ef7bb4722902a53c77e30ec92b338a94c
+park2024long,Long-Form Speech Generation with Spoken Language Models,B,arxiv,2412.18603v2,2412.18603,,b70f44b066d7adcf89cdd0870a81e3266afdcb6d
+dhariwal2020jukebox,Jukebox: A Generative Model for Music,B,arxiv,2005.00341v1,2005.00341,,67dea28495cab71703993d0d52ca4733b9a66077
+ziv2024masked,Masked Audio Generation using a Single Non-Autoregressive Transformer,B,arxiv,2401.04577v2,2401.04577,,5c9ef2e05941200052b3e6ce6735c0a4c4ea9915
+garcia2023vampnet,VampNet: Music Generation via Masked Acoustic Token Modeling,B,arxiv,2307.04686v2,2307.04686,,b036e281c6d73d352b963e97f3b36bec549837f8
+gu2021efficiently,Efficiently Modeling Long Sequences with Structured State Spaces,C,arxiv,2111.00396v3,2111.00396,,ac2618b2ce5cdcf86f9371bcca98bc5e37e46f51
+elmakies2025unsupervised,Unsupervised Speech Segmentation: A General Approach Using Speech Language Models,B,arxiv,2501.03711v1,2501.03711,,535042c83b20d6dd3a388c66c8557bccbee9d451
+salmonn,SALMONN: Towards Generic Hearing Abilities for Large Language Models,B,arxiv,2310.13289v2,2310.13289,,f72be31de9f9a09d4410fd38bc717efe43444827
+qwen_audio,Qwen-Audio: Advancing Universal Audio Understanding via Unified Large-Scale Audio-Language Models,B,arxiv,2311.07919v2,2311.07919,,f90595f99a0c66d2bb6d0f230f17c7cd8c58f44d
+maimon2025slamming,Slamming: Training a Speech Language Model on One GPU in a Day,B,arxiv,2502.15814v2,2502.15814,,fea2e5accecdf2e5518bb19128b89d8edb8eb8a1
+shi2021aishell,AISHELL-3: A Multi-Speaker Mandarin TTS Corpus,C,semantic_scholar,a6387132862d1270b1a0b7ec8352b1773ec2e990,,,a6387132862d1270b1a0b7ec8352b1773ec2e990
+shi2021highland,Highland Puebla Nahuatl Speech Translation Corpus for Endangered Language Documentation,C,semantic_scholar,59f3e3cad309eb4965d67773d68bc2f91b2e376f,,,59f3e3cad309eb4965d67773d68bc2f91b2e376f
+shi2021leveraging,Leveraging End-to-End ASR for Endangered Language Documentation: An Empirical Study on Yolóxochitl Mixtec,B,semantic_scholar,8c4d1e81c277f71cd9e3c9a0af356203c7948dca,,,8c4d1e81c277f71cd9e3c9a0af356203c7948dca
+huang2021multi,Multi-Singer: Fast Multi-Singer Singing Voice Vocoder With A Large-Scale Corpus,C,arxiv,2112.10358v1,2112.10358,,79fbd2f769f735d0cf2ddf7ddbb89e0364105394
+dai2023singstyle111,SingStyle111: A Multilingual Singing Dataset With Style Transfer,C,semantic_scholar,0cab8f24dec845c4b8e64e97dd4a92a1b6338ea1,,,0cab8f24dec845c4b8e64e97dd4a92a1b6338ea1
+zhang2022m4singer,"M4Singer: A Multi-Style, Multi-Singer and Musical Score Provided Mandarin Singing Corpus",C,semantic_scholar,9441b35773ec51c19eb5c028a46705a3f3f732d5,,,9441b35773ec51c19eb5c028a46705a3f3f732d5
+ogawa2021tohoku,Tohoku Kiritan singing database: A singing database for statistical parametric singing synthesis using Japanese pop songs,C,semantic_scholar,f6781f89263f0e30070bfad392de76681653379c,,,f6781f89263f0e30070bfad392de76681653379c
+wang2022opencpop,Opencpop: A High-Quality Open Source Chinese Popular Song Corpus for Singing Voice Synthesis,C,arxiv,2201.07429v2,2201.07429,,c5adac48e1a03d527faaea65c968bd540cbfc093
+shi2024singing,Singing Voice Data Scaling-up: An Introduction to ACE-Opencpop and ACE-KiSing,C,arxiv,2401.17619v3,2401.17619,,dfe3647f6dee3c2407264ddcf24fd2ef47b351a2
+koguchi2020pjs,PJS: phoneme-balanced Japanese singing voice corpus,C,arxiv,2006.02959v1,2006.02959,,f1c6d11da54d17162baa35c43dea8655c3125d7a
+takamichi2020jsut,JSUT and JVS: Free Japanese voice corpora for accelerating speech synthesis research,B,semantic_scholar,aa9b455bb5b16f49a3cfdb3239303e250c41f10f,,,aa9b455bb5b16f49a3cfdb3239303e250c41f10f
+kuhn2014daps,DAPS: Intelligent delay-aware packet scheduling for multipath transport,C,semantic_scholar,b9f0e3ffa0d102ffd9aca268b1a7e024b89fc66a,,,b9f0e3ffa0d102ffd9aca268b1a7e024b89fc66a
+yamagishi2019cstr,CSTR VCTK Corpus: English Multi-speaker Corpus for CSTR Voice Cloning Toolkit (version 0.92),C,semantic_scholar,df40f83f5420f73b22562f3554e1e3bd4a5c1ef5,,,df40f83f5420f73b22562f3554e1e3bd4a5c1ef5
+yan2023espnet,ESPnet-ST-v2: Multipurpose Spoken Language Translation Toolkit,B,arxiv,2304.04596v3,2304.04596,,dab8e7dc79085774eea58bcb9ea2ed0ee20377eb
+vincent2006bss,Performance measurement in blind audio source separation,C,semantic_scholar,29de8281b8cbc764d605a20d00b818eba6d47da1,,,29de8281b8cbc764d605a20d00b818eba6d47da1
+allal2024SmolLM,{SmolLM - blazingly fast and remarkably powerful},C,github,huggingface/smollm,,,
+rouard2022hybrid,Hybrid Transformers for Music Source Separation,C,arxiv,2211.08553v1,2211.08553,,826dad99e9725d46c15083a750f9a36e8d6861d5
+LuoY2019conv-tasnet,Conv-TasNet: Surpassing Ideal Time-Frequency Magnitude Masking for Speech Separation,B,arxiv,1809.07454v3,1809.07454,,0d4b28a4a244a569d5a1345464ae2be48595fff0
+Saijo2024_TFLoco,TF-Locoformer: Transformer with Local Modeling by Convolution for Speech Separation and Enhancement,B,arxiv,2408.03440v1,2408.03440,,ddef9f35be21ff7eea811614cabb7d4586493101
+Kavalerov2019UniversalSS,Universal Sound Separation,C,arxiv,1905.03330v2,1905.03330,,88de6a6cc24a2d1876fcec9cf91fa6c6386c16ec
+espnet,ESPnet: End-to-End Speech Processing Toolkit,B,arxiv,1804.00015v1,1804.00015,,30f86d38f0660af5ea2e16d996434c72eee8c5ee
+mars6,MARS6: A Small and Robust Hierarchical-Codec Text-to-Speech Model,B,arxiv,2501.05787v1,2501.05787,,1aec3ecd2698ec958cfd47fbce08c3f2aa8accb6
+simplespeech,SimpleSpeech: Towards Simple and Efficient Text-to-Speech with Scalar Latent Transformer Diffusion Models,B,arxiv,2406.02328v3,2406.02328,,e7a7881a040007893c6129131306f735c5014426
+cuervo2024scalingpropertiesspeechlanguag,Scaling Properties of Speech Language Models,B,arxiv,2404.00685v2,2404.00685,,a7eeee0df79da5662e7329d9710e97da032c3108
+hassid2023textually,Textually Pretrained Speech Language Models,B,arxiv,2305.13009v3,2305.13009,,4a7855ec905faedfa68235b6f3966d8269f03d18
+copet2024musicgen,Simple and Controllable Music Generation,B,arxiv,2306.05284v3,2306.05284,,4cc8e18f5eece0b0d8e1abcb8ee10fb33680fbb2
+wolf2020huggingfacestransformersstateoftheartnatural,HuggingFace's Transformers: State-of-the-art Natural Language Processing,C,arxiv,1910.03771v5,1910.03771,,c95383f251a62c63217586059c67f63507c3e839
+ji2024wavtokenizer,WavTokenizer: an Efficient Acoustic Discrete Codec Tokenizer for Audio Language Modeling,A,arxiv,2408.16532v3,2408.16532,,ebdbded60f48131ed7ba73807c3c086993a96f89
+gpt,Language Models are Few-Shot Learners,B,arxiv,2005.14165v4,2005.14165,,90abbc2cf38462b954ae1b772fac9532e2ccd8b0
+bark2023,{Bark: Text-Prompted Generative Audio Model},B,github,suno-ai/bark,,,
+guo2025recent,Recent Advances in Discrete Speech Tokens: A Review,A,arxiv,2502.06490v4,2502.06490,,4f02bdf2229fd96afdf382b23dace98485fd7d7f
+zaiem2023speech,Speech Self-Supervised Representation Benchmarking: Are We Doing it Right?,B,arxiv,2306.00452v1,2306.00452,,08a62562feed7b3709f939092021fcc5b7794d07
+watanabe2023tree,Tree-Structured Parzen Estimator: Understanding Its Algorithm Components and Their Roles for Better Empirical Performance,C,arxiv,2304.11127v4,2304.11127,,28bcb8383fde12bc4c243fcb179c3425bedc889f
+xavier_bouthillier_2022_0_2_6,{{Epistimio/orion: Asynchronous Distributed Hyperparameter Optimization}},C,github,Epistimio/orion,,,2c5f6080a69efe76cf56d225808324fb5b692c1b
+mentzer2023finite,Finite Scalar Quantization: VQ-VAE Made Simple,B,arxiv,2309.15505v2,2309.15505,,eb76781932d4cdc241f1d739f7a6e3d34a4eec87
+du2024cosyvoiceAS,CosyVoice: A Scalable Multilingual Zero-shot Text-to-speech Synthesizer based on Supervised Semantic Tokens,B,arxiv,2407.05407v2,2407.05407,,09042877c369a9224d094c37b403735a23368316
+du2024cosyvoice,CosyVoice 2: Scalable Streaming Speech Synthesis with Large Language Models,B,arxiv,2412.10117v3,2412.10117,,a4f374a96e9d265a03e2e2cdd7e204e1e4e37416
+tong2023improving,Improving and generalizing flow-based generative models with minibatch optimal transport,C,arxiv,2302.00482v4,2302.00482,,5396c55bee2a2abf2207e1cc5e5ae72c9edef9fa
+ho2020denoising,Denoising Diffusion Probabilistic Models,B,arxiv,2006.11239v2,2006.11239,,5c126ae3421f05768d8edd97ecd44b1364e2c99a
+rombach2022high,High-Resolution Image Synthesis with Latent Diffusion Models,B,arxiv,2112.10752v2,2112.10752,,c10075b3746a9f3dd5811970e93c8ca3ad39b39d
+kim2024neural,Neural Speech and Audio Coding: Modern AI Technology Meets Traditional Codecs,A,arxiv,2408.06954,2408.06954,,f979667de94440466b125b077bc3c7470cfe7a33
+anees2024speech,Speech coding techniques and challenges: a comprehensive literature survey,A,semantic_scholar,ba02cf95af70c5e29e26ad4db7f59360e85a3786,,,ba02cf95af70c5e29e26ad4db7f59360e85a3786
+shannon1948mathematical,A Mathematical Theory of Communication,C,semantic_scholar,6d12a1d23b21a9b170118a56386552bc5d4727de,,,6d12a1d23b21a9b170118a56386552bc5d4727de
+nyquist1928certain,Certain Topics in Telegraph Transmission Theory,C,semantic_scholar,db0172576316dc748aea82e8f13fb4719ac933d5,,,db0172576316dc748aea82e8f13fb4719ac933d5
+o1988linear,{Linear predictive coding},C,openalex,,,,2cdd5051101f9fab1f1f14687604bbb236ce94fc
+wang2003modified,Modified Discrete Cosine Transform: Its Implications for Audio Coding and Error Concealment,C,semantic_scholar,042aa1735de37d4b17972b795c412d572e0b32c9,,,042aa1735de37d4b17972b795c412d572e0b32c9
+noll1997mpeg,MPEG digital audio coding,C,semantic_scholar,64dd904dc1a8eeb84dae812335a4d46b202f7f4b,,,64dd904dc1a8eeb84dae812335a4d46b202f7f4b
+painter2000perceptual,Perceptual coding of digital audio,C,semantic_scholar,ecf98b58e733badb55d9b6a449b943dbf58342fb,,,ecf98b58e733badb55d9b6a449b943dbf58342fb
+jage2016celp,CELP and MELP speech coding techniques,C,semantic_scholar,3f58e96c1b528458a5a9a629920f1bf6cda84793,,,3f58e96c1b528458a5a9a629920f1bf6cda84793
+maimon2025scaling,Scaling Analysis of Interleaved Speech-Text Language Models,B,arxiv,2504.02398v2,2504.02398,,984e54c92dc84c4712f1c1f22459f2e1bcf1f6dc
+qwen2025qwen25technicalreport,Qwen2.5 Technical Report,C,arxiv,2412.15115v2,2412.15115,,88aa6b1f37d1fd8e0a40499ce9bb87873f03aaa8
+cuervo2025textspeechlanguagemodelsimproved,Late Fusion and Multi-Level Fission Amplify Cross-Modal Transfer in Text-Speech LMs,C,arxiv,2503.06211,2503.06211,,c4e05e159a894ce4482cf4a5881837161a3f3b32
+kharitonov2022textfreeprosodyawaregenerativespoken,Text-Free Prosody-Aware Generative Spoken Language Modeling,C,arxiv,2109.03264v2,2109.03264,,65b20b3e6f81f6567e41e353a47a2380c6cc4b77
+agustsson2017soft,Soft-to-Hard Vector Quantization for End-to-End Learning Compressible Representations,B,arxiv,1704.00648v2,1704.00648,,90ab469425b772008f7c409972aa520f92dc7a77
+kankanahalli2018end,End-to-End Optimized Speech Coding with Deep Neural Networks,A,arxiv,1710.09064v3,1710.09064,,8a01b751d3493a915a1ee2ca9c3f5f8167c9fef9
+choi2024selfsupervisedspeechrepresentationsphonetic,Self-Supervised Speech Representations are More Phonetic than Semantic,B,arxiv,2406.08619v1,2406.08619,,181dd29ddb3c745d291f0be57e048d921ebf8efd
+grattafiori2024llama3herdmodels,The Llama 3 Herd of Models,C,arxiv,2407.21783v3,2407.21783,,40e8af970329135ec95057d73e239dab805ad128
+radhakrishnan2023whispering,Whispering LLaMA: A Cross-Modal Generative Error Correction Framework for Speech Recognition,B,arxiv,2310.06434v2,2310.06434,,75256fa7844ba49514b4fd4e29c327ca89998a80
+libritts-alignments,{LibriTTS-Phones-and-Mel},C,huggingface,cdminix/libritts-phones-and-mel,,,
+ren2019fastspeech,"FastSpeech: Fast, Robust and Controllable Text to Speech",B,arxiv,1905.09263v5,1905.09263,,
+morise2016world,WORLD: A Vocoder-Based High-Quality Speech Synthesis System for Real-Time Applications,B,semantic_scholar,ba91dabec842d507a647aab97ad224b4abdc1635,,,ba91dabec842d507a647aab97ad224b4abdc1635
+ren2020fastspeech,FastSpeech 2: Fast and High-Quality End-to-End Text to Speech,B,arxiv,2006.04558v8,2006.04558,,1623d6ffb6efd94d21537db2b96b91a196842aef
+kim2021conditional,Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech,B,arxiv,2106.06103v1,2106.06103,,92bf1c069747374fbc3efb55e7a916a3e2d736da
+ju2024naturalspeech,NaturalSpeech 3: Zero-Shot Speech Synthesis with Factorized Codec and Diffusion Models,B,arxiv,2403.03100v3,2403.03100,,575bf1f23a19620a8f696a965528e15d4833179a
+mcauliffe2017montreal,Montreal Forced Aligner: Trainable Text-Speech Alignment Using Kaldi,C,semantic_scholar,9e8b06c60722fee06d7f01d4eeaf3ae81e0247d7,,,9e8b06c60722fee06d7f01d4eeaf3ae81e0247d7
+har2025past,PAST: Phonetic-Acoustic Speech Tokenizer,A,arxiv,2505.14470v2,2505.14470,,c324f9a9e3d45ffffd614f9e1ea82a63483bfadb
+10889092,What Are They Doing? Joint Audio-Speech Co-Reasoning,B,arxiv,2409.14526v2,2409.14526,,753bfe8e23dc508fb40ab9ec54d56429bbae7dc1
+zengscaling,Scaling Speech-Text Pre-training with Synthetic Interleaved Data,B,arxiv,2411.17607v2,2411.17607,,dded8092b92e41a2201a45d3b9912463d5bc7a84
+yosha2025stresstest,StressTest: Can YOUR Speech LM Handle the Stress?,C,arxiv,2505.22765v2,2505.22765,,dde980f9fcf513eefb73c73c26087cef2272bad6
+mousavi2025listen,LiSTEN: Learning Soft Token Embeddings for Neural Audio LLMs,B,arxiv,2505.18517v1,2505.18517,,4fc40fc18f65251e652f4ae7b29d0641f644e350
+kumar2024sila,SILA: Signal-to-Language Augmentation for Enhanced Control in Text-to-Audio Generation,B,arxiv,2412.09789v1,2412.09789,,f25f1f8397f71250dc9bd17492d36fc6cbcb7ac0
+chen2025video,Video-Guided Foley Sound Generation with Multimodal Controls,B,arxiv,2411.17698v4,2411.17698,,f6ced92eefc6a9bc6f0004285f9bffb359ecfa32
+international1993coding,{Coding of moving pictures and associated audio for digital storage media at up to about 1.5 Mbit/s},C,bsi,https://knowledge.bsigroup.com/products/information-technology-coding-of-moving-pictures-and-associated-audio-for-digital-storage-media-at-up-to-about-1-5-mbit-s-compliance-testing,,,
+6530580,MPEG Unified Speech and Audio Coding,C,semantic_scholar,9d0ea1deb125e736478c6a07c89519c40eb7f154,,,9d0ea1deb125e736478c6a07c89519c40eb7f154
+devlin2019bert,BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding,C,arxiv,1810.04805v2,1810.04805,,df2b0e26d0599ce3e70df8a9da02e51594e0e992
+turetzky2024last,LAST: Language Model Aware Speech Tokenization,B,arxiv,2409.03701v2,2409.03701,,b6272e96c7e6228b0ecbf4d7f0aeb3f4bc789376
+zheng2025ervq,ERVQ: Enhanced Residual Vector Quantization with Intra-and-Inter-Codebook Optimization for Neural Audio Codecs,B,arxiv,2410.12359v2,2410.12359,,162663fc7652240085788882946edd24e02d634f
+esser2021taming,Taming Transformers for High-Resolution Image Synthesis,C,arxiv,2012.09841v3,2012.09841,,47f7ec3d0a5e6e83b6768ece35206a94dc81919c

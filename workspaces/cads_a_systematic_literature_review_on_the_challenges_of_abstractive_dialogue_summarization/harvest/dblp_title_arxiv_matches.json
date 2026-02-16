@@ -1,0 +1,586 @@
+[
+  {
+    "dblp_key": "conf/icassp/LeiYZHZX21",
+    "title": "Hierarchical Speaker-Aware Sequence-to-Sequence Model for Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Hierarchical Speaker-Aware Sequence-to-Sequence Model for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/emnlp/ChenY20",
+    "title": "Multi-View Sequence-to-Sequence Models with Conversational Structure for Abstractive Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2010.01672"
+    ],
+    "query": "ti:\"Multi-View Sequence-to-Sequence Models with Conversational Structure for Abstractive Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2010-01672",
+    "title": "Multi-View Sequence-to-Sequence Models with Conversational Structure for Abstractive Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/coling/HigashinakaMNDMTK10",
+    "title": "Learning to Model Domain-Specific Utterance Sequences for Extractive Summarization of Contact Center Dialogues.",
+    "status": "no_match",
+    "query": "ti:\"Learning to Model Domain-Specific Utterance Sequences for Extractive Summarization of Contact Center Dialogues.\""
+  },
+  {
+    "dblp_key": "conf/cncl/ShenHDWZ25",
+    "title": "TAG: Dialogue Summarization Based on Topic Segmentation and Graph Structures.",
+    "status": "no_match",
+    "query": "ti:\"TAG: Dialogue Summarization Based on Topic Segmentation and Graph Structures.\""
+  },
+  {
+    "dblp_key": "conf/naacl/ArtemievPGBVMRGS24",
+    "title": "Leveraging Summarization for Unsupervised Dialogue Topic Segmentation.",
+    "status": "no_match",
+    "query": "ti:\"Leveraging Summarization for Unsupervised Dialogue Topic Segmentation.\""
+  },
+  {
+    "dblp_key": "conf/eacl/HuangSMXNDWM23",
+    "title": "SWING: Balancing Coverage and Faithfulness for Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2301.10483"
+    ],
+    "query": "ti:\"SWING: Balancing Coverage and Faithfulness for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2301-10483",
+    "title": "SWING: Balancing Coverage and Faithfulness for Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/emnlp/WangZZC022",
+    "title": "Analyzing and Evaluating Faithfulness in Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2210.11777"
+    ],
+    "query": "ti:\"Analyzing and Evaluating Faithfulness in Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2210-11777",
+    "title": "Analyzing and Evaluating Faithfulness in Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/corr/abs-2211-08464",
+    "title": "ED-FAITH: Evaluating Dialogue Summarization on Faithfulness.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2211.08464"
+    ],
+    "query": "ti:\"ED-FAITH: Evaluating Dialogue Summarization on Faithfulness.\""
+  },
+  {
+    "dblp_key": "conf/naacl/TangSWBVYS0SSSZ24",
+    "title": "TofuEval: Evaluating Hallucinations of LLMs on Topic-Focused Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2402.13249"
+    ],
+    "query": "ti:\"TofuEval: Evaluating Hallucinations of LLMs on Topic-Focused Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2402-13249",
+    "title": "TofuEval: Evaluating Hallucinations of LLMs on Topic-Focused Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/corr/abs-2407-15237",
+    "title": "Two eyes, Two views, and finally, One summary! Towards Multi-modal Multi-tasking Knowledge-Infused Medical Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2407.15237"
+    ],
+    "query": "ti:\"Two eyes, Two views, and finally, One summary! Towards Multi-modal Multi-tasking Knowledge-Infused Medical Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/coling/LiuZZY24",
+    "title": "MDS: A Fine-Grained Dataset for Multi-Modal Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"MDS: A Fine-Grained Dataset for Multi-Modal Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/acl/ShinYMMP22",
+    "title": "Dialogue Summaries as Dialogue States (DS2), Template-Guided Summarization for Few-shot Dialogue State Tracking.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2203.01552"
+    ],
+    "query": "ti:\"Dialogue Summaries as Dialogue States (DS2), Template-Guided Summarization for Few-shot Dialogue State Tracking.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2203-01552",
+    "title": "Dialogue Summaries as Dialogue States (DS2), Template-Guided Summarization for Few-shot Dialogue State Tracking.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/naacl/LuHKPCXKZWTV25",
+    "title": "Mutual Reinforcement of LLM Dialogue Synthesis and Summarization Capabilities for Few-Shot Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2502.17328"
+    ],
+    "query": "ti:\"Mutual Reinforcement of LLM Dialogue Synthesis and Summarization Capabilities for Few-Shot Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2502-17328",
+    "title": "Mutual Reinforcement of LLM Dialogue Synthesis and Summarization Capabilities for Few-Shot Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/bic/Li22",
+    "title": "URAMDS: Utterances Relation Aware Model for Dialogue Summarization: A Combined Model for Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"URAMDS: Utterances Relation Aware Model for Dialogue Summarization: A Combined Model for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/aaai/BiniciKSLDNGC025",
+    "title": "MEDSAGE: Enhancing Robustness of Medical Dialogue Summarization to ASR Errors with LLM-generated Synthetic Dialogues.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2408.14418"
+    ],
+    "query": "ti:\"MEDSAGE: Enhancing Robustness of Medical Dialogue Summarization to ASR Errors with LLM-generated Synthetic Dialogues.\""
+  },
+  {
+    "dblp_key": "phd/hal/Zhou24a",
+    "title": "Affect-aware Natural Language Generation : application to dialogue and cognitive remediation session summarization in low-resource settings. (Approches sensibles à l&apos;affect pour le résumé automatique de textes : application au dialogue et à la remédiation cognitive dans un contexte à faibles ressources).",
+    "status": "no_match",
+    "query": "ti:\"Affect-aware Natural Language Generation : application to dialogue and cognitive remediation session summarization in low-resource settings. (Approches sensibles à l&apos;affect pour le résumé automatique de textes : application au dialogue et à la remédiation cognitive dans un contexte à faibles ressources).\""
+  },
+  {
+    "dblp_key": "journals/ipm/WangZJJLHL24",
+    "title": "Dialogue summarization enhanced response generation for multi-domain task-oriented dialogue systems.",
+    "status": "no_match",
+    "query": "ti:\"Dialogue summarization enhanced response generation for multi-domain task-oriented dialogue systems.\""
+  },
+  {
+    "dblp_key": "conf/icann/OkadomeYFM24",
+    "title": "Prompt Design Using Past Dialogue Summarization for LLMs to Generate the Current Appropriate Dialogue.",
+    "status": "no_match",
+    "query": "ti:\"Prompt Design Using Past Dialogue Summarization for LLMs to Generate the Current Appropriate Dialogue.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2408-14418",
+    "title": "MEDSAGE: Enhancing Robustness of Medical Dialogue Summarization to ASR Errors with LLM-generated Synthetic Dialogues.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/ipm/SunYLCL24",
+    "title": "Dialogue acts enhanced extract-abstract framework for meeting summarization.",
+    "status": "no_match",
+    "query": "ti:\"Dialogue acts enhanced extract-abstract framework for meeting summarization.\""
+  },
+  {
+    "dblp_key": "journals/sigir/GhosalSNB21",
+    "title": "Report on the SIGDial 2021 special session on summarization of dialogues and multi-party meetings (SummDial).",
+    "status": "no_match",
+    "query": "ti:\"Report on the SIGDial 2021 special session on summarization of dialogues and multi-party meetings (SummDial).\""
+  },
+  {
+    "dblp_key": "conf/ijcai/FengF0G21",
+    "title": "Dialogue Discourse-Aware Graph Model and Data Augmentation for Meeting Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2012.03502"
+    ],
+    "query": "ti:\"Dialogue Discourse-Aware Graph Model and Data Augmentation for Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2012-03502",
+    "title": "Dialogue Discourse-Aware Graph Convolutional Networks for Abstractive Meeting Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Dialogue Discourse-Aware Graph Convolutional Networks for Abstractive Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2310-16810",
+    "title": "Can GPT models Follow Human Summarization Guidelines? Evaluating ChatGPT and GPT-4 for Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Can GPT models Follow Human Summarization Guidelines? Evaluating ChatGPT and GPT-4 for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/csimq/KosilovaB24",
+    "title": "Survey on Organizational Chat Conversation Analysis: Exploring Dialogue Summarization from a Knowledge Discovery Perspective.",
+    "status": "no_match",
+    "query": "ti:\"Survey on Organizational Chat Conversation Analysis: Exploring Dialogue Summarization from a Knowledge Discovery Perspective.\""
+  },
+  {
+    "dblp_key": "journals/midm/LiuJW24",
+    "title": "Exploring the potential of ChatGPT in medical dialogue summarization: a study on consistency with human preferences.",
+    "status": "no_match",
+    "query": "ti:\"Exploring the potential of ChatGPT in medical dialogue summarization: a study on consistency with human preferences.\""
+  },
+  {
+    "dblp_key": "conf/acl-clinicalnlp/OzlerB23",
+    "title": "clulab at MEDIQA-Chat 2023: Summarization and classification of medical dialogues.",
+    "status": "no_match",
+    "query": "ti:\"clulab at MEDIQA-Chat 2023: Summarization and classification of medical dialogues.\""
+  },
+  {
+    "dblp_key": "conf/acl-clinicalnlp/SuriSS23",
+    "title": "HealthMavericks@MEDIQA-Chat 2023: Benchmarking different Transformer based models for Clinical Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"HealthMavericks@MEDIQA-Chat 2023: Benchmarking different Transformer based models for Clinical Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/acl-clinicalnlp/ZhangMT23",
+    "title": "DS4DH at MEDIQA-Chat 2023: Leveraging SVM and GPT-3 Prompt Engineering for Medical Dialogue Classification and Summarization.",
+    "status": "no_match",
+    "query": "ti:\"DS4DH at MEDIQA-Chat 2023: Leveraging SVM and GPT-3 Prompt Engineering for Medical Dialogue Classification and Summarization.\""
+  },
+  {
+    "dblp_key": "conf/emnlp/ZhouLCLZZ023",
+    "title": "Multi-Stage Pre-training Enhanced by ChatGPT for Multi-Scenario Multi-Domain Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2310.10285"
+    ],
+    "query": "ti:\"Multi-Stage Pre-training Enhanced by ChatGPT for Multi-Scenario Multi-Domain Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2310-10285",
+    "title": "Multi-Stage Pre-training Enhanced by ChatGPT for Multi-Scenario Multi-Domain Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/emnlp/Zhao0W022",
+    "title": "JDDC 2.1: A Multimodal Chinese Dialogue Dataset with Joint Tasks of Query Rewriting, Response Generation, Discourse Parsing, and Summarization.",
+    "status": "no_match",
+    "query": "ti:\"JDDC 2.1: A Multimodal Chinese Dialogue Dataset with Joint Tasks of Query Rewriting, Response Generation, Discourse Parsing, and Summarization.\""
+  },
+  {
+    "dblp_key": "conf/mlslp/NishikawaMM12",
+    "title": "Domain adaptation with augmented space method for multi-domain contact center dialogue summarization.",
+    "status": "no_match",
+    "query": "ti:\"Domain adaptation with augmented space method for multi-domain contact center dialogue summarization.\""
+  },
+  {
+    "dblp_key": "conf/www/0003XC0023",
+    "title": "Learning Disentangled Representation via Domain Adaptation for Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Learning Disentangled Representation via Domain Adaptation for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/sigir/ZhaoZZHGJWX22",
+    "title": "ADPL: Adversarial Prompt-based Domain Adaptation for Dialogue Summarization with Knowledge Disentanglement.",
+    "status": "no_match",
+    "query": "ti:\"ADPL: Adversarial Prompt-based Domain Adaptation for Dialogue Summarization with Knowledge Disentanglement.\""
+  },
+  {
+    "dblp_key": "conf/acl/0001NMWZDARZ22",
+    "title": "SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents.",
+    "status": "no_match",
+    "query": "ti:\"SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2110-10150",
+    "title": "SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/coling/Zechner02",
+    "title": "Automatic Summarization of Open-Domain Multiparty Dialogues in Diverse Genres.",
+    "status": "no_match",
+    "query": "ti:\"Automatic Summarization of Open-Domain Multiparty Dialogues in Diverse Genres.\""
+  },
+  {
+    "dblp_key": "journals/kbs/ZhaoWJJLLH23",
+    "title": "Mutually improved response generation and dialogue summarization for multi-domain task-oriented dialogue systems.",
+    "status": "no_match",
+    "query": "ti:\"Mutually improved response generation and dialogue summarization for multi-domain task-oriented dialogue systems.\""
+  },
+  {
+    "dblp_key": "conf/icassp/HeHXPXL25",
+    "title": "Multi-level Encoder with Global Topic for Task-oriented Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Multi-level Encoder with Global Topic for Task-oriented Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2509-26302",
+    "title": "QUARTZ : QA-based Unsupervised Abstractive Refinement for Task-oriented Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2509.26302"
+    ],
+    "query": "ti:\"QUARTZ : QA-based Unsupervised Abstractive Refinement for Task-oriented Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2110-12680",
+    "title": "TODSum: Task-Oriented Dialogue Summarization with State Tracking.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2110.12680"
+    ],
+    "query": "ti:\"TODSum: Task-Oriented Dialogue Summarization with State Tracking.\""
+  },
+  {
+    "dblp_key": "conf/adma/ChenX24",
+    "title": "ConMix: Contrastive Learning with Mixup Augmentation for Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"ConMix: Contrastive Learning with Mixup Augmentation for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/coling/GuanFWHZC24",
+    "title": "Improving Role-Oriented Dialogue Summarization with Interaction-Aware Contrastive Learning.",
+    "status": "no_match",
+    "query": "ti:\"Improving Role-Oriented Dialogue Summarization with Interaction-Aware Contrastive Learning.\""
+  },
+  {
+    "dblp_key": "conf/icassp/FengSXWHS24",
+    "title": "Fact-Aware Summarization with Contrastive Learning for Few-Shot Dialogue State Tracking.",
+    "status": "no_match",
+    "query": "ti:\"Fact-Aware Summarization with Contrastive Learning for Few-Shot Dialogue State Tracking.\""
+  },
+  {
+    "dblp_key": "conf/coling/GengZYQH22",
+    "title": "Improving Abstractive Dialogue Summarization with Speaker-Aware Supervised Contrastive Learning.",
+    "status": "no_match",
+    "query": "ti:\"Improving Abstractive Dialogue Summarization with Speaker-Aware Supervised Contrastive Learning.\""
+  },
+  {
+    "dblp_key": "conf/emnlp/LiuZZCDYW21",
+    "title": "Topic-Aware Contrastive Learning for Abstractive Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2109.04994"
+    ],
+    "query": "ti:\"Topic-Aware Contrastive Learning for Abstractive Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2109-04994",
+    "title": "Topic-Aware Contrastive Learning for Abstractive Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/naacl/ZhuLMZ21",
+    "title": "MediaSum: A Large-scale Media Interview Dataset for Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2103.06410"
+    ],
+    "query": "ti:\"MediaSum: A Large-scale Media Interview Dataset for Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2103-06410",
+    "title": "MediaSum: A Large-scale Media Interview Dataset for Dialogue Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/emnlp/LeiZYHX21",
+    "title": "A Finer-grain Universal Dialogue Semantic Structures based Model For Abstractive Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"A Finer-grain Universal Dialogue Semantic Structures based Model For Abstractive Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/ksem/DiWZ20",
+    "title": "How to Interact and Change? Abstractive Dialogue Summarization with Dialogue Act Weight and Topic Change Info.",
+    "status": "no_match",
+    "query": "ti:\"How to Interact and Change? Abstractive Dialogue Summarization with Dialogue Act Weight and Topic Change Info.\""
+  },
+  {
+    "dblp_key": "conf/slt/GooC18",
+    "title": "Abstractive Dialogue Summarization with Sentence-Gated Modeling Optimized by Dialogue Acts.",
+    "status": "matched",
+    "arxiv_ids": [
+      "1809.05715"
+    ],
+    "query": "ti:\"Abstractive Dialogue Summarization with Sentence-Gated Modeling Optimized by Dialogue Acts.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-1809-05715",
+    "title": "Abstractive Dialogue Summarization with Sentence-Gated Modeling Optimized by Dialogue Acts.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/corr/abs-2410-15962",
+    "title": "Systematic Exploration of Dialogue Summarization Approaches for Reproducibility, Comparative Assessment, and Methodological Innovations for Advancing Natural Language Processing in Abstractive Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2410.15962"
+    ],
+    "query": "ti:\"Systematic Exploration of Dialogue Summarization Approaches for Reproducibility, Comparative Assessment, and Methodological Innovations for Advancing Natural Language Processing in Abstractive Summarization.\""
+  },
+  {
+    "dblp_key": "journals/jair/KirsteinWGR25",
+    "title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2406.07494"
+    ],
+    "query": "ti:\"CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "conf/ijcai/KirsteinWGR25",
+    "title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization (Abstract Reprint).",
+    "status": "no_match",
+    "query": "ti:\"CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization (Abstract Reprint).\""
+  },
+  {
+    "dblp_key": "journals/access/Buyuk24",
+    "title": "A Comprehensive Evaluation of Large Language Models for Turkish Abstractive Dialogue Summarization.",
+    "status": "no_match",
+    "query": "ti:\"A Comprehensive Evaluation of Large Language Models for Turkish Abstractive Dialogue Summarization.\""
+  },
+  {
+    "dblp_key": "journals/csur/JiaLRZ24",
+    "title": "Taxonomy of Abstractive Dialogue Summarization: Scenarios, Approaches, and Future Directions.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2210.09894"
+    ],
+    "query": "ti:\"Taxonomy of Abstractive Dialogue Summarization: Scenarios, Approaches, and Future Directions.\""
+  },
+  {
+    "dblp_key": "conf/acl/LiZJR19",
+    "title": "Keep Meeting Summaries on Topic: Abstractive Multi-Modal Meeting Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Keep Meeting Summaries on Topic: Abstractive Multi-Modal Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "journals/jksucis/JinSL25",
+    "title": "CFAS: consensus-focused abstractive meeting summarization through multi-party discourse modeling.",
+    "status": "no_match",
+    "query": "ti:\"CFAS: consensus-focused abstractive meeting summarization through multi-party discourse modeling.\""
+  },
+  {
+    "dblp_key": "conf/ccwc/MarklynnSTBAN24",
+    "title": "A Framework for Abstractive Summarization of Conversational Meetings.",
+    "status": "no_match",
+    "query": "ti:\"A Framework for Abstractive Summarization of Conversational Meetings.\""
+  },
+  {
+    "dblp_key": "conf/emnlp/KirsteinRKG24",
+    "title": "Tell me what I need to know: Exploring LLM-based (Personalized) Abstractive Multi-Source Meeting Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2410.14545"
+    ],
+    "query": "ti:\"Tell me what I need to know: Exploring LLM-based (Personalized) Abstractive Multi-Source Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2410-14545",
+    "title": "Tell me what I need to know: Exploring LLM-based (Personalized) Abstractive Multi-Source Meeting Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/tacl/RennardSHV23",
+    "title": "Abstractive Meeting Summarization: A Survey.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2208.04163"
+    ],
+    "query": "ti:\"Abstractive Meeting Summarization: A Survey.\""
+  },
+  {
+    "dblp_key": "conf/interspeech/LiuC22",
+    "title": "Dynamic Sliding Window Modeling for Abstractive Meeting Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Dynamic Sliding Window Modeling for Abstractive Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2208-04163",
+    "title": "Abstractive Meeting Summarization: A Survey.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "phd/hal/Shang21",
+    "title": "Spoken Language Understanding for Abstractive Meeting Summarization. (Compréhension du Langage Parlé pour le Résumé Abstractif de Réunion).",
+    "status": "no_match",
+    "query": "ti:\"Spoken Language Understanding for Abstractive Meeting Summarization. (Compréhension du Langage Parlé pour le Résumé Abstractif de Réunion).\""
+  },
+  {
+    "dblp_key": "journals/ijon/ZhengZSYXY20",
+    "title": "Abstractive meeting summarization by hierarchical adaptive segmental network learning with multiple revising steps.",
+    "status": "no_match",
+    "query": "ti:\"Abstractive meeting summarization by hierarchical adaptive segmental network learning with multiple revising steps.\""
+  },
+  {
+    "dblp_key": "conf/inlg/SchneiderT23",
+    "title": "Team Zoom @ AutoMin 2023: Utilizing Topic Segmentation And LLM Data Augmentation For Long-Form Meeting Summarization.",
+    "status": "no_match",
+    "query": "ti:\"Team Zoom @ AutoMin 2023: Utilizing Topic Segmentation And LLM Data Augmentation For Long-Form Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "conf/mir/BhattPC16",
+    "title": "Audiovisual Summarization of Lectures and Meetings Using a Segment Similarity Graph.",
+    "status": "no_match",
+    "query": "ti:\"Audiovisual Summarization of Lectures and Meetings Using a Segment Similarity Graph.\""
+  },
+  {
+    "dblp_key": "conf/naacl/ZhongYYZMJACLQR21",
+    "title": "QMSum: A New Benchmark for Query-based Multi-domain Meeting Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2104.05938"
+    ],
+    "query": "ti:\"QMSum: A New Benchmark for Query-based Multi-domain Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2104-05938",
+    "title": "QMSum: A New Benchmark for Query-based Multi-domain Meeting Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "conf/acl/HangChenYGS025",
+    "title": "MISP-Meeting: A Real-World Dataset with Multimodal Cues for Long-form Meeting Transcription and Summarization.",
+    "status": "no_match",
+    "query": "ti:\"MISP-Meeting: A Real-World Dataset with Multimodal Cues for Long-form Meeting Transcription and Summarization.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2509-15901",
+    "title": "Re-FRAME the Meeting Summarization SCOPE: Fact-Based Summarization and Personalization via Questions.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2509.15901"
+    ],
+    "query": "ti:\"Re-FRAME the Meeting Summarization SCOPE: Fact-Based Summarization and Personalization via Questions.\""
+  },
+  {
+    "dblp_key": "journals/ipm/SadiaASJ24",
+    "title": "Meeting the challenge: A benchmark corpus for automated Urdu meeting summarization.",
+    "status": "no_match",
+    "query": "ti:\"Meeting the challenge: A benchmark corpus for automated Urdu meeting summarization.\""
+  },
+  {
+    "dblp_key": "conf/acl/HuGDDF023",
+    "title": "MeetingBank: A Benchmark Dataset for Meeting Summarization.",
+    "status": "matched",
+    "arxiv_ids": [
+      "2305.17529"
+    ],
+    "query": "ti:\"MeetingBank: A Benchmark Dataset for Meeting Summarization.\""
+  },
+  {
+    "dblp_key": "conf/icaai/SanapalaCS23",
+    "title": "Multi-Person Speech Curator for Minutes of Meetings along with Meeting Summarization and Language Translation.",
+    "status": "no_match",
+    "query": "ti:\"Multi-Person Speech Curator for Minutes of Meetings along with Meeting Summarization and Language Translation.\""
+  },
+  {
+    "dblp_key": "journals/corr/abs-2305-17529",
+    "title": "MeetingBank: A Benchmark Dataset for Meeting Summarization.",
+    "status": "duplicate_title"
+  },
+  {
+    "dblp_key": "journals/jksucis/LiuLX25",
+    "title": "Dynamic agenda-aware real-time meeting summarization with large language models.",
+    "status": "no_match",
+    "query": "ti:\"Dynamic agenda-aware real-time meeting summarization with large language models.\""
+  },
+  {
+    "dblp_key": "conf/ijcnn/Jin25",
+    "title": "DRMoE: Discourse-Aware Rhetorical Structure for Meeting Summarization with Mixture of Experts.",
+    "status": "no_match",
+    "query": "ti:\"DRMoE: Discourse-Aware Rhetorical Structure for Meeting Summarization with Mixture of Experts.\""
+  },
+  {
+    "dblp_key": "conf/iui/HsuehM09",
+    "title": "Improving meeting summarization by focusing on user needs: a task-oriented evaluation.",
+    "status": "no_match",
+    "query": "ti:\"Improving meeting summarization by focusing on user needs: a task-oriented evaluation.\""
+  }
+]

@@ -86,7 +86,7 @@
 
 ## 腳本使用（collect_title_abstracts_priority.py）
 
-本腳本會依本文件的來源優先序自動查詢並輸出三個 JSONL 檔案。
+本腳本會依本文件的來源優先序自動查詢並輸出三個主要 JSONL 檔案；可選擇額外輸出來源 full metadata。
 
 ### 直接執行（預設路徑）
 ```bash
@@ -105,11 +105,16 @@ python scripts/collect_title_abstracts_priority.py \
 - `--min-similarity`: 模糊比對最低門檻（預設 0.9）。
 - `--allow-fuzzy`: 允許模糊比對（預設 true）。
 - `--limit`: 只處理前 N 筆，適合除錯。
+- `--include-full-metadata`: 額外輸出 `title_abstracts_full_metadata.jsonl`（預設 false）。
+- `--include-embedding`: 是否保留 Semantic Scholar `embedding` 向量（預設 false）。
+- full metadata 會預設移除 `reference` 陣列以控制檔案大小。
+- full metadata 另會預設移除：`openalex.abstract_inverted_index`、`openalex.referenced_works`、`crossref.assertion`、`crossref.link`、`crossref.license`。
 
 ### 輸出檔案
 - `title_abstracts_metadata.jsonl`
 - `title_abstracts_sources.jsonl`
 - `title_abstracts_source_trace.jsonl`
+- `title_abstracts_full_metadata.jsonl`（當 `--include-full-metadata true`）
 
 ### 環境變數
 - `SEMANTIC_SCHOLAR_API_KEY`：提高 Semantic Scholar 速率與穩定性。

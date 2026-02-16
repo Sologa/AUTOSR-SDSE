@@ -1,0 +1,194 @@
+{
+  "review_title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "topic_definition": {
+    "scope": "本系統性回顧聚焦於抽象式對話摘要（abstractive dialogue summarization）之核心挑戰（challenges），涵蓋多輪、多說話者對話（含線上會議等多參與者情境）中，將對話內容以非逐句擷取、可重組與概括的自然語言生成摘要時所面臨的問題；特別關注對話特有結構與語用現象、跨說話者資訊整合、長文本處理、事實一致性/幻覺、以及資料集與評估方法的限制。",
+    "task_characteristics": [
+      "多輪對話與多說話者/多角色互動",
+      "抽象式生成（非逐句擷取；允許重組、融合、概括）",
+      "會議/多參與者線上會議可視為重要子領域情境（meeting summarization）",
+      "挑戰面向包含：語用與指代省略、對話結構建模、資訊顯著性選擇、跨說話者整合、長輸入處理、事實一致性與幻覺、評估指標與資料集偏誤"
+    ],
+    "evaluation_dimensions_of_interest": [
+      "資訊涵蓋度/顯著性",
+      "語義一致性",
+      "事實正確性/事實一致性（faithfulness/factual consistency）",
+      "流暢性與可讀性",
+      "長文本與多參與者場景適應性",
+      "自動指標（如 ROUGE、BERTScore 等）與人類評估落差"
+    ],
+    "sources": [
+      "https://arxiv.org/abs/2406.07494"
+    ]
+  },
+  "topic_ids": [
+    {
+      "id": "S1",
+      "label": "Dialogue-specific challenges (pragmatics, speakers/roles, discourse structure)"
+    },
+    {
+      "id": "S2",
+      "label": "Factual consistency/faithfulness and hallucination in abstractive dialogue summarization"
+    },
+    {
+      "id": "S3",
+      "label": "Model/training strategies and computational constraints mapped to challenges"
+    },
+    {
+      "id": "S4",
+      "label": "Datasets and evaluation limitations/biases"
+    }
+  ],
+  "inclusion_criteria": {
+    "required": [
+      {
+        "criterion": "主題定義：研究必須明確以「抽象式對話摘要（abstractive dialogue summarization）」為核心任務，並以「挑戰、限制、問題、困難（challenges / limitations / issues）」作為主要分析或回顧對象。",
+        "source": "https://arxiv.org/abs/2406.07494",
+        "topic_ids": [
+          "S1",
+          "S2",
+          "S3",
+          "S4"
+        ]
+      },
+      {
+        "criterion": "論文需以英文撰寫，且提供完整摘要與方法/討論內容，使第三方研究者可評估其挑戰定義、分類或分析結論。",
+        "source": "https://arxiv.org/abs/2304.14543",
+        "topic_ids": [
+          "S1",
+          "S4"
+        ]
+      }
+    ],
+    "any_of_groups": [
+      {
+        "group_id": "A",
+        "group_name": "Challenge taxonomy or systematic synthesis",
+        "options": [
+          {
+            "criterion": "以 survey / systematic review 形式，系統性整理多篇對話（含多參與者/會議）摘要研究中的挑戰類型與脈絡（例如語言/語用、對話結構、跨說話者整合、事實性、長文本處理、評估與資料集限制）。",
+            "source": "https://arxiv.org/abs/2406.07494",
+            "topic_ids": [
+              "S1",
+              "S2",
+              "S3",
+              "S4"
+            ]
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "group_name": "In-depth analysis of a key challenge (e.g., factuality/hallucination)",
+        "options": [
+          {
+            "criterion": "聚焦對話摘要中的單一或少數核心挑戰（例如事實不一致、幻覺、語用失當、指代與歧義），並提出錯誤類型、分析框架或可重現的評估/診斷方法。",
+            "source": "https://arxiv.org/abs/2112.08713",
+            "topic_ids": [
+              "S2",
+              "S3"
+            ]
+          }
+        ]
+      },
+      {
+        "group_id": "C",
+        "group_name": "Modeling/computational constraints relevant to dialogue summarization challenges",
+        "options": [
+          {
+            "criterion": "從模型或計算限制角度討論抽象式摘要的困難（例如輸入長度限制、長文本建模、模型複雜度、領域/語域轉移），且其論述可合理延伸或明確連結至多說話者對話/會議摘要情境。",
+            "source": "https://arxiv.org/abs/2307.00963",
+            "topic_ids": [
+              "S2",
+              "S3"
+            ]
+          }
+        ]
+      },
+      {
+        "group_id": "D",
+        "group_name": "Meeting summarization as a dialogue setting (multi-party, long-form)",
+        "options": [
+          {
+            "criterion": "研究以多參與者會議/對話為主要資料與情境，並在抽象式摘要中討論或分析對話特有挑戰（例如角色/說話者建模、長會議分段/分層摘要、跨輪次資訊融合、（多模態）會議訊號融入、事實一致性或評估困境）。",
+            "source": "https://arxiv.org/abs/2406.07494",
+            "topic_ids": [
+              "S1",
+              "S2",
+              "S3",
+              "S4"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "exclusion_criteria": [
+    {
+      "criterion": "僅討論抽取式（extractive）對話/會議摘要，且未涵蓋抽象式生成方法或其挑戰/限制之分析。",
+      "source": "https://arxiv.org/abs/2406.07494",
+      "topic_ids": [
+        "S1"
+      ]
+    },
+    {
+      "criterion": "僅提出單一模型或單次實驗結果，未對挑戰、限制、問題或困難進行概念化、分類、診斷或延伸討論（例如缺乏錯誤分析、失敗案例歸因、評估限制討論）。",
+      "source": "https://arxiv.org/abs/2406.07494",
+      "topic_ids": [
+        "S3"
+      ]
+    },
+    {
+      "criterion": "僅為一般文本摘要（非對話），且未說明其結論如何適用於多說話者對話/會議之抽象式摘要挑戰。",
+      "source": "https://arxiv.org/abs/2307.00963",
+      "topic_ids": [
+        "S1"
+      ]
+    },
+    {
+      "criterion": "僅介紹自動語音辨識（ASR）/轉錄或語音前處理技術，未涉及（抽象式）摘要生成挑戰之分析或回顧。",
+      "source": "https://arxiv.org/abs/2406.07494",
+      "topic_ids": [
+        "S3"
+      ]
+    },
+    {
+      "criterion": "研究僅限單一說話者獨白或單篇文件摘要，未涉及多輪互動或多說話者對話特性，且未討論其與對話/會議摘要挑戰的關聯。",
+      "source": "https://arxiv.org/abs/2406.07494",
+      "topic_ids": [
+        "S1"
+      ]
+    }
+  ],
+  "screening_operationalization": {
+    "title_abstract_screening": [
+      "判定研究是否以抽象式對話摘要為核心任務（對話/會議、多輪、多說話者；生成式而非逐句擷取）。",
+      "判定研究是否以挑戰/限制/問題為主要貢獻（例如提供挑戰分類、錯誤類型、評估困境、資料集偏誤、長文本與結構問題）。",
+      "排除明顯僅抽取式摘要或僅 ASR/轉錄且無摘要挑戰分析者。"
+    ],
+    "full_text_screening": [
+      "確認本文對挑戰的處理方式：是否提出明確的挑戰定義、分類/框架、診斷設計、或以系統性方式綜整多篇研究的挑戰。",
+      "確認討論與證據：是否有錯誤分析、案例、比較或對評估/資料集限制的具體論述，使第三方可評估結論。",
+      "若研究主要為一般文本摘要或非會議的其他對話域，需確認其挑戰論述是否能合理適用於多說話者對話/會議摘要。"
+    ]
+  },
+  "notes_from_background": {
+    "meeting_summarization_relevance": [
+      "會議摘要研究脈絡中，抽象式方法、長文本處理（分段/分層/滑動視窗/檢索-生成）、多說話者與角色建模、以及事實一致性與多元評估，皆可作為 CADS 挑戰類別與納入判準的靈感來源。"
+    ],
+    "common_methods_signals": [
+      "Transformer/預訓練語言模型（如 BART 類）",
+      "長文本與多輪對話建模（分層、滑動視窗、retrieve-then-summarize）",
+      "多模態會議訊號融合（視覺/聲學）",
+      "評估從 ROUGE 擴展至語意指標與事實性/人類評分"
+    ],
+    "source_constraints": [
+      "背景 PDF 未提供可引用之 https 來源；本 JSON 之 source 欄位僅引用 Web Search Notes 中的 https 連結。"
+    ]
+  },
+  "sources": [
+    "https://arxiv.org/abs/2406.07494",
+    "https://arxiv.org/abs/2112.08713",
+    "https://arxiv.org/abs/2304.14543",
+    "https://arxiv.org/abs/2307.00963"
+  ]
+}

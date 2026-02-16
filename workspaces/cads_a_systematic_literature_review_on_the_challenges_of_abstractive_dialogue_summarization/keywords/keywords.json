@@ -1,0 +1,685 @@
+{
+  "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "anchor_terms": [
+    "dialogue summarization",
+    "abstractive dialogue summarization",
+    "abstractive meeting summarization",
+    "meeting summarization"
+  ],
+  "search_terms": {
+    "modeling_methods": [
+      "sequence to sequence",
+      "pre trained models",
+      "topic segmentation",
+      "abstractive methods",
+      "extractive methods",
+      "attention mechanism",
+      "graph modeling",
+      "hierarchical modeling",
+      "sliding window",
+      "speaker aware"
+    ],
+    "data_resources": [
+      "ami",
+      "icsi",
+      "qmsum",
+      "samsum",
+      "emailsum",
+      "csds",
+      "todsum",
+      "dialogsum",
+      "mediasum",
+      "gupshup"
+    ],
+    "evaluation_metrics": [
+      "rouge",
+      "evaluation metrics",
+      "bertscore",
+      "bartscore",
+      "factual consistency",
+      "rouge 1",
+      "rouge 2",
+      "rouge l",
+      "f1 scores",
+      "leaderboards",
+      "unified metrics",
+      "pyrouge",
+      "moverscore",
+      "datscore",
+      "frugalscore",
+      "semantic entailment",
+      "information coverage",
+      "human evaluation",
+      "negation correctness"
+    ],
+    "challenges_frontiers": [
+      "faithfulness",
+      "hallucinations",
+      "multi modal",
+      "multi domain",
+      "multi lingual",
+      "factual inconsistency",
+      "coreferences",
+      "topic drifts",
+      "long transcripts",
+      "data insufficient"
+    ],
+    "dialogue_domains": [
+      "dialogue summarization",
+      "meeting summarization",
+      "chat summarization",
+      "email thread",
+      "customer service",
+      "medical dialogue",
+      "email summarization",
+      "query based",
+      "task oriented"
+    ],
+    "challenges": [
+      "abstractive meeting summarization",
+      "multi party conversation",
+      "disfluent speech",
+      "overlapping speech",
+      "speaker identification",
+      "pronoun conversion",
+      "low information density",
+      "heterogeneous meetings",
+      "summary subjectivity",
+      "data scarcity"
+    ],
+    "model_architectures": [
+      "encoder decoder",
+      "transformer models",
+      "pointer generator",
+      "pretrained language models",
+      "graph convolution",
+      "hierarchical transformer",
+      "bart",
+      "t5"
+    ],
+    "datasets_corpora": [
+      "data sets",
+      "ami corpus",
+      "icsi corpus",
+      "elitr corpus",
+      "dialogue act labeling",
+      "topic segmentation",
+      "gold transcripts",
+      "abstractive summaries",
+      "extractive summaries",
+      "dialogue act labels"
+    ],
+    "discourse_structure": [
+      "discourse graphs",
+      "discourse relations",
+      "discourse parsing",
+      "rhetorical structure",
+      "dialogue acts",
+      "question answer",
+      "acknowledgement",
+      "discourse structure"
+    ],
+    "long_input_methods": [
+      "longformer",
+      "domain adaptation",
+      "long input",
+      "sliding window",
+      "split then summarize",
+      "hierarchical attention",
+      "cross attention",
+      "denoising pretraining"
+    ],
+    "scenarios_applications": [
+      "open-domain",
+      "task-oriented",
+      "daily chat",
+      "customer service",
+      "samsum",
+      "drama conversation",
+      "medical care",
+      "meeting summarization",
+      "email threads"
+    ],
+    "modeling_approaches": [
+      "hierarchical modeling",
+      "encoder-decoder",
+      "encoder decoder",
+      "sequential modeling",
+      "transformer",
+      "bart",
+      "pegasus",
+      "pointer generator",
+      "beam search"
+    ],
+    "injected_features": [
+      "speaker role",
+      "topic transition",
+      "coreference graph",
+      "dialogue act",
+      "redundancy",
+      "negation scope",
+      "domain knowledge",
+      "discourse graph"
+    ],
+    "self_supervised_tasks": [
+      "denoising tasks",
+      "masking",
+      "contrastive learning",
+      "coherence detection",
+      "response selection",
+      "gap sentence",
+      "turn splitting",
+      "turn permutation"
+    ],
+    "additional_data_sources": [
+      "wikipedia",
+      "mediasum",
+      "bookcorpus",
+      "cnn dm",
+      "xsum",
+      "conceptnet",
+      "reddit",
+      "opensubtitles"
+    ]
+  },
+  "papers": [
+    {
+      "id": "arxiv2107_03175_dialogue_survey",
+      "source_id": "arXiv:2107.03175",
+      "title": "A Survey on Dialogue Summarization: Recent Advances and New Frontiers",
+      "abstract": "Dialogue summarization aims to condense the original dialogue into a shorter version covering salient information, which is a crucial way to reduce dialogue data overload. Recently, the promising achievements in both dialogue systems and natural language generation techniques drastically lead this task to a new landscape, which results in significant research attentions. However, there still remains a lack of a comprehensive survey for this task. To this end, we take the first step and present a thorough review of this research field carefully and widely. In detail, we systematically organize the current works according to the characteristics of each domain, covering meeting, chat, email thread, customer service and medical dialogue. Additionally, we provide an overview of publicly available research datasets as well as organize two leaderboards under unified metrics. Furthermore, we discuss some future directions, including faithfulness, multi-modal, multi-domain and multi-lingual dialogue summarization, and give our thoughts respectively. We hope that this first survey of dialogue summarization can provide the community with a quick access and a general picture to this task and motivate future researches.",
+      "year": "2021",
+      "source_url": "https://arxiv.org/abs/2107.03175v2",
+      "detected_keywords": [
+        {
+          "term": "dialogue summarization",
+          "category": "dialogue_domains",
+          "evidence": {
+            "quote": "Dialogue summarization aims to condense the original dialogue into a shorter version covering salient information",
+            "page": "n/a"
+          },
+          "confidence": 0.9
+        },
+        {
+          "term": "meeting summarization",
+          "category": "dialogue_domains",
+          "evidence": {
+            "quote": "meeting summarization has attracted extensive research attentions",
+            "page": "n/a"
+          },
+          "confidence": 0.65
+        },
+        {
+          "term": "chat summarization",
+          "category": "dialogue_domains",
+          "evidence": {
+            "quote": "Therefore, summarizing chats becomes a new trending direction.",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "email thread",
+          "category": "dialogue_domains",
+          "evidence": {
+            "quote": "Major efforts lie on email thread summarization.",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "customer service",
+          "category": "dialogue_domains",
+          "evidence": {
+            "quote": "Therefore, customer service summarization gains a lot of research interest in recent years.",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "medical dialogue",
+          "category": "dialogue_domains",
+          "evidence": {
+            "quote": "To mitigate the above challenge, medical dialogue summarization is coming to the rescue.",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "sequence to sequence",
+          "category": "modeling_methods",
+          "evidence": {
+            "quote": "sequence-to-sequence learning combined with attention mechanism is adopted as the backbone architecture",
+            "page": "n/a"
+          },
+          "confidence": 0.55
+        },
+        {
+          "term": "pre trained models",
+          "category": "modeling_methods",
+          "evidence": {
+            "quote": "the sophisticated pre-trained language models",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "topic segmentation",
+          "category": "modeling_methods",
+          "evidence": {
+            "quote": "including hierarchical modeling strategy [Zhu et al., 2020], sliding window strategy [Koay et al., 2021]",
+            "page": "n/a"
+          },
+          "confidence": 0.45
+        },
+        {
+          "term": "ROUGE",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "ROUGE [Lin, 2004] is conventionally adopted as the standard metric for evaluating summarization tasks",
+            "page": "n/a"
+          },
+          "confidence": 0.7
+        },
+        {
+          "term": "faithfulness",
+          "category": "challenges_frontiers",
+          "evidence": {
+            "quote": "we discuss some future directions, including faithfulness, multi-modal, multi-domain and multi-lingual dialogue summarization",
+            "page": "n/a"
+          },
+          "confidence": 0.65
+        },
+        {
+          "term": "hallucinations",
+          "category": "challenges_frontiers",
+          "evidence": {
+            "quote": "factual inconsistency problem, which distorts or fabricates the factual information in the article and is also known as hallucinations",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "multi modal",
+          "category": "challenges_frontiers",
+          "evidence": {
+            "quote": "4.2 Multi-modal Dialogue Summarization",
+            "page": "n/a"
+          },
+          "confidence": 0.55
+        },
+        {
+          "term": "multi domain",
+          "category": "challenges_frontiers",
+          "evidence": {
+            "quote": "4.3 Multi-domain Dialogue Summarization",
+            "page": "n/a"
+          },
+          "confidence": 0.55
+        },
+        {
+          "term": "multi lingual",
+          "category": "challenges_frontiers",
+          "evidence": {
+            "quote": "4.4 Multi-lingual Dialogue Summarization",
+            "page": "n/a"
+          },
+          "confidence": 0.55
+        }
+      ]
+    },
+    {
+      "id": "ams_survey_2022",
+      "source_id": "arXiv:2208.04163",
+      "title": "Abstractive Meeting Summarization: A Survey",
+      "abstract": "A system that could reliably identify and sum up the most important points of a conversation would be valuable in a wide variety of real-world contexts, from business meetings to medical consultations to customer service calls. Recent advances in deep learning, and especially the invention of encoder-decoder architectures, has significantly improved language generation systems, opening the door to improved forms of abstractive summarization, a form of summarization particularly well-suited for multi-party conversation. In this paper, we provide an overview of the challenges raised by the task of abstractive meeting summarization and of the data sets, models and evaluation metrics that have been used to tackle the problems.",
+      "year": "2022",
+      "source_url": "https://arxiv.org/abs/2208.04163v2",
+      "detected_keywords": [
+        {
+          "term": "abstractive meeting summarization",
+          "category": "challenges",
+          "evidence": {
+            "quote": "we provide an overview of the challenges raised by the task of abstractive meeting summarization",
+            "page": "n/a"
+          },
+          "confidence": 0.78
+        },
+        {
+          "term": "encoder decoder",
+          "category": "model_architectures",
+          "evidence": {
+            "quote": "especially the invention of encoder-decoder architectures",
+            "page": "n/a"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "multi party conversation",
+          "category": "challenges",
+          "evidence": {
+            "quote": "particularly well-suited for multi-party conversation",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "data sets",
+          "category": "datasets_corpora",
+          "evidence": {
+            "quote": "the data sets, models and evaluation metrics that have been used",
+            "page": "n/a"
+          },
+          "confidence": 0.55
+        },
+        {
+          "term": "evaluation metrics",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "the data sets, models and evaluation metrics that have been used to tackle the problems",
+            "page": "n/a"
+          },
+          "confidence": 0.64
+        },
+        {
+          "term": "disfluent speech",
+          "category": "challenges",
+          "evidence": {
+            "quote": "unedited, often unprepared exercises in real-time collaboration, which tends to yield transcripts with low information density and a fair amount of “noise”",
+            "page": "n/a"
+          },
+          "confidence": 0.52
+        },
+        {
+          "term": "overlapping speech",
+          "category": "challenges",
+          "evidence": {
+            "quote": "potential for overlapping speech",
+            "page": "n/a"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "speaker identification",
+          "category": "challenges",
+          "evidence": {
+            "quote": "it complicates the task of speaker and addressee identification",
+            "page": "n/a"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "pronoun conversion",
+          "category": "challenges",
+          "evidence": {
+            "quote": "conversion of first and second person pronouns into third person identifiers",
+            "page": "n/a"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "AMI corpus",
+          "category": "datasets_corpora",
+          "evidence": {
+            "quote": "The examples are taken from the AMI corpus",
+            "page": "n/a"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "ICSI corpus",
+          "category": "datasets_corpora",
+          "evidence": {
+            "quote": "three for English — AMI (Mccowan et al., 2005), ICSI (Janin et al., 2003) and ELITR",
+            "page": "n/a"
+          },
+          "confidence": 0.56
+        },
+        {
+          "term": "ELITR corpus",
+          "category": "datasets_corpora",
+          "evidence": {
+            "quote": "three for English — AMI (Mccowan et al., 2005), ICSI (Janin et al., 2003) and ELITR (Nedoluzhko et al., 2022)",
+            "page": "n/a"
+          },
+          "confidence": 0.56
+        },
+        {
+          "term": "ROUGE",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "the ROUGE metric (Lin, 2004), which remains the standard for both meeting and general text summarization",
+            "page": "n/a"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "BERTScore",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "including BERTScore (Zhang et al., 2020a) and MoverScore (Zhao et al., 2019a)",
+            "page": "n/a"
+          },
+          "confidence": 0.48
+        },
+        {
+          "term": "BARTScore",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "or BARTScore (Yuan et al., 2021)",
+            "page": "n/a"
+          },
+          "confidence": 0.46
+        },
+        {
+          "term": "dialogue act labeling",
+          "category": "datasets_corpora",
+          "evidence": {
+            "quote": "it is desirable to add additional forms of annotation, such as dialogue act labeling",
+            "page": "n/a"
+          },
+          "confidence": 0.52
+        },
+        {
+          "term": "topic segmentation",
+          "category": "datasets_corpora",
+          "evidence": {
+            "quote": "offer multiple levels of annotation including topic segmentation",
+            "page": "n/a"
+          },
+          "confidence": 0.52
+        },
+        {
+          "term": "discourse graphs",
+          "category": "discourse_structure",
+          "evidence": {
+            "quote": "Feng et al. (2020) is the first work to exploit discourse graphs to generate abstractive meeting summaries",
+            "page": "n/a"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "longformer",
+          "category": "long_input_methods",
+          "evidence": {
+            "quote": "Longformer (Beltagy et al., 2020), for example, introduces a multi-layer self-attention operation that scales linearly with sequence length",
+            "page": "n/a"
+          },
+          "confidence": 0.5
+        },
+        {
+          "term": "domain adaptation",
+          "category": "long_input_methods",
+          "evidence": {
+            "quote": "it is helpful in performance gains to conduct domain-adaptive and task-adaptive pretraining",
+            "page": "n/a"
+          },
+          "confidence": 0.47
+        },
+        {
+          "term": "factual consistency",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "another central challenge for summary evaluation, namely that of factual consistency",
+            "page": "n/a"
+          },
+          "confidence": 0.5
+        }
+      ]
+    },
+    {
+      "id": "arxiv_2210_09894_taxonomy",
+      "source_id": "arXiv:2210.09894",
+      "title": "Taxonomy of Abstractive Dialogue Summarization: Scenarios, Approaches and Future Directions",
+      "abstract": "Abstractive dialogue summarization is to generate a concise and fluent summary covering the salient information in a dialogue among two or more interlocutors. It has attracted great attention in recent years based on the massive emergence of social communication platforms and an urgent requirement for efficient dialogue information understanding and digestion. Different from news or articles in traditional document summarization, dialogues bring unique characteristics and additional challenges, including different language styles and formats, scattered information, flexible discourse structures and unclear topic boundaries. This survey provides a comprehensive investigation on existing work for abstractive dialogue summarization from scenarios, approaches to evaluations. It categorizes the task into two broad categories according to the type of input dialogues, i.e., open-domain and task-oriented, and presents a taxonomy of existing techniques in three directions, namely, injecting dialogue features, designing auxiliary training tasks and using additional data.A list of datasets under different scenarios and widely-accepted evaluation metrics are summarized for completeness. After that, the trends of scenarios and techniques are summarized, together with deep insights on correlations between extensively exploited features and different scenarios. Based on these analyses, we recommend future directions including more controlled and complicated scenarios, technical innovations and comparisons, publicly available datasets in special domains, etc.",
+      "year": "2022",
+      "source_url": "https://arxiv.org/abs/2210.09894v2",
+      "detected_keywords": [
+        {
+          "term": "open-domain",
+          "category": "scenarios_applications",
+          "evidence": {
+            "quote": "i.e., open-domain and task-oriented",
+            "page": "1"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "task-oriented",
+          "category": "scenarios_applications",
+          "evidence": {
+            "quote": "i.e., open-domain and task-oriented",
+            "page": "1"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "daily chat",
+          "category": "scenarios_applications",
+          "evidence": {
+            "quote": "Open-domain dialogue summarization is further divided into daily chat, drama conversation, debate & comment.",
+            "page": "5"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "customer service",
+          "category": "scenarios_applications",
+          "evidence": {
+            "quote": "Task-oriented dialogue summarization arises from application scenarios of different domains, which includes but is not limited to customer service, law, medical care and official issue.",
+            "page": "5"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "hierarchical modeling",
+          "category": "modeling_approaches",
+          "evidence": {
+            "quote": "hierarchical modeling is another representative design",
+            "page": "7"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "encoder-decoder",
+          "category": "modeling_approaches",
+          "evidence": {
+            "quote": "The mainstream approaches in recent years hinge on the neural-based encoder-decoder architecture.",
+            "page": "7"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "speaker role",
+          "category": "injected_features",
+          "evidence": {
+            "quote": "Speaker or role is a naturally provided “label” for each dialogue utterance.",
+            "page": "10"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "topic transition",
+          "category": "injected_features",
+          "evidence": {
+            "quote": "Topic transition is an important feature for dialogues where speakers turn to focus on different topics.",
+            "page": "12"
+          },
+          "confidence": 0.6
+        },
+        {
+          "term": "coreference graph",
+          "category": "injected_features",
+          "evidence": {
+            "quote": "constructed coreference graphs for dialogues.",
+            "page": "14"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "denoising tasks",
+          "category": "self_supervised_tasks",
+          "evidence": {
+            "quote": "• Denoising tasks which are designed for eliminating noises in the input or penalizing negatives during training.",
+            "page": "17"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "masking",
+          "category": "self_supervised_tasks",
+          "evidence": {
+            "quote": "• Masking and recovering tasks which means that parts of the input are masked and the masked tokens are required to be predicted.",
+            "page": "17"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "Wikipedia",
+          "category": "additional_data_sources",
+          "evidence": {
+            "quote": "It generally includes Wikipedia, BookCorpus [212] and C4 [139].",
+            "page": "20"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "MediaSum",
+          "category": "additional_data_sources",
+          "evidence": {
+            "quote": "using relatively large-scaled crawled dialogue summarization data as a pre-training dataset, such as MediaSum [210]",
+            "page": "21"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "SAMSum",
+          "category": "scenarios_applications",
+          "evidence": {
+            "quote": "SAMSum [57] and DialogSum [28] are two large-scale real-life labeled datasets.",
+            "page": "23"
+          },
+          "confidence": 0.58
+        },
+        {
+          "term": "Rouge",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "Automatic evaluation metrics commonly used for summarization such as Rouge [92], MoverScore [206], BERTScore [197] and BARTScore [191] are also used for dialogue summarization",
+            "page": "26"
+          },
+          "confidence": 0.62
+        },
+        {
+          "term": "factual consistency",
+          "category": "evaluation_metrics",
+          "evidence": {
+            "quote": "Instead, measuring the factual consistency of generations gains increasing attention.",
+            "page": "27"
+          },
+          "confidence": 0.6
+        }
+      ]
+    }
+  ]
+}

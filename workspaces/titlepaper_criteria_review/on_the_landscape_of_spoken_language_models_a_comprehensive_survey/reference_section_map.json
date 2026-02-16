@@ -1,0 +1,4651 @@
+{
+  "paper_dir": "target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey",
+  "main_tex": "target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/tmlr_main_arxiv.tex",
+  "section_level": "section",
+  "records": [
+    {
+      "key": "agostinelli2023musiclm",
+      "query_title": "{MusicLM}: Generating music from text",
+      "normalized_title": "musiclm generating music from text",
+      "source": "bbl",
+      "arxiv_id": "2301.11325",
+      "metadata_title": "MusicLM: Generating Music From Text",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "algayres2022speech",
+      "query_title": "Speech sequence embeddings using nearest neighbors contrastive learning",
+      "normalized_title": "speech sequence embeddings using nearest neighbors contrastive learning",
+      "source": "bbl",
+      "arxiv_id": "2204.05148",
+      "metadata_title": "Speech Sequence Embeddings using Nearest Neighbors Contrastive Learning",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "tGSLM",
+      "query_title": "Generative spoken language model based on continuous word-sized audio tokens",
+      "normalized_title": "generative spoken language model based on continuous word sized audio tokens",
+      "source": "bbl",
+      "arxiv_id": "2310.05224",
+      "metadata_title": "Generative Spoken Language Model based on continuous word-sized audio tokens",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "an2024funaudiollm",
+      "query_title": "Funaudiollm: Voice understanding and generation foundation models for natural interaction between humans and llms",
+      "normalized_title": "funaudiollm voice understanding and generation foundation models for natural interaction between humans and llms",
+      "source": "bbl",
+      "arxiv_id": "2407.04051",
+      "metadata_title": "FunAudioLLM: Voice Understanding and Generation Foundation Models for Natural Interaction Between Humans and LLMs",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "ao2024sd",
+      "query_title": "{SD-Eval}: A benchmark dataset for spoken dialogue understanding beyond words",
+      "normalized_title": "sd eval a benchmark dataset for spoken dialogue understanding beyond words",
+      "source": "bbl",
+      "arxiv_id": "2406.13340",
+      "metadata_title": "SD-Eval: A Benchmark Dataset for Spoken Dialogue Understanding Beyond Words",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "arora2023universlu",
+      "query_title": "{U}niver{SLU}: Universal spoken language understanding for diverse tasks with natural language instructions",
+      "normalized_title": "universlu universal spoken language understanding for diverse tasks with natural language instructions",
+      "source": "bbl",
+      "arxiv_id": "2310.02973",
+      "metadata_title": "UniverSLU: Universal Spoken Language Understanding for Diverse Tasks with Natural Language Instructions",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wav2vec2",
+      "query_title": "wav2vec 2.0: A framework for self-supervised learning of speech representations",
+      "normalized_title": "wav2vec 2 0 a framework for self supervised learning of speech representations",
+      "source": "bbl",
+      "arxiv_id": "2006.11477",
+      "metadata_title": "wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "bai2023qwen",
+      "query_title": "Qwen technical report",
+      "normalized_title": "qwen technical report",
+      "source": "bbl",
+      "arxiv_id": "2309.16609",
+      "metadata_title": "Qwen Technical Report",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "berant2013semantic",
+      "query_title": "Semantic parsing on {F}reebase from question-answer pairs",
+      "normalized_title": "semantic parsing on freebase from question answer pairs",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Semantic Parsing on Freebase from Question-Answer Pairs",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "audiolm",
+      "query_title": "{AudioLM}: A language modeling approach to audio generation",
+      "normalized_title": "audiolm a language modeling approach to audio generation",
+      "source": "bbl",
+      "arxiv_id": "2209.03143",
+      "metadata_title": "AudioLM: a Language Modeling Approach to Audio Generation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 5
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 9,
+      "missing_in_sections": false
+    },
+    {
+      "key": "borsos2023soundstorm",
+      "query_title": "{SoundStorm}: Efficient parallel audio generation",
+      "normalized_title": "soundstorm efficient parallel audio generation",
+      "source": "bbl",
+      "arxiv_id": "2305.09636",
+      "metadata_title": "SoundStorm: Efficient Parallel Audio Generation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "brown2020language",
+      "query_title": "Language models are few-shot learners",
+      "normalized_title": "language models are few shot learners",
+      "source": "bbl",
+      "arxiv_id": "2005.14165",
+      "metadata_title": "Language Models are Few-Shot Learners",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chan2016listen",
+      "query_title": "Listen, attend and spell",
+      "normalized_title": "listen attend and spell",
+      "source": "bbl",
+      "arxiv_id": "1508.01211",
+      "metadata_title": "Listen, Attend and Spell",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chang2022maskgit",
+      "query_title": "{MaskGIT}: Masked generative image transformer",
+      "normalized_title": "maskgit masked generative image transformer",
+      "source": "bbl",
+      "arxiv_id": "2202.04200",
+      "metadata_title": "MaskGIT: Masked Generative Image Transformer",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chang2024speechprompt",
+      "query_title": "{SpeechPrompt}: Prompting speech language models for speech processing tasks",
+      "normalized_title": "speechprompt prompting speech language models for speech processing tasks",
+      "source": "bbl",
+      "arxiv_id": "2408.13040",
+      "metadata_title": "SpeechPrompt: Prompting Speech Language Models for Speech Processing Tasks",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chen2023x",
+      "query_title": "{X-LLM}: Bootstrapping advanced large language models by treating multi-modalities as foreign languages",
+      "normalized_title": "x llm bootstrapping advanced large language models by treating multi modalities as foreign languages",
+      "source": "bbl",
+      "arxiv_id": "2305.04160",
+      "metadata_title": "X-LLM: Bootstrapping Advanced Large Language Models by Treating Multi-Modalities as Foreign Languages",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chen2024next",
+      "query_title": "Next token prediction towards multimodal intelligence: A comprehensive survey",
+      "normalized_title": "next token prediction towards multimodal intelligence a comprehensive survey",
+      "source": "bbl",
+      "arxiv_id": "2412.18619",
+      "metadata_title": "Next Token Prediction Towards Multimodal Intelligence: A Comprehensive Survey",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chen2025minmo",
+      "query_title": "Minmo: A multimodal large language model for seamless voice interaction",
+      "normalized_title": "minmo a multimodal large language model for seamless voice interaction",
+      "source": "bbl",
+      "arxiv_id": "2501.06282",
+      "metadata_title": "MinMo: A Multimodal Large Language Model for Seamless Voice Interaction",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wavlm",
+      "query_title": "{WavLM}: Large-scale self-supervised pre-training for full stack speech processing",
+      "normalized_title": "wavlm large scale self supervised pre training for full stack speech processing",
+      "source": "bbl",
+      "arxiv_id": "2110.13900",
+      "metadata_title": "WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wang2023neural",
+      "query_title": "Neural codec language models are zero-shot text to speech synthesizers",
+      "normalized_title": "neural codec language models are zero shot text to speech synthesizers",
+      "source": "bbl",
+      "arxiv_id": "2301.02111",
+      "metadata_title": "Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 4
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 6,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chen2024slam",
+      "query_title": "Slam-omni: Timbre-controllable voice interaction system with single-stage training",
+      "normalized_title": "slam omni timbre controllable voice interaction system with single stage training",
+      "source": "bbl",
+      "arxiv_id": "2412.15649",
+      "metadata_title": "SLAM-Omni: Timbre-Controllable Voice Interaction System with Single-Stage Training",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chen2024voicebench",
+      "query_title": "{VoiceBench}: Benchmarking {LLM}-based voice assistants",
+      "normalized_title": "voicebench benchmarking llm based voice assistants",
+      "source": "bbl",
+      "arxiv_id": "2410.17196",
+      "metadata_title": "VoiceBench: Benchmarking LLM-Based Voice Assistants",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chen2024salm",
+      "query_title": "{SALM}: Speech-augmented language model with in-context learning for speech recognition and translation",
+      "normalized_title": "salm speech augmented language model with in context learning for speech recognition and translation",
+      "source": "bbl",
+      "arxiv_id": "2310.09424",
+      "metadata_title": "SALM: Speech-augmented Language Model with In-context Learning for Speech Recognition and Translation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "bestow2024chen",
+      "query_title": "Bestow: Efficient and streamable speech language model with the best of two worlds in {GPT} and {T5}",
+      "normalized_title": "bestow efficient and streamable speech language model with the best of two worlds in gpt and t5",
+      "source": "bbl",
+      "arxiv_id": "2406.19954",
+      "metadata_title": "BESTOW: Efficient and Streamable Speech Language Model with the Best of Two Worlds in GPT and T5",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chou2023toward",
+      "query_title": "Toward joint language modeling for speech units and text",
+      "normalized_title": "toward joint language modeling for speech units and text",
+      "source": "bbl",
+      "arxiv_id": "2310.08715",
+      "metadata_title": "Toward Joint Language Modeling for Speech Units and Text",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chu2023qwen",
+      "query_title": "{Qwen-Audio}: Advancing universal audio understanding via unified large-scale audio-language models",
+      "normalized_title": "qwen audio advancing universal audio understanding via unified large scale audio language models",
+      "source": "bbl",
+      "arxiv_id": "2311.07919",
+      "metadata_title": "Qwen-Audio: Advancing Universal Audio Understanding via Unified Large-Scale Audio-Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 4
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 11,
+      "missing_in_sections": false
+    },
+    {
+      "key": "chu2024qwen2audio",
+      "query_title": "{Qwen2-Audio} technical report",
+      "normalized_title": "qwen2 audio technical report",
+      "source": "bbl",
+      "arxiv_id": "2407.10759",
+      "metadata_title": "Qwen2-Audio Technical Report",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "copet2024simple",
+      "query_title": "Simple and controllable music generation",
+      "normalized_title": "simple and controllable music generation",
+      "source": "bbl",
+      "arxiv_id": "2306.05284",
+      "metadata_title": "Simple and Controllable Music Generation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "scaling-slms",
+      "query_title": "Scaling properties of speech language models",
+      "normalized_title": "scaling properties of speech language models",
+      "source": "bbl",
+      "arxiv_id": "2404.00685",
+      "metadata_title": "Scaling Properties of Speech Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "cui2024recentadvancesspeechlanguage",
+      "query_title": "Recent advances in speech language models: A survey",
+      "normalized_title": "recent advances in speech language models a survey",
+      "source": "bbl",
+      "arxiv_id": "2410.03751",
+      "metadata_title": "Recent Advances in Speech Language Models: A Survey",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "das2024speechverse",
+      "query_title": "{SpeechVerse}: A large-scale generalizable audio language model",
+      "normalized_title": "speechverse a large scale generalizable audio language model",
+      "source": "bbl",
+      "arxiv_id": "2405.08295",
+      "metadata_title": "SpeechVerse: A Large-scale Generalizable Audio Language Model",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 3
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 4,
+      "missing_in_sections": false
+    },
+    {
+      "key": "de2023prosaudit",
+      "query_title": "Prosaudit, a prosodic benchmark for self-supervised speech models",
+      "normalized_title": "prosaudit a prosodic benchmark for self supervised speech models",
+      "source": "bbl",
+      "arxiv_id": "2302.12057",
+      "metadata_title": "ProsAudit, a prosodic benchmark for self-supervised speech models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "encodec",
+      "query_title": "High fidelity neural audio compression",
+      "normalized_title": "high fidelity neural audio compression",
+      "source": "bbl",
+      "arxiv_id": "2210.13438",
+      "metadata_title": "High Fidelity Neural Audio Compression",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 3
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "defossezmoshi",
+      "query_title": "Moshi: A speech-text foundation model for real-time dialogue",
+      "normalized_title": "moshi a speech text foundation model for real time dialogue",
+      "source": "bbl",
+      "arxiv_id": "2410.00037",
+      "metadata_title": "Moshi: a speech-text foundation model for real-time dialogue",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 6
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 5
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 4
+        },
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 3
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/7_duplex.tex#Duplex speech dialogue",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 22,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wav2prompt",
+      "query_title": "{Wav2Prompt}: End-to-end speech prompt generation and tuning for {LLM} in zero and few-shot learning",
+      "normalized_title": "wav2prompt end to end speech prompt generation and tuning for llm in zero and few shot learning",
+      "source": "bbl",
+      "arxiv_id": "2406.00522",
+      "metadata_title": "Wav2Prompt: End-to-End Speech Prompt Generation and Tuning For LLM in Zero and Few-shot Learning",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "bert",
+      "query_title": "{BERT}: Pre-training of deep bidirectional transformers for language understanding",
+      "normalized_title": "bert pre training of deep bidirectional transformers for language understanding",
+      "source": "bbl",
+      "arxiv_id": "1810.04805",
+      "metadata_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "usm-lite",
+      "query_title": "{USM-Lite}: Quantization and sparsity aware fine-tuning for speech recognition with universal speech models",
+      "normalized_title": "usm lite quantization and sparsity aware fine tuning for speech recognition with universal speech models",
+      "source": "bbl",
+      "arxiv_id": "2312.08553",
+      "metadata_title": "USM-Lite: Quantization and Sparsity Aware Fine-tuning for Speech Recognition with Universal Speech Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "du2025codecfake",
+      "query_title": "{CodecFake-Omni}: A large-scale codec-based deepfake speech dataset",
+      "normalized_title": "codecfake omni a large scale codec based deepfake speech dataset",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "du2024cosyvoice",
+      "query_title": "{CosyVoice}: A scalable multilingual zero-shot text-to-speech synthesizer based on supervised semantic tokens",
+      "normalized_title": "cosyvoice a scalable multilingual zero shot text to speech synthesizer based on supervised semantic tokens",
+      "source": "bbl",
+      "arxiv_id": "2407.05407",
+      "metadata_title": "CosyVoice: A Scalable Multilingual Zero-shot Text-to-speech Synthesizer based on Supervised Semantic Tokens",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "dunbar2021zero",
+      "query_title": "The zero resource speech challenge 2021: Spoken language modelling",
+      "normalized_title": "the zero resource speech challenge 2021 spoken language modelling",
+      "source": "bbl",
+      "arxiv_id": "2104.14700",
+      "metadata_title": "The Zero Resource Speech Challenge 2021: Spoken language modelling",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 3
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 4,
+      "missing_in_sections": false
+    },
+    {
+      "key": "ekstedt-skantze-2020-turngpt",
+      "query_title": "{T}urn{GPT}: A transformer-based language model for predicting turn-taking in spoken dialog",
+      "normalized_title": "turngpt a transformer based language model for predicting turn taking in spoken dialog",
+      "source": "bbl",
+      "arxiv_id": "2010.10874",
+      "metadata_title": "TurnGPT: a Transformer-based Language Model for Predicting Turn-taking in Spoken Dialog",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "fan2024alignformer",
+      "query_title": "{AlignFormer}: Modality matching can achieve better zero-shot instruction-following speech-{LLM}",
+      "normalized_title": "alignformer modality matching can achieve better zero shot instruction following speech llm",
+      "source": "bbl",
+      "arxiv_id": "2412.01145",
+      "metadata_title": "AlignFormer: Modality Matching Can Achieve Better Zero-shot Instruction-Following Speech-LLM",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "fang2024llama",
+      "query_title": "{LL}a{MA}-{Omni}: Seamless speech interaction with large language models",
+      "normalized_title": "llama omni seamless speech interaction with large language models",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "LLaMA-Omni: Seamless Speech Interaction with Large Language Models",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "audiochatllama",
+      "query_title": "{AudioChatLlama}: Towards general-purpose speech abilities for {LLM}s",
+      "normalized_title": "audiochatllama towards general purpose speech abilities for llms",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "AudioChatLlama: Towards General-Purpose Speech Abilities for LLMs",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "bpe",
+      "query_title": "A new algorithm for data compression",
+      "normalized_title": "a new algorithm for data compression",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gaido2021ctc",
+      "query_title": "{CTC}-based compression for direct speech translation",
+      "normalized_title": "ctc based compression for direct speech translation",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "CTC-based Compression for Direct Speech Translation",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gao2022wavprompt",
+      "query_title": "{WavPrompt}: Towards few-shot spoken language understanding with frozen language models",
+      "normalized_title": "wavprompt towards few shot spoken language understanding with frozen language models",
+      "source": "bbl",
+      "arxiv_id": "2203.15863",
+      "metadata_title": "WAVPROMPT: Towards Few-Shot Spoken Language Understanding with Frozen Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "geminiteam2024gemini15unlockingmultimodal",
+      "query_title": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context",
+      "normalized_title": "gemini 1 5 unlocking multimodal understanding across millions of tokens of context",
+      "source": "bbl",
+      "arxiv_id": "2403.05530",
+      "metadata_title": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "team2024gemma",
+      "query_title": "Gemma: Open models based on gemini research and technology",
+      "normalized_title": "gemma open models based on gemini research and technology",
+      "source": "bbl",
+      "arxiv_id": "2403.08295",
+      "metadata_title": "Gemma: Open Models Based on Gemini Research and Technology",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gong2023whisperat",
+      "query_title": "{Whisper-AT}: Noise-robust automatic speech recognizers are also strong general audio event taggers",
+      "normalized_title": "whisper at noise robust automatic speech recognizers are also strong general audio event taggers",
+      "source": "bbl",
+      "arxiv_id": "2307.03183",
+      "metadata_title": "Whisper-AT: Noise-Robust Automatic Speech Recognizers are Also Strong General Audio Event Taggers",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gong2023joint",
+      "query_title": "Joint audio and speech understanding",
+      "normalized_title": "joint audio and speech understanding",
+      "source": "bbl",
+      "arxiv_id": "2309.14405",
+      "metadata_title": "Joint Audio and Speech Understanding",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 6,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gong2023listen",
+      "query_title": "Listen, think, and understand",
+      "normalized_title": "listen think and understand",
+      "source": "bbl",
+      "arxiv_id": "2305.10790",
+      "metadata_title": "Listen, Think, and Understand",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "sections/appendix.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "llama3",
+      "query_title": "The {Llama} 3 herd of models",
+      "normalized_title": "the llama 3 herd of models",
+      "source": "bbl",
+      "arxiv_id": "2407.21783",
+      "metadata_title": "The Llama 3 Herd of Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "graves2006connectionist",
+      "query_title": "Connectionist temporal classification: Labelling unsegmented sequence data with recurrent neural networks",
+      "normalized_title": "connectionist temporal classification labelling unsegmented sequence data with recurrent neural networks",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "VQ",
+      "query_title": "Vector quantization",
+      "normalized_title": "vector quantization",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gu2021efficiently",
+      "query_title": "Efficiently modeling long sequences with structured state spaces",
+      "normalized_title": "efficiently modeling long sequences with structured state spaces",
+      "source": "bbl",
+      "arxiv_id": "2111.00396",
+      "metadata_title": "Efficiently Modeling Long Sequences with Structured State Spaces",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "guo2025recent",
+      "query_title": "Recent advances in discrete speech tokens: A review",
+      "normalized_title": "recent advances in discrete speech tokens a review",
+      "source": "bbl",
+      "arxiv_id": "2502.06490",
+      "metadata_title": "Recent Advances in Discrete Speech Tokens: A Review",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "twist",
+      "query_title": "Textually pretrained speech language models",
+      "normalized_title": "textually pretrained speech language models",
+      "source": "bbl",
+      "arxiv_id": "2305.13009",
+      "metadata_title": "Textually Pretrained Speech Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 3
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 9,
+      "missing_in_sections": false
+    },
+    {
+      "key": "diva",
+      "query_title": "Distilling an end-to-end voice assistant without instruction training data",
+      "normalized_title": "distilling an end to end voice assistant without instruction training data",
+      "source": "bbl",
+      "arxiv_id": "2410.02678",
+      "metadata_title": "Distilling an End-to-End Voice Assistant Without Instruction Training Data",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "hernandez2018ted",
+      "query_title": "Ted-lium 3: Twice as much data and corpus repartition for experiments on speaker adaptation",
+      "normalized_title": "ted lium 3 twice as much data and corpus repartition for experiments on speaker adaptation",
+      "source": "bbl",
+      "arxiv_id": "1805.04699",
+      "metadata_title": "TED-LIUM 3: twice as much data and corpus repartition for experiments on speaker adaptation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/appendix.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "holtzman2020the",
+      "query_title": "The curious case of neural text degeneration",
+      "normalized_title": "the curious case of neural text degeneration",
+      "source": "bbl",
+      "arxiv_id": "1904.09751",
+      "metadata_title": "The Curious Case of Neural Text Degeneration",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "houlsby2019parameter",
+      "query_title": "Parameter-efficient transfer learning for nlp",
+      "normalized_title": "parameter efficient transfer learning for nlp",
+      "source": "bbl",
+      "arxiv_id": "1902.00751",
+      "metadata_title": "Parameter-Efficient Transfer Learning for NLP",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "hubert",
+      "query_title": "{HuBERT}: Self-supervised speech representation learning by masked prediction of hidden units",
+      "normalized_title": "hubert self supervised speech representation learning by masked prediction of hidden units",
+      "source": "bbl",
+      "arxiv_id": "2106.07447",
+      "metadata_title": "HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lora",
+      "query_title": "{LoRA}: Low-rank adaptation of large language models",
+      "normalized_title": "lora low rank adaptation of large language models",
+      "source": "bbl",
+      "arxiv_id": "2106.09685",
+      "metadata_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "hu2024chain",
+      "query_title": "Chain-of-thought prompting for speech translation",
+      "normalized_title": "chain of thought prompting for speech translation",
+      "source": "bbl",
+      "arxiv_id": "2409.11538",
+      "metadata_title": "Chain-of-Thought Prompting for Speech Translation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wavllm",
+      "query_title": "{W}av{LLM}: Towards robust and adaptive speech large language model",
+      "normalized_title": "wavllm towards robust and adaptive speech large language model",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "WavLLM: Towards Robust and Adaptive Speech Large Language Model",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 4,
+      "missing_in_sections": false
+    },
+    {
+      "key": "huang2024dynamic",
+      "query_title": "{Dynamic-SUPERB}: Towards a dynamic, collaborative, and comprehensive instruction-tuning benchmark for speech",
+      "normalized_title": "dynamic superb towards a dynamic collaborative and comprehensive instruction tuning benchmark for speech",
+      "source": "bbl",
+      "arxiv_id": "2309.09510",
+      "metadata_title": "Dynamic-SUPERB: Towards A Dynamic, Collaborative, and Comprehensive Instruction-Tuning Benchmark for Speech",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "sections/appendix.tex#Appendix"
+      ],
+      "total_citations": 4,
+      "missing_in_sections": false
+    },
+    {
+      "key": "huang2025dynamicsuperb",
+      "query_title": "{Dynamic-SUPERB} phase-2: A collaboratively expanding benchmark for measuring the capabilities of spoken language models with 180 tasks",
+      "normalized_title": "dynamic superb phase 2 a collaboratively expanding benchmark for measuring the capabilities of spoken language models with 180 tasks",
+      "source": "bbl",
+      "arxiv_id": "2411.05361",
+      "metadata_title": "Dynamic-SUPERB Phase-2: A Collaboratively Expanding Benchmark for Measuring the Capabilities of Spoken Language Models with 180 Tasks",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 3
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "huang2001spoken",
+      "query_title": "\\emph{Spoken language processing: A guide to theory, algorithm, and system development}",
+      "normalized_title": "spoken language processing a guide to theory algorithm and system development",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Spoken Language Processing: A Guide to Theory, Algorithm, and System Development",
+      "metadata_source": "openalex",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "ji2024wavchat",
+      "query_title": "{WavChat}: A survey of spoken dialogue models",
+      "normalized_title": "wavchat a survey of spoken dialogue models",
+      "source": "bbl",
+      "arxiv_id": "2411.13577",
+      "metadata_title": "WavChat: A Survey of Spoken Dialogue Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "jimenez2023swe",
+      "query_title": "Swe-bench: Can language models resolve real-world github issues?",
+      "normalized_title": "swe bench can language models resolve real world github issues",
+      "source": "bbl",
+      "arxiv_id": "2310.06770",
+      "metadata_title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "joshi2017triviaqa",
+      "query_title": "{T}rivia{QA}: A large scale distantly supervised challenge dataset for reading comprehension",
+      "normalized_title": "triviaqa a large scale distantly supervised challenge dataset for reading comprehension",
+      "source": "bbl",
+      "arxiv_id": "1705.03551",
+      "metadata_title": "TriviaQA: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "ke2023continual",
+      "query_title": "Continual pre-training of language models",
+      "normalized_title": "continual pre training of language models",
+      "source": "bbl",
+      "arxiv_id": "2302.03241",
+      "metadata_title": "Continual Pre-training of Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "keuleers2010wuggy",
+      "query_title": "Wuggy: A multilingual pseudoword generator",
+      "normalized_title": "wuggy a multilingual pseudoword generator",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "kharitonov2022textless",
+      "query_title": "textless-lib: A library for textless spoken language processing",
+      "normalized_title": "textless lib a library for textless spoken language processing",
+      "source": "bbl",
+      "arxiv_id": "2202.07359",
+      "metadata_title": "textless-lib: a Library for Textless Spoken Language Processing",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "pGSLM",
+      "query_title": "Text-free prosody-aware generative spoken language modeling",
+      "normalized_title": "text free prosody aware generative spoken language modeling",
+      "source": "bbl",
+      "arxiv_id": "2109.03264",
+      "metadata_title": "Text-Free Prosody-Aware Generative Spoken Language Modeling",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "kharitonov2023speak",
+      "query_title": "Speak, read and prompt: High-fidelity text-to-speech with minimal supervision",
+      "normalized_title": "speak read and prompt high fidelity text to speech with minimal supervision",
+      "source": "bbl",
+      "arxiv_id": "2302.03540",
+      "metadata_title": "Speak, Read and Prompt: High-Fidelity Text-to-Speech with Minimal Supervision",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "Kirkpatrick2017overcoming",
+      "query_title": "Overcoming catastrophic forgetting in neural networks",
+      "normalized_title": "overcoming catastrophic forgetting in neural networks",
+      "source": "bbl",
+      "arxiv_id": "1612.00796",
+      "metadata_title": "Overcoming catastrophic forgetting in neural networks",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "koizumi2022wavefit",
+      "query_title": "Wavefit: An iterative and non-autoregressive neural vocoder based on fixed-point iteration",
+      "normalized_title": "wavefit an iterative and non autoregressive neural vocoder based on fixed point iteration",
+      "source": "bbl",
+      "arxiv_id": "2210.01029",
+      "metadata_title": "WaveFit: An Iterative and Non-autoregressive Neural Vocoder based on Fixed-Point Iteration",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "kong2020hifi",
+      "query_title": "{HiFi-GAN}: Generative adversarial networks for efficient and high fidelity speech synthesis",
+      "normalized_title": "hifi gan generative adversarial networks for efficient and high fidelity speech synthesis",
+      "source": "bbl",
+      "arxiv_id": "2010.05646",
+      "metadata_title": "HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "kreuk2022textless",
+      "query_title": "Textless speech emotion conversion using discrete \\& decomposed representations",
+      "normalized_title": "textless speech emotion conversion using discrete and decomposed representations",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Textless Speech Emotion Conversion using Discrete & Decomposed Representations",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "kuan2024largeaudiolanguagemodelstruly",
+      "query_title": "Can large audio-language models truly hear? {Tackling} hallucinations with multi-task assessment and stepwise audio reasoning",
+      "normalized_title": "can large audio language models truly hear tackling hallucinations with multi task assessment and stepwise audio reasoning",
+      "source": "bbl",
+      "arxiv_id": "2410.16130",
+      "metadata_title": "Can Large Audio-Language Models Truly Hear? Tackling Hallucinations with Multi-Task Assessment and Stepwise Audio Reasoning",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "kuan2024audiohallucination",
+      "query_title": "Understanding sounds, missing the questions: The challenge of object hallucination in large audio-language models",
+      "normalized_title": "understanding sounds missing the questions the challenge of object hallucination in large audio language models",
+      "source": "bbl",
+      "arxiv_id": "2406.08402",
+      "metadata_title": "Understanding Sounds, Missing the Questions: The Challenge of Object Hallucination in Large Audio-Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "parp",
+      "query_title": "{PARP}: Prune, adjust and re-prune for self-supervised speech recognition",
+      "normalized_title": "parp prune adjust and re prune for self supervised speech recognition",
+      "source": "bbl",
+      "arxiv_id": "2106.05933",
+      "metadata_title": "PARP: Prune, Adjust and Re-Prune for Self-Supervised Speech Recognition",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lai2023instruction",
+      "query_title": "Instruction-following speech recognition",
+      "normalized_title": "instruction following speech recognition",
+      "source": "bbl",
+      "arxiv_id": "2309.09843",
+      "metadata_title": "Instruction-Following Speech Recognition",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "GSLM",
+      "query_title": "On generative spoken language modeling from raw audio",
+      "normalized_title": "on generative spoken language modeling from raw audio",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "On Generative Spoken Language Modeling from Raw Audio",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 5
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 5
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 15,
+      "missing_in_sections": false
+    },
+    {
+      "key": "latif2023sparks",
+      "query_title": "Sparks of large audio models: A survey and outlook",
+      "normalized_title": "sparks of large audio models a survey and outlook",
+      "source": "bbl",
+      "arxiv_id": "2308.12792",
+      "metadata_title": "Sparks of Large Audio Models: A Survey and Outlook",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "the2024large",
+      "query_title": "Large concept models: Language modeling in a sentence representation space",
+      "normalized_title": "large concept models language modeling in a sentence representation space",
+      "source": "bbl",
+      "arxiv_id": "2412.08821",
+      "metadata_title": "Large Concept Models: Language Modeling in a Sentence Representation Space",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "le2024voicebox",
+      "query_title": "Voicebox: Text-guided multilingual universal speech generation at scale",
+      "normalized_title": "voicebox text guided multilingual universal speech generation at scale",
+      "source": "bbl",
+      "arxiv_id": "2306.15687",
+      "metadata_title": "Voicebox: Text-Guided Multilingual Universal Speech Generation at Scale",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lee2022direct",
+      "query_title": "Direct speech-to-speech translation with discrete units",
+      "normalized_title": "direct speech to speech translation with discrete units",
+      "source": "bbl",
+      "arxiv_id": "2107.05604",
+      "metadata_title": "Direct speech-to-speech translation with discrete units",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lee2022textless",
+      "query_title": "Textless speech-to-speech translation on real data",
+      "normalized_title": "textless speech to speech translation on real data",
+      "source": "bbl",
+      "arxiv_id": "2112.08352",
+      "metadata_title": "Textless Speech-to-Speech Translation on Real Data",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lee2022autoregressive",
+      "query_title": "Autoregressive image generation using residual quantization",
+      "normalized_title": "autoregressive image generation using residual quantization",
+      "source": "bbl",
+      "arxiv_id": "2203.01941",
+      "metadata_title": "Autoregressive Image Generation using Residual Quantization",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "q-former",
+      "query_title": "{BLIP-2}: Bootstrapping language-image pre-training with frozen image encoders and large language models",
+      "normalized_title": "blip 2 bootstrapping language image pre training with frozen image encoders and large language models",
+      "source": "bbl",
+      "arxiv_id": "2301.12597",
+      "metadata_title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lin2024advancing",
+      "query_title": "Advancing large language models to capture varied speaking styles and respond properly in spoken conversations",
+      "normalized_title": "advancing large language models to capture varied speaking styles and respond properly in spoken conversations",
+      "source": "bbl",
+      "arxiv_id": "2402.12786",
+      "metadata_title": "Advancing Large Language Models to Capture Varied Speaking Styles and Respond Properly in Spoken Conversations",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lin2024alignslmtextlessspokenlanguage",
+      "query_title": "{Align-SLM}: Textless spoken language models with reinforcement learning from {AI} feedback",
+      "normalized_title": "align slm textless spoken language models with reinforcement learning from ai feedback",
+      "source": "bbl",
+      "arxiv_id": "2411.01834",
+      "metadata_title": "Align-SLM: Textless Spoken Language Models with Reinforcement Learning from AI Feedback",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "biasspeechSLT24",
+      "query_title": "Spoken stereoset: On evaluating social bias toward speaker in speech large language models",
+      "normalized_title": "spoken stereoset on evaluating social bias toward speaker in speech large language models",
+      "source": "bbl",
+      "arxiv_id": "2408.07665",
+      "metadata_title": "Spoken Stereoset: On Evaluating Social Bias Toward Speaker in Speech Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "biascontentSLT24",
+      "query_title": "Listen and speak fairly: A study on semantic gender bias in speech integrated large language models",
+      "normalized_title": "listen and speak fairly a study on semantic gender bias in speech integrated large language models",
+      "source": "bbl",
+      "arxiv_id": "2407.06957",
+      "metadata_title": "Listen and Speak Fairly: A Study on Semantic Gender Bias in Speech Integrated Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "prompt1",
+      "query_title": "Pre-train, prompt, and predict: {A} systematic survey of prompting methods in natural language processing",
+      "normalized_title": "pre train prompt and predict a systematic survey of prompting methods in natural language processing",
+      "source": "bbl",
+      "arxiv_id": "2107.13586",
+      "metadata_title": "Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "lo2019mosnet",
+      "query_title": "{MOSNet}: Deep learning-based objective assessment for voice conversion",
+      "normalized_title": "mosnet deep learning based objective assessment for voice conversion",
+      "source": "bbl",
+      "arxiv_id": "1904.08352",
+      "metadata_title": "MOSNet: Deep Learning based Objective Assessment for Voice Conversion",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "desta",
+      "query_title": "{DeSTA}: Enhancing speech language models through descriptive speech-text alignment",
+      "normalized_title": "desta enhancing speech language models through descriptive speech text alignment",
+      "source": "bbl",
+      "arxiv_id": "2406.18871",
+      "metadata_title": "DeSTA: Enhancing Speech Language Models through Descriptive Speech-Text Alignment",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "desta2",
+      "query_title": "Developing instruction-following speech language model without speech instruction-tuning data",
+      "normalized_title": "developing instruction following speech language model without speech instruction tuning data",
+      "source": "bbl",
+      "arxiv_id": "2409.20007",
+      "metadata_title": "DeSTA2: Developing Instruction-Following Speech Language Model Without Speech Instruction-Tuning Data",
+      "metadata_source": "arxiv",
+      "match_status": "fuzzy_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/appendix.tex#Appendix"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "ma2024languagemodellistenspeaking",
+      "query_title": "Language model can listen while speaking",
+      "normalized_title": "language model can listen while speaking",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Language Model Can Listen While Speaking",
+      "metadata_source": "openalex",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "maimon2023speaking",
+      "query_title": "Speaking style conversion in the waveform domain using discrete self-supervised units",
+      "normalized_title": "speaking style conversion in the waveform domain using discrete self supervised units",
+      "source": "bbl",
+      "arxiv_id": "2212.09730",
+      "metadata_title": "Speaking Style Conversion in the Waveform Domain Using Discrete Self-Supervised Units",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "maimon2024suite",
+      "query_title": "A suite for acoustic language model evaluation",
+      "normalized_title": "a suite for acoustic language model evaluation",
+      "source": "bbl",
+      "arxiv_id": "2409.07437",
+      "metadata_title": "Salmon: A Suite for Acoustic Language Model Evaluation",
+      "metadata_source": "arxiv",
+      "match_status": "fuzzy_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "maimon2025slamming",
+      "query_title": "Slamming: Training a speech language model on one gpu in a day",
+      "normalized_title": "slamming training a speech language model on one gpu in a day",
+      "source": "bbl",
+      "arxiv_id": "2502.15814",
+      "metadata_title": "Slamming: Training a Speech Language Model on One GPU in a Day",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "maiti2024voxtlm",
+      "query_title": "{VoxtLM}: Unified decoder-only models for consolidating speech recognition, synthesis and speech, text continuation tasks",
+      "normalized_title": "voxtlm unified decoder only models for consolidating speech recognition synthesis and speech text continuation tasks",
+      "source": "bbl",
+      "arxiv_id": "2309.07937",
+      "metadata_title": "Voxtlm: unified decoder-only models for consolidating speech recognition/synthesis and speech/text continuation tasks",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "masumura-etal-2018-neural",
+      "query_title": "Neural dialogue context online end-of-turn detection",
+      "normalized_title": "neural dialogue context online end of turn detection",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Neural Dialogue Context Online End-of-Turn Detection",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "MEENA2014903",
+      "query_title": "Data-driven models for timing feedback responses in a map task dialogue system",
+      "normalized_title": "data driven models for timing feedback responses in a map task dialogue system",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "Parrot2024",
+      "query_title": "Parrot: Autoregressive spoken dialogue language modeling with decoder-only transformers",
+      "normalized_title": "parrot autoregressive spoken dialogue language modeling with decoder only transformers",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "messica2024nast",
+      "query_title": "{NAST}: Noise aware speech tokenization for speech language models",
+      "normalized_title": "nast noise aware speech tokenization for speech language models",
+      "source": "bbl",
+      "arxiv_id": "2406.11037",
+      "metadata_title": "NAST: Noise Aware Speech Tokenization for Speech Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "phi4mini",
+      "query_title": "Phi-4-mini technical report: Compact yet powerful multimodal language models via mixture-of-loras",
+      "normalized_title": "phi 4 mini technical report compact yet powerful multimodal language models via mixture of loras",
+      "source": "bbl",
+      "arxiv_id": "2503.01743",
+      "metadata_title": "Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "mohamed2022self",
+      "query_title": "Self-supervised speech representation learning: A review",
+      "normalized_title": "self supervised speech representation learning a review",
+      "source": "bbl",
+      "arxiv_id": "2205.10643",
+      "metadata_title": "Self-Supervised Speech Representation Learning: A Review",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "mostafazadeh2016corpus",
+      "query_title": "A corpus and cloze evaluation for deeper understanding of commonsense stories",
+      "normalized_title": "a corpus and cloze evaluation for deeper understanding of commonsense stories",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "mousavi2024dasb",
+      "query_title": "{DASB}--discrete audio and speech benchmark",
+      "normalized_title": "dasb discrete audio and speech benchmark",
+      "source": "bbl",
+      "arxiv_id": "2406.14294",
+      "metadata_title": "DASB - Discrete Audio and Speech Benchmark",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "mousavi2024should",
+      "query_title": "How should we extract discrete audio tokens from self-supervised models?",
+      "normalized_title": "how should we extract discrete audio tokens from self supervised models",
+      "source": "bbl",
+      "arxiv_id": "2406.10735",
+      "metadata_title": "How Should We Extract Discrete Audio Tokens from Self-Supervised Models?",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "nachmani2023spoken",
+      "query_title": "Spoken question answering and speech continuation using spectrogram-powered {LLM}",
+      "normalized_title": "spoken question answering and speech continuation using spectrogram powered llm",
+      "source": "bbl",
+      "arxiv_id": "2305.15255",
+      "metadata_title": "Spoken Question Answering and Speech Continuation Using Spectrogram-Powered LLM",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 4,
+      "missing_in_sections": false
+    },
+    {
+      "key": "dGSLM",
+      "query_title": "Generative spoken dialogue language modeling",
+      "normalized_title": "generative spoken dialogue language modeling",
+      "source": "bbl",
+      "arxiv_id": "2203.16502",
+      "metadata_title": "Generative Spoken Dialogue Language Modeling",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 3
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/7_duplex.tex#Duplex speech dialogue",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 7,
+      "missing_in_sections": false
+    },
+    {
+      "key": "nguyen2024spirit",
+      "query_title": "{S}pi{R}it-{LM}: Interleaved spoken and written language model",
+      "normalized_title": "spirit lm interleaved spoken and written language model",
+      "source": "bbl",
+      "arxiv_id": "2402.05755",
+      "metadata_title": "Spirit LM: Interleaved Spoken and Written Language Model",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 10,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gpt4osafety",
+      "query_title": "Gpt-4o system card, 2024",
+      "normalized_title": "gpt 4o system card 2024",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "gpt4",
+      "query_title": "{GPT-4} technical report",
+      "normalized_title": "gpt 4 technical report",
+      "source": "bbl",
+      "arxiv_id": "2303.08774",
+      "metadata_title": "GPT-4 Technical Report",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "ouyang2022training",
+      "query_title": "Training language models to follow instructions with human feedback",
+      "normalized_title": "training language models to follow instructions with human feedback",
+      "source": "bbl",
+      "arxiv_id": "2203.02155",
+      "metadata_title": "Training language models to follow instructions with human feedback",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "pan2023cosmic",
+      "query_title": "{COSMIC}: Data efficient instruction-tuning for speech in-context learning",
+      "normalized_title": "cosmic data efficient instruction tuning for speech in context learning",
+      "source": "bbl",
+      "arxiv_id": "2311.02248",
+      "metadata_title": "COSMIC: Data Efficient Instruction-tuning For Speech In-Context Learning",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "park2024long",
+      "query_title": "Long-form speech generation with spoken language models",
+      "normalized_title": "long form speech generation with spoken language models",
+      "source": "bbl",
+      "arxiv_id": "2412.18603",
+      "metadata_title": "Long-Form Speech Generation with Spoken Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "pasad2023comparative",
+      "query_title": "Comparative layer-wise analysis of self-supervised speech models",
+      "normalized_title": "comparative layer wise analysis of self supervised speech models",
+      "source": "bbl",
+      "arxiv_id": "2211.03929",
+      "metadata_title": "Comparative layer-wise analysis of self-supervised speech models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "peng2024surveyspeechlargelanguage",
+      "query_title": "A survey on speech large language models",
+      "normalized_title": "a survey on speech large language models",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "dphubert",
+      "query_title": "{DPHuBERT}: Joint distillation and pruning of self-supervised speech models",
+      "normalized_title": "dphubert joint distillation and pruning of self supervised speech models",
+      "source": "bbl",
+      "arxiv_id": "2305.17651",
+      "metadata_title": "DPHuBERT: Joint Distillation and Pruning of Self-Supervised Speech Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "owsm",
+      "query_title": "Reproducing {W}hisper-style training using an open-source toolkit and publicly available data",
+      "normalized_title": "reproducing whisper style training using an open source toolkit and publicly available data",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Reproducing Whisper-Style Training Using An Open-Source Toolkit And Publicly Available Data",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 2
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "peng2024voicetextblenderaugmentinglargelanguage",
+      "query_title": "{VoiceTextBlender}: Augmenting large language models with speech capabilities via single-stage joint speech-text supervised fine-tuning",
+      "normalized_title": "voicetextblender augmenting large language models with speech capabilities via single stage joint speech text supervised fine tuning",
+      "source": "bbl",
+      "arxiv_id": "2410.17485",
+      "metadata_title": "VoiceTextBlender: Augmenting Large Language Models with Speech Capabilities via Single-Stage Joint Speech-Text Supervised Fine-Tuning",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 5
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 6,
+      "missing_in_sections": false
+    },
+    {
+      "key": "owsm-ctc",
+      "query_title": "{OWSM}-{CTC}: An open encoder-only speech foundation model for speech recognition, translation, and language identification",
+      "normalized_title": "owsm ctc an open encoder only speech foundation model for speech recognition translation and language identification",
+      "source": "bbl",
+      "arxiv_id": "2402.12654",
+      "metadata_title": "OWSM-CTC: An Open Encoder-Only Speech Foundation Model for Speech Recognition, Translation, and Language Identification",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "polyak21_interspeech",
+      "query_title": "Speech resynthesis from discrete disentangled self-supervised representations",
+      "normalized_title": "speech resynthesis from discrete disentangled self supervised representations",
+      "source": "bbl",
+      "arxiv_id": "2104.00355",
+      "metadata_title": "Speech Resynthesis from Discrete Disentangled Self-Supervised Representations",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 3
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "puvvada2024less",
+      "query_title": "Less is more: Accurate speech recognition \\& translation without web-scale data",
+      "normalized_title": "less is more accurate speech recognition and translation without web scale data",
+      "source": "bbl",
+      "arxiv_id": "2406.19674",
+      "metadata_title": "Less is More: Accurate Speech Recognition & Translation without Web-Scale Data",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "radford2019language",
+      "query_title": "Language models are unsupervised multitask learners, 2019",
+      "normalized_title": "language models are unsupervised multitask learners 2019",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "whisper",
+      "query_title": "Robust speech recognition via large-scale weak supervision",
+      "normalized_title": "robust speech recognition via large scale weak supervision",
+      "source": "bbl",
+      "arxiv_id": "2212.04356",
+      "metadata_title": "Robust Speech Recognition via Large-Scale Weak Supervision",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 3
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "rafailov2023direct",
+      "query_title": "Direct preference optimization: Your language model is secretly a reward model",
+      "normalized_title": "direct preference optimization your language model is secretly a reward model",
+      "source": "bbl",
+      "arxiv_id": "2305.18290",
+      "metadata_title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "turntakeingIS18",
+      "query_title": "Investigating speech features for continuous turn-taking prediction using {LSTM}s",
+      "normalized_title": "investigating speech features for continuous turn taking prediction using lstms",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Investigating Speech Features for Continuous Turn-Taking Prediction Using LSTMs",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "sakshi2024mmau",
+      "query_title": "{MMAU}: A massive multi-task audio understanding and reasoning benchmark",
+      "normalized_title": "mmau a massive multi task audio understanding and reasoning benchmark",
+      "source": "bbl",
+      "arxiv_id": "2410.19168",
+      "metadata_title": "MMAU: A Massive Multi-Task Audio Understanding and Reasoning Benchmark",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "schatz2013evaluating",
+      "query_title": "Evaluating speech features with the minimal-pair {ABX} task: Analysis of the classical {MFC}/{PLP} pipeline",
+      "normalized_title": "evaluating speech features with the minimal pair abx task analysis of the classical mfc plp pipeline",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Evaluating speech features with the minimal-pair ABX task: analysis of the classical MFC/PLP pipeline",
+      "metadata_source": "openalex",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "aBPE",
+      "query_title": "Acoustic {BPE} for speech generation with discrete tokens",
+      "normalized_title": "acoustic bpe for speech generation with discrete tokens",
+      "source": "bbl",
+      "arxiv_id": "2310.14580",
+      "metadata_title": "Acoustic BPE for Speech Generation with Discrete Tokens",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "shen2018natural",
+      "query_title": "Natural tts synthesis by conditioning wavenet on mel spectrogram predictions",
+      "normalized_title": "natural tts synthesis by conditioning wavenet on mel spectrogram predictions",
+      "source": "bbl",
+      "arxiv_id": "1712.05884",
+      "metadata_title": "Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "shi2024espnet",
+      "query_title": "{ESPnet-Codec}: Comprehensive training and evaluation of neural codecs for audio, music, and speech",
+      "normalized_title": "espnet codec comprehensive training and evaluation of neural codecs for audio music and speech",
+      "source": "bbl",
+      "arxiv_id": "2409.15897",
+      "metadata_title": "ESPnet-Codec: Comprehensive Training and Evaluation of Neural Codecs for Audio, Music, and Speech",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "shon2022slue",
+      "query_title": "{SLUE}: New benchmark tasks for spoken language understanding evaluation on natural speech",
+      "normalized_title": "slue new benchmark tasks for spoken language understanding evaluation on natural speech",
+      "source": "bbl",
+      "arxiv_id": "2111.10367",
+      "metadata_title": "SLUE: New Benchmark Tasks for Spoken Language Understanding Evaluation on Natural Speech",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/appendix.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "shon2024discreteslu",
+      "query_title": "Discrete{SLU}: A large language model with self-supervised discrete speech units for spoken language understanding",
+      "normalized_title": "discreteslu a large language model with self supervised discrete speech units for spoken language understanding",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "DiscreteSLU: A Large Language Model with Self-Supervised Discrete Speech Units for Spoken Language Understanding",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "shu2023llasm",
+      "query_title": "{LLaSM}: Large language and speech model",
+      "normalized_title": "llasm large language and speech model",
+      "source": "bbl",
+      "arxiv_id": "2308.15930",
+      "metadata_title": "LLaSM: Large Language and Speech Model",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "sicherman2023analysing",
+      "query_title": "Analysing discrete self supervised speech representation for spoken language modeling",
+      "normalized_title": "analysing discrete self supervised speech representation for spoken language modeling",
+      "source": "bbl",
+      "arxiv_id": "2301.00591",
+      "metadata_title": "Analysing Discrete Self Supervised Speech Representation for Spoken Language Modeling",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "siuzdak2024snac",
+      "query_title": "Snac: Multi-scale neural audio codec",
+      "normalized_title": "snac multi scale neural audio codec",
+      "source": "bbl",
+      "arxiv_id": "2410.14411",
+      "metadata_title": "SNAC: Multi-Scale Neural Audio Codec",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "skantze-2017-towards",
+      "query_title": "Towards a general, continuous model of turn-taking in spoken dialogue using {LSTM} recurrent neural networks",
+      "normalized_title": "towards a general continuous model of turn taking in spoken dialogue using lstm recurrent neural networks",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Towards a General, Continuous Model of Turn-taking in Spoken Dialogue using LSTM Recurrent Neural Networks",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "bigbench",
+      "query_title": "Beyond the imitation game: Quantifying and extrapolating the capabilities of language models",
+      "normalized_title": "beyond the imitation game quantifying and extrapolating the capabilities of language models",
+      "source": "bbl",
+      "arxiv_id": "2206.04615",
+      "metadata_title": "Beyond the Imitation Game: Quantifying and extrapolating the capabilities of language models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "tang2023salmonn",
+      "query_title": "{SALMONN}: Towards generic hearing abilities for large language models",
+      "normalized_title": "salmonn towards generic hearing abilities for large language models",
+      "source": "bbl",
+      "arxiv_id": "2310.13289",
+      "metadata_title": "SALMONN: Towards Generic Hearing Abilities for Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 11
+        },
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 16,
+      "missing_in_sections": false
+    },
+    {
+      "key": "tian2025espnet",
+      "query_title": "Espnet-speechlm: An open speech language model toolkit",
+      "normalized_title": "espnet speechlm an open speech language model toolkit",
+      "source": "bbl",
+      "arxiv_id": "2502.15218",
+      "metadata_title": "ESPnet-SpeechLM: An Open Speech Language Model Toolkit",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "touvron2023llama",
+      "query_title": "{LLaMA}: Open and efficient foundation language models",
+      "normalized_title": "llama open and efficient foundation language models",
+      "source": "bbl",
+      "arxiv_id": "2302.13971",
+      "metadata_title": "LLaMA: Open and Efficient Foundation Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "touvron2023llama2",
+      "query_title": "{LLaMA} 2: Open foundation and fine-tuned chat models",
+      "normalized_title": "llama 2 open foundation and fine tuned chat models",
+      "source": "bbl",
+      "arxiv_id": "2307.09288",
+      "metadata_title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "tsunoo24_interspeech",
+      "query_title": "Decoder-only architecture for streaming end-to-end speech recognition",
+      "normalized_title": "decoder only architecture for streaming end to end speech recognition",
+      "source": "bbl",
+      "arxiv_id": "2406.16107",
+      "metadata_title": "Decoder-only Architecture for Streaming End-to-end Speech Recognition",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "turetzky2024last",
+      "query_title": "{LAST}: Language model aware speech tokenization",
+      "normalized_title": "last language model aware speech tokenization",
+      "source": "bbl",
+      "arxiv_id": "2409.03701",
+      "metadata_title": "LAST: Language Model Aware Speech Tokenization",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "van2017neural",
+      "query_title": "Neural discrete representation learning",
+      "normalized_title": "neural discrete representation learning",
+      "source": "bbl",
+      "arxiv_id": "1711.00937",
+      "metadata_title": "Neural Discrete Representation Learning",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "veluri2024turnbasedinterfacessynchronousllms",
+      "query_title": "Beyond turn-based interfaces: Synchronous {LLM}s as full-duplex dialogue agents",
+      "normalized_title": "beyond turn based interfaces synchronous llms as full duplex dialogue agents",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Beyond Turn-Based Interfaces: Synchronous LLMs as Full-Duplex Dialogue Agents",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wang2024audiobench",
+      "query_title": "Audio{B}ench: A universal benchmark for audio large language models",
+      "normalized_title": "audiobench a universal benchmark for audio large language models",
+      "source": "bbl",
+      "arxiv_id": "2406.16020",
+      "metadata_title": "AudioBench: A Universal Benchmark for Audio Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "blsp",
+      "query_title": "{BLSP}: Bootstrapping language-speech pre-training via behavior alignment of continuation writing",
+      "normalized_title": "blsp bootstrapping language speech pre training via behavior alignment of continuation writing",
+      "source": "bbl",
+      "arxiv_id": "2309.00916",
+      "metadata_title": "BLSP: Bootstrapping Language-Speech Pre-training via Behavior Alignment of Continuation Writing",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wang2023slm",
+      "query_title": "{SLM}: Bridge the thin gap between speech and text foundation models",
+      "normalized_title": "slm bridge the thin gap between speech and text foundation models",
+      "source": "bbl",
+      "arxiv_id": "2310.00230",
+      "metadata_title": "SLM: Bridge the thin gap between speech and text foundation models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 2
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 2
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "sections/appendix.tex#Appendix",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 7,
+      "missing_in_sections": false
+    },
+    {
+      "key": "duplextimeNuerIPS24",
+      "query_title": "A full-duplex speech dialogue scheme based on large language models",
+      "normalized_title": "a full duplex speech dialogue scheme based on large language models",
+      "source": "bbl",
+      "arxiv_id": "2405.19487",
+      "metadata_title": "A Full-duplex Speech Dialogue Scheme Based On Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wang2024freezeomnismartlowlatency",
+      "query_title": "{Freeze-Omni}: A smart and low latency speech-to-speech dialogue model with frozen {LLM}",
+      "normalized_title": "freeze omni a smart and low latency speech to speech dialogue model with frozen llm",
+      "source": "bbl",
+      "arxiv_id": "2411.00774",
+      "metadata_title": "Freeze-Omni: A Smart and Low Latency Speech-to-speech Dialogue Model with Frozen LLM",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "warstadt2020blimp",
+      "query_title": "{BL}i{MP}: The benchmark of linguistic minimal pairs for {E}nglish",
+      "normalized_title": "blimp the benchmark of linguistic minimal pairs for english",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "BLiMP: The Benchmark of Linguistic Minimal Pairs for English",
+      "metadata_source": "crossref",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "FLAN",
+      "query_title": "Finetuned language models are zero-shot learners",
+      "normalized_title": "finetuned language models are zero shot learners",
+      "source": "bbl",
+      "arxiv_id": "2109.01652",
+      "metadata_title": "Finetuned Language Models Are Zero-Shot Learners",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "CoT",
+      "query_title": "Chain-of-thought prompting elicits reasoning in large language models",
+      "normalized_title": "chain of thought prompting elicits reasoning in large language models",
+      "source": "bbl",
+      "arxiv_id": "2201.11903",
+      "metadata_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "WhisperSpeech",
+      "query_title": "{WhisperSpeech}: An open source text-to-speech system built by inverting {Whisper}, 2024",
+      "normalized_title": "whisperspeech an open source text to speech system built by inverting whisper 2024",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wav2seq",
+      "query_title": "{Wav2Seq}: Pre-training speech-to-text encoder-decoder models using pseudo languages",
+      "normalized_title": "wav2seq pre training speech to text encoder decoder models using pseudo languages",
+      "source": "bbl",
+      "arxiv_id": "2205.01086",
+      "metadata_title": "Wav2Seq: Pre-training Speech-to-Text Encoder-Decoder Models Using Pseudo Languages",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wu2024towards",
+      "query_title": "Towards audio language modeling-an overview",
+      "normalized_title": "towards audio language modeling an overview",
+      "source": "bbl",
+      "arxiv_id": "2402.13236",
+      "metadata_title": "Towards audio language modeling -- an overview",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wu2024codec",
+      "query_title": "{Codec-Superb} @ {SLT} 2024: A lightweight benchmark for neural audio codec models",
+      "normalized_title": "codec superb at slt 2024 a lightweight benchmark for neural audio codec models",
+      "source": "bbl",
+      "arxiv_id": "2409.14085",
+      "metadata_title": "Codec-SUPERB @ SLT 2024: A lightweight benchmark for neural audio codec models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wu-etal-2024-codec",
+      "query_title": "Codec-{SUPERB}: An in-depth analysis of sound codec models",
+      "normalized_title": "codec superb an in depth analysis of sound codec models",
+      "source": "bbl",
+      "arxiv_id": "2402.13071",
+      "metadata_title": "Codec-SUPERB: An In-Depth Analysis of Sound Codec Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wu2024ts3",
+      "query_title": "{TS3-Codec}: Transformer-based simple streaming single codec",
+      "normalized_title": "ts3 codec transformer based simple streaming single codec",
+      "source": "bbl",
+      "arxiv_id": "2411.18803",
+      "metadata_title": "TS3-Codec: Transformer-Based Simple Streaming Single Codec",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wu2024codecfake",
+      "query_title": "{CodecFake}: Enhancing anti-spoofing models against deepfake audios from codec-based speech synthesis systems",
+      "normalized_title": "codecfake enhancing anti spoofing models against deepfake audios from codec based speech synthesis systems",
+      "source": "bbl",
+      "arxiv_id": "2406.07237",
+      "metadata_title": "CodecFake: Enhancing Anti-Spoofing Models Against Deepfake Audios from Codec-Based Speech Synthesis Systems",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "wu2023decoder",
+      "query_title": "On decoder-only architecture for speech-to-text and large language model integration",
+      "normalized_title": "on decoder only architecture for speech to text and large language model integration",
+      "source": "bbl",
+      "arxiv_id": "2307.03917",
+      "metadata_title": "On decoder-only architecture for speech-to-text and large language model integration",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "xie2024mini",
+      "query_title": "{Mini-Omni}: Language models can hear, talk while thinking in streaming",
+      "normalized_title": "mini omni language models can hear talk while thinking in streaming",
+      "source": "bbl",
+      "arxiv_id": "2408.16725",
+      "metadata_title": "Mini-Omni: Language Models Can Hear, Talk While Thinking in Streaming",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "xie2024mini2",
+      "query_title": "{Mini-Omni2}: Towards open-source {GPT}-4o model with vision, speech and duplex",
+      "normalized_title": "mini omni2 towards open source gpt 4o model with vision speech and duplex",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "Mini-Omni2: Towards Open-source GPT-4o with Vision, Speech and Duplex Capabilities",
+      "metadata_source": "semantic_scholar",
+      "match_status": "fuzzy_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "xin2024bigcodec",
+      "query_title": "{BigCodec}: Pushing the limits of low-bitrate neural speech codec",
+      "normalized_title": "bigcodec pushing the limits of low bitrate neural speech codec",
+      "source": "bbl",
+      "arxiv_id": "2409.05377",
+      "metadata_title": "BigCodec: Pushing the Limits of Low-Bitrate Neural Speech Codec",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "xu2024enablingrealtimeconversationsminimal",
+      "query_title": "Enabling real-time conversations with minimal training costs",
+      "normalized_title": "enabling real time conversations with minimal training costs",
+      "source": "bbl",
+      "arxiv_id": "2409.11727",
+      "metadata_title": "Enabling Real-Time Conversations with Minimal Training Costs",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "xue2024chat",
+      "query_title": "E-chat: Emotion-sensitive spoken dialogue system with large language models",
+      "normalized_title": "e chat emotion sensitive spoken dialogue system with large language models",
+      "source": "bbl",
+      "arxiv_id": "2401.00475",
+      "metadata_title": "E-chat: Emotion-sensitive Spoken Dialogue System with Large Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "yang2023uniaudio",
+      "query_title": "{U}ni{A}udio: Towards universal audio generation with large language models",
+      "normalized_title": "uniaudio towards universal audio generation with large language models",
+      "source": "bbl",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "airbench",
+      "query_title": "{AIR-Bench}: Benchmarking large audio-language models via generative comprehension",
+      "normalized_title": "air bench benchmarking large audio language models via generative comprehension",
+      "source": "bbl",
+      "arxiv_id": "2402.07729",
+      "metadata_title": "AIR-Bench: Benchmarking Large Audio-Language Models via Generative Comprehension",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        },
+        {
+          "section": "sections/appendix.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction",
+        "sections/5_training.tex#Training Strategies",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+        "sections/9_future.tex#Challenges and future work",
+        "sections/appendix.tex#Appendix"
+      ],
+      "total_citations": 5,
+      "missing_in_sections": false
+    },
+    {
+      "key": "yu2023megabyte",
+      "query_title": "{MEGABYTE}: Predicting million-byte sequences with multiscale transformers",
+      "normalized_title": "megabyte predicting million byte sequences with multiscale transformers",
+      "source": "bbl",
+      "arxiv_id": "2305.07185",
+      "metadata_title": "MEGABYTE: Predicting Million-byte Sequences with Multiscale Transformers",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "yu2024connecting",
+      "query_title": "Connecting speech encoder and large language model for {ASR}",
+      "normalized_title": "connecting speech encoder and large language model for asr",
+      "source": "bbl",
+      "arxiv_id": "2309.13963",
+      "metadata_title": "Connecting Speech Encoder and Large Language Model for ASR",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "Flow-Omni",
+      "query_title": "Continuous speech tokens makes llms robust multi-modality learners",
+      "normalized_title": "continuous speech tokens makes llms robust multi modality learners",
+      "source": "bbl",
+      "arxiv_id": "2412.04917",
+      "metadata_title": "Continuous Speech Tokens Makes LLMs Robust Multi-Modality Learners",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "soundstream",
+      "query_title": "{SoundStream}: An end-to-end neural audio codec",
+      "normalized_title": "soundstream an end to end neural audio codec",
+      "source": "bbl",
+      "arxiv_id": "2107.03312",
+      "metadata_title": "SoundStream: An End-to-End Neural Audio Codec",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 3
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zellers2019hellaswag",
+      "query_title": "{H}ella{S}wag: Can a machine really finish your sentence?",
+      "normalized_title": "hellaswag can a machine really finish your sentence",
+      "source": "bbl",
+      "arxiv_id": "1905.07830",
+      "metadata_title": "HellaSwag: Can a Machine Really Finish Your Sentence?",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zeng2024glm",
+      "query_title": "{GLM-4-Voice}: Towards intelligent and human-like end-to-end spoken chatbot",
+      "normalized_title": "glm 4 voice towards intelligent and human like end to end spoken chatbot",
+      "source": "bbl",
+      "arxiv_id": "2412.02612",
+      "metadata_title": "GLM-4-Voice: Towards Intelligent and Human-Like End-to-End Spoken Chatbot",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zeng2024scaling",
+      "query_title": "Scaling speech-text pre-training with synthetic interleaved data",
+      "normalized_title": "scaling speech text pre training with synthetic interleaved data",
+      "source": "bbl",
+      "arxiv_id": "2411.17607",
+      "metadata_title": "Scaling Speech-Text Pre-training with Synthetic Interleaved Data",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "sections/9_future.tex#Challenges and future work",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "sections/9_future.tex#Challenges and future work"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "anygpt",
+      "query_title": "{A}ny{GPT}: Unified multimodal {LLM} with discrete sequence modeling",
+      "normalized_title": "anygpt unified multimodal llm with discrete sequence modeling",
+      "source": "bbl",
+      "arxiv_id": "2402.12226",
+      "metadata_title": "AnyGPT: Unified Multimodal LLM with Discrete Sequence Modeling",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zhang2023speechgpt",
+      "query_title": "{SpeechGPT}: Empowering large language models with intrinsic cross-modal conversational abilities",
+      "normalized_title": "speechgpt empowering large language models with intrinsic cross modal conversational abilities",
+      "source": "bbl",
+      "arxiv_id": "2305.11000",
+      "metadata_title": "SpeechGPT: Empowering Large Language Models with Intrinsic Cross-Modal Conversational Abilities",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "sections/5_training.tex#Training Strategies",
+          "count": 1
+        },
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/5_training.tex#Training Strategies",
+        "sections/6_categorization_new.tex#Survey of representative \\slms",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 4,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zhang2024mm",
+      "query_title": "{MM}-{LLM}s: Recent advances in multimodal large language models",
+      "normalized_title": "mm llms recent advances in multimodal large language models",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "MM-LLMs: Recent Advances in MultiModal Large Language Models",
+      "metadata_source": "semantic_scholar",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/1_intro.tex#Introduction",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/1_intro.tex#Introduction"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zhang2025omniflattenendtoendgptmodel",
+      "query_title": "Omni{F}latten: An end-to-end {GPT} model for seamless voice conversation",
+      "normalized_title": "omniflatten an end to end gpt model for seamless voice conversation",
+      "source": "bbl",
+      "arxiv_id": "2410.17799",
+      "metadata_title": "OmniFlatten: An End-to-end GPT Model for Seamless Voice Conversation",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zhang2022opt",
+      "query_title": "{OPT}: Open pre-trained transformer language models",
+      "normalized_title": "opt open pre trained transformer language models",
+      "source": "bbl",
+      "arxiv_id": "2205.01068",
+      "metadata_title": "OPT: Open Pre-trained Transformer Language Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "speechtokenizer",
+      "query_title": "{SpeechTokenizer}: Unified speech tokenizer for speech language models",
+      "normalized_title": "speechtokenizer unified speech tokenizer for speech language models",
+      "source": "bbl",
+      "arxiv_id": null,
+      "metadata_title": "SpeechTokenizer: Unified Speech Tokenizer for Speech Large Language Models",
+      "metadata_source": "semantic_scholar",
+      "match_status": "fuzzy_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 2
+        },
+        {
+          "section": "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "sections/8_benchmarking.tex#Benchmarking and Evaluating \\slms"
+      ],
+      "total_citations": 3,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zhang2024turnbasedgameenablingrealtime",
+      "query_title": "Beyond the turn-based game: Enabling real-time conversations with duplex models",
+      "normalized_title": "beyond the turn based game enabling real time conversations with duplex models",
+      "source": "bbl",
+      "arxiv_id": "2406.15718",
+      "metadata_title": "Beyond the Turn-Based Game: Enabling Real-Time Conversations with Duplex Models",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/7_duplex.tex#Duplex speech dialogue",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/7_duplex.tex#Duplex speech dialogue"
+      ],
+      "total_citations": 1,
+      "missing_in_sections": false
+    },
+    {
+      "key": "usm",
+      "query_title": "Google {USM}: Scaling automatic speech recognition beyond 100 languages",
+      "normalized_title": "google usm scaling automatic speech recognition beyond 100 languages",
+      "source": "bbl",
+      "arxiv_id": "2303.01037",
+      "metadata_title": "Google USM: Scaling Automatic Speech Recognition Beyond 100 Languages",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/3and4_architecture.tex#SLM components",
+          "count": 1
+        },
+        {
+          "section": "tables/SLMs.tex#Appendix",
+          "count": 1
+        }
+      ],
+      "sections": [
+        "sections/3and4_architecture.tex#SLM components",
+        "tables/SLMs.tex#Appendix"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    },
+    {
+      "key": "zheng2023judging",
+      "query_title": "Judging {LLM}-as-a-judge with {MT}-bench and {Chatbot Arena}",
+      "normalized_title": "judging llm as a judge with mt bench and chatbot arena",
+      "source": "bbl",
+      "arxiv_id": "2306.05685",
+      "metadata_title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+      "metadata_source": "arxiv",
+      "match_status": "exact_title",
+      "section_hits": [
+        {
+          "section": "sections/6_categorization_new.tex#Survey of representative \\slms",
+          "count": 2
+        }
+      ],
+      "sections": [
+        "sections/6_categorization_new.tex#Survey of representative \\slms"
+      ],
+      "total_citations": 2,
+      "missing_in_sections": false
+    }
+  ],
+  "missing_keys": [],
+  "unmatched_citations": [],
+  "missing_includes": []
+}

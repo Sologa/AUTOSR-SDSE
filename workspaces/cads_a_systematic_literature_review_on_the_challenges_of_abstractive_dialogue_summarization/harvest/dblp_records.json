@@ -1,0 +1,530 @@
+[
+  {
+    "key": "conf/icassp/LeiYZHZX21",
+    "title": "Hierarchical Speaker-Aware Sequence-to-Sequence Model for Dialogue Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/conf/icassp/LeiYZHZX21"
+  },
+  {
+    "key": "conf/emnlp/ChenY20",
+    "title": "Multi-View Sequence-to-Sequence Models with Conversational Structure for Abstractive Dialogue Summarization.",
+    "year": "2020",
+    "url": "https://dblp.org/rec/conf/emnlp/ChenY20"
+  },
+  {
+    "key": "journals/corr/abs-2010-01672",
+    "title": "Multi-View Sequence-to-Sequence Models with Conversational Structure for Abstractive Dialogue Summarization.",
+    "year": "2020",
+    "url": "https://dblp.org/rec/journals/corr/abs-2010-01672"
+  },
+  {
+    "key": "conf/coling/HigashinakaMNDMTK10",
+    "title": "Learning to Model Domain-Specific Utterance Sequences for Extractive Summarization of Contact Center Dialogues.",
+    "year": "2010",
+    "url": "https://dblp.org/rec/conf/coling/HigashinakaMNDMTK10"
+  },
+  {
+    "key": "conf/cncl/ShenHDWZ25",
+    "title": "TAG: Dialogue Summarization Based on Topic Segmentation and Graph Structures.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/cncl/ShenHDWZ25"
+  },
+  {
+    "key": "conf/naacl/ArtemievPGBVMRGS24",
+    "title": "Leveraging Summarization for Unsupervised Dialogue Topic Segmentation.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/naacl/ArtemievPGBVMRGS24"
+  },
+  {
+    "key": "conf/eacl/HuangSMXNDWM23",
+    "title": "SWING: Balancing Coverage and Faithfulness for Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/eacl/HuangSMXNDWM23"
+  },
+  {
+    "key": "journals/corr/abs-2301-10483",
+    "title": "SWING: Balancing Coverage and Faithfulness for Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2301-10483"
+  },
+  {
+    "key": "conf/emnlp/WangZZC022",
+    "title": "Analyzing and Evaluating Faithfulness in Dialogue Summarization.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/emnlp/WangZZC022"
+  },
+  {
+    "key": "journals/corr/abs-2210-11777",
+    "title": "Analyzing and Evaluating Faithfulness in Dialogue Summarization.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/journals/corr/abs-2210-11777"
+  },
+  {
+    "key": "journals/corr/abs-2211-08464",
+    "title": "ED-FAITH: Evaluating Dialogue Summarization on Faithfulness.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/journals/corr/abs-2211-08464"
+  },
+  {
+    "key": "conf/naacl/TangSWBVYS0SSSZ24",
+    "title": "TofuEval: Evaluating Hallucinations of LLMs on Topic-Focused Dialogue Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/naacl/TangSWBVYS0SSSZ24"
+  },
+  {
+    "key": "journals/corr/abs-2402-13249",
+    "title": "TofuEval: Evaluating Hallucinations of LLMs on Topic-Focused Dialogue Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2402-13249"
+  },
+  {
+    "key": "journals/corr/abs-2407-15237",
+    "title": "Two eyes, Two views, and finally, One summary! Towards Multi-modal Multi-tasking Knowledge-Infused Medical Dialogue Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2407-15237"
+  },
+  {
+    "key": "conf/coling/LiuZZY24",
+    "title": "MDS: A Fine-Grained Dataset for Multi-Modal Dialogue Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/coling/LiuZZY24"
+  },
+  {
+    "key": "conf/acl/ShinYMMP22",
+    "title": "Dialogue Summaries as Dialogue States (DS2), Template-Guided Summarization for Few-shot Dialogue State Tracking.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/acl/ShinYMMP22"
+  },
+  {
+    "key": "journals/corr/abs-2203-01552",
+    "title": "Dialogue Summaries as Dialogue States (DS2), Template-Guided Summarization for Few-shot Dialogue State Tracking.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/journals/corr/abs-2203-01552"
+  },
+  {
+    "key": "conf/naacl/LuHKPCXKZWTV25",
+    "title": "Mutual Reinforcement of LLM Dialogue Synthesis and Summarization Capabilities for Few-Shot Dialogue Summarization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/naacl/LuHKPCXKZWTV25"
+  },
+  {
+    "key": "journals/corr/abs-2502-17328",
+    "title": "Mutual Reinforcement of LLM Dialogue Synthesis and Summarization Capabilities for Few-Shot Dialogue Summarization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2502-17328"
+  },
+  {
+    "key": "conf/bic/Li22",
+    "title": "URAMDS: Utterances Relation Aware Model for Dialogue Summarization: A Combined Model for Dialogue Summarization.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/bic/Li22"
+  },
+  {
+    "key": "conf/aaai/BiniciKSLDNGC025",
+    "title": "MEDSAGE: Enhancing Robustness of Medical Dialogue Summarization to ASR Errors with LLM-generated Synthetic Dialogues.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/aaai/BiniciKSLDNGC025"
+  },
+  {
+    "key": "phd/hal/Zhou24a",
+    "title": "Affect-aware Natural Language Generation : application to dialogue and cognitive remediation session summarization in low-resource settings. (Approches sensibles à l&apos;affect pour le résumé automatique de textes : application au dialogue et à la remédiation cognitive dans un contexte à faibles ressources).",
+    "year": "2024",
+    "url": "https://dblp.org/rec/phd/hal/Zhou24a"
+  },
+  {
+    "key": "journals/ipm/WangZJJLHL24",
+    "title": "Dialogue summarization enhanced response generation for multi-domain task-oriented dialogue systems.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/ipm/WangZJJLHL24"
+  },
+  {
+    "key": "conf/icann/OkadomeYFM24",
+    "title": "Prompt Design Using Past Dialogue Summarization for LLMs to Generate the Current Appropriate Dialogue.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/icann/OkadomeYFM24"
+  },
+  {
+    "key": "journals/corr/abs-2408-14418",
+    "title": "MEDSAGE: Enhancing Robustness of Medical Dialogue Summarization to ASR Errors with LLM-generated Synthetic Dialogues.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2408-14418"
+  },
+  {
+    "key": "journals/ipm/SunYLCL24",
+    "title": "Dialogue acts enhanced extract-abstract framework for meeting summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/ipm/SunYLCL24"
+  },
+  {
+    "key": "journals/sigir/GhosalSNB21",
+    "title": "Report on the SIGDial 2021 special session on summarization of dialogues and multi-party meetings (SummDial).",
+    "year": "2021",
+    "url": "https://dblp.org/rec/journals/sigir/GhosalSNB21"
+  },
+  {
+    "key": "conf/ijcai/FengF0G21",
+    "title": "Dialogue Discourse-Aware Graph Model and Data Augmentation for Meeting Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/conf/ijcai/FengF0G21"
+  },
+  {
+    "key": "journals/corr/abs-2012-03502",
+    "title": "Dialogue Discourse-Aware Graph Convolutional Networks for Abstractive Meeting Summarization.",
+    "year": "2020",
+    "url": "https://dblp.org/rec/journals/corr/abs-2012-03502"
+  },
+  {
+    "key": "journals/corr/abs-2310-16810",
+    "title": "Can GPT models Follow Human Summarization Guidelines? Evaluating ChatGPT and GPT-4 for Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2310-16810"
+  },
+  {
+    "key": "journals/csimq/KosilovaB24",
+    "title": "Survey on Organizational Chat Conversation Analysis: Exploring Dialogue Summarization from a Knowledge Discovery Perspective.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/csimq/KosilovaB24"
+  },
+  {
+    "key": "journals/midm/LiuJW24",
+    "title": "Exploring the potential of ChatGPT in medical dialogue summarization: a study on consistency with human preferences.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/midm/LiuJW24"
+  },
+  {
+    "key": "conf/acl-clinicalnlp/OzlerB23",
+    "title": "clulab at MEDIQA-Chat 2023: Summarization and classification of medical dialogues.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/acl-clinicalnlp/OzlerB23"
+  },
+  {
+    "key": "conf/acl-clinicalnlp/SuriSS23",
+    "title": "HealthMavericks@MEDIQA-Chat 2023: Benchmarking different Transformer based models for Clinical Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/acl-clinicalnlp/SuriSS23"
+  },
+  {
+    "key": "conf/acl-clinicalnlp/ZhangMT23",
+    "title": "DS4DH at MEDIQA-Chat 2023: Leveraging SVM and GPT-3 Prompt Engineering for Medical Dialogue Classification and Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/acl-clinicalnlp/ZhangMT23"
+  },
+  {
+    "key": "conf/emnlp/ZhouLCLZZ023",
+    "title": "Multi-Stage Pre-training Enhanced by ChatGPT for Multi-Scenario Multi-Domain Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/emnlp/ZhouLCLZZ023"
+  },
+  {
+    "key": "journals/corr/abs-2310-10285",
+    "title": "Multi-Stage Pre-training Enhanced by ChatGPT for Multi-Scenario Multi-Domain Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2310-10285"
+  },
+  {
+    "key": "conf/emnlp/Zhao0W022",
+    "title": "JDDC 2.1: A Multimodal Chinese Dialogue Dataset with Joint Tasks of Query Rewriting, Response Generation, Discourse Parsing, and Summarization.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/emnlp/Zhao0W022"
+  },
+  {
+    "key": "conf/mlslp/NishikawaMM12",
+    "title": "Domain adaptation with augmented space method for multi-domain contact center dialogue summarization.",
+    "year": "2012",
+    "url": "https://dblp.org/rec/conf/mlslp/NishikawaMM12"
+  },
+  {
+    "key": "conf/www/0003XC0023",
+    "title": "Learning Disentangled Representation via Domain Adaptation for Dialogue Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/www/0003XC0023"
+  },
+  {
+    "key": "conf/sigir/ZhaoZZHGJWX22",
+    "title": "ADPL: Adversarial Prompt-based Domain Adaptation for Dialogue Summarization with Knowledge Disentanglement.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/sigir/ZhaoZZHGJWX22"
+  },
+  {
+    "key": "conf/acl/0001NMWZDARZ22",
+    "title": "SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/acl/0001NMWZDARZ22"
+  },
+  {
+    "key": "journals/corr/abs-2110-10150",
+    "title": "SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/journals/corr/abs-2110-10150"
+  },
+  {
+    "key": "journals/coling/Zechner02",
+    "title": "Automatic Summarization of Open-Domain Multiparty Dialogues in Diverse Genres.",
+    "year": "2002",
+    "url": "https://dblp.org/rec/journals/coling/Zechner02"
+  },
+  {
+    "key": "journals/kbs/ZhaoWJJLLH23",
+    "title": "Mutually improved response generation and dialogue summarization for multi-domain task-oriented dialogue systems.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/kbs/ZhaoWJJLLH23"
+  },
+  {
+    "key": "conf/icassp/HeHXPXL25",
+    "title": "Multi-level Encoder with Global Topic for Task-oriented Dialogue Summarization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/icassp/HeHXPXL25"
+  },
+  {
+    "key": "journals/corr/abs-2509-26302",
+    "title": "QUARTZ : QA-based Unsupervised Abstractive Refinement for Task-oriented Dialogue Summarization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2509-26302"
+  },
+  {
+    "key": "journals/corr/abs-2110-12680",
+    "title": "TODSum: Task-Oriented Dialogue Summarization with State Tracking.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/journals/corr/abs-2110-12680"
+  },
+  {
+    "key": "conf/adma/ChenX24",
+    "title": "ConMix: Contrastive Learning with Mixup Augmentation for Dialogue Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/adma/ChenX24"
+  },
+  {
+    "key": "conf/coling/GuanFWHZC24",
+    "title": "Improving Role-Oriented Dialogue Summarization with Interaction-Aware Contrastive Learning.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/coling/GuanFWHZC24"
+  },
+  {
+    "key": "conf/icassp/FengSXWHS24",
+    "title": "Fact-Aware Summarization with Contrastive Learning for Few-Shot Dialogue State Tracking.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/icassp/FengSXWHS24"
+  },
+  {
+    "key": "conf/coling/GengZYQH22",
+    "title": "Improving Abstractive Dialogue Summarization with Speaker-Aware Supervised Contrastive Learning.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/coling/GengZYQH22"
+  },
+  {
+    "key": "conf/emnlp/LiuZZCDYW21",
+    "title": "Topic-Aware Contrastive Learning for Abstractive Dialogue Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/conf/emnlp/LiuZZCDYW21"
+  },
+  {
+    "key": "journals/corr/abs-2109-04994",
+    "title": "Topic-Aware Contrastive Learning for Abstractive Dialogue Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/journals/corr/abs-2109-04994"
+  },
+  {
+    "key": "conf/naacl/ZhuLMZ21",
+    "title": "MediaSum: A Large-scale Media Interview Dataset for Dialogue Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/conf/naacl/ZhuLMZ21"
+  },
+  {
+    "key": "journals/corr/abs-2103-06410",
+    "title": "MediaSum: A Large-scale Media Interview Dataset for Dialogue Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/journals/corr/abs-2103-06410"
+  },
+  {
+    "key": "conf/emnlp/LeiZYHX21",
+    "title": "A Finer-grain Universal Dialogue Semantic Structures based Model For Abstractive Dialogue Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/conf/emnlp/LeiZYHX21"
+  },
+  {
+    "key": "conf/ksem/DiWZ20",
+    "title": "How to Interact and Change? Abstractive Dialogue Summarization with Dialogue Act Weight and Topic Change Info.",
+    "year": "2020",
+    "url": "https://dblp.org/rec/conf/ksem/DiWZ20"
+  },
+  {
+    "key": "conf/slt/GooC18",
+    "title": "Abstractive Dialogue Summarization with Sentence-Gated Modeling Optimized by Dialogue Acts.",
+    "year": "2018",
+    "url": "https://dblp.org/rec/conf/slt/GooC18"
+  },
+  {
+    "key": "journals/corr/abs-1809-05715",
+    "title": "Abstractive Dialogue Summarization with Sentence-Gated Modeling Optimized by Dialogue Acts.",
+    "year": "2018",
+    "url": "https://dblp.org/rec/journals/corr/abs-1809-05715"
+  },
+  {
+    "key": "journals/corr/abs-2410-15962",
+    "title": "Systematic Exploration of Dialogue Summarization Approaches for Reproducibility, Comparative Assessment, and Methodological Innovations for Advancing Natural Language Processing in Abstractive Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2410-15962"
+  },
+  {
+    "key": "journals/jair/KirsteinWGR25",
+    "title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/jair/KirsteinWGR25"
+  },
+  {
+    "key": "conf/ijcai/KirsteinWGR25",
+    "title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization (Abstract Reprint).",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/ijcai/KirsteinWGR25"
+  },
+  {
+    "key": "journals/access/Buyuk24",
+    "title": "A Comprehensive Evaluation of Large Language Models for Turkish Abstractive Dialogue Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/access/Buyuk24"
+  },
+  {
+    "key": "journals/csur/JiaLRZ24",
+    "title": "Taxonomy of Abstractive Dialogue Summarization: Scenarios, Approaches, and Future Directions.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/csur/JiaLRZ24"
+  },
+  {
+    "key": "conf/acl/LiZJR19",
+    "title": "Keep Meeting Summaries on Topic: Abstractive Multi-Modal Meeting Summarization.",
+    "year": "2019",
+    "url": "https://dblp.org/rec/conf/acl/LiZJR19"
+  },
+  {
+    "key": "journals/jksucis/JinSL25",
+    "title": "CFAS: consensus-focused abstractive meeting summarization through multi-party discourse modeling.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/jksucis/JinSL25"
+  },
+  {
+    "key": "conf/ccwc/MarklynnSTBAN24",
+    "title": "A Framework for Abstractive Summarization of Conversational Meetings.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/ccwc/MarklynnSTBAN24"
+  },
+  {
+    "key": "conf/emnlp/KirsteinRKG24",
+    "title": "Tell me what I need to know: Exploring LLM-based (Personalized) Abstractive Multi-Source Meeting Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/conf/emnlp/KirsteinRKG24"
+  },
+  {
+    "key": "journals/corr/abs-2410-14545",
+    "title": "Tell me what I need to know: Exploring LLM-based (Personalized) Abstractive Multi-Source Meeting Summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/corr/abs-2410-14545"
+  },
+  {
+    "key": "journals/tacl/RennardSHV23",
+    "title": "Abstractive Meeting Summarization: A Survey.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/tacl/RennardSHV23"
+  },
+  {
+    "key": "conf/interspeech/LiuC22",
+    "title": "Dynamic Sliding Window Modeling for Abstractive Meeting Summarization.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/conf/interspeech/LiuC22"
+  },
+  {
+    "key": "journals/corr/abs-2208-04163",
+    "title": "Abstractive Meeting Summarization: A Survey.",
+    "year": "2022",
+    "url": "https://dblp.org/rec/journals/corr/abs-2208-04163"
+  },
+  {
+    "key": "phd/hal/Shang21",
+    "title": "Spoken Language Understanding for Abstractive Meeting Summarization. (Compréhension du Langage Parlé pour le Résumé Abstractif de Réunion).",
+    "year": "2021",
+    "url": "https://dblp.org/rec/phd/hal/Shang21"
+  },
+  {
+    "key": "journals/ijon/ZhengZSYXY20",
+    "title": "Abstractive meeting summarization by hierarchical adaptive segmental network learning with multiple revising steps.",
+    "year": "2020",
+    "url": "https://dblp.org/rec/journals/ijon/ZhengZSYXY20"
+  },
+  {
+    "key": "conf/inlg/SchneiderT23",
+    "title": "Team Zoom @ AutoMin 2023: Utilizing Topic Segmentation And LLM Data Augmentation For Long-Form Meeting Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/inlg/SchneiderT23"
+  },
+  {
+    "key": "conf/mir/BhattPC16",
+    "title": "Audiovisual Summarization of Lectures and Meetings Using a Segment Similarity Graph.",
+    "year": "2016",
+    "url": "https://dblp.org/rec/conf/mir/BhattPC16"
+  },
+  {
+    "key": "conf/naacl/ZhongYYZMJACLQR21",
+    "title": "QMSum: A New Benchmark for Query-based Multi-domain Meeting Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/conf/naacl/ZhongYYZMJACLQR21"
+  },
+  {
+    "key": "journals/corr/abs-2104-05938",
+    "title": "QMSum: A New Benchmark for Query-based Multi-domain Meeting Summarization.",
+    "year": "2021",
+    "url": "https://dblp.org/rec/journals/corr/abs-2104-05938"
+  },
+  {
+    "key": "conf/acl/HangChenYGS025",
+    "title": "MISP-Meeting: A Real-World Dataset with Multimodal Cues for Long-form Meeting Transcription and Summarization.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/acl/HangChenYGS025"
+  },
+  {
+    "key": "journals/corr/abs-2509-15901",
+    "title": "Re-FRAME the Meeting Summarization SCOPE: Fact-Based Summarization and Personalization via Questions.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/corr/abs-2509-15901"
+  },
+  {
+    "key": "journals/ipm/SadiaASJ24",
+    "title": "Meeting the challenge: A benchmark corpus for automated Urdu meeting summarization.",
+    "year": "2024",
+    "url": "https://dblp.org/rec/journals/ipm/SadiaASJ24"
+  },
+  {
+    "key": "conf/acl/HuGDDF023",
+    "title": "MeetingBank: A Benchmark Dataset for Meeting Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/acl/HuGDDF023"
+  },
+  {
+    "key": "conf/icaai/SanapalaCS23",
+    "title": "Multi-Person Speech Curator for Minutes of Meetings along with Meeting Summarization and Language Translation.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/conf/icaai/SanapalaCS23"
+  },
+  {
+    "key": "journals/corr/abs-2305-17529",
+    "title": "MeetingBank: A Benchmark Dataset for Meeting Summarization.",
+    "year": "2023",
+    "url": "https://dblp.org/rec/journals/corr/abs-2305-17529"
+  },
+  {
+    "key": "journals/jksucis/LiuLX25",
+    "title": "Dynamic agenda-aware real-time meeting summarization with large language models.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/journals/jksucis/LiuLX25"
+  },
+  {
+    "key": "conf/ijcnn/Jin25",
+    "title": "DRMoE: Discourse-Aware Rhetorical Structure for Meeting Summarization with Mixture of Experts.",
+    "year": "2025",
+    "url": "https://dblp.org/rec/conf/ijcnn/Jin25"
+  },
+  {
+    "key": "conf/iui/HsuehM09",
+    "title": "Improving meeting summarization by focusing on user needs: a task-oriented evaluation.",
+    "year": "2009",
+    "url": "https://dblp.org/rec/conf/iui/HsuehM09"
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "schema_version": "cutoff.v2",
+  "topic_input": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "topic_normalized": "cads a systematic literature review on the challenges of abstractive dialogue summarization",
+  "date_field": "published",
+  "tie_break": [
+    "published_asc",
+    "arxiv_id_asc"
+  ],
+  "cutoff": {
+    "arxiv_id": "2406.07494",
+    "title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+    "title_normalized": "cads a systematic literature review on the challenges of abstractive dialogue summarization",
+    "published": "2024-06-11T17:30:22Z",
+    "updated": "2025-04-23T18:00:46Z",
+    "primary_category": "cs.CL",
+    "authors": [
+      "Frederic Kirstein",
+      "Jan Philip Wahle",
+      "Bela Gipp",
+      "Terry Ruas"
+    ],
+    "url_abs": "https://arxiv.org/abs/2406.07494v3"
+  },
+  "candidates_same_title": [
+    {
+      "arxiv_id": "2406.07494",
+      "published": "2024-06-11T17:30:22Z",
+      "updated": "2025-04-23T18:00:46Z",
+      "date_field": "published",
+      "date_raw": "2024-06-11T17:30:22Z"
+    }
+  ],
+  "errors": [],
+  "target_paper": {
+    "source": "arxiv",
+    "id": "2406.07494",
+    "title": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+    "published_date": "2024-06-11T17:30:22Z",
+    "published_raw": "2024-06-11T17:30:22Z"
+  },
+  "cutoff_date": "2024-06-11T17:30:22Z",
+  "policy": {
+    "exclude_same_title": true,
+    "exclude_on_or_after_cutoff_date": true
+  },
+  "derived_from": "cutoff_first",
+  "generated_at": "2026-02-02T15:29:15.594252+00:00"
+}

@@ -1,5 +1,32 @@
 #!/usr/bin/env python3
-"""Collect title + abstract metadata from multiple sources in priority order."""
+"""依來源優先序補齊 title/abstract，並可輸出來源 full metadata。
+
+這支腳本會讀取 `reference_oracle.jsonl`，依序查詢多個來源，為每筆
+reference 產生三類主要產物：
+
+- `title_abstracts_metadata.jsonl`
+- `title_abstracts_sources.jsonl`
+- `title_abstracts_source_trace.jsonl`
+
+當 `--include-full-metadata true` 時，會額外輸出：
+
+- `title_abstracts_full_metadata.jsonl`
+
+預設且一律不包含 Semantic Scholar 的 `embedding` 向量。
+
+來源優先序：
+`arxiv -> semantic_scholar -> dblp -> openalex -> crossref -> acl_anthology`
+`-> lrec_conf -> rfc_editor -> bsi -> github -> huggingface -> keithito -> zenodo`
+
+Examples
+--------
+```bash
+python3 scripts/collect_title_abstracts_priority.py \
+  --input-root bib/per_SR_cleaned \
+  --output-root refs \
+  --paper-name Chen2026_refs_from_pdf
+```
+"""
 
 from __future__ import annotations
 
@@ -20,10 +47,35 @@ import requests
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from src.utils.env import load_env_file  # noqa: E402
+try:
+    from src.utils.env import load_env_file  # type: ignore  # pragma: no cover
+except Exception:  # pragma: no cover
+    def load_env_file(dotenv_path: Path | str | None = None, *, override: bool = False) -> None:
+        """Load environment variables from a local ``.env`` file in a minimal way."""
+        path = Path(dotenv_path) if dotenv_path is not None else Path.cwd() / ".env"
+        if not path.exists():
+            return
+        for raw_line in path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if override or key not in os.environ:
+                os.environ[key] = value
 
-sys.path.insert(0, str(REPO_ROOT / "target_papers" / "scripts"))
-from title_normalization import normalize_title, split_words  # noqa: E402
+
+try:
+    from scripts.lib.title_normalizer import normalize_title  # type: ignore  # noqa: E402
+    from scripts.lib.title_normalizer import split_words  # type: ignore  # noqa: E402
+except Exception:  # pragma: no cover
+    from scripts.lib.title_normalizer import normalize_title  # type: ignore  # noqa: E402
+
+    def split_words(text: str) -> list[str]:
+        """Fallback tokenization for similarity matching."""
+        normalized = normalize_title(text)
+        return normalized.split() if normalized else []
 
 
 ARXIV_ID_RE = re.compile(
@@ -64,10 +116,37 @@ RATE_LIMITS = {
 }
 
 USER_AGENT = "autosr-sdse/collect-title-abstracts"
+ARXIV_API_URL = "http://export.arxiv.org/api/query"
+SEMANTIC_SCHOLAR_SEARCH_FIELDS = (
+    "title,abstract,year,publicationDate,externalIds,venue,url,paperId,corpusId,authors,journal"
+)
+SEMANTIC_SCHOLAR_DETAIL_FIELDS_BASE = (
+    "paperId,corpusId,title,abstract,year,publicationDate,publicationTypes,authors,venue,journal,url,"
+    "externalIds,fieldsOfStudy,citationCount,referenceCount,influentialCitationCount,isOpenAccess,"
+    "openAccessPdf,s2FieldsOfStudy,tldr"
+)
 
 
 @dataclass
 class FetchResult:
+    """Matched record from one source.
+
+    Attributes
+    ----------
+    title:
+        Canonical title selected by the source.
+    abstract:
+        Normalized abstract text used for downstream review.
+    source:
+        Source tag (e.g., `arxiv`, `semantic_scholar`).
+    source_id:
+        Source-specific stable identifier.
+    match_status:
+        Match type (`exact_title`, `fuzzy_title`, `exact_id`, ...).
+    raw_metadata:
+        Raw source payload (or best-effort full metadata) for traceability.
+    """
+
     title: str
     abstract: str
     source: str
@@ -199,6 +278,111 @@ def _request_text(
     return ""
 
 
+def _extract_html_meta_tags(page_html: str) -> Dict[str, Any]:
+    """Parse `<meta name=... content=...>` into a dict; duplicate names become list."""
+    tag_pattern = re.compile(
+        r'<meta[^>]+name="([^"]+)"[^>]+content="([^"]*)"[^>]*>',
+        re.IGNORECASE,
+    )
+    parsed: Dict[str, Any] = {}
+    for key, value in tag_pattern.findall(page_html):
+        norm_key = _normalize_whitespace(key)
+        norm_value = _normalize_whitespace(html.unescape(value))
+        if not norm_key:
+            continue
+        if norm_key not in parsed:
+            parsed[norm_key] = norm_value
+            continue
+        existing = parsed[norm_key]
+        if isinstance(existing, list):
+            existing.append(norm_value)
+        else:
+            parsed[norm_key] = [existing, norm_value]
+    return parsed
+
+
+def _strip_reference_arrays(value: Any) -> Any:
+    """Recursively drop heavy reference arrays while keeping other metadata."""
+    if isinstance(value, dict):
+        cleaned: Dict[str, Any] = {}
+        for key, sub_value in value.items():
+            if key == "reference" and isinstance(sub_value, list):
+                continue
+            cleaned[key] = _strip_reference_arrays(sub_value)
+        return cleaned
+    if isinstance(value, list):
+        return [_strip_reference_arrays(item) for item in value]
+    return value
+
+
+def _prune_heavy_source_fields(source: Optional[str], metadata: Any) -> Any:
+    """Drop source-specific heavy fields from full metadata output."""
+    cleaned = _strip_reference_arrays(metadata)
+    if not isinstance(cleaned, dict):
+        return cleaned
+
+    heavy_fields_by_source = {
+        "openalex": {"abstract_inverted_index", "referenced_works"},
+        "crossref": {"assertion", "link", "license"},
+    }
+    fields_to_drop = heavy_fields_by_source.get(str(source or "").strip().lower(), set())
+    if not fields_to_drop:
+        return cleaned
+    return {key: value for key, value in cleaned.items() if key not in fields_to_drop}
+
+
+def _semantic_scholar_fetch_paper_metadata(
+    session: requests.Session,
+    limiter: RateLimiter,
+    paper_id: str,
+    *,
+    api_key: Optional[str],
+) -> Optional[Dict[str, Any]]:
+    paper_id = _normalize_whitespace(paper_id)
+    if not paper_id:
+        return None
+    fields = SEMANTIC_SCHOLAR_DETAIL_FIELDS_BASE
+    payload = _request_json(
+        session,
+        f"https://api.semanticscholar.org/graph/v1/paper/{paper_id}",
+        source="semantic_scholar",
+        limiter=limiter,
+        headers=_semantic_headers(api_key),
+        params={"fields": fields},
+    )
+    return payload if isinstance(payload, dict) and payload else None
+
+
+def _extract_openalex_work_id(openalex_id: str) -> Optional[str]:
+    openalex_id = _normalize_whitespace(openalex_id)
+    if not openalex_id:
+        return None
+    if openalex_id.startswith("https://openalex.org/"):
+        work_id = openalex_id.rstrip("/").rsplit("/", 1)[-1]
+        return work_id if work_id else None
+    if re.fullmatch(r"W\d+", openalex_id):
+        return openalex_id
+    return None
+
+
+def _openalex_fetch_work_metadata(
+    session: requests.Session,
+    limiter: RateLimiter,
+    openalex_id: str,
+) -> Optional[Dict[str, Any]]:
+    work_id = _extract_openalex_work_id(openalex_id)
+    if not work_id:
+        return None
+    payload = _request_json(
+        session,
+        f"https://api.openalex.org/works/{work_id}",
+        source="openalex",
+        limiter=limiter,
+        headers={"User-Agent": USER_AGENT},
+    )
+    return payload if isinstance(payload, dict) and payload else None
+
+
 def _select_best_match(
     title: str,
     candidates: list[Dict[str, Any]],
@@ -265,13 +449,104 @@ def _candidate_strings(entry: Dict[str, Any]) -> list[str]:
 
 # --- Source: arXiv ---
 
+def _parse_arxiv_entry(entry: ET.Element, ns: Dict[str, str]) -> Dict[str, Any]:
+    authors: list[Dict[str, Optional[str]]] = []
+    for author in entry.findall("atom:author", ns):
+        name = _normalize_whitespace(author.findtext("atom:name", default="", namespaces=ns))
+        affiliation = _normalize_whitespace(
+            author.findtext("arxiv:affiliation", default="", namespaces=ns)
+        )
+        authors.append(
+            {
+                "name": name or None,
+                "affiliation": affiliation or None,
+            }
+        )
+
+    categories: list[str] = []
+    for category in entry.findall("atom:category", ns):
+        term = _normalize_whitespace(str(category.attrib.get("term") or ""))
+        if term:
+            categories.append(term)
+
+    links: list[Dict[str, str]] = []
+    for link in entry.findall("atom:link", ns):
+        link_payload = {
+            "href": _normalize_whitespace(str(link.attrib.get("href") or "")),
+            "rel": _normalize_whitespace(str(link.attrib.get("rel") or "")),
+            "type": _normalize_whitespace(str(link.attrib.get("type") or "")),
+            "title": _normalize_whitespace(str(link.attrib.get("title") or "")),
+        }
+        if any(link_payload.values()):
+            links.append(link_payload)
+
+    entry_id = _normalize_whitespace(entry.findtext("atom:id", default="", namespaces=ns))
+    primary_category_node = entry.find("arxiv:primary_category", ns)
+    return {
+        "id": entry_id.rstrip("/").rsplit("/", 1)[-1],
+        "entry_id_url": entry_id,
+        "title": _normalize_whitespace(entry.findtext("atom:title", default="", namespaces=ns)),
+        "summary": _normalize_whitespace(entry.findtext("atom:summary", default="", namespaces=ns)),
+        "published": _normalize_whitespace(
+            entry.findtext("atom:published", default="", namespaces=ns)
+        ),
+        "updated": _normalize_whitespace(entry.findtext("atom:updated", default="", namespaces=ns)),
+        "doi": _normalize_whitespace(entry.findtext("arxiv:doi", default="", namespaces=ns)) or None,
+        "comment": _normalize_whitespace(
+            entry.findtext("arxiv:comment", default="", namespaces=ns)
+        )
+        or None,
+        "journal_ref": _normalize_whitespace(
+            entry.findtext("arxiv:journal_ref", default="", namespaces=ns)
+        )
+        or None,
+        "primary_category": _normalize_whitespace(
+            str((primary_category_node.attrib.get("term") if primary_category_node is not None else ""))
+        )
+        or None,
+        "authors": authors,
+        "categories": categories,
+        "links": links,
+    }
+
+
+def _parse_arxiv_feed_entries(feed_xml: str) -> list[Dict[str, Any]]:
+    root = ET.fromstring(feed_xml)
+    ns = {
+        "atom": "http://www.w3.org/2005/Atom",
+        "arxiv": "http://arxiv.org/schemas/atom",
+    }
+    return [_parse_arxiv_entry(entry, ns) for entry in root.findall("atom:entry", ns)]
+
+
+def _fetch_arxiv_metadata_by_id(
+    session: requests.Session,
+    limiter: RateLimiter,
+    arxiv_id: str,
+) -> Optional[Dict[str, Any]]:
+    candidate_id = _normalize_whitespace(arxiv_id)
+    if not candidate_id:
+        return None
+    response = _request_text(
+        session,
+        ARXIV_API_URL,
+        source="arxiv",
+        limiter=limiter,
+        params={"id_list": candidate_id},
+        headers={"User-Agent": USER_AGENT},
+    )
+    entries = _parse_arxiv_feed_entries(response)
+    if not entries:
+        return None
+    return entries[0]
+
 def _search_arxiv_by_title(
     session: requests.Session,
     limiter: RateLimiter,
     title: str,
     *,
     max_results: int,
-) -> list[Dict[str, str]]:
+) -> list[Dict[str, Any]]:
     query_title = _prepare_title_query(title)
     if not query_title:
         return []
@@ -282,25 +557,13 @@ def _search_arxiv_by_title(
     }
     response = _request_text(
         session,
-        "https://export.arxiv.org/api/query",
+        ARXIV_API_URL,
         source="arxiv",
         limiter=limiter,
         params=params,
+        headers={"User-Agent": USER_AGENT},
     )
-
-    root = ET.fromstring(response)
-    ns = {"atom": "http://www.w3.org/2005/Atom"}
-    results: list[Dict[str, str]] = []
-    for entry in root.findall("atom:entry", ns):
-        entry_id = entry.findtext("atom:id", default="", namespaces=ns)
-        results.append(
-            {
-                "id": entry_id.rstrip("/").rsplit("/", 1)[-1],
-                "title": (entry.findtext("atom:title", default="", namespaces=ns) or "").strip(),
-                "summary": (entry.findtext("atom:summary", default="", namespaces=ns) or "").strip(),
-            }
-        )
-    return results
+    return _parse_arxiv_feed_entries(response)
 
 
 def _fetch_arxiv_by_title(
@@ -325,13 +588,22 @@ def _fetch_arxiv_by_title(
     abstract = _normalize_whitespace(matched.get("summary"))
     if not abstract:
         return None, "no_match_or_no_abstract"
+    raw_metadata: Dict[str, Any] = dict(matched)
+    arxiv_id = _normalize_whitespace(str(matched.get("id") or ""))
+    if arxiv_id:
+        try:
+            full_metadata = _fetch_arxiv_metadata_by_id(session, limiter, arxiv_id)
+            if isinstance(full_metadata, dict) and full_metadata:
+                raw_metadata = full_metadata
+        except Exception:  # noqa: BLE001
+            pass
     result = FetchResult(
-        title=_normalize_whitespace(matched.get("title")),
+        title=_normalize_whitespace(str(raw_metadata.get("title") or matched.get("title") or "")),
         abstract=abstract,
         source="arxiv",
-        source_id=matched.get("id") or "",
+        source_id=arxiv_id,
         match_status=match_status,
-        raw_metadata=matched,
+        raw_metadata=raw_metadata,
     )
     return result, "match"
 
@@ -359,7 +631,7 @@ def _search_semantic_scholar_by_title(
     params = {
         "query": query_title,
         "limit": max_results,
-        "fields": "title,abstract,year,publicationDate,externalIds,venue,url,paperId,corpusId",
+        "fields": SEMANTIC_SCHOLAR_SEARCH_FIELDS,
     }
     payload = _request_json(
         session,
@@ -405,13 +677,25 @@ def _fetch_semantic_by_title(
     if not abstract:
         return None, "no_match_or_no_abstract"
     source_id = matched.get("paperId") or matched.get("corpusId") or ""
+    raw_metadata: Dict[str, Any] = dict(matched)
+    detailed_metadata = _semantic_scholar_fetch_paper_metadata(
+        session,
+        limiter,
+        str(source_id),
+        api_key=api_key,
+    )
+    if isinstance(detailed_metadata, dict):
+        raw_metadata = detailed_metadata
+        abstract_from_detail = _normalize_whitespace(str(detailed_metadata.get("abstract") or ""))
+        if abstract_from_detail:
+            abstract = abstract_from_detail
     result = FetchResult(
-        title=_normalize_whitespace(str(matched.get("title") or "")),
+        title=_normalize_whitespace(str(raw_metadata.get("title") or matched.get("title") or "")),
         abstract=abstract,
         source="semantic_scholar",
         source_id=str(source_id),
         match_status=match_status,
-        raw_metadata=matched,
+        raw_metadata=raw_metadata,
     )
     return result, "match"
 
@@ -537,20 +821,33 @@ def _fetch_openalex_by_title(
     )
     if not matched:
         return None, "no_match", None, None
+    raw_metadata = dict(matched)
+    detailed_metadata = _openalex_fetch_work_metadata(
+        session,
+        limiter,
+        str(matched.get("id") or ""),
+    )
+    if isinstance(detailed_metadata, dict):
+        raw_metadata = detailed_metadata
     abstract = ""
-    if matched.get("abstract_inverted_index"):
-        abstract = _openalex_inverted_to_text(matched.get("abstract_inverted_index"))
+    if raw_metadata.get("abstract_inverted_index"):
+        abstract = _openalex_inverted_to_text(raw_metadata.get("abstract_inverted_index"))
     if not abstract:
-        return None, "no_match_or_no_abstract", matched.get("doi"), _openalex_landing_url(matched)
+        return (
+            None,
+            "no_match_or_no_abstract",
+            raw_metadata.get("doi"),
+            _openalex_landing_url(raw_metadata),
+        )
     result = FetchResult(
-        title=_normalize_whitespace(matched.get("display_name") or matched.get("title")),
+        title=_normalize_whitespace(raw_metadata.get("display_name") or raw_metadata.get("title")),
         abstract=_normalize_whitespace(abstract),
         source="openalex",
-        source_id=str(matched.get("id") or ""),
+        source_id=str(raw_metadata.get("id") or matched.get("id") or ""),
         match_status=match_status,
-        raw_metadata=matched,
+        raw_metadata=raw_metadata,
     )
-    return result, "match", matched.get("doi"), _openalex_landing_url(matched)
+    return result, "match", raw_metadata.get("doi"), _openalex_landing_url(raw_metadata)
 
 
 def _openalex_landing_url(record: Dict[str, Any]) -> Optional[str]:
@@ -650,6 +947,13 @@ def _fetch_crossref_by_title(
     else:
         match_status = "exact_title"
 
+    if isinstance(item, dict):
+        item_doi = _normalize_whitespace(str(item.get("DOI") or ""))
+        if item_doi:
+            detailed_item = _fetch_crossref_by_doi(session, limiter, item_doi)
+            if isinstance(detailed_item, dict):
+                item = detailed_item
+
     abstract = _normalize_whitespace(_strip_html(item.get("abstract") or ""))
     if not abstract:
         return None, "no_match_or_no_abstract"
@@ -709,6 +1013,7 @@ def _fetch_acl_anthology_by_title(
         r"name=\"citation_abstract\" content=\"([^\"]+)\"",
         paper_html,
     )
+    page_meta = _extract_html_meta_tags(paper_html)
     candidate_title = _normalize_whitespace(title_match.group(1)) if title_match else ""
     abstract = _normalize_whitespace(abstract_match.group(1)) if abstract_match else ""
 
@@ -734,7 +1039,12 @@ def _fetch_acl_anthology_by_title(
         source="acl_anthology",
         source_id=paper_url.rstrip("/").rsplit("/", 1)[-1],
         match_status=match_status,
-        raw_metadata={"url": paper_url},
+        raw_metadata={
+            "url": paper_url,
+            "page_meta": page_meta,
+            "title": candidate_title,
+            "abstract": abstract,
+        },
     )
     return result, "match"
 
@@ -757,6 +1067,7 @@ def _fetch_lrec_summary(
     )
     title_match = re.search(r"<title>(.*?)</title>", page, re.IGNORECASE | re.DOTALL)
     title = _normalize_whitespace(_strip_html(title_match.group(1))) if title_match else ""
+    page_meta = _extract_html_meta_tags(page)
     abstract_match = re.search(r"<div[^>]*class=\"abstract\"[^>]*>(.*?)</div>", page, re.IGNORECASE | re.DOTALL)
     abstract = ""
     if abstract_match:
@@ -779,7 +1090,12 @@ def _fetch_lrec_summary(
         source="lrec_conf",
         source_id=source_id,
         match_status="exact_title",
-        raw_metadata={"url": landing_url},
+        raw_metadata={
+            "url": landing_url,
+            "page_meta": page_meta,
+            "title": title,
+            "abstract": abstract,
+        },
     )
     return result, "summary_page"
 
@@ -820,6 +1136,7 @@ def _fetch_rfc_editor_by_title(
         page,
         re.IGNORECASE | re.DOTALL,
     )
+    page_meta = _extract_html_meta_tags(page)
     abstract = ""
     if abstract_match:
         abstract = _normalize_whitespace(_strip_html(abstract_match.group(1)))
@@ -833,7 +1150,12 @@ def _fetch_rfc_editor_by_title(
         source="rfc_editor",
         source_id=f"RFC{rfc_id}",
         match_status="exact_title",
-        raw_metadata={"url": rfc_url},
+        raw_metadata={
+            "url": rfc_url,
+            "page_meta": page_meta,
+            "title": doc_title,
+            "abstract": abstract,
+        },
     )
     return result, "match"
 
@@ -869,6 +1191,7 @@ def _fetch_bsi_by_title(
         headers={"User-Agent": USER_AGENT},
     )
     meta_desc = re.search(r"name=\"description\" content=\"([^\"]+)\"", product_page)
+    page_meta = _extract_html_meta_tags(product_page)
     abstract = _normalize_whitespace(meta_desc.group(1)) if meta_desc else ""
     if not abstract:
         return None, "no_match_or_no_abstract"
@@ -880,7 +1203,12 @@ def _fetch_bsi_by_title(
         source="bsi",
         source_id=product_url,
         match_status="exact_title",
-        raw_metadata={"url": product_url},
+        raw_metadata={
+            "url": product_url,
+            "page_meta": page_meta,
+            "title": product_title,
+            "abstract": abstract,
+        },
     )
     return result, "match"
 
@@ -924,6 +1252,7 @@ def _fetch_github_by_title(
                 "title": item.get("name") or "",
                 "description": item.get("description") or "",
                 "full_name": item.get("full_name") or "",
+                "raw": item,
             }
         )
 
@@ -947,7 +1276,7 @@ def _fetch_github_by_title(
         source="github",
         source_id=_normalize_whitespace(matched.get("full_name")),
         match_status=match_status,
-        raw_metadata=matched,
+        raw_metadata=matched.get("raw") if isinstance(matched.get("raw"), dict) else matched,
     )
     return result, "match"
 
@@ -985,6 +1314,7 @@ def _fetch_huggingface_by_title(
                 "title": item.get("id") or "",
                 "description": item.get("description") or "",
                 "id": item.get("id") or "",
+                "raw": item,
             }
         )
 
@@ -1007,7 +1337,7 @@ def _fetch_huggingface_by_title(
         source="huggingface",
         source_id=_normalize_whitespace(matched.get("id")),
         match_status=match_status,
-        raw_metadata=matched,
+        raw_metadata=matched.get("raw") if isinstance(matched.get("raw"), dict) else matched,
     )
     return result, "match"
 
@@ -1030,6 +1360,7 @@ def _fetch_keithito_by_title(
         headers={"User-Agent": USER_AGENT},
     )
     meta_desc = re.search(r"name=\"description\" content=\"([^\"]+)\"", page)
+    page_meta = _extract_html_meta_tags(page)
     abstract = _normalize_whitespace(meta_desc.group(1)) if meta_desc else ""
     if not abstract:
         return None, "no_match_or_no_description"
@@ -1041,7 +1372,12 @@ def _fetch_keithito_by_title(
         source="keithito",
         source_id=url,
         match_status="exact_title",
-        raw_metadata={"url": url},
+        raw_metadata={
+            "url": url,
+            "page_meta": page_meta,
+            "title": dataset_title,
+            "abstract": abstract,
+        },
     )
     return result, "match"
 
@@ -1082,6 +1418,7 @@ def _fetch_zenodo_by_title(
                 "title": metadata.get("title") or "",
                 "description": metadata.get("description") or "",
                 "id": item.get("id") or "",
+                "raw": item,
             }
         )
 
@@ -1105,7 +1442,7 @@ def _fetch_zenodo_by_title(
         source="zenodo",
         source_id=str(matched.get("id")),
         match_status=match_status,
-        raw_metadata=matched,
+        raw_metadata=matched.get("raw") if isinstance(matched.get("raw"), dict) else matched,
     )
     return result, "match"
 
@@ -1167,6 +1504,26 @@ def _build_sources_record(entry: Dict[str, Any], result: Optional[FetchResult]) 
     }
 
 
+def _build_full_metadata_record(entry: Dict[str, Any], result: Optional[FetchResult]) -> Dict[str, Any]:
+    if result is None:
+        return {
+            "key": entry.get("key"),
+            "title": entry.get("query_title"),
+            "source": None,
+            "source_id": None,
+            "match_status": "missing",
+            "source_metadata": None,
+        }
+    return {
+        "key": entry.get("key"),
+        "title": result.title,
+        "source": result.source,
+        "source_id": result.source_id,
+        "match_status": result.match_status,
+        "source_metadata": _prune_heavy_source_fields(result.source, result.raw_metadata),
+    }
+
+
 def _load_records_by_key(path: Path) -> Dict[str, Dict[str, Any]]:
     if not path.exists():
         return {}
@@ -1192,101 +1549,76 @@ def _write_jsonl(path: Path, records: list[Dict[str, Any]]) -> None:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--input",
-        type=str,
-        default=(
-            "target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/"
-            "reference_oracle.jsonl"
-        ),
-        help="Reference oracle JSONL file.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default=(
-            "target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/"
-            "title_abstract"
-        ),
-        help="Output directory for title/abstract artifacts.",
-    )
-    parser.add_argument("--limit", type=int, default=None, help="Optional max entries.")
-    parser.add_argument(
-        "--allow-fuzzy",
-        type=parse_bool,
-        default=True,
-        help="Allow fuzzy title matches (default: true).",
-    )
-    parser.add_argument(
-        "--min-similarity",
-        type=float,
-        default=0.9,
-        help="Minimum Jaccard similarity for fuzzy matches.",
-    )
-    parser.add_argument("--arxiv-max-results", type=int, default=5)
-    parser.add_argument("--semantic-max-results", type=int, default=5)
-    parser.add_argument("--openalex-max-results", type=int, default=5)
-    parser.add_argument("--crossref-max-results", type=int, default=5)
-    parser.add_argument("--dblp-max-results", type=int, default=5)
-    parser.add_argument(
-        "--resume",
-        type=parse_bool,
-        default=True,
-        help="Reuse existing outputs and skip matched entries.",
-    )
-    parser.add_argument(
-        "--checkpoint-every",
-        type=int,
-        default=1,
-        help="Rewrite outputs after this many processed entries.",
-    )
-    args = parser.parse_args()
-
-    load_env_file()
-
-    semantic_api_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY")
-    github_token = os.getenv("GITHUB_TOKEN")
-
-    input_path = Path(args.input)
-    output_dir = Path(args.output_dir)
+def _collect_single_input(
+    input_path: Path,
+    output_dir: Path,
+    *,
+    limit: Optional[int],
+    allow_fuzzy: bool,
+    min_similarity: float,
+    arxiv_max_results: int,
+    semantic_max_results: int,
+    dblp_max_results: int,
+    openalex_max_results: int,
+    crossref_max_results: int,
+    include_full_metadata: bool,
+    checkpoint_every: int,
+    resume: bool,
+) -> tuple[int, int, int, float]:
+    """Collect title/abstract metadata for a single reference_oracle input."""
     metadata_path = output_dir / "title_abstracts_metadata.jsonl"
     sources_path = output_dir / "title_abstracts_sources.jsonl"
     trace_path = output_dir / "title_abstracts_source_trace.jsonl"
+    full_metadata_path = output_dir / "title_abstracts_full_metadata.jsonl"
 
     entries = _load_reference_entries(input_path)
-    if args.limit:
-        entries = entries[: args.limit]
+    if limit:
+        entries = entries[:limit]
 
-    existing_metadata = _load_records_by_key(metadata_path) if args.resume else {}
-    existing_sources = _load_records_by_key(sources_path) if args.resume else {}
-    existing_traces = _load_records_by_key(trace_path) if args.resume else {}
+    existing_metadata = _load_records_by_key(metadata_path) if resume else {}
+    existing_sources = _load_records_by_key(sources_path) if resume else {}
+    existing_traces = _load_records_by_key(trace_path) if resume else {}
+    existing_full_metadata = (
+        _load_records_by_key(full_metadata_path)
+        if resume and include_full_metadata
+        else {}
+    )
+
+    semantic_api_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY")
+    github_token = os.getenv("GITHUB_TOKEN")
 
     limiter = RateLimiter(RATE_LIMITS)
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})
 
-    processed = 0
-    total = len(entries)
-
     metadata_records: Dict[str, Dict[str, Any]] = {}
     sources_records: Dict[str, Dict[str, Any]] = {}
     trace_records: Dict[str, Dict[str, Any]] = {}
+    full_metadata_records: Dict[str, Dict[str, Any]] = {}
+
+    start = time.perf_counter()
+    processed = 0
+    total = len(entries)
 
     for idx, entry in enumerate(entries, start=1):
         key = str(entry.get("key"))
         if not key:
             continue
 
-        if args.resume and key in existing_metadata:
+        if resume and key in existing_metadata:
             existing = existing_metadata[key]
-            if existing.get("match_status") != "missing":
+            has_full_metadata = key in existing_full_metadata
+            can_skip = existing.get("match_status") != "missing"
+            if include_full_metadata and not has_full_metadata:
+                can_skip = False
+            if can_skip:
                 metadata_records[key] = existing
                 if key in existing_sources:
                     sources_records[key] = existing_sources[key]
                 if key in existing_traces:
                     trace_records[key] = existing_traces[key]
+                if include_full_metadata and key in existing_full_metadata:
+                    full_metadata_records[key] = existing_full_metadata[key]
                 continue
 
         title = _title_from_entry(entry)
@@ -1299,10 +1631,7 @@ def main() -> int:
         # 1) arXiv
         try:
             if candidate_arxiv:
-                from src.utils.paper_downloaders import fetch_arxiv_metadata
-
-                limiter.wait("arxiv")
-                metadata = fetch_arxiv_metadata(candidate_arxiv, session=session)
+                metadata = _fetch_arxiv_metadata_by_id(session, limiter, candidate_arxiv) or {}
                 abstract = _normalize_whitespace(metadata.get("summary"))
                 if abstract:
                     result = FetchResult(
@@ -1321,9 +1650,9 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
-                    max_results=args.arxiv_max_results,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
+                    max_results=arxiv_max_results,
                 )
                 trace_steps.append(f"arxiv:{status}")
         except Exception as exc:  # noqa: BLE001
@@ -1338,9 +1667,9 @@ def main() -> int:
                     limiter,
                     title,
                     api_key=semantic_api_key,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
-                    max_results=args.semantic_max_results,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
+                    max_results=semantic_max_results,
                 )
                 trace_steps.append(f"semantic_scholar:{status}")
             except Exception as exc:  # noqa: BLE001
@@ -1354,9 +1683,9 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
-                    max_results=args.dblp_max_results,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
+                    max_results=dblp_max_results,
                 )
                 trace_steps.append(f"dblp:{status}")
             except Exception as exc:  # noqa: BLE001
@@ -1370,14 +1699,15 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
-                    max_results=args.openalex_max_results,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
+                    max_results=openalex_max_results,
                 )
                 trace_steps.append(f"openalex:{status}")
                 if openalex_doi and not candidate_doi:
                     candidate_doi = openalex_doi
-                openalex_landing_url = landing_url or openalex_landing_url
+                if landing_url:
+                    openalex_landing_url = landing_url
             except Exception as exc:  # noqa: BLE001
                 trace_steps.append(f"openalex:error_{type(exc).__name__}")
                 result = None
@@ -1389,9 +1719,9 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
-                    max_results=args.crossref_max_results,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
+                    max_results=crossref_max_results,
                     candidate_doi=candidate_doi,
                 )
                 trace_steps.append(f"crossref:{status}")
@@ -1406,8 +1736,8 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
                 )
                 trace_steps.append(f"acl_anthology:{status}")
             except Exception as exc:  # noqa: BLE001
@@ -1461,8 +1791,8 @@ def main() -> int:
                     limiter,
                     title,
                     github_token=github_token,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
                 )
                 trace_steps.append(f"github:{status}")
             except Exception as exc:  # noqa: BLE001
@@ -1476,8 +1806,8 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
                 )
                 trace_steps.append(f"huggingface:{status}")
             except Exception as exc:  # noqa: BLE001
@@ -1504,8 +1834,8 @@ def main() -> int:
                     session,
                     limiter,
                     title,
-                    allow_fuzzy=args.allow_fuzzy,
-                    min_similarity=args.min_similarity,
+                    allow_fuzzy=allow_fuzzy,
+                    min_similarity=min_similarity,
                 )
                 trace_steps.append(f"zenodo:{status}")
             except Exception as exc:  # noqa: BLE001
@@ -1515,39 +1845,211 @@ def main() -> int:
         metadata_records[key] = _build_metadata_record(entry, result)
         sources_records[key] = _build_sources_record(entry, result)
         trace_records[key] = {"key": key, "lookup_steps": trace_steps}
+        if include_full_metadata:
+            full_metadata_records[key] = _build_full_metadata_record(entry, result)
 
         processed += 1
-        if args.checkpoint_every > 0 and processed % args.checkpoint_every == 0:
+        if checkpoint_every > 0 and processed % checkpoint_every == 0:
+            ordered_keys = [str(e.get("key")) for e in entries if e.get("key")]
             _write_jsonl(
                 metadata_path,
-                [metadata_records.get(str(e.get("key"))) for e in entries if e.get("key")],
+                [metadata_records.get(k) for k in ordered_keys],
             )
             _write_jsonl(
                 sources_path,
-                [sources_records.get(str(e.get("key"))) for e in entries if e.get("key")],
+                [sources_records.get(k) for k in ordered_keys],
             )
             _write_jsonl(
                 trace_path,
-                [trace_records.get(str(e.get("key"))) for e in entries if e.get("key")],
+                [trace_records.get(k) for k in ordered_keys],
             )
+            if include_full_metadata:
+                _write_jsonl(
+                    full_metadata_path,
+                    [full_metadata_records.get(k) for k in ordered_keys],
+                )
 
         if idx % 10 == 0 or idx == total:
             print(f"[{idx}/{total}] processed: {key}")
 
+    ordered_keys = [str(e.get("key")) for e in entries if e.get("key")]
     _write_jsonl(
         metadata_path,
-        [metadata_records.get(str(e.get("key"))) for e in entries if e.get("key")],
+        [metadata_records.get(k) for k in ordered_keys],
     )
     _write_jsonl(
         sources_path,
-        [sources_records.get(str(e.get("key"))) for e in entries if e.get("key")],
+        [sources_records.get(k) for k in ordered_keys],
     )
     _write_jsonl(
         trace_path,
-        [trace_records.get(str(e.get("key"))) for e in entries if e.get("key")],
+        [trace_records.get(k) for k in ordered_keys],
     )
+    if include_full_metadata:
+        _write_jsonl(
+            full_metadata_path,
+            [full_metadata_records.get(k) for k in ordered_keys],
+        )
 
-    print(f"Completed: {processed}/{total}")
+    matched = sum(
+        1
+        for record in metadata_records.values()
+        if record.get("match_status") != "missing"
+    )
+    missing = max(len(ordered_keys) - matched, 0)
+    elapsed = time.perf_counter() - start
+    return processed, matched, missing, elapsed
+
+
+def _collect_all_reference_oracles(
+    input_root: Path,
+    output_root: Path,
+    paper_name: Optional[str],
+    *,
+    limit: Optional[int],
+    allow_fuzzy: bool,
+    min_similarity: float,
+    arxiv_max_results: int,
+    semantic_max_results: int,
+    dblp_max_results: int,
+    openalex_max_results: int,
+    crossref_max_results: int,
+    include_full_metadata: bool,
+    checkpoint_every: int,
+    resume: bool,
+) -> list[tuple[str, int, int, int, float]]:
+    """Run collection for one or more ``reference_oracle.jsonl`` files."""
+    if not input_root.exists():
+        raise FileNotFoundError(f"Input root not found: {input_root}")
+    if not input_root.is_dir():
+        raise NotADirectoryError(f"Input root is not a directory: {input_root}")
+
+    files = [input_root / paper_name / "reference_oracle.jsonl"] if paper_name else sorted(input_root.glob("*/reference_oracle.jsonl"))
+    if paper_name and not files[0].exists():
+        raise FileNotFoundError(f"Reference file not found: {files[0]}")
+
+    summaries: list[tuple[str, int, int, int, float]] = []
+    for file_path in files:
+        if not file_path.exists():
+            raise FileNotFoundError(f"Reference file not found: {file_path}")
+
+        paper_dir = file_path.parent
+        target_output_dir = output_root / paper_dir.name / "metadata"
+        print(f"[start] {paper_dir.name} -> {target_output_dir}")
+        processed, matched, missing, elapsed = _collect_single_input(
+            file_path,
+            target_output_dir,
+            limit=limit,
+            allow_fuzzy=allow_fuzzy,
+            min_similarity=min_similarity,
+            arxiv_max_results=arxiv_max_results,
+            semantic_max_results=semantic_max_results,
+            dblp_max_results=dblp_max_results,
+            openalex_max_results=openalex_max_results,
+            crossref_max_results=crossref_max_results,
+            include_full_metadata=include_full_metadata,
+            checkpoint_every=checkpoint_every,
+            resume=resume,
+        )
+        summaries.append((paper_dir.name, processed, matched, missing, elapsed))
+        print(
+            "[done] {paper}: entries={entries}, matched={matched}, missing={missing}, elapsed={elapsed:.2f}s".format(
+                paper=paper_dir.name,
+                entries=processed,
+                matched=matched,
+                missing=missing,
+                elapsed=elapsed,
+            )
+        )
+    return summaries
+
+
+def main() -> int:
+    """CLI entrypoint for title/abstract harvesting."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--input-root",
+        type=str,
+        default="bib/per_SR_cleaned",
+        help="Directory containing per-paper reference_oracle.jsonl inputs.",
+    )
+    parser.add_argument(
+        "--output-root",
+        type=str,
+        default="refs",
+        help="Root directory for metadata outputs.",
+    )
+    parser.add_argument(
+        "--paper-name",
+        type=str,
+        default=None,
+        help="Optional paper folder name under input-root to process a single paper.",
+    )
+    parser.add_argument("--limit", type=int, default=None, help="Optional max entries.")
+    parser.add_argument(
+        "--allow-fuzzy",
+        type=parse_bool,
+        default=True,
+        help="Allow fuzzy title matches (default: true).",
+    )
+    parser.add_argument(
+        "--min-similarity",
+        type=float,
+        default=0.9,
+        help="Minimum Jaccard similarity for fuzzy matches.",
+    )
+    parser.add_argument("--arxiv-max-results", type=int, default=5)
+    parser.add_argument("--semantic-max-results", type=int, default=5)
+    parser.add_argument("--openalex-max-results", type=int, default=5)
+    parser.add_argument("--crossref-max-results", type=int, default=5)
+    parser.add_argument("--dblp-max-results", type=int, default=5)
+    parser.add_argument(
+        "--resume",
+        type=parse_bool,
+        default=False,
+        help="Reuse existing outputs and skip matched entries.",
+    )
+    parser.add_argument(
+        "--checkpoint-every",
+        type=int,
+        default=1,
+        help="Rewrite outputs after this many processed entries.",
+    )
+    parser.add_argument(
+        "--include-full-metadata",
+        type=parse_bool,
+        default=True,
+        help="Export source full metadata to title_abstracts_full_metadata.jsonl.",
+    )
+    args = parser.parse_args()
+
+    load_env_file()
+
+    start = time.perf_counter()
+
+    totals = _collect_all_reference_oracles(
+        Path(args.input_root),
+        Path(args.output_root),
+        args.paper_name,
+        limit=args.limit,
+        allow_fuzzy=args.allow_fuzzy,
+        min_similarity=args.min_similarity,
+        arxiv_max_results=args.arxiv_max_results,
+        semantic_max_results=args.semantic_max_results,
+        dblp_max_results=args.dblp_max_results,
+        openalex_max_results=args.openalex_max_results,
+        crossref_max_results=args.crossref_max_results,
+        include_full_metadata=args.include_full_metadata,
+        checkpoint_every=args.checkpoint_every,
+        resume=args.resume,
+    )
+    elapsed = time.perf_counter() - start
+    total_processed = sum(item[1] for item in totals)
+    total_matched = sum(item[2] for item in totals)
+    total_missing = sum(item[3] for item in totals)
+    print(
+        f"Completed: papers={len(totals)}, entries={total_processed}, matched={total_matched}, missing={total_missing}, elapsed={elapsed:.2f}s"
+    )
     return 0
 
 

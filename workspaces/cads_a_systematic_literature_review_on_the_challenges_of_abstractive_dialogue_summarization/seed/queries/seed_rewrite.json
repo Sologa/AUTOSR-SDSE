@@ -1,0 +1,45 @@
+{
+  "schema_version": "seed_rewrite.v2",
+  "topic_input": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "provider": "openai",
+  "model": "gpt-5.2",
+  "n_requested": 3,
+  "phrases_raw": [
+    "abstractive dialogue summarization challenges",
+    "abstractive conversation summarization challenges",
+    "dialogue summarization system challenges"
+  ],
+  "english_only": {
+    "enabled": true,
+    "dropped": []
+  },
+  "blacklist": {
+    "mode": "clean",
+    "patterns": [
+      "\\bsurvey(?:s|ing|ed)?\\b",
+      "\\breview(?:s|ing|ed)?\\b",
+      "\\boverview(?:s)?\\b",
+      "\\btutorial(?:s)?\\b",
+      "\\bstate[\\s-]+of[\\s-]+the[\\s-]+art\\b",
+      "\\bsota\\b",
+      "\\b(?:literature|systematic|scoping)[\\s-]+review\\b",
+      "\\bmeta[\\s-]+analysis\\b",
+      "\\bmeta[\\s-]+analytic\\b",
+      "\\btaxonom(?:y|ies)\\b",
+      "\\broad[\\s-]*map\\b",
+      "\\bprimer\\b",
+      "\\bperspective\\b",
+      "\\brevisit(?:ing)?\\b",
+      "\\bcomprehensive\\b",
+      "\\b(?:a|an)\\s+(?:survey|overview|review)\\s+of\\b"
+    ],
+    "hits": []
+  },
+  "phrases_clean": [
+    "abstractive dialogue summarization challenges",
+    "abstractive conversation summarization challenges",
+    "dialogue summarization system challenges"
+  ],
+  "errors": [],
+  "raw_output": "{\"phrases\":[\"abstractive dialogue summarization challenges\",\"abstractive conversation summarization challenges\",\"dialogue summarization system challenges\"]}"
+}

@@ -1,0 +1,808 @@
+{
+  "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "model": "gpt-5-mini",
+  "generated_at": "2026-02-02T15:40:04.346341+00:00",
+  "papers": [
+    {
+      "arxiv_id": "2406.05688",
+      "title": "Peer Review as A Multi-Turn and Long-Context Dialogue with Role-Based Interactions",
+      "abstract": "Large Language Models (LLMs) have demonstrated wide-ranging applications across various fields and have shown significant potential in the academic peer-review process. However, existing applications are primarily limited to static review generation based on submitted papers, which fail to capture the dynamic and iterative nature of real-world peer reviews. In this paper, we reformulate the peer-review process as a multi-turn, long-context dialogue, incorporating distinct roles for authors, reviewers, and decision makers. We construct a comprehensive dataset containing over 26,841 papers with 92,017 reviews collected from multiple sources, including the top-tier conference and prestigious journal. This dataset is meticulously designed to facilitate the applications of LLMs for multi-turn dialogues, effectively simulating the complete peer-review process. Furthermore, we propose a series of metrics to evaluate the performance of LLMs for each role under this reformulated peer-review setting, ensuring fair and comprehensive evaluations. We believe this work provides a promising perspective on enhancing the LLM-driven peer-review process by incorporating dynamic, role-based interactions. It aligns closely with the iterative and interactive nature of real-world academic peer review, offering a robust foundation for future research and development in this area. We open-source the dataset at https://github.com/chengtan9907/ReviewMT.",
+      "decision": "no",
+      "reason": "本文為提出數據集與方法的實驗性研究，而非明確標示為系統性文獻回顧或綜述性文章，且主題與摘要性對話摘要的挑戰不直接對應。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2406.03062",
+      "title": "RadBARTsum: Domain Specific Adaption of Denoising Sequence-to-Sequence Models for Abstractive Radiology Report Summarization",
+      "abstract": "Radiology report summarization is a crucial task that can help doctors quickly identify clinically significant findings without the need to review detailed sections of reports. This study proposes RadBARTsum, a domain-specific and ontology facilitated adaptation of the BART model for abstractive radiology report summarization. The approach involves two main steps: 1) re-training the BART model on a large corpus of radiology reports using a novel entity masking strategy to improving biomedical domain knowledge learning, and 2) fine-tuning the model for the summarization task using the Findings and Background sections to predict the Impression section. Experiments are conducted using different masking strategies. Results show that the re-training process with domain knowledge facilitated masking improves performances consistently across various settings. This work contributes a domain-specific generative language model for radiology report summarization and a method for utilising medical knowledge to realise entity masking language model. The proposed approach demonstrates a promising direction of enhancing the efficiency of language models by deepening its understanding of clinical knowledge in radiology reports.",
+      "decision": "no",
+      "reason": "本文為提出與評估放射科報告生成模型的實驗性研究，非系統性文獻回顧或綜述。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2406.03430",
+      "title": "Computation-Efficient Era: A Comprehensive Survey of State Space Models in Medical Image Analysis",
+      "abstract": "Sequence modeling plays a vital role across various domains, with recurrent neural networks being historically the predominant method of performing these tasks. However, the emergence of transformers has altered this paradigm due to their superior performance. Built upon these advances, transformers have conjoined CNNs as two leading foundational models for learning visual representations. However, transformers are hindered by the $\\mathcal{O}(N^2)$ complexity of their attention mechanisms, while CNNs lack global receptive fields and dynamic weight allocation. State Space Models (SSMs), specifically the \\textit{\\textbf{Mamba}} model with selection mechanisms and hardware-aware architecture, have garnered immense interest lately in sequential modeling and visual representation learning, challenging the dominance of transformers by providing infinite context lengths and offering substantial efficiency maintaining linear complexity in the input sequence. Capitalizing on the advances in computer vision, medical imaging has heralded a new epoch with Mamba models. Intending to help researchers navigate the surge, this survey seeks to offer an encyclopedic review of Mamba models in medical imaging. Specifically, we start with a comprehensive theoretical review forming the basis of SSMs, including Mamba architecture and its alternatives for sequence modeling paradigms in this context. Next, we offer a structured classification of Mamba models in the medical field and introduce a diverse categorization scheme based on their application, imaging modalities, and targeted organs. Finally, we summarize key challenges, discuss different future research directions of the SSMs in the medical domain, and propose several directions to fulfill the demands of this field. In addition, we have compiled the studies discussed in this paper along with their open-source implementations on our GitHub repository.",
+      "decision": "no",
+      "reason": "本文为医学影像中状态空间模型的综述，与对话抽象式摘要的系统综述主题不匹配。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2406.02630",
+      "title": "AI Agents Under Threat: A Survey of Key Security Challenges and Future Pathways",
+      "abstract": "An Artificial Intelligence (AI) agent is a software entity that autonomously performs tasks or makes decisions based on pre-defined objectives and data inputs. AI agents, capable of perceiving user inputs, reasoning and planning tasks, and executing actions, have seen remarkable advancements in algorithm development and task performance. However, the security challenges they pose remain under-explored and unresolved. This survey delves into the emerging security threats faced by AI agents, categorizing them into four critical knowledge gaps: unpredictability of multi-step user inputs, complexity in internal executions, variability of operational environments, and interactions with untrusted external entities. By systematically reviewing these threats, this paper highlights both the progress made and the existing limitations in safeguarding AI agents. The insights provided aim to inspire further research into addressing the security threats associated with AI agents, thereby fostering the development of more robust and secure AI agent applications.",
+      "decision": "no",
+      "reason": "該論文是關於 AI 代理的安全性調查，與抽象對話摘要的系統性文獻綜述主題不相關。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2405.15604",
+      "title": "Text Generation: A Systematic Literature Review of Tasks, Evaluation, and Challenges",
+      "abstract": "Text generation has become more accessible than ever, and the increasing interest in these systems, especially those using large language models, has spurred an increasing number of related publications. We provide a systematic literature review comprising 244 selected papers between 2017 and 2024. This review categorizes works in text generation into five main tasks: open-ended text generation, summarization, translation, paraphrasing, and question answering. For each task, we review their relevant characteristics, sub-tasks, and specific challenges (e.g., missing datasets for multi-document summarization, coherence in story generation, and complex reasoning for question answering). Additionally, we assess current approaches for evaluating text generation systems and ascertain problems with current metrics. Our investigation shows nine prominent challenges common to all tasks and sub-tasks in recent text generation publications: bias, reasoning, hallucinations, misuse, privacy, interpretability, transparency, datasets, and computing. We provide a detailed analysis of these challenges, their potential solutions, and which gaps still require further engagement from the community. This systematic literature review targets two main audiences: early career researchers in natural language processing looking for an overview of the field and promising research directions, as well as experienced researchers seeking a detailed view of tasks, evaluation methodologies, open challenges, and recent mitigation strategies.",
+      "decision": "no",
+      "reason": "雖然為系統性文獻回顧，但主題為廣泛的文本生成而非專門探討抽象對話摘要的挑戰，與目標主題不直接匹配。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2405.10630",
+      "title": "Medical Dialogue: A Survey of Categories, Methods, Evaluation and Challenges",
+      "abstract": "This paper surveys and organizes research works on medical dialog systems, which is an important yet challenging task. Although these systems have been surveyed in the medical community from an application perspective, a systematic review from a rigorous technical perspective has to date remained noticeably absent. As a result, an overview of the categories, methods, and evaluation of medical dialogue systems remain limited and underspecified, hindering the further improvement of this area. To fill this gap, we investigate an initial pool of 325 papers from well-known computer science, and natural language processing conferences and journals, and make an overview. Recently, large language models have shown strong model capacity on downstream tasks, which also reshaped medical dialog systems' foundation. Despite the alluring practical application value, current medical dialogue systems still suffer from problems. To this end, this paper lists the grand challenges of medical dialog systems, especially of large language models.",
+      "decision": "no",
+      "reason": "該論文為醫療對話系統的綜述，主題聚焦於醫療對話而非抽象對話摘要的系統性文獻回顧，與所給主題不直接對應。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2405.06541",
+      "title": "ATSumm: Auxiliary information enhanced approach for abstractive disaster Tweet Summarization with sparse training data",
+      "abstract": "The abundance of situational information on Twitter poses a challenge for users to manually discern vital and relevant information during disasters. A concise and human-interpretable overview of this information helps decision-makers in implementing efficient and quick disaster response. Existing abstractive summarization approaches can be categorized as sentence-based or key-phrase-based approaches. This paper focuses on sentence-based approach, which is typically implemented as a dual-phase procedure in literature. The initial phase, known as the extractive phase, involves identifying the most relevant tweets. The subsequent phase, referred to as the abstractive phase, entails generating a more human-interpretable summary. In this study, we adopt the methodology from prior research for the extractive phase. For the abstractive phase of summarization, most existing approaches employ deep learning-based frameworks, which can either be pre-trained or require training from scratch. However, to achieve the appropriate level of performance, it is imperative to have substantial training data for both methods, which is not readily available. This work presents an Abstractive Tweet Summarizer (ATSumm) that effectively addresses the issue of data sparsity by using auxiliary information. We introduced the Auxiliary Pointer Generator Network (AuxPGN) model, which utilizes a unique attention mechanism called Key-phrase attention. This attention mechanism incorporates auxiliary information in the form of key-phrases and their corresponding importance scores from the input tweets. We evaluate the proposed approach by comparing it with 10 state-of-the-art approaches across 13 disaster datasets. The evaluation results indicate that ATSumm achieves superior performance compared to state-of-the-art approaches, with improvement of 4-80% in ROUGE-N F1-score.",
+      "decision": "no",
+      "reason": "本文為提出新模型與實驗的研究，且聚焦於災難推文摘要而非綜述或對話抽象摘要挑戰的系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2405.08011",
+      "title": "A Survey of Large Language Models for Graphs",
+      "abstract": "Graphs are an essential data structure utilized to represent relationships in real-world scenarios. Prior research has established that Graph Neural Networks (GNNs) deliver impressive outcomes in graph-centric tasks, such as link prediction and node classification. Despite these advancements, challenges like data sparsity and limited generalization capabilities continue to persist. Recently, Large Language Models (LLMs) have gained attention in natural language processing. They excel in language comprehension and summarization. Integrating LLMs with graph learning techniques has attracted interest as a way to enhance performance in graph learning tasks. In this survey, we conduct an in-depth review of the latest state-of-the-art LLMs applied in graph learning and introduce a novel taxonomy to categorize existing methods based on their framework design. We detail four unique designs: i) GNNs as Prefix, ii) LLMs as Prefix, iii) LLMs-Graphs Integration, and iv) LLMs-Only, highlighting key methodologies within each category. We explore the strengths and limitations of each framework, and emphasize potential avenues for future research, including overcoming current integration challenges between LLMs and graph learning techniques, and venturing into new application areas. This survey aims to serve as a valuable resource for researchers and practitioners eager to leverage large language models in graph learning, and to inspire continued progress in this dynamic field. We consistently maintain the related open-source materials at \\url{https://github.com/HKUDS/Awesome-LLM4Graph-Papers}.",
+      "decision": "no",
+      "reason": "該文章雖為綜述，但主題聚焦於圖與大型語言模型的結合，與抽象對話摘要主題不相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2403.16247",
+      "title": "Improving Sequence-to-Sequence Models for Abstractive Text Summarization Using Meta Heuristic Approaches",
+      "abstract": "As human society transitions into the information age, reduction in our attention span is a contingency, and people who spend time reading lengthy news articles are decreasing rapidly and the need for succinct information is higher than ever before. Therefore, it is essential to provide a quick overview of important news by concisely summarizing the top news article and the most intuitive headline. When humans try to make summaries, they extract the essential information from the source and add useful phrases and grammatical annotations from the original extract. Humans have a unique ability to create abstractions. However, automatic summarization is a complicated problem to solve. The use of sequence-to-sequence (seq2seq) models for neural abstractive text summarization has been ascending as far as prevalence. Numerous innovative strategies have been proposed to develop the current seq2seq models further, permitting them to handle different issues like saliency, familiarity, and human lucidness and create excellent synopses. In this article, we aimed toward enhancing the present architectures and models for abstractive text summarization. The modifications have been aimed at fine-tuning hyper-parameters, attempting specific encoder-decoder combinations. We examined many experiments on an extensively used CNN/DailyMail dataset to check the effectiveness of various models.",
+      "decision": "no",
+      "reason": "本文為改進模型與實驗研究，且非系統性文獻回顧，也主要針對新聞文本摘要而非對話摘要。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2403.02930",
+      "title": "A Second Look on BASS -- Boosting Abstractive Summarization with Unified Semantic Graphs -- A Replication Study",
+      "abstract": "We present a detailed replication study of the BASS framework, an abstractive summarization system based on the notion of Unified Semantic Graphs. Our investigation includes challenges in replicating key components and an ablation study to systematically isolate error sources rooted in replicating novel components. Our findings reveal discrepancies in performance compared to the original work. We highlight the significance of paying careful attention even to reasonably omitted details for replicating advanced frameworks like BASS, and emphasize key practices for writing replicable papers.",
+      "decision": "no",
+      "reason": "本文為復現研究而非系統性綜述，且並非專注於對話型抽象摘要的挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2402.18013",
+      "title": "A Survey on Recent Advances in LLM-Based Multi-turn Dialogue Systems",
+      "abstract": "This survey provides a comprehensive review of research on multi-turn dialogue systems, with a particular focus on multi-turn dialogue systems based on large language models (LLMs). This paper aims to (a) give a summary of existing LLMs and approaches for adapting LLMs to downstream tasks; (b) elaborate recent advances in multi-turn dialogue systems, covering both LLM-based open-domain dialogue (ODD) and task-oriented dialogue (TOD) systems, along with datasets and evaluation metrics; (c) discuss some future emphasis and recent research problems arising from the development of LLMs and the increasing demands on multi-turn dialogue systems.",
+      "decision": "no",
+      "reason": "本文为多轮对话系统的综述，未以抽象式对话摘要挑战为主要或明确主题。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2402.12001",
+      "title": "A Survey on Extractive Knowledge Graph Summarization: Applications, Approaches, Evaluation, and Future Directions",
+      "abstract": "With the continuous growth of large Knowledge Graphs (KGs), extractive KG summarization becomes a trending task. Aiming at distilling a compact subgraph with condensed information, it facilitates various downstream KG-based tasks. In this survey paper, we are among the first to provide a systematic overview of its applications and define a taxonomy for existing methods from its interdisciplinary studies. Future directions are also laid out based on our extensive and comparative review.",
+      "decision": "no",
+      "reason": "本文為知識圖譜提取式摘要的綜述，與抽象式對話摘要主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2402.09283",
+      "title": "Attacks, Defenses and Evaluations for LLM Conversation Safety: A Survey",
+      "abstract": "Large Language Models (LLMs) are now commonplace in conversation applications. However, their risks of misuse for generating harmful responses have raised serious societal concerns and spurred recent research on LLM conversation safety. Therefore, in this survey, we provide a comprehensive overview of recent studies, covering three critical aspects of LLM conversation safety: attacks, defenses, and evaluations. Our goal is to provide a structured summary that enhances understanding of LLM conversation safety and encourages further investigation into this important subject. For easy reference, we have categorized all the studies mentioned in this survey according to our taxonomy, available at: https://github.com/niconi19/LLM-conversation-safety.",
+      "decision": "no",
+      "reason": "該論文雖為综述但主題聚焦於對話安全（攻擊、防禦、評估），與抽象對話摘要的挑戰無直接關聯。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2402.08565",
+      "title": "Artificial Intelligence for Literature Reviews: Opportunities and Challenges",
+      "abstract": "This manuscript presents a comprehensive review of the use of Artificial Intelligence (AI) in Systematic Literature Reviews (SLRs). A SLR is a rigorous and organised methodology that assesses and integrates previous research on a given topic. Numerous tools have been developed to assist and partially automate the SLR process. The increasing role of AI in this field shows great potential in providing more effective support for researchers, moving towards the semi-automatic creation of literature reviews. Our study focuses on how AI techniques are applied in the semi-automation of SLRs, specifically in the screening and extraction phases. We examine 21 leading SLR tools using a framework that combines 23 traditional features with 11 AI features. We also analyse 11 recent tools that leverage large language models for searching the literature and assisting academic writing. Finally, the paper discusses current trends in the field, outlines key research challenges, and suggests directions for future research.",
+      "decision": "no",
+      "reason": "本文为关于人工智能在系统综述中的综述，但并非聚焦于抽象式对话摘要的挑战，题目不匹配。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2402.01097",
+      "title": "Let's Negotiate! A Survey of Negotiation Dialogue Systems",
+      "abstract": "Negotiation is a crucial ability in human communication. Recently, there has been a resurgent research interest in negotiation dialogue systems, whose goal is to create intelligent agents that can assist people in resolving conflicts or reaching agreements. Although there have been many explorations into negotiation dialogue systems, a systematic review of this task has not been performed to date. We aim to fill this gap by investigating recent studies in the field of negotiation dialogue systems, and covering benchmarks, evaluations and methodologies within the literature. We also discuss potential future directions, including multi-modal, multi-party and cross-cultural negotiation scenarios. Our goal is to provide the community with a systematic overview of negotiation dialogue systems and to inspire future research.",
+      "decision": "no",
+      "reason": "該文為談判對話系統的綜述，並非關於抽象式對話摘要的系統性文獻回顧，主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2402.01799",
+      "title": "Faster and Lighter LLMs: A Survey on Current Challenges and Way Forward",
+      "abstract": "Despite the impressive performance of LLMs, their widespread adoption faces challenges due to substantial computational and memory requirements during inference. Recent advancements in model compression and system-level optimization methods aim to enhance LLM inference. This survey offers an overview of these methods, emphasizing recent developments. Through experiments on LLaMA(/2)-7B, we evaluate various compression techniques, providing practical insights for efficient LLM deployment in a unified setting. The empirical analysis on LLaMA(/2)-7B highlights the effectiveness of these methods. Drawing from survey insights, we identify current limitations and discuss potential future directions to improve LLM inference efficiency. We release the codebase to reproduce the results presented in this paper at https://github.com/nyunAI/Faster-LLM-Survey",
+      "decision": "no",
+      "reason": "本文雖為survey，但主題聚焦於大型模型壓縮與推理效率，並非抽象對話摘要的系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2401.04971",
+      "title": "A Survey on Cross-Domain Sequential Recommendation",
+      "abstract": "Cross-domain sequential recommendation (CDSR) shifts the modeling of user preferences from flat to stereoscopic by integrating and learning interaction information from multiple domains at different granularities (ranging from inter-sequence to intra-sequence and from single-domain to cross-domain). In this survey, we first define the CDSR problem using a four-dimensional tensor and then analyze its multi-type input representations under multidirectional dimensionality reductions. Following that, we provide a systematic overview from both macro and micro views. From a macro view, we abstract the multi-level fusion structures of various models across domains and discuss their bridges for fusion. From a micro view, focusing on the existing models, we first discuss the basic technologies and then explain the auxiliary learning technologies. Finally, we exhibit the available public datasets and the representative experimental results as well as provide some insights into future directions for research in CDSR.",
+      "decision": "no",
+      "reason": "论文为跨域序列推荐的综述，与抽象式对话摘要主题无关。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2401.03547",
+      "title": "Overview of Dialogue Robot Competition 2023",
+      "abstract": "We have held dialogue robot competitions in 2020 and 2022 to compare the performances of interactive robots using an android that closely resembles a human. In 2023, the third competition DRC2023 was held. The task of DRC2023 was designed to be more challenging than the previous travel agent dialogue tasks. Since anyone can now develop a dialogue system using LLMs, the participating teams are required to develop a system that effectively uses information about the situation on the spot (real-time information), which is not handled by ChatGPT and other systems. DRC2023 has two rounds, a preliminary round and the final round as well as the previous competitions. The preliminary round has held on Oct.27 -- Nov.20, 2023 at real travel agency stores. The final round will be held on December 23, 2023. This paper provides an overview of the task settings and evaluation method of DRC2023 and the preliminary round results.",
+      "decision": "no",
+      "reason": "文章是對對話機器人競賽的概述，並非關於抽象式對話摘要的系統性文獻綜述。",
+      "confidence": 0.85
+    },
+    {
+      "arxiv_id": "2312.14430",
+      "title": "Proceedings of the Dialogue Robot Competition 2023",
+      "abstract": "The Dialogic Robot Competition 2023 (DRC2023) is a competition for humanoid robots (android robots that closely resemble humans) to compete in interactive capabilities. This is the third year of the competition. The top four teams from the preliminary competition held in November 2023 will compete in the final competition on Saturday, December 23. The task for the interactive robots is to recommend a tourism plan for a specific region. The robots can employ multimodal behaviors, such as language and gestures, to engage the user in the sightseeing plan they recommend. In the preliminary round, the interactive robots were stationed in a travel agency office, where visitors conversed with them and rated their performance via a questionnaire. In the final round, dialogue researchers and tourism industry professionals interacted with the robots and evaluated their performance. This event allows visitors to gain insights into the types of dialogue services that future dialogue robots should offer. The proceedings include papers on dialogue systems developed by the 12 teams participating in DRC2023, as well as an overview of the papers provided by all the teams.",
+      "decision": "no",
+      "reason": "本文為對話機器人競賽的論文集與概述，並非針對抽象式對話摘要挑戰的系統性綜述。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2312.13871",
+      "title": "Evaluating Task-oriented Dialogue Systems: A Systematic Review of Measures, Constructs and their Operationalisations",
+      "abstract": "This review gives an extensive overview of evaluation methods for task-oriented dialogue systems, paying special attention to practical applications of dialogue systems, for example for customer service. The review (1) provides an overview of the used constructs and metrics in previous work, (2) discusses challenges in the context of dialogue system evaluation and (3) develops a research agenda for the future of dialogue system evaluation. We conducted a systematic review of four databases (ACL, ACM, IEEE and Web of Science), which after screening resulted in 122 studies. Those studies were carefully analysed for the constructs and methods they proposed for evaluation. We found a wide variety in both constructs and methods. Especially the operationalisation is not always clearly reported. Newer developments concerning large language models are discussed in two contexts: to power dialogue systems and to use in the evaluation process. We hope that future work will take a more critical approach to the operationalisation and specification of the used constructs. To work towards this aim, this review ends with recommendations for evaluation and suggestions for outstanding questions.",
+      "decision": "no",
+      "reason": "該系統綜述聚焦於任務型對話系統的評估方法，而非抽象式對話摘要的挑戰，與主題不符。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2312.12915",
+      "title": "Survey on Multi-Document Summarization: Systematic Literature Review",
+      "abstract": "In this era of information technology, abundant information is available on the internet in the form of web pages and documents on any given topic. Finding the most relevant and informative content out of these huge number of documents, without spending several hours of reading has become a very challenging task. Various methods of multi-document summarization have been developed to overcome this problem. The multi-document summarization methods try to produce high-quality summaries of documents with low redundancy. This study conducts a systematic literature review of existing methods for multi-document summarization methods and provides an in-depth analysis of performance achieved by these methods. The findings of the study show that more effective methods are still required for getting higher accuracy of these methods. The study also identifies some open challenges that can gain the attention of future researchers of this domain.",
+      "decision": "no",
+      "reason": "該文章雖為系統性綜述，但主題為多文件摘要而非關注抽象對話摘要的挑戰，與目標主題不相符。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2311.16789",
+      "title": "A Survey of the Evolution of Language Model-Based Dialogue Systems: Data, Task and Models",
+      "abstract": "Dialogue systems (DS), including the task-oriented dialogue system (TOD) and the open-domain dialogue system (ODD), have always been a fundamental task in natural language processing (NLP), allowing various applications in practice. Owing to sophisticated training and well-designed model architecture, language models (LM) are usually adopted as the necessary backbone to build the dialogue system. Consequently, every breakthrough in LM brings about a shift in learning paradigm and research attention within dialogue system, especially the appearance of pre-trained language models (PLMs) and large language models (LLMs). In this paper, we take a deep look at the history of the dialogue system, especially its special relationship with the advancements of language models. Thus, our survey offers a systematic perspective, categorizing different stages in a chronological order aligned with LM breakthroughs, providing a comprehensive review of state-of-the-art research outcomes. What's more, we turn our attention to emerging topics and engage in a discussion on open challenges, providing valuable insights into the future directions for LLM-based dialogue systems. In summary, this survey delves into the dynamic interplay between language models and dialogue systems, unraveling the evolutionary path of this essential relationship. Through this exploration, we pave the way for a deeper comprehension of the field, guiding future developments in LM-based dialogue systems.",
+      "decision": "no",
+      "reason": "該文章是關於語言模型驅動的對話系統演進綜述，並非聚焦於抽象式對話摘要的挑戰或系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2311.15525",
+      "title": "Overview of the VLSP 2022 -- Abmusu Shared Task: A Data Challenge for Vietnamese Abstractive Multi-document Summarization",
+      "abstract": "This paper reports the overview of the VLSP 2022 - Vietnamese abstractive multi-document summarization (Abmusu) shared task for Vietnamese News. This task is hosted at the 9$^{th}$ annual workshop on Vietnamese Language and Speech Processing (VLSP 2022). The goal of Abmusu shared task is to develop summarization systems that could create abstractive summaries automatically for a set of documents on a topic. The model input is multiple news documents on the same topic, and the corresponding output is a related abstractive summary. In the scope of Abmusu shared task, we only focus on Vietnamese news summarization and build a human-annotated dataset of 1,839 documents in 600 clusters, collected from Vietnamese news in 8 categories. Participated models are evaluated and ranked in terms of \\texttt{ROUGE2-F1} score, the most typical evaluation metric for document summarization problem.",
+      "decision": "no",
+      "reason": "本文為多文件新聞摘要的共享任務概述，並非關於對話式抽象摘要的系統性文獻回顧。",
+      "confidence": 0.83
+    },
+    {
+      "arxiv_id": "2311.09212",
+      "title": "Controllable Text Summarization: Unraveling Challenges, Approaches, and Prospects -- A Survey",
+      "abstract": "Generic text summarization approaches often fail to address the specific intent and needs of individual users. Recently, scholarly attention has turned to the development of summarization methods that are more closely tailored and controlled to align with specific objectives and user needs. Despite a growing corpus of controllable summarization research, there is no comprehensive survey available that thoroughly explores the diverse controllable attributes employed in this context, delves into the associated challenges, and investigates the existing solutions. In this survey, we formalize the Controllable Text Summarization (CTS) task, categorize controllable attributes according to their shared characteristics and objectives, and present a thorough examination of existing datasets and methods within each category. Moreover, based on our findings, we uncover limitations and research gaps, while also exploring potential solutions and future directions for CTS. We release our detailed analysis of CTS papers at https://github.com/ashokurlana/controllable_text_summarization_survey.",
+      "decision": "no",
+      "reason": "該論文為可控文本摘要的綜述，並非針對抽象對話摘要的系統性文獻回顧，主題不匹配。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2311.07884",
+      "title": "Fair Abstractive Summarization of Diverse Perspectives",
+      "abstract": "People from different social and demographic groups express diverse perspectives and conflicting opinions on a broad set of topics such as product reviews, healthcare, law, and politics. A fair summary should provide a comprehensive coverage of diverse perspectives without underrepresenting certain groups. However, current work in summarization metrics and Large Language Models (LLMs) evaluation has not explored fair abstractive summarization. In this paper, we systematically investigate fair abstractive summarization for user-generated data. We first formally define fairness in abstractive summarization as not underrepresenting perspectives of any groups of people, and we propose four reference-free automatic metrics by measuring the differences between target and source perspectives. We evaluate nine LLMs, including three GPT models, four LLaMA models, PaLM 2, and Claude, on six datasets collected from social media, online reviews, and recorded transcripts. Experiments show that both the model-generated and the human-written reference summaries suffer from low fairness. We conduct a comprehensive analysis of the common factors influencing fairness and propose three simple but effective methods to alleviate unfair summarization. Our dataset and code are available at https://github.com/psunlpgroup/FairSumm.",
+      "decision": "no",
+      "reason": "本文為提出新方法與評估實驗的原創研究，且未標示為系統性文獻回顧且並非專注於對話摘要挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2310.19687",
+      "title": "Sentiment Analysis in Digital Spaces: An Overview of Reviews",
+      "abstract": "Sentiment analysis (SA) is commonly applied to digital textual data, revealing insight into opinions and feelings. Many systematic reviews have summarized existing work, but often overlook discussions of validity and scientific practices. Here, we present an overview of reviews, synthesizing 38 systematic reviews, containing 2,275 primary studies. We devise a bespoke quality assessment framework designed to assess the rigor and quality of systematic review methodologies and reporting standards. Our findings show diverse applications and methods, limited reporting rigor, and challenges over time. We discuss how future research and practitioners can address these issues and highlight their importance across numerous applications.",
+      "decision": "no",
+      "reason": "該文為情感分析綜述，內容與抽象對話摘要挑戰無直接關聯。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2310.09411",
+      "title": "Surveying the Landscape of Text Summarization with Deep Learning: A Comprehensive Review",
+      "abstract": "In recent years, deep learning has revolutionized natural language processing (NLP) by enabling the development of models that can learn complex representations of language data, leading to significant improvements in performance across a wide range of NLP tasks. Deep learning models for NLP typically use large amounts of data to train deep neural networks, allowing them to learn the patterns and relationships in language data. This is in contrast to traditional NLP approaches, which rely on hand-engineered features and rules to perform NLP tasks. The ability of deep neural networks to learn hierarchical representations of language data, handle variable-length input sequences, and perform well on large datasets makes them well-suited for NLP applications. Driven by the exponential growth of textual data and the increasing demand for condensed, coherent, and informative summaries, text summarization has been a critical research area in the field of NLP. Applying deep learning to text summarization refers to the use of deep neural networks to perform text summarization tasks. In this survey, we begin with a review of fashionable text summarization tasks in recent years, including extractive, abstractive, multi-document, and so on. Next, we discuss most deep learning-based models and their experimental results on these tasks. The paper also covers datasets and data representation for summarization tasks. Finally, we delve into the opportunities and challenges associated with summarization tasks and their corresponding methodologies, aiming to inspire future research efforts to advance the field further. A goal of our survey is to explain how these methods differ in their requirements as understanding them is essential for choosing a technique suited for a specific setting.",
+      "decision": "no",
+      "reason": "本文為深度學習下的一般性文本摘要綜述，並非專門針對對話式抽象摘要的系統性挑戰研究。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2310.04694",
+      "title": "DNA-Based Data Storage Systems: A Review of Implementations and Code Constructions",
+      "abstract": "In this review paper, we delve into the nascent field of molecular data storage, focusing on system implementations and code constructions. We start by providing an overview of basic concepts in synthetic and computational biology. Afterwards, we proceed with a review of the diverse approaches followed to implement such systems. In the process, we identify new problems in communication and coding theory, and discuss some relevant results pertaining to DNA sequence profiles, coded trace reconstruction, coding for DNA punchcard systems and coding for unique reconstruction.",
+      "decision": "no",
+      "reason": "本文是一篇關於DNA資料儲存的綜述，與抽象式對話摘要主題不相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2309.09293",
+      "title": "Star formation in CALIFA survey perturbed galaxies.III. Stellar & ionized-gas kinematic distributions",
+      "abstract": "We obtain the kinematic distributions of stars (synthetic model line absorption) and ionized gas (H$α$ line emission) for star-forming regions residing in CALIFA survey tidally perturbed (perturbed) and non-tidally perturbed (control) galaxies. We set the uncertainties of the velocity dispersion by measuring the statistical variability of the datasets themselves. Using these adopted uncertainties and considering the sensitivity of the grating device, we establish thresholds of reliability that allow us to select reliable velocity dispersions. From this selection, we pair the star-forming spaxels between control and perturbed galaxies at the closest shifts in velocity (de-redshifting). We compare their respective distributions of velocity dispersion. In perturbed galaxies, median velocity dispersions for the stellar and gaseous components are minimally higher and equal, respectively, than those in control galaxies. The spread in velocity dispersion and the velocity shift - velocity dispersion space agree with this result. Unlike the well-known trend in strongly interacting systems, the stellar and ionized-gas motions are not disturbed by the influence of close companions. For the gaseous component, this result is due to the poor statistical variability of its data, a consequence of the tightness in velocity dispersion derived from high spectral line intensities. This analysis concludes the series, which previously showed star-forming regions in galaxies with close companions undergoing more prominent gas inflows, resulting in differences in their star formation and consequent metal content.",
+      "decision": "no",
+      "reason": "文章是天文學實證研究，而非關於摘要式對話摘要挑戰的系統性綜述。",
+      "confidence": 0.93
+    },
+    {
+      "arxiv_id": "2307.09021",
+      "title": "Towards a Neural Era in Dialogue Management for Collaboration: A Literature Survey",
+      "abstract": "Dialogue-based human-AI collaboration can revolutionize collaborative problem-solving, creative exploration, and social support. To realize this goal, the development of automated agents proficient in skills such as negotiating, following instructions, establishing common ground, and progressing shared tasks is essential. This survey begins by reviewing the evolution of dialogue management paradigms in collaborative dialogue systems, from traditional handcrafted and information-state based methods to AI planning-inspired approaches. It then shifts focus to contemporary data-driven dialogue management techniques, which seek to transfer deep learning successes from form-filling and open-domain settings to collaborative contexts. The paper proceeds to analyze a selected set of recent works that apply neural approaches to collaborative dialogue management, spotlighting prevailing trends in the field. This survey hopes to provide foundational background for future advancements in collaborative dialogue management, particularly as the dialogue systems community continues to embrace the potential of large language models.",
+      "decision": "no",
+      "reason": "本文是關於協作對話管理的綜述，並非專注於抽象式對話摘要的挑戰，因此不符合主題。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2306.06955",
+      "title": "A Brief Review of Hypernetworks in Deep Learning",
+      "abstract": "Hypernetworks, or hypernets for short, are neural networks that generate weights for another neural network, known as the target network. They have emerged as a powerful deep learning technique that allows for greater flexibility, adaptability, dynamism, faster training, information sharing, and model compression. Hypernets have shown promising results in a variety of deep learning problems, including continual learning, causal inference, transfer learning, weight pruning, uncertainty quantification, zero-shot learning, natural language processing, and reinforcement learning. Despite their success across different problem settings, there is currently no comprehensive review available to inform researchers about the latest developments and to assist in utilizing hypernets. To fill this gap, we review the progress in hypernets. We present an illustrative example of training deep neural networks using hypernets and propose categorizing hypernets based on five design criteria: inputs, outputs, variability of inputs and outputs, and the architecture of hypernets. We also review applications of hypernets across different deep learning problem settings, followed by a discussion of general scenarios where hypernets can be effectively employed. Finally, we discuss the challenges and future directions that remain underexplored in the field of hypernets. We believe that hypernetworks have the potential to revolutionize the field of deep learning. They offer a new way to design and train neural networks, and they have the potential to improve the performance of deep learning models on a variety of tasks. Through this review, we aim to inspire further advancements in deep learning through hypernetworks.",
+      "decision": "no",
+      "reason": "本文是关于超网络的综述，与抽象式对话摘要的系统综述主题不相关。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2305.10435",
+      "title": "Generative Pre-trained Transformer: A Comprehensive Review on Enabling Technologies, Potential Applications, Emerging Challenges, and Future Directions",
+      "abstract": "The Generative Pre-trained Transformer (GPT) represents a notable breakthrough in the domain of natural language processing, which is propelling us toward the development of machines that can understand and communicate using language in a manner that closely resembles that of humans. GPT is based on the transformer architecture, a deep neural network designed for natural language processing tasks. Due to their impressive performance on natural language processing tasks and ability to effectively converse, GPT have gained significant popularity among researchers and industrial communities, making them one of the most widely used and effective models in natural language processing and related fields, which motivated to conduct this review. This review provides a detailed overview of the GPT, including its architecture, working process, training procedures, enabling technologies, and its impact on various applications. In this review, we also explored the potential challenges and limitations of a GPT. Furthermore, we discuss potential solutions and future directions. Overall, this paper aims to provide a comprehensive understanding of GPT, enabling technologies, their impact on various applications, emerging challenges, and potential solutions.",
+      "decision": "no",
+      "reason": "該論文雖為綜述但主題為GPT及其應用與挑戰，與「對話摘要的抽象化挑戰」不直接相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2305.16324",
+      "title": "Talking with Machines: A Comprehensive Survey of Emergent Dialogue Systems",
+      "abstract": "From the earliest experiments in the 20th century to the utilization of large language models and transformers, dialogue systems research has continued to evolve, playing crucial roles in numerous fields. This paper offers a comprehensive review of these systems, tracing their historical development and examining their fundamental operations. We analyze popular and emerging datasets for training and survey key contributions in dialogue systems research, including traditional systems and advanced machine learning methods. Finally, we consider conventional and transformer-based evaluation metrics, followed by a short discussion of prevailing challenges and future prospects in the field.",
+      "decision": "no",
+      "reason": "文章為綜述但主題聚焦於對話系統整體，而非專門探討抽象式對話摘要的挑戰與系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2305.02750",
+      "title": "A Survey on Proactive Dialogue Systems: Problems, Methods, and Prospects",
+      "abstract": "Proactive dialogue systems, related to a wide range of real-world conversational applications, equip the conversational agent with the capability of leading the conversation direction towards achieving pre-defined targets or fulfilling certain goals from the system side. It is empowered by advanced techniques to progress to more complicated tasks that require strategical and motivational interactions. In this survey, we provide a comprehensive overview of the prominent problems and advanced designs for conversational agent's proactivity in different types of dialogues. Furthermore, we discuss challenges that meet the real-world application needs but require a greater research focus in the future. We hope that this first survey of proactive dialogue systems can provide the community with a quick access and an overall picture to this practical problem, and stimulate more progresses on conversational AI to the next level.",
+      "decision": "no",
+      "reason": "雖然為綜述文章，但主題為主動對話系統，並非聚焦於抽象化對話摘要的挑戰，因此不符合。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2303.14461",
+      "title": "Indian Language Summarization using Pretrained Sequence-to-Sequence Models",
+      "abstract": "The ILSUM shared task focuses on text summarization for two major Indian languages- Hindi and Gujarati, along with English. In this task, we experiment with various pretrained sequence-to-sequence models to find out the best model for each of the languages. We present a detailed overview of the models and our approaches in this paper. We secure the first rank across all three sub-tasks (English, Hindi and Gujarati). This paper also extensively analyzes the impact of k-fold cross-validation while experimenting with limited data size, and we also perform various experiments with a combination of the original and a filtered version of the data to determine the efficacy of the pretrained models.",
+      "decision": "no",
+      "reason": "本文为针对印度语言的模型实验与竞赛结果报告，未表明为综述型文献且主题与抽象式对话摘要系统综述不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2303.07909",
+      "title": "Text-to-image Diffusion Models in Generative AI: A Survey",
+      "abstract": "This survey reviews the progress of diffusion models in generating images from text, ~\\textit{i.e.} text-to-image diffusion models. As a self-contained work, this survey starts with a brief introduction of how diffusion models work for image synthesis, followed by the background for text-conditioned image synthesis. Based on that, we present an organized review of pioneering methods and their improvements on text-to-image generation. We further summarize applications beyond image generation, such as text-guided generation for various modalities like videos, and text-guided image editing. Beyond the progress made so far, we discuss existing challenges and promising future directions.",
+      "decision": "no",
+      "reason": "本文是關於文本到圖像擴散模型的綜述，與抽象對話摘要的挑戰無直接關聯。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2302.06114",
+      "title": "A Comprehensive Survey on Graph Summarization with Graph Neural Networks",
+      "abstract": "As large-scale graphs become more widespread, more and more computational challenges with extracting, processing, and interpreting large graph data are being exposed. It is therefore natural to search for ways to summarize these expansive graphs while preserving their key characteristics. In the past, most graph summarization techniques sought to capture the most important part of a graph statistically. However, today, the high dimensionality and complexity of modern graph data are making deep learning techniques more popular. Hence, this paper presents a comprehensive survey of progress in deep learning summarization techniques that rely on graph neural networks (GNNs). Our investigation includes a review of the current state-of-the-art approaches, including recurrent GNNs, convolutional GNNs, graph autoencoders, and graph attention networks. A new burgeoning line of research is also discussed where graph reinforcement learning is being used to evaluate and improve the quality of graph summaries. Additionally, the survey provides details of benchmark datasets, evaluation metrics, and open-source tools that are often employed in experimentation settings, along with a detailed comparison, discussion, and takeaways for the research community focused on graph summarization. Finally, the survey concludes with a number of open research challenges to motivate further study in this area.",
+      "decision": "no",
+      "reason": "文章雖為綜述但主題為圖摘要與圖神經網路，並非關於抽象式對話摘要的挑戰。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2302.02926",
+      "title": "Curriculum Graph Machine Learning: A Survey",
+      "abstract": "Graph machine learning has been extensively studied in both academia and industry. However, in the literature, most existing graph machine learning models are designed to conduct training with data samples in a random order, which may suffer from suboptimal performance due to ignoring the importance of different graph data samples and their training orders for the model optimization status. To tackle this critical problem, curriculum graph machine learning (Graph CL), which integrates the strength of graph machine learning and curriculum learning, arises and attracts an increasing amount of attention from the research community. Therefore, in this paper, we comprehensively overview approaches on Graph CL and present a detailed survey of recent advances in this direction. Specifically, we first discuss the key challenges of Graph CL and provide its formal problem definition. Then, we categorize and summarize existing methods into three classes based on three kinds of graph machine learning tasks, i.e., node-level, link-level, and graph-level tasks. Finally, we share our thoughts on future research directions. To the best of our knowledge, this paper is the first survey for curriculum graph machine learning.",
+      "decision": "no",
+      "reason": "該文為關於課程化圖機器學習的綜述，並非關於摘要式對話總結的系統性文獻回顧。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2302.01107",
+      "title": "A Survey on Efficient Training of Transformers",
+      "abstract": "Recent advances in Transformers have come with a huge requirement on computing resources, highlighting the importance of developing efficient training techniques to make Transformer training faster, at lower cost, and to higher accuracy by the efficient use of computation and memory resources. This survey provides the first systematic overview of the efficient training of Transformers, covering the recent progress in acceleration arithmetic and hardware, with a focus on the former. We analyze and compare methods that save computation and memory costs for intermediate tensors during training, together with techniques on hardware/algorithm co-design. We finally discuss challenges and promising areas for future research.",
+      "decision": "no",
+      "reason": "该论文虽然是综述，但主题聚焦于Transformer高效训练，与摘要对话生成的挑战无关。",
+      "confidence": 0.88
+    },
+    {
+      "arxiv_id": "2301.13298",
+      "title": "LongEval: Guidelines for Human Evaluation of Faithfulness in Long-form Summarization",
+      "abstract": "While human evaluation remains best practice for accurately judging the faithfulness of automatically-generated summaries, few solutions exist to address the increased difficulty and workload when evaluating long-form summaries. Through a survey of 162 papers on long-form summarization, we first shed light on current human evaluation practices surrounding long-form summaries. We find that 73% of these papers do not perform any human evaluation on model-generated summaries, while other works face new difficulties that manifest when dealing with long documents (e.g., low inter-annotator agreement). Motivated by our survey, we present LongEval, a set of guidelines for human evaluation of faithfulness in long-form summaries that addresses the following challenges: (1) How can we achieve high inter-annotator agreement on faithfulness scores? (2) How can we minimize annotator workload while maintaining accurate faithfulness scores? and (3) Do humans benefit from automated alignment between summary and source snippets? We deploy LongEval in annotation studies on two long-form summarization datasets in different domains (SQuALITY and PubMed), and we find that switching to a finer granularity of judgment (e.g., clause-level) reduces inter-annotator variance in faithfulness scores (e.g., std-dev from 18.5 to 6.8). We also show that scores from a partial annotation of fine-grained units highly correlates with scores from a full annotation workload (0.89 Kendall's tau using 50% judgments). We release our human judgments, annotation templates, and our software as a Python library for future research.",
+      "decision": "no",
+      "reason": "本文為長篇摘要的人類評估指南與調查，並不是針對對話式抽象摘要的系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2301.11682",
+      "title": "Towards Personalized Review Summarization by Modeling Historical Reviews from Customer and Product Separately",
+      "abstract": "Review summarization is a non-trivial task that aims to summarize the main idea of the product review in the E-commerce website. Different from the document summary which only needs to focus on the main facts described in the document, review summarization should not only summarize the main aspects mentioned in the review but also reflect the personal style of the review author. Although existing review summarization methods have incorporated the historical reviews of both customer and product, they usually simply concatenate and indiscriminately model this two heterogeneous information into a long sequence. Moreover, the rating information can also provide a high-level abstraction of customer preference, it has not been used by the majority of methods. In this paper, we propose the Heterogeneous Historical Review aware Review Summarization Model (HHRRS) which separately models the two types of historical reviews with the rating information by a graph reasoning module with a contrastive loss. We employ a multi-task framework that conducts the review sentiment classification and summarization jointly. Extensive experiments on four benchmark datasets demonstrate the superiority of HHRRS on both tasks.",
+      "decision": "no",
+      "reason": "本文是提出模型的研究而非系統性文獻回顧，且主題為商品評論摘要非對話摘要的挑戰綜述。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2212.10791",
+      "title": "OpineSum: Entailment-based self-training for abstractive opinion summarization",
+      "abstract": "A typical product or place often has hundreds of reviews, and summarization of these texts is an important and challenging problem. Recent progress on abstractive summarization in domains such as news has been driven by supervised systems trained on hundreds of thousands of news articles paired with human-written summaries. However for opinion texts, such large scale datasets are rarely available. Unsupervised methods, self-training, and few-shot learning approaches bridge that gap. In this work, we present a novel self-training approach, OpineSum, for abstractive opinion summarization. The summaries in this approach are built using a novel application of textual entailment and capture the consensus of opinions across the various reviews for an item. This method can be used to obtain silver-standard summaries on a large scale and train both unsupervised and few-shot abstractive summarization systems. OpineSum achieves state-of-the-art performance in both settings.",
+      "decision": "no",
+      "reason": "本文為提出新方法的原創研究，且聚焦於意見摘要而非對話摘要的系統性文獻回顧，與主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2212.09072",
+      "title": "Let's Negotiate! A Survey of Negotiation Dialogue Systems",
+      "abstract": "Negotiation is one of the crucial abilities in human communication, and there has been a resurgent research interest in negotiation dialogue systems recently, which goal is to empower intelligent agents with such ability that can efficiently help humans resolve conflicts or reach beneficial agreements. Although there have been many explorations in negotiation dialogue systems, a systematic review of this task has to date remained notably absent. To this end, we aim to fill this gap by reviewing contemporary studies in the emerging field of negotiation dialogue systems, covering benchmarks, evaluations, and methodologies. Furthermore, we also discuss potential future directions, including multi-modal, multi-party, and cross-cultural negotiation scenarios. Our goal is to provide the community with a systematic overview of negotiation dialogue systems and to inspire future research.",
+      "decision": "no",
+      "reason": "該論文雖為綜述，但主題是談判對話系統，與摘要型對話摘要的挑戰不直接相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2212.08206",
+      "title": "Meeting Summarization: A Survey of the State of the Art",
+      "abstract": "Information overloading requires the need for summarizers to extract salient information from the text. Currently, there is an overload of dialogue data due to the rise of virtual communication platforms. The rise of Covid-19 has led people to rely on online communication platforms like Zoom, Slack, Microsoft Teams, Discord, etc. to conduct their company meetings. Instead of going through the entire meeting transcripts, people can use meeting summarizers to select useful data. Nevertheless, there is a lack of comprehensive surveys in the field of meeting summarizers. In this survey, we aim to cover recent meeting summarization techniques. Our survey offers a general overview of text summarization along with datasets and evaluation metrics for meeting summarization. We also provide the performance of each summarizer on a leaderboard. We conclude our survey with different challenges in this domain and potential research opportunities for future researchers.",
+      "decision": "yes",
+      "reason": "文章明確以 survey 形式綜述會議（對話）摘要的技術、數據集、評估與挑戰，與主題高度相關。",
+      "confidence": 0.82
+    },
+    {
+      "arxiv_id": "2210.12863",
+      "title": "Overview of Dialogue Robot Competition 2022",
+      "abstract": "Although many competitions have been held on dialogue systems in the past, no competition has been organized specifically for dialogue with humanoid robots. As the first such attempt in the world, we held a dialogue robot competition in 2020 to compare the performances of interactive robots using an android that closely resembles a human. Dialogue Robot Competition 2022 (DRC2022) was the second competition, held in August 2022. The task and regulations followed those of the first competition, while the evaluation method was improved and the event was internationalized. The competition has two rounds, a preliminary round and the final round. In the preliminary round, twelve participating teams competed in performance of a dialogue robot in the manner of a field experiment, and then three of those teams were selected as finalists. The final round will be held on October 25, 2022, in the Robot Competition session of IROS2022. This paper provides an overview of the task settings and evaluation method of DRC2022 and the results of the preliminary round.",
+      "decision": "no",
+      "reason": "本文為對話機器人競賽的概述，並非關於抽象化對話摘要的系統性文獻綜述。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2210.11707",
+      "title": "Video Summarization Overview",
+      "abstract": "With the broad growth of video capturing devices and applications on the web, it is more demanding to provide desired video content for users efficiently. Video summarization facilitates quickly grasping video content by creating a compact summary of videos. Much effort has been devoted to automatic video summarization, and various problem settings and approaches have been proposed. Our goal is to provide an overview of this field. This survey covers early studies as well as recent approaches which take advantage of deep learning techniques. We describe video summarization approaches and their underlying concepts. We also discuss benchmarks and evaluations. We overview how prior work addressed evaluation and detail the pros and cons of the evaluation protocols. Last but not least, we discuss open challenges in this field.",
+      "decision": "no",
+      "reason": "該文章是關於影片摘要的綜述，與抽象式對話摘要的系統性文獻回顧主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2210.12034",
+      "title": "Proceedings of the Dialogue Robot Competition 2022",
+      "abstract": "The proceedings contain papers on the dialogue systems developed by the twelve teams participating in DRC2022, as well as an overview paper summarizing the competition.",
+      "decision": "no",
+      "reason": "此論文為競賽論文集與賽事總覽，並非關於抽象式對話摘要挑戰的系統性綜述。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2210.09894",
+      "title": "Taxonomy of Abstractive Dialogue Summarization: Scenarios, Approaches and Future Directions",
+      "abstract": "Abstractive dialogue summarization is to generate a concise and fluent summary covering the salient information in a dialogue among two or more interlocutors. It has attracted great attention in recent years based on the massive emergence of social communication platforms and an urgent requirement for efficient dialogue information understanding and digestion. Different from news or articles in traditional document summarization, dialogues bring unique characteristics and additional challenges, including different language styles and formats, scattered information, flexible discourse structures and unclear topic boundaries. This survey provides a comprehensive investigation on existing work for abstractive dialogue summarization from scenarios, approaches to evaluations. It categorizes the task into two broad categories according to the type of input dialogues, i.e., open-domain and task-oriented, and presents a taxonomy of existing techniques in three directions, namely, injecting dialogue features, designing auxiliary training tasks and using additional data.A list of datasets under different scenarios and widely-accepted evaluation metrics are summarized for completeness. After that, the trends of scenarios and techniques are summarized, together with deep insights on correlations between extensively exploited features and different scenarios. Based on these analyses, we recommend future directions including more controlled and complicated scenarios, technical innovations and comparisons, publicly available datasets in special domains, etc.",
+      "decision": "yes",
+      "reason": "文章明確以 survey 形式系統性綜述抽象對話摘要的場景、方法與未來方向，與主題高度相關。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2210.05664",
+      "title": "Social Influence Dialogue Systems: A Survey of Datasets and Models For Social Influence Tasks",
+      "abstract": "Dialogue systems capable of social influence such as persuasion, negotiation, and therapy, are essential for extending the use of technology to numerous realistic scenarios. However, existing research primarily focuses on either task-oriented or open-domain scenarios, a categorization that has been inadequate for capturing influence skills systematically. There exists no formal definition or category for dialogue systems with these skills and data-driven efforts in this direction are highly limited. In this work, we formally define and introduce the category of social influence dialogue systems that influence users' cognitive and emotional responses, leading to changes in thoughts, opinions, and behaviors through natural conversations. We present a survey of various tasks, datasets, and methods, compiling the progress across seven diverse domains. We discuss the commonalities and differences between the examined systems, identify limitations, and recommend future directions. This study serves as a comprehensive reference for social influence dialogue systems to inspire more dedicated research and discussion in this emerging area.",
+      "decision": "no",
+      "reason": "該論文雖為綜述但主題集中在社會影響對話系統，並非討論對話抽象式摘要的挑戰，與給定主題不符。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2210.01813",
+      "title": "The DAWES review 10: The impact of deep learning for the analysis of galaxy surveys",
+      "abstract": "The amount and complexity of data delivered by modern galaxy surveys has been steadily increasing over the past years. Extracting coherent scientific information from these large and multi-modal data sets remains an open issue and data driven approaches such as deep learning have rapidly emerged as a potentially powerful solution to some long lasting challenges. This enthusiasm is reflected in an unprecedented exponential growth of publications using neural networks. Half a decade after the first published work in astronomy mentioning deep learning, we believe it is timely to review what has been the real impact of this new technology in the field and its potential to solve key challenges raised by the size and complexity of the new datasets. In this review we first aim at summarizing the main applications of deep learning for galaxy surveys that have emerged so far. We then extract the major achievements and lessons learned and highlight key open questions and limitations. Overall, state-of-the art deep learning methods are rapidly adopted by the astronomical community, reflecting a democratization of these methods. We show that the majority of works using deep learning up to date are oriented to computer vision tasks. This is also the domain of application where deep learning has brought the most important breakthroughs so far. We report that the applications are becoming more diverse and deep learning is used for estimating galaxy properties, identifying outliers or constraining the cosmological model. Most of these works remain at the exploratory level. Some common challenges will most likely need to be addressed before moving to the next phase of deployment of deep learning in the processing of future surveys; e.g. uncertainty quantification, interpretability, data labeling and domain shift issues from training with simulations, which constitutes a common practice in astronomy.",
+      "decision": "no",
+      "reason": "文章为天文学中深度学习的综述，与对话摘要挑战的系统综述主题不相关。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2211.11548",
+      "title": "Survey of Query-based Text Summarization",
+      "abstract": "Query-based text summarization is an important real world problem that requires to condense the prolix text data into a summary under the guidance of the query information provided by users. The topic has been studied for a long time and there are many existing interesting research related to query-based text summarization. Yet much of the work is not systematically surveyed. This survey aims at summarizing some interesting work in query-based text summarization methods as well as related generic text summarization methods. Not all taxonomies in this paper exist the related work to the best of our knowledge and some analysis will be presented.",
+      "decision": "no",
+      "reason": "該論文綜述的是基於查詢的文本摘要，並非針對對話摘要或抽象式對話摘要的系統性文獻回顧。",
+      "confidence": 0.86
+    },
+    {
+      "arxiv_id": "2208.04163",
+      "title": "Abstractive Meeting Summarization: A Survey",
+      "abstract": "A system that could reliably identify and sum up the most important points of a conversation would be valuable in a wide variety of real-world contexts, from business meetings to medical consultations to customer service calls. Recent advances in deep learning, and especially the invention of encoder-decoder architectures, has significantly improved language generation systems, opening the door to improved forms of abstractive summarization, a form of summarization particularly well-suited for multi-party conversation. In this paper, we provide an overview of the challenges raised by the task of abstractive meeting summarization and of the data sets, models and evaluation metrics that have been used to tackle the problems.",
+      "decision": "yes",
+      "reason": "文章标题与摘要明确表明这是关于会议抽象式摘要挑战的数据集、模型与评估指标的综述，直接对应主题。",
+      "confidence": 0.93
+    },
+    {
+      "arxiv_id": "2207.00939",
+      "title": "An Empirical Survey on Long Document Summarization: Datasets, Models and Metrics",
+      "abstract": "Long documents such as academic articles and business reports have been the standard format to detail out important issues and complicated subjects that require extra attention. An automatic summarization system that can effectively condense long documents into short and concise texts to encapsulate the most important information would thus be significant in aiding the reader's comprehension. Recently, with the advent of neural architectures, significant research efforts have been made to advance automatic text summarization systems, and numerous studies on the challenges of extending these systems to the long document domain have emerged. In this survey, we provide a comprehensive overview of the research on long document summarization and a systematic evaluation across the three principal components of its research setting: benchmark datasets, summarization models, and evaluation metrics. For each component, we organize the literature within the context of long document summarization and conduct an empirical analysis to broaden the perspective on current research progress. The empirical analysis includes a study on the intrinsic characteristics of benchmark datasets, a multi-dimensional analysis of summarization models, and a review of the summarization evaluation metrics. Based on the overall findings, we conclude by proposing possible directions for future exploration in this rapidly growing field.",
+      "decision": "no",
+      "reason": "本文是關於長文件摘要的綜述，而非對話摘要的系統性文獻回顧，主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2206.01543",
+      "title": "Beyond Opinion Mining: Summarizing Opinions of Customer Reviews",
+      "abstract": "Customer reviews are vital for making purchasing decisions in the Information Age. Such reviews can be automatically summarized to provide the user with an overview of opinions. In this tutorial, we present various aspects of opinion summarization that are useful for researchers and practitioners. First, we will introduce the task and major challenges. Then, we will present existing opinion summarization solutions, both pre-neural and neural. We will discuss how summarizers can be trained in the unsupervised, few-shot, and supervised regimes. Each regime has roots in different machine learning methods, such as auto-encoding, controllable text generation, and variational inference. Finally, we will discuss resources and evaluation methods and conclude with the future directions. This three-hour tutorial will provide a comprehensive overview over major advances in opinion summarization. The listeners will be well-equipped with the knowledge that is both useful for research and practical applications.",
+      "decision": "no",
+      "reason": "本文是關於客戶評論意見摘要的教程，不是針對對話摘要挑戰的系統性文獻綜述。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2204.09519",
+      "title": "A Survey on Neural Abstractive Summarization Methods and Factual Consistency of Summarization",
+      "abstract": "Automatic summarization is the process of shortening a set of textual data computationally, to create a subset (a summary) that represents the most important pieces of information in the original text. Existing summarization methods can be roughly divided into two types: extractive and abstractive. An extractive summarizer explicitly selects text snippets (words, phrases, sentences, etc.) from the source document, while an abstractive summarizer generates novel text snippets to convey the most salient concepts prevalent in the source.",
+      "decision": "no",
+      "reason": "雖然為綜述性文章，但重點在神經生成式摘要與事實一致性，並非專門探討對話式抽象摘要的挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2203.12515",
+      "title": "A Survey on Cross-Lingual Summarization",
+      "abstract": "Cross-lingual summarization is the task of generating a summary in one language (e.g., English) for the given document(s) in a different language (e.g., Chinese). Under the globalization background, this task has attracted increasing attention of the computational linguistics community. Nevertheless, there still remains a lack of comprehensive review for this task. Therefore, we present the first systematic critical review on the datasets, approaches, and challenges in this field. Specifically, we carefully organize existing datasets and approaches according to different construction methods and solution paradigms, respectively. For each type of datasets or approaches, we thoroughly introduce and summarize previous efforts and further compare them with each other to provide deeper analyses. In the end, we also discuss promising directions and offer our thoughts to facilitate future research. This survey is for both beginners and experts in cross-lingual summarization, and we hope it will serve as a starting point as well as a source of new ideas for researchers and engineers interested in this area.",
+      "decision": "no",
+      "reason": "本文为跨语种摘要的综述，主题与抽象式对话摘要挑战不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2203.04264",
+      "title": "A Survey on Privacy for B5G/6G: New Privacy Challenges, and Research Directions",
+      "abstract": "Massive developments in mobile wireless telecommunication networks have been made during the last few decades. At present, mobile users are getting familiar with the latest 5G networks, and the discussion for the next generation of Beyond 5G (B5G)/6G networks has already been initiated. It is expected that B5G/6G will push the existing network capabilities to the next level, with higher speeds, enhanced reliability and seamless connectivity. To make these expectations a reality, research is progressing on new technologies, architectures, and intelligence-based decision-making processes related to B5G/6G. Privacy considerations are a crucial aspect that requires further attention in such developments, as billions of people and devices will be transmitting data through the upcoming network. However, the main recognition remains biased towards the network security. A discussion focused on privacy of B5G/6G is lacking at the moment. To address the gap, this paper provides a comprehensive survey on privacy-related aspects of B5G/6G networks. First, it discusses a taxonomy of different privacy perspectives. Based on the taxonomy, the paper then conceptualizes a set of challenges that appear as barriers to reach privacy preservation. Next, this work provides a set of solutions applicable to the proposed architecture of B5G/6G networks to mitigate the challenges. It also provides an overview of standardization initiatives for privacy preservation. Finally, the paper concludes with a roadmap of future directions, which will be an arena for new research towards privacy-enhanced B5G/6G networks. This work provides a basis for privacy aspects that will significantly impact peoples' daily lives when using these future networks.",
+      "decision": "no",
+      "reason": "該論文為B5G/6G隱私的綜述，與抽象對話摘要挑戰的系統性文獻綜述主題不相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2203.01769",
+      "title": "PeerSum: A Peer Review Dataset for Abstractive Multi-document Summarization",
+      "abstract": "We present PeerSum, a new MDS dataset using peer reviews of scientific publications. Our dataset differs from the existing MDS datasets in that our summaries (i.e., the meta-reviews) are highly abstractive and they are real summaries of the source documents (i.e., the reviews) and it also features disagreements among source documents. We found that current state-of-the-art MDS models struggle to generate high-quality summaries for PeerSum, offering new research opportunities.",
+      "decision": "no",
+      "reason": "本文不是综述类型研究，且聚焦於多文檔摘要数据集而非对話摘要挑戰的系統性綜述。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2202.13675",
+      "title": "A Survey on Recent Advances and Challenges in Reinforcement Learning Methods for Task-Oriented Dialogue Policy Learning",
+      "abstract": "Dialogue Policy Learning is a key component in a task-oriented dialogue system (TDS) that decides the next action of the system given the dialogue state at each turn. Reinforcement Learning (RL) is commonly chosen to learn the dialogue policy, regarding the user as the environment and the system as the agent. Many benchmark datasets and algorithms have been created to facilitate the development and evaluation of dialogue policy based on RL. In this paper, we survey recent advances and challenges in dialogue policy from the prescriptive of RL. More specifically, we identify the major problems and summarize corresponding solutions for RL-based dialogue policy learning. Besides, we provide a comprehensive survey of applying RL to dialogue policy learning by categorizing recent methods into basic elements in RL. We believe this survey can shed a light on future research in dialogue management.",
+      "decision": "no",
+      "reason": "該論文雖為綜述但聚焦於強化學習與任務導向對話策略，與抽象對話摘要挑戰無關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2202.06466",
+      "title": "Measuring \"Why\" in Recommender Systems: a Comprehensive Survey on the Evaluation of Explainable Recommendation",
+      "abstract": "Explainable recommendation has shown its great advantages for improving recommendation persuasiveness, user satisfaction, system transparency, among others. A fundamental problem of explainable recommendation is how to evaluate the explanations. In the past few years, various evaluation strategies have been proposed. However, they are scattered in different papers, and there lacks a systematic and detailed comparison between them. To bridge this gap, in this paper, we comprehensively review the previous work, and provide different taxonomies for them according to the evaluation perspectives and evaluation methods. Beyond summarizing the previous work, we also analyze the (dis)advantages of existing evaluation methods and provide a series of guidelines on how to select them. The contents of this survey are based on more than 100 papers from top-tier conferences like IJCAI, AAAI, TheWebConf, Recsys, UMAP, and IUI, and their complete summarization are presented at https://shimo.im/sheets/VKrpYTcwVH6KXgdy/MODOC/. With this survey, we finally aim to provide a clear and comprehensive review on the evaluation of explainable recommendation.",
+      "decision": "no",
+      "reason": "該論文為可解釋推薦系統評估的綜述，與抽象對話摘要的系統性文獻回顧主題不相關。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2112.02838",
+      "title": "Visual Object Tracking with Discriminative Filters and Siamese Networks: A Survey and Outlook",
+      "abstract": "Accurate and robust visual object tracking is one of the most challenging and fundamental computer vision problems. It entails estimating the trajectory of the target in an image sequence, given only its initial location, and segmentation, or its rough approximation in the form of a bounding box. Discriminative Correlation Filters (DCFs) and deep Siamese Networks (SNs) have emerged as dominating tracking paradigms, which have led to significant progress. Following the rapid evolution of visual object tracking in the last decade, this survey presents a systematic and thorough review of more than 90 DCFs and Siamese trackers, based on results in nine tracking benchmarks. First, we present the background theory of both the DCF and Siamese tracking core formulations. Then, we distinguish and comprehensively review the shared as well as specific open research challenges in both these tracking paradigms. Furthermore, we thoroughly analyze the performance of DCF and Siamese trackers on nine benchmarks, covering different experimental aspects of visual tracking: datasets, evaluation metrics, performance, and speed comparisons. We finish the survey by presenting recommendations and suggestions for distinguished open challenges based on our analysis.",
+      "decision": "no",
+      "reason": "該論文為視覺目標追蹤的綜述，與抽象對話摘要主題不相關。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2111.01414",
+      "title": "A Review of Dialogue Systems: From Trained Monkeys to Stochastic Parrots",
+      "abstract": "In spoken dialogue systems, we aim to deploy artificial intelligence to build automated dialogue agents that can converse with humans. Dialogue systems are increasingly being designed to move beyond just imitating conversation and also improve from such interactions over time. In this survey, we present a broad overview of methods developed to build dialogue systems over the years. Different use cases for dialogue systems ranging from task-based systems to open domain chatbots motivate and necessitate specific systems. Starting from simple rule-based systems, research has progressed towards increasingly complex architectures trained on a massive corpus of datasets, like deep learning systems. Motivated with the intuition of resembling human dialogues, progress has been made towards incorporating emotions into the natural language generator, using reinforcement learning. While we see a trend of highly marginal improvement on some metrics, we find that limited justification exists for the metrics, and evaluation practices are not uniform. To conclude, we flag these concerns and highlight possible research directions.",
+      "decision": "no",
+      "reason": "該論文為對對話系統的綜述，但並非專門或主要針對抽象式對話摘要挑戰的系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2110.12680",
+      "title": "TODSum: Task-Oriented Dialogue Summarization with State Tracking",
+      "abstract": "Previous dialogue summarization datasets mainly focus on open-domain chitchat dialogues, while summarization datasets for the broadly used task-oriented dialogue haven't been explored yet. Automatically summarizing such task-oriented dialogues can help a business collect and review needs to improve the service. Besides, previous datasets pay more attention to generate good summaries with higher ROUGE scores, but they hardly understand the structured information of dialogues and ignore the factuality of summaries. In this paper, we introduce a large-scale public Task-Oriented Dialogue Summarization dataset, TODSum, which aims to summarize the key points of the agent completing certain tasks with the user. Compared to existing work, TODSum suffers from severe scattered information issues and requires strict factual consistency, which makes it hard to directly apply recent dialogue summarization models. Therefore, we introduce additional dialogue state knowledge for TODSum to enhance the faithfulness of generated summaries. We hope a better understanding of conversational content helps summarization models generate concise and coherent summaries. Meanwhile, we establish a comprehensive benchmark for TODSum and propose a state-aware structured dialogue summarization model to integrate dialogue state information and dialogue history. Exhaustive experiments and qualitative analysis prove the effectiveness of dialogue structure guidance. Finally, we discuss the current issues of TODSum and potential development directions for future work.",
+      "decision": "no",
+      "reason": "本文介紹新資料集與模型並非系統性文獻回顧或綜述，且主題亦非針對摘要挑戰的系統性審查。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2109.07951",
+      "title": "Overview of Tencent Multi-modal Ads Video Understanding Challenge",
+      "abstract": "Multi-modal Ads Video Understanding Challenge is the first grand challenge aiming to comprehensively understand ads videos. Our challenge includes two tasks: video structuring in the temporal dimension and multi-modal video classification. It asks the participants to accurately predict both the scene boundaries and the multi-label categories of each scene based on a fine-grained and ads-related category hierarchy. Therefore, our task has four distinguishing features from previous ones: ads domain, multi-modal information, temporal segmentation, and multi-label classification. It will advance the foundation of ads video understanding and have a significant impact on many ads applications like video recommendation. This paper presents an overview of our challenge, including the background of ads videos, an elaborate description of task and dataset, evaluation protocol, and our proposed baseline. By ablating the key components of our baseline, we would like to reveal the main challenges of this task and provide useful guidance for future research of this area. In this paper, we give an extended version of our challenge overview. The dataset will be publicly available at https://algo.qq.com/.",
+      "decision": "no",
+      "reason": "本文不是關於摘要式對話總結的系統性綜述，且主題為廣告多模態影片理解挑戰賽。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2109.04325",
+      "title": "Learning Opinion Summarizers by Selecting Informative Reviews",
+      "abstract": "Opinion summarization has been traditionally approached with unsupervised, weakly-supervised and few-shot learning techniques. In this work, we collect a large dataset of summaries paired with user reviews for over 31,000 products, enabling supervised training. However, the number of reviews per product is large (320 on average), making summarization - and especially training a summarizer - impractical. Moreover, the content of many reviews is not reflected in the human-written summaries, and, thus, the summarizer trained on random review subsets hallucinates. In order to deal with both of these challenges, we formulate the task as jointly learning to select informative subsets of reviews and summarizing the opinions expressed in these subsets. The choice of the review subset is treated as a latent variable, predicted by a small and simple selector. The subset is then fed into a more powerful summarizer. For joint training, we use amortized variational inference and policy gradient methods. Our experiments demonstrate the importance of selecting informative reviews resulting in improved quality of summaries and reduced hallucinations.",
+      "decision": "no",
+      "reason": "本文為模型與資料集研究，並非文獻綜述或系統性回顧，與題目不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2107.03175",
+      "title": "A Survey on Dialogue Summarization: Recent Advances and New Frontiers",
+      "abstract": "Dialogue summarization aims to condense the original dialogue into a shorter version covering salient information, which is a crucial way to reduce dialogue data overload. Recently, the promising achievements in both dialogue systems and natural language generation techniques drastically lead this task to a new landscape, which results in significant research attentions. However, there still remains a lack of a comprehensive survey for this task. To this end, we take the first step and present a thorough review of this research field carefully and widely. In detail, we systematically organize the current works according to the characteristics of each domain, covering meeting, chat, email thread, customer service and medical dialogue. Additionally, we provide an overview of publicly available research datasets as well as organize two leaderboards under unified metrics. Furthermore, we discuss some future directions, including faithfulness, multi-modal, multi-domain and multi-lingual dialogue summarization, and give our thoughts respectively. We hope that this first survey of dialogue summarization can provide the community with a quick access and a general picture to this task and motivate future researches.",
+      "decision": "yes",
+      "reason": "本文明確標示為對對話摘要的綜述性調查，系統回顧了相關工作、資料集與未來挑戰，直接符合主題需求。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2106.10901",
+      "title": "Software-Based Dialogue Systems: Survey, Taxonomy and Challenges",
+      "abstract": "The use of natural language interfaces in the field of human-computer interaction is undergoing intense study through dedicated scientific and industrial research. The latest contributions in the field, including deep learning approaches like recurrent neural networks, the potential of context-aware strategies and user-centred design approaches, have brought back the attention of the community to software-based dialogue systems, generally known as conversational agents or chatbots. Nonetheless, and given the novelty of the field, a generic, context-independent overview on the current state of research of conversational agents covering all research perspectives involved is missing. Motivated by this context, this paper reports a survey of the current state of research of conversational agents through a systematic literature review of secondary studies. The conducted research is designed to develop an exhaustive perspective through a clear presentation of the aggregated knowledge published by recent literature within a variety of domains, research focuses and contexts. As a result, this research proposes a holistic taxonomy of the different dimensions involved in the conversational agents' field, which is expected to help researchers and to lay the groundwork for future research in the field of natural language interfaces.",
+      "decision": "no",
+      "reason": "該論文為對會話代理系統的綜述，但並非直接關注摘要式對話總結的挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2105.11266",
+      "title": "Argumentative XAI: A Survey",
+      "abstract": "Explainable AI (XAI) has been investigated for decades and, together with AI itself, has witnessed unprecedented growth in recent years. Among various approaches to XAI, argumentative models have been advocated in both the AI and social science literature, as their dialectical nature appears to match some basic desirable features of the explanation activity. In this survey we overview XAI approaches built using methods from the field of computational argumentation, leveraging its wide array of reasoning abstractions and explanation delivery methods. We overview the literature focusing on different types of explanation (intrinsic and post-hoc), different models with which argumentation-based explanations are deployed, different forms of delivery, and different argumentation frameworks they use. We also lay out a roadmap for future work.",
+      "decision": "no",
+      "reason": "該文為關於可解釋性與論辯式XAI的綜述，並非針對抽象對話摘要挑戰的系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2105.04387",
+      "title": "Recent Advances in Deep Learning Based Dialogue Systems: A Systematic Survey",
+      "abstract": "Dialogue systems are a popular natural language processing (NLP) task as it is promising in real-life applications. It is also a complicated task since many NLP tasks deserving study are involved. As a result, a multitude of novel works on this task are carried out, and most of them are deep learning based due to the outstanding performance. In this survey, we mainly focus on the deep learning based dialogue systems. We comprehensively review state-of-the-art research outcomes in dialogue systems and analyze them from two angles: model type and system type. Specifically, from the angle of model type, we discuss the principles, characteristics, and applications of different models that are widely used in dialogue systems. This will help researchers acquaint these models and see how they are applied in state-of-the-art frameworks, which is rather helpful when designing a new dialogue system. From the angle of system type, we discuss task-oriented and open-domain dialogue systems as two streams of research, providing insight into the hot topics related. Furthermore, we comprehensively review the evaluation methods and datasets for dialogue systems to pave the way for future research. Finally, some possible research trends are identified based on the recent research outcomes. To the best of our knowledge, this survey is the most comprehensive and up-to-date one at present for deep learning based dialogue systems, extensively covering the popular techniques. We speculate that this work is a good starting point for academics who are new to the dialogue systems or those who want to quickly grasp up-to-date techniques in this area.",
+      "decision": "no",
+      "reason": "雖然為綜述文章，但主題聚焦於對話系統與模型，並非專門探討抽象式對話摘要的挑戰。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2105.01605",
+      "title": "Person Search Challenges and Solutions: A Survey",
+      "abstract": "Person search has drawn increasing attention due to its real-world applications and research significance. Person search aims to find a probe person in a gallery of scene images with a wide range of applications, such as criminals search, multicamera tracking, missing person search, etc. Early person search works focused on image-based person search, which uses person image as the search query. Text-based person search is another major person search category that uses free-form natural language as the search query. Person search is challenging, and corresponding solutions are diverse and complex. Therefore, systematic surveys on this topic are essential. This paper surveyed the recent works on image-based and text-based person search from the perspective of challenges and solutions. Specifically, we provide a brief analysis of highly influential person search methods considering the three significant challenges: the discriminative person features, the query-person gap, and the detection-identification inconsistency. We summarise and compare evaluation results. Finally, we discuss open issues and some promising future research directions.",
+      "decision": "no",
+      "reason": "該論文為人物檢索領域的綜述，並非關於對話摘要的系統性文獻回顧。",
+      "confidence": 0.98
+    },
+    {
+      "arxiv_id": "2104.14839",
+      "title": "The Factual Inconsistency Problem in Abstractive Text Summarization: A Survey",
+      "abstract": "Recently, various neural encoder-decoder models pioneered by Seq2Seq framework have been proposed to achieve the goal of generating more abstractive summaries by learning to map input text to output text. At a high level, such neural models can freely generate summaries without any constraint on the words or phrases used. Moreover, their format is closer to human-edited summaries and output is more readable and fluent. However, the neural model's abstraction ability is a double-edged sword. A commonly observed problem with the generated summaries is the distortion or fabrication of factual information in the article. This inconsistency between the original text and the summary has caused various concerns over its applicability, and the previous evaluation methods of text summarization are not suitable for this issue. In response to the above problems, the current research direction is predominantly divided into two categories, one is to design fact-aware evaluation metrics to select outputs without factual inconsistency errors, and the other is to develop new summarization systems towards factual consistency. In this survey, we focus on presenting a comprehensive review of these fact-specific evaluation methods and text summarization models.",
+      "decision": "no",
+      "reason": "雖然是綜述，但重點在抽象文本摘要的事實不一致性，並非專注於對話摘要的挑戰。",
+      "confidence": 0.86
+    },
+    {
+      "arxiv_id": "2105.00824",
+      "title": "A Survey of Recent Abstract Summarization Techniques",
+      "abstract": "This paper surveys several recent abstract summarization methods: T5, Pegasus, and ProphetNet. We implement the systems in two languages: English and Indonesian languages. We investigate the impact of pre-training models (one T5, three Pegasuses, three ProphetNets) on several Wikipedia datasets in English and Indonesian language and compare the results to the Wikipedia systems' summaries. The T5-Large, the Pegasus-XSum, and the ProphetNet-CNNDM provide the best summarization. The most significant factors that influence ROUGE performance are coverage, density, and compression. The higher the scores, the better the summary. Other factors that influence the ROUGE scores are the pre-training goal, the dataset's characteristics, the dataset used for testing the pre-trained model, and the cross-lingual function. Several suggestions to improve this paper's limitation are: 1) assure that the dataset used for the pre-training model must sufficiently large, contains adequate instances for handling cross-lingual purpose; 2) Advanced process (finetuning) shall be reasonable. We recommend using the large dataset consists of comprehensive coverage of topics from many languages before implementing advanced processes such as the train-infer-train procedure to the zero-shot translation in the training stage of the pre-training model.",
+      "decision": "no",
+      "reason": "該文為摘要技術的綜述但聚焦於通用/新聞維基語料與模型比較，並非針對對話式抽象摘要之系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2103.12227",
+      "title": "Challenges in systematic reviews and meta-analyses of mediation analyses",
+      "abstract": "Systematic reviews and meta-analyses of mediation studies are increasingly being implemented in practice. Nonetheless, the methodology for conducting such review and analysis is still in a development phase, with much room for improvement. In this paper, we highlight and discuss challenges that investigators face in mediation systematic reviews and meta-analyses, then propose ways of accommodating these in practice.",
+      "decision": "no",
+      "reason": "本文為關於中介分析系統性回顧的討論，與抽象對話摘要的主題不相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2103.06410",
+      "title": "MediaSum: A Large-scale Media Interview Dataset for Dialogue Summarization",
+      "abstract": "MediaSum, a large-scale media interview dataset consisting of 463.6K transcripts with abstractive summaries. To create this dataset, we collect interview transcripts from NPR and CNN and employ the overview and topic descriptions as summaries. Compared with existing public corpora for dialogue summarization, our dataset is an order of magnitude larger and contains complex multi-party conversations from multiple domains. We conduct statistical analysis to demonstrate the unique positional bias exhibited in the transcripts of televised and radioed interviews. We also show that MediaSum can be used in transfer learning to improve a model's performance on other dialogue summarization tasks.",
+      "decision": "no",
+      "reason": "本文為數據集與實驗研究，並非系統性文獻回顧或綜述性工作。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2103.01498",
+      "title": "A Survey On Universal Adversarial Attack",
+      "abstract": "The intriguing phenomenon of adversarial examples has attracted significant attention in machine learning and what might be more surprising to the community is the existence of universal adversarial perturbations (UAPs), i.e. a single perturbation to fool the target DNN for most images. With the focus on UAP against deep classifiers, this survey summarizes the recent progress on universal adversarial attacks, discussing the challenges from both the attack and defense sides, as well as the reason for the existence of UAP. We aim to extend this work as a dynamic survey that will regularly update its content to follow new works regarding UAP or universal attack in a wide range of domains, such as image, audio, video, text, etc. Relevant updates will be discussed at: https://bit.ly/2SbQlLG. We welcome authors of future works in this field to contact us for including your new finding.",
+      "decision": "no",
+      "reason": "該論文是關於普遍對抗性攻擊的綜述，並非針對抽象式對話摘要的系統性文獻回顧，主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2103.01768",
+      "title": "Air taxi service for urban mobility: A critical review of recent developments, future challenges, and opportunities",
+      "abstract": "Expected to operate in the imminent future, air taxi service (ATS) is an aerial on-demand transport for a single passenger or a small group of riders, which seeks to transform the method of everyday commute. This uncharted territory in the emerging transportation world is anticipated to enable consumers bypass traffic congestion in urban road networks. By adopting an electric vertical takeoff and landing concept (eVTOL), air taxis could be operational from skyports retrofitted on building rooftops, thus gaining advantage from an implementation standpoint. Motivated by the potential impact of ATS, this study provides a review of air taxi systems and associated operations. We first discuss the current developments in the ATS (demand prediction, air taxi network design, and vehicle configuration). Next, we anticipate potential future challenges of ATS from an operations management perspective, and review the existing literature that could be leveraged to tackle these problems (ride-matching, pricing strategies, vehicle maintenance scheduling, and pilot training and recruitment). Finally, we detail future research opportunities in the air taxi domain.",
+      "decision": "no",
+      "reason": "該文章雖為綜述但主題為空中計程車與城市交通，與抽象對話摘要的挑戰無直接關聯。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2101.09459",
+      "title": "Advances and Challenges in Conversational Recommender Systems: A Survey",
+      "abstract": "Recommender systems exploit interaction history to estimate user preference, having been heavily used in a wide range of industry applications. However, static recommendation models are difficult to answer two important questions well due to inherent shortcomings: (a) What exactly does a user like? (b) Why does a user like an item? The shortcomings are due to the way that static models learn user preference, i.e., without explicit instructions and active feedback from users. The recent rise of conversational recommender systems (CRSs) changes this situation fundamentally. In a CRS, users and the system can dynamically communicate through natural language interactions, which provide unprecedented opportunities to explicitly obtain the exact preference of users.\n  Considerable efforts, spread across disparate settings and applications, have been put into developing CRSs. Existing models, technologies, and evaluation methods for CRSs are far from mature. In this paper, we provide a systematic review of the techniques used in current CRSs. We summarize the key challenges of developing CRSs in five directions: (1) Question-based user preference elicitation. (2) Multi-turn conversational recommendation strategies. (3) Dialogue understanding and generation. (4) Exploitation-exploration trade-offs. (5) Evaluation and user simulation. These research directions involve multiple research fields like information retrieval (IR), natural language processing (NLP), and human-computer interaction (HCI). Based on these research directions, we discuss some future challenges and opportunities. We provide a road map for researchers from multiple communities to get started in this area. We hope this survey can help to identify and address challenges in CRSs and inspire future research.",
+      "decision": "no",
+      "reason": "本文為會話式推薦系統的綜述，主題偏向推薦與對話策略，並非摘要化對話摘要挑戰的系統性回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2011.03584",
+      "title": "Community Challenges in the Era of Petabyte-Scale Sky Surveys",
+      "abstract": "We outline the challenges faced by the planetary science community in the era of next-generation large-scale astronomical surveys, and highlight needs that must be addressed in order for the community to maximize the quality and quantity of scientific output from archival, existing, and future surveys, while satisfying NASA's and NSF's goals.",
+      "decision": "no",
+      "reason": "本文关于天文大型巡天的挑战，与对话抽象式摘要的系统综述主题无关。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "2009.07653",
+      "title": "The Scientific Impact of the Vera C. Rubin Observatory's Legacy Survey of Space and Time (LSST) for Solar System Science",
+      "abstract": "Vera C. Rubin Observatory will be a key facility for small body science in planetary astronomy over the next decade. It will carry out the Legacy Survey of Space and Time (LSST), observing the sky repeatedly in u, g, r, i, z, and y over the course of ten years using a 6.5 m effective diameter telescope with a 9.6 square degree field of view, reaching approximately r = 24.5 mag (5-σ depth) per visit. The resulting dataset will provide extraordinary opportunities for both discovery and characterization of large numbers (10--100 times more than currently known) of small solar system bodies, furthering studies of planetary formation and evolution. This white paper summarizes some of the expected science from the ten years of LSST, and emphasizes that the planetary astronomy community should remain invested in the path of Rubin Observatory once the LSST is complete.",
+      "decision": "no",
+      "reason": "本文为天文学白皮书性质的科学总结，与对话摘要的系统综述主题无关。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2008.03648",
+      "title": "An Overview of Voice Conversion and its Challenges: From Statistical Modeling to Deep Learning",
+      "abstract": "Speaker identity is one of the important characteristics of human speech. In voice conversion, we change the speaker identity from one to another, while keeping the linguistic content unchanged. Voice conversion involves multiple speech processing techniques, such as speech analysis, spectral conversion, prosody conversion, speaker characterization, and vocoding. With the recent advances in theory and practice, we are now able to produce human-like voice quality with high speaker similarity. In this paper, we provide a comprehensive overview of the state-of-the-art of voice conversion techniques and their performance evaluation methods from the statistical approaches to deep learning, and discuss their promise and limitations. We will also report the recent Voice Conversion Challenges (VCC), the performance of the current state of technology, and provide a summary of the available resources for voice conversion research.",
+      "decision": "no",
+      "reason": "本文為語音轉換的綜述，與主題「對話摘要」明顯不相關。",
+      "confidence": 0.91
+    },
+    {
+      "arxiv_id": "2005.04684",
+      "title": "From Standard Summarization to New Tasks and Beyond: Summarization with Manifold Information",
+      "abstract": "Text summarization is the research area aiming at creating a short and condensed version of the original document, which conveys the main idea of the document in a few words. This research topic has started to attract the attention of a large community of researchers, and it is nowadays counted as one of the most promising research areas. In general, text summarization algorithms aim at using a plain text document as input and then output a summary. However, in real-world applications, most of the data is not in a plain text format. Instead, there is much manifold information to be summarized, such as the summary for a web page based on a query in the search engine, extreme long document (e.g., academic paper), dialog history and so on. In this paper, we focus on the survey of these new summarization tasks and approaches in the real-world application.",
+      "decision": "no",
+      "reason": "該文章為廣泛的新型總結任務綜述，僅將對話歷史列為眾多議題之一，並非專門聚焦於抽象式對話摘要的挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "2004.05755",
+      "title": "Aspect and Opinion Aware Abstractive Review Summarization with Reinforced Hard Typed Decoder",
+      "abstract": "In this paper, we study abstractive review summarization.Observing that review summaries often consist of aspect words, opinion words and context words, we propose a two-stage reinforcement learning approach, which first predicts the output word type from the three types, and then leverages the predicted word type to generate the final word distribution.Experimental results on two Amazon product review datasets demonstrate that our method can consistently outperform several strong baseline approaches based on ROUGE scores.",
+      "decision": "no",
+      "reason": "本文為方法性研究且聚焦商品評論的抽象摘要，非系統性文獻綜述且非對話摘要主題。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "2001.06882",
+      "title": "Peer-to-Peer Trading in Electricity Networks: An Overview",
+      "abstract": "Peer-to-peer trading is a next-generation energy management technique that economically benefits proactive consumers (prosumers) transacting their energy as goods and services. At the same time, peer-to-peer energy trading is also expected to help the grid by reducing peak demand, lowering reserve requirements, and curtailing network loss. However, large-scale deployment of peer-to-peer trading in electricity networks poses a number of challenges in modeling transactions in both the virtual and physical layers of the network. As such, this article provides a comprehensive review of the state-of-the-art in research on peer-to-peer energy trading techniques. By doing so, we provide an overview of the key features of peer-to-peer trading and its benefits of relevance to the grid and prosumers. Then, we systematically classify the existing research in terms of the challenges that the studies address in the virtual and the physical layers. We then further identify and discuss those technical approaches that have been extensively used to address the challenges in peer-to-peer transactions. Finally, the paper is concluded with potential future research directions.",
+      "decision": "no",
+      "reason": "該文章為電力網絡中點對點交易的綜述，與抽象對話摘要（CADS）主題無直接相關。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1912.11046",
+      "title": "Improving Abstractive Text Summarization with History Aggregation",
+      "abstract": "Recent neural sequence to sequence models have provided feasible solutions for abstractive summarization. However, such models are still hard to tackle long text dependency in the summarization task. A high-quality summarization system usually depends on strong encoder which can refine important information from long input texts so that the decoder can generate salient summaries from the encoder's memory. In this paper, we propose an aggregation mechanism based on the Transformer model to address the challenge of long text representation. Our model can review history information to make encoder hold more memory capacity. Empirically, we apply our aggregation mechanism to the Transformer model and experiment on CNN/DailyMail dataset to achieve higher quality summaries compared to several strong baseline models on the ROUGE metrics.",
+      "decision": "no",
+      "reason": "本文為方法性研究而非系統性綜述，且聚焦於一般文本摘要非對話摘要挑戰。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "1911.02247",
+      "title": "Unsupervised Opinion Summarization as Copycat-Review Generation",
+      "abstract": "Opinion summarization is the task of automatically creating summaries that reflect subjective information expressed in multiple documents, such as product reviews. While the majority of previous work has focused on the extractive setting, i.e., selecting fragments from input reviews to produce a summary, we let the model generate novel sentences and hence produce abstractive summaries. Recent progress in summarization has seen the development of supervised models which rely on large quantities of document-summary pairs. Since such training data is expensive to acquire, we instead consider the unsupervised setting, in other words, we do not use any summaries in training. We define a generative model for a review collection which capitalizes on the intuition that when generating a new review given a set of other reviews of a product, we should be able to control the \"amount of novelty\" going into the new review or, equivalently, vary the extent to which it deviates from the input. At test time, when generating summaries, we force the novelty to be minimal, and produce a text reflecting consensus opinions. We capture this intuition by defining a hierarchical variational autoencoder model. Both individual reviews and the products they correspond to are associated with stochastic latent codes, and the review generator (\"decoder\") has direct access to the text of input reviews through the pointer-generator mechanism. Experiments on Amazon and Yelp datasets, show that setting at test time the review's latent code to its mean, allows the model to produce fluent and coherent summaries reflecting common opinions.",
+      "decision": "no",
+      "reason": "文章是關於無監督意見摘要的模型研究，且並非系統性綜述或與對話摘要挑戰直接相關。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "1909.07734",
+      "title": "SocialNLP EmotionX 2019 Challenge Overview: Predicting Emotions in Spoken Dialogues and Chats",
+      "abstract": "We present an overview of the EmotionX 2019 Challenge, held at the 7th International Workshop on Natural Language Processing for Social Media (SocialNLP), in conjunction with IJCAI 2019. The challenge entailed predicting emotions in spoken and chat-based dialogues using augmented EmotionLines datasets. EmotionLines contains two distinct datasets: the first includes excerpts from a US-based TV sitcom episode scripts (Friends) and the second contains online chats (EmotionPush). A total of thirty-six teams registered to participate in the challenge. Eleven of the teams successfully submitted their predictions performance evaluation. The top-scoring team achieved a micro-F1 score of 81.5% for the spoken-based dialogues (Friends) and 79.5% for the chat-based dialogues (EmotionPush).",
+      "decision": "no",
+      "reason": "本文為情感預測挑戰概述，既非系統性文獻回顧也非關於抽象式對話摘要的研究。",
+      "confidence": 0.85
+    },
+    {
+      "arxiv_id": "1909.04352",
+      "title": "Automatic Code Summarization: A Systematic Literature Review",
+      "abstract": "Background: During software maintenance and development, the comprehension of program code is key to success. High-quality comments can help us better understand programs, but they're often missing or outmoded in today's programs. Automatic code summarization is proposed to solve these problems. During the last decade, huge progress has been made in this field, but there is a lack of an up-to-date survey. Aims: We studied publications concerning code summarization in the field of program comprehension to investigate state-of-the-art approaches. By reading and analyzing relevant articles, we aim at obtaining a comprehensive understanding of the current status of automatic code summarization. Method: In this paper, we performed a systematic literature review over the automatic source code summarization field. Furthermore, we synthesized the obtained data and investigated different approaches. Results: We successfully collected and analyzed 41 selected studies from the different research communities. We exhaustively investigated and described the data extraction techniques, description generation methods, evaluation methods and relevant artifacts of those works. Conclusions: Our systematic review provides an overview of the state of the art, and we also discuss further research directions. By fully elaborating current approaches in the field, our work sheds light on future research directions of program comprehension and comment generation.",
+      "decision": "no",
+      "reason": "該論文是關於程式碼自動摘要的系統性文獻回顧，與摘要對話的抽象式對話總結主題不相關。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "1905.04071",
+      "title": "Survey on Evaluation Methods for Dialogue Systems",
+      "abstract": "In this paper we survey the methods and concepts developed for the evaluation of dialogue systems. Evaluation is a crucial part during the development process. Often, dialogue systems are evaluated by means of human evaluations and questionnaires. However, this tends to be very cost and time intensive. Thus, much work has been put into finding methods, which allow to reduce the involvement of human labour. In this survey, we present the main concepts and methods. For this, we differentiate between the various classes of dialogue systems (task-oriented dialogue systems, conversational dialogue systems, and question-answering dialogue systems). We cover each class by introducing the main technologies developed for the dialogue systems and then by presenting the evaluation methods regarding this class.",
+      "decision": "no",
+      "reason": "雖然是綜述文章，但主要聚焦於對話系統的評估方法，並非專門討論抽象對話摘要的挑戰。",
+      "confidence": 0.85
+    },
+    {
+      "arxiv_id": "1812.02303",
+      "title": "Neural Abstractive Text Summarization with Sequence-to-Sequence Models",
+      "abstract": "In the past few years, neural abstractive text summarization with sequence-to-sequence (seq2seq) models have gained a lot of popularity. Many interesting techniques have been proposed to improve seq2seq models, making them capable of handling different challenges, such as saliency, fluency and human readability, and generate high-quality summaries. Generally speaking, most of these techniques differ in one of these three categories: network structure, parameter inference, and decoding/generation. There are also other concerns, such as efficiency and parallelism for training a model. In this paper, we provide a comprehensive literature survey on different seq2seq models for abstractive text summarization from the viewpoint of network structures, training strategies, and summary generation algorithms. Several models were first proposed for language modeling and generation tasks, such as machine translation, and later applied to abstractive text summarization. Hence, we also provide a brief review of these models. As part of this survey, we also develop an open source library, namely, Neural Abstractive Text Summarizer (NATS) toolkit, for the abstractive text summarization. An extensive set of experiments have been conducted on the widely used CNN/Daily Mail dataset to examine the effectiveness of several different neural network components. Finally, we benchmark two models implemented in NATS on the two recently released datasets, namely, Newsroom and Bytecup.",
+      "decision": "no",
+      "reason": "該文是針對一般文本（新聞）摘要的綜述，並非專注於對話摘要的挑戰性系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1810.05739",
+      "title": "MeanSum: A Neural Model for Unsupervised Multi-document Abstractive Summarization",
+      "abstract": "Abstractive summarization has been studied using neural sequence transduction methods with datasets of large, paired document-summary examples. However, such datasets are rare and the models trained from them do not generalize to other domains. Recently, some progress has been made in learning sequence-to-sequence mappings with only unpaired examples. In our work, we consider the setting where there are only documents (product or business reviews) with no summaries provided, and propose an end-to-end, neural model architecture to perform unsupervised abstractive summarization. Our proposed model consists of an auto-encoder where the mean of the representations of the input reviews decodes to a reasonable summary-review while not relying on any review-specific features. We consider variants of the proposed architecture and perform an ablation study to show the importance of specific components. We show through automated metrics and human evaluation that the generated summaries are highly abstractive, fluent, relevant, and representative of the average sentiment of the input reviews. Finally, we collect a reference evaluation dataset and show that our model outperforms a strong extractive baseline.",
+      "decision": "no",
+      "reason": "該論文是提出無監督抽象式摘要模型的技術研究，非系統性文獻回顧且也非以對話摘要為主要主題。",
+      "confidence": 0.95
+    },
+    {
+      "arxiv_id": "1804.04589",
+      "title": "A Survey on Neural Network-Based Summarization Methods",
+      "abstract": "Automatic text summarization, the automated process of shortening a text while reserving the main ideas of the document(s), is a critical research area in natural language processing. The aim of this literature review is to survey the recent work on neural-based models in automatic text summarization. We examine in detail ten state-of-the-art neural-based summarizers: five abstractive models and five extractive models. In addition, we discuss the related techniques that can be applied to the summarization tasks and present promising paths for future research in neural-based summarization.",
+      "decision": "no",
+      "reason": "該文章為一般性神經網路摘要綜述，並未專注於對話式摘要的挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1712.04801",
+      "title": "Open data, open review and open dialogue in making social sciences plausible",
+      "abstract": "Nowadays, protecting trust in social sciences also means engaging in open community dialogue, which helps to safeguard robustness and improve efficiency of research methods. The combination of open data, open review and open dialogue may sound simple but implementation in the real world will not be straightforward. However, in view of Begley and Ellis's (2012) statement that, \"the scientific process demands the highest standards of quality, ethics and rigour,\" they are worth implementing. More importantly, they are feasible to work on and likely will help to restore plausibility to social sciences research. Therefore, I feel it likely that the triplet of open data, open review and open dialogue will gradually emerge to become policy requirements regardless of the research funding source.",
+      "decision": "no",
+      "reason": "文章討論開放數據與開放審查以提升社會科學可信度，並非關於對話摘要或系統性文獻回顧主題。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1711.09050",
+      "title": "Ethical Challenges in Data-Driven Dialogue Systems",
+      "abstract": "The use of dialogue systems as a medium for human-machine interaction is an increasingly prevalent paradigm. A growing number of dialogue systems use conversation strategies that are learned from large datasets. There are well documented instances where interactions with these system have resulted in biased or even offensive conversations due to the data-driven training process. Here, we highlight potential ethical issues that arise in dialogue systems research, including: implicit biases in data-driven systems, the rise of adversarial examples, potential sources of privacy violations, safety concerns, special considerations for reinforcement learning systems, and reproducibility concerns. We also suggest areas stemming from these issues that deserve further investigation. Through this initial survey, we hope to spur research leading to robust, safe, and ethically sound dialogue systems.",
+      "decision": "no",
+      "reason": "本文為對數據驅動對話系統的倫理問題綜述，並未專注於抽象式對話摘要的挑戰。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1711.01731",
+      "title": "A Survey on Dialogue Systems: Recent Advances and New Frontiers",
+      "abstract": "Dialogue systems have attracted more and more attention. Recent advances on dialogue systems are overwhelmingly contributed by deep learning techniques, which have been employed to enhance a wide range of big data applications such as computer vision, natural language processing, and recommender systems. For dialogue systems, deep learning can leverage a massive amount of data to learn meaningful feature representations and response generation strategies, while requiring a minimum amount of hand-crafting. In this article, we give an overview to these recent advances on dialogue systems from various perspectives and discuss some possible research directions. In particular, we generally divide existing dialogue systems into task-oriented and non-task-oriented models, then detail how deep learning techniques help them with representative algorithms and finally discuss some appealing research directions that can bring the dialogue system research into a new frontier.",
+      "decision": "no",
+      "reason": "本文為對話系統的綜述，未明確聚焦於抽象式對話摘要的挑戰或系統性文獻回顧。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1709.04409",
+      "title": "A Review of Evaluation Techniques for Social Dialogue Systems",
+      "abstract": "In contrast with goal-oriented dialogue, social dialogue has no clear measure of task success. Consequently, evaluation of these systems is notoriously hard. In this paper, we review current evaluation methods, focusing on automatic metrics. We conclude that turn-based metrics often ignore the context and do not account for the fact that several replies are valid, while end-of-dialogue rewards are mainly hand-crafted. Both lack grounding in human perceptions.",
+      "decision": "no",
+      "reason": "雖然是綜述，但內容集中在社交對話系統的評估技術，與抽象式對話摘要的挑戰不匹配。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1612.04883",
+      "title": "Graph Summarization Methods and Applications: A Survey",
+      "abstract": "While advances in computing resources have made processing enormous amounts of data possible, human ability to identify patterns in such data has not scaled accordingly. Efficient computational methods for condensing and simplifying data are thus becoming vital for extracting actionable insights. In particular, while data summarization techniques have been studied extensively, only recently has summarizing interconnected data, or graphs, become popular. This survey is a structured, comprehensive overview of the state-of-the-art methods for summarizing graph data. We first broach the motivation behind, and the challenges of, graph summarization. We then categorize summarization approaches by the type of graphs taken as input and further organize each category by core methodology. Finally, we discuss applications of summarization on real-world graphs and conclude by describing some open problems in the field.",
+      "decision": "no",
+      "reason": "本文是關於圖資料總結的綜述，與對話抽象摘要挑戰的系統性文獻回顧主題無直接關聯。",
+      "confidence": 0.92
+    },
+    {
+      "arxiv_id": "1611.06216",
+      "title": "Generative Deep Neural Networks for Dialogue: A Short Review",
+      "abstract": "Researchers have recently started investigating deep neural networks for dialogue applications. In particular, generative sequence-to-sequence (Seq2Seq) models have shown promising results for unstructured tasks, such as word-level dialogue response generation. The hope is that such models will be able to leverage massive amounts of data to learn meaningful natural language representations and response generation strategies, while requiring a minimum amount of domain knowledge and hand-crafting. An important challenge is to develop models that can effectively incorporate dialogue context and generate meaningful and diverse responses. In support of this goal, we review recently proposed models based on generative encoder-decoder neural network architectures, and show that these models have better ability to incorporate long-term dialogue history, to model uncertainty and ambiguity in dialogue, and to generate responses with high-level compositional structure.",
+      "decision": "no",
+      "reason": "本文為對生成式對話模型的短評，重點在回應生成而非抽象式對話摘要，與主題不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1601.00329",
+      "title": "The Dark Energy Survey: more than dark energy - an overview",
+      "abstract": "This overview article describes the legacy prospect and discovery potential of the Dark Energy Survey (DES) beyond cosmological studies, illustrating it with examples from the DES early data. DES is using a wide-field camera (DECam) on the 4m Blanco Telescope in Chile to image 5000 sq deg of the sky in five filters (grizY). By its completion the survey is expected to have generated a catalogue of 300 million galaxies with photometric redshifts and 100 million stars. In addition, a time-domain survey search over 27 sq deg is expected to yield a sample of thousands of Type Ia supernovae and other transients. The main goals of DES are to characterise dark energy and dark matter, and to test alternative models of gravity; these goals will be pursued by studying large scale structure, cluster counts, weak gravitational lensing and Type Ia supernovae. However, DES also provides a rich data set which allows us to study many other aspects of astrophysics. In this paper we focus on additional science with DES, emphasizing areas where the survey makes a difference with respect to other current surveys. The paper illustrates, using early data (from `Science Verification', and from the first, second and third seasons of observations), what DES can tell us about the solar system, the Milky Way, galaxy evolution, quasars, and other topics. In addition, we show that if the cosmological model is assumed to be Lambda+ Cold Dark Matter (LCDM) then important astrophysics can be deduced from the primary DES probes. Highlights from DES early data include the discovery of 34 Trans Neptunian Objects, 17 dwarf satellites of the Milky Way, one published z > 6 quasar (and more confirmed) and two published superluminous supernovae (and more confirmed).",
+      "decision": "no",
+      "reason": "本文為天文觀測計畫的概述，並非有關對話摘要挑戰的系統性文獻回顧。",
+      "confidence": 0.93
+    },
+    {
+      "arxiv_id": "1512.05742",
+      "title": "A Survey of Available Corpora for Building Data-Driven Dialogue Systems",
+      "abstract": "During the past decade, several areas of speech and language understanding have witnessed substantial breakthroughs from the use of data-driven models. In the area of dialogue systems, the trend is less obvious, and most practical systems are still built through significant engineering and expert knowledge. Nevertheless, several recent results suggest that data-driven approaches are feasible and quite promising. To facilitate research in this area, we have carried out a wide survey of publicly available datasets suitable for data-driven learning of dialogue systems. We discuss important characteristics of these datasets, how they can be used to learn diverse dialogue strategies, and their other potential uses. We also examine methods for transfer learning between datasets and the use of external knowledge. Finally, we discuss appropriate choice of evaluation metrics for the learning objective.",
+      "decision": "no",
+      "reason": "雖然是綜述類文章，但主題為對話語料庫而非抽象式對話摘要的挑戰，與目標不符。",
+      "confidence": 0.9
+    },
+    {
+      "arxiv_id": "1510.04875",
+      "title": "PET-MRI: a review of challenges and solutions in the development of integrated multimodality imaging",
+      "abstract": "The integration of positron emission tomography (PET) and magnetic resonance imaging (MRI) has been an ongoing research topic for the last 20 years. This paper gives an overview of the different developments and the technical problems associated with combining PET and MRI in one system. After explaining the different detector concepts for integrating PET-MRI and minimising interference the limitations and advantages of different solutions for the detector and system are described for preclinical and clinical imaging systems. The different integrated PET-MRI systems are described in detail. Besides detector concepts and system integration the challenges and proposed solutions for attenuation correction and the potential for motion correction and resolution recovery are also discussed in this topical review.",
+      "decision": "no",
+      "reason": "文章虽然是综述但主题为PET-MRI影像学，与抽象对话摘要研究无关。",
+      "confidence": 0.95
+    }
+  ],
+  "excluded_cutoff_candidate": "2406.07494"
+}

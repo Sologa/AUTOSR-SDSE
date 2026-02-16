@@ -1,0 +1,122 @@
+{
+"topic_definition": "本範圍界定聚焦於英文對話的 Transformer 架構抽象式對話摘要研究：以對話逐字稿/轉錄稿為輸入，生成資訊充分且精簡的自然語言摘要；並以近年 Transformer 文字摘要模型（如 BART、PEGASUS）成為主流後的研究脈絡為主，系統性整理對話摘要的核心挑戰（語言、結構、理解、說話者、顯著性、事實性）以及對應的技術、資料集與評估方式。",
+"summary": "已依照論文中「Eligibility Criteria」與檢索來源描述，整理其系統性回顧在人工篩選階段採用的收錄/排除規則（開放存取、2019 起、英文、抽象式、Transformer-based；並以 Semantic Scholar 與 DBLP 作為候選文獻來源）。",
+"summary_topics": [
+{
+"id": "S1",
+"description": "研究任務範圍：抽象式對話摘要（由對話逐字稿生成精簡摘要）並以對話摘要挑戰/方法/資料集/評估為核心。"
+},
+{
+"id": "S2",
+"description": "模型與方法範圍：以 Transformer 架構之文字摘要/對話摘要方法為主要對象。"
+},
+{
+"id": "S3",
+"description": "語言與語料範圍：以英文對話與英文研究語料/全文為範圍，支援人工全文篩選。"
+},
+{
+"id": "S4",
+"description": "文獻可取得性與來源：以 2019 年（Transformer 摘要模型興起）後的開放存取文獻為主，候選文獻以 Semantic Scholar 與 DBLP 作為主要檢索來源。"
+}
+],
+"inclusion_criteria": {
+"criteria": [
+{
+"criterion": "主題定義：本範圍界定聚焦於英文對話的 Transformer 架構抽象式對話摘要研究：以對話逐字稿/轉錄稿為輸入，生成資訊充分且精簡的自然語言摘要；並以近年 Transformer 文字摘要模型（如 BART、PEGASUS）成為主流後的研究脈絡為主，系統性整理對話摘要的核心挑戰（語言、結構、理解、說話者、顯著性、事實性）以及對應的技術、資料集與評估方式。—研究主題與方法論述需落在上述定義之任務範圍內（對話逐字稿→抽象式摘要），並以挑戰/技術/資料集/評估任一面向作為主要貢獻或分析重點。",
+"source": "internal",
+"topic_ids": [
+"S1"
+]
+},
+{
+"criterion": "文獻為開放存取（可取得全文以進行人工篩選）且出版年份為 2019 年或之後。",
+"source": "internal",
+"topic_ids": [
+"S4"
+]
+},
+{
+"criterion": "研究主要採用 Transformer-based 文字摘要模型作為對話摘要方法的核心架構（論文中以 BART、PEGASUS 等為代表）。",
+"source": "internal",
+"topic_ids": [
+"S2"
+]
+},
+{
+"criterion": "研究對象與實驗語料以英文對話為主，並提供英文全文以支援人工全文篩選與資訊萃取。",
+"source": "internal",
+"topic_ids": [
+"S3"
+]
+},
+{
+"criterion": "研究輸出以自然語言生成方式產生對話摘要（abstractive），並呈現其對摘要品質/錯誤/挑戰之分析或改善。",
+"source": "internal",
+"topic_ids": [
+"S1"
+]
+}
+],
+"any_of": [
+{
+"options": [
+{
+"criterion": "候選文獻可由 Semantic Scholar 作為主要檢索來源取得（用於候選集蒐集與去重）。",
+"source": "[https://www.semanticscholar.org/](https://www.semanticscholar.org/)",
+"topic_ids": [
+"S4"
+]
+},
+{
+"criterion": "候選文獻可由 DBLP 作為主要檢索來源取得（用於候選集蒐集與去重）。",
+"source": "[https://dblp.org/](https://dblp.org/)",
+"topic_ids": [
+"S4"
+]
+}
+]
+}
+]
+},
+"exclusion_criteria": [
+{
+"criterion": "研究以非英文主資料集的對話作為主要下游語料與評估基礎（primary datasets 為非英文）。",
+"source": "internal",
+"topic_ids": [
+"S3"
+]
+},
+{
+"criterion": "研究屬多模態對話摘要（multi-modal studies），其核心輸入或建模依賴非純文字模態。",
+"source": "internal",
+"topic_ids": [
+"S1"
+]
+},
+{
+"criterion": "研究主要方法屬抽取式對話摘要（extractive），以選取原對話片段為主而非生成式摘要。",
+"source": "internal",
+"topic_ids": [
+"S1"
+]
+},
+{
+"criterion": "研究主要方法屬非 Transformer-based 的對話摘要模型，且未以 Transformer 作為核心架構來處理摘要生成。",
+"source": "internal",
+"topic_ids": [
+"S2"
+]
+},
+{
+"criterion": "文獻為封閉存取（無法取得全文以進行人工篩選）或出版年份早於 2019 年，難以對齊其回顧所設定之時間範圍。",
+"source": "internal",
+"topic_ids": [
+"S4"
+]
+}
+],
+"sources": [
+"[https://www.semanticscholar.org/](https://www.semanticscholar.org/)",
+"[https://dblp.org/](https://dblp.org/)"
+]
+}

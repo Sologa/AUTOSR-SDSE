@@ -1,0 +1,1473 @@
+{
+  "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "generated_at": "2026-02-02T17:27:21.878218+00:00",
+  "anchors": [
+    "dialogue summarization",
+    "abstractive dialogue summarization",
+    "abstractive meeting summarization",
+    "meeting summarization"
+  ],
+  "search_terms": [
+    "sequence to sequence",
+    "pre trained models",
+    "topic segmentation",
+    "ami",
+    "icsi",
+    "qmsum",
+    "rouge",
+    "evaluation metrics",
+    "bertscore",
+    "faithfulness",
+    "hallucinations",
+    "multi modal",
+    "dialogue summarization",
+    "meeting summarization",
+    "chat summarization",
+    "abstractive meeting summarization",
+    "multi party conversation",
+    "disfluent speech",
+    "encoder decoder",
+    "transformer models",
+    "pointer generator",
+    "data sets",
+    "ami corpus",
+    "icsi corpus",
+    "discourse graphs",
+    "discourse relations",
+    "discourse parsing",
+    "longformer",
+    "domain adaptation",
+    "long input",
+    "open-domain",
+    "task-oriented",
+    "daily chat",
+    "hierarchical modeling",
+    "encoder-decoder",
+    "speaker role",
+    "topic transition",
+    "coreference graph",
+    "denoising tasks",
+    "masking",
+    "contrastive learning",
+    "wikipedia",
+    "mediasum",
+    "bookcorpus"
+  ],
+  "scope": "all",
+  "boolean_operator": "OR",
+  "top_k_per_query": 100,
+  "start_date": "2021-06-11",
+  "end_date": "2024-06-10",
+  "cutoff_date": "2024-06-11",
+  "queries_run": 176,
+  "queries": [
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "sequence to sequence",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"sequence to sequence\")",
+      "records_returned": 100,
+      "records_added": 49,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "pre trained models",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"pre trained models\")",
+      "records_returned": 100,
+      "records_added": 23,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "topic segmentation",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"topic segmentation\")",
+      "records_returned": 100,
+      "records_added": 23,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "ami",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"ami\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "icsi",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"icsi\")",
+      "records_returned": 100,
+      "records_added": 11,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "qmsum",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"qmsum\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "rouge",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"rouge\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "evaluation metrics",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"evaluation metrics\")",
+      "records_returned": 100,
+      "records_added": 17,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "bertscore",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"bertscore\")",
+      "records_returned": 100,
+      "records_added": 8,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "faithfulness",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"faithfulness\")",
+      "records_returned": 100,
+      "records_added": 8,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "hallucinations",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"hallucinations\")",
+      "records_returned": 100,
+      "records_added": 13,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "multi modal",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"multi modal\")",
+      "records_returned": 100,
+      "records_added": 14,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "dialogue summarization",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"dialogue summarization\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "meeting summarization",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"meeting summarization\")",
+      "records_returned": 100,
+      "records_added": 18,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "chat summarization",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"chat summarization\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "abstractive meeting summarization",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"abstractive meeting summarization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "multi party conversation",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"multi party conversation\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "disfluent speech",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"disfluent speech\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 13,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "transformer models",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"transformer models\")",
+      "records_returned": 100,
+      "records_added": 19,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "pointer generator",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"pointer generator\")",
+      "records_returned": 100,
+      "records_added": 8,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "data sets",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"data sets\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "ami corpus",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"ami corpus\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "icsi corpus",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"icsi corpus\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "discourse graphs",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"discourse graphs\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "discourse relations",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"discourse relations\")",
+      "records_returned": 100,
+      "records_added": 9,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "discourse parsing",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"discourse parsing\")",
+      "records_returned": 100,
+      "records_added": 13,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "longformer",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"longformer\")",
+      "records_returned": 100,
+      "records_added": 13,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "domain adaptation",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"domain adaptation\")",
+      "records_returned": 100,
+      "records_added": 17,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "long input",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"long input\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "open-domain",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"open-domain\")",
+      "records_returned": 100,
+      "records_added": 17,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "task-oriented",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"task-oriented\")",
+      "records_returned": 100,
+      "records_added": 15,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "daily chat",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"daily chat\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "hierarchical modeling",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"hierarchical modeling\")",
+      "records_returned": 100,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "encoder-decoder",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"encoder-decoder\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "speaker role",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"speaker role\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "topic transition",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"topic transition\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "coreference graph",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"coreference graph\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "denoising tasks",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"denoising tasks\")",
+      "records_returned": 100,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "masking",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"masking\")",
+      "records_returned": 100,
+      "records_added": 19,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "contrastive learning",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"contrastive learning\")",
+      "records_returned": 100,
+      "records_added": 29,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "wikipedia",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"wikipedia\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "mediasum",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"mediasum\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "dialogue summarization",
+      "search_term": "bookcorpus",
+      "search_query": "(all:\"dialogue summarization\") OR (all:\"bookcorpus\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "sequence to sequence",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"sequence to sequence\")",
+      "records_returned": 100,
+      "records_added": 14,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "pre trained models",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"pre trained models\")",
+      "records_returned": 100,
+      "records_added": 35,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "topic segmentation",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"topic segmentation\")",
+      "records_returned": 78,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "ami",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"ami\")",
+      "records_returned": 100,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "icsi",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"icsi\")",
+      "records_returned": 82,
+      "records_added": 9,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "qmsum",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"qmsum\")",
+      "records_returned": 38,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "rouge",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"rouge\")",
+      "records_returned": 100,
+      "records_added": 19,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "evaluation metrics",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"evaluation metrics\")",
+      "records_returned": 100,
+      "records_added": 22,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "bertscore",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"bertscore\")",
+      "records_returned": 100,
+      "records_added": 18,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "faithfulness",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"faithfulness\")",
+      "records_returned": 100,
+      "records_added": 23,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "hallucinations",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"hallucinations\")",
+      "records_returned": 100,
+      "records_added": 12,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "multi modal",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"multi modal\")",
+      "records_returned": 100,
+      "records_added": 30,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "dialogue summarization",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"dialogue summarization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "meeting summarization",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"meeting summarization\")",
+      "records_returned": 66,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "chat summarization",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"chat summarization\")",
+      "records_returned": 23,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "abstractive meeting summarization",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"abstractive meeting summarization\")",
+      "records_returned": 24,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "multi party conversation",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"multi party conversation\")",
+      "records_returned": 93,
+      "records_added": 21,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "disfluent speech",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"disfluent speech\")",
+      "records_returned": 31,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 15,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "transformer models",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"transformer models\")",
+      "records_returned": 100,
+      "records_added": 21,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "pointer generator",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"pointer generator\")",
+      "records_returned": 100,
+      "records_added": 15,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "data sets",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"data sets\")",
+      "records_returned": 100,
+      "records_added": 10,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "ami corpus",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"ami corpus\")",
+      "records_returned": 50,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "icsi corpus",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"icsi corpus\")",
+      "records_returned": 22,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "discourse graphs",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"discourse graphs\")",
+      "records_returned": 32,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "discourse relations",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"discourse relations\")",
+      "records_returned": 100,
+      "records_added": 19,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "discourse parsing",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"discourse parsing\")",
+      "records_returned": 100,
+      "records_added": 11,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "longformer",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"longformer\")",
+      "records_returned": 100,
+      "records_added": 38,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "domain adaptation",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"domain adaptation\")",
+      "records_returned": 100,
+      "records_added": 11,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "long input",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"long input\")",
+      "records_returned": 100,
+      "records_added": 26,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "open-domain",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"open-domain\")",
+      "records_returned": 100,
+      "records_added": 29,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "task-oriented",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"task-oriented\")",
+      "records_returned": 100,
+      "records_added": 27,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "daily chat",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"daily chat\")",
+      "records_returned": 20,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "hierarchical modeling",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"hierarchical modeling\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "encoder-decoder",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"encoder-decoder\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "speaker role",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"speaker role\")",
+      "records_returned": 58,
+      "records_added": 10,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "topic transition",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"topic transition\")",
+      "records_returned": 46,
+      "records_added": 8,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "coreference graph",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"coreference graph\")",
+      "records_returned": 21,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "denoising tasks",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"denoising tasks\")",
+      "records_returned": 100,
+      "records_added": 28,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "masking",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"masking\")",
+      "records_returned": 100,
+      "records_added": 24,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "contrastive learning",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"contrastive learning\")",
+      "records_returned": 100,
+      "records_added": 21,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "wikipedia",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"wikipedia\")",
+      "records_returned": 100,
+      "records_added": 10,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "mediasum",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"mediasum\")",
+      "records_returned": 28,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive dialogue summarization",
+      "search_term": "bookcorpus",
+      "search_query": "(all:\"abstractive dialogue summarization\") OR (all:\"bookcorpus\")",
+      "records_returned": 32,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "sequence to sequence",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"sequence to sequence\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "pre trained models",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"pre trained models\")",
+      "records_returned": 100,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "topic segmentation",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"topic segmentation\")",
+      "records_returned": 62,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "ami",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"ami\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "icsi",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"icsi\")",
+      "records_returned": 65,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "qmsum",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"qmsum\")",
+      "records_returned": 23,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "rouge",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"rouge\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "evaluation metrics",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"evaluation metrics\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "bertscore",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"bertscore\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "faithfulness",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"faithfulness\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "hallucinations",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"hallucinations\")",
+      "records_returned": 100,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "multi modal",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"multi modal\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "dialogue summarization",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"dialogue summarization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "meeting summarization",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"meeting summarization\")",
+      "records_returned": 47,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "chat summarization",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"chat summarization\")",
+      "records_returned": 7,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "abstractive meeting summarization",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"abstractive meeting summarization\")",
+      "records_returned": 4,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "multi party conversation",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"multi party conversation\")",
+      "records_returned": 76,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "disfluent speech",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"disfluent speech\")",
+      "records_returned": 15,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "transformer models",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"transformer models\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "pointer generator",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"pointer generator\")",
+      "records_returned": 94,
+      "records_added": 1,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "data sets",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"data sets\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "ami corpus",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"ami corpus\")",
+      "records_returned": 35,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "icsi corpus",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"icsi corpus\")",
+      "records_returned": 5,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "discourse graphs",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"discourse graphs\")",
+      "records_returned": 16,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "discourse relations",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"discourse relations\")",
+      "records_returned": 100,
+      "records_added": 3,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "discourse parsing",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"discourse parsing\")",
+      "records_returned": 94,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "longformer",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"longformer\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "domain adaptation",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"domain adaptation\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "long input",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"long input\")",
+      "records_returned": 100,
+      "records_added": 8,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "open-domain",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"open-domain\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "task-oriented",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"task-oriented\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "daily chat",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"daily chat\")",
+      "records_returned": 5,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "hierarchical modeling",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"hierarchical modeling\")",
+      "records_returned": 100,
+      "records_added": 5,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "encoder-decoder",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"encoder-decoder\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "speaker role",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"speaker role\")",
+      "records_returned": 42,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "topic transition",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"topic transition\")",
+      "records_returned": 30,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "coreference graph",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"coreference graph\")",
+      "records_returned": 5,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "denoising tasks",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"denoising tasks\")",
+      "records_returned": 100,
+      "records_added": 6,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "masking",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"masking\")",
+      "records_returned": 100,
+      "records_added": 4,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "contrastive learning",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"contrastive learning\")",
+      "records_returned": 100,
+      "records_added": 7,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "wikipedia",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"wikipedia\")",
+      "records_returned": 100,
+      "records_added": 2,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "mediasum",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"mediasum\")",
+      "records_returned": 12,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "abstractive meeting summarization",
+      "search_term": "bookcorpus",
+      "search_query": "(all:\"abstractive meeting summarization\") OR (all:\"bookcorpus\")",
+      "records_returned": 16,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "sequence to sequence",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"sequence to sequence\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "pre trained models",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"pre trained models\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "topic segmentation",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"topic segmentation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "ami",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"ami\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "icsi",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"icsi\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "qmsum",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"qmsum\")",
+      "records_returned": 55,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "rouge",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"rouge\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "evaluation metrics",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"evaluation metrics\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "bertscore",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"bertscore\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "faithfulness",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"faithfulness\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "hallucinations",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"hallucinations\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "multi modal",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"multi modal\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "dialogue summarization",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"dialogue summarization\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "meeting summarization",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"meeting summarization\")",
+      "records_returned": 47,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "chat summarization",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"chat summarization\")",
+      "records_returned": 49,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "abstractive meeting summarization",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"abstractive meeting summarization\")",
+      "records_returned": 47,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "multi party conversation",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"multi party conversation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "disfluent speech",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"disfluent speech\")",
+      "records_returned": 58,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "encoder decoder",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"encoder decoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "transformer models",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"transformer models\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "pointer generator",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"pointer generator\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "data sets",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"data sets\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "ami corpus",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"ami corpus\")",
+      "records_returned": 77,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "icsi corpus",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"icsi corpus\")",
+      "records_returned": 48,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "discourse graphs",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"discourse graphs\")",
+      "records_returned": 58,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "discourse relations",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"discourse relations\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "discourse parsing",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"discourse parsing\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "longformer",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"longformer\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "domain adaptation",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"domain adaptation\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "long input",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"long input\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "open-domain",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"open-domain\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "task-oriented",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"task-oriented\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "daily chat",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"daily chat\")",
+      "records_returned": 48,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "hierarchical modeling",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"hierarchical modeling\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "encoder-decoder",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"encoder-decoder\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "speaker role",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"speaker role\")",
+      "records_returned": 85,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "topic transition",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"topic transition\")",
+      "records_returned": 73,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "coreference graph",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"coreference graph\")",
+      "records_returned": 48,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "denoising tasks",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"denoising tasks\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "masking",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"masking\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "contrastive learning",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"contrastive learning\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "wikipedia",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"wikipedia\")",
+      "records_returned": 100,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "mediasum",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"mediasum\")",
+      "records_returned": 55,
+      "records_added": 0,
+      "error": null
+    },
+    {
+      "anchor": "meeting summarization",
+      "search_term": "bookcorpus",
+      "search_query": "(all:\"meeting summarization\") OR (all:\"bookcorpus\")",
+      "records_returned": 59,
+      "records_added": 0,
+      "error": null
+    }
+  ]
+}

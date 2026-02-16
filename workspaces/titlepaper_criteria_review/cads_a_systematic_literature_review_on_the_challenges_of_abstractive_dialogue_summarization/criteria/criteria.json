@@ -1,0 +1,132 @@
+{
+  "topic_definition": "本回顧聚焦於抽象式對話摘要（abstractive dialogue summarization）領域：在多輪、多說話者語境下，從對話逐字稿/轉錄稿產生自然語言摘要，並以 CADS（Challenges of Abstractive Dialogue Summarization）框架為主軸，系統化覆蓋語言、結構、理解、說話者、顯著性、事實性六大挑戰，及其對應的技術、資料集與評估方法。\\n  本研究關注對話摘要模型對可解釋挑戰與品質限制的討論，而非僅量化 ROUGE 類指標，目標是識別可歸納到 CADS 的研究貢獻。",
+  "summary": "本主題由 FKIRSTE/LitRev-DialogueSum 的系統性回顧所支撐：他們依循 PRISMA 進行文獻檢索與雙階段篩選，最終從 1,262 篇候選論文中納入 133 篇作為完整分析對象。該回顧提出 CADS 六大挑戰主軸，並與方法、資料集、評估向度對齊，並指出資料偏誤與自動化評估仍有侷限，特別在理解、顯著性與事實性仍有研究空間。",
+  "summary_topics": [
+    {
+      "id": "S1",
+      "description": "CADS 六大挑戰定義：語言、結構、理解、說話者、顯著性、事實性與其錯誤型態。"
+    },
+    {
+      "id": "S2",
+      "description": "技術策略映射：語言處理、對話結構建模、上下文與背景知識整合、角色/共指處理、內容顯著性與事實一致性。"
+    },
+    {
+      "id": "S3",
+      "description": "資料面向：會議、客服、醫療、線上聊天等子域資料集的使用、特性與資料增強（弱標記、重述、結構改寫、LLM 生成）。"
+    },
+    {
+      "id": "S4",
+      "description": "評估面向：ROUGE、BERTScore、FactCC、FEQA、SummaQA、QuestEval 及人工評估（Krippendorff/Cohen/Fleiss）在品質診斷上的適用性。"
+    }
+  ],
+  "inclusion_criteria": {
+    "required": [
+      {
+        "criterion": "主題定義：研究需以抽象式對話摘要為核心任務，針對對話逐字稿/轉錄稿輸入，目標為非逐句擷取的內容濃縮與重組，並可明確對齊 CADS 挑戰（語言、結構、理解、說話者、顯著性或事實性）中的至少一項。",
+        "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+        "topic_ids": [
+          "S1",
+          "S2"
+        ]
+      },
+      {
+        "criterion": "文獻需可支援主題與方法判讀（全文可取得為佳），並以英文對話摘要研究為主，能直接判定其是否處理對話摘要品質的核心問題。",
+        "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+        "topic_ids": [
+          "S1",
+          "S3",
+          "S4"
+        ]
+      }
+    ],
+    "any_of": [
+      {
+        "label": "研究與 CADS 框架內容方向之一",
+        "options": [
+          {
+            "criterion": "直接提出或分析對話摘要的核心挑戰，包含至少一個 CADS 挑戰（語言、結構、理解、說話者、顯著性、事實性）與對應對策、錯誤型態或影響分析。",
+            "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+            "topic_ids": [
+              "S1",
+              "S2"
+            ]
+          },
+          {
+            "criterion": "系統性地比較或提出可對應 CADS 的方法：例如圖結構建模、階層式架構、前/後處理、訓練任務設計、多階段或分段式摘要流程。",
+            "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+            "topic_ids": [
+              "S2"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "研究與資源面向之一",
+        "options": [
+          {
+            "criterion": "對話摘要資料集、子領域（如 meeting/chat/customer service）或資料增強（弱標記、重述、結構改寫、LLM 生成）有明確分析，且可連結到對摘要品質挑戰與方法。",
+            "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+            "topic_ids": [
+              "S3"
+            ]
+          },
+          {
+            "criterion": "討論對話摘要評估：自動指標與人工評估之關係，或針對事實性/可讀性/涵蓋性等面向提供診斷與侷限分析。",
+            "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+            "topic_ids": [
+              "S4"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "exclusion_criteria": [
+    {
+      "criterion": "研究非對話摘要（文件摘要、一般文本摘要或多文件摘要），或未以多輪對話/多說話者情境為主要研究對象。",
+      "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+      "topic_ids": [
+        "S1"
+      ]
+    },
+    {
+      "criterion": "採用抽取式為主的摘要方法，缺乏抽象式摘要（文義重組/生成）任務與相關品質討論。",
+      "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+      "topic_ids": [
+        "S1"
+      ]
+    },
+    {
+      "criterion": "主要以多模態（視覺、音訊）為核心輸入且非以文字對話對應為主要分析範圍，或摘要品質由非文字模態主導。",
+      "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+      "topic_ids": [
+        "S2"
+      ]
+    },
+    {
+      "criterion": "以非英語為主要對話語料且無法落實與主要英文研究比較的研究，或無法判斷其對 CADS 挑戰的對應貢獻。",
+      "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+      "topic_ids": [
+        "S1",
+        "S4"
+      ]
+    },
+    {
+      "criterion": "不屬於 Transformer/Large Language Model 相關的對話摘要研究路線，且未使用可比對的生成式摘要框架或分析方式。",
+      "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+      "topic_ids": [
+        "S2"
+      ]
+    },
+    {
+      "criterion": "僅做摘要指標比較而未提供對話摘要任務本身方法/挑戰/資料集或評估面向的分析，無法對 CADS 框架建立對應。",
+      "source": "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md",
+      "topic_ids": [
+        "S4"
+      ]
+    }
+  ],
+  "sources": [
+    "https://github.com/FKIRSTE/LitRev-DialogueSum/blob/main/README.md"
+  ]
+}

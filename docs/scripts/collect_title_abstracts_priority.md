@@ -1,7 +1,7 @@
 # collect_title_abstracts_priority
 
 ## 目的
-依照 `docs/paper_downloaders/unique_download_methods.md` 的來源優先序，從 `reference_oracle.jsonl` 以 title 搜尋補齊 `title` + `abstract`，並輸出三個 JSONL 檔案（metadata / sources / trace）。
+依照 `docs/paper_downloaders/unique_download_methods.md` 的來源優先序，從 `reference_oracle.jsonl` 以 title 搜尋補齊 `title` + `abstract`，並輸出三個主要 JSONL 檔案（metadata / sources / trace）。可選擇額外輸出來源 full metadata。
 
 ## 介面/參數
 - 指令：`python scripts/collect_title_abstracts_priority.py`
@@ -13,6 +13,8 @@
   - `--resume`: 續跑模式（預設 true）
   - `--checkpoint-every`: 每處理 N 筆就重寫輸出（預設 1）
   - `--limit`: 只處理前 N 筆（除錯用）
+  - `--include-full-metadata`: 是否輸出 `title_abstracts_full_metadata.jsonl`（預設 false）
+  - `--include-embedding`: 是否包含 Semantic Scholar 的 `embedding` 向量（預設 false）
 
 ## 來源優先序
 1. arXiv
@@ -33,6 +35,7 @@
 - `title_abstracts_metadata.jsonl`
 - `title_abstracts_sources.jsonl`
 - `title_abstracts_source_trace.jsonl`
+- `title_abstracts_full_metadata.jsonl`（當 `--include-full-metadata true`）
 
 輸出格式與既有 `workspaces/.../review/title_abstracts_*.jsonl` 一致。
 
@@ -43,10 +46,18 @@ python scripts/collect_title_abstracts_priority.py \
   --output-dir target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/title_abstract
 ```
 
+```bash
+python scripts/collect_title_abstracts_priority.py \
+  --input target_papers/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/reference_oracle.jsonl \
+  --output-dir workspaces/titlepaper_criteria_review/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/harvest \
+  --include-full-metadata true
+```
+
 ## 測試要點
 - 先用 `--limit 5` 確認輸出格式與 trace 正常。
 - 確認 `title_abstracts_metadata.jsonl` 中沒有 `abstract: null`。
 - 確認 `title_abstracts_source_trace.jsonl` 的查詢步驟順序符合優先序。
+- 若啟用 `--include-full-metadata true`，確認 `title_abstracts_full_metadata.jsonl` 每筆都有 `source_metadata`（找不到來源則為 `null`）。
 
 ## 已知限制
 - 部分來源僅提供 title 或 description，若無 abstract 會繼續往下查。
@@ -54,3 +65,7 @@ python scripts/collect_title_abstracts_priority.py \
 - GitHub / HuggingFace / BSI 等屬替代來源，內容多為 description 而非正式論文摘要。
 - 標題 token 數少於 7 時只接受精確匹配，避免短標題模糊誤配。
 - 會先移除 TeX 命令與結尾年份再組成查詢字串，降低查詢失真。
+- 啟用 full metadata 時，輸出檔案會顯著變大；部分 HTML 來源僅能提供頁面 meta 資訊，無法等同 API 全欄位回傳。
+- `embedding` 向量預設不輸出；若啟用 `--include-embedding true`，檔案體積會大幅增加。
+- full metadata 會預設移除 `reference` 陣列（保留 `authors`、`externalIds` 等其餘欄位）。
+- full metadata 會預設移除以下 heavy 欄位：`openalex.abstract_inverted_index`、`openalex.referenced_works`、`crossref.assertion`、`crossref.link`、`crossref.license`。

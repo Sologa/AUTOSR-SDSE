@@ -117,6 +117,21 @@ python target_papers/_toolbox/reference_graph/build_reference_graph.py \
 
 ---
 
+## 用 review JSON 切換 ABC / Included-Excluded
+
+若你已經有 review 檔（含 `ABC` 與 `criteria_screening.decision`），可以在同一個 HTML 內切換顏色模式：
+
+```bash
+python target_papers/_toolbox/reference_graph/build_reference_graph.py \
+  --slug discrete_audio_tokens_more_than_a_survey \
+  --review_json workspaces/titlepaper_criteria_review/discrete_audio_tokens_more_than_a_survey/review/arxiv2506.10274_references_ABC_plus_criteria_screening.json \
+  --label_mode both
+```
+
+HTML 左上角會出現切換選單（ABC / Included-Excluded）與 legend。
+
+---
+
 ## 你最在意的點：citation 關係怎麼來？
 
 **我們不靠 PDF，也不靠你手動寫 edge。**  

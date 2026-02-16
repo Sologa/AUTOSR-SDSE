@@ -1,0 +1,33 @@
+### PDF Topic Definition
+本篇綜述聚焦於「會議摘要（Meeting Summarization）」領域，特別關注多參與者線上會議的自動摘要生成。核心概念涵蓋如何從冗長且多角色的會議對話中，萃取並生成涵蓋關鍵資訊、具可讀性且貼近人類語言風格的摘要。評估面向包括摘要的資訊涵蓋度、語義一致性、事實正確性（factual consistency）、摘要的流暢性與可讀性，以及模型在長文本與多參與者情境下的適應能力。
+
+### PDF Key Trends
+- 會議摘要研究由傳統的抽取式（extractive）方法逐步轉向抽象式（abstractive）方法，強調語言生成與內容融合。
+- 深度學習、特別是Transformer架構與預訓練語言模型（如BART、Longformer、DialoGLM）已成主流，並針對長文本與多輪對話進行架構創新。
+- 多模態（multi-modal）資訊（如視覺焦點、聲學特徵）被引入以提升摘要品質，尤其在會議場景中。
+- 針對長會議文本，分段摘要（sliding window、分層架構）與檢索-生成（retrieve-then-summarize）等策略廣泛應用。
+- 評估方式由傳統ROUGE分數拓展至BERTScore等語意相似度指標，並開始重視事實一致性與人類主觀評分。
+
+### PDF Capability Highlights
+- 能處理多說話者、多角色、長文本的會議對話，並生成結構化或主題導向的摘要。
+- 能融合多種特徵（語言、結構、角色、主題、視覺/聲學）以提升摘要準確度。
+- 具備多階段或分層處理能力，能針對長對話進行分段摘要與融合。
+- 可整合外部知識（如領域術語、常識知識、對話結構）以提升摘要的事實性與可讀性。
+- 支援查詢式（query-based）摘要，能根據用戶需求生成特定面向的摘要。
+
+### PDF Inclusion Signals
+- 關鍵字：Abstractive Meeting Summarization、Dialogue Summarization、Hierarchical/Sliding Window、Multi-modal、Query-based Summarization。
+- 涉及會議語料（如AMI, ICSI, QMSum）或多參與者對話摘要技術。
+- 探討長文本處理、分層/分段摘要、角色建模、主題分割等技術（見 §3.2.3, §3.2.1）。
+- 涉及摘要事實一致性、資訊涵蓋度、摘要流暢性等評估指標。
+- 涉及多模態訊息（視覺、聲學）或結合外部知識進行摘要。
+
+### PDF Exclusion Signals
+- 僅針對單一說話者或單篇文件的摘要，不涉及多方對話或會議情境。
+- 僅討論抽取式摘要，未涵蓋語言生成或內容融合。
+- 只聚焦於聊天、客服、醫療等非會議類對話，且無會議摘要相關討論。
+- 只介紹ASR（自動語音辨識）或語音轉錄技術，未涉及摘要生成。
+- 缺乏對摘要事實性、語義一致性等評估或技術挑戰的討論。
+
+### PDF Notes
+- Meeting Summarization A Survey of the State of the Art.pdf: 系統性梳理會議摘要領域，涵蓋抽取式與抽象式方法、深度學習與多模態技術、長文本處理策略、主流會議語料與評估指標，並對現有挑戰與未來方向提出見解。

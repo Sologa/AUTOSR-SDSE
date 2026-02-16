@@ -1,0 +1,136 @@
+{
+  "topic": "CADS: A Systematic Literature Review on the Challenges of Abstractive Dialogue Summarization",
+  "seed_mode": "cutoff-first",
+  "download_pdfs": true,
+  "download_stage": "filter-seed",
+  "downloaded_at": "2026-02-02T15:40:13.771220+00:00",
+  "downloads": {
+    "arxiv": [
+      {
+        "source": "arxiv",
+        "identifier": "2212.08206",
+        "metadata": {
+          "arxiv_id": "2212.08206",
+          "title": "Meeting Summarization: A Survey of the State of the Art",
+          "summary": "Information overloading requires the need for summarizers to extract salient information from the text. Currently, there is an overload of dialogue data due to the rise of virtual communication platforms. The rise of Covid-19 has led people to rely on online communication platforms like Zoom, Slack, Microsoft Teams, Discord, etc. to conduct their company meetings. Instead of going through the entire meeting transcripts, people can use meeting summarizers to select useful data. Nevertheless, there is a lack of comprehensive surveys in the field of meeting summarizers. In this survey, we aim to cover recent meeting summarization techniques. Our survey offers a general overview of text summarization along with datasets and evaluation metrics for meeting summarization. We also provide the performance of each summarizer on a leaderboard. We conclude our survey with different challenges in this domain and potential research opportunities for future researchers.",
+          "authors": [
+            "Lakshmi Prasanna Kumar",
+            "Arman Kabiri"
+          ],
+          "published": "2022-12-16T00:21:30Z",
+          "updated": "2022-12-16T00:21:30Z",
+          "categories": [
+            "cs.CL"
+          ],
+          "pdf_url": "https://arxiv.org/pdf/2212.08206v1",
+          "landing_url": "https://arxiv.org/abs/2212.08206v1",
+          "doi": "https://doi.org/10.48550/arXiv.2212.08206"
+        },
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2212.08206.pdf",
+        "bibtex_path": null,
+        "issues": [
+          {
+            "asset": "bibtex",
+            "reason": "missing",
+            "url": "https://arxiv.org/bibtex/2212.08206"
+          }
+        ]
+      },
+      {
+        "source": "arxiv",
+        "identifier": "2210.09894",
+        "metadata": {
+          "arxiv_id": "2210.09894",
+          "title": "Taxonomy of Abstractive Dialogue Summarization: Scenarios, Approaches and Future Directions",
+          "summary": "Abstractive dialogue summarization is to generate a concise and fluent summary covering the salient information in a dialogue among two or more interlocutors. It has attracted great attention in recent years based on the massive emergence of social communication platforms and an urgent requirement for efficient dialogue information understanding and digestion. Different from news or articles in traditional document summarization, dialogues bring unique characteristics and additional challenges, including different language styles and formats, scattered information, flexible discourse structures and unclear topic boundaries. This survey provides a comprehensive investigation on existing work for abstractive dialogue summarization from scenarios, approaches to evaluations. It categorizes the task into two broad categories according to the type of input dialogues, i.e., open-domain and task-oriented, and presents a taxonomy of existing techniques in three directions, namely, injecting dialogue features, designing auxiliary training tasks and using additional data.A list of datasets under different scenarios and widely-accepted evaluation metrics are summarized for completeness. After that, the trends of scenarios and techniques are summarized, together with deep insights on correlations between extensively exploited features and different scenarios. Based on these analyses, we recommend future directions including more controlled and complicated scenarios, technical innovations and comparisons, publicly available datasets in special domains, etc.",
+          "authors": [
+            "Qi Jia",
+            "Yizhu Liu",
+            "Siyu Ren",
+            "Kenny Q. Zhu"
+          ],
+          "published": "2022-10-18T14:33:03Z",
+          "updated": "2023-08-06T06:02:06Z",
+          "categories": [
+            "cs.CL"
+          ],
+          "pdf_url": "https://arxiv.org/pdf/2210.09894v2",
+          "landing_url": "https://arxiv.org/abs/2210.09894v2",
+          "doi": "https://doi.org/10.48550/arXiv.2210.09894"
+        },
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2210.09894.pdf",
+        "bibtex_path": null,
+        "issues": [
+          {
+            "asset": "bibtex",
+            "reason": "missing",
+            "url": "https://arxiv.org/bibtex/2210.09894"
+          }
+        ]
+      },
+      {
+        "source": "arxiv",
+        "identifier": "2208.04163",
+        "metadata": {
+          "arxiv_id": "2208.04163",
+          "title": "Abstractive Meeting Summarization: A Survey",
+          "summary": "A system that could reliably identify and sum up the most important points of a conversation would be valuable in a wide variety of real-world contexts, from business meetings to medical consultations to customer service calls. Recent advances in deep learning, and especially the invention of encoder-decoder architectures, has significantly improved language generation systems, opening the door to improved forms of abstractive summarization, a form of summarization particularly well-suited for multi-party conversation. In this paper, we provide an overview of the challenges raised by the task of abstractive meeting summarization and of the data sets, models and evaluation metrics that have been used to tackle the problems.",
+          "authors": [
+            "Virgile Rennard",
+            "Guokan Shang",
+            "Julie Hunter",
+            "Michalis Vazirgiannis"
+          ],
+          "published": "2022-08-08T14:04:38Z",
+          "updated": "2023-04-25T10:49:51Z",
+          "categories": [
+            "cs.CL"
+          ],
+          "pdf_url": "https://arxiv.org/pdf/2208.04163v2",
+          "landing_url": "https://arxiv.org/abs/2208.04163v2",
+          "doi": "https://doi.org/10.48550/arXiv.2208.04163"
+        },
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2208.04163.pdf",
+        "bibtex_path": null,
+        "issues": [
+          {
+            "asset": "bibtex",
+            "reason": "missing",
+            "url": "https://arxiv.org/bibtex/2208.04163"
+          }
+        ]
+      },
+      {
+        "source": "arxiv",
+        "identifier": "2107.03175",
+        "metadata": {
+          "arxiv_id": "2107.03175",
+          "title": "A Survey on Dialogue Summarization: Recent Advances and New Frontiers",
+          "summary": "Dialogue summarization aims to condense the original dialogue into a shorter version covering salient information, which is a crucial way to reduce dialogue data overload. Recently, the promising achievements in both dialogue systems and natural language generation techniques drastically lead this task to a new landscape, which results in significant research attentions. However, there still remains a lack of a comprehensive survey for this task. To this end, we take the first step and present a thorough review of this research field carefully and widely. In detail, we systematically organize the current works according to the characteristics of each domain, covering meeting, chat, email thread, customer service and medical dialogue. Additionally, we provide an overview of publicly available research datasets as well as organize two leaderboards under unified metrics. Furthermore, we discuss some future directions, including faithfulness, multi-modal, multi-domain and multi-lingual dialogue summarization, and give our thoughts respectively. We hope that this first survey of dialogue summarization can provide the community with a quick access and a general picture to this task and motivate future researches.",
+          "authors": [
+            "Xiachong Feng",
+            "Xiaocheng Feng",
+            "Bing Qin"
+          ],
+          "published": "2021-07-07T12:11:14Z",
+          "updated": "2022-04-28T03:04:38Z",
+          "categories": [
+            "cs.CL"
+          ],
+          "pdf_url": "https://arxiv.org/pdf/2107.03175v2",
+          "landing_url": "https://arxiv.org/abs/2107.03175v2",
+          "doi": "https://doi.org/10.48550/arXiv.2107.03175"
+        },
+        "pdf_path": "workspaces/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/seed/downloads/ta_filtered/2107.03175.pdf",
+        "bibtex_path": null,
+        "issues": [
+          {
+            "asset": "bibtex",
+            "reason": "missing",
+            "url": "https://arxiv.org/bibtex/2107.03175"
+          }
+        ]
+      }
+    ]
+  }
+}
