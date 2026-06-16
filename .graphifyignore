@@ -1,0 +1,53 @@
+# Code-only graphify scope.
+#
+# This repo uses graphifyy 0.3.x locally, whose .graphifyignore parser only
+# supports exclusion patterns. Keep this as an exclusion list rather than a
+# gitignore-style whitelist.
+
+# Do not ingest generated or local analysis output.
+graphify-out/
+.graphify_*
+.tmp/
+test_artifacts/
+workspaces/
+sdse-uv/
+.venv/
+.git/
+.pytest_cache/
+.ruff_cache/
+.specstory/
+__pycache__/
+.DS_Store
+
+# Non-core corpus and vendored/browser assets.
+docs/
+resources/
+config/
+lib/
+test/
+tmp_compare_after_cp2/
+
+# Large target-paper sources and caches; keep target_papers/scripts and
+# target_papers/_toolbox/reference_graph available for code extraction.
+target_papers/.cache/
+target_papers/_toolbox/reference_graph/.cache/
+target_papers/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization/
+target_papers/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization_missing/
+target_papers/cads_a_systematic_literature_review_on_the_challenges_of_abstractive_dialogue_summarization_tmp/
+target_papers/discrete_audio_tokens_more_than_a_survey/
+target_papers/on_the_landscape_of_spoken_language_models_a_comprehensive_survey/
+
+# Keep extraction code-only even if a supported document/image extension appears
+# under an included code directory.
+*.md
+*.txt
+*.rst
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.pdf
+*.tar
+*.xlsx

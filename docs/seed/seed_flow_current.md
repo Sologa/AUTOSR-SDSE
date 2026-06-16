@@ -11,9 +11,11 @@
 
 ### 1.1 cutoff-first 模式（one-pass，預設建議）
 - `--seed-mode cutoff-first`
+- `--start-date`：新增「seed 下界」；`published_date >= start_date` 才可進入 seed 候選。
 - `--cutoff-arxiv-id`：手動指定 cutoff paper id
 - `--cutoff-title-override`：用指定 title 取代 topic 進行 exact-title match
 - `--cutoff-date-field`：`published|updated|submitted`（submitted 會映射到 published）
+- `--end-date`：新增「seed 上界」；`published_date <= end_date` 才可進入 seed 候選。`run_topic_cads.sh` 從 `cutoff.json` 取 `cutoff_date` 作為預設上界並傳給各階段。
 - `--seed-rewrite-n`：LLM 產生片語數量上限
 - `--seed-blacklist-mode`：`clean|fail`
 - `--seed-arxiv-max-results-per-query`：每個 phrase 的 arXiv 查詢上限
@@ -23,6 +25,8 @@
 
 ### 1.2 legacy 模式（舊流程，保留回滾）
 - `--seed-mode legacy`
+- `--start-date`：新增「seed 下界」；`published_date >= start_date` 才可進入 seed 候選。
+- `--end-date`：新增「seed 上界」；`published_date <= end_date` 才可進入 seed 候選。
 - `--max-results / --scope / --boolean-operator / --anchor-operator / --anchor-mode`
 - `--cutoff-by-similar-title / --similarity-threshold`
 - `--seed-rewrite / --seed-rewrite-max-attempts / --seed-rewrite-preview`（迭代式 rewrite）
@@ -65,11 +69,16 @@
    - 排除 cutoff 本身。
    - 排除 `paper_date > cutoff_date`（只保留 `<= cutoff_date`）。
    - 缺日期 → 排除並記錄（僅在有 cutoff 時）。
+- 在 `run_topic_cads.sh` 與 stage resolver 流程中，`--end-date` 預設由 `cutoff.json.cutoff_date` 提供。
 
 5) **Merge → seed_selection.json（v2）**
-   - union 去重（key=arxiv_id）。
-   - sort：`date_field desc` + `arxiv_id asc`。
-   - cap：`--seed-max-merged-results`。
+  - union 去重（key=arxiv_id）。
+  - sort：`date_field desc` + `arxiv_id asc`。
+  - cap：`--seed-max-merged-results`。
+- `seed_selection.json.start_date` / `seed_selection.json.end_date` 記錄本次 seed 的有效時間窗。
+- `records_after_filter` 已移除所有早於 `start_date` 或晚於 `end_date` 的紀錄（對應有傳入的情況）。
+- legacy：`selection_report.excluded_before_start_date`、`filtered.excluded_before_start_date` 會記錄下界濾除量（視模式而定）。
+- `run_topic_cads.sh` 及 resolver 會回報 `start_date_source` / `end_date_source`，可直接核對來源（`arg` 或 `selection_constraints...` / `cutoff_date`）。
 
 6) **Filter-Seed（選用，獨立 stage）**
    - 只用 title/abstract 篩選（不讀 PDF）。

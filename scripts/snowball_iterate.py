@@ -21,6 +21,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from src.pipelines.topic_pipeline import (
     _normalize_title_for_match,
+    resolve_cutoff_time_window,
     resolve_workspace,
     run_cli_review,
     run_latte_review,
@@ -248,6 +249,8 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--stop-included-threshold", type=int, default=None)
     parser.add_argument("--min-date", default=None)
     parser.add_argument("--max-date", default=None)
+    parser.add_argument("--start-date", default=None, help="YYYY 或 YYYY-MM-DD")
+    parser.add_argument("--end-date", default=None, help="YYYY 或 YYYY-MM-DD")
     parser.add_argument("--email", default=None)
     parser.add_argument("--keep-label", action="append", default=["include"])
     parser.add_argument("--skip-forward", action="store_true")
@@ -338,6 +341,16 @@ def main(argv: Optional[List[str]] = None) -> int:
             source="base_review",
         )
 
+    resolved_window = resolve_cutoff_time_window(
+        ws,
+        start_date=args.start_date or args.min_date,
+        end_date=args.end_date or args.max_date,
+    )
+    resolved_start_date = resolved_window.get("start_date")
+    resolved_end_date = resolved_window.get("end_date")
+    start_date_source = resolved_window.get("source_start_date")
+    end_date_source = resolved_window.get("source_end_date")
+
     max_rounds = max(1, args.max_rounds)
     start_round = max(1, args.start_round)
 
@@ -376,8 +389,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             registry_path=registry_path,
             email=args.email,
             keep_label=args.keep_label,
-            min_date=args.min_date,
-            max_date=args.max_date,
+            min_date=resolved_start_date,
+            max_date=resolved_end_date,
             skip_forward=args.skip_forward,
             skip_backward=args.skip_backward,
         )
@@ -413,6 +426,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                             codex_schema_path=args.codex_schema,
                             allow_web_search=args.codex_allow_web_search,
                             gemini_allow_web_search=args.gemini_allow_web_search,
+                            start_date=resolved_start_date,
+                            discard_after_date=resolved_end_date,
                         )
                     else:
                         junior_nano_model = args.junior_nano_model or "gpt-5-nano"
@@ -431,6 +446,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                             junior_nano_reasoning_effort=args.junior_nano_reasoning_effort,
                             junior_mini_reasoning_effort=args.junior_mini_reasoning_effort,
                             senior_reasoning_effort=args.senior_reasoning_effort,
+                            start_date=resolved_start_date,
+                            discard_after_date=resolved_end_date,
                         )
                     review_ran = True
                 except RuntimeError as exc:
@@ -467,6 +484,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         round_meta = {
             "round": round_index,
             "seed_review": str(seed_review),
+            "start_date": resolved_start_date,
+            "end_date": resolved_end_date,
+            "start_date_source": start_date_source,
+            "end_date_source": end_date_source,
             "seed_count": seed_count,
             "raw_count": raw_count,
             "filtered_count": filtered_count,

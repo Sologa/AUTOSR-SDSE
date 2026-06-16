@@ -23,6 +23,8 @@ sdse-uv/.venv/
 # Tooling metadata
 .codex/
 .specify/
+graphify-out/
+.graphify_*
 
 # Test and coverage artefacts
 test_artifacts/

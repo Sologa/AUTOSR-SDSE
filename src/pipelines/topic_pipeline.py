@@ -157,6 +157,51 @@ def _extract_publication_date(metadata: Dict[str, object]) -> Optional[date]:
     return None
 
 
+def _normalize_review_metadata(entry: Dict[str, object]) -> Dict[str, object]:
+    """Normalize metadata record for review stage across multiple input schemas."""
+
+    if not isinstance(entry, dict):
+        return {}
+
+    raw_metadata = entry.get("metadata")
+    metadata: Dict[str, object] = dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
+
+    source_metadata = entry.get("source_metadata")
+    if isinstance(source_metadata, dict):
+        source_published = source_metadata.get("published") or source_metadata.get("publicationDate")
+        if source_published is not None:
+            metadata.setdefault("published", source_published)
+        source_year = source_metadata.get("year") or source_metadata.get("publication_year")
+        if source_year is not None:
+            metadata.setdefault("year", source_year)
+        metadata.setdefault("title", str(source_metadata.get("title") or ""))
+        metadata.setdefault("summary", source_metadata.get("summary"))
+        metadata.setdefault("abstract", source_metadata.get("abstract"))
+        metadata.setdefault("updated", source_metadata.get("updated"))
+        metadata.setdefault("publication_date", source_metadata.get("publication_date"))
+        metadata.setdefault("publicationDate", source_metadata.get("publicationDate"))
+        metadata.setdefault("published_date", source_metadata.get("published_date"))
+        metadata.setdefault("arxiv_id", source_metadata.get("id") or source_metadata.get("arxiv_id"))
+        metadata.setdefault("source_id", source_metadata.get("id"))
+        metadata.setdefault("doi", source_metadata.get("doi"))
+
+    metadata.setdefault("title", str(entry.get("title") or ""))
+    metadata.setdefault("summary", entry.get("summary"))
+    metadata.setdefault("abstract", entry.get("abstract"))
+    metadata.setdefault("published", entry.get("published"))
+    metadata.setdefault("updated", entry.get("updated"))
+    metadata.setdefault("publication_date", entry.get("publication_date"))
+    metadata.setdefault("publicationDate", entry.get("publicationDate"))
+    metadata.setdefault("published_date", entry.get("published_date"))
+    metadata.setdefault("year", entry.get("year"))
+    metadata.setdefault("year", entry.get("publication_year"))
+    metadata.setdefault("publication_year", entry.get("publication_year"))
+    metadata.setdefault("arxiv_id", entry.get("arxiv_id"))
+    metadata.setdefault("key", entry.get("key"))
+
+    return metadata
+
+
 def _resolve_cutoff_date_field(value: Optional[str]) -> str:
     """Resolve the cutoff date field (published/updated/submitted)."""
     normalized = (value or "published").strip().lower() or "published"
@@ -165,6 +210,92 @@ def _resolve_cutoff_date_field(value: Optional[str]) -> str:
     if normalized not in {"published", "updated"}:
         raise ValueError("cutoff_date_field must be published, updated, or submitted")
     return normalized
+
+
+def _to_iso_date(date_value: Optional[date]) -> Optional[str]:
+    """Return ISO string for a date or ``None``.
+
+    Keeping a tiny helper avoids repeated ``date.isoformat()`` checks.
+    """
+
+    return date_value.isoformat() if date_value else None
+
+
+def _extract_selection_constraints(payload: Optional[Dict[str, object]]) -> Dict[str, object]:
+    """Extract selection-constraint metadata from a cutoff artifact."""
+
+    constraints = payload.get("selection_constraints") if isinstance(payload, dict) else None
+    if not isinstance(constraints, dict):
+        return {}
+    published_year_min = constraints.get("published_year_min")
+    published_year_min_hard = constraints.get("published_year_min_hard")
+    return {
+        "published_year_min": published_year_min if published_year_min is not None else None,
+        "published_year_min_hard": bool(published_year_min_hard),
+    }
+
+
+def resolve_cutoff_time_window(
+    workspace: TopicWorkspace,
+    *,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+) -> Dict[str, Optional[str]]:
+    """Resolve a stage time-window from explicit args with cutoff JSON fallback.
+
+    Priority: CLI args > cutoff.json selection_constraints/cutoff_date > no limit.
+
+    Returns:
+        A dict containing resolved ISO dates and source metadata.
+    """
+
+    parsed_start = _parse_date_bound(start_date, label="--start-date") if start_date else None
+    parsed_end = _parse_date_bound(end_date, label="--end-date") if end_date else None
+
+    source_start = "arg" if start_date is not None else None
+    source_end = "arg" if end_date is not None else None
+
+    cutoff_payload = _get_cutoff_info(workspace)
+    cutoff_date: Optional[date] = None
+    cutoff_date_raw: Optional[str] = None
+    if isinstance(cutoff_payload, dict):
+        raw_cutoff = cutoff_payload.get("cutoff_date")
+        if isinstance(raw_cutoff, str) and raw_cutoff.strip():
+            cutoff_date_raw = raw_cutoff.strip()
+            try:
+                cutoff_date = _parse_date_bound(cutoff_date_raw, label="cutoff_date")
+            except ValueError:
+                cutoff_date = None
+
+        constraints = _extract_selection_constraints(cutoff_payload)
+        if parsed_start is None and constraints.get("published_year_min_hard"):
+            raw_min = constraints.get("published_year_min")
+            if isinstance(raw_min, int):
+                try:
+                    parsed_start = date(raw_min, 1, 1)
+                    source_start = "selection_constraints.published_year_min"
+                except ValueError:
+                    parsed_start = None
+            elif isinstance(raw_min, str):
+                try:
+                    parsed_start = date(int(raw_min), 1, 1)
+                    source_start = "selection_constraints.published_year_min"
+                except (ValueError, TypeError):
+                    parsed_start = None
+
+        if parsed_end is None and cutoff_date is not None:
+            parsed_end = cutoff_date
+            source_end = "cutoff_date"
+
+    return {
+        "start_date": parsed_start.isoformat() if parsed_start else None,
+        "end_date": parsed_end.isoformat() if parsed_end else None,
+        "source_start_date": source_start,
+        "source_end_date": source_end,
+        "cutoff_date": cutoff_date_raw,
+        "cutoff_date_hard": bool(source_end == "cutoff_date"),
+        "selection_constraints": _extract_selection_constraints(cutoff_payload),
+    }
 
 
 def _extract_date_value(
@@ -1409,6 +1540,8 @@ def _select_seed_arxiv_records(
     cutoff_by_similar_title: bool,
     similarity_threshold: float,
     title_required_keywords: Optional[Sequence[str]] = None,
+    start_date: Optional[date] = None,
+    end_date: Optional[date] = None,
 ) -> Tuple[List[Dict[str, object]], Dict[str, object]]:
     """Filter and select seed survey records with similarity cutoff handling."""
     topic_variants = default_topic_variants(topic)
@@ -1498,7 +1631,10 @@ def _select_seed_arxiv_records(
             else:
                 cutoff_reason = "no_similar_title_found"
 
+    excluded_before_start_date = 0
+    excluded_after_end_date = 0
     filtered: List[Dict[str, object]] = []
+    enforce_window = start_date is not None or end_date is not None
     for record in records:
         if not isinstance(record, dict):
             continue
@@ -1512,19 +1648,27 @@ def _select_seed_arxiv_records(
         if record_title and topic_norm and _normalize_title_for_match(record_title) == topic_norm:
             continue
 
-        if cutoff_date is None:
-            filtered.append(record)
-            continue
-
         published_raw = str(record.get("published") or "").strip()
         try:
             published_date = _parse_date_bound(published_raw, label="published") if published_raw else None
         except ValueError:
             published_date = None
         if published_date is None:
+            if enforce_window:
+                excluded_before_start_date += 1
+            elif cutoff_date is None:
+                filtered.append(record)
             continue
-        if published_date < cutoff_date:
-            filtered.append(record)
+        if start_date is not None and published_date < start_date:
+            excluded_before_start_date += 1
+            continue
+        if end_date is not None and published_date > end_date:
+            excluded_after_end_date += 1
+            continue
+        if cutoff_date is not None and published_date >= cutoff_date:
+            # keep historical cutoff exclusion semantics
+            continue
+        filtered.append(record)
 
     if cutoff_date is not None and not filtered:
         cutoff_reason = "cutoff_removed_all_candidates"
@@ -1546,6 +1690,10 @@ def _select_seed_arxiv_records(
         "records_total": len(original_records),
         "records_after_title_filter": len(list(records)),
         "records_after_filter": len(filtered),
+        "start_date": start_date.isoformat() if start_date else None,
+        "end_date": end_date.isoformat() if end_date else None,
+        "excluded_before_start_date": excluded_before_start_date,
+        "excluded_after_end_date": excluded_after_end_date,
         "download_top_k": download_top_k,
         "download_selected": [
             {
@@ -2163,45 +2311,54 @@ def _filter_seed_records_by_cutoff(
     cutoff_id: Optional[str],
     cutoff_date: Optional[date],
     date_field: str,
+    start_date: Optional[date] = None,
+    end_date: Optional[date] = None,
 ) -> Tuple[List[Dict[str, object]], Dict[str, int]]:
     """Filter seed records by cutoff id and cutoff date (if provided)."""
     excluded_cutoff_id = 0
     excluded_after_cutoff = 0
     excluded_missing_date = 0
+    excluded_before_start_date = 0
+    excluded_after_end_date = 0
     kept: List[Dict[str, object]] = []
+    enforce_window = start_date is not None or end_date is not None
 
     for record in records:
         if not isinstance(record, dict):
-            if cutoff_date is not None:
+            if not enforce_window:
                 excluded_missing_date += 1
+            else:
+                excluded_before_start_date += 1
             continue
+
         arxiv_id = extract_arxiv_id_from_record(record) or ""
         trimmed = trim_arxiv_id(arxiv_id) or arxiv_id
         if trimmed and cutoff_id and trimmed == cutoff_id:
             excluded_cutoff_id += 1
             continue
-        if cutoff_date is None:
-            kept.append(
-                {
-                    "arxiv_id": trimmed or arxiv_id,
-                    "title": str(record.get("title") or "").strip(),
-                    "published": str(record.get("published") or "").strip() or None,
-                    "updated": str(record.get("updated") or "").strip() or None,
-                    "url_abs": str(record.get("id") or f"https://arxiv.org/abs/{trimmed or arxiv_id}"),
-                }
-            )
-            continue
-        date_raw, date_parsed = _extract_date_value(
+
+        _date_raw, date_parsed = _extract_date_value(
             record,
             date_field=date_field,
             label=f"record.{date_field}",
         )
         if date_parsed is None:
-            excluded_missing_date += 1
+            if not enforce_window:
+                excluded_missing_date += 1
+            else:
+                excluded_before_start_date += 1
             continue
-        if cutoff_date and date_parsed > cutoff_date:
+
+        if start_date is not None and date_parsed < start_date:
+            excluded_before_start_date += 1
+            continue
+        if end_date is not None and date_parsed > end_date:
+            excluded_after_end_date += 1
+            continue
+        if cutoff_date and date_parsed >= cutoff_date:
             excluded_after_cutoff += 1
             continue
+
         kept.append(
             {
                 "arxiv_id": trimmed or arxiv_id,
@@ -2216,6 +2373,8 @@ def _filter_seed_records_by_cutoff(
         "excluded_cutoff_id": excluded_cutoff_id,
         "excluded_after_cutoff": excluded_after_cutoff,
         "excluded_missing_date": excluded_missing_date,
+        "excluded_before_start_date": excluded_before_start_date,
+        "excluded_after_end_date": excluded_after_end_date,
         "kept": len(kept),
     }
 
@@ -2675,6 +2834,8 @@ def seed_surveys_from_arxiv(
     seed_rewrite_codex_home: Optional[Path] = None,
     seed_rewrite_codex_allow_web_search: bool = False,
     seed_rewrite_preview: bool = False,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
 ) -> Dict[str, object]:
     """Search arXiv for survey-like papers (legacy mode).
 
@@ -2686,6 +2847,8 @@ def seed_surveys_from_arxiv(
 
     # Cutoff-by-similar-title must stay enabled per project policy.
     cutoff_by_similar_title = True
+    parsed_start_date = _parse_date_bound(start_date, label="--start-date")
+    parsed_end_date = _parse_date_bound(end_date, label="--end-date")
 
     anchors = list(anchor_terms) if anchor_terms else default_topic_variants(workspace.topic)
     modifiers = list(survey_terms) if survey_terms else default_seed_survey_terms()
@@ -2766,6 +2929,8 @@ def seed_surveys_from_arxiv(
                 cutoff_by_similar_title=cutoff_by_similar_title,
                 similarity_threshold=similarity_threshold,
                 title_required_keywords=["survey", "review", "overview"],
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
             )
             selection_report["anchor_mode"] = normalized_anchor_mode
             selection_report["anchor_query_mode"] = effective_query_mode
@@ -3077,6 +3242,8 @@ def seed_surveys_from_arxiv_cutoff_first(
     seed_rewrite_codex_extra_args: Optional[Sequence[str]] = None,
     seed_rewrite_codex_home: Optional[Path] = None,
     seed_rewrite_codex_allow_web_search: bool = False,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
 ) -> Dict[str, object]:
     """Run cutoff-first one-pass seed search."""
 
@@ -3088,6 +3255,8 @@ def seed_surveys_from_arxiv_cutoff_first(
         raise ValueError("seed_arxiv_max_results_per_query must be >= 1")
     if seed_max_merged_results <= 0:
         raise ValueError("seed_max_merged_results must be >= 1")
+    parsed_start_date = _parse_date_bound(start_date, label="--start-date")
+    parsed_end_date = _parse_date_bound(end_date, label="--end-date")
 
     queries_dir = workspace.seed_queries_dir
     records_path = queries_dir / "arxiv.json"
@@ -3206,6 +3375,8 @@ def seed_surveys_from_arxiv_cutoff_first(
                 cutoff_id=cutoff_id,
                 cutoff_date=cutoff_date,
                 date_field=date_field,
+                start_date=parsed_start_date,
+                end_date=parsed_end_date,
             )
             query_entries.append(
                 {
@@ -3239,6 +3410,8 @@ def seed_surveys_from_arxiv_cutoff_first(
             "schema_version": "seed_selection.v2",
             "topic": workspace.topic,
             "cutoff_ref": cutoff_ref,
+            "start_date": parsed_start_date.isoformat() if parsed_start_date else None,
+            "end_date": parsed_end_date.isoformat() if parsed_end_date else None,
             "selection_policy": {
                 "merge": "union",
                 "sort": [f"{date_field}_desc", "arxiv_id_asc"],
@@ -3415,6 +3588,18 @@ def harvest_arxiv_metadata(
     if not isinstance(search_terms_dict, dict) or not search_terms_dict:
         raise ValueError("keywords payload missing search_terms")
 
+    resolved_window = resolve_cutoff_time_window(
+        workspace,
+        start_date=start_date,
+        end_date=end_date,
+    )
+    resolved_start = resolved_window.get("start_date")
+    resolved_end = resolved_window.get("end_date")
+    start_bound = _parse_date_bound(resolved_start, label="--start-date") if resolved_start else None
+    end_bound = _parse_date_bound(resolved_end, label="--end-date") if resolved_end else None
+    if start_bound is not None and end_bound is not None and start_bound > end_bound:
+        raise ValueError("--start-date cannot be later than --end-date")
+
     flattened_terms = _flatten_search_terms(search_terms_dict, max_terms_per_category=max_terms_per_category)
     if not flattened_terms:
         raise ValueError("No search terms available after flattening.")
@@ -3451,16 +3636,6 @@ def harvest_arxiv_metadata(
 
     session = requests.Session()
     try:
-        start_bound = _parse_date_bound(start_date, label="--start-date")
-        end_bound = _parse_date_bound(end_date, label="--end-date")
-        if end_bound is None:
-            inferred_end = _infer_topic_publication_date(workspace, session=session)
-            end_bound = inferred_end or datetime.now(timezone.utc).date()
-        if start_bound is None:
-            start_bound = _subtract_years(end_bound, 3)
-        if start_bound and end_bound and start_bound > end_bound:
-            raise ValueError("--start-date cannot be later than --end-date")
-
         cutoff_info = _get_cutoff_info(workspace, session=session)
         cutoff_date: Optional[date] = None
         cutoff_title_norm: Optional[str] = None
@@ -3570,6 +3745,8 @@ def harvest_arxiv_metadata(
         "start_date": start_bound.isoformat() if start_bound else None,
         "end_date": end_bound.isoformat() if end_bound else None,
         "cutoff_date": cutoff_date.isoformat() if cutoff_date else None,
+        "start_date_source": resolved_window.get("source_start_date"),
+        "end_date_source": resolved_window.get("source_end_date"),
         "queries_run": total_queries,
         "queries": query_plan_entries,
     }
@@ -3578,8 +3755,10 @@ def harvest_arxiv_metadata(
         "arxiv_metadata_path": str(output_path),
         "unique_papers": len(results),
         "queries_run": total_queries,
-        "start_date": start_date,
-        "end_date": end_date,
+        "start_date": resolved_start,
+        "end_date": resolved_end,
+        "start_date_source": resolved_window.get("source_start_date"),
+        "end_date_source": resolved_window.get("source_end_date"),
         "query_plan_path": str(query_plan_path),
     }
 
@@ -4489,6 +4668,7 @@ def run_cli_review(
     top_k: Optional[int] = None,
     skip_titles_containing: str = "***",
     discard_title: Optional[str] = None,
+    start_date: Optional[str] = None,
     discard_after_date: Optional[str] = None,
     junior_nano_model: str = "gpt-5.1-codex-mini",
     junior_mini_model: str = "gemini-2.5-pro",
@@ -4527,6 +4707,14 @@ def run_cli_review(
             if isinstance(structured, dict):
                 criteria_payload = structured
 
+    resolved_window = resolve_cutoff_time_window(
+        workspace,
+        start_date=start_date,
+        end_date=discard_after_date,
+    )
+    resolved_start = resolved_window.get("start_date")
+    resolved_end = resolved_window.get("end_date")
+
     cutoff_info = _get_cutoff_info(workspace)
     if cutoff_info:
         target = cutoff_info.get("target_paper") or {}
@@ -4534,8 +4722,8 @@ def run_cli_review(
         cutoff_value = cutoff_info.get("cutoff_date")
         if isinstance(target_title, str) and target_title.strip():
             discard_title = target_title.strip()
-        if isinstance(cutoff_value, str) and cutoff_value.strip():
-            discard_after_date = cutoff_value.strip()
+        if resolved_end is None and isinstance(cutoff_value, str) and cutoff_value.strip():
+            resolved_end = cutoff_value.strip()
 
     inclusion_criteria, exclusion_criteria = _criteria_payload_to_strings(criteria_payload)
     if not inclusion_criteria:
@@ -4554,12 +4742,14 @@ def run_cli_review(
     forced_seen: Set[str] = set()
     skip_token = skip_titles_containing.strip().lower()
     normalized_discard_title = _normalize_title_for_match(discard_title) if discard_title else None
+    resolved_start_date = _parse_date_bound(resolved_start, label="--start-date") if resolved_start else None
+    discard_after_date = resolved_end
     cutoff_date = _parse_date_bound(discard_after_date, label="discard_after_date") if discard_after_date else None
 
     for entry in payload:
         if not isinstance(entry, dict):
             continue
-        metadata = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
+        metadata = _normalize_review_metadata(entry)
         arxiv_id = str(
             metadata.get("arxiv_id")
             or entry.get("arxiv_id")
@@ -4591,6 +4781,10 @@ def run_cli_review(
         discard_reason: Optional[str] = None
         if normalized_discard_title and _normalize_title_for_match(cleaned_title) == normalized_discard_title:
             discard_reason = "title_matches_exclude_title"
+        elif resolved_start_date and published_date is None:
+            discard_reason = "missing_publication_date_for_start_cutoff"
+        elif resolved_start_date and published_date and published_date < resolved_start_date:
+            discard_reason = f"published_before_start_cutoff:{published_date.isoformat()}"
         elif cutoff_date and published_date is None:
             discard_reason = "missing_publication_date_for_cutoff"
         elif cutoff_date and published_date and published_date >= cutoff_date:
@@ -4793,6 +4987,10 @@ def run_cli_review(
         "forced_included": len(forced_included),
         "discarded": len(discarded),
         "total": len(output_records),
+        "start_date": resolved_start,
+        "end_date": resolved_end,
+        "start_date_source": resolved_window.get("source_start_date"),
+        "end_date_source": resolved_window.get("source_end_date"),
         "errors": errors,
         "warnings": warnings,
     }
@@ -4807,6 +5005,7 @@ def run_latte_review(
     top_k: Optional[int] = None,
     skip_titles_containing: str = "***",
     discard_title: Optional[str] = None,
+    start_date: Optional[str] = None,
     discard_after_date: Optional[str] = None,
     junior_nano_model: str = "gpt-5-nano",
     junior_mini_model: str = "gpt-4.1-mini",
@@ -4851,6 +5050,14 @@ def run_latte_review(
             if isinstance(structured, dict):
                 criteria_payload = structured
 
+    resolved_window = resolve_cutoff_time_window(
+        workspace,
+        start_date=start_date,
+        end_date=discard_after_date,
+    )
+    resolved_start = resolved_window.get("start_date")
+    resolved_end = resolved_window.get("end_date")
+
     cutoff_info = _get_cutoff_info(workspace)
     if cutoff_info:
         target = cutoff_info.get("target_paper") or {}
@@ -4858,8 +5065,8 @@ def run_latte_review(
         cutoff_value = cutoff_info.get("cutoff_date")
         if isinstance(target_title, str) and target_title.strip():
             discard_title = target_title.strip()
-        if isinstance(cutoff_value, str) and cutoff_value.strip():
-            discard_after_date = cutoff_value.strip()
+        if resolved_end is None and isinstance(cutoff_value, str) and cutoff_value.strip():
+            resolved_end = cutoff_value.strip()
 
     inclusion_criteria, exclusion_criteria = _criteria_payload_to_strings(criteria_payload)
     if not inclusion_criteria:
@@ -4878,11 +5085,13 @@ def run_latte_review(
     forced_seen: Set[str] = set()
     skip_token = skip_titles_containing.strip().lower()
     normalized_discard_title = _normalize_title_for_match(discard_title) if discard_title else None
+    resolved_start_date = _parse_date_bound(resolved_start, label="--start-date") if resolved_start else None
+    discard_after_date = resolved_end
     cutoff_date = _parse_date_bound(discard_after_date, label="discard_after_date") if discard_after_date else None
     for entry in payload:
         if not isinstance(entry, dict):
             continue
-        metadata = entry.get("metadata") if isinstance(entry.get("metadata"), dict) else {}
+        metadata = _normalize_review_metadata(entry)
         arxiv_id = str(
             metadata.get("arxiv_id")
             or entry.get("arxiv_id")
@@ -4914,6 +5123,10 @@ def run_latte_review(
         discard_reason: Optional[str] = None
         if normalized_discard_title and _normalize_title_for_match(cleaned_title) == normalized_discard_title:
             discard_reason = "title_matches_exclude_title"
+        elif resolved_start_date and published_date is None:
+            discard_reason = "missing_publication_date_for_start_cutoff"
+        elif resolved_start_date and published_date and published_date < resolved_start_date:
+            discard_reason = f"published_before_start_cutoff:{published_date.isoformat()}"
         elif cutoff_date and published_date is None:
             discard_reason = "missing_publication_date_for_cutoff"
         elif cutoff_date and published_date and published_date >= cutoff_date:
@@ -5112,6 +5325,10 @@ def run_latte_review(
         "forced_included": len(forced_included),
         "discarded": len(discarded),
         "total": len(output_records),
+        "start_date": resolved_start,
+        "end_date": resolved_end,
+        "start_date_source": resolved_window.get("source_start_date"),
+        "end_date_source": resolved_window.get("source_end_date"),
     }
 
 
@@ -5176,8 +5393,14 @@ def run_snowball_asreview(
         if isinstance(cutoff_value, str) and cutoff_value.strip():
             cutoff_before_date = cutoff_value.strip()
 
-    effective_min_date = min_date
-    effective_max_date = max_date
+    resolved_window = resolve_cutoff_time_window(
+        workspace,
+        start_date=min_date,
+        end_date=max_date,
+    )
+    effective_min_date = resolved_window.get("start_date")
+    effective_max_date = resolved_window.get("end_date")
+
     if cutoff_before_date:
         try:
             cutoff_date = _parse_date_bound(cutoff_before_date, label="cutoff_before_date")
@@ -5228,7 +5451,13 @@ def run_snowball_asreview(
     rc = asreview_main(argv)
     if rc != 0:
         raise RuntimeError(f"ASReview snowball stage failed with code {rc}")
-    return {"asreview_dir": str(out_dir)}
+    return {
+        "asreview_dir": str(out_dir),
+        "start_date": effective_min_date,
+        "end_date": effective_max_date,
+        "start_date_source": resolved_window.get("source_start_date"),
+        "end_date_source": resolved_window.get("source_end_date"),
+    }
 
 
 def run_snowball_iterative(

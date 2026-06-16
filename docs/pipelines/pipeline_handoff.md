@@ -66,6 +66,11 @@
 - 會補 Semantic Scholar / DBLP（若啟用）
 - 可選：`--dblp-title-arxiv` 會用 DBLP title 回查 arXiv，合併寫回 `harvest/arxiv_metadata.json`
 
+### 時間窗與 cutoff 交接提醒
+- `run_topic_cads.sh` 會從 `cutoff.json` 解析共用時間窗並傳入 `seed`/`harvest`/`review`/`snowball`。
+- `seed`、`harvest`、`review`、`snowball` 皆由各自 entrypoint 的 resolver 接受 `start_date`/`end_date`，未提供時再回退到 `cutoff.json` 的 `selection_constraints.published_year_min`（僅 hard）與 `cutoff_date`。
+- 交接時請同時核對 `seed/queries/seed_selection.json.start_date`、`seed/queries/seed_selection.json.end_date`、以及 `cutoff.json.selection_constraints`，避免再次沿用「seed-only」誤解。
+
 ### F) criteria（可選）
 - 入口：`python scripts/topic_pipeline.py criteria --topic "<topic>" --mode web|pdf+web`
 - 輸出：`workspaces/<topic_slug>/criteria/criteria.json`

@@ -128,6 +128,7 @@ flowchart TD
 - API：`paper_workflows.search_arxiv_for_topic`
   - CLI：
     - `python scripts/topic_pipeline.py seed --topic "<topic>"`
+    - `python scripts/topic_pipeline.py seed --topic "<topic>" --seed-mode cutoff-first --start-date 2019-01-01`
     - 若要對齊「title token AND」的查詢邏輯，可用：
       - `python scripts/topic_pipeline.py seed --topic "<topic>" --scope ti --anchor-mode token_and`
     - 若要指定 anchor terms 之間的布林運算子（預設 OR）：
@@ -146,6 +147,12 @@ flowchart TD
   - `seed/downloads/download_results.json`（由 filter-seed 產生）
 - 分歧/特殊情況：
   - 既有 `seed/queries/arxiv.json` 且未加 `--no-cache` → 直接重用 cache，不重新查詢。
+  - 新增 `--start-date`（YYYY / YYYY-MM-DD）：可套用到對應 stage，條件為 `published_date >= start_date` 才保留。
+    - 在 `run_topic_cads.sh`：由 `selection_constraints.published_year_min`（且 `published_year_min_hard=true`）映射為 `YYYY-01-01` 後，傳給 `seed/harvest/review/snowball`，採用同一來源。
+    - legacy：傳入 `_select_seed_arxiv_records`，寫入 `seed/queries/seed_selection.json.start_date` 與 `selection_report.excluded_before_start_date`。
+    - cutoff-first：傳入 `_filter_seed_records_by_cutoff`，寫入 `seed/queries/arxiv.json[*].filtered.excluded_before_start_date` 與 `seed/queries/seed_selection.json.start_date`。
+  - `--end-date`（YYYY / YYYY-MM-DD）：可套用到對應 stage，條件為 `published_date <= end_date` 才保留。
+    - 在 `run_topic_cads.sh`：由 `cutoff.json` 的 `cutoff_date` 提供作為全流程上界，傳入 `seed/harvest/review/snowball`；若不存在則不加上界。
   - `anchor_terms` 或 `survey_terms` 為空 → 直接報錯。
   - **標題強制規則**：只保留 title 含 `survey` / `review` / `overview` 的紀錄，其餘一律剔除。
   - 相似標題 cutoff（固定啟用）：
@@ -227,10 +234,9 @@ flowchart TD
   - `keywords.json` 缺 `anchor_terms` 或 `search_terms` → 直接報錯。
   - `search_terms` 會先依 `max_terms_per_category` 扁平化；若扁平化後為空 → 報錯。
   - `--start-date`/`--end-date` 會套用到 metadata 發表日期；若缺日期 → 排除該篇。
-  - 若未提供 `--end-date`：
-    - topic 為既有論文 → 使用該論文的發表日期
-    - 其餘情況 → 使用當天日期
-  - 若未提供 `--start-date`：自動以 `end-date` 往前推 3 年。
+  - `run_topic_cads.sh` 會傳入 `cutoff` 導出的 `start-date`/`end-date`，並沿用同一時間窗。
+  - 若未提供 `--end-date`：可使用 `cutoff.json.cutoff_date` 當上界；無則不加上界。
+  - 若未提供 `--start-date`：僅在 `selection_constraints.published_year_min_hard=true` 下才補上下界；否則不加下界。
   - `--start-date` 晚於 `--end-date` → 直接報錯。
   - 預設要求 `pdf_url` 可 HEAD 存取；若不可存取或缺 `pdf_url` → 排除；可用 `--no-require-accessible-pdf` 關閉。
 
@@ -350,11 +356,12 @@ python scripts/topic_pipeline.py run --topic "speech language model" \
   --max-pdfs 3 \
   --max-terms-per-category 3 \
   --top-k-per-query 100 \
-  --start-date 2022-01-01 \
-  --end-date 2025-12-31 \
   --with-criteria \
   --criteria-mode pdf+web
 ```
+
+注意：在 `run` 子命令中，`--start-date` / `--end-date` 會先做共用解析後，再傳給 seed、harvest、review、snowball（含 round 0 與每輪呼叫）。
+`run_topic_cads.sh` 是獨立封裝腳本：其時間窗（`WINDOW_START_DATE`/`WINDOW_END_DATE`）由 cutoff.json 解析後傳入 seed、harvest、review、snowball，採用同一來源。
 
 若你希望一鍵連 LatteReview 與 snowball 也一起跑：
 

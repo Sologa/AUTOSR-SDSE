@@ -36,6 +36,7 @@ from src.pipelines.topic_pipeline import (
     extract_keywords_from_seed_pdfs,
     filter_seed_papers_with_llm,
     generate_structured_criteria,
+    resolve_cutoff_time_window,
     harvest_arxiv_metadata,
     harvest_other_sources,
     resolve_workspace,
@@ -46,6 +47,29 @@ from src.pipelines.topic_pipeline import (
     seed_surveys_from_arxiv,
     seed_surveys_from_arxiv_cutoff_first,
 )
+
+
+def _resolve_stage_window(
+    workspace, 
+    *,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+) -> tuple[Optional[str], Optional[str], str, str]:
+    """Resolve a stage time-window and keep source metadata."""
+
+    resolved = resolve_cutoff_time_window(
+        workspace,
+        start_date=start_date,
+        end_date=end_date,
+    )
+    source_start = str(resolved.get("source_start_date") or "none")
+    source_end = str(resolved.get("source_end_date") or "none")
+    return (
+        resolved.get("start_date"),
+        resolved.get("end_date"),
+        source_start,
+        source_end,
+    )
 
 
 def _positive_int(value: str) -> int:
@@ -83,6 +107,16 @@ def build_parser() -> argparse.ArgumentParser:
         default="legacy",
         choices=["legacy", "cutoff-first"],
         help="seed 流程模式（legacy=舊版；cutoff-first=one-pass）",
+    )
+    seed.add_argument(
+        "--start-date",
+        default=None,
+        help="seed 查詢候選時間窗下界（YYYY 或 YYYY-MM-DD）",
+    )
+    seed.add_argument(
+        "--end-date",
+        default=None,
+        help="seed 查詢候選時間窗上界（YYYY 或 YYYY-MM-DD）",
     )
     seed.add_argument("--max-results", type=_positive_int, default=25, help="legacy 模式：arXiv 查詢上限")
     seed.add_argument(
@@ -267,6 +301,8 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--criteria", type=Path, default=None, help="criteria.json（預設 workspace/criteria/criteria.json）")
     review.add_argument("--output", type=Path, default=None, help="輸出檔案（預設 workspace/review/latte_review_results.json）")
     review.add_argument("--top-k", type=int, default=None)
+    review.add_argument("--start-date", default=None, help="YYYY 或 YYYY-MM-DD")
+    review.add_argument("--end-date", default=None, help="YYYY 或 YYYY-MM-DD")
     review.add_argument("--skip-titles-containing", default="***")
     review.add_argument("--provider", default="openai", choices=["openai", "codex-cli"])
     review.add_argument("--junior-nano-model", default=None)
@@ -310,6 +346,8 @@ def build_parser() -> argparse.ArgumentParser:
     snowball.add_argument("--keep-label", action="append", default=["include"])
     snowball.add_argument("--min-date", default=None)
     snowball.add_argument("--max-date", default=None)
+    snowball.add_argument("--start-date", default=None, help="YYYY 或 YYYY-MM-DD")
+    snowball.add_argument("--end-date", default=None, help="YYYY 或 YYYY-MM-DD")
     snowball.add_argument("--skip-forward", action="store_true")
     snowball.add_argument("--skip-backward", action="store_true")
 
@@ -415,8 +453,16 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--top-k-per-query", type=_positive_int, default=100)
     run.add_argument("--harvest-scope", default="all", choices=["all", "ti", "abs"])
     run.add_argument("--harvest-boolean-operator", default="OR", choices=["AND", "OR"])
-    run.add_argument("--start-date", default=None)
-    run.add_argument("--end-date", default=None)
+    run.add_argument(
+        "--start-date",
+        default=None,
+        help="seed 與 harvest 的時間窗下界（YYYY 或 YYYY-MM-DD）",
+    )
+    run.add_argument(
+        "--end-date",
+        default=None,
+        help="seed 與 harvest 的時間窗上界（YYYY 或 YYYY-MM-DD）",
+    )
     run.add_argument("--no-require-accessible-pdf", action="store_true")
 
     run.add_argument("--recency-hint", default="過去3年")
@@ -463,6 +509,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     ws = resolve_workspace(topic=args.topic, workspace_root=workspace_root)
 
     if args.command == "seed":
+        resolved_start_date, resolved_end_date, _, _ = _resolve_stage_window(
+            ws,
+            start_date=args.start_date,
+            end_date=args.end_date,
+        )
         if args.seed_mode == "cutoff-first":
             result = seed_surveys_from_arxiv_cutoff_first(
                 ws,
@@ -470,6 +521,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 seed_blacklist_mode=args.seed_blacklist_mode,
                 seed_arxiv_max_results_per_query=args.seed_arxiv_max_results_per_query,
                 seed_max_merged_results=args.seed_max_merged_results,
+                start_date=resolved_start_date,
                 cutoff_arxiv_id=args.cutoff_arxiv_id,
                 cutoff_title_override=args.cutoff_title_override,
                 cutoff_date_field=args.cutoff_date_field,
@@ -480,6 +532,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
                 seed_rewrite_codex_home=args.seed_rewrite_codex_home,
                 seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
+                end_date=resolved_end_date,
             )
         else:
             result = seed_surveys_from_arxiv(
@@ -493,6 +546,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 cutoff_by_similar_title=True,
                 similarity_threshold=args.similarity_threshold,
                 anchor_mode=args.anchor_mode,
+                start_date=resolved_start_date,
                 seed_rewrite=args.seed_rewrite,
                 seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
                 seed_rewrite_provider=args.seed_rewrite_provider,
@@ -503,6 +557,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 seed_rewrite_codex_home=args.seed_rewrite_codex_home,
                 seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
                 seed_rewrite_preview=args.seed_rewrite_preview,
+                end_date=resolved_end_date,
             )
         print(result)
         return 0
@@ -548,6 +603,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
 
     if args.command == "harvest":
+        resolved_start_date, resolved_end_date, _, _ = _resolve_stage_window(
+            ws,
+            start_date=args.start_date,
+            end_date=args.end_date,
+        )
         result = harvest_arxiv_metadata(
             ws,
             keywords_path=args.keywords_path,
@@ -556,8 +616,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             scope=args.scope,
             boolean_operator=args.boolean_operator,
             require_accessible_pdf=not args.no_require_accessible_pdf,
-            start_date=args.start_date,
-            end_date=args.end_date,
+            start_date=resolved_start_date,
+            end_date=resolved_end_date,
             force=args.force,
         )
         print(result)
@@ -610,6 +670,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
 
     if args.command == "review":
+        resolved_start_date, resolved_end_date, _, _ = _resolve_stage_window(
+            ws,
+            start_date=args.start_date,
+            end_date=args.end_date,
+        )
         provider = args.provider.strip().lower()
         if provider == "codex-cli":
             junior_nano_model = args.junior_nano_model or "gpt-5.1-codex-mini"
@@ -622,6 +687,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                 output_path=args.output,
                 top_k=args.top_k,
                 skip_titles_containing=args.skip_titles_containing,
+                start_date=resolved_start_date,
+                discard_after_date=resolved_end_date,
                 junior_nano_model=junior_nano_model,
                 junior_mini_model=junior_mini_model,
                 senior_model=senior_model,
@@ -646,6 +713,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                 output_path=args.output,
                 top_k=args.top_k,
                 skip_titles_containing=args.skip_titles_containing,
+                start_date=resolved_start_date,
+                discard_after_date=resolved_end_date,
                 junior_nano_model=junior_nano_model,
                 junior_mini_model=junior_mini_model,
                 senior_model=senior_model,
@@ -657,6 +726,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
 
     if args.command == "snowball":
+        resolved_start_date, resolved_end_date, _, _ = _resolve_stage_window(
+            ws,
+            start_date=args.start_date or args.min_date,
+            end_date=args.end_date or args.max_date,
+        )
         result = run_snowball_asreview(
             ws,
             review_results_path=args.review_results,
@@ -666,8 +740,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             registry_path=args.registry,
             email=args.email,
             keep_label=args.keep_label,
-            min_date=args.min_date,
-            max_date=args.max_date,
+            min_date=resolved_start_date,
+            max_date=resolved_end_date,
             skip_forward=args.skip_forward,
             skip_backward=args.skip_backward,
         )
@@ -675,6 +749,16 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
 
     if args.command == "run":
+        resolved_seed_start_date, resolved_seed_end_date, _, _ = _resolve_stage_window(
+            ws,
+            start_date=args.start_date,
+            end_date=args.end_date,
+        )
+        resolved_snowball_start_date, resolved_snowball_end_date, _, _ = _resolve_stage_window(
+            ws,
+            start_date=args.snowball_min_date or args.start_date,
+            end_date=args.snowball_max_date or args.end_date,
+        )
         if args.seed_mode == "cutoff-first":
             seed_surveys_from_arxiv_cutoff_first(
                 ws,
@@ -682,6 +766,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 seed_blacklist_mode=args.seed_blacklist_mode,
                 seed_arxiv_max_results_per_query=args.seed_arxiv_max_results_per_query,
                 seed_max_merged_results=args.seed_max_merged_results,
+                start_date=resolved_seed_start_date,
                 cutoff_arxiv_id=args.seed_cutoff_arxiv_id,
                 cutoff_title_override=args.seed_cutoff_title_override,
                 cutoff_date_field=args.seed_cutoff_date_field,
@@ -692,6 +777,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 seed_rewrite_codex_extra_args=args.seed_rewrite_codex_extra_arg,
                 seed_rewrite_codex_home=args.seed_rewrite_codex_home,
                 seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
+                end_date=resolved_seed_end_date,
             )
         else:
             seed_surveys_from_arxiv(
@@ -705,6 +791,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 cutoff_by_similar_title=True,
                 similarity_threshold=args.seed_similarity_threshold,
                 anchor_mode=args.seed_anchor_mode,
+                start_date=resolved_seed_start_date,
                 seed_rewrite=args.seed_rewrite,
                 seed_rewrite_max_attempts=args.seed_rewrite_max_attempts,
                 seed_rewrite_provider=args.seed_rewrite_provider,
@@ -715,6 +802,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 seed_rewrite_codex_home=args.seed_rewrite_codex_home,
                 seed_rewrite_codex_allow_web_search=args.seed_rewrite_codex_allow_web_search,
                 seed_rewrite_preview=args.seed_rewrite_preview,
+                end_date=resolved_seed_end_date,
             )
         extract_keywords_from_seed_pdfs(
             ws,
@@ -729,8 +817,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             scope=args.harvest_scope,
             boolean_operator=args.harvest_boolean_operator,
             require_accessible_pdf=not args.no_require_accessible_pdf,
-            start_date=args.start_date,
-            end_date=args.end_date,
+            start_date=resolved_seed_start_date,
+            end_date=resolved_seed_end_date,
             force=args.force,
         )
         if args.with_criteria:
@@ -746,7 +834,11 @@ def main(argv: Optional[List[str]] = None) -> int:
                 force=args.force,
             )
         if args.with_review:
-            run_latte_review(ws)
+            run_latte_review(
+                ws,
+                start_date=resolved_seed_start_date,
+                discard_after_date=resolved_seed_end_date,
+            )
         if args.with_snowball:
             if (
                 not args.with_review
@@ -763,8 +855,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                 start_round=args.snowball_start_round,
                 stop_raw_threshold=args.snowball_stop_raw_threshold,
                 stop_included_threshold=args.snowball_stop_included_threshold,
-                min_date=args.snowball_min_date,
-                max_date=args.snowball_max_date,
+                min_date=resolved_snowball_start_date,
+                max_date=resolved_snowball_end_date,
                 email=args.snowball_email,
                 keep_label=args.snowball_keep_label,
                 skip_forward=args.snowball_skip_forward,

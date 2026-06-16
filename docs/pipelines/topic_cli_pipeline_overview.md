@@ -51,6 +51,10 @@
 - **輸出**：可用於後續篩選的 metadata（含可存取 PDF 的檢查）
 - **分歧**：可設定時間窗；不在時間窗或 PDF 不可存取的條目會被排除。
 
+### 時間窗設計一覽
+- `seed/harvest/review/snowball`：在 `run_topic_cads.sh` 中都會同時取得 `run_topic_cads.sh` 解析的 `start_date` / `end_date`，再由各 stage 的 resolver 以 `cutoff.json` 作為 fallback。
+- `cutoff.json`：`selection_constraints.published_year_min_hard=true` 時作為所有 stage 的下界；`cutoff_date`（或 `cutoff.json` 代表的上界）作為所有 stage 的上界；`run`/`review`/`snowball` 都會保留硬排除規則與回報來源欄位。
+
 ### D. Harvest-Other（可選）
 - **輸入**：`anchor_terms × search_terms`
 - **輸出**：其他來源的 metadata（如 Semantic Scholar / DBLP）
