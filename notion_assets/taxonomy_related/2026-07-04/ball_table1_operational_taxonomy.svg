@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820">
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:'Noto Sans CJK TC', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans', Arial, sans-serif; fill:#111;} .h{font-weight:700;} .s{font-size:18px;} .m{font-size:20px;} .b{font-size:22px;font-weight:700;} .small{font-size:16px;} line{stroke:#111;stroke-width:1.4;} .box{fill:#f8f8f8;stroke:#444;stroke-width:1.6;}</style>
+<text x="20" y="38" font-size="24" font-weight="700">Table 1. Operational definitions and citation-level indicators</text>
+<line x1="20" y1="50" x2="1180" y2="50"/>
+<text x="20" y="70" font-size="20" font-weight="700">Category</text>
+<text x="230" y="70" font-size="20" font-weight="700">Operational definition</text>
+<text x="555" y="70" font-size="20" font-weight="700">Required</text>
+<text x="555" y="94" font-size="20" font-weight="700">citation-level</text>
+<text x="555" y="118" font-size="20" font-weight="700">indicators</text>
+<text x="830" y="70" font-size="20" font-weight="700">Exclusion criteria</text>
+<line x1="20" y1="115" x2="1180" y2="115"/>
+<text x="20" y="140" font-size="18" >Trigger Point Dry</text>
+<text x="20" y="162" font-size="18" >Needling (TrP-DN)</text>
+<text x="230" y="140" font-size="18" >Intramuscular needling</text>
+<text x="230" y="162" font-size="18" >directed at</text>
+<text x="230" y="184" font-size="18" >palpation-confirmed myofascial</text>
+<text x="230" y="206" font-size="18" >trigger points, with explicit</text>
+<text x="230" y="228" font-size="18" >reference to taut band</text>
+<text x="230" y="250" font-size="18" >identification or local twitch</text>
+<text x="230" y="272" font-size="18" >response</text>
+<text x="555" y="140" font-size="18" >Explicit reference to</text>
+<text x="555" y="162" font-size="18" >trigger point</text>
+<text x="555" y="184" font-size="18" >identification, taut band</text>
+<text x="555" y="206" font-size="18" >palpation, or local</text>
+<text x="555" y="228" font-size="18" >twitch response</text>
+<text x="830" y="140" font-size="18" >Location-only descriptions</text>
+<text x="830" y="162" font-size="18" >without palpation confirmation</text>
+<text x="20" y="330" font-size="18" >Semi-Standardized</text>
+<text x="20" y="352" font-size="18" >Protocol Dry</text>
+<text x="20" y="374" font-size="18" >Needling (SSP-DN)</text>
+<text x="230" y="330" font-size="18" >Location-guided intramuscular</text>
+<text x="230" y="352" font-size="18" >needling based on mapped</text>
+<text x="230" y="374" font-size="18" >anatomical trigger point</text>
+<text x="230" y="396" font-size="18" >charts or predefined insertion</text>
+<text x="230" y="418" font-size="18" >schemes without explicit</text>
+<text x="230" y="440" font-size="18" >palpation confirmation</text>
+<text x="555" y="330" font-size="18" >Reference to mapped</text>
+<text x="555" y="352" font-size="18" >points, standardized</text>
+<text x="555" y="374" font-size="18" >insertion locations, or</text>
+<text x="555" y="396" font-size="18" >fixed protocol</text>
+<text x="555" y="418" font-size="18" >descriptions</text>
+<text x="830" y="330" font-size="18" >Explicit palpation-confirmed</text>
+<text x="830" y="352" font-size="18" >trigger point identification</text>
+<text x="20" y="498" font-size="18" >Fu&#x27;s Subcutaneous</text>
+<text x="20" y="520" font-size="18" >Dry Needling (Fu)</text>
+<text x="230" y="498" font-size="18" >Subcutaneous connective</text>
+<text x="230" y="520" font-size="18" >tissue-targeted needling as</text>
+<text x="230" y="542" font-size="18" >described in Fu’s Subcutaneous</text>
+<text x="230" y="564" font-size="18" >Dry Needling technique</text>
+<text x="555" y="498" font-size="18" >Explicit reference to Fu</text>
+<text x="555" y="520" font-size="18" >technique or subcutaneous</text>
+<text x="555" y="542" font-size="18" >insertion depth</text>
+<text x="830" y="498" font-size="18" >Intramuscular trigger point</text>
+<text x="830" y="520" font-size="18" >descriptions</text>
+<text x="20" y="622" font-size="18" >Non-Specific Dry</text>
+<text x="20" y="644" font-size="18" >Needling</text>
+<text x="230" y="622" font-size="18" >Dry needling described without</text>
+<text x="230" y="644" font-size="18" >sufficient citation-level</text>
+<text x="230" y="666" font-size="18" >procedural detail to determine</text>
+<text x="230" y="688" font-size="18" >tissue depth or identification</text>
+<text x="230" y="710" font-size="18" >method under prespecified</text>
+<text x="230" y="732" font-size="18" >criteria</text>
+<text x="555" y="622" font-size="18" >Generic reference to “dry</text>
+<text x="555" y="644" font-size="18" >needling” without</text>
+<text x="555" y="666" font-size="18" >technique clarification</text>
+<text x="830" y="622" font-size="18" >Explicit procedural descriptors</text>
+<text x="830" y="644" font-size="18" >meeting criteria for other</text>
+<text x="830" y="666" font-size="18" >categories</text>
+<line x1="20" y1="780" x2="1180" y2="780"/>
+</svg>
